@@ -8,10 +8,11 @@ binding = "DB"
 database_name = "sawwerha"
 database_id = "REPLACE_WITH_D1_ID"
 
-# تخزين الصور (أنشئه: npx wrangler r2 bucket create sawwerha-media)
-[[r2_buckets]]
+# تخزين الصور: Workers KV (لا يحتاج بطاقة دفع). بديل: R2 بنفس الاسم MEDIA.
+# أنشئه: npx wrangler kv namespace create MEDIA ثم ضع المعرّف هنا
+[[kv_namespaces]]
 binding = "MEDIA"
-bucket_name = "sawwerha-media"
+id = "REPLACE_WITH_KV_ID"
 
 # فحص المدفوعات المعلّقة كل 5 دقائق + تذكير العملاء
 [triggers]

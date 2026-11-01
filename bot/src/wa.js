@@ -1,3 +1,4 @@
+import { getMedia } from "./media.js";
 // عميل WhatsApp Cloud API (Meta Graph API)
 
 const GRAPH = (env) => `https://graph.facebook.com/${env.WA_API_VERSION || "v21.0"}`;
@@ -56,7 +57,7 @@ export const sendList = (env, to, { body, button, sections }) =>
 
 /** يرفع ملفاً من R2 إلى واتساب ثم يرسله كصورة. */
 export async function sendImageFromR2(env, to, key, caption = "") {
-  const obj = await env.MEDIA.get(key);
+  const obj = await getMedia(env, key);
   if (!obj) throw new Error(`media not found: ${key}`);
   const mime = obj.httpMetadata?.contentType || "image/jpeg";
   const form = new FormData();

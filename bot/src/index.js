@@ -3,6 +3,7 @@ import { handleInbound, deliveryActions, paidActions, paymentLinkMessage, PACKAG
 import * as wa from "./wa.js";
 import * as db from "./db.js";
 import { createPaymentLink, isPaid } from "./payments.js";
+import { putMedia, getMedia } from "./media.js";
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json; charset=utf-8" } });
 const unauthorized = () => json({ error: "unauthorized" }, 401);
@@ -20,7 +21,7 @@ async function storeInbound(env, orderId, mediaId, index) {
   const { bytes, mime } = await wa.downloadMedia(env, mediaId);
   const ext = mime.includes("png") ? "png" : mime.includes("webp") ? "webp" : "jpg";
   const key = `orders/${orderId}/in/${index}.${ext}`;
-  await env.MEDIA.put(key, bytes, { httpMetadata: { contentType: mime } });
+  await putMedia(env, key, bytes, mime);
   return key;
 }
 
@@ -271,7 +272,7 @@ async function handleAgent(request, env, url) {
 
   let m;
   if ((m = path.match(/^\/api\/media\/(.+)$/)) && request.method === "GET") {
-    const obj = await env.MEDIA.get(decodeURIComponent(m[1]));
+    const obj = await getMedia(env, decodeURIComponent(m[1]));
     if (!obj) return json({ error: "not found" }, 404);
     return new Response(obj.body, { headers: { "Content-Type": obj.httpMetadata?.contentType || "application/octet-stream" } });
   }
@@ -281,7 +282,7 @@ async function handleAgent(request, env, url) {
     const o = await db.getOrder(env.DB, id);
     if (!o) return json({ error: "no such order" }, 404);
     const key = `orders/${id}/out/${m[2]}`;
-    await env.MEDIA.put(key, await request.arrayBuffer(), { httpMetadata: { contentType: request.headers.get("Content-Type") || "image/jpeg" } });
+    await putMedia(env, key, await request.arrayBuffer(), request.headers.get("Content-Type") || "image/jpeg");
     return json({ ok: true, key });
   }
 
