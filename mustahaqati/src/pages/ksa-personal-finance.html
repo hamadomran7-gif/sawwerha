@@ -1,0 +1,76 @@
+---json
+{
+  "title": "حاسبة التمويل الشخصي في السعودية 2026 — القسط ونسبة الاستقطاع",
+  "h1": "حاسبة التمويل الشخصي في السعودية",
+  "description": "احسب قسط التمويل الشخصي الشهري وإجمالي التكلفة في السعودية مع التحقق من نسبة الاستقطاع التي حددها البنك المركزي السعودي: 33% من الراتب للموظفين و25% للمتقاعدين.",
+  "short": "القسط والتكلفة الإجمالية، والتحقق من حد الاستقطاع 33% أو 25%",
+  "lead": "أدخل مبلغ التمويل ومعدل النسبة السنوي والمدة وراتبك، وتعرف قسطك وهل يوافق حد الاستقطاع.",
+  "country": "sa",
+  "category": "finance",
+  "tool": true,
+  "script": "ksa-personal-finance.js",
+  "related": ["ksa-net-salary", "uae-personal-loan", "ksa-end-of-service"],
+  "faq": [
+    {"q": "كم نسبة الاستقطاع المسموح بها من الراتب؟", "a": "لا يتجاوز مجموع الأقساط الشهرية 33% من راتب الموظف، و25% من راتب المتقاعد، بحسب تعليمات البنك المركزي السعودي للتمويل الاستهلاكي. التمويل العقاري له نسب أعلى تُحدَّد وفق الدخل."},
+    {"q": "ما الفرق بين معدل النسبة السنوي (APR) ومعدل الربح؟", "a": "معدل النسبة السنوي يشمل الربح وكل الرسوم الإدارية والتأمين، لذلك هو الرقم الصحيح للمقارنة بين البنوك. الحاسبة تحسب القسط بالطريقة المتناقصة على المعدل الذي تدخله."},
+    {"q": "ما المدة القصوى للتمويل الشخصي؟", "a": "المتعارف عليه لدى البنوك حتى 60 شهراً، وبعض شركات التمويل تقدم مدداً مختلفة. تحقق من عرض البنك."},
+    {"q": "هل يمكن السداد المبكر؟", "a": "نعم، وتحدد اللوائح حداً أقصى لما يُحصَّل من الربح عند السداد المبكر (ربح ثلاثة أشهر تالية كحد أقصى في التمويل الاستهلاكي)."}
+  ],
+  "sources": [
+    {"t": "البنك المركزي السعودي — نسبة الاستقطاع والتعثر (تعليمات للبنوك)", "u": "https://rulebook.sama.gov.sa/en/node/6840"},
+    {"t": "البنك المركزي السعودي — ضوابط التمويل الاستهلاكي", "u": "https://www.sama.gov.sa"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب قسطك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="principal">مبلغ التمويل (ريال)</label>
+        <input type="number" id="principal" name="principal" inputmode="decimal" min="0" step="1000" value="100000" required>
+      </div>
+      <div class="field">
+        <label for="rate">معدل النسبة السنوي APR (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.01" value="7" required>
+      </div>
+      <div class="field">
+        <label for="months">المدة (أشهر)</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="120" step="1" value="60" required>
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (ريال)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="9000">
+      </div>
+      <div class="field">
+        <label for="other">أقساط التزامات أخرى شهرياً (ريال)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="100" value="0">
+      </div>
+      <fieldset class="field">
+        <legend>الحالة</legend>
+        <div class="choices">
+          <label><input type="radio" name="status" value="employee" checked><span>موظف (حد 33%)</span></label>
+          <label><input type="radio" name="status" value="retiree"><span>متقاعد (حد 25%)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب القسط</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف يُحسب القسط؟</h2>
+<p>تحسب الحاسبة القسط بطريقة الرصيد المتناقص على معدل النسبة السنوي، وهي الطريقة القياسية في التمويل المصرفي. المعدل المعلن في العروض عادة هو «معدل النسبة السنوي» الشامل للرسوم، وهو الرقم الذي يجب أن تقارن به.</p>
+
+<div class="example">
+<p><strong>مثال:</strong> تمويل 100,000 ريال بمعدل 7% على 60 شهراً لراتب 9,000 ريال.</p>
+<p>القسط ≈ 1,980 ريالاً. إجمالي التكلفة ≈ 118,800 ريال. نسبة الاستقطاع 22% أقل من حد 33%، فالتمويل مطابق.</p>
+</div>
+
+<h2>حدود الاستقطاع</h2>
+<p>تلزم تعليمات البنك المركزي السعودي البنوك بألا يتجاوز مجموع الأقساط الشهرية 33% من راتب الموظف و25% من راتب المتقاعد. الهدف حماية العميل من التعثر، لذا تُحتسب كل الالتزامات القائمة ضمن النسبة، بما فيها الحد الأدنى لسداد البطاقات الائتمانية.</p>
+</div>

@@ -1,0 +1,91 @@
+---json
+{
+  "title": "حاسبة القرض الشخصي في الإمارات 2026 — القسط الشهري ونسبة الاستقطاع",
+  "h1": "حاسبة القرض الشخصي في الإمارات",
+  "description": "احسب القسط الشهري وإجمالي الفوائد للقرض الشخصي في الإمارات بالفائدة المتناقصة أو الثابتة، مع التحقق من قواعد المصرف المركزي: الحد الأقصى 20 ضعف الراتب، 48 شهراً، واستقطاع لا يتجاوز 50% من الدخل.",
+  "short": "القسط والفوائد، مع التحقق من حدود المصرف المركزي (20 ضعف الراتب و48 شهراً و50%)",
+  "lead": "أدخل مبلغ القرض والفائدة والمدة وراتبك، وتعرف فوراً هل يوافق الحد التنظيمي أم لا، وكم سيكلفك القرض فعلاً.",
+  "country": "ae",
+  "category": "finance",
+  "tool": true,
+  "script": "uae-personal-loan.js",
+  "related": ["dubai-mortgage-fees", "uae-iloe", "ksa-personal-finance", "uae-gratuity"],
+  "faq": [
+    {"q": "ما الحد الأقصى للقرض الشخصي في الإمارات؟", "a": "20 ضعف الراتب الشهري أو إجمالي الدخل، ومدة لا تتجاوز 48 شهراً، بحسب نظام المصرف المركزي للقروض الشخصية. وبعض البنوك تضع حدوداً أدنى من ذلك."},
+    {"q": "ما نسبة الاستقطاع المسموح بها؟", "a": "مجموع أقساط كل التزاماتك (قروض وبطاقات) لا يتجاوز 50% من راتبك. وإذا كانت الأقساط تمتد بعد سن التقاعد تُعاد جدولتها بحيث لا تتجاوز 30% من الدخل أو المعاش."},
+    {"q": "ما الفرق بين الفائدة الثابتة والمتناقصة؟", "a": "الثابتة تُحسب على أصل المبلغ طوال المدة، فتبدو منخفضة لكنها أغلى فعلياً. المتناقصة تُحسب على الرصيد المتبقي كل شهر، وهي الطريقة التي يلزم المصرف المركزي البنوك بالإفصاح عنها. فائدة ثابتة 4% على 4 سنوات تعادل تقريباً 7.5% متناقصة."},
+    {"q": "هل أُلغي الحد الأدنى للراتب؟", "a": "ألغى المصرف المركزي شرط الحد الأدنى للراتب في النظام الجديد، لكن البنوك تضع معايير أهلية خاصة بها وتظل قيود نسبة الاستقطاع والمدة سارية."},
+    {"q": "هل يستطيع البنك طلب شيكات بقيمة أكبر من القرض؟", "a": "يجوز للبنك أخذ شيكات بما يغطي الأقساط بقيمة إجمالية لا تتجاوز 120% من قيمة القرض أو الرصيد المدين."}
+  ],
+  "sources": [
+    {"t": "البوابة الرسمية لحكومة الإمارات — القروض للأفراد (قواعد المصرف المركزي)", "u": "https://u.ae/en/information-and-services/finance-and-investment/loans-for-individuals", "d": "12 مارس 2026"},
+    {"t": "مصرف الإمارات المركزي — نظام القروض الشخصية", "u": "https://rulebook.centralbank.ae/sites/default/files/en_net_file_store/CBUAE_EN_3920_VER1.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب قسطك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="principal">مبلغ القرض (درهم)</label>
+        <input type="number" id="principal" name="principal" inputmode="decimal" min="0" step="1000" value="150000" required>
+      </div>
+      <div class="field">
+        <label for="rate">نسبة الفائدة السنوية (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.01" value="6.5" required>
+      </div>
+      <div class="field">
+        <label for="months">المدة (أشهر)</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="120" step="1" value="48" required>
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (درهم)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="12000">
+      </div>
+      <div class="field">
+        <label for="other">أقساط التزامات أخرى شهرياً (درهم)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="100" value="0">
+        <span class="hint">قروض وبطاقات قائمة، لحساب نسبة الاستقطاع.</span>
+      </div>
+      <fieldset class="field">
+        <legend>طريقة الفائدة</legend>
+        <div class="choices">
+          <label><input type="radio" name="method" value="reducing" checked><span>متناقصة</span></label>
+          <label><input type="radio" name="method" value="flat"><span>ثابتة</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب القسط</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد المصرف المركزي للقروض الشخصية</h2>
+<ul>
+  <li><strong>الحد الأقصى:</strong> 20 ضعف الراتب الشهري أو إجمالي الدخل.</li>
+  <li><strong>المدة:</strong> لا تتجاوز 48 شهراً.</li>
+  <li><strong>الاستقطاع:</strong> مجموع الأقساط لا يتجاوز 50% من الراتب، و30% بعد سن التقاعد.</li>
+  <li><strong>الفائدة:</strong> تُحسب سنوياً على الرصيد المتناقص ويجب الإفصاح عنها بوضوح.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> قرض 150,000 درهم بفائدة متناقصة 6.5% على 48 شهراً، لراتب 12,000 درهم.</p>
+<p>القسط ≈ 3,557 درهماً شهرياً، وإجمالي الفوائد ≈ 20,748 درهماً.<br>
+المبلغ ضمن الحد (20 × 12,000 = 240,000)، والاستقطاع 29.6% أقل من 50%. <strong>القرض مطابق للقواعد.</strong></p>
+</div>
+
+<h2>انتبه للفائدة الثابتة</h2>
+<p>إعلان «فائدة ثابتة 3.99%» لا يعني أنك تدفع 3.99% فعلياً. الفائدة الثابتة تُحسب على المبلغ الأصلي كله طوال المدة حتى بعد أن تسدد معظمه، لذا تعادل تقريباً ضعف النسبة بالطريقة المتناقصة. اختر «ثابتة» في الحاسبة لترى المعدل المكافئ.</p>
+
+<h2>قبل أن توقّع</h2>
+<ul>
+  <li>اسأل عن رسوم الترتيب (عادة حتى 1% من المبلغ) ورسوم السداد المبكر.</li>
+  <li>تأكد من تأمين الحياة المرتبط بالقرض وتكلفته.</li>
+  <li>احسب قسطك مع كل التزاماتك الحالية، لا القرض وحده.</li>
+</ul>
+</div>

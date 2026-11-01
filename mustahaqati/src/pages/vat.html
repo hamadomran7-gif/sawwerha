@@ -1,0 +1,88 @@
+---json
+{
+  "title": "حاسبة ضريبة القيمة المضافة في الإمارات والسعودية والخليج 2026",
+  "h1": "حاسبة ضريبة القيمة المضافة",
+  "description": "أضف ضريبة القيمة المضافة إلى أي مبلغ أو استخرجها من المبلغ الشامل: 5% في الإمارات وعُمان، 15% في السعودية، 10% في البحرين، مع نسبة مخصصة لأي بلد آخر.",
+  "short": "إضافة الضريبة أو استخراجها بنسب الإمارات والسعودية والبحرين وعُمان",
+  "lead": "اختر البلد أو أدخل النسبة، وحدد إن كان المبلغ قبل الضريبة أو شاملاً لها.",
+  "country": "gcc",
+  "category": "tax",
+  "tool": true,
+  "script": "vat.js",
+  "related": ["dubai-mortgage-fees", "uae-personal-loan", "ksa-personal-finance"],
+  "faq": [
+    {"q": "كيف أستخرج الضريبة من مبلغ شامل؟", "a": "اقسم المبلغ الشامل على (1 + النسبة). مثال في السعودية: 1,150 ÷ 1.15 = 1,000 ريال قبل الضريبة، والضريبة 150 ريالاً. القسمة على 1.15 وليس الضرب في 15%."},
+    {"q": "ما نسبة الضريبة في دول الخليج؟", "a": "الإمارات 5% (منذ 2018)، السعودية 15% (منذ يوليو 2020)، البحرين 10% (منذ 2022)، عُمان 5% (منذ 2021). قطر والكويت لم تطبقا الضريبة بعد."},
+    {"q": "ما الفرق بين الخاضع بنسبة الصفر والمعفى؟", "a": "السلع الخاضعة بنسبة الصفر (مثل الصادرات وبعض التعليم والصحة في الإمارات) تظهر في الفاتورة بضريبة 0% ويحق للمنشأة استرداد ضريبة مدخلاتها. المعفاة (مثل بعض الخدمات المالية والإيجار السكني) لا تُفرض عليها ضريبة ولا يُسترد عنها."},
+    {"q": "متى يجب التسجيل في الضريبة في الإمارات؟", "a": "التسجيل إلزامي عند تجاوز التوريدات الخاضعة 375,000 درهم في آخر 12 شهراً، واختياري من 187,500 درهم."}
+  ],
+  "sources": [
+    {"t": "الهيئة الاتحادية للضرائب — الإمارات", "u": "https://tax.gov.ae"},
+    {"t": "هيئة الزكاة والضريبة والجمارك — السعودية", "u": "https://zatca.gov.sa"},
+    {"t": "الجهاز الوطني للإيرادات — البحرين", "u": "https://www.nbr.gov.bh"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب الضريبة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="amount">المبلغ</label>
+        <input type="number" id="amount" name="amount" inputmode="decimal" min="0" step="0.01" value="1000" required>
+      </div>
+      <div class="field">
+        <label for="country">البلد</label>
+        <select id="country" name="country">
+          <option value="ae">الإمارات — 5%</option>
+          <option value="sa">السعودية — 15%</option>
+          <option value="bh">البحرين — 10%</option>
+          <option value="om">عُمان — 5%</option>
+          <option value="custom">نسبة مخصصة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rate">النسبة (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.5" value="5">
+        <span class="hint">تُضبط تلقائياً مع البلد، ويمكنك تعديلها.</span>
+      </div>
+      <fieldset class="field">
+        <legend>المبلغ المدخل</legend>
+        <div class="choices">
+          <label><input type="radio" name="mode" value="add" checked><span>قبل الضريبة (أضف الضريبة)</span></label>
+          <label><input type="radio" name="mode" value="extract"><span>شامل الضريبة (استخرجها)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>نسب ضريبة القيمة المضافة في الخليج</h2>
+<div class="table-scroll">
+<table>
+  <thead><tr><th>الدولة</th><th>النسبة</th><th>بداية التطبيق</th></tr></thead>
+  <tbody>
+    <tr><td>الإمارات</td><td>5%</td><td>يناير 2018</td></tr>
+    <tr><td>السعودية</td><td>15%</td><td>يناير 2018 بنسبة 5%، ثم 15% منذ يوليو 2020</td></tr>
+    <tr><td>البحرين</td><td>10%</td><td>يناير 2019 بنسبة 5%، ثم 10% منذ يناير 2022</td></tr>
+    <tr><td>عُمان</td><td>5%</td><td>أبريل 2021</td></tr>
+    <tr><td>قطر والكويت</td><td>لم تُطبَّق</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>المعادلتان</h2>
+<ul>
+  <li><strong>إضافة الضريبة:</strong> المبلغ الشامل = المبلغ × (1 + النسبة).</li>
+  <li><strong>استخراج الضريبة:</strong> المبلغ قبل الضريبة = المبلغ الشامل ÷ (1 + النسبة)، والضريبة هي الفرق.</li>
+</ul>
+<div class="example">
+<p><strong>مثال:</strong> فاتورة بقيمة 2,300 ريال شاملة الضريبة في السعودية. قبل الضريبة = 2,300 ÷ 1.15 = 2,000 ريال، والضريبة 300 ريال.</p>
+</div>
+</div>

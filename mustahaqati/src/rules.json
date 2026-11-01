@@ -1,0 +1,128 @@
+{
+  "_about": "كل الأرقام القانونية في الموقع تأتي من هذا الملف فقط. عند أي تعديل قانوني: عدّل الرقم هنا، حدّث lastReview، ثم أعد البناء.",
+  "lastReview": "2026-11-01",
+  "ae": {
+    "currency": "AED",
+    "gratuity": {
+      "law": "المرسوم بقانون اتحادي رقم 33 لسنة 2021 بشأن تنظيم علاقات العمل، المادة 51",
+      "daysFirstFiveYears": 21,
+      "daysAfterFiveYears": 30,
+      "firstPeriodYears": 5,
+      "capYearsOfWage": 2,
+      "minServiceYears": 1,
+      "wageBasis": "الأجر الأساسي",
+      "daysPerMonth": 30,
+      "paymentDeadlineDays": 14,
+      "source": "https://mohre.gov.ae"
+    },
+    "overtime": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المواد 17–21 وقرار مجلس الوزراء 1/2022",
+      "hoursPerDay": 8,
+      "daysPerMonth": 30,
+      "dayMultiplier": 1.25,
+      "nightMultiplier": 1.5,
+      "nightFrom": "22:00",
+      "nightTo": "04:00",
+      "restDayMultiplier": 1.5,
+      "maxOvertimeHoursPerDay": 2
+    },
+    "annualLeave": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المادة 29",
+      "daysPerYear": 30,
+      "daysPerMonthAfterSixMonths": 2,
+      "encashmentBasis": "الأجر الأساسي",
+      "daysPerMonth": 30
+    },
+    "personalLoan": {
+      "law": "نظام مصرف الإمارات المركزي للقروض الشخصية (u.ae، مارس 2026)",
+      "maxSalaryMultiple": 20,
+      "maxMonths": 48,
+      "maxDeductionRatio": 0.5,
+      "carLoanMaxLtv": 0.8,
+      "carLoanMaxMonths": 60
+    },
+    "mortgage": {
+      "law": "نظام القروض العقارية لمصرف الإمارات المركزي",
+      "ltv": {
+        "expat": { "firstUnder5m": 0.8, "firstOver5m": 0.65, "second": 0.6 },
+        "national": { "firstUnder5m": 0.8, "firstOver5m": 0.7, "second": 0.65 },
+        "offplan": 0.5
+      },
+      "priceThreshold": 5000000,
+      "maxYears": 25
+    },
+    "dld": {
+      "source": "دائرة الأراضي والأملاك في دبي (رسوم مجمّعة من Property Finder، يوليو 2026)",
+      "transferFeePct": 0.04,
+      "titleDeedFee": 580,
+      "adminFees": 20,
+      "trusteeFeeUnder500k": 2000,
+      "trusteeFeeOver500k": 4000,
+      "trusteeThreshold": 500000,
+      "mortgageRegistrationPct": 0.0025,
+      "mortgageRegistrationFixed": 290,
+      "valuationFeeTypical": 3000,
+      "agentCommissionPct": 0.02,
+      "vat": 0.05
+    },
+    "iloe": {
+      "law": "المرسوم بقانون اتحادي 13/2022 بشأن التأمين ضد التعطل عن العمل",
+      "categoryAMaxBasic": 16000,
+      "premiumA": 5,
+      "premiumB": 10,
+      "compensationRate": 0.6,
+      "capA": 10000,
+      "capB": 20000,
+      "maxMonths": 3,
+      "minSubscriptionMonths": 12,
+      "claimWithinDays": 30
+    },
+    "vat": 0.05
+  },
+  "sa": {
+    "currency": "SAR",
+    "eos": {
+      "law": "نظام العمل السعودي، المواد 84 و85 و87",
+      "halfMonthYears": 5,
+      "firstPeriodFraction": 0.5,
+      "afterPeriodFraction": 1,
+      "wageBasis": "الأجر الأخير (الأجر الفعلي: الأساسي + البدلات الثابتة)",
+      "resignation": [
+        { "minYears": 0, "maxYears": 2, "fraction": 0 },
+        { "minYears": 2, "maxYears": 5, "fraction": 0.3333333333, "inclusiveMax": true },
+        { "minYears": 5, "maxYears": 10, "fraction": 0.6666666667 },
+        { "minYears": 10, "maxYears": null, "fraction": 1 }
+      ]
+    },
+    "gosi": {
+      "law": "نظام التأمينات الاجتماعية ونظام التأمينات الجديد الصادر في يوليو 2024",
+      "pensionRateLegacy": 0.09,
+      "pensionRateNewStart": 0.09,
+      "pensionRateNewStep": 0.005,
+      "pensionRateNewMax": 0.11,
+      "newSystemStart": "2024-07-03",
+      "firstStepDate": "2025-07-03",
+      "sanedRate": 0.0075,
+      "hazardsRate": 0.02,
+      "wageCeiling": 45000,
+      "contributoryWage": "الأجر الأساسي + بدل السكن النقدي"
+    },
+    "annualLeave": {
+      "law": "نظام العمل السعودي، المادتان 109 و111",
+      "daysPerYear": 21,
+      "daysPerYearAfterFive": 30,
+      "afterYears": 5,
+      "daysPerMonth": 30
+    },
+    "finance": {
+      "law": "تعليمات ساما لنسب الاستقطاع والتعثر (29/4/2013)",
+      "maxDeductionEmployee": 0.33,
+      "maxDeductionRetiree": 0.25,
+      "typicalMaxMonths": 60
+    },
+    "vat": 0.15
+  },
+  "gcc": {
+    "vat": { "ae": 0.05, "sa": 0.15, "bh": 0.1, "om": 0.05, "qa": 0, "kw": 0 }
+  }
+}
