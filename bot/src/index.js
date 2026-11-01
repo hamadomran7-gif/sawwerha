@@ -339,7 +339,24 @@ async function handleAgent(request, env, url) {
 /* المهام الدورية                                                        */
 /* ------------------------------------------------------------------ */
 
+async function weeklyReport(env) {
+  // تقرير أسبوعي للمالك: الأحد 08:00 بتوقيت الخليج (UTC+4)
+  const gulf = new Date(Date.now() + 4 * 3600 * 1000);
+  if (gulf.getUTCDay() !== 0 || gulf.getUTCHours() !== 8) return;
+  const key = gulf.toISOString().slice(0, 10);
+  if ((await db.getMeta(env.DB, "weekly_report_sent")) === key) return;
+  await db.setMeta(env.DB, "weekly_report_sent", key);
+  const r = await db.report(env.DB, 7);
+  await notifyOwner(env, formatReport(r));
+}
+
 async function cron(env) {
+  // 0) التقرير الأسبوعي
+  try {
+    await weeklyReport(env);
+  } catch (e) {
+    console.error("weekly report failed", e);
+  }
   // 1) المدفوعات المعلّقة
   const pending = await env.DB.prepare("SELECT * FROM orders WHERE status = 'awaiting_payment' AND payment_id IS NOT NULL ORDER BY id DESC LIMIT 50").all();
   for (const o of pending.results || []) {
