@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>صوّرها — صور منتجات احترافية بالذكاء الاصطناعي لمتاجر الإمارات</title>
+<meta name="description" content="أرسل صورة منتجك على واتساب واستلم 3 صور احترافية مجاناً: صورة بخلفية بيضاء مطابقة لشروط نون وأمازون ومشاهد تسويقية لإنستغرام. من 149 درهماً. تسليم خلال 24 ساعة.">
+<meta property="og:title" content="صوّرها — صور منتجات احترافية بالذكاء الاصطناعي">
+<meta property="og:description" content="3 صور مجانية لمنتجك خلال ساعات. أرسل صورة على واتساب الآن.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2b2140">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<style>
+  /* صوّرها — هوية دافئة واثقة: بنفسجي داكن للثقة، زعفراني للطاقة، محايدات رملية */
+  :root{
+    --bg:#fbf7f1; --surface:#fff; --surface-2:#f3ece2; --fg:#221b2c; --muted:#6a6174; --line:#e6dcd0;
+    --primary:#2b2140; --primary-ink:#fff; --accent:#e39b00; --accent-ink:#1d1500; --wa:#1fae55; --wa-ink:#fff;
+    --font-display:"Cairo","IBM Plex Sans Arabic",system-ui,sans-serif; --font-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+    --radius:16px; --shadow:0 10px 30px rgba(43,33,64,.08);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15111c;--surface:#1e1827;--surface-2:#272031;--fg:#f1ebf5;--muted:#aaa0b6;--line:#352c42;--primary:#e9dcff;--primary-ink:#1b1426;--accent:#f0b43a;--accent-ink:#1d1500;--shadow:0 10px 30px rgba(0,0,0,.4);color-scheme:dark}}
+  :root[data-theme="dark"]{--bg:#15111c;--surface:#1e1827;--surface-2:#272031;--fg:#f1ebf5;--muted:#aaa0b6;--line:#352c42;--primary:#e9dcff;--primary-ink:#1b1426;--accent:#f0b43a;--accent-ink:#1d1500;--shadow:0 10px 30px rgba(0,0,0,.4);color-scheme:dark}
+  *,*::before,*::after{box-sizing:border-box}
+  html{direction:rtl}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75;font-variant-numeric:tabular-nums}
+  img,svg{max-width:100%}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--font-display);line-height:1.3;text-wrap:balance;margin:0 0 .4em}
+  h1{font-size:clamp(1.9rem,3.4vw + 1rem,3.1rem);font-weight:800}
+  h2{font-size:clamp(1.4rem,1.6vw + 1rem,2rem);font-weight:800;margin-top:0}
+  h3{font-size:1.15rem;font-weight:700}
+  p{margin:0 0 1em}
+  .muted{color:var(--muted)}
+  [data-lang="en"] [data-ar], [data-lang="ar"] [data-en]{display:none!important}
+  [data-lang="en"]{direction:ltr}
+  /* الرأس */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.4rem;text-decoration:none}
+  .brand .mark{width:38px;height:38px;border-radius:11px;background:var(--primary);display:grid;place-items:center;color:var(--accent)}
+  .lang{font:inherit;font-weight:500;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer}
+  /* البطل */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding-block:28px 40px}
+  .hero .lead{font-size:1.15rem;max-width:34ch}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:var(--wa-ink);text-decoration:none;font-weight:700;font-size:1.1rem;padding:14px 22px;border-radius:999px;box-shadow:var(--shadow)}
+  .cta:hover{filter:brightness(1.06)}
+  .cta svg{width:24px;height:24px}
+  .sub{display:block;margin-top:10px;font-size:.95rem}
+  .hero-art{position:relative;min-width:0}
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow)}
+  .ba figure{margin:0;border-radius:12px;overflow:hidden;aspect-ratio:1;position:relative;display:grid;place-items:center;max-width:100%}
+  .ba figcaption{position:absolute;bottom:8px;inset-inline-start:8px;background:rgba(0,0,0,.55);color:#fff;font-size:.8rem;padding:3px 10px;border-radius:999px}
+  .ba .before{background:#d9d2c7}
+  .ba .after{background:linear-gradient(160deg,#3a2c5a,#1f1830)}
+  .bottle{width:34%;height:62%;border-radius:10px 10px 14px 14px;background:linear-gradient(#b8233a,#7c1226);position:relative;box-shadow:0 20px 30px rgba(0,0,0,.35)}
+  .bottle::before{content:"";position:absolute;top:-16%;left:30%;width:40%;height:18%;background:#1a1a1a;border-radius:4px}
+  .before .bottle{box-shadow:none;filter:saturate(.7) brightness(.95)}
+  .glow{position:absolute;inset:auto 10% 12% 10%;height:18%;border-radius:50%;background:radial-gradient(ellipse,rgba(227,155,0,.6),transparent 70%);filter:blur(6px)}
+  .badge{position:absolute;top:-12px;inset-inline-end:14px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-family:var(--font-display);padding:6px 14px;border-radius:999px;font-size:.9rem;box-shadow:var(--shadow)}
+  /* الأقسام */
+  section{padding-block:36px}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;min-width:0}
+  .step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--primary);color:var(--primary-ink);font-weight:800;font-family:var(--font-display);margin-bottom:8px}
+  .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .plan{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+  .plan.featured{border-color:var(--accent);box-shadow:var(--shadow)}
+  .plan .price{font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:1.1}
+  .plan .price small{font-size:.9rem;font-weight:600;color:var(--muted)}
+  .plan ul{margin:0;padding-inline-start:1.2em;color:var(--muted);font-size:.95rem}
+  .plan .tag{align-self:flex-start;background:var(--accent);color:var(--accent-ink);font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px}
+  .promise{background:var(--primary);color:var(--primary-ink);border-radius:var(--radius);padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .promise h3{color:inherit;margin-bottom:4px}
+  .promise p{margin:0;opacity:.9;font-size:.95rem}
+  .faq details{border-bottom:1px solid var(--line);padding:10px 0}
+  .faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+  .faq summary::after{content:"+";color:var(--accent);font-weight:800}
+  .faq details[open] summary::after{content:"−"}
+  .faq p{margin:8px 0 0;color:var(--muted)}
+  .final{text-align:center;padding-block:40px}
+  footer{border-top:1px solid var(--line);padding-block:22px;font-size:.9rem;color:var(--muted)}
+  footer nav{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:8px}
+  .sticky{position:fixed;bottom:0;inset-inline:0;padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px));background:linear-gradient(transparent,var(--bg) 40%);display:none}
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr}
+    .sticky{display:block}
+    body{padding-bottom:84px}
+    .sticky .cta{width:100%;justify-content:center}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-lang="ar">
+<header class="wrap top">
+  <a class="brand" href="#"><span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg></span><span data-ar>صوّرها</span><span data-en>Sawwerha</span></a>
+  <button class="lang" id="langBtn" type="button" aria-label="Switch language"><span data-ar>English</span><span data-en>العربية</span></button>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="h1">
+    <div>
+      <h1 id="h1"><span data-ar>صور منتجات احترافية لمتجرك، خلال ساعات، من صورة بجوالك</span><span data-en>Professional product photos for your shop, within hours, from a phone photo</span></h1>
+      <p class="lead"><span data-ar>أرسل صورة منتجك على واتساب واستلم 3 صور مجاناً: صورة بخلفية بيضاء جاهزة لنون وأمازون، وصورتان بمشهد تسويقي لإنستغرام. بلا استوديو، بلا مواعيد، بلا شحن.</span><span data-en>Send a product photo on WhatsApp and get 3 free images: a white-background shot ready for noon and Amazon, plus two lifestyle scenes for Instagram. No studio, no appointments, no shipping.</span></p>
+      <a class="cta" id="cta1" href="#" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-ar>أرسل صورة منتجك الآن</span><span data-en>Send your product photo now</span></a>
+      <span class="sub muted"><span data-ar>العيّنة مجانية بالكامل، ومن دون أي التزام. الخدمة تعمل آلياً على مدار الساعة.</span><span data-en>The sample is completely free with no commitment. The service runs automatically 24/7.</span></span>
+    </div>
+    <div class="hero-art">
+      <div class="ba" role="img" aria-label="قبل وبعد">
+        <span class="badge"><span data-ar>قبل / بعد</span><span data-en>Before / After</span></span>
+        <figure class="before"><div class="bottle"></div><figcaption><span data-ar>صورة الجوال</span><span data-en>Phone photo</span></figcaption></figure>
+        <figure class="after"><div class="glow"></div><div class="bottle"></div><figcaption><span data-ar>صوّرها</span><span data-en>Sawwerha</span></figcaption></figure>
+      </div>
+      <p class="muted" style="font-size:.85rem;margin:10px 4px 0"><span data-ar>رسم توضيحي. نماذج حقيقية قبل/بعد تُضاف من أعمال العملاء بإذنهم.</span><span data-en>Illustration. Real before/after samples are added from client work with permission.</span></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="how">
+    <h2 id="how"><span data-ar>كيف تعمل؟</span><span data-en>How it works</span></h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3><span data-ar>أرسل صورة</span><span data-en>Send a photo</span></h3><p class="muted"><span data-ar>صورة واحدة واضحة لمنتجك بأي خلفية، من جوالك مباشرة على واتساب.</span><span data-en>One clear photo of your product on any background, straight from your phone on WhatsApp.</span></p></div>
+      <div class="step"><span class="n">2</span><h3><span data-ar>نقصّ المنتج الحقيقي</span><span data-en>We cut out the real product</span></h3><p class="muted"><span data-ar>لا نغيّر شكله ولا لونه ولا النص عليه. نولّد الخلفية والإضاءة والمشهد فقط.</span><span data-en>We never change its shape, color, or label text. Only the background, lighting, and scene are generated.</span></p></div>
+      <div class="step"><span class="n">3</span><h3><span data-ar>تستلم صورك</span><span data-en>You receive your images</span></h3><p class="muted"><span data-ar>3 صور مجانية خلال ساعات. ثم اختر باقة من 149 درهماً وتسلّمها خلال 24 ساعة مع تعديل مجاني.</span><span data-en>3 free images within hours. Then choose a package from AED 149 and get it within 24 hours with one free revision.</span></p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pr">
+    <h2 id="pr"><span data-ar>الباقات</span><span data-en>Packages</span></h2>
+    <div class="pricing">
+      <div class="plan"><h3><span data-ar>منتج واحد</span><span data-en>Single product</span></h3><div class="price">149 <small>AED</small></div><ul><li><span data-ar>صورتان بخلفية بيضاء مطابقتان لنون وأمازون</span><span data-en>2 white-background images, noon/Amazon compliant</span></li><li><span data-ar>4 مشاهد تسويقية</span><span data-en>4 lifestyle scenes</span></li><li><span data-ar>تعديل مجاني</span><span data-en>One free revision</span></li></ul></div>
+      <div class="plan featured"><span class="tag"><span data-ar>الأكثر طلباً</span><span data-en>Most popular</span></span><h3><span data-ar>حزمة إطلاق</span><span data-en>Launch pack</span></h3><div class="price">499 <small>AED</small></div><ul><li><span data-ar>5 منتجات × 5 صور (25 صورة)</span><span data-en>5 products × 5 images (25 images)</span></li><li><span data-ar>صور بيضاء + مشاهد</span><span data-en>White + lifestyle</span></li><li><span data-ar>تعديل مجاني</span><span data-en>One free revision</span></li></ul></div>
+      <div class="plan"><h3><span data-ar>اشتراك خفيف</span><span data-en>Lite subscription</span></h3><div class="price">499 <small>AED / <span data-ar>شهر</span><span data-en>mo</span></small></div><ul><li><span data-ar>15 صورة شهرياً</span><span data-en>15 images per month</span></li><li><span data-ar>حتى 3 منتجات في كل طلب</span><span data-en>Up to 3 products per order</span></li></ul></div>
+      <div class="plan"><h3><span data-ar>اشتراك محتوى</span><span data-en>Content subscription</span></h3><div class="price">899 <small>AED / <span data-ar>شهر</span><span data-en>mo</span></small></div><ul><li><span data-ar>30 صورة شهرياً</span><span data-en>30 images per month</span></li><li><span data-ar>تعليقات عربية وإنجليزية</span><span data-en>Arabic & English captions</span></li></ul></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:.95rem"><span data-ar>الدفع مقدماً عبر رابط آمن من زينة. للمقارنة: صورة واحدة في استوديوهات دبي تكلف 150–350 درهماً.</span><span data-en>Paid upfront via a secure Ziina link. For comparison, one image at a Dubai studio costs AED 150–350.</span></p>
+  </section>
+
+  <section aria-label="وعودنا">
+    <div class="promise">
+      <div><h3><span data-ar>منتجك لا يتغيّر</span><span data-en>Your product never changes</span></h3><p><span data-ar>المنتج الحقيقي من صورتك، بنفس الشكل واللون والنص. مطابق لقانون حماية المستهلك.</span><span data-en>Your real product from your photo, same shape, color, and text. Consumer-protection compliant.</span></p></div>
+      <div><h3><span data-ar>جاهزة للمنصات</span><span data-en>Marketplace-ready</span></h3><p><span data-ar>الصورة الأساسية بخلفية بيضاء نقية والمنتج يملأ 85% من الإطار، كما تشترط نون وأمازون.</span><span data-en>Main image on pure white with the product filling 85% of the frame, as noon and Amazon require.</span></p></div>
+      <div><h3><span data-ar>ضمان التسليم</span><span data-en>Delivery guarantee</span></h3><p><span data-ar>إذا لم تُسلَّم الصور خلال 48 ساعة من الدفع يُسترد المبلغ كاملاً.</span><span data-en>If images aren't delivered within 48 hours of payment, you get a full refund.</span></p></div>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="faq">
+    <h2 id="faq"><span data-ar>أسئلة شائعة</span><span data-en>FAQ</span></h2>
+    <details><summary><span data-ar>هل الصور من الذكاء الاصطناعي حقاً مناسبة للبيع؟</span><span data-en>Are AI images really suitable for selling?</span></summary><p><span data-ar>نعم، لأننا لا نولّد المنتج؛ نقصّ منتجك الحقيقي ونولّد المشهد حوله فقط. الصورة البيضاء الأساسية هي صورتك الحقيقية بعد التنظيف.</span><span data-en>Yes, because we don't generate the product; we cut out your real product and generate only the scene around it. The main white image is your real photo, cleaned.</span></p></details>
+    <details><summary><span data-ar>ما أفضل طريقة لتصوير المنتج بالجوال؟</span><span data-en>What's the best way to shoot the product with my phone?</span></summary><p><span data-ar>ضوء نهار من نافذة، المنتج كاملاً داخل الإطار، بلا يد ممسكة به، وبخلفية هادئة. لا نحتاج صورة مثالية.</span><span data-en>Daylight from a window, the whole product in frame, no hand holding it, and a calm background. It doesn't need to be perfect.</span></p></details>
+    <details><summary><span data-ar>هل تصوّرون الملابس والعبايات؟</span><span data-en>Do you shoot clothes and abayas?</span></summary><p><span data-ar>نعم، بأسلوب العرض المسطح أو المانيكان غير المرئي أو لقطات التفاصيل. لا نستخدم عارضين مولّدين.</span><span data-en>Yes, in flat-lay, invisible-mannequin, or detail-shot styles. We don't use AI-generated models.</span></p></details>
+    <details><summary><span data-ar>كم يستغرق التسليم؟</span><span data-en>How long does delivery take?</span></summary><p><span data-ar>العيّنة المجانية خلال 2–6 ساعات، والباقات خلال 24 ساعة من استلام صورك.</span><span data-en>Free sample within 2–6 hours; packages within 24 hours of receiving your photos.</span></p></details>
+    <details><summary><span data-ar>هل أحتاج التحدث مع موظف؟</span><span data-en>Do I need to talk to a person?</span></summary><p><span data-ar>لا. كل شيء يتم في واتساب تلقائياً: الصور، الباقات، الدفع، التسليم، والتعديل. ولأي شكوى هناك بريد في أسفل الصفحة.</span><span data-en>No. Everything happens automatically on WhatsApp: images, packages, payment, delivery, and revisions. For complaints there's an email at the bottom of the page.</span></p></details>
+  </section>
+
+  <section class="final">
+    <h2><span data-ar>جرّبها مجاناً على منتج واحد</span><span data-en>Try it free on one product</span></h2>
+    <a class="cta" id="cta2" href="#" rel="noopener"><span data-ar>افتح واتساب وأرسل الصورة</span><span data-en>Open WhatsApp and send the photo</span></a>
+  </section>
+</main>
+
+<footer class="wrap">
+  <nav aria-label="السياسات"><a href="terms.html"><span data-ar>الشروط والاسترداد</span><span data-en>Terms & refunds</span></a><a href="privacy.html"><span data-ar>الخصوصية</span><span data-en>Privacy</span></a><a href="mailto:support@sawwerha.com">support@sawwerha.com</a></nav>
+  <p><span data-ar>صوّرها — خدمة مرخّصة في دولة الإمارات، أم القيوين. رقم الرخصة: [يُضاف]. الأسعار شاملة، ولا تُفرض ضريبة قيمة مضافة حالياً.</span><span data-en>Sawwerha — a licensed service in the UAE, Umm Al Quwain. License no.: [to be added]. Prices are final; no VAT is currently charged.</span></p>
+</footer>
+
+<div class="sticky"><a class="cta" id="cta3" href="#" rel="noopener"><span data-ar>أرسل صورة منتجك مجاناً</span><span data-en>Send your product photo free</span></a></div>
+
+<script>
+  // رقم واتساب الأعمال بصيغة دولية بلا + — يُحدَّث عند التفعيل
+  var WA_NUMBER = "971XXXXXXXXX";
+  var body = document.body;
+  function setLang(l){
+    body.setAttribute("data-lang", l);
+    document.documentElement.lang = l; document.documentElement.dir = l === "en" ? "ltr" : "rtl";
+    try{ localStorage.setItem("sawwerha-lang", l); }catch(e){}
+    var msg = l === "en" ? "Hi, I want my 3 free product photos" : "مرحباً، أريد صور منتجي الثلاث المجانية";
+    var href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+    ["cta1","cta2","cta3"].forEach(function(id){ var a=document.getElementById(id); if(a){ a.href = href; a.target = "_blank"; } });
+  }
+  var saved = "ar"; try{ saved = localStorage.getItem("sawwerha-lang") || "ar"; }catch(e){}
+  setLang(saved);
+  document.getElementById("langBtn").addEventListener("click", function(){ setLang(body.getAttribute("data-lang") === "ar" ? "en" : "ar"); });
+</script>
+</body>
+</html>

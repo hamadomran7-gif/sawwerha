@@ -1,0 +1,63 @@
+{
+  "_about": "مشاهد اللايف ستايل لكل فئة. البرومبت بالإنجليزية لأن النماذج تفهمها أفضل. القاعدة الثابتة: المنتج لا يتغير.",
+  "keep": "Keep the product exactly as it is: same shape, same colors, same label text, same proportions, same logo. Do not add text, watermarks, people, hands, or extra products.",
+  "negative": "deformed product, changed label, extra text, watermark, people, hands, blurry, low quality, duplicated product, cropped product, cartoon",
+  "categories": {
+    "perfume": [
+      "Place this product on a polished black marble surface with soft golden side light, subtle smoke in the background, luxury Arabian perfume advertising style, shallow depth of field.",
+      "Place this product on a beige stone pedestal with dried oud wood pieces and warm bokeh lights behind, elegant and minimal, studio quality.",
+      "Place this product on a glossy white surface with soft reflections and a gradient dusk sky background, premium fragrance campaign look.",
+      "Place this product among silk fabric folds in champagne tones with soft window light, luxurious and calm.",
+      "Place this product on a dark wooden tray with a small brass incense burner in the background, Emirati majlis atmosphere, warm light."
+    ],
+    "fashion": [
+      "Display this garment laid flat on a clean linen surface with soft natural light from a window, minimal styling, top-down view, fashion catalog style.",
+      "Display this garment on an invisible mannequin against a soft beige studio backdrop with gentle shadows, premium boutique look.",
+      "Place this item on a marble vanity with gold accents and soft morning light, elegant and modest fashion editorial style.",
+      "Display this garment hanging on a wooden hanger against a warm sand-colored wall with soft shadow, desert-minimal aesthetic.",
+      "Display this item on a cream fabric backdrop with soft folds and diffused light, close-up on texture and details."
+    ],
+    "jewelry": [
+      "Place this jewelry piece on a dark velvet surface with dramatic soft spotlight, macro photography, tiny sparkle highlights, luxury jewelry advertising.",
+      "Place this piece on a white marble slab with a thin gold line accent and soft daylight, clean and premium.",
+      "Place this piece on a smooth beige stone with soft shadows and blurred greenery in the background, natural elegance.",
+      "Place this piece inside an open elegant jewelry box lined with cream silk, soft studio lighting, close-up.",
+      "Place this piece on glossy black acrylic with mirror reflection and warm rim light, high-end campaign look."
+    ],
+    "home": [
+      "Place this product on a wooden side table in a cozy living room with soft afternoon light and a blurred sofa in the background, warm home decor photography.",
+      "Place this product on a white marble shelf with eucalyptus leaves and soft shadows, minimal Scandinavian style.",
+      "Place this product on a linen tablecloth with a ceramic cup and soft candlelight, warm evening atmosphere.",
+      "Place this product on a concrete surface with a sand-colored wall and sharp sunlight shadow lines, modern minimal.",
+      "Place this product on a rattan tray with dried pampas grass in the background, boho home styling, soft light."
+    ],
+    "food": [
+      "Place this product on a rustic wooden board with a linen napkin and soft natural light, appetizing food photography, shallow depth of field.",
+      "Place this product on a white ceramic plate on a marble table with scattered pistachios and a small coffee cup, Arabic hospitality style.",
+      "Place this product on a dark slate surface with warm directional light and subtle steam, dramatic food advertising.",
+      "Place this product in a gift presentation on a cream background with gold ribbon details, Eid gifting style.",
+      "Place this product on a light wooden table with soft morning light and a blurred kitchen background, fresh and clean."
+    ],
+    "beauty": [
+      "Place this product on a wet glossy surface with water droplets and soft pastel gradient background, clean skincare advertising.",
+      "Place this product on a white marble surface with a green leaf and soft daylight, natural beauty look.",
+      "Place this product on a beige stone podium with a soft arch shadow on the wall behind, minimal luxury cosmetics style.",
+      "Place this product on soft white sand with gentle warm light and blurred palm shadows, summer beauty campaign.",
+      "Place this product on a glass surface with soft reflections and a blurred bathroom background, spa atmosphere."
+    ],
+    "kids": [
+      "Place this product on a soft pastel play mat with blurred wooden toys in the background, bright and cheerful, child-safe studio look.",
+      "Place this product on a white wooden shelf in a nursery with soft natural light and a plant, clean and cozy.",
+      "Place this product on a light blue backdrop with soft shadows and a few paper clouds, playful minimal style.",
+      "Place this product on a knitted blanket with warm light and a blurred crib in the background, gentle and warm.",
+      "Place this product on a yellow background with soft studio lighting and a bold clean composition, fun catalog style."
+    ],
+    "other": [
+      "Place this product on a clean marble surface with soft natural light and a blurred neutral background, premium e-commerce photography.",
+      "Place this product on a beige stone podium with a soft gradient background and gentle shadow, minimal product advertising.",
+      "Place this product on a dark matte surface with warm rim light and subtle reflections, elegant studio look.",
+      "Place this product on a wooden table with soft morning light and blurred greenery, natural lifestyle photography.",
+      "Place this product on a glossy white surface with soft studio lighting and a pastel background, modern and clean."
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+name = "sawwerha-bot"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+# قاعدة البيانات (أنشئها: npx wrangler d1 create sawwerha ثم ضع المعرّف هنا)
+[[d1_databases]]
+binding = "DB"
+database_name = "sawwerha"
+database_id = "REPLACE_WITH_D1_ID"
+
+# تخزين الصور (أنشئه: npx wrangler r2 bucket create sawwerha-media)
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "sawwerha-media"
+
+# فحص المدفوعات المعلّقة كل 5 دقائق + تذكير العملاء
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+BRAND = "صوّرها"
+# أسعار الباقات بالدرهم — غيّرها هنا فقط
+PRICE_SINGLE = "149"
+PRICE_LAUNCH = "499"
+PRICE_SUB_LITE = "499"
+PRICE_SUB_CONTENT = "899"
+# روابط دفع ثابتة من زينة (بديل عند غياب مفتاح API) — اختياري
+ZIINA_LINK_SINGLE = ""
+ZIINA_LINK_LAUNCH = ""
+ZIINA_LINK_SUB_LITE = ""
+ZIINA_LINK_SUB_CONTENT = ""
+# حد العينات المجانية لكل رقم
+FREE_SAMPLES_PER_PHONE = "1"
+# نسخة واجهة واتساب
+WA_API_VERSION = "v21.0"
+
+# الأسرار (npx wrangler secret put NAME):
+# WA_TOKEN           رمز الوصول الدائم من Meta
+# WA_PHONE_ID        معرّف رقم الهاتف في WhatsApp Cloud API
+# WA_VERIFY_TOKEN    كلمة تحقق webhook تختارها أنت
+# WA_APP_SECRET      App Secret للتحقق من توقيع الطلبات
+# AGENT_TOKEN        رمز سري يستخدمه وكيل الإنتاج على الجهاز
+# OWNER_PHONE        رقم المالك بصيغة دولية بلا + (لأوامر التقرير وتأكيد الدفع)
+# ZIINA_API_KEY      اختياري: لإنشاء روابط دفع آلياً
+# ANTHROPIC_API_KEY  اختياري: للرد على الأسئلة الحرة

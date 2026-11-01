@@ -1,0 +1,7 @@
+config.json
+work/
+.venv/
+agent.log
+__pycache__/
+node_modules/
+.wrangler/

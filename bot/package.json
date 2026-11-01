@@ -1,0 +1,11 @@
+{
+  "name": "sawwerha-bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "db:schema": "npx wrangler d1 execute sawwerha --remote --file=schema.sql"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "worker_url": "https://sawwerha-bot.YOUR-SUBDOMAIN.workers.dev",
+  "agent_token": "PUT_THE_SAME_AGENT_TOKEN_SECRET",
+  "comfy_url": "http://127.0.0.1:8188",
+  "poll_seconds": 20,
+  "dry_run": false,
+  "work_dir": "./work",
+  "output_size": 2000,
+  "lifestyle_size": 1328,
+  "edit_mode": "edit",
+  "watermark_samples": true,
+  "watermark_text": "صوّرها · Sawwerha",
+  "max_job_minutes": 60
+}
