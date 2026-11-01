@@ -128,6 +128,12 @@ def main():
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
     if args.dry_run:
         cfg["dry_run"] = True
+    while str(cfg.get("worker_url", "")).startswith("REPLACE") or str(cfg.get("agent_token", "")).startswith("REPLACE"):
+        log.warning("config.json not configured yet (worker_url/agent_token) — waiting 5 min")
+        if args.once:
+            return
+        time.sleep(300)
+        cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
     worker = Worker(cfg["worker_url"], cfg["agent_token"])
     comfy = None if cfg.get("dry_run") else ComfyClient(cfg.get("comfy_url", "http://127.0.0.1:8188"))
     poll = int(cfg.get("poll_seconds", 20))
