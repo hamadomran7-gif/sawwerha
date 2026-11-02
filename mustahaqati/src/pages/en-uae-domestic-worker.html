@@ -1,0 +1,123 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-maid-gratuity-calculator",
+  "alternate": "uae-domestic-worker",
+  "title": "UAE Maid and Domestic Worker Gratuity Calculator 2026 — Leave and Agency Refund",
+  "h1": "UAE Domestic Worker (Maid) Gratuity Calculator",
+  "description": "Calculate a domestic worker's end-of-service gratuity in the UAE under Federal Decree-Law 9 of 2022: 14 days of basic wage for each year after one year of service, plus pay for unused annual leave, and the recruitment-agency refund if the contract ends early.",
+  "short": "14 days per year after one year, unused leave, and the agency refund",
+  "lead": "Enter the basic wage, service dates and unused leave to see what is owed, and use the second calculator for the recruitment-agency refund.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "en-uae-domestic-worker.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-domestic-worker", "en-uae-gratuity", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "How much gratuity does a maid get in the UAE?", "a": "The rate applied is the one announced by the Ministry of Human Resources and Emiratisation: 14 days of basic wage for each year of service for workers who complete one year or more, with part years pro rata. Decree-Law 9 of 2022 leaves the details to a Cabinet decision, so check the ministry's calculator at settlement."},
+    {"q": "When is a domestic worker's gratuity lost?", "a": "When the contract ends because the worker stopped working without a lawful reason, according to the ministry. The contract may be ended if the worker is absent without excuse for more than 10 consecutive days or 15 intermittent days in a year."},
+    {"q": "How much annual leave does a domestic worker get in the UAE?", "a": "30 days of paid leave a year, paid before the leave starts. For service between 6 months and a year, 2 days per month. The employer pays a return ticket every two years and pays cash for unused leave when the contract ends."},
+    {"q": "When must a domestic worker's dues be paid?", "a": "Within 10 days of the end of the contract. Monthly wages must be paid within 10 days of their due date."},
+    {"q": "How much does the recruitment agency refund?", "a": "The agency refunds part of the recruitment cost in proportion to the months left on the contract: (cost ÷ contract months) × remaining months, within two weeks. It refunds the full cost if this happens in the first month or the worker is found medically unfit during probation. Direct hires are not covered."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 9 of 2022 on Domestic Workers — UAE Legislation (Arabic)", "u": "https://uaelegislation.gov.ae/ar/legislations/1593/download"},
+    {"t": "Federal Decree-Law No. 9 of 2022 — English text (u.ae PDF)", "u": "https://u.ae/-/media/Mohre-resolutions/Federal-DecreeLaw-No-9-of-2022-Concerning-Domestic-Workers-1.pdf"},
+    {"t": "MOHRE — employers' guide for domestic workers (Arabic)", "u": "https://mohre.gov.ae/assets/74de46f5/domestic-workers-employers-guide-ar.aspx"},
+    {"t": "Gulf News — how to calculate UAE domestic workers' gratuity online", "u": "https://gulfnews.com/living-in-uae/ask-us/how-to-calculate-uae-domestic-workers-gratuity-benefits-online-1.1713966232708"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate a domestic worker's dues</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic wage (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="1500" required>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2023-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">Days of unpaid absence</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="leaveDays">Unused leave days</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="0">
+        <span class="hint" data-leave-hint></span>
+      </div>
+      <div class="field">
+        <label for="absence">How did the contract end?</label>
+        <select id="absence" name="absence">
+          <option value="no" selected>Contract end, termination or resignation</option>
+          <option value="yes">The worker stopped working without lawful reason</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rate">Gratuity days per year</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="1" max="30" step="1" value="14">
+        <span class="hint">14 days per the ministry's announcement; adjust if a different decision is issued.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<section class="tool" aria-labelledby="t2">
+  <h2 id="t2">Recruitment agency refund</h2>
+  <form id="refund" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cost">Recruitment cost paid to the agency (AED)</label>
+        <input type="number" id="cost" name="cost" inputmode="decimal" min="0" step="1" value="12000">
+      </div>
+      <div class="field">
+        <label for="contractMonths">Contract length (months)</label>
+        <input type="number" id="contractMonths" name="contractMonths" inputmode="decimal" min="1" max="60" step="1" value="24">
+      </div>
+      <div class="field">
+        <label for="monthsWorked">Months the worker worked</label>
+        <input type="number" id="monthsWorked" name="monthsWorked" inputmode="decimal" min="0" max="60" step="0.5" value="4">
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="medicallyUnfit" name="medicallyUnfit">
+        <label for="medicallyUnfit">Found medically unfit during probation</label>
+      </div>
+    </div>
+  </form>
+  <div id="refund-result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Domestic worker rights in the UAE</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Right</th><th scope="col">Entitlement</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Gratuity</th><td>14 days of basic wage per year after one year of service (ministry announcement)</td></tr>
+    <tr><th scope="row">Annual leave</th><td>30 paid days a year, paid in advance; 2 days per month between 6 months and a year; a ticket every two years</td></tr>
+    <tr><th scope="row">Sick leave</th><td>30 days a year: 15 on full pay, then 15 on half pay</td></tr>
+    <tr><th scope="row">Rest</th><td>At least 12 hours a day, 8 of them consecutive, and a paid weekly day off</td></tr>
+    <tr><th scope="row">Probation</th><td>Up to 6 months</td></tr>
+    <tr><th scope="row">Final dues</th><td>Within 10 days of the contract ending</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> basic wage AED 1,500 (daily 50), 3 years and 4 months of service and 10 unused leave days: gratuity 50 × 14 × 3.33 = 2,333.33 plus leave pay 500, a total of <strong>AED 2,833.33</strong>, plus the return ticket.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}uae-domestic-worker/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
