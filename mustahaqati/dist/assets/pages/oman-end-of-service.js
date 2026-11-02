@@ -1,5 +1,5 @@
 import { omanGratuity, serviceDuration } from "../calc.js";
-import { bind, money, num, table, big, note, duration } from "../app.js";
+import { bind, money, num, table, big, note, duration, yearsAr } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -15,7 +15,7 @@ bind(form, result, (v) => {
   html += table(
     [
       o.preYears > 0 ? [`قبل 31 يوليو 2023: ${num(o.preYears, 2)} سنة (15 يوماً لأول 3 سنوات ثم شهر) = ${num(o.preMonths, 2)} شهر`, money(o.preAmount, cur)] : null,
-      o.postYears > 0 ? [`منذ 31 يوليو 2023: ${num(o.postYears, 2)} سنة × أجر شهر`, money(o.postAmount, cur)] : null,
+      o.postYears > 0 ? [`منذ 31 يوليو 2023: ${yearsAr(o.postYears)} × أجر شهر`, money(o.postAmount, cur)] : null,
       ["المكافأة المستحقة", money(o.total, cur), { strong: true }],
     ],
     "تفصيل الحساب"

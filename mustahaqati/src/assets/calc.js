@@ -108,11 +108,15 @@ export function uaeGratuity({ basicSalary, years }) {
 
 export const KSA_REASONS = {
   contract_end: "انتهاء مدة العقد أو إنهاؤه من صاحب العمل",
-  resignation: "استقالة العامل",
+  resignation: "استقالة من عقد محدد المدة (المادة 79 مكرر)",
+  worker_notice: "إنهاء العامل عقداً غير محدد المدة بإشعار (المادة 75)",
+  mutual: "اتفاق الطرفين كتابةً على الإنهاء",
+  article_81: "ترك العامل العمل لإحدى حالات المادة 81",
   resignation_marriage: "استقالة العاملة خلال 6 أشهر من الزواج",
   resignation_childbirth: "استقالة العاملة خلال 3 أشهر من الوضع",
   force_majeure: "ترك العمل لقوة قاهرة خارجة عن الإرادة (المادة 87)",
   article_80: "فسخ العقد لإحدى حالات المادة 80",
+  probation: "إنهاء العقد خلال فترة التجربة",
 };
 
 /**
@@ -136,7 +140,16 @@ export function ksaEndOfService({ wage, years, reason = "contract_end" }) {
   if (reason === "article_80") {
     fraction = 0;
     rule = "لا تُستحق المكافأة عند الفسخ لإحدى حالات المادة 80";
-  } else if (reason === "resignation") {
+  } else if (reason === "probation") {
+    fraction = 0;
+    rule = "لا تُستحق المكافأة عند إنهاء العقد خلال فترة التجربة (المادة 54)";
+  } else if (reason === "article_81") {
+    fraction = 1;
+    rule = "ترك العمل لإحدى حالات المادة 81 يحفظ حقوقك كلها: المكافأة كاملة (المادة 84)";
+  } else if (reason === "mutual") {
+    fraction = 1;
+    rule = "إنهاء العقد باتفاق الطرفين كتابةً: المكافأة كاملة (المادة 84)";
+  } else if (reason === "resignation" || reason === "worker_notice") {
     if (y < 2) {
       fraction = 0;
       rule = "استقالة قبل إكمال سنتين: لا تُستحق المكافأة (المادة 85)";
@@ -164,6 +177,7 @@ export function ksaEndOfService({ wage, years, reason = "contract_end" }) {
     fraction: Math.round(fraction * 1000) / 1000,
     rule,
     total: r2(total),
+    disputed: reason === "worker_notice" && fraction < 1,
   };
 }
 
@@ -843,4 +857,148 @@ export function dateDiff({ start, end, inclusive = false, weekend = "fri-sat" })
     if (!off.includes(wd)) work++;
   }
   return { sign, total, weeks: Math.floor(total / 7), restDays: total % 7, years: ymd.years, months: ymd.months, days: ymd.days, workDays: work, startWeekday: WEEKDAYS_AR[s.getUTCDay()], endWeekday: WEEKDAYS_AR[e.getUTCDay()] };
+}
+
+/* ------------------------------------------------------------------ */
+/* معاش التقاعد — السعودية (التأمينات) والإمارات (الهيئة العامة للمعاشات) */
+/* ------------------------------------------------------------------ */
+
+const yearsBetween = (a, b) => (toUTC(b) - toUTC(a)) / (365.2425 * 86400000);
+const monthsFromDur = (d, roundDays) => (d ? d.years * 12 + d.months + (d.days >= roundDays ? 1 : 0) : 0);
+
+/** تاريخ بلوغ عمر هجري معيّن (أم القرى)، مع بديل تقريبي إن لم يدعم المحرك التقويم. */
+function hijriBirthdayAt(birth, years) {
+  const h = hijriParts(toUTC(birth));
+  if (h) {
+    const y = h.year + years;
+    for (const day of [h.day, 29, 28]) {
+      if (day > h.day) continue;
+      const iso = hijriToGregorian({ year: y, month: h.month, day });
+      if (iso) return iso;
+    }
+  }
+  return isoOf(addDaysUTC(birth, Math.round(years * 354.367)));
+}
+
+/** السعودية — معاش التقاعد في النظامين القديم والجديد، مع الفئة الانتقالية. */
+export function ksaPension({ system = "legacy", birth, start, end, gapMonths = 0, avgWage }) {
+  const P = rules.sa.pension;
+  const avg = Math.max(0, Number(avgWage) || 0);
+  const dur = serviceDuration(start, end, 0);
+  if (!dur || !birth) return null;
+  const months = Math.max(0, monthsFromDur(dur, P.legacy.daysToCountAsMonth) - Math.max(0, Math.floor(Number(gapMonths) || 0)));
+  const ageAtEnd = yearsBetween(birth, end);
+  const out = { system, months, years: r2(months / 12), ageAtEnd: r2(ageAtEnd) };
+
+  if (system === "new") {
+    const N = P.new;
+    const normalDate = isoOf(addMonthsUTC(birth, N.retirementAge * 12));
+    const earliestEarly = isoOf(addMonthsUTC(birth, N.retirementAge * 12 - N.earlyMaxMonthsBefore));
+    const e = toUTC(end);
+    const atNormal = e >= toUTC(normalDate);
+    const base = Math.min(N.accrualPerYear * avg * (months / 12), N.maxPct * avg);
+    let status = "none", reduction = 0, deferral = 0, minimum = null;
+    if (atNormal && months >= N.minMonths) {
+      status = "normal";
+      const after = Math.max(0, Math.floor((e - toUTC(normalDate)) / (30.436875 * 86400000)));
+      deferral = N.deferralIncreasePerYear * (after / 12);
+      const m = Math.min(months, N.minPensionFullMonths);
+      minimum = N.minPensionFull - (N.minPensionFullMonths - m) * ((N.minPensionFull - N.minPensionFloor) / (N.minPensionFullMonths - N.minPensionFloorMonths));
+    } else if (!atNormal && months >= N.earlyMinMonths && e >= toUTC(earliestEarly)) {
+      status = "early";
+      const to65 = Math.max(0, Math.ceil((toUTC(normalDate) - e) / (30.436875 * 86400000)));
+      const short = Math.max(0, N.earlyReferenceMonths - months);
+      reduction = N.earlyReductionPerYear * (Math.min(to65, short) / 12);
+    }
+    let pension = 0;
+    if (status !== "none") {
+      pension = base * (1 - reduction) * (1 + deferral);
+      if (minimum && pension < minimum) pension = minimum;
+    }
+    return Object.assign(out, {
+      status, normalDate, earliestEarly, base: r2(base), reduction: Math.round(reduction * 10000) / 10000, deferral: Math.round(deferral * 10000) / 10000,
+      minimum: minimum === null ? null : r2(minimum), pension: r2(pension), pct: avg ? Math.round((pension / avg) * 10000) / 100 : 0,
+      earlyMonthsNeeded: N.earlyMinMonths, minMonths: N.minMonths,
+    });
+  }
+
+  // النظام القديم (ومنه الفئة الانتقالية)
+  const L = P.legacy, T = P.transitional;
+  const eff = T.effective;
+  const ageOnEff = yearsBetween(birth, eff);
+  const durEff = toUTC(start) < toUTC(eff) ? serviceDuration(start, eff, 0) : null;
+  const monthsOnEff = durEff ? monthsFromDur(durEff, L.daysToCountAsMonth) : 0;
+  const transitional = ageOnEff < T.affectedIfAgeBelow && monthsOnEff < T.affectedIfMonthsBelow;
+  let normalDate, earlyMonthsNeeded;
+  if (transitional) {
+    const row = T.ageTable.find(([a, b]) => ageOnEff >= a && ageOnEff < b) || T.ageTable[0];
+    normalDate = isoOf(addMonthsUTC(birth, row[2]));
+    const er = T.earlyTable.find(([a, b]) => monthsOnEff >= a && monthsOnEff < b);
+    earlyMonthsNeeded = er ? er[2] : L.earlyMinMonths;
+  } else {
+    normalDate = hijriBirthdayAt(birth, L.retirementAgeHijri);
+    earlyMonthsNeeded = L.earlyMinMonths;
+  }
+  const e = toUTC(end);
+  let status = "none";
+  if (e >= toUTC(normalDate) && months >= L.minMonths) status = "normal";
+  else if (months >= earlyMonthsNeeded) status = "early";
+  const raw = avg * (Math.min(months, L.divisorMonths) / L.divisorMonths);
+  let pension = 0;
+  if (status !== "none") pension = Math.max(Math.min(raw, L.maxPct * avg), L.minPension);
+  const lumpSum = status === "none" ? avg * (Math.min(months, 60) * L.lumpSumPctFirst60 + Math.max(0, months - 60) * L.lumpSumPctAfter60) : 0;
+  return Object.assign(out, {
+    status, transitional, ageOnEff: r2(ageOnEff), monthsOnEff, normalDate, earlyMonthsNeeded, minMonths: L.minMonths,
+    base: r2(Math.min(raw, avg)), minimum: L.minPension, pension: r2(pension), pct: avg ? Math.round((pension / avg) * 10000) / 100 : 0, lumpSum: r2(lumpSum),
+  });
+}
+
+/** السعودية — ساند: 60% من متوسط آخر 24 شهراً للأشهر الثلاثة الأولى (بحد 9,000)، ثم 50% (بحد 7,500)، حتى 12 شهراً. */
+export function ksaSaned({ avgWage, months = 12 }) {
+  const S = rules.sa.saned;
+  const avg = Math.max(0, Number(avgWage) || 0);
+  const n = Math.min(Math.max(0, Math.floor(Number(months) || 0)), S.maxMonths);
+  const first = Math.min(avg * S.pctFirst3, S.capFirst3);
+  const after = Math.min(avg * S.pctAfter3, S.capAfter3);
+  const m1 = Math.min(n, 3), m2 = Math.max(0, n - 3);
+  return { first: r2(first), after: r2(after), monthsFirst: m1, monthsAfter: m2, total: r2(m1 * first + m2 * after), cappedFirst: avg * S.pctFirst3 > S.capFirst3, cappedAfter: avg * S.pctAfter3 > S.capAfter3 };
+}
+
+/** الإمارات — معاش المواطن (الهيئة العامة للمعاشات): القانون الجديد 57/2023 أو القانون 7/1999. */
+export function uaePension({ birth, firstReg, end, avgSalary, gender = "m" }) {
+  const A = rules.ae.pension;
+  const avg = Math.max(0, Number(avgSalary) || 0);
+  const dur = serviceDuration(firstReg, end, 0);
+  if (!dur || !birth) return null;
+  const isNew = toUTC(firstReg) >= toUTC(A.new.from);
+  const L = isNew ? A.new : A.legacy;
+  const months = isNew ? monthsFromDur(dur, 1) : dur.years * 12 + dur.months + dur.days / 30;
+  const years = months / 12;
+  const age = yearsBetween(birth, end);
+  let pct = 0;
+  if (isNew) pct = Math.min(Math.min(years, L.breakYears) * L.accrualUpTo30 + Math.max(0, years - L.breakYears) * L.accrualOver30, L.maxPct);
+  else if (years >= L.baseYears) pct = Math.min(L.basePct + (years - L.baseYears) * L.stepPct, L.maxPct);
+  let status = "none", resignAge = null;
+  if (age >= L.retirementAge && years >= L.minYears) status = "normal";
+  else if (isNew && years >= L.earlyYears && age >= L.earlyAge) status = "early";
+  else if (!isNew) {
+    resignAge = toUTC(firstReg) < toUTC(L.cutoff2007) ? L.resignAgeBefore2007 : gender === "f" ? L.resignAgeWomen : L.resignAgeMenAfter2007;
+    if (years >= L.resignYears && age >= resignAge) status = "early";
+    else if (years >= L.resignYears) status = "deferred";
+  }
+  let pension = status === "normal" || status === "early" ? avg * pct : 0;
+  let topUp = 0;
+  if (isNew && pension > 0 && pension < L.minPension) {
+    topUp = L.minPension - pension;
+    pension = L.minPension;
+  }
+  const g = L.gratuity;
+  const gratuity = (status === "none" || status === "deferred") && years >= 1 ? avg * (Math.min(years, 5) * g[0] + Math.min(Math.max(years - 5, 0), 5) * g[1] + Math.max(years - 10, 0) * g[2]) : 0;
+  const bonusOver35 = years > 35 && (status === "normal" || status === "early") ? avg * 3 * Math.floor(years - 35) : 0;
+  const contribSalary = isNew ? Math.min(Math.max(avg, L.salaryMin), L.salaryMax) : Math.min(avg, L.salaryMax);
+  return {
+    law: isNew ? "new" : "legacy", months: r2(months), years: r2(years), age: r2(age), pct: Math.round(pct * 10000) / 100, status, resignAge,
+    pension: r2(pension), topUp: r2(topUp), gratuity: r2(gratuity), bonusOver35: r2(bonusOver35),
+    employeeContribution: r2(contribSalary * L.contribEmployee),
+  };
 }

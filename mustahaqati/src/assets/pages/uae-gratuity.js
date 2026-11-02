@@ -1,5 +1,5 @@
 import { serviceDuration, uaeGratuity, rules } from "../calc.js";
-import { bind, money, num, table, big, note, duration } from "../app.js";
+import { bind, money, num, table, big, note, duration, yearsAr, daysAr } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -23,9 +23,9 @@ bind(form, result, (v) => {
   html += table(
     [
       ["الأجر اليومي (الأساسي ÷ 30)", money(g.dailyWage, cur)],
-      [`السنوات الخمس الأولى: ${num(g.firstYears, 2)} سنة × ${R.daysFirstFiveYears} يوماً = ${num(g.firstDays, 1)} يوماً`, money(g.firstAmount, cur)],
+      [`السنوات الخمس الأولى: ${yearsAr(g.firstYears)} × ${R.daysFirstFiveYears} يوماً = ${daysAr(Math.round(g.firstDays * 10) / 10)}`, money(g.firstAmount, cur)],
       g.secondYears > 0
-        ? [`ما بعد السنة الخامسة: ${num(g.secondYears, 2)} سنة × ${R.daysAfterFiveYears} يوماً = ${num(g.secondDays, 1)} يوماً`, money(g.secondAmount, cur)]
+        ? [`ما بعد السنة الخامسة: ${yearsAr(g.secondYears)} × ${R.daysAfterFiveYears} يوماً = ${daysAr(Math.round(g.secondDays * 10) / 10)}`, money(g.secondAmount, cur)]
         : null,
       ["المجموع قبل السقف", money(g.gross, cur), { muted: !g.capped }],
       ["السقف القانوني (أجر سنتين = 24 × الأساسي)", money(g.cap, cur), { muted: true }],

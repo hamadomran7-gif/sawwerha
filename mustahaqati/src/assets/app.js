@@ -19,9 +19,9 @@ export function arDate(iso) {
   return isNaN(d) ? "—" : dfmt.format(d);
 }
 /** عدّ عربي سليم: 1 يوم واحد، 2 يومان، 3–10 أيام، 11+ يوماً. الكسور بصيغة المفرد. */
-function countAr(n, one, two, few, many, single) {
+function countAr(n, one, two, few, many, single, digits = 1) {
   const v = Number(n) || 0;
-  if (!Number.isInteger(v)) return `${num(v, 1)} ${single}`;
+  if (!Number.isInteger(v)) return `${num(v, digits)} ${single}`;
   if (v === 0) return `0 ${single}`;
   if (v === 1) return one;
   if (v === 2) return two;
@@ -32,6 +32,7 @@ export const daysAr = (n) => countAr(n, "يوم واحد", "يومان", "أيا
 export const hoursAr = (n) => countAr(n, "ساعة واحدة", "ساعتان", "ساعات", "ساعة", "ساعة");
 export const weeksAr = (n) => countAr(n, "أسبوع واحد", "أسبوعان", "أسابيع", "أسبوعاً", "أسبوع");
 export const monthsAr = (n) => countAr(n, "شهر واحد", "شهران", "أشهر", "شهراً", "شهر");
+export const yearsAr = (n) => countAr(n, "سنة واحدة", "سنتان", "سنوات", "سنة", "سنة", 2);
 export function pct(n, digits = 2) {
   return `${num(n, digits)}%`;
 }

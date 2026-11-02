@@ -370,3 +370,70 @@ test("الفرق بين تاريخين وأيام العمل", () => {
   assert.equal(inc.workDays, 21);
   assert.equal(dateDiff({ start: "2026-12-01", end: "2026-11-01" }).sign, -1);
 });
+
+import { ksaPension, ksaSaned, uaePension } from "../src/assets/calc.js";
+
+test("السعودية: أسباب الانتهاء الجديدة في حاسبة المكافأة", () => {
+  assert.equal(ksaEndOfService({ wage: 10000, years: 4, reason: "probation" }).total, 0);
+  near(ksaEndOfService({ wage: 10000, years: 4, reason: "article_81" }).total, 20000);
+  near(ksaEndOfService({ wage: 10000, years: 4, reason: "mutual" }).total, 20000);
+  const w = ksaEndOfService({ wage: 10000, years: 4, reason: "worker_notice" });
+  near(w.total, 6666.67);
+  assert.equal(w.disputed, true);
+  assert.equal(ksaEndOfService({ wage: 10000, years: 12, reason: "worker_notice" }).disputed, false);
+});
+
+test("السعودية: معاش النظام القديم والفئة الانتقالية", () => {
+  // غير مشمول بالتعديلات: عمره 50 في 2024 ومدته 300 شهر عند التقاعد
+  const a = ksaPension({ system: "legacy", birth: "1974-01-01", start: "2000-01-01", end: "2025-01-01", avgWage: 10000 });
+  assert.equal(a.transitional, false);
+  assert.equal(a.months, 300);
+  assert.equal(a.status, "early");
+  near(a.pension, 6250);
+  const low = ksaPension({ system: "legacy", birth: "1960-01-01", start: "2008-01-01", end: "2018-06-01", avgWage: 3000 });
+  assert.equal(low.status, "normal");
+  near(low.pension, 1983.75);
+  // انتقالي: عمره 35.5 ومدته 10 سنوات في 3/7/2024
+  const t = ksaPension({ system: "legacy", birth: "1989-01-03", start: "2014-07-03", end: "2030-01-01", avgWage: 10000 });
+  assert.equal(t.transitional, true);
+  assert.equal(t.earlyMonthsNeeded, 360);
+  assert.equal(t.normalDate, "2051-09-03");
+  assert.equal(t.status, "none");
+});
+
+test("السعودية: معاش النظام الجديد والمبكر بالخصم", () => {
+  const n = ksaPension({ system: "new", birth: "1965-01-01", start: "2005-01-01", end: "2030-01-01", avgWage: 10000 });
+  assert.equal(n.status, "normal");
+  near(n.pension, 5625);
+  const e = ksaPension({ system: "new", birth: "1972-01-01", start: "1995-01-01", end: "2030-01-01", avgWage: 10000 });
+  assert.equal(e.status, "early");
+  assert.equal(e.months, 420);
+  near(e.reduction, 0.15);
+  near(e.pension, 6693.75);
+  const e2 = ksaPension({ system: "new", birth: "1975-01-01", start: "2000-01-01", end: "2030-01-01", avgWage: 10000 });
+  near(e2.pension, 4725);
+});
+
+test("السعودية: ساند", () => {
+  near(ksaSaned({ avgWage: 8000, months: 12 }).total, 50400);
+  near(ksaSaned({ avgWage: 20000, months: 12 }).total, 94500);
+});
+
+test("الإمارات: معاش القانون الجديد والقديم ومكافأة عدم الاستحقاق", () => {
+  const a = uaePension({ birth: "1998-01-01", firstReg: "2023-11-01", end: "2053-10-31", avgSalary: 17500 });
+  assert.equal(a.law, "new");
+  assert.equal(a.status, "early");
+  near(a.years, 30);
+  near(a.pension, 14017.5);
+  const b = uaePension({ birth: "1978-01-01", firstReg: "2023-11-01", end: "2038-10-31", avgSalary: 18000 });
+  assert.equal(b.status, "normal");
+  near(b.pension, 10000);
+  near(b.topUp, 2791, 0.01);
+  const c = uaePension({ birth: "1990-01-01", firstReg: "2023-11-01", end: "2035-10-31", avgSalary: 15000 });
+  assert.equal(c.status, "none");
+  near(c.gratuity, 352500);
+  const d = uaePension({ birth: "1975-06-01", firstReg: "2006-01-01", end: "2025-12-31", avgSalary: 20000 });
+  assert.equal(d.law, "legacy");
+  assert.equal(d.status, "early");
+  near(d.pension, 14000);
+});

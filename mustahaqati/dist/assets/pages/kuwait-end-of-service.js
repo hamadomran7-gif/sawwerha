@@ -1,5 +1,5 @@
 import { serviceDuration, kuwaitIndemnity, KW_REASONS, rules } from "../calc.js";
-import { bind, money, num, table, big, note, duration } from "../app.js";
+import { bind, money, num, table, big, note, duration, yearsAr } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -16,8 +16,8 @@ bind(form, result, (v) => {
   html += table(
     [
       [`الأجر اليومي (الشهري ÷ ${k.divisor})`, money(k.dailyWage, cur)],
-      [`أول 5 سنوات: ${num(k.firstYears, 2)} سنة × ${R.daysFirst} يوماً`, money(k.firstAmount, cur)],
-      k.secondYears > 0 ? [`ما بعد الخامسة: ${num(k.secondYears, 2)} سنة × أجر شهر`, money(k.secondAmount, cur)] : null,
+      [`أول 5 سنوات: ${yearsAr(k.firstYears)} × ${R.daysFirst} يوماً`, money(k.firstAmount, cur)],
+      k.secondYears > 0 ? [`ما بعد الخامسة: ${yearsAr(k.secondYears)} × أجر شهر`, money(k.secondAmount, cur)] : null,
       ["السقف (أجر 18 شهراً)", money(k.cap, cur), { muted: !k.capped }],
       ["المكافأة الكاملة", money(k.gross, cur), { muted: k.fraction !== 1 }],
       ["النسبة المستحقة بحسب السبب", fr],

@@ -1,0 +1,77 @@
+---json
+{
+  "title": "حاسبة ساند 2026 — تعويض التعطل عن العمل في السعودية بالأرقام",
+  "h1": "حاسبة تعويض ساند (التأمين ضد التعطل عن العمل)",
+  "description": "احسب تعويض ساند في السعودية: 60% من متوسط أجرك في آخر 24 شهراً عن الأشهر الثلاثة الأولى بحد أقصى 9,000 ريال، ثم 50% بحد أقصى 7,500 ريال، لمدة أقصاها 12 شهراً، مع شروط الاستحقاق ولماذا لا يُصرف للمستقيل.",
+  "short": "60% ثم 50% من متوسط الأجر، حتى 12 شهراً، ولا يُصرف للمستقيل",
+  "lead": "أدخل متوسط أجرك الخاضع للاشتراك وعدد أشهر التعطل المتوقعة، ويظهر التعويض الشهري ومجموعه.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-saned.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": ["ksa-retirement-pension", "ksa-gosi", "ksa-end-of-service", "uae-iloe"],
+  "faq": [
+    {"q": "كم تعويض ساند؟", "a": "60% من متوسط الأجر الخاضع للاشتراك في آخر 24 شهراً عن كل شهر من الأشهر الثلاثة الأولى، بحد أقصى 9,000 ريال، ثم 50% لكل شهر بعدها بحد أقصى 7,500 ريال، ولمدة أقصاها 12 شهراً متصلة أو متقطعة."},
+    {"q": "هل يُصرف ساند للمستقيل؟", "a": "لا. من شروط التعويض ألا يكون ترك العمل بسبب عدم رغبة العامل في الاستمرار فيه، وألا يكون مفصولاً لسبب راجع إليه."},
+    {"q": "ما مدة الاشتراك المطلوبة؟", "a": "للمطالبة الأولى: 12 شهر اشتراك على الأقل خلال آخر 36 شهراً. وترتفع للمطالبات التالية: 18 ثم 24 شهراً خلال 36، ثم 36 خلال 48."},
+    {"q": "متى أقدّم الطلب؟", "a": "خلال 90 يوماً من ترك العمل، مع التسجيل لدى الجهة المختصة والبحث الجاد عن عمل. ويتوقف الصرف إذا حصلت على دخل من عمل، أو رفضت التدريب، أو غادرت المملكة أكثر من 60 يوماً."},
+    {"q": "كم يُخصم لساند من راتبي؟", "a": "0.75% على الموظف و0.75% على صاحب العمل من الأجر الخاضع للاشتراك (الأساسي والسكن)."}
+  ],
+  "sources": [
+    {"t": "التأمينات الاجتماعية — ساند (التحديثات)", "u": "https://gosi.gov.sa/GOSIOnline/saned_2023"},
+    {"t": "التأمينات الاجتماعية — توعية ساند", "u": "https://gosi.gov.sa/GOSIOnline/saned-Awareness1"},
+    {"t": "أم القرى — نظام التأمينات الاجتماعية الجديد (المواد 43–48)", "u": "https://www.uqn.gov.sa/details?p=25239"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تعويض ساند</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="avg">متوسط الأجر الخاضع للاشتراك في آخر 24 شهراً (ريال)</label>
+        <input type="number" id="avg" name="avg" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">الأساسي + السكن.</span>
+      </div>
+      <div class="field">
+        <label for="months">أشهر التعطل المتوقعة</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="12" step="1" value="12">
+      </div>
+      <div class="field full">
+        <label for="reason">سبب ترك العمل</label>
+        <select id="reason" name="reason">
+          <option value="employer">إنهاء من صاحب العمل أو انتهاء العقد أو إغلاق المنشأة</option>
+          <option value="resigned">استقالة أو ترك العمل برغبتي</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف يُحسب تعويض ساند؟</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الفترة</th><th scope="col">النسبة</th><th scope="col">الحد الأقصى الشهري</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الأشهر 1–3</th><td>60% من متوسط الأجر</td><td>9,000 ريال</td></tr>
+    <tr><th scope="row">الأشهر 4–12</th><td>50% من متوسط الأجر</td><td>7,500 ريال</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+متوسط 8,000 ريال وتعطل 12 شهراً: 3 × 4,800 + 9 × 4,000 = <strong>50,400 ريال</strong>.<br>
+متوسط 20,000 ريال: 60% = 12,000 تُقص إلى 9,000، و50% = 10,000 تُقص إلى 7,500، فالمجموع 3 × 9,000 + 9 × 7,500 = <strong>94,500 ريال</strong>.</p>
+</div>
+
+<p>ساند تعويض مؤقت لا يغني عن <a href="{{root}}ksa-end-of-service/{{ix}}">مكافأة نهاية الخدمة</a>، فاحسبهما معاً عند انتهاء عقدك.</p>
+</div>

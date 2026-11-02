@@ -134,6 +134,57 @@ export default {
       "law": "قرار مجلس الوزراء 1/2022 المادة 15 البند 2، والمرسوم بقانون اتحادي 33/2021 المادتان 17(4) و19(2)",
       "reductionHoursPerDay": 2,
       "overtimeBeyondReduced": "استنتاج من المادة 19(2)، تؤيده أعمدة قانونية، بلا نص رسمي صريح"
+    },
+    "pension": {
+      "new": {
+        "law": "المرسوم بقانون اتحادي 57/2023 بشأن المعاشات والتأمينات الاجتماعية (من 31 أكتوبر 2023)",
+        "from": "2023-10-31",
+        "avgMonths": 72,
+        "accrualUpTo30": 0.0267,
+        "accrualOver30": 0.04,
+        "breakYears": 30,
+        "maxPct": 1,
+        "retirementAge": 60,
+        "minYears": 15,
+        "earlyAge": 55,
+        "earlyYears": 30,
+        "minPension": 10000,
+        "contribEmployee": 0.11,
+        "contribEmployer": 0.15,
+        "govShare": 0.025,
+        "govShareBelow": 20000,
+        "salaryMin": 3000,
+        "salaryMax": 70000,
+        "gratuity": [
+          1.5,
+          2,
+          3
+        ]
+      },
+      "legacy": {
+        "law": "القانون الاتحادي 7/1999 وتعديلاته (لمن سُجّل قبل 31 أكتوبر 2023)",
+        "avgMonths": 60,
+        "basePct": 0.6,
+        "baseYears": 15,
+        "stepPct": 0.02,
+        "maxPct": 1,
+        "retirementAge": 60,
+        "minYears": 15,
+        "resignYears": 20,
+        "resignAgeBefore2007": 50,
+        "resignAgeMenAfter2007": 55,
+        "resignAgeWomen": 50,
+        "cutoff2007": "2007-02-28",
+        "contribEmployee": 0.05,
+        "contribEmployer": 0.125,
+        "govShare": 0.025,
+        "salaryMax": 50000,
+        "gratuity": [
+          1.5,
+          2,
+          3
+        ]
+      }
     }
   },
   "sa": {
@@ -175,7 +226,7 @@ export default {
       "pensionRateNewStep": 0.005,
       "pensionRateNewMax": 0.11,
       "newSystemStart": "2024-07-03",
-      "firstStepDate": "2025-07-03",
+      "firstStepDate": "2025-07-01",
       "sanedRate": 0.0075,
       "hazardsRate": 0.02,
       "wageCeiling": 45000,
@@ -254,6 +305,198 @@ export default {
       "law": "نظام العمل السعودي المادة 98",
       "muslimHoursPerDay": 6,
       "muslimHoursPerWeek": 36
+    },
+    "pension": {
+      "legacy": {
+        "law": "نظام التأمينات الاجتماعية (م/33 لعام 1421هـ) ولائحته: المعاش = متوسط آخر 24 شهراً × الأشهر ÷ 480",
+        "divisorMonths": 480,
+        "maxPct": 1,
+        "minPension": 1983.75,
+        "retirementAgeHijri": 60,
+        "minMonths": 120,
+        "earlyMinMonths": 300,
+        "avgMonths": 24,
+        "daysToCountAsMonth": 13,
+        "lumpSumPctFirst60": 0.1,
+        "lumpSumPctAfter60": 0.12
+      },
+      "transitional": {
+        "law": "المرسوم الملكي م/273 وقرار مجلس الوزراء 1022 (نافذ 3 يوليو 2024)",
+        "effective": "2024-07-03",
+        "affectedIfAgeBelow": 48.5,
+        "affectedIfMonthsBelow": 240,
+        "ageTable": [
+          [
+            0,
+            29,
+            780
+          ],
+          [
+            29,
+            30,
+            776
+          ],
+          [
+            30,
+            31,
+            772
+          ],
+          [
+            31,
+            32,
+            768
+          ],
+          [
+            32,
+            33,
+            764
+          ],
+          [
+            33,
+            34,
+            760
+          ],
+          [
+            34,
+            35,
+            756
+          ],
+          [
+            35,
+            36,
+            752
+          ],
+          [
+            36,
+            37,
+            748
+          ],
+          [
+            37,
+            38,
+            744
+          ],
+          [
+            38,
+            39,
+            740
+          ],
+          [
+            39,
+            40,
+            736
+          ],
+          [
+            40,
+            41,
+            732
+          ],
+          [
+            41,
+            42,
+            728
+          ],
+          [
+            42,
+            43,
+            724
+          ],
+          [
+            43,
+            44,
+            720
+          ],
+          [
+            44,
+            45,
+            716
+          ],
+          [
+            45,
+            46,
+            712
+          ],
+          [
+            46,
+            47,
+            708
+          ],
+          [
+            47,
+            48,
+            704
+          ],
+          [
+            48,
+            48.5,
+            700
+          ]
+        ],
+        "earlyTable": [
+          [
+            0,
+            180,
+            360
+          ],
+          [
+            180,
+            192,
+            348
+          ],
+          [
+            192,
+            204,
+            336
+          ],
+          [
+            204,
+            216,
+            324
+          ],
+          [
+            216,
+            228,
+            312
+          ],
+          [
+            228,
+            240,
+            300
+          ]
+        ]
+      },
+      "new": {
+        "law": "نظام التأمينات الاجتماعية (م/273 لعام 1445هـ) المواد 16 و17 و25 و26",
+        "effective": "2024-07-03",
+        "retirementAge": 65,
+        "minMonths": 180,
+        "avgHighestMonths": 180,
+        "accrualPerYear": 0.0225,
+        "maxPct": 1,
+        "earlyMinMonths": 360,
+        "earlyMaxMonthsBefore": 120,
+        "earlyReductionPerYear": 0.03,
+        "earlyReferenceMonths": 480,
+        "deferralIncreasePerYear": 0.03,
+        "minPensionFull": 4000,
+        "minPensionFullMonths": 480,
+        "minPensionFloor": 2000,
+        "minPensionFloorMonths": 180
+      }
+    },
+    "saned": {
+      "law": "نظام التأمينات الاجتماعية 1445 المواد 43–48، ونظام التأمين ضد التعطل (م/18 لعام 1435هـ)",
+      "avgMonths": 24,
+      "pctFirst3": 0.6,
+      "pctAfter3": 0.5,
+      "capFirst3": 9000,
+      "capAfter3": 7500,
+      "maxMonths": 12,
+      "windowMonths": 24,
+      "firstClaimMonths": 12,
+      "firstClaimWithin": 36,
+      "applyWithinDays": 90,
+      "maxAge": 60
     }
   },
   "gcc": {
