@@ -13,7 +13,7 @@ bind(form, result, (v) => {
   const k = kuwaitIndemnity({ wage: v.wage, years: d.decimalYears, reason: v.reason, divisor: Number(v.divisor) || 26 });
   const R = rules.kw.eos;
   const fr = k.fraction === 1 ? "Full" : k.fraction === 0 ? "None" : k.fraction > 0.6 ? "Two thirds" : "Half";
-  let html = big("Your end-of-service indemnity", m(k.total), `Service: ${durationEn(d)} (${numEn(d.decimalYears)} years)`);
+  let html = big("Your end-of-service indemnity", m(k.total), `Service: ${durationEn(d)}${d.months || d.days ? ` (${numEn(d.decimalYears)} years)` : ""}`);
   html += table(
     [
       [`Daily wage (monthly ÷ ${k.divisor})`, m(k.dailyWage)],

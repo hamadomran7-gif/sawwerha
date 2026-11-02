@@ -15,7 +15,7 @@ bind(form, result, (v) => {
   if (!g.eligible) {
     return big("End-of-service gratuity", m(0), `Service: ${durationEn(d)}`) + note("No gratuity is due before completing one year of continuous service (Article 51).", "warn");
   }
-  let html = big("Your end-of-service gratuity", m(g.total), `Service: ${durationEn(d)} (${numEn(d.decimalYears)} years)`);
+  let html = big("Your end-of-service gratuity", m(g.total), `Service: ${durationEn(d)}${d.months || d.days ? ` (${numEn(d.decimalYears)} years)` : ""}`);
   html += table(
     [
       ["Daily wage (basic ÷ 30)", m(g.dailyWage)],

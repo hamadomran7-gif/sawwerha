@@ -27,7 +27,7 @@ bind(form, result, (v) => {
   if (!d) return note("The last working day must be after the start date.", "bad");
   const e = ksaEndOfService({ wage: v.wage, years: d.decimalYears, reason: v.reason });
   const frac = e.fraction === 1 ? "Full" : e.fraction === 0 ? "None" : e.fraction > 0.5 ? "Two thirds" : "One third";
-  let html = big("Your end-of-service award", m(e.total), `Service: ${durationEn(d)} (${numEn(d.decimalYears)} years)`);
+  let html = big("Your end-of-service award", m(e.total), `Service: ${durationEn(d)}${d.months || d.days ? ` (${numEn(d.decimalYears)} years)` : ""}`);
   html += table(
     [
       [`First five years: ${plural(e.firstYears, "year")} × half a month`, m(e.firstAmount)],
