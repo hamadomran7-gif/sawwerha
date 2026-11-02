@@ -157,3 +157,34 @@ test("الباقات تحدد عدد المدخلات", () => {
   assert.equal(PACKAGES.LAUNCH.maxInputs, 5);
   assert.equal(PACKAGES.SINGLE.maxInputs, 1);
 });
+
+import { extractRefCode, referralInviteText } from "../src/flow.js";
+
+test("الإحالة: التقاط الكود من أول رسالة وربطه", () => {
+  assert.equal(extractRefCode("مرحباً، أرسلني صديق إلى صوّرها (كود: g2djf8) وأريد صوري"), "G2DJF8");
+  assert.equal(extractRefCode("Hi, a friend sent me (code: PX2K6V)"), "PX2K6V");
+  assert.equal(extractRefCode("كود الخصم ABCDEFG"), null);
+  assert.equal(extractRefCode("السلام عليكم"), null);
+  const r = handleInbound({ customer: { phone: "x", state: "new" }, order: null, msg: { type: "text", text: "مرحباً (كود: G2DJF8)" }, env: {} });
+  assert.ok(r.actions.some((a) => a.type === "set_referrer" && a.code === "G2DJF8"));
+  const old = handleInbound({ customer: { phone: "x", state: "offer", last_seen: "now" }, order: null, msg: { type: "text", text: "كود: G2DJF8" }, env: {} });
+  assert.ok(!old.actions.some((a) => a.type === "set_referrer"));
+});
+
+test("الإحالة: العيّنة الإضافية المكتسبة تسمح بعيّنة ثانية", () => {
+  const msg = { type: "image", mediaId: "M" };
+  const blocked = handleInbound({ customer: { phone: "x", state: "offer", last_seen: "now", samples_used: 1, bonus_samples: 0 }, order: null, msg, env: {} });
+  assert.ok(!blocked.actions.some((a) => a.type === "create_sample_order"));
+  const ok = handleInbound({ customer: { phone: "x", state: "offer", last_seen: "now", samples_used: 1, bonus_samples: 1 }, order: null, msg, env: {} });
+  assert.ok(ok.actions.some((a) => a.type === "create_sample_order"));
+});
+
+test("الإحالة: دعوة صديق بعد تسليم باقة مدفوعة فقط", () => {
+  const pkg = deliveryActions({ order: { kind: "package", outputs: "[]" }, customer: { lang: "ar" }, env: {} });
+  assert.ok(pkg.actions.some((a) => a.type === "referral_invite"));
+  const sample = deliveryActions({ order: { kind: "sample", outputs: "[]" }, customer: { lang: "ar" }, env: {} });
+  assert.ok(!sample.actions.some((a) => a.type === "referral_invite"));
+  const txt = referralInviteText("ar", "G2DJF8", {});
+  assert.match(txt, /wa\.me\/971507241548\?text=/);
+  assert.match(decodeURIComponent(txt), /كود: G2DJF8/);
+});

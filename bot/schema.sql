@@ -9,9 +9,13 @@ CREATE TABLE IF NOT EXISTS customers (
   category TEXT,
   active_order INTEGER,
   samples_used INTEGER DEFAULT 0,
+  ref_code TEXT,                   -- كود الإحالة الخاص بالعميل
+  referred_by TEXT,                -- رقم من أحاله (إن وُجد)
+  bonus_samples INTEGER DEFAULT 0, -- عيّنات مجانية إضافية مكتسبة من الإحالات
   created_at TEXT DEFAULT (datetime('now')),
   last_seen TEXT DEFAULT (datetime('now'))
 );
+CREATE UNIQUE INDEX IF NOT EXISTS idx_customers_ref ON customers(ref_code) WHERE ref_code IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

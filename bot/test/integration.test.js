@@ -247,3 +247,34 @@ test("واجهة الوكيل محمية", async () => {
   const r = await worker.fetch(new Request("https://bot.test/api/jobs/next"), env, ctx());
   assert.equal(r.status, 401);
 });
+
+test("الإحالة: صديق يشتري أول باقة ← عيّنة مجانية إضافية للمُحيل (مرة واحدة)", async () => {
+  const REFERRER = CUSTOMER;
+  const ref = await env.DB.prepare("SELECT ref_code, bonus_samples FROM customers WHERE phone = ?").bind(REFERRER).first();
+  assert.match(ref.ref_code, /^[A-Z2-9]{6}$/); // أُنشئ مع رسالة الدعوة بعد تسليم الباقة
+  assert.ok(sent.some((m) => m.to === REFERRER && /شارك صوّرها/.test(m.text?.body || "")));
+  const FRIEND = "971500000020";
+  await inbound({ from: FRIEND, type: "text", text: { body: `مرحباً، أرسلني صديق إلى صوّرها (كود: ${ref.ref_code}) وأريد صور منتجي الثلاث المجانية` } });
+  const f = await env.DB.prepare("SELECT referred_by FROM customers WHERE phone = ?").bind(FRIEND).first();
+  assert.equal(f.referred_by, REFERRER);
+  // الصديق يختار باقة ويدفع
+  await inbound({ from: FRIEND, type: "interactive", interactive: { type: "list_reply", list_reply: { id: "pkg_SINGLE", title: "x" } } });
+  const order = await env.DB.prepare("SELECT id FROM orders WHERE phone = ? AND kind = 'package'").bind(FRIEND).first();
+  const before = sent.length;
+  await inbound({ from: env.OWNER_PHONE, type: "text", text: { body: `paid ${order.id}` } });
+  const r1 = await env.DB.prepare("SELECT bonus_samples FROM customers WHERE phone = ?").bind(REFERRER).first();
+  assert.equal(r1.bonus_samples, (ref.bonus_samples || 0) + 1);
+  assert.ok(sent.slice(before).some((m) => m.to === REFERRER && /صديقك اشترى/.test(m.text?.body || "")));
+  // شراء ثانٍ من الصديق لا يمنح رصيداً جديداً
+  await env.DB.prepare("UPDATE orders SET status = 'delivered' WHERE phone = ?").bind(FRIEND).run();
+  await env.DB.prepare("UPDATE customers SET state = 'delivered' WHERE phone = ?").bind(FRIEND).run();
+  await inbound({ from: FRIEND, type: "interactive", interactive: { type: "list_reply", list_reply: { id: "pkg_LAUNCH", title: "x" } } });
+  const order2 = await env.DB.prepare("SELECT id FROM orders WHERE phone = ? AND package_code = 'LAUNCH'").bind(FRIEND).first();
+  await inbound({ from: env.OWNER_PHONE, type: "text", text: { body: `paid ${order2.id}` } });
+  const r2 = await env.DB.prepare("SELECT bonus_samples FROM customers WHERE phone = ?").bind(REFERRER).first();
+  assert.equal(r2.bonus_samples, r1.bonus_samples);
+  // لا إحالة ذاتية
+  await inbound({ from: "971500000021", type: "text", text: { body: "مرحبا" } });
+  const own = await env.DB.prepare("SELECT ref_code FROM customers WHERE phone = ?").bind(FRIEND).first();
+  assert.equal(own.ref_code, null);
+});

@@ -1,5 +1,6 @@
 // صوّرها — بوت واتساب على Cloudflare Workers
-import { handleInbound, deliveryActions, paidActions, paymentLinkMessage, PACKAGES, prices } from "./flow.js";
+import { handleInbound, deliveryActions, paidActions, paymentLinkMessage, PACKAGES, prices, referralInviteText, referralCreditedText } from "./flow.js";
+import { instagramTick, REELS } from "./social.js";
 import * as wa from "./wa.js";
 import * as db from "./db.js";
 import { createPaymentLink, isPaid } from "./payments.js";
@@ -127,6 +128,17 @@ async function execute(env, customer, order, actions) {
         }
         break;
       }
+      case "set_referrer":
+        await db.setReferrer(env.DB, to, a.code);
+        break;
+      case "referral_invite": {
+        const code = await db.ensureRefCode(env.DB, to);
+        if (!code) break;
+        const body = referralInviteText(customer.lang || "ar", code, env);
+        await wa.sendText(env, to, body);
+        await db.logMessage(env.DB, { phone: to, direction: "out", type: "text", body });
+        break;
+      }
       default:
         break;
     }
@@ -162,6 +174,22 @@ async function ownerCommand(env, text) {
     await markPaid(env, o);
     return `تم تأكيد دفع الطلب #${arg} وإبلاغ العميل.`;
   }
+  if (/^(احالات|إحالات|referrals)$/i.test(cmd)) {
+    const r = await db.referralStats(env.DB);
+    const top = r.top.map((x) => `${x.phone}: ${x.n}`).join("\n") || "لا توجد إحالات بعد";
+    return `الإحالات المدفوعة: ${r.paidReferrals}\nأكثر المُحيلين:\n${top}`;
+  }
+  if (/^(انستغرام|instagram|ig)$/i.test(cmd)) {
+    if (!env.IG_USER_ID || !env.IG_TOKEN) return "النشر الآلي على إنستغرام غير مفعّل بعد (ينقص IG_USER_ID وIG_TOKEN).";
+    const last = await db.getMeta(env.DB, "ig_last_date");
+    const next = Number((await db.getMeta(env.DB, "ig_next_index")) || 0) % REELS.length;
+    const pending = await db.getMeta(env.DB, "ig_pending");
+    return `إنستغرام: آخر نشر ${last || "لا شيء"} · التالي ${REELS[next].file}${pending ? " · قيد المعالجة" : ""}`;
+  }
+  if (/^(نشر|post)$/i.test(cmd)) {
+    await db.setMeta(env.DB, "ig_force", "1");
+    return "سيُنشر المقطع التالي على إنستغرام خلال 5 دقائق (إن كان النشر مفعّلاً).";
+  }
   if (/^(pause|ايقاف|إيقاف)$/i.test(cmd)) {
     await db.setMeta(env.DB, "paused", "1");
     return "تم إيقاف استقبال الطلبات.";
@@ -170,7 +198,7 @@ async function ownerCommand(env, text) {
     await db.setMeta(env.DB, "paused", "0");
     return "عادت الخدمة للعمل.";
   }
-  return "الأوامر: تقرير [أيام] · status · paid <رقم الطلب> · pause · resume";
+  return "الأوامر: تقرير [أيام] · status · paid <رقم الطلب> · احالات · انستغرام · نشر · pause · resume";
 }
 
 function formatReport(r) {
@@ -192,6 +220,20 @@ async function markPaid(env, order) {
   const { actions, state } = paidActions({ order, customer });
   await execute(env, customer, order, actions);
   await db.updateCustomer(env.DB, order.phone, { state, active_order: order.id });
+  // الإحالة: أول شراء لعميل مُحال يمنح المُحيل عيّنة مجانية إضافية
+  try {
+    const referrer = await db.creditReferral(env.DB, order);
+    if (referrer) {
+      const r = await db.getCustomer(env.DB, referrer);
+      try {
+        await wa.sendText(env, referrer, referralCreditedText(r?.lang || "ar"));
+      } catch {
+        // خارج نافذة 24 ساعة في واتساب: يُطبَّق الرصيد تلقائياً عند أول صورة يرسلها
+      }
+    }
+  } catch (e) {
+    console.error("referral credit failed", e);
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -364,6 +406,12 @@ async function cron(env) {
     await weeklyReport(env);
   } catch (e) {
     console.error("weekly report failed", e);
+  }
+  // 0ب) النشر الآلي على إنستغرام (يعمل فقط عند ضبط IG_USER_ID وIG_TOKEN)
+  try {
+    await instagramTick(env, { get: (k) => db.getMeta(env.DB, k), set: (k, v) => db.setMeta(env.DB, k, v) }, (m) => notifyOwner(env, m));
+  } catch (e) {
+    console.error("instagram tick failed", e);
   }
   // 1) المدفوعات المعلّقة
   const pending = await env.DB.prepare("SELECT * FROM orders WHERE status = 'awaiting_payment' AND payment_id IS NOT NULL ORDER BY id DESC LIMIT 50").all();

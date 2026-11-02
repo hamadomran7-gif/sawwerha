@@ -44,3 +44,6 @@ WA_API_VERSION = "v21.0"
 # OWNER_PHONE        رقم المالك بصيغة دولية بلا + (لأوامر التقرير وتأكيد الدفع)
 # ZIINA_API_KEY      اختياري: لإنشاء روابط دفع آلياً
 # ANTHROPIC_API_KEY  اختياري: للرد على الأسئلة الحرة
+# IG_USER_ID         اختياري: معرّف حساب إنستغرام الاحترافي (للنشر الآلي للريلز)
+# IG_TOKEN           اختياري: رمز وصول طويل الأمد بصلاحية instagram_content_publish
+# (متغيرات اختيارية: IG_POST_HOUR=20 بتوقيت الخليج، IG_GRAPH_VERSION=v23.0، WA_PUBLIC_NUMBER=971507241548)

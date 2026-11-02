@@ -124,7 +124,31 @@ const T = {
     en: "I didn't get that. Send your product photo to start, or choose from the menu:",
   },
   paused: { ar: "الخدمة متوقفة مؤقتاً للصيانة وستعود قريباً. اعتذر عن الإزعاج.", en: "The service is paused for maintenance and will be back soon. Sorry for the inconvenience." },
+  referralInvite: {
+    ar: (link) => `🎁 شارك صوّرها واربح: أرسل هذا الرابط لصديق عنده متجر:\n${link}\nعندما يشتري أول باقة، تحصل على عيّنة مجانية إضافية (3 صور) لمنتج جديد.`,
+    en: (link) => `🎁 Share Sawwerha: send this link to a friend who runs a shop:\n${link}\nWhen they buy their first pack, you get an extra free sample (3 images) for a new product.`,
+  },
+  referralCredited: {
+    ar: "🎉 صديقك اشترى من صوّرها! حصلت على عيّنة مجانية إضافية: أرسل صورة منتج جديد متى شئت.",
+    en: "🎉 Your friend just bought from Sawwerha! You've earned an extra free sample: send a new product photo any time.",
+  },
 };
+
+/** رسالة دعوة صديق مع رابط واتساب يحمل كود الإحالة. */
+export function referralInviteText(lang, code, env = {}) {
+  const number = env.WA_PUBLIC_NUMBER || "971507241548";
+  const msg = lang === "en" ? `Hi, a friend sent me to Sawwerha (code: ${code}) and I want my 3 free product photos` : `مرحباً، أرسلني صديق إلى صوّرها (كود: ${code}) وأريد صور منتجي الثلاث المجانية`;
+  return t("referralInvite", lang, `https://wa.me/${number}?text=${encodeURIComponent(msg)}`);
+}
+export function referralCreditedText(lang) {
+  return t("referralCredited", lang);
+}
+
+/** يلتقط كود الإحالة من أول رسالة (مثل «كود: G2DJF8» أو «code: G2DJF8»). */
+export function extractRefCode(text) {
+  const m = String(text || "").match(/(?:كود|code)\s*(?:صديق|friend)?\s*[:：]?\s*([A-Za-z0-9]{6})(?![A-Za-z0-9])/i);
+  return m ? m[1].toUpperCase() : null;
+}
 
 const t = (key, lang, ...args) => {
   const v = T[key][lang] || T[key].ar;
@@ -303,7 +327,7 @@ export function handleInbound({ customer, order, msg, env, paused = false }) {
       return { actions, state };
     }
     // عيّنة مجانية
-    if ((customer.samples_used || 0) >= freeLimit) {
+    if ((customer.samples_used || 0) >= freeLimit + (customer.bonus_samples || 0)) {
       say(t("sampleLimit", lang));
       actions.push(packageList(lang, p));
       return { actions, state: "offer" };
@@ -342,6 +366,8 @@ export function handleInbound({ customer, order, msg, env, paused = false }) {
     }
     const faq = matchFaq(text);
     if (state === "new" || !customer.last_seen) {
+      const ref = extractRefCode(text);
+      if (ref) actions.push({ type: "set_referrer", code: ref });
       say(t("welcome", lang, brand));
       if (faq === "faq_price") actions.push(packageList(lang, p));
       return { actions, state: "awaiting_photo" };
@@ -395,6 +421,7 @@ export function deliveryActions({ order, customer, env }) {
       { id: "faq_refund", title: lang === "en" ? "Refund policy" : "سياسة الاسترداد" },
     ],
   });
+  actions.push({ type: "referral_invite" });
   return { actions, state: "delivered" };
 }
 
