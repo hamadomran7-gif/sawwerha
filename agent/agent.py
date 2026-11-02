@@ -24,7 +24,7 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-4"
+AGENT_VERSION = "2026.11.02-5"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -135,7 +135,9 @@ _lightning = {"name": None, "downloading": False}
 
 def lightning_name(cfg: dict, comfy):
     """اسم ملف Lightning إن كان ComfyUI يراه؛ وإلا يبدأ تنزيله في الخلفية مرة واحدة."""
-    if comfy is None or not cfg.get("lightning", True):
+    # معطّل افتراضياً: تطبيق LoRA على نموذج fp8 بحجم 20 GB جمّد ComfyUI (نفاد الذاكرة) في اختبار 2026-11-02.
+    # يُفعَّل بـ "lightning": true في config.json بعد التحقق من الذاكرة.
+    if comfy is None or not cfg.get("lightning", False):
         return None
     name = cfg.get("lightning_lora", LIGHTNING_LORA)
     try:
@@ -260,7 +262,7 @@ def main():
     last_update_check = time.time()
     last_rev = None
     log.info("agent %s started (dry_run=%s)", AGENT_VERSION, cfg.get("dry_run", False))
-    if comfy is not None and comfy.alive():
+    if comfy is not None and cfg.get("lightning", False) and comfy.alive():
         lightning_name(cfg, comfy)  # يبدأ تنزيل Lightning مبكراً إن لم يكن موجوداً
 
     while True:
