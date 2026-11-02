@@ -221,6 +221,8 @@ function build({ check = false, preview = false } = {}) {
     .join("\n")}\n</urlset>\n`;
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemap);
   fs.writeFileSync(path.join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
+  // ملفات إثبات الملكية (Google Search Console وغيره) من site.json → verification: ["googleXXXX.html", ...]
+  for (const v of site.verification || []) fs.writeFileSync(path.join(DIST, v), `google-site-verification: ${v}`);
   fs.writeFileSync(path.join(DIST, "_headers"), `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: SAMEORIGIN\n`);
 
   if (check) checkLinks(pages);
