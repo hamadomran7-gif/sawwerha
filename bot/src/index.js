@@ -8,6 +8,9 @@ import { putMedia, getMedia } from "./media.js";
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json; charset=utf-8" } });
 const unauthorized = () => json({ error: "unauthorized" }, 401);
 
+// أرقام الاختبار الداخلية (971000000xxx): تُنتَج صورها دون تسليم عبر واتساب
+const isTestPhone = (phone) => /^971000000\d{3}$/.test(String(phone || ""));
+
 function agentAuthed(request, env) {
   const h = request.headers.get("Authorization") || "";
   return env.AGENT_TOKEN && h === `Bearer ${env.AGENT_TOKEN}`;
@@ -294,6 +297,11 @@ async function handleAgent(request, env, url) {
     const outputs = Array.isArray(body.outputs) && body.outputs.length ? body.outputs : JSON.parse(o.outputs || "[]");
     if (!outputs.length) return json({ error: "no outputs" }, 400);
     await db.updateOrder(env.DB, id, { outputs: JSON.stringify(outputs), status: "done", error: null });
+    if (isTestPhone(o.phone)) {
+      // طلب اختبار داخلي: لا تسليم عبر واتساب
+      await db.updateOrder(env.DB, id, { status: "delivered", delivered_at: new Date().toISOString() });
+      return json({ ok: true, test: true });
+    }
     const customer = await db.getCustomer(env.DB, o.phone);
     const order = await db.getOrder(env.DB, id);
     try {
