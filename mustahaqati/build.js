@@ -37,11 +37,12 @@ const CATEGORY_NAMES = {
   salary: "الراتب والتأمينات",
   leave: "الإجازات والعمل الإضافي",
   finance: "القروض والتمويل",
+  fees: "الإقامة والرسوم الحكومية",
   property: "العقار",
   tax: "الضرائب",
   tools: "أدوات عامة",
 };
-const CATEGORY_ORDER = ["eos", "salary", "leave", "finance", "property", "tax", "tools"];
+const CATEGORY_ORDER = ["eos", "salary", "leave", "finance", "fees", "property", "tax", "tools"];
 
 function esc(s) {
   return String(s)

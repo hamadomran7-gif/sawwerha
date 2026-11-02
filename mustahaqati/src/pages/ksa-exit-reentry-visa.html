@@ -1,0 +1,110 @@
+---json
+{
+  "title": "حاسبة رسوم الخروج والعودة 2026 — مفردة ومتعددة والتمديد من خارج السعودية",
+  "h1": "حاسبة رسوم تأشيرة الخروج والعودة في السعودية",
+  "description": "احسب رسوم تأشيرة الخروج والعودة في السعودية: المفردة 200 ريال لشهرين و100 لكل شهر إضافي، والمتعددة 500 ريال لثلاثة أشهر و200 لكل شهر إضافي، والتمديد من خارج المملكة بضعف رسم الشهر، لكل فرد من الأسرة.",
+  "short": "مفردة 200 لشهرين، ومتعددة 500 لثلاثة أشهر، والتمديد من الخارج بالضعف",
+  "lead": "اختر نوع التأشيرة ومدتها وعدد المسافرين، وأضف أي تمديد تحتاجه، وتظهر الرسوم للفرد وللأسرة.",
+  "country": "sa",
+  "category": "fees",
+  "tool": true,
+  "script": "ksa-exit-reentry-visa.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-dependents-fee", "ksa-annual-leave", "date-difference", "hijri-gregorian-converter"],
+  "faq": [
+    {"q": "كم رسوم الخروج والعودة المفردة؟", "a": "200 ريال لسفرة واحدة مدتها حتى شهرين، و100 ريال عن كل شهر إضافي. وجزء الشهر يُحسب شهراً كاملاً: 61 يوماً = 300 ريال."},
+    {"q": "كم رسوم الخروج والعودة المتعددة؟", "a": "500 ريال لعدة سفرات خلال 3 أشهر، و200 ريال عن كل شهر إضافي: 6 أشهر = 1,100 ريال، و91 يوماً = 700 ريال."},
+    {"q": "كم رسوم تمديد الخروج والعودة وأنا خارج المملكة؟", "a": "رسم الشهر الإضافي يُضاعف لمن هو خارج المملكة: 200 ريال للشهر في المفردة و400 في المتعددة، بشرط سريان التأشيرة والإقامة، ولا يُمدد إذا بقي على هوية مقيم أقل من 90 يوماً."},
+    {"q": "هل تُسترد رسوم الخروج والعودة عند الإلغاء؟", "a": "لا. أعلنت الجوازات أن رسوم التأشيرة الملغاة لا تُرد."},
+    {"q": "كم رسوم الخروج النهائي؟", "a": "لا رسم حكومياً منشوراً لتأشيرة الخروج النهائي، لكن يجب سداد رسوم المرافقين حتى تاريخ الطلب والمخالفات المرورية، وأن يكون الجواز سارياً 60 يوماً. وتُستخدم خلال 60 يوماً وإلا فغرامة 1,000 ريال."},
+    {"q": "من يدفع رسوم الخروج والعودة؟", "a": "رسوم تأشيرة العامل نفسه على صاحب العمل بحكم المادة 40 من نظام العمل، ورسوم تأشيرات أفراد الأسرة على رب الأسرة. ولكل فرد تأشيرة مستقلة ورسم مستقل."}
+  ],
+  "sources": [
+    {"t": "الاقتصاد — قرار تعديل رسوم التأشيرات النافذ من 1/1/1438هـ", "u": "https://www.aleqtsad.org/?p=46515"},
+    {"t": "عاجل عن الجوازات — أمثلة 61 يوماً و91 يوماً", "u": "https://ajel.sa/local/xtr2nh"},
+    {"t": "اليوم السابع — مضاعفة رسم الشهر الإضافي لمن هو خارج المملكة", "u": "https://www.youm7.com/6031814"},
+    {"t": "Gulf News — رسوم التأشيرة الملغاة لا تُرد (2025)", "u": "https://gulfnews.com/world/gulf/saudi/saudi-arabia-no-refunds-for-canceled-exit-and-re-entry-visas-1.500163506"},
+    {"t": "عكاظ عن الجوازات — الدخول حتى آخر يوم من صلاحية التأشيرة", "u": "https://www.okaz.com.sa/ampArticle/2140970"},
+    {"t": "وزارة الموارد البشرية — المادة 40 من نظام العمل", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/64434"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب رسوم التأشيرة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="type">نوع التأشيرة</label>
+        <select id="type" name="type">
+          <option value="single" selected>مفردة (سفرة واحدة)</option>
+          <option value="multiple">متعددة (عدة سفرات)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="days">مدة التأشيرة (أيام)</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="730" step="1" value="60" required>
+        <span class="hint">الشهر 30 يوماً، وجزء الشهر يُحسب شهراً كاملاً.</span>
+      </div>
+      <div class="field">
+        <label for="persons">عدد المسافرين</label>
+        <input type="number" id="persons" name="persons" inputmode="decimal" min="1" max="30" step="1" value="1">
+        <span class="hint">لكل فرد من الأسرة تأشيرة ورسم مستقل.</span>
+      </div>
+      <div class="field">
+        <label for="extendMonths">أشهر التمديد (إن وجدت)</label>
+        <input type="number" id="extendMonths" name="extendMonths" inputmode="decimal" min="0" max="24" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="where">مكانك عند التمديد</label>
+        <select id="where" name="where">
+          <option value="inside" selected>داخل المملكة</option>
+          <option value="outside">خارج المملكة (رسم الشهر مضاعف)</option>
+        </select>
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="worker" name="worker" checked>
+        <label for="worker">أحد المسافرين هو العامل نفسه (رسمه على صاحب العمل)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>جدول رسوم الخروج والعودة بحسب المدة</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المدة</th><th scope="col">مفردة</th><th scope="col">متعددة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">حتى شهرين (60 يوماً)</th><td>200</td><td>500</td></tr>
+    <tr><th scope="row">3 أشهر (90 يوماً)</th><td>300</td><td>500</td></tr>
+    <tr><th scope="row">4 أشهر</th><td>400</td><td>700</td></tr>
+    <tr><th scope="row">6 أشهر</th><td>600</td><td>1,100</td></tr>
+    <tr><th scope="row">12 شهراً</th><td>1,200</td><td>2,300</td></tr>
+    <tr><th scope="row">تمديد شهر من الداخل</th><td>100</td><td>200</td></tr>
+    <tr><th scope="row">تمديد شهر من الخارج</th><td>200</td><td>400</td></tr>
+  </tbody>
+</table>
+</div>
+<p>المبالغ بالريال للفرد الواحد. مدة التأشيرة لا تتجاوز صلاحية الإقامة، ولا تصدر إلا والمستفيد داخل المملكة وإقامته سارية وجوازه سارٍ 90 يوماً فأكثر.</p>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+أسرة من 5 (العامل وزوجته و3 أطفال) بتأشيرة مفردة 3 أشهر: 5 × 300 = <strong>1,500 ريال</strong>، منها 300 على صاحب العمل و1,200 على رب الأسرة.<br>
+تمديد شهر للجميع وهم خارج المملكة: 5 × 200 = <strong>1,000 ريال</strong>.<br>
+متعددة مُدِّدت شهرين من الخارج: 2 × 400 = <strong>800 ريال</strong>.</p>
+</div>
+
+<h2>شروط مهمة قبل السفر</h2>
+<ul>
+  <li>تُسدَّد <a href="{{root}}ksa-dependents-fee/{{ix}}">رسوم المرافقين</a> أولاً، ثم تصدر تأشيرة كل فرد من خدمات أفراد الأسرة في أبشر.</li>
+  <li>الدخول مسموح حتى آخر يوم من صلاحية التأشيرة، والرسوم لا تُرد عند الإلغاء.</li>
+  <li>لا تُمدد التأشيرة إذا بقي على هوية مقيم أقل من 90 يوماً؛ جدّد الإقامة أولاً.</li>
+  <li>الخروج النهائي بلا رسم حكومي منشور، ويُستخدم خلال 60 يوماً وإلا فغرامة 1,000 ريال.</li>
+</ul>
+</div>

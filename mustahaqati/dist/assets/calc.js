@@ -1142,3 +1142,95 @@ export function ksaExitReentryFee({ type = "single", days = 60, persons = 1, ext
   const p = Math.max(1, Math.floor(Number(persons) || 1));
   return { months, base, perExtMonth, extension: ext, perPerson: base + ext, total: (base + ext) * p, persons: p };
 }
+
+/* ------------------------------------------------------------------ */
+/* التمويل العقاري في السعودية                                          */
+/* ------------------------------------------------------------------ */
+
+/** عامل الخصم لقسط ثابت على رصيد متناقص: القرض = القسط × العامل. */
+export function annuityFactor(aprPct, months) {
+  const r = Number(aprPct) / 100 / 12;
+  const n = Math.max(1, Math.round(months));
+  return r > 0 ? (1 - Math.pow(1 + r, -n)) / r : n;
+}
+
+/**
+ * أقصى تمويل عقاري: الأصغر بين حد الاستقطاع (مبادئ التمويل المسؤول) وحد نسبة التمويل إلى القيمة والمبلغ المطلوب فعلاً.
+ * capMode: auto (55% حتى 15,000 ثم 65%) | regulatory (65% للمدعوم حتى 15,000 كما في النص) | high70 (70% لدخل 25,000 فأكثر).
+ */
+export function ksaMortgage({
+  salary = 0, otherIncome = 0, personal = 0, otherDebts = 0, retiree = false,
+  price = 0, apr = 6.5, years = 25, age = 35, maxAge, tenorCap,
+  citizen = true, firstHome = true, lender = "bank", support = "none", redfReduced = false, capMode = "auto",
+}) {
+  const H = rules.sa.homeFinance;
+  const G = Math.max(0, Number(salary) || 0);
+  const I = G + H.otherIncomeWeight * Math.max(0, Number(otherIncome) || 0);
+  const S = Math.max(0, Number(personal) || 0);
+  const N = S + Math.max(0, Number(otherDebts) || 0);
+  const P = Math.max(0, Number(price) || 0);
+  const subsidized = support !== "none";
+
+  const salaryCapPct = retiree ? H.salaryDeductionCapRetiree : H.salaryDeductionCapEmployee;
+  const salaryCapOk = S <= salaryCapPct * G + 0.005;
+  const nonMortgageApplies = I < H.incomeHighMin;
+  const nonMortgageOk = !nonMortgageApplies || N <= H.nonMortgageCap * I + 0.005;
+
+  let band, cap;
+  if (I <= H.incomeLowMax) {
+    band = "low";
+    cap = subsidized && capMode === "regulatory" ? H.totalCapLowSubsidizedRegulatory : H.totalCapLow;
+  } else if (I < H.incomeHighMin) {
+    band = "mid";
+    cap = H.totalCapMid;
+  } else {
+    band = "high";
+    cap = capMode === "high70" ? H.totalCapHighBankMax : H.totalCapHighDefault;
+  }
+  const maxInstallment = Math.max(0, cap * I - N);
+
+  const tenorLimit = Number(tenorCap) || H.tenorMaxYearsDefault;
+  const ageLimit = Number(maxAge) || H.ageAtMaturityDefault;
+  const byAge = Math.max(0, Math.floor(ageLimit - (Number(age) || 0)));
+  const yrs = Math.max(0, Math.min(Math.floor(Number(years) || 0), tenorLimit, byAge));
+  const limitedBy = yrs < Math.floor(Number(years) || 0) ? (byAge < tenorLimit ? "age" : "tenor") : null;
+  const n = yrs * 12;
+  const af = n ? annuityFactor(apr, n) : 0;
+  const loanDbr = maxInstallment * af;
+
+  let ltv;
+  const first = citizen && firstHome;
+  if (first) ltv = redfReduced && P <= H.redfDpReductionMaxPrice ? H.ltvRedfReduced : H.ltvFirstHomeCitizen;
+  else ltv = lender === "financeCo" ? H.ltvBaseFinanceCo : H.ltvBaseBank;
+  const loanLtv = ltv * P;
+  const ltvBasic = first ? H.ltvFirstHomeCitizen : ltv;
+
+  const dpSupport = support === "dp150" ? H.dpSupportHigh : support === "dp100" ? H.dpSupportLow : 0;
+  const need = Math.max(0, P - dpSupport);
+
+  const loan = Math.max(0, Math.min(loanDbr, loanLtv, need));
+  const binding = loan === need && need <= loanDbr && need <= loanLtv ? "need" : loanDbr <= loanLtv ? "dbr" : "ltv";
+  const installment = af ? loan / af : 0;
+  const totalPaid = installment * n;
+  const dbrAfter = I ? (installment + N) / I : 0;
+  const downPayment = Math.max(0, P - loan - dpSupport);
+
+  const adminFee = Math.min(H.adminFeePct * loan, H.adminFeeCap);
+  const adminFeeVat = adminFee * H.vatRate;
+  const rett = H.rettRate * (first ? Math.max(0, P - H.rettFirstHomeStateBorneUpTo) : P);
+  const rettExempt = H.rettRate * P - rett;
+
+  const profitSubsidyBase = support === "profit" ? Math.min(loan, H.profitSubsidyMaxFinance) : 0;
+  const profitSubsidyFirstMonth = profitSubsidyBase * (Number(apr) / 100 / 12) * (I <= H.profitSubsidyFullIncomeMax ? 1 : NaN);
+
+  return {
+    income: r2(I), band, cap, maxInstallment: r2(maxInstallment), salaryCapPct, salaryCapOk, nonMortgageApplies, nonMortgageOk,
+    years: yrs, months: n, limitedBy, byAge,
+    loanDbr: r2(loanDbr), ltv, loanLtv: r2(loanLtv), dpSupport, need, loan: r2(loan), binding,
+    installment: r2(installment), totalPaid: r2(totalPaid), profit: r2(totalPaid - loan), dbrAfter, downPayment: r2(downPayment),
+    adminFee: r2(adminFee), adminFeeVat: r2(adminFeeVat), rett: r2(rett), rettExempt: r2(rettExempt),
+    cashAtSigning: r2(downPayment + adminFee + adminFeeVat),
+    maxPrice: r2(Math.max(loanDbr / ltvBasic, loanDbr + dpSupport)), ltvBasic,
+    profitSubsidyFirstMonth: Number.isNaN(profitSubsidyFirstMonth) ? null : r2(profitSubsidyFirstMonth),
+  };
+}

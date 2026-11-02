@@ -518,3 +518,68 @@ test("رسوم الخروج والعودة", () => {
   assert.equal(ksaExitReentryFee({ type: "single", days: 90, persons: 5 }).total, 1500);
   assert.equal(ksaExitReentryFee({ type: "multiple", days: 90, extendMonths: 2, outside: true }).extension, 800);
 });
+
+import { ksaMortgage, annuityFactor } from "../src/assets/calc.js";
+
+test("عامل الخصم للتمويل العقاري", () => {
+  near(annuityFactor(5, 300), 171.06, 0.001);
+  near(annuityFactor(6.5, 300), 148.1027, 0.001);
+  near(annuityFactor(6.5, 144), 99.8083, 0.001);
+});
+
+test("التمويل العقاري: مثال 1 — راتب 15,000 والحاكم نسبة التمويل", () => {
+  const m = ksaMortgage({ salary: 15000, personal: 2000, price: 900000, apr: 5, years: 25, age: 35 });
+  assert.equal(m.cap, 0.55);
+  near(m.loanDbr, 1069125, 2);
+  near(m.loanLtv, 810000);
+  assert.equal(m.binding, "ltv");
+  near(m.installment, 4735.18, 0.01);
+  near(m.dbrAfter, 0.449, 0.001);
+  near(m.downPayment, 90000);
+  near(m.cashAtSigning, 95750);
+  assert.equal(m.rett, 0);
+  near(m.maxPrice, 1069125 / 0.9, 3);
+});
+
+test("التمويل العقاري: مثال 2 — دعم 150 ألفاً", () => {
+  const m = ksaMortgage({ salary: 9000, personal: 1500, price: 650000, apr: 6.5, years: 25, age: 35, support: "dp150" });
+  near(m.loanDbr, 510954, 2);
+  near(m.loan, 500000);
+  assert.equal(m.binding, "need");
+  near(m.installment, 3376.04, 0.01);
+  near(m.dbrAfter, 0.542, 0.001);
+  near(m.downPayment, 0);
+  const n = ksaMortgage({ salary: 9000, personal: 1500, price: 650000, apr: 6.5, years: 25, age: 35, support: "dp100" });
+  near(n.loan, 510954, 2);
+  assert.equal(n.binding, "dbr");
+  near(n.downPayment, 39046, 2);
+  const reg = ksaMortgage({ salary: 9000, personal: 1500, price: 650000, apr: 6.5, years: 25, age: 35, support: "profit", capMode: "regulatory" });
+  assert.equal(reg.cap, 0.65);
+});
+
+test("التمويل العقاري: مثال 3 — متقاعد عمره 58", () => {
+  const m = ksaMortgage({ salary: 12000, personal: 2500, retiree: true, price: 600000, apr: 6.5, years: 25, age: 58, maxAge: 70 });
+  assert.equal(m.years, 12);
+  assert.equal(m.limitedBy, "age");
+  assert.ok(m.salaryCapOk);
+  near(m.loanDbr, 409214, 2);
+  assert.equal(m.binding, "dbr");
+  near(m.downPayment, 190786, 2);
+  const x = ksaMortgage({ salary: 12000, personal: 3500, retiree: true, price: 600000, age: 58 });
+  assert.equal(x.salaryCapOk, false);
+});
+
+test("التمويل العقاري: الشرائح ونسب التمويل والضريبة", () => {
+  assert.equal(ksaMortgage({ salary: 15000, price: 1e6 }).cap, 0.55);
+  assert.equal(ksaMortgage({ salary: 15001, price: 1e6 }).cap, 0.65);
+  assert.equal(ksaMortgage({ salary: 30000, price: 1e6 }).cap, 0.65);
+  assert.equal(ksaMortgage({ salary: 30000, price: 1e6, capMode: "high70" }).cap, 0.7);
+  assert.equal(ksaMortgage({ salary: 20000, price: 1e6, firstHome: false }).ltv, 0.7);
+  assert.equal(ksaMortgage({ salary: 20000, price: 1e6, firstHome: false, lender: "financeCo" }).ltv, 0.85);
+  assert.equal(ksaMortgage({ salary: 20000, price: 1e6, citizen: false }).ltv, 0.7);
+  assert.equal(ksaMortgage({ salary: 20000, price: 700000, redfReduced: true }).ltv, 0.95);
+  assert.equal(ksaMortgage({ salary: 20000, price: 900000, redfReduced: true }).ltv, 0.9);
+  near(ksaMortgage({ salary: 40000, price: 1500000 }).rett, 25000);
+  near(ksaMortgage({ salary: 40000, price: 1500000, firstHome: false }).rett, 75000);
+  near(ksaMortgage({ salary: 40000, price: 1500000 }).adminFee, 5000);
+});
