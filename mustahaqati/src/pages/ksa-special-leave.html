@@ -1,0 +1,129 @@
+---json
+{
+  "title": "حاسبة الإجازات الخاصة في السعودية 2026 — الزواج والوفاة والمولود والحج والعدة",
+  "h1": "حاسبة الإجازات الخاصة في نظام العمل السعودي",
+  "description": "احسب أيام إجازتك الخاصة بأجر كامل وتاريخ عودتك في السعودية: الزواج 5 أيام، ووفاة الزوج أو الوالدين أو الأبناء 5 أيام، ووفاة الأخ أو الأخت 3 أيام، والمولود 3 أيام خلال 7 أيام، والحج 10 إلى 15 يوماً، وعدة الأرملة 4 أشهر و10 أيام.",
+  "short": "الزواج والوفاة والمولود والحج والعدة والامتحانات، وتاريخ العودة",
+  "lead": "اختر المناسبة وتاريخها، وتظهر مدة الإجازة وآخر يوم فيها وتاريخ عودتك للعمل.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "ksa-special-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-annual-leave", "ksa-maternity-leave", "ksa-sick-leave", "hijri-gregorian-converter"],
+  "faq": [
+    {"q": "كم إجازة الزواج في نظام العمل السعودي؟", "a": "5 أيام بأجر كامل تُحتسب من تاريخ الزواج، بحسب المادة 113 من نظام العمل، ولصاحب العمل طلب ما يثبت الواقعة."},
+    {"q": "كم إجازة الوفاة في السعودية؟", "a": "5 أيام بأجر كامل لوفاة الزوج أو أحد الأصول (الأب والأم والأجداد) أو الفروع (الأبناء والأحفاد)، و3 أيام لوفاة الأخ أو الأخت منذ تعديلات 19 فبراير 2025، وتُحتسب من تاريخ الوفاة."},
+    {"q": "كم إجازة المولود للأب في السعودية؟", "a": "3 أيام بأجر كامل تؤخذ خلال 7 أيام من تاريخ الولادة، بعد أن كانت يوماً واحداً قبل تعديلات 2025."},
+    {"q": "كم إجازة الحج للموظف في القطاع الخاص؟", "a": "من 10 إلى 15 يوماً بأجر كامل بما فيها إجازة عيد الأضحى، مرة واحدة طوال الخدمة لمن لم يحج من قبل، بشرط أن يكون أمضى سنتين متصلتين على الأقل لدى صاحب العمل، ولصاحب العمل تحديد عدد من يمنحهم الإجازة كل سنة."},
+    {"q": "كم إجازة العدة للموظفة في السعودية؟", "a": "للمسلمة التي يتوفى زوجها 4 أشهر و10 أيام على الأقل بأجر كامل من تاريخ الوفاة، وتُمدد بلا أجر إن كانت حاملاً حتى تضع. ولغير المسلمة 15 يوماً بأجر كامل."},
+    {"q": "هل يحق لي إجازة للامتحانات؟", "a": "إذا وافق صاحب العمل على انتسابك: إجازة بأجر كامل بعدد أيام الامتحان الفعلية لسنة غير معادة، وبلا أجر لسنة معادة. وإن لم يوافق فتُخصم من إجازتك السنوية إن وجدت، وإلا فبلا أجر. ويُقدم الطلب قبل 15 يوماً على الأقل."},
+    {"q": "هل يجوز أخذ إجازة بدون راتب؟", "a": "نعم بموافقة صاحب العمل، وبالمدة التي تتفقان عليها. ويُعد العقد موقوفاً فيما زاد على 20 يوماً منها ما لم يُتفق على غير ذلك."}
+  ],
+  "sources": [
+    {"t": "وزارة الموارد البشرية — شروط العمل وظروفه (نص المواد 113–116)", "u": "https://www.hrsd.gov.sa/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D9%88%D8%B8%D8%B1%D9%88%D9%81%D9%87"},
+    {"t": "أم القرى — تعديل نظام العمل بالمرسوم م/44 (المادة 113)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "وزارة الموارد البشرية — تشغيل النساء (المادة 160)", "u": "https://www.hrsd.gov.sa/%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A7%D9%84%D9%86%D8%B3%D8%A7%D8%A1"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك الخاصة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">المناسبة</label>
+        <select id="type" name="type">
+          <option value="marriage" selected>زواج العامل (5 أيام)</option>
+          <option value="death">وفاة الزوج أو أحد الوالدين أو الأبناء أو الأجداد أو الأحفاد (5 أيام)</option>
+          <option value="sibling">وفاة الأخ أو الأخت (3 أيام)</option>
+          <option value="paternity">ولادة مولود للعامل (3 أيام)</option>
+          <option value="hajj">أداء فريضة الحج (10–15 يوماً)</option>
+          <option value="iddah">عدة الموظفة المسلمة المتوفى زوجها (4 أشهر و10 أيام)</option>
+          <option value="iddahNonMuslim">عدة الموظفة غير المسلمة (15 يوماً)</option>
+          <option value="exam">الامتحانات الدراسية</option>
+          <option value="unpaid">إجازة بدون أجر باتفاق الطرفين</option>
+        </select>
+      </div>
+      <div class="field" data-for="marriage death sibling paternity hajj iddah iddahNonMuslim">
+        <label for="date" data-label>تاريخ الواقعة</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="field" data-for="paternity">
+        <label for="start">بداية إجازة المولود</label>
+        <input type="date" id="start" name="start">
+        <span class="hint">خلال 7 أيام من الولادة. اتركه فارغاً للبدء يوم الولادة.</span>
+      </div>
+      <div class="field" data-for="hajj">
+        <label for="hajjDays">مدة إجازة الحج (أيام)</label>
+        <input type="number" id="hajjDays" name="hajjDays" inputmode="decimal" min="10" max="15" step="1" value="15">
+      </div>
+      <div class="field" data-for="hajj">
+        <label for="years">سنوات خدمتك المتصلة</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.5" value="3">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="examDays">أيام الامتحان الفعلية</label>
+        <input type="number" id="examDays" name="examDays" inputmode="decimal" min="1" max="60" step="1" value="5">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="examStart">تاريخ أول امتحان</label>
+        <input type="date" id="examStart" name="examStart">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="approved">هل وافق صاحب العمل على انتسابك للدراسة؟</label>
+        <select id="approved" name="approved">
+          <option value="yes" selected>نعم</option>
+          <option value="no">لا</option>
+        </select>
+      </div>
+      <div class="field" data-for="exam">
+        <label for="repeated">هل السنة الدراسية معادة؟</label>
+        <select id="repeated" name="repeated">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم</option>
+        </select>
+      </div>
+      <div class="field" data-for="unpaid">
+        <label for="unpaidDays">مدة الإجازة بدون أجر (أيام)</label>
+        <input type="number" id="unpaidDays" name="unpaidDays" inputmode="decimal" min="1" step="1" value="30">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازات الخاصة في نظام العمل السعودي</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المناسبة</th><th scope="col">المدة</th><th scope="col">الأجر</th><th scope="col">المادة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">زواج العامل</th><td>5 أيام</td><td>كامل</td><td>113</td></tr>
+    <tr><th scope="row">وفاة الزوج أو الأصول أو الفروع</th><td>5 أيام</td><td>كامل</td><td>113</td></tr>
+    <tr><th scope="row">وفاة الأخ أو الأخت</th><td>3 أيام</td><td>كامل</td><td>113 (منذ 2025)</td></tr>
+    <tr><th scope="row">ولادة مولود (للأب)</th><td>3 أيام خلال 7 أيام من الولادة</td><td>كامل</td><td>113 (منذ 2025)</td></tr>
+    <tr><th scope="row">الحج (مرة واحدة)</th><td>10 إلى 15 يوماً مع عيد الأضحى، بعد سنتين متصلتين</td><td>كامل</td><td>114</td></tr>
+    <tr><th scope="row">الامتحانات</th><td>أيام الامتحان الفعلية</td><td>كامل لسنة غير معادة، وبلا أجر للمعادة</td><td>115</td></tr>
+    <tr><th scope="row">إجازة بدون أجر</th><td>باتفاق الطرفين</td><td>بلا أجر، ويوقف العقد فيما زاد على 20 يوماً</td><td>116</td></tr>
+    <tr><th scope="row">عدة المسلمة المتوفى زوجها</th><td>4 أشهر و10 أيام على الأقل</td><td>كامل</td><td>160</td></tr>
+    <tr><th scope="row">عدة غير المسلمة</th><td>15 يوماً</td><td>كامل</td><td>160</td></tr>
+  </tbody>
+</table>
+</div>
+<p>إجازات المادة 113 تُحتسب من تاريخ الواقعة نفسها بالأيام التقويمية، ولصاحب العمل طلب الوثائق المؤيدة. وإجازة الوضع للموظفة 12 أسبوعاً تحسبها في <a href="{{root}}ksa-maternity-leave/{{ix}}">حاسبة إجازة الوضع</a>.</p>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+توفي والد الموظف يوم 1 نوفمبر: إجازته 5 أيام من 1 إلى 5 نوفمبر، ويعود يوم <strong>6 نوفمبر</strong>.<br>
+وُلد له مولود يوم 1 نوفمبر وبدأ إجازته يوم 5 نوفمبر: تنتهي يوم 7 نوفمبر، وهو آخر يوم في مهلة الأيام السبعة.</p>
+</div>
+
+<h2>كيف تُحسب عدة الأرملة؟</h2>
+<p>النص يحدد المدة بأربعة أشهر وعشرة أيام من تاريخ الوفاة دون أن يحدد التقويم. العدة في الفقه بالأشهر القمرية، فتكون نحو 126 إلى 130 يوماً، وبالأشهر الميلادية نحو 130 إلى 133 يوماً. تعرض الحاسبة التاريخين، فاعتمد ما تقره جهة عملك.</p>
+</div>

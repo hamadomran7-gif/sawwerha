@@ -570,6 +570,22 @@
       "aprIndicativeLow": 5.5,
       "aprIndicativeHigh": 7.5,
       "aprIndicativeDefault": 6.5
+    },
+    "specialLeave": {
+      "law": "نظام العمل: المادة 113 (معدلة بالمرسوم م/44 نافذ 19/2/2025) والمواد 114 و115 و116 و160",
+      "marriage": 5,
+      "deathClose": 5,
+      "deathSibling": 3,
+      "paternity": 3,
+      "paternityWithinDays": 7,
+      "hajjMin": 10,
+      "hajjMax": 15,
+      "hajjServiceYears": 2,
+      "iddahMonths": 4,
+      "iddahDays": 10,
+      "iddahNonMuslimDays": 15,
+      "examNoticeDays": 15,
+      "unpaidSuspendAfterDays": 20
     }
   },
   "gcc": {

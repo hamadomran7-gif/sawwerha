@@ -1234,3 +1234,53 @@ export function ksaMortgage({
     profitSubsidyFirstMonth: Number.isNaN(profitSubsidyFirstMonth) ? null : r2(profitSubsidyFirstMonth),
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* السعودية — الإجازات الخاصة (المواد 113–116 و160)                     */
+/* ------------------------------------------------------------------ */
+
+/** يضيف أشهراً هجرية (أم القرى) إلى تاريخ ميلادي ويعيده ISO، مع قص اليوم إلى طول الشهر. */
+export function addHijriMonths(iso, months) {
+  const h = hijriParts(iso);
+  if (!h) return null;
+  const idx = h.year * 12 + (h.month - 1) + months;
+  const year = Math.floor(idx / 12), month = (idx % 12) + 1;
+  const len = hijriMonthLength(year, month) || 29;
+  return hijriToGregorian({ year, month, day: Math.min(h.day, len) });
+}
+
+/**
+ * الإجازات الخاصة بأجر في نظام العمل السعودي.
+ * type: marriage | death | sibling | paternity | hajj | iddah | iddahNonMuslim
+ * date: تاريخ الواقعة (أو بداية إجازة الحج)، start: بداية إجازة المولود إن اختلفت.
+ */
+export function ksaSpecialLeave({ type, date, start, hajjDays, years = 0 }) {
+  const L = rules.sa.specialLeave;
+  if (!date || isNaN(toUTC(date))) return null;
+  const fixed = { marriage: L.marriage, death: L.deathClose, sibling: L.deathSibling, paternity: L.paternity, iddahNonMuslim: L.iddahNonMuslimDays };
+  if (type in fixed) {
+    const s = type === "paternity" && start ? start : date;
+    const days = fixed[type];
+    const offset = Math.round((toUTC(s) - toUTC(date)) / 86400000);
+    return {
+      type, days, paid: true, start: s, end: shiftDate(s, days - 1), back: shiftDate(s, days),
+      withinWindow: type !== "paternity" || (offset >= 0 && offset + days <= L.paternityWithinDays),
+      lateStart: type === "paternity" && (offset < 0 || offset >= L.paternityWithinDays),
+    };
+  }
+  if (type === "hajj") {
+    const days = Math.min(L.hajjMax, Math.max(L.hajjMin, Math.round(Number(hajjDays) || L.hajjMax)));
+    return { type, days, paid: true, start: date, end: shiftDate(date, days - 1), back: shiftDate(date, days), eligible: Number(years) >= L.hajjServiceYears };
+  }
+  if (type === "iddah") {
+    const hijriBack = addHijriMonths(date, L.iddahMonths);
+    const back = hijriBack ? shiftDate(hijriBack, L.iddahDays) : null;
+    const gBack = shiftDate(shiftMonths(date, L.iddahMonths), L.iddahDays);
+    return {
+      type, paid: true, start: date,
+      back, end: back ? shiftDate(back, -1) : null, days: back ? Math.round((toUTC(back) - toUTC(date)) / 86400000) : null,
+      gBack, gEnd: shiftDate(gBack, -1), gDays: Math.round((toUTC(gBack) - toUTC(date)) / 86400000),
+    };
+  }
+  return null;
+}

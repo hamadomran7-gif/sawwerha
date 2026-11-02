@@ -583,3 +583,30 @@ test("التمويل العقاري: الشرائح ونسب التمويل وا
   near(ksaMortgage({ salary: 40000, price: 1500000, firstHome: false }).rett, 75000);
   near(ksaMortgage({ salary: 40000, price: 1500000 }).adminFee, 5000);
 });
+
+import { ksaSpecialLeave, addHijriMonths } from "../src/assets/calc.js";
+
+test("الإجازات الخاصة في السعودية", () => {
+  const m = ksaSpecialLeave({ type: "marriage", date: "2026-11-01" });
+  assert.equal(m.days, 5);
+  assert.equal(m.end, "2026-11-05");
+  assert.equal(m.back, "2026-11-06");
+  assert.equal(ksaSpecialLeave({ type: "sibling", date: "2026-11-01" }).end, "2026-11-03");
+  const p = ksaSpecialLeave({ type: "paternity", date: "2026-11-01", start: "2026-11-05" });
+  assert.equal(p.end, "2026-11-07");
+  assert.equal(p.withinWindow, true);
+  assert.equal(ksaSpecialLeave({ type: "paternity", date: "2026-11-01", start: "2026-11-06" }).withinWindow, false);
+  assert.equal(ksaSpecialLeave({ type: "paternity", date: "2026-11-01", start: "2026-11-09" }).lateStart, true);
+  const h = ksaSpecialLeave({ type: "hajj", date: "2027-05-10", hajjDays: 20, years: 1 });
+  assert.equal(h.days, 15);
+  assert.equal(h.eligible, false);
+  const i = ksaSpecialLeave({ type: "iddah", date: "2026-06-16" });
+  assert.ok(i.days >= 127 && i.days <= 130, String(i.days));
+  assert.equal(i.gBack, "2026-10-26");
+  assert.equal(ksaSpecialLeave({ type: "iddahNonMuslim", date: "2026-11-01" }).end, "2026-11-15");
+});
+
+test("إضافة أشهر هجرية", () => {
+  const d = addHijriMonths("2026-06-16", 4);
+  assert.ok(d > "2026-10-10" && d < "2026-10-16", d);
+});
