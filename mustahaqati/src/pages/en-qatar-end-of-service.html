@@ -1,0 +1,77 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-end-of-service-calculator",
+  "alternate": "qatar-end-of-service",
+  "title": "Qatar End of Service Gratuity Calculator 2026 — Three Weeks' Basic Pay per Year",
+  "h1": "Qatar End of Service Gratuity Calculator",
+  "description": "Calculate your end-of-service gratuity in Qatar under Article 54 of Labour Law No. 14 of 2004: at least three weeks' basic salary (21 days) for each year of service after one year, pro-rated for part years, with no cap and no reduction on resignation.",
+  "short": "At least 21 days of basic pay per year after one year, with no cap",
+  "lead": "Enter your last basic salary and your service dates to see the legal minimum gratuity in Qatar.",
+  "country": "qa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-qatar-end-of-service.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-gratuity", "en-ksa-end-of-service", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "How is end of service calculated in Qatar?", "a": "Article 54 of the Labour Law sets a minimum of three weeks' wage (21 days) for each year of service, for workers who complete at least one year. It is calculated on the last basic salary, without allowances, and part years count pro rata."},
+    {"q": "Do I lose my gratuity if I resign in Qatar?", "a": "No. Resignation does not reduce the gratuity in Qatar. It is lost only when the employer dismisses the worker without notice for one of the cases in Article 61."},
+    {"q": "Is there a maximum gratuity in Qatar?", "a": "The law sets no cap. The contract may provide a higher gratuity, but not a lower one."},
+    {"q": "What if I worked less than one year?", "a": "No gratuity is due before completing one year of service."},
+    {"q": "Is Qatar replacing gratuity with a savings scheme?", "a": "Prime Minister's Decision No. 34 of 2025 formed a committee to study a savings scheme for non-Qatari workers' end-of-service benefits, but no scheme is in force yet, so Article 54 still applies."}
+  ],
+  "sources": [
+    {"t": "ILO — Law No. 18 of 2020 amending the Labour Law (Articles 54 and 61 unchanged)", "u": "https://www.ilo.org/resource/law-no-18-2020-termination-employment"},
+    {"t": "Clyde & Co — a quick guide to staff demobilisation in Qatar (Articles 54, 61, 67)", "u": "https://www.clydeco.com/en/insights/2023/01/a-quick-guide-to-staff-demobilisation-in-qatar"},
+    {"t": "Pinsent Masons — committee on end-of-service payouts for non-Qataris (no change to the calculation yet)", "u": "https://www.pinsentmasons.com/out-law/news/qatar-overhaul-employees-end-of-service-payouts"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your gratuity</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Last basic salary (QAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Basic salary only, without allowances.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2021-03-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field">
+        <label for="reason">How did your service end?</label>
+        <select id="reason" name="reason">
+          <option value="normal" selected>Resignation, termination or contract end</option>
+          <option value="art61">Dismissal under Article 61</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate gratuity</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How gratuity works in Qatar</h2>
+<ul>
+  <li><strong>Basis:</strong> the last basic salary, without allowances.</li>
+  <li><strong>Rate:</strong> at least 21 days for each year of service, with no tiers and no cap.</li>
+  <li><strong>Part years:</strong> pro rata, after the first full year.</li>
+  <li><strong>Resignation:</strong> does not reduce the gratuity.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> basic salary QAR 10,000 and 3.5 years of service. Daily wage 10,000 ÷ 30 = 333.33. Days: 21 × 3.5 = 73.5. <strong>Gratuity: QAR 24,500</strong>, whether the worker resigns or the employer ends the contract.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}qatar-end-of-service/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
