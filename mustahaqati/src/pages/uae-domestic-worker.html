@@ -1,0 +1,124 @@
+---json
+{
+  "title": "حاسبة مستحقات عمال الخدمة المساعدة في الإمارات 2026 — المكافأة والإجازة واسترداد الاستقدام",
+  "h1": "حاسبة مستحقات عمال الخدمة المساعدة (العمالة المنزلية) في الإمارات",
+  "description": "احسب مستحقات العاملة المنزلية في الإمارات وفق المرسوم بقانون 9 لسنة 2022: مكافأة نهاية الخدمة 14 يوماً عن كل سنة بعد سنة خدمة، ورصيد الإجازة السنوية وبدلها، وما يرده مكتب الاستقدام من الكلفة إذا انتهى العقد مبكراً.",
+  "short": "المكافأة 14 يوماً عن كل سنة، وبدل الإجازة، واسترداد كلفة الاستقدام",
+  "lead": "أدخل الأجر الأساسي وتاريخي بداية العمل ونهايته ورصيد الإجازة، وتظهر مستحقات العامل، ومعها حاسبة استرداد كلفة الاستقدام.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "uae-domestic-worker.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-domestic-worker", "uae-gratuity", "uae-final-settlement", "uae-annual-leave"],
+  "faq": [
+    {"q": "كم مكافأة نهاية الخدمة للعاملة المنزلية في الإمارات؟", "a": "المعمول به ما أعلنته وزارة الموارد البشرية والتوطين: أجر 14 يوماً من الأجر الأساسي عن كل سنة خدمة لمن أكمل سنة أو أكثر، وتُحسب أجزاء السنة بنسبتها. المرسوم بقانون 9 لسنة 2022 أحال تنظيمها إلى قرار من مجلس الوزراء، فتحقق من حاسبة الوزارة عند التسوية."},
+    {"q": "متى تسقط مكافأة العاملة المنزلية؟", "a": "إذا انتهى العقد بانقطاعها عن العمل انقطاعاً غير مشروع، بحسب ما أعلنته الوزارة. ويجوز إنهاء العقد إذا تغيبت دون عذر أكثر من 10 أيام متصلة أو 15 يوماً متقطعة في السنة."},
+    {"q": "كم إجازة العاملة المنزلية السنوية في الإمارات؟", "a": "30 يوماً بأجر كامل عن كل سنة، يُدفع أجرها قبل بدء الإجازة. وإذا زادت الخدمة على 6 أشهر وقلّت عن سنة فيومان عن كل شهر، وتذكرة ذهاب وعودة على صاحب العمل مرة كل سنتين، وبدل نقدي عن الإجازة غير المستنفدة عند انتهاء العقد."},
+    {"q": "متى يجب دفع مستحقات العاملة المنزلية؟", "a": "خلال 10 أيام من انتهاء العقد، ويُدفع الأجر الشهري خلال 10 أيام من تاريخ استحقاقه."},
+    {"q": "كم يرد مكتب الاستقدام إذا تركت العاملة العمل؟", "a": "يرد المكتب جزءاً من كلفة الاستقدام بنسبة الأشهر المتبقية من العقد: (الكلفة ÷ أشهر العقد) × الأشهر المتبقية، خلال أسبوعين، ويرد الكلفة كاملة إذا وقع ذلك في الشهر الأول أو ثبت عدم لياقة العامل طبياً خلال التجربة. ولا يسري ذلك على الاستقدام المباشر."},
+    {"q": "هل يوجد تعويض إذا أنهى صاحب العمل العقد؟", "a": "إذا فسخ صاحب العمل العقد لسبب لا يعود للعامل، فيتحمل تذكرة عودته ويدفع مستحقاته، دون مبلغ تعويض محدد في المرسوم الحالي."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 9 لسنة 2022 بشأن عمال الخدمة المساعدة — التشريعات الإماراتية", "u": "https://uaelegislation.gov.ae/ar/legislations/1593/download"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — عمال الخدمة المساعدة", "u": "https://u.ae/ar/information-and-services/jobs/Workplace-regulations/domestic-helpers"},
+    {"t": "وزارة الموارد البشرية والتوطين — دليل أصحاب العمل لعمال الخدمة المساعدة", "u": "https://mohre.gov.ae/assets/74de46f5/domestic-workers-employers-guide-ar.aspx"},
+    {"t": "الإمارات اليوم عن الوزارة — مكافأة 14 يوماً عن كل سنة (13 نوفمبر 2022)", "u": "https://www.emaratalyoum.com/local-section/other/2022-11-13-1.1687523"},
+    {"t": "Gulf News — حساب مكافأة العمالة المنزلية عبر حاسبة الوزارة", "u": "https://gulfnews.com/living-in-uae/ask-us/how-to-calculate-uae-domestic-workers-gratuity-benefits-online-1.1713966232708"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مستحقات العاملة المنزلية</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الأجر الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="1500" required>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ بداية العمل</label>
+        <input type="date" id="start" name="start" value="2023-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">أيام انقطاع بدون أجر</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="leaveDays">أيام إجازة غير مستخدمة</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="0">
+        <span class="hint" data-leave-hint></span>
+      </div>
+      <div class="field">
+        <label for="absence">كيف انتهى العقد؟</label>
+        <select id="absence" name="absence">
+          <option value="no" selected>انتهاء المدة أو إنهاء أو استقالة</option>
+          <option value="yes">انقطاع العامل عن العمل دون سبب مشروع</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rate">أيام المكافأة عن كل سنة</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="1" max="30" step="1" value="14">
+        <span class="hint">14 يوماً بحسب إعلان الوزارة؛ عدّلها إن صدر قرار مختلف.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<section class="tool" aria-labelledby="t2">
+  <h2 id="t2">استرداد كلفة الاستقدام من المكتب</h2>
+  <form id="refund" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cost">كلفة الاستقدام المدفوعة للمكتب (درهم)</label>
+        <input type="number" id="cost" name="cost" inputmode="decimal" min="0" step="1" value="12000">
+      </div>
+      <div class="field">
+        <label for="contractMonths">مدة العقد (أشهر)</label>
+        <input type="number" id="contractMonths" name="contractMonths" inputmode="decimal" min="1" max="60" step="1" value="24">
+      </div>
+      <div class="field">
+        <label for="monthsWorked">الأشهر التي عملها العامل</label>
+        <input type="number" id="monthsWorked" name="monthsWorked" inputmode="decimal" min="0" max="60" step="0.5" value="4">
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="medicallyUnfit" name="medicallyUnfit">
+        <label for="medicallyUnfit">ثبت عدم لياقته الطبية خلال التجربة</label>
+      </div>
+    </div>
+  </form>
+  <div id="refund-result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>حقوق عمال الخدمة المساعدة في الإمارات</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحق</th><th scope="col">المقدار</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">مكافأة نهاية الخدمة</th><td>14 يوماً من الأجر الأساسي عن كل سنة بعد سنة خدمة (إعلان الوزارة)</td></tr>
+    <tr><th scope="row">الإجازة السنوية</th><td>30 يوماً بأجر كامل يُدفع مقدماً، ويومان/شهر بين 6 أشهر وسنة، وتذكرة كل سنتين</td></tr>
+    <tr><th scope="row">الإجازة المرضية</th><td>30 يوماً في السنة: 15 بأجر كامل ثم 15 بنصف الأجر</td></tr>
+    <tr><th scope="row">الراحة</th><td>12 ساعة يومياً على الأقل منها 8 متصلة، ويوم راحة أسبوعي مدفوع</td></tr>
+    <tr><th scope="row">فترة التجربة</th><td>6 أشهر كحد أقصى</td></tr>
+    <tr><th scope="row">صرف المستحقات</th><td>خلال 10 أيام من انتهاء العقد</td></tr>
+    <tr><th scope="row">سماع الدعوى</th><td>خلال 3 أشهر من انتهاء العلاقة</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر أساسي 1,500 درهم (اليومي 50)، وخدمة 3 سنوات و4 أشهر، و10 أيام إجازة غير مستخدمة: المكافأة 50 × 14 × 3.33 = 2,333.33، وبدل الإجازة 500، فالمجموع <strong>2,833.33 درهماً</strong> مع تذكرة العودة.<br>
+وإن تركت العاملة العمل بعد 4 أشهر من عقد سنتين كلفته 12,000: يرد المكتب 12,000 ÷ 24 × 20 = <strong>10,000 درهم</strong>.</p>
+</div>
+</div>

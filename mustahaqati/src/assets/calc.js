@@ -1411,3 +1411,60 @@ export function ksaFinalSettlement({ wage, start, end, reason = "contract_end", 
   const total = eos.total + leave.amount + salary + notice + nz(other) - nz(deductions);
   return { duration: d, eos, leave, noticeInfo, notice: r2(notice), salary: r2(salary), other: r2(nz(other)), deductions: r2(nz(deductions)), total: r2(total) };
 }
+
+/* ------------------------------------------------------------------ */
+/* العمالة المنزلية — السعودية والإمارات                                */
+/* ------------------------------------------------------------------ */
+
+/**
+ * السعودية (لائحة 1445هـ): أجر شهر عن كل 4 سنوات متتالية بالأجر الأخير (م22)، وتعويض أجر شهرين لإنهاء غير مشروع (م25)،
+ * وعوض نقدي عن الإجازة غير المستعملة (م12). mode: blocks (كتل كاملة، الحرفي) | prorata.
+ * reason: end | employer_unlawful | art26 | worker_art27 | worker_noreason
+ */
+export function ksaDomesticSettlement({ wage, start, end, mode = "blocks", reason = "end", leaveDays = 0, compMonths }) {
+  const D = rules.sa.domestic;
+  const d = serviceDuration(start, end, 0);
+  if (!d) return null;
+  const w = nz(wage);
+  const years = d.decimalYears;
+  const blocksExact = years / D.eosBlockYears;
+  const blocks = mode === "prorata" ? blocksExact : Math.floor(blocksExact + 1e-9);
+  const eosGross = blocks * D.eosMonthsPerBlock * w;
+  const eos = reason === "art26" ? 0 : eosGross;
+  const cm = compMonths === undefined || compMonths === null || compMonths === "" ? D.compMonths : nz(compMonths);
+  const comp = reason === "employer_unlawful" ? cm * w : reason === "worker_noreason" ? -cm * w : 0;
+  const leave = (w / D.monthDays) * nz(leaveDays);
+  const total = eos + comp + leave;
+  return { duration: d, years: r2(years), blocks: r2(blocks), blocksExact: r2(blocksExact), eosGross: r2(eosGross), eos: r2(eos), comp: r2(comp), leave: r2(leave), total: r2(total), daily: r2(w / D.monthDays) };
+}
+
+/** الإمارات: رصيد الإجازة لعامل الخدمة المساعدة: لا شيء قبل 6 أشهر، يومان/شهر في السنة الأولى، ثم 2.5 يوم/شهر (30 يوماً في السنة). */
+export function uaeDomesticLeaveAccrued(months) {
+  const D = rules.ae.domestic;
+  const m = Math.floor(nz(months));
+  if (m < D.leaveMinMonths) return 0;
+  return m < 12 ? m * D.leaveDaysPerMonthFirstYear : m * D.leaveDaysPerMonthAfter;
+}
+
+/** الإمارات: مكافأة 14 يوماً من الأجر الأساسي عن كل سنة بعد سنة خدمة (تناسبياً)، وبدل الإجازة غير المستخدمة، وتُسقط المكافأة بالانقطاع غير المشروع. */
+export function uaeDomesticSettlement({ basic, start, end, unpaid = 0, leaveDays = 0, absence = false, rate }) {
+  const D = rules.ae.domestic;
+  const d = serviceDuration(start, end, unpaid);
+  if (!d) return null;
+  const b = nz(basic);
+  const daily = b / D.monthDays;
+  const perYear = nz(rate) || D.eosDaysPerYear;
+  const eligible = d.decimalYears >= D.eosMinServiceYears && !absence;
+  const gratuity = eligible ? daily * perYear * d.decimalYears : 0;
+  const leave = daily * nz(leaveDays);
+  return { duration: d, daily: r2(daily), perYear, eligible, gratuity: r2(gratuity), leave: r2(leave), total: r2(gratuity + leave) };
+}
+
+/** الإمارات: استرداد كلفة الاستقدام من المكتب: (الكلفة ÷ أشهر العقد) × الأشهر المتبقية، وكاملة في الشهر الأول أو لعدم اللياقة الطبية في التجربة. */
+export function uaeRecruitmentRefund({ cost, contractMonths, monthsWorked, medicallyUnfit = false }) {
+  const D = rules.ae.domestic;
+  const c = nz(cost), cmo = nz(contractMonths) || D.contractMonthsDefault, mw = nz(monthsWorked);
+  const full = mw < 1 || medicallyUnfit;
+  const remaining = Math.max(0, cmo - Math.ceil(mw));
+  return { full, remaining, refund: r2(full ? c : (c / cmo) * remaining) };
+}

@@ -677,3 +677,34 @@ test("المستحقات النهائية في السعودية", () => {
   near(w.notice, -9000);
   near(w.eos.total, 33000, 1);
 });
+
+import { ksaDomesticSettlement, uaeDomesticSettlement, uaeDomesticLeaveAccrued, uaeRecruitmentRefund } from "../src/assets/calc.js";
+
+test("العمالة المنزلية في السعودية", () => {
+  // 3 سنوات و4 أشهر
+  const a = ksaDomesticSettlement({ wage: 1500, start: "2023-01-01", end: "2026-04-30", reason: "employer_unlawful", leaveDays: 30 });
+  assert.equal(a.eos, 0);
+  near(a.comp, 3000);
+  near(a.leave, 1500);
+  near(a.total, 4500);
+  const p = ksaDomesticSettlement({ wage: 1500, start: "2023-01-01", end: "2026-04-30", mode: "prorata", reason: "employer_unlawful", leaveDays: 30 });
+  near(p.eos, 1250, 1);
+  const b = ksaDomesticSettlement({ wage: 2000, start: "2017-05-01", end: "2026-04-30" });
+  near(b.eos, 4000);
+  near(ksaDomesticSettlement({ wage: 2000, start: "2017-05-01", end: "2026-04-30", mode: "prorata" }).eos, 4500, 1);
+  near(ksaDomesticSettlement({ wage: 1500, start: "2023-01-01", end: "2026-04-30", reason: "worker_noreason" }).comp, -3000);
+  assert.equal(ksaDomesticSettlement({ wage: 1500, start: "2017-01-01", end: "2026-04-30", reason: "art26" }).eos, 0);
+});
+
+test("عمال الخدمة المساعدة في الإمارات", () => {
+  const a = uaeDomesticSettlement({ basic: 1500, start: "2023-01-01", end: "2026-04-30", leaveDays: 10 });
+  near(a.gratuity, 2333.33, 0.5);
+  near(a.leave, 500);
+  assert.equal(uaeDomesticSettlement({ basic: 1500, start: "2023-01-01", end: "2026-04-30", absence: true }).gratuity, 0);
+  assert.equal(uaeDomesticSettlement({ basic: 1500, start: "2026-01-01", end: "2026-10-31" }).eligible, false);
+  assert.equal(uaeDomesticLeaveAccrued(5), 0);
+  assert.equal(uaeDomesticLeaveAccrued(9), 18);
+  assert.equal(uaeDomesticLeaveAccrued(14), 35);
+  near(uaeRecruitmentRefund({ cost: 12000, contractMonths: 24, monthsWorked: 4 }).refund, 10000);
+  near(uaeRecruitmentRefund({ cost: 12000, contractMonths: 24, monthsWorked: 0.5 }).refund, 12000);
+});

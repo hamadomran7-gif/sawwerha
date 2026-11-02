@@ -204,6 +204,24 @@ export default {
       "minBreakMinutes": 60,
       "maxOvertimePerDay": 2,
       "maxHoursPer3Weeks": 144
+    },
+    "domestic": {
+      "law": "المرسوم بقانون اتحادي 9 لسنة 2022 بشأن عمال الخدمة المساعدة ولائحته (قرار مجلس الوزراء 106 لسنة 2022)",
+      "eosDaysPerYear": 14,
+      "eosMinServiceYears": 1,
+      "eosRateConfirmed": 0,
+      "annualLeaveDaysPerYear": 30,
+      "leaveMinMonths": 6,
+      "leaveDaysPerMonthFirstYear": 2,
+      "leaveDaysPerMonthAfter": 2.5,
+      "sickFullPayDays": 15,
+      "sickHalfPayDays": 15,
+      "finalDuesDeadlineDays": 10,
+      "probationMonthsMax": 6,
+      "contractMonthsDefault": 24,
+      "refundDeadlineDays": 14,
+      "claimTimeLimitMonths": 3,
+      "monthDays": 30
     }
   },
   "sa": {
@@ -618,6 +636,26 @@ export default {
       "maxPresenceHours": 12,
       "overtimeAnnualCapHours": 720,
       "weeklyRestHours": 24
+    },
+    "domestic": {
+      "law": "لائحة العمالة المنزلية ومن في حكمها — قرار وزير الموارد البشرية 40676 وتاريخ 17/3/1445هـ (أم القرى 6/10/2023، نافذة بعد سنة)",
+      "monthDays": 30,
+      "probationDaysMax": 90,
+      "maxDailyWorkHours": 10,
+      "dailyRestHours": 8,
+      "weeklyRestHours": 24,
+      "annualLeaveDays": 30,
+      "annualLeaveAfterYears": 2,
+      "sickFullPayDays": 15,
+      "sickHalfPayDays": 15,
+      "eosMonthsPerBlock": 1,
+      "eosBlockYears": 4,
+      "compMonths": 2,
+      "settlementDaysEmployerEnds": 7,
+      "settlementDaysWorkerEnds": 14,
+      "deductionCapPct": 25,
+      "claimTimeLimitMonths": 12,
+      "contractEndsAtAge": 60
     }
   },
   "gcc": {
