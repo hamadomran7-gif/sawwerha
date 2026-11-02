@@ -1109,3 +1109,36 @@ export function probationEnd({ country = "ae", start, months = 0, days = 0, excl
   const last = shiftDate(start, d + ex - 1);
   return { country, lengthLabel: d, capped: Number(days) > 180, excluded: ex, lastDay: last, firstAfter: shiftDate(last, 1) };
 }
+
+/* ------------------------------------------------------------------ */
+/* رسوم الوافدين في السعودية                                            */
+/* ------------------------------------------------------------------ */
+
+/** رسوم المرافقين (400 شهرياً للفرد) ورسوم العامل على صاحب العمل لفترة 3 أو 6 أو 9 أو 12 شهراً. */
+export function ksaExpatFees({ dependents = 0, months = 12, adultIqamas = 0, includeWorker = false, expatsExceed = true, iqamaFee = "base" }) {
+  const F = rules.sa.expatFees;
+  const m = F.periods.includes(Number(months)) ? Number(months) : 12;
+  const n = (x) => Math.max(0, Math.floor(Number(x) || 0));
+  const dependentsFee = n(dependents) * F.dependentMonthly * m;
+  const adultIqama = n(adultIqamas) * (F.iqamaAnnualBase * m) / 12;
+  let worker = null;
+  if (includeWorker) {
+    const levy = (expatsExceed ? F.levyHigh : F.levyLow) * m;
+    const permit = (F.workPermitAnnual * m) / 12;
+    const iqama = iqamaFee === "reported" ? Math.ceil((F.workerIqamaReported * m) / 12) : (F.iqamaAnnualBase * m) / 12;
+    worker = { levy, permit, iqama, total: r2(levy + permit + iqama) };
+  }
+  return { months: m, dependentsFee, adultIqama: r2(adultIqama), family: r2(dependentsFee + adultIqama), worker, annualDependents: n(dependents) * F.dependentMonthly * 12 };
+}
+
+/** تأشيرة الخروج والعودة: المفردة 200 لشهرين ثم 100 للشهر، والمتعددة 500 لثلاثة أشهر ثم 200، وجزء الشهر شهر. */
+export function ksaExitReentryFee({ type = "single", days = 60, persons = 1, extendMonths = 0, outside = false }) {
+  const E = rules.sa.expatFees.exitReentry;
+  const months = Math.max(1, Math.ceil(Math.max(1, Number(days) || 0) / E.daysPerMonth));
+  const single = type === "single";
+  const base = single ? E.singleBase + E.singleExtra * Math.max(0, months - E.singleBaseMonths) : E.multipleBase + E.multipleExtra * Math.max(0, months - E.multipleBaseMonths);
+  const perExtMonth = (single ? E.singleExtra : E.multipleExtra) * (outside ? E.outsideMultiplier : 1);
+  const ext = Math.max(0, Math.floor(Number(extendMonths) || 0)) * perExtMonth;
+  const p = Math.max(1, Math.floor(Number(persons) || 1));
+  return { months, base, perExtMonth, extension: ext, perPerson: base + ext, total: (base + ext) * p, persons: p };
+}

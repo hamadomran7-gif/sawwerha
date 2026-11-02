@@ -497,3 +497,24 @@ test("نهاية فترة التجربة", () => {
   assert.equal(probationEnd({ country: "sa", start: "2026-01-01", days: 90, excluded: 5 }).lastDay, "2026-04-05");
   assert.equal(probationEnd({ country: "sa", start: "2026-01-01", days: 200 }).capped, true);
 });
+
+import { ksaExpatFees, ksaExitReentryFee } from "../src/assets/calc.js";
+
+test("رسوم المرافقين والعامل في السعودية", () => {
+  assert.equal(ksaExpatFees({ dependents: 4, months: 12 }).dependentsFee, 19200);
+  assert.equal(ksaExpatFees({ dependents: 4, months: 3 }).dependentsFee, 4800);
+  const w = ksaExpatFees({ dependents: 4, months: 12, includeWorker: true, expatsExceed: true, iqamaFee: "reported" });
+  near(w.worker.total, 10350);
+  near(ksaExpatFees({ months: 3, includeWorker: true, expatsExceed: true, iqamaFee: "reported" }).worker.total, 2588);
+  near(ksaExpatFees({ months: 12, includeWorker: true, expatsExceed: false }).worker.total, 9000);
+});
+
+test("رسوم الخروج والعودة", () => {
+  assert.equal(ksaExitReentryFee({ type: "single", days: 60 }).perPerson, 200);
+  assert.equal(ksaExitReentryFee({ type: "single", days: 61 }).perPerson, 300);
+  assert.equal(ksaExitReentryFee({ type: "single", days: 120 }).perPerson, 400);
+  assert.equal(ksaExitReentryFee({ type: "multiple", days: 180 }).perPerson, 1100);
+  assert.equal(ksaExitReentryFee({ type: "multiple", days: 91 }).perPerson, 700);
+  assert.equal(ksaExitReentryFee({ type: "single", days: 90, persons: 5 }).total, 1500);
+  assert.equal(ksaExitReentryFee({ type: "multiple", days: 90, extendMonths: 2, outside: true }).extension, 800);
+});

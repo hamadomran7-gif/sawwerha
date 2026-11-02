@@ -496,6 +496,42 @@
       "firstClaimWithin": 36,
       "applyWithinDays": 90,
       "maxAge": 60
+    },
+    "expatFees": {
+      "law": "قرارات مجلس الوزراء 353 و197 (المقابل المالي)، و325 (التجديد الربع سنوي)، وقرار تعديل رسوم التأشيرات 1438هـ؛ نظام العمل م40",
+      "dependentMonthly": 400,
+      "dependentSince": "2020-07-01",
+      "levyHigh": 800,
+      "levyLow": 700,
+      "workPermitAnnual": 100,
+      "iqamaAnnualBase": 500,
+      "workerIqamaReported": 650,
+      "periods": [
+        3,
+        6,
+        9,
+        12
+      ],
+      "smallEstablishment": {
+        "maxWorkers": 9,
+        "exemptOwnerOnly": 2,
+        "exemptOwnerPlusSaudi": 4
+      },
+      "exitReentry": {
+        "singleBase": 200,
+        "singleBaseMonths": 2,
+        "singleExtra": 100,
+        "multipleBase": 500,
+        "multipleBaseMonths": 3,
+        "multipleExtra": 200,
+        "outsideMultiplier": 2,
+        "daysPerMonth": 30
+      },
+      "lateFines": [
+        500,
+        1000
+      ],
+      "finalExitUnusedFine": 1000
     }
   },
   "gcc": {
