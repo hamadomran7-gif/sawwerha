@@ -73,5 +73,8 @@
  "en-ksa-dependents-fee": "d94cef022cb5713b",
  "en-ksa-end-of-service": "ec6fccf86d26009b",
  "en-ksa-exit-reentry": "1888edae4a11fec6",
- "en-uae-gratuity": "736abd44343a807e"
+ "en-uae-gratuity": "736abd44343a807e",
+ "en-uae-final-settlement": "ea5f064d7c308682",
+ "ksa-final-settlement": "38e9fc2a81eb947e",
+ "uae-final-settlement": "2df6d601ea4be98e"
 }

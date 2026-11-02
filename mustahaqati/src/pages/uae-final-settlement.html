@@ -1,0 +1,117 @@
+---json
+{
+  "title": "حاسبة المستحقات النهائية في الإمارات 2026 — المكافأة والإجازات والإنذار والراتب",
+  "h1": "حاسبة المستحقات النهائية (التسوية النهائية) في الإمارات",
+  "description": "احسب مستحقاتك النهائية عند ترك العمل في الإمارات في خطوة واحدة: مكافأة نهاية الخدمة على الأجر الأساسي، وبدل الإجازات غير المستخدمة، وبدل الإنذار أو خصمه، وأجر الأيام غير المدفوعة، وأي مستحقات أو خصومات أخرى، مع موعد الصرف خلال 14 يوماً.",
+  "short": "المكافأة وبدل الإجازات والإنذار والراتب المتبقي في رقم واحد",
+  "lead": "أدخل راتبك وتواريخ خدمتك ورصيد إجازاتك ومن أنهى العقد، وتظهر تسويتك النهائية بنداً بنداً.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "uae-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-gratuity", "uae-annual-leave", "uae-notice-pay", "uae-iloe"],
+  "faq": [
+    {"q": "ماذا تشمل المستحقات النهائية في الإمارات؟", "a": "مكافأة نهاية الخدمة، وبدل الإجازات السنوية غير المستخدمة، والأجر المستحق حتى آخر يوم عمل، وبدل الإنذار إن أنهى صاحب العمل العقد دون مراعاة المهلة، وأي مستحقات أخرى في العقد أو لائحة المنشأة، ناقصاً ما ثبت على العامل لصاحب العمل."},
+    {"q": "متى يجب صرف المستحقات النهائية؟", "a": "خلال 14 يوماً من تاريخ انتهاء علاقة العمل، بحسب المادة 53 من المرسوم بقانون اتحادي 33 لسنة 2021: الأجور وكل المستحقات الأخرى."},
+    {"q": "هل يُخصم بدل الإنذار إذا استقلت دون مهلة؟", "a": "نعم. الطرف الذي لا يراعي مهلة الإنذار يعوّض الطرف الآخر بأجر الأيام غير المراعاة، فإن استقلت دون إكمال المهلة يحق لصاحب العمل خصم أجرها من مستحقاتك."},
+    {"q": "على أي أجر يُحسب كل بند؟", "a": "مكافأة نهاية الخدمة وبدل الإجازات على الأجر الأساسي، أما بدل الإنذار والأيام غير المدفوعة فعلى الأجر الشامل (الأساسي والبدلات)."},
+    {"q": "هل تنقص المستحقات إذا استقلت؟", "a": "لا تنقص المكافأة ولا بدل الإجازات بالاستقالة في القانون الحالي، ما دمت أكملت سنة خدمة للمكافأة. الذي يتغير هو بدل الإنذار فقط: تدفعه أنت إن لم تراعِ المهلة."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 33 لسنة 2021 — وزارة الموارد البشرية والتوطين (المواد 29 و43 و51 و53)", "u": "https://mohre.gov.ae/assets/download/43e39236/%D9%85%D8%B1%D8%B3%D9%88%D9%85%20%D8%A8%D9%82%D8%A7%D9%86%D9%88%D9%86%20%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF%D9%8A%20%D8%B1%D9%82%D9%85%2033%20%D9%84%D8%B3%D9%86%D8%A9%202021%20%D8%A8%D8%B4%D8%A3%D9%86%20%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D8%B9%D9%84%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%20%D9%88%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%D8%A7%D8%AA%D9%87_638990570577815564.pdf.aspx"},
+    {"t": "Khaleej Times — موعد صرف المستحقات النهائية بعد الاستقالة (المادة 53)", "u": "https://www.khaleejtimes.com/uae/uae-how-soon-must-employer-give-full-final-payment-to-employee-after-resigning"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — مكافأة نهاية الخدمة", "u": "https://u.ae/ar-ae/information-and-services/jobs/working-in-the-uae-private-sector/end-of-service-benefits"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تسويتك النهائية</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">للمكافأة وبدل الإجازات.</span>
+      </div>
+      <div class="field">
+        <label for="gross">الراتب الشامل الشهري (درهم)</label>
+        <input type="number" id="gross" name="gross" inputmode="decimal" min="0" step="1" value="12000">
+        <span class="hint">الأساسي مع البدلات، لبدل الإنذار والأيام غير المدفوعة.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2019-03-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">أيام الإجازة بدون راتب خلال الخدمة</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="leaveDays">رصيد الإجازة السنوية غير المستخدم (أيام)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+        <span class="hint">احسبه إن لم تعرفه في <a href="{{root}}uae-annual-leave/{{ix}}">حاسبة الإجازة السنوية</a>.</span>
+      </div>
+      <div class="field">
+        <label for="salaryDays">أيام عمل في الشهر الأخير لم يُصرف أجرها</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" max="31" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="endedBy">من أنهى العقد؟</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>صاحب العمل</option>
+          <option value="employee">أنا (استقالة)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="noticeDays">مهلة الإنذار في العقد (أيام)</label>
+        <input type="number" id="noticeDays" name="noticeDays" inputmode="decimal" min="30" max="90" step="1" value="30">
+      </div>
+      <div class="field">
+        <label for="servedDays">أيام المهلة التي عملتها فعلاً</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" max="90" step="1" value="30">
+      </div>
+      <div class="field">
+        <label for="other">مستحقات أخرى (درهم)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">عمل إضافي غير مدفوع، تذكرة عودة في العقد، عمولات...</span>
+      </div>
+      <div class="field">
+        <label for="deductions">خصومات (درهم)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">سلف أو قروض ثابتة لصاحب العمل.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مكونات التسوية النهائية في الإمارات</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">طريقة الحساب</th><th scope="col">الأجر</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">مكافأة نهاية الخدمة</th><td>21 يوماً عن كل سنة من الخمس الأولى، ثم 30 يوماً، بعد سنة خدمة، وبحد أجر سنتين</td><td>الأساسي</td></tr>
+    <tr><th scope="row">بدل الإجازات غير المستخدمة</th><td>الأجر اليومي × أيام الرصيد</td><td>الأساسي</td></tr>
+    <tr><th scope="row">أجر الأيام غير المدفوعة</th><td>الأجر اليومي × أيام العمل الأخيرة</td><td>الشامل</td></tr>
+    <tr><th scope="row">بدل الإنذار</th><td>أجر أيام المهلة غير المراعاة، يدفعه من لم يراعِها</td><td>الشامل</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أساسي 8,000 وشامل 12,000، و7 سنوات خدمة، و10 أيام إجازة غير مستخدمة، وأنهى صاحب العمل العقد بمهلة 30 يوماً عمل منها الموظف 10 أيام فقط: المكافأة 44,000، وبدل الإجازة 2,666.67، وبدل الإنذار عن 20 يوماً 8,000، فالمجموع <strong>54,666.67 درهماً</strong>.</p>
+</div>
+
+<p>تُصرف المستحقات خلال 14 يوماً من انتهاء العقد. وإن تأخرت فقدّم شكوى لوزارة الموارد البشرية والتوطين. ولتفاصيل كل بند: <a href="{{root}}uae-gratuity/{{ix}}">المكافأة</a> · <a href="{{root}}uae-annual-leave/{{ix}}">الإجازة السنوية</a> · <a href="{{root}}uae-notice-pay/{{ix}}">بدل الإنذار</a>.</p>
+</div>

@@ -651,3 +651,29 @@ test("ساعات العمل والساعات الإضافية", () => {
   assert.equal(n.otWeeklyStdMin, 0);
   assert.equal(workHours({ country: "ae", start: "09:00", end: "17:00", breakMin: 60, days: 5, ramadan: true }).otPerDayMin, 60);
 });
+
+import { uaeFinalSettlement, ksaFinalSettlement } from "../src/assets/calc.js";
+
+test("المستحقات النهائية في الإمارات", () => {
+  // 7 سنوات تماماً: 2019-03-01 إلى 2026-02-28
+  const s = uaeFinalSettlement({ basic: 8000, gross: 12000, start: "2019-03-01", end: "2026-02-28", leaveDays: 10, endedBy: "employer", noticeDays: 30, servedDays: 10, salaryDays: 15, other: 500, deductions: 1000 });
+  near(s.gratuity.total, 44000, 1);
+  near(s.leave.amount, 2666.67, 0.01);
+  near(s.notice, 8000);
+  near(s.salary, 6000);
+  near(s.total, 44000 + 2666.67 + 8000 + 6000 + 500 - 1000, 1);
+  const r = uaeFinalSettlement({ basic: 8000, gross: 12000, start: "2019-03-01", end: "2026-02-28", endedBy: "employee", noticeDays: 30, servedDays: 0 });
+  near(r.notice, -12000);
+});
+
+test("المستحقات النهائية في السعودية", () => {
+  const s = ksaFinalSettlement({ wage: 9000, start: "2018-03-01", end: "2026-02-28", reason: "contract_end", leaveDays: 21, noticeCase: "employer", givenDays: 30, salaryDays: 10 });
+  near(s.eos.total, 49500, 1);
+  near(s.leave.amount, 6300);
+  near(s.notice, 9000);
+  near(s.salary, 3000);
+  near(s.total, 49500 + 6300 + 9000 + 3000, 1);
+  const w = ksaFinalSettlement({ wage: 9000, start: "2018-03-01", end: "2026-02-28", reason: "worker_notice", noticeCase: "worker", givenDays: 0 });
+  near(w.notice, -9000);
+  near(w.eos.total, 33000, 1);
+});

@@ -1366,3 +1366,48 @@ export function workHours({ country = "sa", start, end, breakMin = 60, days = 5,
     otPerDayMin: Math.max(0, work - dailyMax),
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* المستحقات النهائية (التسوية النهائية) — الإمارات والسعودية            */
+/* ------------------------------------------------------------------ */
+
+const nz = (x) => Math.max(0, Number(x) || 0);
+
+/**
+ * الإمارات: المكافأة (على الأساسي) + بدل الإجازات غير المستخدمة (على الأساسي) + أجر الأيام غير المدفوعة (على الشامل)
+ * ± بدل الإنذار عن الأيام غير المراعاة (على الشامل: يدفعه صاحب العمل إن أنهى، ويُخصم من العامل إن استقال) + مستحقات أخرى − خصومات.
+ */
+export function uaeFinalSettlement({ basic, gross, start, end, unpaid = 0, leaveDays = 0, endedBy = "employer", noticeDays = 30, servedDays = 0, salaryDays = 0, other = 0, deductions = 0 }) {
+  const d = serviceDuration(start, end, unpaid);
+  if (!d) return null;
+  const b = nz(basic), w = nz(gross) || b;
+  const g = uaeGratuity({ basicSalary: b, years: d.decimalYears });
+  const leave = uaeLeaveEncashment({ basicSalary: b, unusedDays: leaveDays });
+  const n = uaeNoticePay({ wage: w, noticeDays, servedDays });
+  const notice = endedBy === "employer" ? n.amount : -n.amount;
+  const salary = (w / rules.ae.notice.daysPerMonth) * nz(salaryDays);
+  const total = g.total + leave.amount + salary + notice + nz(other) - nz(deductions);
+  return { duration: d, gratuity: g, leave, noticeInfo: n, notice: r2(notice), salary: r2(salary), other: r2(nz(other)), deductions: r2(nz(deductions)), total: r2(total) };
+}
+
+/**
+ * السعودية: مكافأة نهاية الخدمة حسب السبب + بدل الإجازات (المادة 111) + أجر الأيام غير المدفوعة
+ * ± تعويض مهلة الإشعار غير المراعاة (المادة 76) + مستحقات أخرى − خصومات، كلها على الأجر الفعلي.
+ * noticeCase: none | employer (أنهى صاحب العمل عقداً غير محدد دون مهلة كاملة) | worker (أنهى العامل دون مهلة كاملة)
+ */
+export function ksaFinalSettlement({ wage, start, end, reason = "contract_end", leaveDays = 0, noticeCase = "none", givenDays = 0, salaryDays = 0, other = 0, deductions = 0 }) {
+  const d = serviceDuration(start, end, 0);
+  if (!d) return null;
+  const w = nz(wage);
+  const eos = ksaEndOfService({ wage: w, years: d.decimalYears, reason });
+  const daily = w / rules.sa.annualLeave.daysPerMonth;
+  const leave = { dailyWage: r2(daily), amount: r2(daily * nz(leaveDays)) };
+  let noticeInfo = null, notice = 0;
+  if (noticeCase === "employer" || noticeCase === "worker") {
+    noticeInfo = ksaNotice({ wage: w, monthly: true, who: noticeCase, givenDays });
+    notice = noticeCase === "employer" ? noticeInfo.amount : -noticeInfo.amount;
+  }
+  const salary = daily * nz(salaryDays);
+  const total = eos.total + leave.amount + salary + notice + nz(other) - nz(deductions);
+  return { duration: d, eos, leave, noticeInfo, notice: r2(notice), salary: r2(salary), other: r2(nz(other)), deductions: r2(nz(deductions)), total: r2(total) };
+}

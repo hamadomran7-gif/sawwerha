@@ -1,0 +1,118 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-final-settlement-calculator",
+  "alternate": "uae-final-settlement",
+  "title": "UAE Final Settlement Calculator 2026 — Gratuity, Leave Salary, Notice Pay",
+  "h1": "UAE Final Settlement Calculator",
+  "description": "Calculate your full and final settlement in the UAE in one step: end-of-service gratuity on basic salary, pay for unused annual leave, notice pay owed by you or the employer, unpaid days in your last month, and other dues or deductions, payable within 14 days.",
+  "short": "Gratuity, unused leave, notice pay and unpaid salary in one figure",
+  "lead": "Enter your salary, service dates, unused leave and who ended the contract. Your final settlement appears item by item.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "en-uae-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-gratuity", "en-ksa-end-of-service", "en-ksa-dependents-fee"],
+  "faq": [
+    {"q": "What is included in a UAE final settlement?", "a": "The end-of-service gratuity, pay for unused annual leave, wages up to your last working day, notice pay if the employer ended the contract without the full notice period, and any other dues under your contract, minus amounts you owe the employer."},
+    {"q": "When must the final settlement be paid?", "a": "Within 14 days of the end of the employment relationship, under Article 53 of Federal Decree-Law No. 33 of 2021: wages and all other entitlements."},
+    {"q": "Is notice pay deducted if I resign without serving notice?", "a": "Yes. The party that does not respect the notice period compensates the other with the wage for the unserved days, so if you leave before completing your notice the employer may deduct that amount from your dues."},
+    {"q": "Which salary is used for each item?", "a": "Gratuity and leave pay are calculated on basic salary. Notice pay and unpaid days are calculated on the full wage (basic plus allowances)."},
+    {"q": "Does resigning reduce my final settlement?", "a": "Under the current law, resigning does not reduce your gratuity (once you have one year of service) or your leave pay. Only notice pay changes: you pay it if you don't serve your notice."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 — MOHRE (Articles 29, 43, 51, 53; Arabic PDF)", "u": "https://mohre.gov.ae/assets/download/43e39236/%D9%85%D8%B1%D8%B3%D9%88%D9%85%20%D8%A8%D9%82%D8%A7%D9%86%D9%88%D9%86%20%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF%D9%8A%20%D8%B1%D9%82%D9%85%2033%20%D9%84%D8%B3%D9%86%D8%A9%202021%20%D8%A8%D8%B4%D8%A3%D9%86%20%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D8%B9%D9%84%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%20%D9%88%D8%AA%D8%B9%D8%AF%D9%8A%D9%84%D8%A7%D8%AA%D9%87_638990570577815564.pdf.aspx"},
+    {"t": "Khaleej Times — how soon must the employer pay the final settlement (Article 53)", "u": "https://www.khaleejtimes.com/uae/uae-how-soon-must-employer-give-full-final-payment-to-employee-after-resigning"},
+    {"t": "Gulf News — UAE gratuity guide: how to calculate your final settlement", "u": "https://gulfnews.com/living-in-uae/ask-us/uae-gratuity-calculation-guide-2026-1.500532178"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your final settlement</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Used for gratuity and leave pay.</span>
+      </div>
+      <div class="field">
+        <label for="gross">Monthly full salary (AED)</label>
+        <input type="number" id="gross" name="gross" inputmode="decimal" min="0" step="1" value="12000">
+        <span class="hint">Basic plus allowances, used for notice pay and unpaid days.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2019-03-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">Unpaid leave days during service</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="leaveDays">Unused annual leave (days)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">Days worked in the last month not yet paid</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" max="31" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="endedBy">Who ended the contract?</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>The employer</option>
+          <option value="employee">I resigned</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="noticeDays">Notice period in the contract (days)</label>
+        <input type="number" id="noticeDays" name="noticeDays" inputmode="decimal" min="30" max="90" step="1" value="30">
+      </div>
+      <div class="field">
+        <label for="servedDays">Notice days actually worked</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" max="90" step="1" value="30">
+      </div>
+      <div class="field">
+        <label for="other">Other dues (AED)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Unpaid overtime, a contractual ticket, commissions…</span>
+      </div>
+      <div class="field">
+        <label for="deductions">Deductions (AED)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Advances or loans owed to the employer.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>What goes into a UAE final settlement</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">How it is calculated</th><th scope="col">Salary</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Gratuity</th><td>21 days per year for the first five years, then 30 days, after one year of service, capped at two years' pay</td><td>Basic</td></tr>
+    <tr><th scope="row">Unused leave</th><td>Daily wage × days of unused leave</td><td>Basic</td></tr>
+    <tr><th scope="row">Unpaid days</th><td>Daily wage × days worked but not paid</td><td>Full</td></tr>
+    <tr><th scope="row">Notice pay</th><td>Wage for the unserved notice days, paid by whoever did not respect the notice</td><td>Full</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> basic AED 8,000, full salary AED 12,000, 7 years of service, 10 days of unused leave, and the employer ended the contract with 30 days' notice of which only 10 were worked: gratuity 44,000, leave pay 2,666.67 and notice pay for 20 days 8,000, for a total of <strong>AED 54,666.67</strong>.</p>
+</div>
+<p>Calculate just your <a href="{{root}}en/uae-gratuity-calculator/{{ix}}">gratuity</a>. Prefer Arabic? Use the <a href="{{root}}uae-final-settlement/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
