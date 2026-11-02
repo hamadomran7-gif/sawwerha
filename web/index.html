@@ -54,6 +54,11 @@
   .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow)}
   .ba figure{margin:0;border-radius:12px;overflow:hidden;aspect-ratio:1;position:relative;display:grid;place-items:center;max-width:100%}
   .ba figcaption{position:absolute;bottom:8px;inset-inline-start:8px;background:rgba(0,0,0,.55);color:#fff;font-size:.8rem;padding:3px 10px;border-radius:999px}
+  .ba figure img{width:100%;height:100%;object-fit:cover;display:block}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .gallery figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0}
+  .gallery img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block}
+  .gallery figcaption{padding:8px 12px;font-size:.9rem}
   .ba .before{background:#d9d2c7}
   .ba .after{background:linear-gradient(160deg,#3a2c5a,#1f1830)}
   .bottle{width:34%;height:62%;border-radius:10px 10px 14px 14px;background:linear-gradient(#b8233a,#7c1226);position:relative;box-shadow:0 20px 30px rgba(0,0,0,.35)}
@@ -111,10 +116,10 @@
     <div class="hero-art">
       <div class="ba" role="img" aria-label="قبل وبعد">
         <span class="badge"><span data-ar>قبل / بعد</span><span data-en>Before / After</span></span>
-        <figure class="before"><div class="bottle"></div><figcaption><span data-ar>صورة الجوال</span><span data-en>Phone photo</span></figcaption></figure>
-        <figure class="after"><div class="glow"></div><div class="bottle"></div><figcaption><span data-ar>صوّرها</span><span data-en>Sawwerha</span></figcaption></figure>
+        <figure class="before"><img src="/samples/before.jpg" alt="صورة جوال عادية لزجاجة عطر خضراء" width="847" height="1111" loading="eager" decoding="async"><figcaption><span data-ar>صورة الجوال</span><span data-en>Phone photo</span></figcaption></figure>
+        <figure class="after"><img src="/samples/scene-1.jpg" alt="الزجاجة نفسها على رخام أسود بإضاءة ذهبية ودخان خفيف" width="1328" height="1328" loading="eager" decoding="async"><figcaption><span data-ar>صوّرها</span><span data-en>Sawwerha</span></figcaption></figure>
       </div>
-      <p class="muted" style="font-size:.85rem;margin:10px 4px 0"><span data-ar>رسم توضيحي. نماذج حقيقية قبل/بعد تُضاف من أعمال العملاء بإذنهم.</span><span data-en>Illustration. Real before/after samples are added from client work with permission.</span></p>
+      <p class="muted" style="font-size:.85rem;margin:10px 4px 0"><span data-ar>نتيجة حقيقية من الخدمة على منتج تجريبي (صورة من الملكية العامة). المنتج نفسه لم يتغيّر بكسلاً واحداً.</span><span data-en>Real output from the service on a demo product (public-domain photo). The product itself is unchanged, pixel for pixel.</span></p>
     </div>
   </section>
 
@@ -125,6 +130,16 @@
       <div class="step"><span class="n">2</span><h3><span data-ar>نقصّ المنتج الحقيقي</span><span data-en>We cut out the real product</span></h3><p class="muted"><span data-ar>لا نغيّر شكله ولا لونه ولا النص عليه. نولّد الخلفية والإضاءة والمشهد فقط.</span><span data-en>We never change its shape, color, or label text. Only the background, lighting, and scene are generated.</span></p></div>
       <div class="step"><span class="n">3</span><h3><span data-ar>تستلم صورك</span><span data-en>You receive your images</span></h3><p class="muted"><span data-ar>3 صور مجانية خلال ساعات. ثم اختر باقة من 149 درهماً وتسلّمها خلال 24 ساعة مع تعديل مجاني.</span><span data-en>3 free images within hours. Then choose a package from AED 149 and get it within 24 hours with one free revision.</span></p></div>
     </div>
+  </section>
+
+  <section aria-labelledby="real">
+    <h2 id="real"><span data-ar>من صورة واحدة: 3 صور جاهزة</span><span data-en>From one photo: 3 ready images</span></h2>
+    <div class="gallery">
+      <figure><img src="/samples/white.jpg" alt="الزجاجة على خلفية بيضاء نقية" width="2000" height="2000" loading="lazy" decoding="async"><figcaption><span data-ar>خلفية بيضاء لنون وأمازون</span><span data-en>White background for noon & Amazon</span></figcaption></figure>
+      <figure><img src="/samples/scene-1.jpg" alt="مشهد على رخام أسود مع دخان" width="1328" height="1328" loading="lazy" decoding="async"><figcaption><span data-ar>مشهد فاخر للإعلانات</span><span data-en>Luxury ad scene</span></figcaption></figure>
+      <figure><img src="/samples/scene-2.jpg" alt="مشهد على حجر بيج مع عود وإضاءة دافئة" width="1328" height="1328" loading="lazy" decoding="async"><figcaption><span data-ar>مشهد لإنستغرام</span><span data-en>Instagram scene</span></figcaption></figure>
+    </div>
+    <p class="muted" style="margin-top:10px;font-size:.9rem"><span data-ar>العيّنات المجانية تحمل علامة مائية صغيرة؛ صور الباقات المدفوعة بدونها وبدقة كاملة.</span><span data-en>Free samples carry a small watermark; paid package images come without it, at full resolution.</span></p>
   </section>
 
   <section aria-labelledby="pr">
