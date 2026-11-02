@@ -82,13 +82,26 @@
   };
 
   // صوّرها: ملفات web/ من المستودع + الوسائط الكبيرة (samples/ads) المحفوظة من آخر نشر في الذاكرة
+  // الوسائط الكبيرة ليست في المستودع؛ تُؤخذ من الذاكرة أو من الموقع الحي (مسموح CORS لها)
+  const SAWWERHA_MEDIA = ["/samples/before.jpg", "/samples/scene-1.jpg", "/samples/scene-2.jpg", "/samples/white.jpg", "/ads/reel-a-outcome.mp4", "/ads/reel-b-price.mp4", "/ads/reel-c-marketplace.mp4", "/ads/reel-d-fidelity.mp4", "/ads/reel-e-noon-rejected.mp4", "/ads/reel-f-phone-to-amazon.mp4", "/ads/reel-g-three-steps.mp4", "/ads/reel-h-studio-vs-phone.mp4", "/ads/static-a-outcome.jpg", "/ads/static-c-marketplace.jpg"];
   window.__deploySawwerha = async (rev) => {
     const { files } = await fetchTree(rev, "web");
     const have = new Set(files.map((f) => f.path));
-    const media = (window.__siteFiles || []).filter((f) => !have.has(f.path) && /^\/(samples|ads)\/.*\.(jpg|png|mp4)$/.test(f.path));
-    if (!media.length) return { step: "media", msg: "لا وسائط في الذاكرة: النشر سيحذف samples وads. حمّلها أولاً في window.__siteFiles." };
+    const mem = new Map((window.__siteFiles || []).map((f) => [f.path, f]));
+    const media = [], missing = [];
+    for (const p of SAWWERHA_MEDIA) {
+      if (have.has(p)) continue;
+      if (mem.has(p)) { media.push(mem.get(p)); continue; }
+      try {
+        const r = await fetch("https://sawwerha.app" + p, { cache: "no-store" });
+        if (!r.ok) throw new Error(String(r.status));
+        const b = await r.blob();
+        media.push({ path: p, blob: new Blob([b], { type: TYPE(p) }), type: TYPE(p) });
+      } catch (e) { missing.push(p + " " + e.message); }
+    }
+    if (missing.length) return { step: "media", msg: "تعذّر جلب وسائط؛ لن يُنشر حتى لا تُحذف", missing };
     const all = files.concat(media);
-    const headers = "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: SAMEORIGIN\n\n/ads/*\n  X-Robots-Tag: noindex\n";
+    const headers = "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: SAMEORIGIN\n\n/samples/*\n  Access-Control-Allow-Origin: *\n\n/ads/*\n  X-Robots-Tag: noindex\n  Access-Control-Allow-Origin: *\n";
     const res = await __deploySite("sawwerha-site", all, { html_handling: "auto-trailing-slash", not_found_handling: "none", _headers: headers });
     if (res && res.success) window.__siteFiles = all;
     return { repoFiles: files.length, media: media.length, res };
