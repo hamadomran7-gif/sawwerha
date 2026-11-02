@@ -1,0 +1,91 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-indemnity-calculator",
+  "alternate": "kuwait-end-of-service",
+  "title": "Kuwait Indemnity Calculator 2026 — End of Service Under the Private Sector Labour Law",
+  "h1": "Kuwait End of Service Indemnity Calculator",
+  "description": "Calculate your end-of-service indemnity in Kuwait under Law No. 6 of 2010 (Article 51): 15 days' pay for each of the first five years and a month's pay for each year after, on the last full wage, capped at 18 months' pay, with the resignation fractions of Article 53.",
+  "short": "15 days then a month per year on the full wage, capped at 18 months",
+  "lead": "Enter your last monthly wage, your service dates and how the contract ended to see your indemnity.",
+  "country": "kw",
+  "category": "eos",
+  "tool": true,
+  "script": "en-kuwait-end-of-service.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-qatar-end-of-service", "en-uae-gratuity", "en-ksa-end-of-service"],
+  "faq": [
+    {"q": "How is end-of-service indemnity calculated in Kuwait?", "a": "For monthly-paid workers, Article 51 of Law No. 6 of 2010 gives 15 days' pay for each of the first five years of service and a full month's pay for each year after that, on the last full wage (basic plus regular allowances), capped at 18 months' pay."},
+    {"q": "How much indemnity do I get if I resign in Kuwait?", "a": "Under Article 53, a worker who resigns from an open-ended contract gets nothing before 3 years of service, half the indemnity from 3 to under 5 years, two thirds from 5 to under 10 years, and the full indemnity after 10 years."},
+    {"q": "Is the daily wage the monthly wage divided by 26 or 30?", "a": "The law does not state the divisor explicitly. Dividing by 26 is the common practice; the calculator shows both."},
+    {"q": "When is the indemnity lost?", "a": "When the worker is dismissed under Article 41(a), for example for gross error causing serious loss, fraud or disclosing the employer's secrets."},
+    {"q": "Does a female worker who resigns after marriage get the full indemnity?", "a": "Yes. A female worker who ends her contract within one year of marriage receives the full indemnity."}
+  ],
+  "sources": [
+    {"t": "Law No. 6 of 2010 on Labour in the Private Sector (Articles 41, 51–53; Arabic PDF)", "u": "https://www.alkarama.org/sites/default/files/2017-06/Law%20Of%20Labor_AR.pdf"},
+    {"t": "Mohamah.net — amendment of Article 51 by Laws 85/2017 and 17/2018 (Arabic)", "u": "https://www.mohamah.net/law/?p=143919"},
+    {"t": "Arab Times Legal Clinic — calculating the daily wage for indemnity", "u": "https://www.arabtimesonline.com/news/calculation-of-indemnity-as-per-article-67-of-the-kuwait-labor-law"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your indemnity</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last full monthly wage (KWD)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="0.001" value="800" required>
+        <span class="hint">Basic salary plus regular allowances.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field">
+        <label for="divisor">Daily wage method</label>
+        <select id="divisor" name="divisor">
+          <option value="26" selected>Monthly ÷ 26 (common practice)</option>
+          <option value="30">Monthly ÷ 30</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="reason">How did your service end?</label>
+        <select id="reason" name="reason">
+          <option value="employer" selected>Ended by the employer, or a fixed-term contract expired</option>
+          <option value="resignation">Resignation from an open-ended contract</option>
+          <option value="marriage">Female worker ended the contract within a year of marriage</option>
+          <option value="forfeit">Dismissal under Article 41(a)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate indemnity</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Kuwait indemnity rules</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service</th><th scope="col">On resignation (Article 53)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Less than 3 years</th><td>Nothing</td></tr>
+    <tr><th scope="row">3 to under 5 years</th><td>Half</td></tr>
+    <tr><th scope="row">5 to under 10 years</th><td>Two thirds</td></tr>
+    <tr><th scope="row">10 years or more</th><td>Full</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> last wage KWD 800 and 7 years of service, ended by the employer. Daily wage 800 ÷ 26 = 30.769. First five years: 5 × 15 days = KWD 2,307.69. Two more years: 2 × 800 = KWD 1,600. <strong>Indemnity: KWD 3,907.69</strong>. On resignation: two thirds = KWD 2,605.13.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}kuwait-end-of-service/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
