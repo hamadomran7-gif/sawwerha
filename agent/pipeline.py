@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps, ImageStat
 
 HERE = Path(__file__).resolve().parent
-PROMPTS = json.loads((HERE / "prompts.json").read_text(encoding="utf-8"))
+PROMPTS = json.loads((HERE / "prompts.json").read_text(encoding="utf-8-sig"))
 WORKFLOW_PATH = HERE.parent / "workflows" / "qwen_image_edit_api.json"
 
 
@@ -94,7 +94,7 @@ def scene_prompt(category: str, variant: int, revision_note: str | None = None) 
 
 def edit_scene(comfy, white_path: str, category: str, variant: int, size: int, seed: int, steps: int = 20, revision_note: str | None = None, prefix: str = "job") -> Image.Image:
     """مشهد عبر Qwen-Image-Edit في ComfyUI انطلاقاً من الصورة البيضاء."""
-    wf = json.loads(WORKFLOW_PATH.read_text(encoding="utf-8"))
+    wf = json.loads(WORKFLOW_PATH.read_text(encoding="utf-8-sig"))
     wf.pop("_about", None)
     name = comfy.upload_image(white_path)
     raw = json.dumps(wf)

@@ -66,7 +66,7 @@ $cfg = Get-Content (Join-Path $agentSrc "config.example.json") -Raw | ConvertFro
 $cfg.worker_url = $WorkerUrl
 $cfg.agent_token = $AgentToken
 $cfg.work_dir = (Join-Path $Root "work")
-$cfg | ConvertTo-Json -Depth 5 | Set-Content "config.json" -Encoding UTF8
+[IO.File]::WriteAllText((Join-Path (Get-Location) "config.json"), ($cfg | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding $false))
 Pop-Location
 
 Write-Host "== 5) ملفات التشغيل والتشغيل التلقائي =="

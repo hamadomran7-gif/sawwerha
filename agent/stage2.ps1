@@ -72,7 +72,7 @@ try {
   # [3/4] الإعدادات + ملفات التشغيل + مهام بدء التشغيل
   if (-not (Test-Path "config.json")) {
     $cfg = [ordered]@{ worker_url = "REPLACE_WORKER_URL"; agent_token = "REPLACE_AGENT_TOKEN"; comfy_url = "http://127.0.0.1:8188"; poll_seconds = 20; dry_run = $false; work_dir = (Join-Path $Root "work"); output_size = 2000; lifestyle_size = 1328; edit_mode = "edit"; watermark_samples = $true; watermark_text = "Sawwerha"; max_job_minutes = 60 }
-    $cfg | ConvertTo-Json | Set-Content "config.json" -Encoding UTF8
+    [IO.File]::WriteAllText((Join-Path (Get-Location) "config.json"), ($cfg | ConvertTo-Json), (New-Object Text.UTF8Encoding $false))
   }
   $comfyBat = "@echo off`r`ncd /d $Root\ComfyUI`r`n:loop`r`n.\python_embeded\python.exe -s ComfyUI\main.py --listen 127.0.0.1 --port 8188 --disable-auto-launch`r`ntimeout /t 30 /nobreak >nul`r`ngoto loop`r`n"
   $agentBat = "@echo off`r`ncd /d $Root\agent`r`ntimeout /t 60 /nobreak >nul`r`n:loop`r`n.\.venv\Scripts\python.exe agent.py`r`ntimeout /t 30 /nobreak >nul`r`ngoto loop`r`n"
