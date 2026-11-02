@@ -1,7 +1,7 @@
 // ملف مولّد آلياً من src/rules.json — لا تعدّله يدوياً
 export default {
   "_about": "كل الأرقام القانونية في الموقع تأتي من هذا الملف فقط. عند أي تعديل قانوني: عدّل الرقم هنا، حدّث lastReview، ثم أعد البناء.",
-  "lastReview": "2026-11-01",
+  "lastReview": "2026-11-02",
   "ae": {
     "currency": "AED",
     "gratuity": {
@@ -156,6 +156,83 @@ export default {
       "om": 0.05,
       "qa": 0,
       "kw": 0
+    }
+  },
+  "qa": {
+    "currency": "QAR",
+    "eos": {
+      "law": "قانون العمل القطري رقم 14 لسنة 2004، المادة 54 (آخر تعديل للقانون 18/2020 لم يمس المادتين 54 و61)",
+      "daysPerYear": 21,
+      "minServiceYears": 1,
+      "daysPerMonth": 30,
+      "wageBasis": "الأجر الأساسي الأخير",
+      "forfeitArticle": "61",
+      "paymentRule": "قبل نهاية اليوم التالي لانتهاء العقد (المادة 67)"
+    }
+  },
+  "kw": {
+    "currency": "KWD",
+    "eos": {
+      "law": "القانون رقم 6 لسنة 2010 في شأن العمل في القطاع الأهلي، المواد 51 و52 و53",
+      "firstYears": 5,
+      "daysFirst": 15,
+      "monthsAfter": 1,
+      "capMonths": 18,
+      "divisor": 26,
+      "divisorAlt": 30,
+      "wageBasis": "آخر أجر شامل البدلات والعلاوات الدورية (المادتان 55 و62)",
+      "resignation": [
+        {
+          "minYears": 0,
+          "maxYears": 3,
+          "fraction": 0
+        },
+        {
+          "minYears": 3,
+          "maxYears": 5,
+          "fraction": 0.5
+        },
+        {
+          "minYears": 5,
+          "maxYears": 10,
+          "fraction": 0.6666666667
+        },
+        {
+          "minYears": 10,
+          "maxYears": null,
+          "fraction": 1
+        }
+      ],
+      "marriageWindowMonths": 12,
+      "forfeitArticle": "41/أ"
+    }
+  },
+  "om": {
+    "currency": "OMR",
+    "eos": {
+      "law": "قانون العمل العُماني (المرسوم السلطاني 53/2023) المادة 61، والقانون السابق (35/2003) المادة 39 للمدة قبل 31 يوليو 2023",
+      "cutoff": "2023-07-31",
+      "legacyFirstYears": 3,
+      "legacyMonthsFirst": 0.5,
+      "legacyMonthsAfter": 1,
+      "currentMonthsPerYear": 1,
+      "wageBasis": "الأجر الأساسي الأخير",
+      "savingsPct": 0.09,
+      "savingsNoLaterThan": "2027-07-19",
+      "forfeitArticle": "40"
+    }
+  },
+  "bh": {
+    "currency": "BHD",
+    "eos": {
+      "law": "قانون العمل في القطاع الأهلي رقم 36 لسنة 2012 المادة 116، وقرار رئيس مجلس الوزراء رقم 109 لسنة 2023",
+      "firstYears": 3,
+      "monthsFirst": 0.5,
+      "monthsAfter": 1,
+      "wageBasis": "الأجر الأخير: الأساسي مع العلاوة الاجتماعية (المادة 47)",
+      "sioStart": "2024-03-01",
+      "sioRateFirst": 0.042,
+      "sioRateAfter": 0.084
     }
   }
 };

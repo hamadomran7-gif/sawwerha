@@ -485,3 +485,135 @@ export function hijriAgeFromDays(totalDays) {
   const d = Math.floor(rem - m * 29.53);
   return { years: y, months: m, days: d };
 }
+
+/* ------------------------------------------------------------------ */
+/* بقية دول الخليج — مكافأة نهاية الخدمة                               */
+/* ------------------------------------------------------------------ */
+
+const dayBefore = (iso) => {
+  const d = new Date(iso + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+};
+const isoOf = (x) => toUTC(x).toISOString().slice(0, 10);
+
+/** مدة الخدمة بالسنوات العشرية لجزء من الفترة يقع بين حدّين (شاملاً اليوم الأخير)، أو 0. */
+function segmentYears(start, end, from, to) {
+  const s = isoOf(start) > from ? isoOf(start) : from;
+  const e = isoOf(end) < to ? isoOf(end) : to;
+  if (e < s) return 0;
+  const d = serviceDuration(s, e, 0);
+  return d ? d.decimalYears : 0;
+}
+
+/**
+ * قطر — المادة 54: أجر 21 يوماً (3 أسابيع) من الأجر الأساسي الأخير عن كل سنة كحد أدنى،
+ * بعد سنة خدمة، بلا سقف ولا تخفيض عند الاستقالة. تسقط عند الفصل وفق المادة 61.
+ */
+export function qatarGratuity({ basicSalary, years, forfeited = false }) {
+  const q = rules.qa.eos;
+  const basic = Number(basicSalary) || 0;
+  const y = Math.max(0, Number(years) || 0);
+  const dailyWage = basic / q.daysPerMonth;
+  const eligible = y >= q.minServiceYears && basic > 0 && !forfeited;
+  const days = y * q.daysPerYear;
+  const total = eligible ? days * dailyWage : 0;
+  return { eligible, forfeited, dailyWage: r2(dailyWage), days: r2(days), total: r2(total) };
+}
+
+export const KW_REASONS = {
+  employer: "إنهاء العقد من صاحب العمل أو انتهاء العقد محدد المدة",
+  resignation: "استقالة العامل من عقد غير محدد المدة",
+  marriage: "إنهاء العاملة العقد خلال سنة من الزواج",
+  forfeit: "فصل وفق المادة 41/أ (خسارة جسيمة، غش، إفشاء أسرار)",
+};
+
+/**
+ * الكويت — المادة 51/ب (الأجر الشهري): 15 يوماً عن كل سنة من أول 5 سنوات ثم أجر شهر عن كل سنة،
+ * بسقف أجر 18 شهراً، على آخر أجر شامل. المادة 53: الاستقالة ⇒ لا شيء دون 3 سنوات، النصف حتى 5، الثلثان حتى 10، ثم كاملة.
+ * الأجر اليومي = الشهري ÷ 26 (الممارسة المتبعة) أو ÷ 30.
+ */
+export function kuwaitIndemnity({ wage, years, reason = "employer", divisor }) {
+  const k = rules.kw.eos;
+  const w = Number(wage) || 0;
+  const y = Math.max(0, Number(years) || 0);
+  const div = Number(divisor) || k.divisor;
+  const dailyWage = w / div;
+  const firstYears = Math.min(y, k.firstYears);
+  const secondYears = Math.max(0, y - k.firstYears);
+  const firstAmount = firstYears * k.daysFirst * dailyWage;
+  const secondAmount = secondYears * k.monthsAfter * w;
+  const uncapped = firstAmount + secondAmount;
+  const cap = k.capMonths * w;
+  const gross = Math.min(uncapped, cap);
+  let fraction = 1;
+  if (reason === "forfeit") fraction = 0;
+  else if (reason === "resignation") {
+    const t = k.resignation.find((b) => y >= b.minYears && (b.maxYears === null || y < b.maxYears));
+    fraction = t ? t.fraction : 1;
+  }
+  return {
+    divisor: div,
+    dailyWage: r2(dailyWage),
+    firstYears: r2(firstYears),
+    secondYears: r2(secondYears),
+    firstAmount: r2(firstAmount),
+    secondAmount: r2(secondAmount),
+    cap: r2(cap),
+    capped: uncapped > cap,
+    gross: r2(gross),
+    fraction: Math.round(fraction * 1000) / 1000,
+    total: r2(gross * fraction),
+  };
+}
+
+/**
+ * عُمان — غير العمانيين: المادة 61 من قانون 53/2023 (أجر شهر أساسي عن كل سنة منذ 31/7/2023).
+ * المدة قبل ذلك بأحكام القانون السابق وفق موقف وزارة العمل: 15 يوماً عن كل سنة من أول 3 سنوات خدمة ثم شهر.
+ */
+export function omanGratuity({ basicSalary, start, end }) {
+  const o = rules.om.eos;
+  const basic = Number(basicSalary) || 0;
+  if (!start || !end || isoOf(end) < isoOf(start)) return null;
+  const preYears = segmentYears(start, end, "1900-01-01", dayBefore(o.cutoff));
+  const postYears = segmentYears(start, end, o.cutoff, "2999-12-31");
+  const preMonths = Math.min(preYears, o.legacyFirstYears) * o.legacyMonthsFirst + Math.max(0, preYears - o.legacyFirstYears) * o.legacyMonthsAfter;
+  const postMonths = postYears * o.currentMonthsPerYear;
+  const months = preMonths + postMonths;
+  const literalMonths = (preYears + postYears) * o.currentMonthsPerYear;
+  return {
+    preYears: r2(preYears),
+    postYears: r2(postYears),
+    preMonths: Math.round(preMonths * 1000) / 1000,
+    postMonths: Math.round(postMonths * 1000) / 1000,
+    preAmount: r2(preMonths * basic),
+    postAmount: r2(postMonths * basic),
+    total: r2(months * basic),
+    literalTotal: r2(literalMonths * basic),
+  };
+}
+
+/**
+ * البحرين — غير البحرينيين: المادة 116 (والمادة 9 من القرار 109/2023): نصف شهر عن كل سنة من أول 3 سنوات ثم شهر،
+ * على الأجر الأخير (الأساسي + العلاوة الاجتماعية)، بلا حد أدنى ولا سقف ولا تخفيض للاستقالة.
+ * منذ 1/3/2024 تصرف هيئة التأمين الاجتماعي الجزء اللاحق، ويدفع صاحب العمل ما قبله.
+ */
+export function bahrainGratuity({ wage, start, end }) {
+  const b = rules.bh.eos;
+  const w = Number(wage) || 0;
+  if (!start || !end || isoOf(end) < isoOf(start)) return null;
+  const monthsFor = (y) => Math.min(y, b.firstYears) * b.monthsFirst + Math.max(0, y - b.firstYears) * b.monthsAfter;
+  const totalYears = segmentYears(start, end, "1900-01-01", "2999-12-31");
+  const employerYears = segmentYears(start, end, "1900-01-01", dayBefore(b.sioStart));
+  const totalMonths = monthsFor(totalYears);
+  const employerMonths = monthsFor(employerYears);
+  return {
+    years: r2(totalYears),
+    employerYears: r2(employerYears),
+    sioYears: r2(Math.max(0, totalYears - employerYears)),
+    months: Math.round(totalMonths * 1000) / 1000,
+    total: r2(totalMonths * w),
+    employerAmount: r2(employerMonths * w),
+    sioAmount: r2((totalMonths - employerMonths) * w),
+  };
+}

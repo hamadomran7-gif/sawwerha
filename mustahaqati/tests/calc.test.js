@@ -211,3 +211,53 @@ test("العمر والتاريخ الهجري", () => {
     assert.ok(h.month >= 1 && h.month <= 12);
   }
 });
+
+import { qatarGratuity, kuwaitIndemnity, omanGratuity, bahrainGratuity } from "../src/assets/calc.js";
+
+test("قطر: 21 يوماً من الأساسي الأخير، سنة على الأقل، بلا سقف", () => {
+  near(qatarGratuity({ basicSalary: 10000, years: 3.5 }).total, 24500);
+  near(qatarGratuity({ basicSalary: 10000, years: 12 }).total, 84000);
+  assert.equal(qatarGratuity({ basicSalary: 10000, years: 0.9 }).total, 0);
+  assert.equal(qatarGratuity({ basicSalary: 10000, years: 5, forfeited: true }).total, 0);
+});
+
+test("الكويت: 15 يوماً (÷26) ثم شهر، سقف 18 شهراً، ونسب الاستقالة", () => {
+  near(kuwaitIndemnity({ wage: 10000, years: 3.5 }).total, 20192.31);
+  near(kuwaitIndemnity({ wage: 10000, years: 3.5, reason: "resignation" }).total, 10096.15);
+  near(kuwaitIndemnity({ wage: 10000, years: 3.5, divisor: 30 }).total, 17500);
+  near(kuwaitIndemnity({ wage: 10000, years: 12 }).total, 98846.15);
+  const capped = kuwaitIndemnity({ wage: 10000, years: 25 });
+  assert.equal(capped.capped, true);
+  near(capped.total, 180000);
+  assert.equal(kuwaitIndemnity({ wage: 10000, years: 2.9, reason: "resignation" }).total, 0);
+  near(kuwaitIndemnity({ wage: 10000, years: 5, reason: "resignation" }).fraction, 0.667, 0.001);
+  near(kuwaitIndemnity({ wage: 10000, years: 10, reason: "resignation" }).fraction, 1);
+  assert.equal(kuwaitIndemnity({ wage: 10000, years: 8, reason: "forfeit" }).total, 0);
+});
+
+test("عُمان: المدة قبل 31/7/2023 بالقانون السابق وبعدها بشهر", () => {
+  const a = omanGratuity({ basicSalary: 10000, start: "2023-01-31", end: "2026-07-30" });
+  near(a.preYears, 0.5);
+  near(a.postYears, 3);
+  near(a.total, 32500);
+  near(a.literalTotal, 35000);
+  const b = omanGratuity({ basicSalary: 10000, start: "2014-07-31", end: "2026-07-30" });
+  near(b.preYears, 9);
+  near(b.total, 105000);
+  near(b.literalTotal, 120000);
+  const c = omanGratuity({ basicSalary: 1000, start: "2024-01-01", end: "2025-12-31" });
+  near(c.preYears, 0);
+  near(c.total, 2000);
+});
+
+test("البحرين: نصف شهر لأول 3 سنوات ثم شهر، وتقسيم صاحب العمل/الهيئة", () => {
+  const a = bahrainGratuity({ wage: 10000, start: "2022-09-01", end: "2026-02-28" });
+  near(a.years, 3.5);
+  near(a.total, 20000);
+  near(a.employerAmount, 7500);
+  near(a.sioAmount, 12500);
+  const b = bahrainGratuity({ wage: 10000, start: "2014-03-01", end: "2026-02-28" });
+  near(b.total, 105000);
+  near(b.employerAmount, 85000);
+  near(b.sioAmount, 20000);
+});

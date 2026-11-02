@@ -2,9 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://mustahaqati.org/about/</loc><lastmod>2026-11-01</lastmod><priority>0.3</priority></url>
   <url><loc>https://mustahaqati.org/age-hijri/</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mustahaqati.org/bahrain-end-of-service/</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://mustahaqati.org/contact/</loc><lastmod>2026-11-01</lastmod><priority>0.3</priority></url>
   <url><loc>https://mustahaqati.org/disclaimer/</loc><lastmod>2026-11-01</lastmod><priority>0.3</priority></url>
   <url><loc>https://mustahaqati.org/dubai-mortgage-fees/</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mustahaqati.org/gcc-end-of-service-comparison/</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://mustahaqati.org/</loc><lastmod>2026-11-01</lastmod><priority>1.0</priority></url>
   <url><loc>https://mustahaqati.org/ksa-annual-leave/</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://mustahaqati.org/ksa-end-of-service/</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
@@ -15,7 +17,10 @@
   <url><loc>https://mustahaqati.org/ksa-resignation-end-of-service/</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://mustahaqati.org/ksa-resignation-loss-table/</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://mustahaqati.org/ksa/</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mustahaqati.org/kuwait-end-of-service/</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mustahaqati.org/oman-end-of-service/</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://mustahaqati.org/privacy/</loc><lastmod>2026-11-01</lastmod><priority>0.3</priority></url>
+  <url><loc>https://mustahaqati.org/qatar-end-of-service/</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://mustahaqati.org/uae-annual-leave/</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://mustahaqati.org/uae-gratuity-resignation/</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://mustahaqati.org/uae-gratuity-table/</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>

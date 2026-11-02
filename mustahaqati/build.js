@@ -188,6 +188,28 @@ const TABLES = {
     });
     return tableWrap(a.caption || `أجر ${fmt0.format(wage)} ريال`, ["الانتقال", "قبل", "بعد", "الزيادة"], rows);
   },
+  /** مقارنة دول الخليج الست لأجر 10,000 بالعملة المحلية */
+  "gcc-compare"(a) {
+    const w = Number(a.wage || 10000);
+    const years = listNums(a.years, [1, 3.5, 5, 12, 25]);
+    const om = (y) => w * y * rules.om.eos.currentMonthsPerYear;
+    const bh = (y) => w * (Math.min(y, rules.bh.eos.firstYears) * rules.bh.eos.monthsFirst + Math.max(0, y - rules.bh.eos.firstYears) * rules.bh.eos.monthsAfter);
+    const rowsFor = (reason) =>
+      years.map((y) => [
+        yearsLabel(y),
+        fmt0.format(calc.uaeGratuity({ basicSalary: w, years: y }).total),
+        fmt0.format(calc.ksaEndOfService({ wage: w, years: y, reason: reason === "resignation" ? "resignation" : "contract_end" }).total),
+        fmt0.format(calc.qatarGratuity({ basicSalary: w, years: y }).total),
+        fmt0.format(calc.kuwaitIndemnity({ wage: w, years: y, reason }).total),
+        fmt0.format(om(y)),
+        fmt0.format(bh(y)),
+      ]);
+    const head = ["مدة الخدمة", "الإمارات", "السعودية", "قطر", "الكويت", "عُمان", "البحرين"];
+    return (
+      tableWrap(`إنهاء من صاحب العمل أو انتهاء العقد — أجر ${fmt0.format(w)} بالعملة المحلية`, head, rowsFor("employer")) +
+      tableWrap(`استقالة العامل — أجر ${fmt0.format(w)} بالعملة المحلية`, head, rowsFor("resignation"))
+    );
+  },
   /** السعودية: استقالة عادية مقابل استثناء المادة 87 */
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
