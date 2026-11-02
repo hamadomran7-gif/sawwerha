@@ -451,6 +451,206 @@
     } };
   }
 
+
+  // ------------------------------------------------------------ ريلز النمو المجاني (خطاف في أول ثانية)
+  // خطوط ✓/✕ أعلى الإطار
+  function lines(ctx, t, items, y0 = 335, gap = 80) {
+    items.forEach((it, i) => {
+      const a = prog(t, it.from, it.from + 0.3) * (1 - prog(t, it.to - 0.2, it.to));
+      text(ctx, it.text, W / 2, y0 + i * gap, { size: it.size || 54, weight: 700, color: it.color || C.white, alpha: a, dy: (1 - a) * 14 });
+    });
+  }
+
+  function frame85(ctx, t, from, to) {
+    const fp = ease(prog(t, from, from + 0.6)) * (1 - prog(t, to - 0.3, to));
+    if (fp <= 0) return;
+    const inset = CARD.w * 0.075;
+    ctx.save();
+    ctx.globalAlpha = fp;
+    ctx.strokeStyle = C.accent;
+    ctx.lineWidth = 6;
+    ctx.setLineDash([22, 14]);
+    ctx.lineDashOffset = -t * 40;
+    ctx.strokeRect(CARD.x + inset, CARD.y + inset, CARD.w - inset * 2, CARD.h - inset * 2);
+    ctx.restore();
+    chip(ctx, "85%", CARD.x + CARD.w / 2, CARD.y + CARD.h - inset, { anchor: "center", bg: C.accent, color: "#1d1500", alpha: fp });
+  }
+
+  function reelE(I) { // «صورتك على نون مرفوضة؟»
+    const dur = 9.6;
+    return { name: "reel-e-noon-rejected", dur, draw(ctx, t) {
+      const z = (a, b) => 1 + 0.05 * prog(t, a, b);
+      const img = t < 2.8 ? I.before : t < 6.2 ? I.white : I.scene1;
+      blurredBg(ctx, img);
+      brand(ctx, 1 - prog(t, 1.3, 1.5) * (1 - prog(t, 6.0, 6.2)));
+      if (t < 2.8) {
+        single(ctx, I.before, z(0, 2.8), "مرفوضة", { bg: C.strike, color: "#fff" });
+      } else if (t < 3.9) slider(ctx, I.before, I.white, ease(prog(t, 2.8, 3.9)), z(0, 2.8), 1);
+      else if (t < 6.2) single(ctx, I.white, 1, "جاهزة لنون");
+      else crossfade(ctx, I.white, I.scene1, prog(t, 6.2, 6.7), 1, z(6.2, 7.5), "لإنستغرام");
+      headline(ctx, t, [
+        { text: "صورتك على نون مرفوضة؟", from: 0.0, to: 1.5, size: 84 },
+        { text: "نصلحها من صورة جوالك", from: 2.8, to: 4.0, color: C.accentSoft },
+        { text: "ومشاهد لإنستغرام أيضاً", from: 6.2, to: 7.5 },
+      ]);
+      lines(ctx, t, [
+        { text: "✕ خلفية غير بيضاء", from: 1.4, to: 2.8, color: "#ffb4b6" },
+        { text: "✕ ظل قوي أو حدود أو نص", from: 1.75, to: 2.8, color: "#ffb4b6" },
+      ]);
+      lines(ctx, t, [
+        { text: "✓ خلفية بيضاء نقية", from: 4.0, to: 6.2 },
+        { text: "✓ بلا ظل ولا حدود ولا نص", from: 4.45, to: 6.2 },
+        { text: "✓ JPEG بمقاس 2000×2000", from: 4.9, to: 6.2 },
+      ]);
+      disclosure(ctx, prog(t, 3.0, 3.4));
+      endCard(ctx, t, 7.4, { sub: "صورة رئيسية مطابقة لشروط نون\nمن صورة جوالك، خلال ساعات" });
+    } };
+  }
+
+  function reelF(I) { // «من صورة جوال إلى صورة أمازون»
+    const dur = 9.2;
+    return { name: "reel-f-phone-to-amazon", dur, draw(ctx, t) {
+      const z = (a, b) => 1 + 0.05 * prog(t, a, b);
+      const img = t < 2.2 ? I.before : t < 5.6 ? I.white : I.scene2;
+      blurredBg(ctx, img);
+      brand(ctx, 1 - prog(t, 4.4, 4.6) * (1 - prog(t, 5.5, 5.7)));
+      if (t < 2.2) single(ctx, I.before, z(0, 2.2), "قبل", {});
+      else if (t < 3.3) slider(ctx, I.before, I.white, ease(prog(t, 2.2, 3.3)), z(0, 2.2), 1);
+      else if (t < 5.6) { single(ctx, I.white, 1, "بعد"); frame85(ctx, t, 3.5, 5.6); }
+      else crossfade(ctx, I.white, I.scene2, prog(t, 5.6, 6.1), 1, z(5.6, 7.0), "للإعلانات");
+      headline(ctx, t, [
+        { text: "من صورة جوال…", from: 0.0, to: 2.2 },
+        { text: "إلى صورة أمازون", from: 2.2, to: 4.5, color: C.accentSoft, size: 90 },
+        { text: "ومشهد لإعلاناتك", from: 5.6, to: 7.0 },
+      ]);
+      lines(ctx, t, [
+        { text: "✓ أبيض نقي RGB 255", from: 4.5, to: 5.6 },
+        { text: "✓ المنتج يملأ 85% من الإطار", from: 4.75, to: 5.6 },
+      ]);
+      disclosure(ctx, prog(t, 2.4, 2.8));
+      endCard(ctx, t, 6.9);
+    } };
+  }
+
+  function waBubble(ctx, t, from) {
+    const p = easeOut(prog(t, from, from + 0.45));
+    if (p <= 0) return;
+    const x = 160, y = 760, w = 760, h = 520;
+    ctx.save();
+    ctx.globalAlpha = p;
+    ctx.translate(0, (1 - p) * 40);
+    rrect(ctx, x, y, w, h, 44);
+    ctx.fillStyle = "#e7f8ee";
+    ctx.shadowColor = "rgba(0,0,0,.35)";
+    ctx.shadowBlur = 40;
+    ctx.fill();
+    ctx.restore();
+    ctx.save();
+    ctx.globalAlpha = p;
+    ctx.translate(0, (1 - p) * 40);
+    cardFrame(ctx, (xx, yy, ww, hh) => photo(ctx, I_cache.before, xx, yy, ww, hh, 1), { x: x + 300, y: y + 40, w: 420, h: 420, r: 26 });
+    text(ctx, "صورة منتجي", x + 150, y + 200, { size: 44, weight: 700, color: "#0b3d22", shadow: false, family: "IBM Plex Sans Arabic" });
+    text(ctx, "✓✓", x + 150, y + 290, { size: 44, weight: 800, color: "#34b7f1", shadow: false });
+    ctx.restore();
+  }
+  let I_cache = null;
+
+  function reelG(I) { // ثلاث خطوات
+    const dur = 9.0;
+    I_cache = I;
+    return { name: "reel-g-three-steps", dur, draw(ctx, t) {
+      I_cache = I;
+      gradientBg(ctx);
+      brand(ctx);
+      const n = (k, from, to) => {
+        const a = prog(t, from, from + 0.3) * (1 - prog(t, to - 0.25, to));
+        if (a <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.beginPath();
+        ctx.arc(W / 2, 400, 62, 0, Math.PI * 2);
+        ctx.fillStyle = C.accent;
+        ctx.fill();
+        ctx.restore();
+        text(ctx, String(k), W / 2, 404, { size: 70, color: "#1d1500", alpha: a, shadow: false });
+      };
+      // 1) صوّر
+      n(1, 0.0, 2.5);
+      headline(ctx, t, [{ text: "صوّر منتجك بالجوال", from: 0.0, to: 2.5, y: 560, size: 76 }]);
+      const a1 = prog(t, 0.2, 0.6) * (1 - prog(t, 2.2, 2.5));
+      if (a1 > 0) { ctx.save(); ctx.globalAlpha = a1; cardFrame(ctx, (x, y, w, h) => photo(ctx, I.before, x, y, w, h, 1 + 0.05 * prog(t, 0, 2.5)), { x: 190, y: 700, w: 700, h: 700, r: 36 }); ctx.restore(); }
+      // 2) أرسل
+      n(2, 2.5, 4.7);
+      headline(ctx, t, [{ text: "أرسله على واتساب", from: 2.5, to: 4.7, y: 560, size: 76 }]);
+      if (t >= 2.5 && t < 4.7) { ctx.save(); ctx.globalAlpha = 1 - prog(t, 4.45, 4.7); waBubble(ctx, t, 2.6); ctx.restore(); }
+      // 3) استلم
+      n(3, 4.7, 7.0);
+      headline(ctx, t, [{ text: "استلم 3 صور خلال ساعات", from: 4.7, to: 7.0, y: 560, size: 72 }]);
+      [I.white, I.scene1, I.scene2].forEach((img, i) => {
+        const p = easeOut(prog(t, 4.9 + i * 0.25, 5.3 + i * 0.25)) * (1 - prog(t, 6.75, 7.0));
+        if (p <= 0) return;
+        const sz = 300, x = 735 - i * 320, y = 760;
+        ctx.save();
+        ctx.globalAlpha = p;
+        ctx.translate(0, (1 - p) * 50);
+        cardFrame(ctx, (xx, yy, ww, hh) => photo(ctx, img, xx, yy, ww, hh, 1), { x, y, w: sz, h: sz, r: 24 });
+        ctx.restore();
+      });
+      lines(ctx, t, [{ text: "بيضاء لنون وأمازون + مشاهد لإنستغرام", from: 5.6, to: 7.0, size: 44 }], 1180);
+      disclosure(ctx, prog(t, 5.0, 5.4) * (1 - prog(t, 6.75, 7.0)), 1330);
+      endCard(ctx, t, 6.9, { l1: "جرّبها الآن", l2: "3 صور مجاناً" });
+    } };
+  }
+
+  function reelH(I) { // استوديو أم جوال؟
+    const dur = 9.0;
+    return { name: "reel-h-studio-vs-phone", dur, draw(ctx, t) {
+      gradientBg(ctx);
+      brand(ctx);
+      headline(ctx, t, [{ text: "استوديو تصوير أم جوالك؟", from: 0.0, to: 3.6, y: 380, size: 80 }]);
+      const fade = 1 - prog(t, 3.4, 3.7);
+      const col = (title, items, x, from, dim) => {
+        const a = prog(t, from, from + 0.35) * fade;
+        if (a <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = a;
+        rrect(ctx, x, 520, 440, 760, 36);
+        ctx.fillStyle = dim ? "rgba(255,255,255,.08)" : "rgba(240,180,58,.16)";
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = dim ? "rgba(255,255,255,.25)" : C.accent;
+        ctx.stroke();
+        ctx.restore();
+        text(ctx, title, x + 220, 610, { size: 60, alpha: a, color: dim ? C.white : C.accentSoft });
+        items.forEach((it, i) => text(ctx, it, x + 220, 760 + i * 150, { size: 42, weight: 700, family: "IBM Plex Sans Arabic", alpha: a * prog(t, from + 0.3 + i * 0.25, from + 0.6 + i * 0.25), maxW: 380 }));
+      };
+      col("الاستوديو", ["موعد وشحن للمنتج", "أيام للتعديل", "150–350 درهماً\nللصورة"], 560, 0.6, true);
+      col("صوّرها", ["صورة من جوالك", "النتيجة خلال ساعات", "149 درهماً\nلـ 6 صور"], 80, 1.5, false);
+      if (t >= 3.5) {
+        headline(ctx, t, [{ text: "والنتيجة من صورة جوال:", from: 3.6, to: 6.7, y: 380, size: 70 }]);
+        const cells = [
+          { img: I.before, x: 560, y: 560, label: "قبل" },
+          { img: I.scene1, x: 90, y: 560, label: "بعد" },
+          { img: I.scene2, x: 560, y: 1030, label: "بعد" },
+          { img: I.white, x: 90, y: 1030, label: "بعد" },
+        ];
+        cells.forEach((c, i) => {
+          const p = easeOut(prog(t, 3.7 + i * 0.2, 4.1 + i * 0.2)) * (1 - prog(t, 6.55, 6.75));
+          if (p <= 0) return;
+          const sz = 430;
+          ctx.save();
+          ctx.globalAlpha = p;
+          cardFrame(ctx, (x, y, w, h) => photo(ctx, c.img, x, y, w, h, 1 + 0.04 * prog(t, 3.7, 6.7)), { x: c.x, y: c.y, w: sz, h: sz, r: 28 });
+          const isBefore = c.label === "قبل";
+          chip(ctx, c.label, c.x + sz - 18, c.y + 40, { size: 30, bg: isBefore ? "rgba(20,14,30,.72)" : C.accent, color: isBefore ? "#fff" : "#1d1500" });
+          ctx.restore();
+        });
+        disclosure(ctx, prog(t, 4.0, 4.4) * (1 - prog(t, 6.55, 6.75)));
+      }
+      endCard(ctx, t, 6.6);
+    } };
+  }
+
   // ------------------------------------------------------------ صور ثابتة 4:5
   function staticA(I) {
     const w = 1080, h = 1350;
@@ -553,6 +753,7 @@
       return true;
     },
     specs: (I) => [reelA(I), reelB(I), reelC(I), reelD(I)],
+    organicSpecs: (I) => [reelE(I), reelF(I), reelG(I), reelH(I)],
     statics: (I) => [staticA(I), staticC(I)],
     encodeReel,
     MiniMp4,
