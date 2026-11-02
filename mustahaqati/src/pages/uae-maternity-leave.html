@@ -1,0 +1,108 @@
+---json
+{
+  "title": "حاسبة إجازة الوضع (الأمومة) في الإمارات 2026 — 60 يوماً وأجرها والإجازة الوالدية",
+  "h1": "حاسبة إجازة الوضع في الإمارات",
+  "description": "احسبي أجر إجازة الوضع في القطاع الخاص بالإمارات وفق المادة 30 من قانون العمل: 60 يوماً، منها 45 بأجر كامل و15 بنصف الأجر، و45 يوماً إضافية بلا أجر لمرض الحمل، و30 يوماً بأجر كامل لرعاية طفل مريض، مع تواريخ الإجازة والإجازة الوالدية.",
+  "short": "45 يوماً بأجر كامل + 15 بنصف الأجر، والإجازة الوالدية 5 أيام عمل",
+  "lead": "أدخلي راتبك وتاريخ بدء الإجازة، ويظهر لكِ أجر إجازة الوضع وتواريخها والفرق عن راتبك المعتاد.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "uae-maternity-leave.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": ["uae-sick-leave", "uae-annual-leave", "ksa-maternity-leave", "uae-gratuity"],
+  "faq": [
+    {"q": "هل يُشترط لإجازة الوضع مدة خدمة معينة؟", "a": "لا. النص الحالي للمادة 30 يمنح إجازة الوضع 60 يوماً دون شرط لمدة الخدمة، 45 يوماً منها بأجر كامل و15 يوماً بنصف الأجر."},
+    {"q": "متى يمكن أن تبدأ إجازة الوضع؟", "a": "يجوز أن تبدأ اعتباراً من اليوم الأخير من الشهر السابق مباشرة للشهر المتوقع للوضع، بطلب من العاملة وشهادة طبية تحدد الموعد المرجح."},
+    {"q": "هل أستحق الإجازة إذا وُلد الجنين ميتاً؟", "a": "نعم. تُستحق إجازة الوضع إذا تم الوضع بعد 6 أشهر فأكثر من الحمل، حتى لو وُلد الجنين ميتاً أو توفي بعد الولادة."},
+    {"q": "ما الإجازة الوالدية في الإمارات؟", "a": "5 أيام عمل مدفوعة للأب أو للأم، تؤخذ متصلة أو متقطعة خلال 6 أشهر من الولادة، بتقديم ما يثبت الميلاد. وهي غير إجازة الوضع."},
+    {"q": "هل لي ساعة رضاعة بعد العودة؟", "a": "نعم. فترة أو فترتان يومياً لا يزيد مجموعهما على ساعة، لمدة 6 أشهر من تاريخ الوضع، وتذكر البوابة الرسمية لحكومة الإمارات أنها مدفوعة الأجر."},
+    {"q": "هل تُحسب أيام مرض الحمل الإضافية من مدة الخدمة؟", "a": "لا. الانقطاع الإضافي حتى 45 يوماً بدون أجر بسبب مرض ناتج عن الحمل أو الوضع لا يُحسب من مدة الخدمة لأغراض مكافأة نهاية الخدمة أو التقاعد."},
+    {"q": "سمعت عن 90 يوماً في أبوظبي، هل تنطبق عليّ؟", "a": "أعلنت أبوظبي في 2024 برنامجاً يمنح المواطنات العاملات في القطاع الخاص بالإمارة إجازة أمومة 90 يوماً، وهو اختياري لأصحاب العمل وليس جزءاً من القانون الاتحادي. الحد الأدنى الاتحادي لكل العاملات ما زال 60 يوماً."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 33/2021 — المادتان 30 و32", "u": "https://uaelegislation.gov.ae/ar/legislations/1541/download"},
+    {"t": "قرار مجلس الوزراء 1/2022 (اللائحة التنفيذية) — المادة 21", "u": "https://uaelegislation.gov.ae/ar/legislations/1547/download"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — أنواع الإجازات في القطاع الخاص", "u": "https://u.ae/ar/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/Types-of-leaves"},
+    {"t": "Khaleej Times — تمديد إجازة الأمومة في القطاع الخاص قيد الدراسة (مايو 2025)", "u": "https://www.khaleejtimes.com/uae/extended-paid-maternity-leave-private-sector-consideration"},
+    {"t": "The National — برنامج أبوظبي لإجازة الأمومة للمواطنات في القطاع الخاص (2024)", "u": "https://www.thenationalnews.com/news/uae/2024/08/27/maternity-leave-details-announced-for-abu-dhabi-mothers-working-in-private-sector/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسبي أجر إجازة الوضع</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">مجموع البدلات الشهرية (درهم)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="3000">
+      </div>
+      <div class="field">
+        <label for="start">تاريخ بدء الإجازة (اختياري)</label>
+        <input type="date" id="start" name="start" value="">
+        <span class="hint">لحساب آخر يوم وتاريخ العودة.</span>
+      </div>
+      <div class="field">
+        <label for="extra">أيام إضافية بلا أجر لمرض الحمل أو الوضع</label>
+        <input type="number" id="extra" name="extra" inputmode="decimal" min="0" max="45" step="1" value="0">
+        <span class="hint">حتى 45 يوماً بشهادة طبية.</span>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="child" name="child">
+        <label for="child">الطفل مريض أو من أصحاب الهمم ويحتاج مرافقاً دائماً (30 يوماً بأجر كامل)</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="childUnpaid" name="childUnpaid">
+        <label for="childUnpaid">تمديد رعاية الطفل 30 يوماً إضافية بلا أجر</label>
+      </div>
+      <div class="field full">
+        <label for="basis">أساس الحساب</label>
+        <select id="basis" name="basis">
+          <option value="total">الأجر الشامل: الأساسي + البدلات (مقتضى نص القانون)</option>
+          <option value="basic">الأساسي فقط (طريقة بعض الشركات)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسبي</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>إجازة الوضع في قانون العمل الإماراتي</h2>
+<p>تنص المادة 30 من المرسوم بقانون اتحادي 33 لسنة 2021 على إجازة وضع مدتها <strong>60 يوماً</strong> للعاملة في القطاع الخاص: 45 يوماً بأجر كامل، ثم 15 يوماً بنصف الأجر، دون شرط لمدة الخدمة.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحق</th><th scope="col">المدة</th><th scope="col">الأجر</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">إجازة الوضع</th><td>45 يوماً</td><td>كامل</td></tr>
+    <tr><th scope="row">تكملة إجازة الوضع</th><td>15 يوماً</td><td>نصف الأجر</td></tr>
+    <tr><th scope="row">مرض ناتج عن الحمل أو الوضع</th><td>حتى 45 يوماً</td><td>بلا أجر، ولا تُحسب من الخدمة</td></tr>
+    <tr><th scope="row">طفل مريض أو من أصحاب الهمم</th><td>30 يوماً، وتمديد 30</td><td>كامل، ثم بلا أجر</td></tr>
+    <tr><th scope="row">استراحة الرضاعة</th><td>حتى ساعة يومياً لمدة 6 أشهر</td><td>مدفوعة</td></tr>
+    <tr><th scope="row">الإجازة الوالدية (للأب أو الأم)</th><td>5 أيام عمل خلال 6 أشهر</td><td>كامل</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر شامل 9,000 درهم (أجر اليوم 300).</p>
+<p>45 يوماً بأجر كامل = 13,500 درهم.<br>
+15 يوماً بنصف الأجر = 2,250 درهماً.<br>
+<strong>أجر إجازة الوضع = 15,750 درهماً</strong> عن 60 يوماً، بدلاً من 18,000، أي فرق 2,250 درهماً.</p>
+</div>
+
+<h2>متى تبدأ الإجازة؟</h2>
+<p>يجوز أن تبدأ من اليوم الأخير من الشهر السابق مباشرة للشهر المتوقع للوضع، بطلب من العاملة وشهادة طبية. وتُستحق إذا تم الوضع بعد 6 أشهر فأكثر من الحمل، حتى لو وُلد الجنين ميتاً.</p>
+
+<h2>هل ستزيد المدة؟</h2>
+<p>أعلن وزير الموارد البشرية والتوطين في مايو 2025 أن تمديد إجازة الأمومة في القطاع الخاص قيد الدراسة، ولم يصدر تعديل حتى الآن. نحدّث الحاسبة فور صدور أي تعديل نافذ.</p>
+</div>

@@ -1,0 +1,111 @@
+---json
+{
+  "title": "حاسبة بدل الإنذار في الإمارات 2026 — فترة الإشعار 30 إلى 90 يوماً وفترة التجربة",
+  "h1": "حاسبة بدل الإنذار (فترة الإشعار) في الإمارات",
+  "description": "احسب بدل الإنذار في الإمارات وفق المادة 43 من قانون العمل: أجر المهلة كلها أو الجزء غير المراعى منها، على آخر أجر شامل (الأساسي مع البدلات)، ومهل الإخطار في فترة التجربة وفق المادة 9: 14 يوماً لصاحب العمل، وشهر للانتقال إلى صاحب عمل آخر في الدولة.",
+  "short": "أجر المهلة غير المراعاة على الأجر الشامل، ومهل التجربة 14 يوماً وشهر",
+  "lead": "اختر من أنهى العقد ومدة المهلة في عقدك وما عملته منها، ويظهر بدل الإنذار ومن يدفعه لمن.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "uae-notice-pay.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": ["uae-gratuity", "uae-gratuity-resignation", "uae-annual-leave", "uae-iloe"],
+  "faq": [
+    {"q": "على أي أجر يُحسب بدل الإنذار في الإمارات؟", "a": "على آخر أجر كان يتقاضاه العامل، والأجر في المادة 1 يشمل الأجر الأساسي والبدلات. لذلك يُحسب بدل الإنذار على الأجر الشامل لا على الأساسي وحده، بخلاف مكافأة نهاية الخدمة."},
+    {"q": "كم مدة الإنذار في الإمارات؟", "a": "يحددها عقد العمل، على ألا تقل عن 30 يوماً ولا تزيد على 90 يوماً، وتسري على الطرفين: صاحب العمل عند الإنهاء، والعامل عند الاستقالة."},
+    {"q": "هل أستحق راتبي خلال فترة الإنذار؟", "a": "نعم. تستحق أجرك كاملاً وفق آخر أجر عن أيام المهلة التي تعملها. وبدل الإنذار يُدفع فقط عن الأيام غير المراعاة."},
+    {"q": "هل يحق لي يوم للبحث عن عمل خلال المهلة؟", "a": "إذا كان الإنهاء من صاحب العمل، يحق لك يوم عمل واحد في الأسبوع بدون أجر للبحث عن عمل، تختاره بشرط إخطار صاحب العمل قبل 3 أيام على الأقل. ولا يسري هذا عند استقالتك."},
+    {"q": "استقلت وتركت العمل قبل نهاية المهلة، ماذا عليّ؟", "a": "تلتزم بأن تدفع لصاحب العمل بدل إنذار يساوي أجرك عن الجزء المتبقي من المهلة، ولو لم يتضرر صاحب العمل."},
+    {"q": "ما مهلة الإخطار خلال فترة التجربة؟", "a": "صاحب العمل: 14 يوماً على الأقل. العامل المنتقل إلى صاحب عمل آخر في الدولة: شهر على الأقل، ويعوّض صاحب العمل الجديد الأصلي عن تكاليف الاستقدام ما لم يُتفق على غير ذلك. العامل الذي يغادر الدولة: 14 يوماً. ومن يخالف المهلة يدفع أجر المدة أو المتبقي منها."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 33/2021 — المواد 1 و9 و43", "u": "https://uaelegislation.gov.ae/ar/legislations/1541/download"},
+    {"t": "وزارة الموارد البشرية والتوطين — النص الموحد للمرسوم بقانون وتعديلاته (بالإنجليزية)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "Gulf News — قواعد فترة الإشعار عند الاستقالة وخلال التجربة (أكتوبر 2026)", "u": "https://gulfnews.com/living-in-uae/ask-us/uae-notice-period-rules-resignation-probation-1.500723395"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب بدل الإنذار</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="10000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">مجموع البدلات الشهرية (درهم)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="5000">
+        <span class="hint">السكن والمواصلات وغيرها؛ تدخل في البدل.</span>
+      </div>
+      <div class="field">
+        <label for="stage">متى انتهى العقد؟</label>
+        <select id="stage" name="stage">
+          <option value="after">بعد انتهاء فترة التجربة</option>
+          <option value="probation">خلال فترة التجربة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">من أنهى العقد؟</label>
+        <select id="who" name="who">
+          <option value="employer">صاحب العمل</option>
+          <option value="worker">العامل (استقالة)</option>
+        </select>
+      </div>
+      <div class="field" data-after>
+        <label for="notice">مدة الإنذار في العقد (يوماً)</label>
+        <input type="number" id="notice" name="notice" inputmode="decimal" min="30" max="90" step="1" value="60">
+        <span class="hint">بين 30 و90 يوماً.</span>
+      </div>
+      <div class="field" data-prob hidden>
+        <label for="dest">عند استقالة العامل في التجربة</label>
+        <select id="dest" name="dest">
+          <option value="uae">ينتقل إلى صاحب عمل آخر في الدولة (شهر)</option>
+          <option value="leave">يغادر الدولة (14 يوماً)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">أيام الإخطار التي رُوعيت فعلاً</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">0 إذا كان الإنهاء فورياً.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب البدل</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>ما بدل الإنذار؟</h2>
+<p>تلزم المادة 43 من المرسوم بقانون اتحادي 33 لسنة 2021 من يريد إنهاء العقد بإنذار كتابي للطرف الآخر بمدة يحددها العقد، لا تقل عن 30 يوماً ولا تزيد على 90 يوماً. والطرف الذي لا يلتزم بالمهلة يدفع للآخر <strong>بدل إنذار</strong> يساوي أجر العامل عن المهلة كلها أو الجزء المتبقي منها.</p>
+<ul>
+  <li><strong>الأساس:</strong> آخر أجر شامل (الأساسي مع البدلات)، لا الأساسي وحده.</li>
+  <li><strong>الاتجاه:</strong> صاحب العمل يدفعه للعامل إذا أنهى فوراً، والعامل يدفعه لصاحب العمل إذا ترك العمل قبل نهاية المهلة.</li>
+  <li><strong>الاستقلال:</strong> البدل حق مستقل عن مكافأة نهاية الخدمة وبدل الإجازة.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> أساسي 10,000 درهم وسكن 4,000 ومواصلات 1,000 (الأجر الشامل 15,000)، ومهلة 60 يوماً في العقد.</p>
+<p>أجر اليوم = 15,000 ÷ 30 = 500 درهم.<br>
+صاحب العمل ينهي فوراً: <strong>60 × 500 = 30,000 درهم</strong> للعامل. والحساب على الأساسي (20,000) خطأ.<br>
+العامل يستقيل ويغادر بعد 20 يوماً من المهلة: عليه 40 × 500 = 20,000 درهم لصاحب العمل.</p>
+</div>
+
+<h2>فترة التجربة (المادة 9)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحالة</th><th scope="col">الإخطار</th><th scope="col">عند المخالفة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">صاحب العمل ينهي العقد</th><td>14 يوماً</td><td>أجر المدة أو المتبقي منها</td></tr>
+    <tr><th scope="row">العامل ينتقل إلى صاحب عمل آخر في الدولة</th><td>شهر</td><td>أجر المدة أو المتبقي، والجديد يعوّض تكاليف الاستقدام</td></tr>
+    <tr><th scope="row">العامل يغادر الدولة</th><td>14 يوماً</td><td>أجر المدة أو المتبقي منها</td></tr>
+  </tbody>
+</table>
+</div>
+<p>فترة التجربة لا تزيد على 6 أشهر من تاريخ المباشرة. وبعد انتهاء العقد راجع <a href="{{root}}uae-gratuity/{{ix}}">مكافأة نهاية الخدمة</a> و<a href="{{root}}uae-iloe/{{ix}}">تعويض التأمين ضد التعطل</a>.</p>
+</div>

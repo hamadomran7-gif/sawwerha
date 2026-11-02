@@ -261,3 +261,89 @@ test("البحرين: نصف شهر لأول 3 سنوات ثم شهر، وتقس
   near(b.employerAmount, 85000);
   near(b.sioAmount, 20000);
 });
+
+import { uaeSickLeave, uaeMaternity, uaeNoticePay, uaeProbationNotice, ksaSickLeave, ksaArt77, ksaNotice, ksaOvertime } from "../src/assets/calc.js";
+
+test("الإمارات: الإجازة المرضية 15 كامل ثم 30 نصف ثم 45 بلا أجر، ولا أجر في التجربة", () => {
+  near(uaeSickLeave({ wage: 12000, days: 20 }).paid, 7000);
+  near(uaeSickLeave({ wage: 12000, days: 60 }).paid, 12000);
+  near(uaeSickLeave({ wage: 12000, days: 60 }).deduction, 12000);
+  assert.equal(uaeSickLeave({ wage: 12000, days: 5, probation: true }).paid, 0);
+  assert.equal(uaeSickLeave({ wage: 12000, days: 100 }).exceeded, true);
+});
+
+test("الإمارات: إجازة الوضع 45 كامل + 15 نصف، والطفل المريض 30 كاملة", () => {
+  const m = uaeMaternity({ wage: 9000 });
+  near(m.paid, 15750);
+  near(m.deduction, 2250);
+  const c = uaeMaternity({ wage: 9000, sickChild: true });
+  near(c.child, 9000);
+  near(c.paid, 24750);
+});
+
+test("الإمارات: بدل الإنذار على الأجر الشامل عن المهلة أو باقيها", () => {
+  near(uaeNoticePay({ wage: 15000, noticeDays: 60 }).amount, 30000);
+  near(uaeNoticePay({ wage: 15000, noticeDays: 60, servedDays: 20 }).amount, 20000);
+  assert.equal(uaeNoticePay({ wage: 15000, noticeDays: 120 }).noticeDays, 90);
+  near(uaeProbationNotice({ wage: 15000, who: "employer" }).amount, 7000);
+  near(uaeProbationNotice({ wage: 15000, who: "to_uae_employer" }).amount, 15000);
+});
+
+test("السعودية: الإجازة المرضية 30 كامل ثم 60 بثلاثة أرباع ثم 30 بلا أجر", () => {
+  near(ksaSickLeave({ wage: 9000, days: 45 }).paid, 12375);
+  near(ksaSickLeave({ wage: 9000, days: 120 }).paid, 22500);
+});
+
+test("السعودية: تعويض المادة 77 بحد أدنى أجر شهرين", () => {
+  const a = ksaArt77({ wage: 10000, type: "indefinite", years: 3.5 });
+  near(a.base, 17500);
+  near(a.total, 20000);
+  assert.equal(a.minimumApplied, true);
+  near(ksaArt77({ wage: 10000, type: "indefinite", years: 12 }).total, 60000);
+  near(ksaArt77({ wage: 10000, type: "fixed", remainingDays: 210 }).total, 70000);
+  near(ksaArt77({ wage: 10000, type: "fixed", remainingDays: 30 }).total, 20000);
+});
+
+test("السعودية: مهلة الإشعار 60/30 للأجر الشهري والتعويض عن غير المراعى", () => {
+  near(ksaNotice({ wage: 12000, who: "employer" }).amount, 24000);
+  near(ksaNotice({ wage: 12000, who: "employer", givenDays: 20 }).amount, 16000);
+  near(ksaNotice({ wage: 12000, who: "worker" }).amount, 12000);
+  assert.equal(ksaNotice({ wage: 12000, monthly: false, who: "employer" }).requiredDays, 30);
+});
+
+test("السعودية: الأجر الإضافي = أجر الساعة الفعلي + 50% من الأساسي", () => {
+  const a = ksaOvertime({ basic: 4000, actual: 6000, hours: 3 });
+  near(a.rate, 33.33);
+  near(a.total, 100, 0.02);
+  const b = ksaOvertime({ basic: 10000, actual: 14000, hours: 20 });
+  near(b.rate, 79.17);
+  near(b.total, 1583.33);
+  near(b.compLeaveHours, 30);
+});
+
+import { uaeRamadanOvertime, ksaMaternityPlan } from "../src/assets/calc.js";
+
+test("الإمارات: رمضان — ساعتان زائدتان يومياً على الساعات المخفضة", () => {
+  const a = uaeRamadanOvertime({ basic: 6000, normalHours: 8, workedHours: 8, days: 22 });
+  assert.equal(a.reducedHours, 6);
+  near(a.perDay, 62.5);
+  near(a.total, 1375);
+  near(uaeRamadanOvertime({ basic: 6000, normalHours: 8, workedHours: 8, days: 22, night: true }).total, 1650);
+  near(uaeRamadanOvertime({ basic: 6000, normalHours: 8, workedHours: 8, days: 22, divisor: 6 }).total, 1833.33, 0.05);
+  assert.equal(uaeRamadanOvertime({ basic: 6000, workedHours: 6, days: 22 }).total, 0);
+});
+
+test("السعودية: خطة إجازة الوضع 12 أسبوعاً", () => {
+  const p = ksaMaternityPlan({ due: "2026-06-01", start: "2026-05-04", wage: 9000 });
+  assert.equal(p.earliest, "2026-05-04");
+  assert.equal(p.preDays, 28);
+  assert.equal(p.postDays, 56);
+  assert.equal(p.lastPaid, "2026-07-26");
+  assert.equal(p.back, "2026-07-27");
+  assert.equal(p.mandatoryUntil, "2026-07-12");
+  assert.equal(p.extendedBack, "2026-08-27");
+  near(p.paid, 25200);
+  const e = ksaMaternityPlan({ due: "2026-06-01", start: "2026-04-01" });
+  assert.equal(e.tooEarly, true);
+  assert.equal(e.start, "2026-05-04");
+});

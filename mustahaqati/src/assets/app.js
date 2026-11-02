@@ -11,6 +11,25 @@ export function num(n, digits = 2) {
   if (n === null || n === undefined || isNaN(n)) return "—";
   return digits === 0 ? nf0.format(n) : new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(n);
 }
+const dfmt = new Intl.DateTimeFormat("ar-u-nu-latn", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+/** تاريخ ISO (YYYY-MM-DD) بصيغة عربية مقروءة، مثل «4 مايو 2026». */
+export function arDate(iso) {
+  if (!iso) return "—";
+  const d = new Date(`${iso}T00:00:00Z`);
+  return isNaN(d) ? "—" : dfmt.format(d);
+}
+/** عدّ عربي سليم: 1 يوم واحد، 2 يومان، 3–10 أيام، 11+ يوماً. الكسور بصيغة المفرد. */
+function countAr(n, one, two, few, many, single) {
+  const v = Number(n) || 0;
+  if (!Number.isInteger(v)) return `${num(v, 1)} ${single}`;
+  if (v === 0) return `0 ${single}`;
+  if (v === 1) return one;
+  if (v === 2) return two;
+  if (v % 100 >= 3 && v % 100 <= 10) return `${num(v, 0)} ${few}`;
+  return `${num(v, 0)} ${many}`;
+}
+export const daysAr = (n) => countAr(n, "يوم واحد", "يومان", "أيام", "يوماً", "يوم");
+export const hoursAr = (n) => countAr(n, "ساعة واحدة", "ساعتان", "ساعات", "ساعة", "ساعة");
 export function pct(n, digits = 2) {
   return `${num(n, digits)}%`;
 }

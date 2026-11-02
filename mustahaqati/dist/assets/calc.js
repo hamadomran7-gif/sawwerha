@@ -617,3 +617,182 @@ export function bahrainGratuity({ wage, start, end }) {
     sioAmount: r2((totalMonths - employerMonths) * w),
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* الإجازات والإنذار والإنهاء — الإمارات والسعودية                     */
+/* ------------------------------------------------------------------ */
+
+/** يوزّع أيام الإجازة على الشرائح ويحسب المدفوع. */
+function tierPay(days, tiers, daily) {
+  let remaining = Math.max(0, Math.floor(Number(days) || 0));
+  const rows = [];
+  let paid = 0;
+  for (const t of tiers) {
+    const d = Math.min(remaining, t.days);
+    const amount = d * daily * t.frac;
+    rows.push({ days: d, frac: t.frac, amount: r2(amount) });
+    paid += amount;
+    remaining -= d;
+  }
+  return { rows, paid, over: remaining };
+}
+
+/** الإمارات — المادة 31: 90 يوماً لكل سنة خدمة بعد التجربة: 15 بأجر كامل، 30 بنصفه، 45 بلا أجر. */
+export function uaeSickLeave({ wage, days, probation = false }) {
+  const s = rules.ae.sickLeave;
+  const w = Number(wage) || 0;
+  const d = Math.max(0, Math.floor(Number(days) || 0));
+  const daily = w / s.daysPerMonth;
+  const counted = Math.min(d, s.maxDays);
+  if (probation) return { probation: true, daily: r2(daily), rows: [], paid: 0, normal: r2(d * daily), deduction: r2(d * daily), exceeded: false };
+  const t = tierPay(counted, s.tiers, daily);
+  return { probation: false, daily: r2(daily), rows: t.rows, paid: r2(t.paid), normal: r2(counted * daily), deduction: r2(counted * daily - t.paid), exceeded: d > s.maxDays };
+}
+
+/** الإمارات — المادة 30: 60 يوماً (45 كامل + 15 نصف)، وإضافات اختيارية. */
+export function uaeMaternity({ wage, extraUnpaidDays = 0, sickChild = false, sickChildUnpaid = false }) {
+  const m = rules.ae.maternity;
+  const w = Number(wage) || 0;
+  const daily = w / m.daysPerMonth;
+  const full = m.fullPayDays * daily;
+  const half = m.halfPayDays * daily * 0.5;
+  const extra = Math.min(Math.max(0, Math.floor(Number(extraUnpaidDays) || 0)), m.extraUnpaidMaxDays);
+  const child = sickChild ? m.sickChildFullPayDays * daily : 0;
+  const childUnpaid = sickChild && sickChildUnpaid ? m.sickChildUnpaidDays : 0;
+  const totalDays = m.fullPayDays + m.halfPayDays + extra + (sickChild ? m.sickChildFullPayDays : 0) + childUnpaid;
+  const paid = full + half + child;
+  return { daily: r2(daily), full: r2(full), half: r2(half), extraUnpaidDays: extra, child: r2(child), childUnpaidDays: childUnpaid, totalDays, paid: r2(paid), normal: r2(totalDays * daily), deduction: r2(totalDays * daily - paid) };
+}
+
+/** الإمارات — المادة 43: بدل الإنذار = آخر أجر شامل عن المهلة أو الجزء غير المراعى منها. */
+export function uaeNoticePay({ wage, noticeDays, servedDays = 0 }) {
+  const n = rules.ae.notice;
+  const w = Number(wage) || 0;
+  const nd = Math.min(Math.max(Number(noticeDays) || n.minDays, n.minDays), n.maxDays);
+  const served = Math.min(Math.max(0, Math.floor(Number(servedDays) || 0)), nd);
+  const daily = w / n.daysPerMonth;
+  const remaining = nd - served;
+  return { noticeDays: nd, servedDays: served, remainingDays: remaining, daily: r2(daily), amount: r2(remaining * daily), adjusted: nd !== Number(noticeDays) };
+}
+
+/** الإمارات — المادة 9: الإخطار خلال فترة التجربة والتعويض عن مخالفته. */
+export function uaeProbationNotice({ wage, who = "employer", servedDays = 0 }) {
+  const n = rules.ae.notice;
+  const days = who === "employer" ? n.probationEmployerDays : who === "to_uae_employer" ? n.probationToUaeEmployerDays : n.probationLeavingUaeDays;
+  const daily = (Number(wage) || 0) / n.daysPerMonth;
+  const remaining = Math.max(0, days - Math.max(0, Math.floor(Number(servedDays) || 0)));
+  return { noticeDays: days, remainingDays: remaining, daily: r2(daily), amount: r2(remaining * daily) };
+}
+
+/** السعودية — المادة 117: خلال سنة تبدأ من أول إجازة مرضية: 30 كامل، 60 بثلاثة أرباع، 30 بلا أجر. */
+export function ksaSickLeave({ wage, days }) {
+  const s = rules.sa.sickLeave;
+  const w = Number(wage) || 0;
+  const d = Math.max(0, Math.floor(Number(days) || 0));
+  const daily = w / s.daysPerMonth;
+  const counted = Math.min(d, s.maxDays);
+  const t = tierPay(counted, s.tiers, daily);
+  return { daily: r2(daily), rows: t.rows, paid: r2(t.paid), normal: r2(counted * daily), deduction: r2(counted * daily - t.paid), exceeded: d > s.maxDays };
+}
+
+/** السعودية — المادة 77: 15 يوماً عن كل سنة (غير محدد المدة) أو أجر المدة الباقية (محدد)، بحد أدنى أجر شهرين. */
+export function ksaArt77({ wage, type = "indefinite", years = 0, remainingDays = 0 }) {
+  const a = rules.sa.art77;
+  const w = Number(wage) || 0;
+  const daily = w / a.daysPerMonth;
+  const base = type === "fixed" ? Math.max(0, Number(remainingDays) || 0) * daily : Math.max(0, Number(years) || 0) * a.daysPerYear * daily;
+  const minimum = a.minMonths * w;
+  const total = Math.max(base, minimum);
+  return { daily: r2(daily), base: r2(base), minimum: r2(minimum), minimumApplied: base < minimum, total: r2(total) };
+}
+
+/** السعودية — المادتان 75 و76: المهلة 30 (العامل) أو 60 (صاحب العمل) للأجر الشهري، و30 لغيره؛ والتعويض بالأجر الفعلي. */
+export function ksaNotice({ wage, monthly = true, who = "employer", givenDays = 0 }) {
+  const n = rules.sa.notice;
+  const required = monthly ? (who === "employer" ? n.monthlyEmployerDays : n.monthlyWorkerDays) : n.notMonthlyDays;
+  const given = Math.min(Math.max(0, Math.floor(Number(givenDays) || 0)), required);
+  const daily = (Number(wage) || 0) / n.daysPerMonth;
+  const unserved = required - given;
+  return { requiredDays: required, givenDays: given, unservedDays: unserved, daily: r2(daily), amount: r2(unserved * daily), fullAmount: r2(required * daily) };
+}
+
+/** السعودية — المادة 107: أجر الساعة الفعلي + 50% من أجر الساعة الأساسي (صيغة وزارة الموارد البشرية). */
+export function ksaOvertime({ basic, actual, hours }) {
+  const o = rules.sa.overtime;
+  const b = Number(basic) || 0;
+  const a = Math.max(Number(actual) || 0, b);
+  const h = Math.max(0, Number(hours) || 0);
+  const hourlyActual = a / o.daysPerMonth / o.hoursPerDay;
+  const hourlyBasic = b / o.daysPerMonth / o.hoursPerDay;
+  const rate = hourlyActual + o.premium * hourlyBasic;
+  return { hourlyActual: r2(hourlyActual), hourlyBasic: r2(hourlyBasic), premiumPerHour: r2(o.premium * hourlyBasic), rate: r2(rate), total: r2(rate * h), compLeaveHours: r2(h * o.compLeaveHoursPerOtHour) };
+}
+
+/** الإمارات — رمضان: تخفيض ساعتين يومياً (اللائحة م15/2)، وما زاد على الساعات المخفضة إضافي (استنتاج من م19/2). */
+export function uaeRamadanOvertime({ basic, normalHours = 8, workedHours, days = 1, night = false, divisor }) {
+  const o = rules.ae.overtime;
+  const reduced = Math.max(0, (Number(normalHours) || o.hoursPerDay) - rules.ae.ramadan.reductionHoursPerDay);
+  const worked = Math.max(0, Number(workedHours) || 0);
+  const extraPerDay = Math.max(0, worked - reduced);
+  const div = Number(divisor) || o.hoursPerDay;
+  const hourly = (Number(basic) || 0) / o.daysPerMonth / div;
+  const mult = night ? o.nightMultiplier : o.dayMultiplier;
+  const perDay = extraPerDay * hourly * mult;
+  const d = Math.max(0, Math.floor(Number(days) || 0));
+  return { reducedHours: reduced, extraPerDay, hourly: r2(hourly), multiplier: mult, perDay: r2(perDay), total: r2(perDay * d), overLimit: extraPerDay > o.maxOvertimeHoursPerDay };
+}
+
+const addDaysUTC = (x, n) => {
+  const d = toUTC(x);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + n));
+};
+const addMonthsUTC = (x, n) => {
+  const d = toUTC(x);
+  const y = d.getUTCFullYear();
+  const m = d.getUTCMonth() + n;
+  const last = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(y, m, Math.min(d.getUTCDate(), last)));
+};
+const daysBetween = (a, b) => Math.round((toUTC(b) - toUTC(a)) / 86400000);
+
+/** السعودية — المادة 151: 12 أسبوعاً بأجر كامل، تبدأ قبل الموعد المرجح بأربعة أسابيع على الأكثر، و6 أسابيع بعد الوضع إلزامية. */
+export function ksaMaternityPlan({ due, start, wage = 0 }) {
+  const m = rules.sa.maternity;
+  const totalDays = m.weeks * 7;
+  const earliest = addDaysUTC(due, -m.maxPreWeeks * 7);
+  let s = toUTC(start || due);
+  const late = s > toUTC(due);
+  if (late) s = toUTC(due);
+  const tooEarly = s < earliest;
+  if (tooEarly) s = earliest;
+  const preDays = daysBetween(s, due);
+  const lastPaid = addDaysUTC(s, totalDays - 1);
+  const back = addDaysUTC(s, totalDays);
+  const mandatoryUntil = addDaysUTC(due, m.mandatoryPostWeeks * 7 - 1);
+  const extendedBack = addMonthsUTC(back, m.unpaidExtensionMonths);
+  const daily = (Number(wage) || 0) / 30;
+  return {
+    start: isoOf(s),
+    earliest: isoOf(earliest),
+    lastPaid: isoOf(lastPaid),
+    back: isoOf(back),
+    extendedBack: isoOf(extendedBack),
+    mandatoryUntil: isoOf(mandatoryUntil),
+    preDays,
+    postDays: totalDays - preDays,
+    totalDays,
+    tooEarly,
+    late,
+    paid: r2(daily * totalDays),
+  };
+}
+
+/** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
+export function shiftDate(iso, days) {
+  return isoOf(addDaysUTC(iso, days));
+}
+
+/** يزيح تاريخ ISO بعدد من الأشهر (مع ضبط نهاية الشهر) ويعيده ISO. */
+export function shiftMonths(iso, months) {
+  return isoOf(addMonthsUTC(iso, months));
+}

@@ -85,7 +85,55 @@
       "minSubscriptionMonths": 12,
       "claimWithinDays": 30
     },
-    "vat": 0.05
+    "vat": 0.05,
+    "sickLeave": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المادة 31، واللائحة التنفيذية (قرار مجلس الوزراء 1/2022) المادة 20",
+      "maxDays": 90,
+      "tiers": [
+        {
+          "days": 15,
+          "frac": 1
+        },
+        {
+          "days": 30,
+          "frac": 0.5
+        },
+        {
+          "days": 45,
+          "frac": 0
+        }
+      ],
+      "daysPerMonth": 30,
+      "notifyWorkingDays": 3
+    },
+    "maternity": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المادتان 30 و32",
+      "fullPayDays": 45,
+      "halfPayDays": 15,
+      "extraUnpaidMaxDays": 45,
+      "sickChildFullPayDays": 30,
+      "sickChildUnpaidDays": 30,
+      "parentalWorkingDays": 5,
+      "parentalWithinMonths": 6,
+      "nursingMinutesPerDay": 60,
+      "nursingMonths": 6,
+      "daysPerMonth": 30
+    },
+    "notice": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المادتان 43 و9",
+      "minDays": 30,
+      "maxDays": 90,
+      "probationEmployerDays": 14,
+      "probationToUaeEmployerDays": 30,
+      "probationLeavingUaeDays": 14,
+      "probationMaxMonths": 6,
+      "daysPerMonth": 30
+    },
+    "ramadan": {
+      "law": "قرار مجلس الوزراء 1/2022 المادة 15 البند 2، والمرسوم بقانون اتحادي 33/2021 المادتان 17(4) و19(2)",
+      "reductionHoursPerDay": 2,
+      "overtimeBeyondReduced": "استنتاج من المادة 19(2)، تؤيده أعمدة قانونية، بلا نص رسمي صريح"
+    }
   },
   "sa": {
     "currency": "SAR",
@@ -145,7 +193,67 @@
       "maxDeductionRetiree": 0.25,
       "typicalMaxMonths": 60
     },
-    "vat": 0.15
+    "vat": 0.15,
+    "sickLeave": {
+      "law": "نظام العمل السعودي المادة 117",
+      "maxDays": 120,
+      "tiers": [
+        {
+          "days": 30,
+          "frac": 1
+        },
+        {
+          "days": 60,
+          "frac": 0.75
+        },
+        {
+          "days": 30,
+          "frac": 0
+        }
+      ],
+      "daysPerMonth": 30
+    },
+    "maternity": {
+      "law": "نظام العمل السعودي المادتان 151 و113 (بتعديل المرسوم الملكي م/44، نافذ 19 فبراير 2025)",
+      "weeks": 12,
+      "mandatoryPostWeeks": 6,
+      "maxPreWeeks": 4,
+      "unpaidExtensionMonths": 1,
+      "sickChildFullPayMonths": 1,
+      "marriageDays": 5,
+      "deathFamilyDays": 5,
+      "deathSiblingDays": 3,
+      "paternityDays": 3,
+      "paternityWithinDays": 7
+    },
+    "notice": {
+      "law": "نظام العمل السعودي المادة 75 (معدلة 2025) والمادة 76",
+      "monthlyWorkerDays": 30,
+      "monthlyEmployerDays": 60,
+      "notMonthlyDays": 30,
+      "daysPerMonth": 30
+    },
+    "art77": {
+      "law": "نظام العمل السعودي المادة 77",
+      "daysPerYear": 15,
+      "minMonths": 2,
+      "daysPerMonth": 30
+    },
+    "overtime": {
+      "law": "نظام العمل السعودي المادة 107 (معدلة 2025) والمادة 98، والدليل التوعوي لوزارة الموارد البشرية 2025",
+      "premium": 0.5,
+      "daysPerMonth": 30,
+      "hoursPerDay": 8,
+      "compLeaveHoursPerOtHour": 1.5,
+      "compLeaveUseWithinDays": 60,
+      "compLeaveMaxDaysPerYear": 30,
+      "annualCapHours": 720
+    },
+    "ramadan": {
+      "law": "نظام العمل السعودي المادة 98",
+      "muslimHoursPerDay": 6,
+      "muslimHoursPerWeek": 36
+    }
   },
   "gcc": {
     "vat": {
