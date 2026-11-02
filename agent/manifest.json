@@ -1,0 +1,13 @@
+{
+ "_about": "Files the production agent keeps in sync with this repo (repo path -> path under C:\\Sawwerha). Python files must compile and JSON must parse before they replace the local copy.",
+ "files": {
+  "agent/agent.py": "agent/agent.py",
+  "agent/comfy.py": "agent/comfy.py",
+  "agent/pipeline.py": "agent/pipeline.py",
+  "agent/prompts.json": "agent/prompts.json",
+  "agent/requirements.txt": "agent/requirements.txt",
+  "agent/manifest.json": "agent/manifest.json",
+  "workflows/qwen_image_edit_api.json": "workflows/qwen_image_edit_api.json",
+  "workflows/qwen_image_edit_lightning_api.json": "workflows/qwen_image_edit_lightning_api.json"
+ }
+}

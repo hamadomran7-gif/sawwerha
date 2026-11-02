@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps, ImageStat
 HERE = Path(__file__).resolve().parent
 PROMPTS = json.loads((HERE / "prompts.json").read_text(encoding="utf-8-sig"))
 WORKFLOW_PATH = HERE.parent / "workflows" / "qwen_image_edit_api.json"
+LIGHTNING_WORKFLOW_PATH = HERE.parent / "workflows" / "qwen_image_edit_lightning_api.json"
 
 
 # ---------------------------------------------------------------- القصّ
@@ -105,12 +106,17 @@ def scene_prompt(category: str, variant: int, revision_note: str | None = None) 
     return f"{base}{extra} {PROMPTS['keep']}"
 
 
-def edit_scene(comfy, white_path: str, category: str, variant: int, size: int, seed: int, steps: int = 20, revision_note: str | None = None, prefix: str = "job") -> Image.Image:
-    """مشهد عبر Qwen-Image-Edit في ComfyUI انطلاقاً من الصورة البيضاء."""
-    wf = json.loads(WORKFLOW_PATH.read_text(encoding="utf-8-sig"))
+def edit_scene(comfy, white_path: str, category: str, variant: int, size: int, seed: int, steps: int = 20, revision_note: str | None = None, prefix: str = "job", lora: str | None = None) -> Image.Image:
+    """مشهد عبر Qwen-Image-Edit في ComfyUI انطلاقاً من الصورة البيضاء.
+    مع lora (Lightning) يُستخدم سير العمل السريع (8 خطوات، cfg 1)."""
+    use_lightning = bool(lora) and LIGHTNING_WORKFLOW_PATH.exists()
+    path = LIGHTNING_WORKFLOW_PATH if use_lightning else WORKFLOW_PATH
+    wf = json.loads(path.read_text(encoding="utf-8-sig"))
     wf.pop("_about", None)
     name = comfy.upload_image(white_path)
     raw = json.dumps(wf)
+    if use_lightning:
+        raw = raw.replace("{{LORA}}", lora)
     raw = raw.replace("{{IMAGE}}", name).replace("{{PROMPT}}", json.dumps(scene_prompt(category, variant, revision_note))[1:-1])
     raw = raw.replace("{{NEGATIVE}}", PROMPTS["negative"]).replace("\"{{SEED}}\"", str(seed)).replace("\"{{STEPS}}\"", str(steps)).replace("{{PREFIX}}", prefix)
     images = comfy.run(json.loads(raw))

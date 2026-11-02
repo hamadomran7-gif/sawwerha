@@ -248,7 +248,7 @@ async function handleAgent(request, env, url) {
 
   if (path === "/api/heartbeat" && request.method === "POST") {
     await db.setMeta(env.DB, "agent_last_seen", new Date().toISOString());
-    return json({ ok: true, paused: (await db.getMeta(env.DB, "paused")) === "1" });
+    return json({ ok: true, paused: (await db.getMeta(env.DB, "paused")) === "1", agent_rev: env.AGENT_REV || null });
   }
 
   if (path === "/api/jobs/next" && request.method === "GET") {

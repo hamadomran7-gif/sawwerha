@@ -1,0 +1,178 @@
+{
+ "_about": "Qwen-Image-Edit + Lightning 8-step LoRA (lightx2v/Qwen-Image-Lightning, Apache-2.0). cfg 1.0 skips the negative pass. Input scaled to ~1MP. {{...}} placeholders are filled by the agent.",
+ "1": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "{{IMAGE}}"
+  }
+ },
+ "2": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "qwen_image_edit_fp8_e4m3fn.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "3": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+   "type": "qwen_image",
+   "device": "default"
+  }
+ },
+ "4": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_vae.safetensors"
+  }
+ },
+ "5": {
+  "class_type": "ModelSamplingAuraFlow",
+  "inputs": {
+   "shift": 3.1,
+   "model": [
+    "14",
+    0
+   ]
+  }
+ },
+ "6": {
+  "class_type": "CFGNorm",
+  "inputs": {
+   "strength": 1.0,
+   "model": [
+    "5",
+    0
+   ]
+  }
+ },
+ "7": {
+  "class_type": "TextEncodeQwenImageEdit",
+  "inputs": {
+   "prompt": "{{PROMPT}}",
+   "clip": [
+    "3",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ],
+   "image": [
+    "13",
+    0
+   ]
+  }
+ },
+ "8": {
+  "class_type": "TextEncodeQwenImageEdit",
+  "inputs": {
+   "prompt": "{{NEGATIVE}}",
+   "clip": [
+    "3",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ],
+   "image": [
+    "13",
+    0
+   ]
+  }
+ },
+ "9": {
+  "class_type": "VAEEncode",
+  "inputs": {
+   "pixels": [
+    "13",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ]
+  }
+ },
+ "10": {
+  "class_type": "KSampler",
+  "inputs": {
+   "seed": "{{SEED}}",
+   "steps": "{{STEPS}}",
+   "cfg": 1.0,
+   "sampler_name": "euler",
+   "scheduler": "simple",
+   "denoise": 1.0,
+   "model": [
+    "6",
+    0
+   ],
+   "positive": [
+    "7",
+    0
+   ],
+   "negative": [
+    "8",
+    0
+   ],
+   "latent_image": [
+    "9",
+    0
+   ]
+  }
+ },
+ "11": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "10",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ]
+  }
+ },
+ "12": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "filename_prefix": "sawwerha/{{PREFIX}}",
+   "images": [
+    "11",
+    0
+   ]
+  }
+ },
+ "13": {
+  "class_type": "ImageScaleToTotalPixels",
+  "inputs": {
+   "image": [
+    "1",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "megapixels": 1.0,
+   "resolution_steps": 16
+  },
+  "_meta": {
+   "title": "Scale to ~1MP (Qwen native)"
+  }
+ },
+ "14": {
+  "class_type": "LoraLoaderModelOnly",
+  "inputs": {
+   "lora_name": "{{LORA}}",
+   "strength_model": 1.0,
+   "model": [
+    "2",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Lightning LoRA"
+  }
+ }
+}

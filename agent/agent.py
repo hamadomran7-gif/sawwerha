@@ -8,8 +8,11 @@
 import argparse
 import json
 import logging
+import os
 import random
+import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -20,6 +23,11 @@ import pipeline
 from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent  # C:\\Sawwerha
+AGENT_VERSION = "2026.11.02-2"
+DEFAULT_REPO = "hamadomran7-gif/sawwerha"
+LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
+LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler(HERE / "agent.log", encoding="utf-8")])
 log = logging.getLogger("sawwerha")
 
@@ -63,6 +71,108 @@ class Worker:
         requests.post(f"{self.base}/api/jobs/{job_id}/fail", headers=self.h, json={"error": error[:500]}, timeout=30)
 
 
+# ------------------------------------------------------------ التحديث الذاتي
+def _norm(b: bytes) -> bytes:
+    return b.replace(b"\r\n", b"\n")
+
+
+def self_update(cfg: dict) -> bool:
+    """يزامن ملفات الوكيل مع مستودع GitHub (agent/manifest.json).
+    يتحقق من صلاحية كل ملف قبل استبداله، ويثبّت المتطلبات إن تغيّرت.
+    يعيد True إن تغيّر شيء (فيُعاد تشغيل الوكيل ليعمل بالكود الجديد)."""
+    if not cfg.get("auto_update", True):
+        return False
+    repo = cfg.get("repo", DEFAULT_REPO)
+    branch = cfg.get("branch", "main")
+    base = f"https://raw.githubusercontent.com/{repo}/{branch}/"
+    try:
+        r = requests.get(base + "agent/manifest.json", params={"t": int(time.time())}, timeout=30)
+        r.raise_for_status()
+        files = r.json()["files"]
+    except Exception as e:  # noqa: BLE001
+        log.warning("update check failed: %s", e)
+        return False
+    changed = []
+    for src, dst in files.items():
+        local = (ROOT / dst).resolve()
+        if ROOT.resolve() not in local.parents:
+            log.warning("update: refusing path outside %s: %s", ROOT, dst)
+            continue
+        try:
+            g = requests.get(base + src, params={"t": int(time.time())}, timeout=60)
+            g.raise_for_status()
+            data = g.content
+            if src.endswith(".py"):
+                compile(data.decode("utf-8"), src, "exec")
+            elif src.endswith(".json"):
+                json.loads(data.decode("utf-8-sig"))
+        except Exception as e:  # noqa: BLE001
+            log.warning("update: skip %s (%s)", src, e)
+            continue
+        old = local.read_bytes() if local.exists() else None
+        if old is not None and _norm(old) == _norm(data):
+            continue
+        local.parent.mkdir(parents=True, exist_ok=True)
+        tmp = local.with_name(local.name + ".new")
+        tmp.write_bytes(data)
+        os.replace(tmp, local)
+        changed.append(dst)
+    if not changed:
+        return False
+    log.info("updated from %s@%s: %s", repo, branch, ", ".join(changed))
+    if any(c.endswith("requirements.txt") for c in changed):
+        log.info("installing requirements…")
+        try:
+            subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-r", str(HERE / "requirements.txt")], timeout=3600, check=False)
+        except Exception as e:  # noqa: BLE001
+            log.warning("pip install failed: %s", e)
+    return True
+
+
+# ------------------------------------------------------------ Lightning LoRA
+_lightning = {"name": None, "downloading": False}
+
+
+def lightning_name(cfg: dict, comfy):
+    """اسم ملف Lightning إن كان ComfyUI يراه؛ وإلا يبدأ تنزيله في الخلفية مرة واحدة."""
+    if comfy is None or not cfg.get("lightning", True):
+        return None
+    name = cfg.get("lightning_lora", LIGHTNING_LORA)
+    try:
+        if name in comfy.loras():
+            _lightning["name"] = name
+            return name
+    except Exception as e:  # noqa: BLE001
+        log.warning("lora list failed: %s", e)
+        return None
+    if not _lightning["downloading"]:
+        _lightning["downloading"] = True
+        threading.Thread(target=_download_lightning, args=(cfg, comfy, name), daemon=True).start()
+    return None
+
+
+def _download_lightning(cfg: dict, comfy, name: str):
+    try:
+        folder = comfy.folder("loras")
+        if not folder:
+            raise RuntimeError("ComfyUI loras folder unknown")
+        dest = Path(folder) / name
+        part = dest.with_name(dest.name + ".part")
+        url = cfg.get("lightning_url", LIGHTNING_URL)
+        log.info("downloading Lightning LoRA → %s", dest)
+        with requests.get(url, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            with open(part, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8 * 1024 * 1024):
+                    f.write(chunk)
+        os.replace(part, dest)
+        log.info("Lightning LoRA ready (%.0f MB)", dest.stat().st_size / 1e6)
+    except Exception as e:  # noqa: BLE001
+        log.warning("Lightning download failed: %s", e)
+    finally:
+        _lightning["downloading"] = False
+
+
 def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
     """ينتج كل صور الطلب ويعيد مفاتيح R2 بعد الرفع."""
     work = Path(cfg.get("work_dir", "./work")) / f"job_{job['id']}"
@@ -72,6 +182,9 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
     life_size = int(cfg.get("lifestyle_size", 1328))
     per_product = int(job.get("outputs_per_product", 3))
     is_sample = job["kind"] == "sample"
+    lora = None if dry else lightning_name(cfg, comfy)
+    steps = int(cfg.get("lightning_steps", 8)) if lora else int(cfg.get("steps", 20))
+    log.info("scenes via %s (%s steps)", "Lightning" if lora else "standard workflow", steps)
     keys = []
 
     for idx, key in enumerate(job["inputs"], start=1):
@@ -97,7 +210,7 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
             if not dry and cfg.get("edit_mode", "edit") == "edit" and comfy is not None:
                 for attempt in range(3):
                     try:
-                        cand = pipeline.edit_scene(comfy, white_path, job["category"], v, life_size, seed + attempt * 101, revision_note=job.get("revision_note"), prefix=f"job{job['id']}_p{idx}_s{v}")
+                        cand = pipeline.edit_scene(comfy, white_path, job["category"], v, life_size, seed + attempt * 101, steps=steps, revision_note=job.get("revision_note"), prefix=f"job{job['id']}_p{idx}_s{v}", lora=lora)
                         ok, why = pipeline.quality_ok(cand)
                         if ok:
                             scene = cand
@@ -134,14 +247,30 @@ def main():
             return
         time.sleep(300)
         cfg = json.loads(Path(args.config).read_text(encoding="utf-8-sig"))
+    if not args.once and self_update(cfg):
+        log.info("restarting with updated code")
+        sys.exit(0)
     worker = Worker(cfg["worker_url"], cfg["agent_token"])
     comfy = None if cfg.get("dry_run") else ComfyClient(cfg.get("comfy_url", "http://127.0.0.1:8188"))
     poll = int(cfg.get("poll_seconds", 20))
-    log.info("agent started (dry_run=%s)", cfg.get("dry_run", False))
+    update_every = 60 * int(cfg.get("update_check_minutes", 30))
+    last_update_check = time.time()
+    last_rev = None
+    log.info("agent %s started (dry_run=%s)", AGENT_VERSION, cfg.get("dry_run", False))
+    if comfy is not None and comfy.alive():
+        lightning_name(cfg, comfy)  # يبدأ تنزيل Lightning مبكراً إن لم يكن موجوداً
 
     while True:
         try:
             hb = worker.heartbeat()
+            rev = hb.get("agent_rev")
+            due = time.time() - last_update_check > update_every
+            if not args.once and ((rev and last_rev and rev != last_rev) or due):
+                last_update_check = time.time()
+                if self_update(cfg):
+                    log.info("restarting with updated code")
+                    sys.exit(0)
+            last_rev = rev or last_rev
             if hb.get("paused"):
                 log.info("service paused by owner")
                 if args.once:

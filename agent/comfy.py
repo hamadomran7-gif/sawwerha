@@ -18,6 +18,24 @@ class ComfyClient:
         except requests.RequestException:
             return False
 
+    def loras(self) -> list:
+        """أسماء ملفات LoRA التي يراها ComfyUI."""
+        r = requests.get(f"{self.base}/object_info/LoraLoaderModelOnly", timeout=30)
+        r.raise_for_status()
+        spec = r.json()["LoraLoaderModelOnly"]["input"]["required"]["lora_name"]
+        if spec and isinstance(spec[0], list):
+            return spec[0]
+        if spec and spec[0] == "COMBO" and len(spec) > 1:
+            return list(spec[1].get("options", []))
+        return []
+
+    def folder(self, kind: str):
+        """أول مجلد يستخدمه ComfyUI لنوع نماذج معيّن (مثل loras)."""
+        r = requests.get(f"{self.base}/internal/folder_paths", timeout=30)
+        r.raise_for_status()
+        paths = r.json().get(kind) or []
+        return paths[0] if paths else None
+
     def upload_image(self, path: str) -> str:
         """يرفع صورة إلى مجلد input في ComfyUI ويعيد اسمها."""
         with open(path, "rb") as f:
