@@ -11,6 +11,33 @@
   <p>الحاسبات تعمل في متصفحك مباشرة ولا تُرسل بياناتك إلى أي خادم. تُراجَع الأرقام القانونية دورياً، ويظهر تاريخ آخر مراجعة أسفل كل صفحة.</p>
 </section>
 
+<div class="tool-filter" role="search">
+  <label for="q" class="muted">ابحث في الحاسبات</label>
+  <input id="q" type="search" placeholder="مثال: نهاية الخدمة، الإجازة المرضية، التقاعد، الزكاة، قطر" autocomplete="off" enterkeyhint="search">
+  <span id="q-none" class="muted" hidden>لا توجد حاسبة بهذا الاسم بعد. جرّب كلمة أخرى.</span>
+</div>
+<script>
+(() => {
+  const q = document.getElementById("q");
+  if (!q) return;
+  const norm = (s) => s.replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/[\u064B-\u0652]/g, "").toLowerCase();
+  q.addEventListener("input", () => {
+    const terms = norm(q.value.trim()).split(/\s+/).filter(Boolean);
+    let shown = 0;
+    document.querySelectorAll(".group .cards .card").forEach((c) => {
+      const t = norm(c.textContent);
+      c.hidden = terms.length > 0 && !terms.every((w) => t.includes(w));
+      if (!c.hidden) shown++;
+    });
+    document.querySelectorAll(".group").forEach((g) => {
+      const cards = g.querySelectorAll(".card");
+      if (cards.length) g.hidden = [...cards].every((c) => c.hidden);
+    });
+    document.getElementById("q-none").hidden = shown > 0 || !terms.length;
+  });
+})();
+</script>
+
 {{home_hubs}}
 
 <div id="all"></div>

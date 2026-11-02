@@ -102,7 +102,7 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: .9em; background:
 .field.full { grid-column: 1 / -1; }
 label, legend { font-weight: 500; font-size: .95rem; }
 .hint { font-size: .85rem; color: var(--muted); line-height: 1.5; }
-input[type="number"], input[type="text"], input[type="date"], select {
+input[type="number"], input[type="text"], input[type="date"], input[type="search"], select {
   font: inherit; color: var(--fg); background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px;
   padding: 10px 12px; width: 100%; min-height: 46px;
 }
@@ -226,3 +226,7 @@ body.embed main.wrap { padding-top: 10px; padding-bottom: 10px; }
   .breakdown td { white-space: normal; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+
+.tool-filter { margin: 4px 0 18px; }
+.tool-filter input { width: 100%; font-size: 1.05rem; padding: 14px 16px; }
+.tool-filter .muted { display: block; margin-top: 6px; font-size: .85rem; }
