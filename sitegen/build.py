@@ -37,6 +37,7 @@ SERVICE_LINKS = [
     ("/noon-product-photos/", "صور منتجات نون", "ar"),
     ("/amazon-product-photos/", "صور منتجات أمازون", "ar"),
     ("/white-background-product-photos/", "صور بخلفية بيضاء", "ar"),
+    ("/perfume-product-photos/", "تصوير العطور والعود", "ar"),
     ("/en/", "AI product photos UAE", "en"),
 ]
 
