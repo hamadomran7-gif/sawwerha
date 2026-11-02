@@ -1,5 +1,5 @@
 import { ksaMortgage, rules } from "../calc.js";
-import { bind, money, num, table, big, note, yearsAr } from "../app.js";
+import { bind, money, num, table, big, note, yearsGen } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -36,7 +36,7 @@ bind(form, result, (v) => {
   if (!m.years) return big("أقصى تمويل عقاري", money(0, cur), "لا تتسع المدة") + note(`عمرك بلغ أقصى عمر يقبله البنك عند آخر قسط (${maxAge} سنة). بعض البنوك تقبل حتى 77 سنة، فعدّل الحد من الخيارات المتقدمة.`, "warn");
   if (m.maxInstallment <= 0) return big("أقصى تمويل عقاري", money(0, cur), "التزاماتك تستنفد نسبة الاستقطاع") + note(`سقف الاستقطاع الكلي ${p0(m.cap)} من دخلك (${money(m.cap * m.income, cur)})، والتزاماتك الحالية تبلغه أو تتجاوزه. سدّد بعضها أولاً.`, "warn") + (m.salaryCapOk ? "" : note(`أقساط تمويلك الشخصي تتجاوز ${p0(m.salaryCapPct)} من راتبك، وهو الحد النظامي ${v.retiree === "yes" ? "للمتقاعد" : "للموظف"}.`, "warn"));
 
-  let html = big("أقصى تمويل عقاري لك", money(m.loan, cur), `القسط ${money(m.installment, cur)} شهرياً لمدة ${yearsAr(m.years)}`);
+  let html = big("أقصى تمويل عقاري لك", money(m.loan, cur), `القسط ${money(m.installment, cur)} شهرياً لمدة ${yearsGen(m.years)}`);
   html += table(
     [
       [`حسب راتبك: قسط أقصى ${num(m.maxInstallment, 0)} ريال (${p0(m.cap)} من الدخل ناقص التزاماتك)`, money(m.loanDbr, cur)],
@@ -73,8 +73,8 @@ bind(form, result, (v) => {
 
   if (!m.salaryCapOk) html += note(`أقساط تمويلك الشخصي تتجاوز ${p0(m.salaryCapPct)} من راتبك، وهو الحد النظامي ${v.retiree === "yes" ? "للمتقاعد" : "للموظف"}، وقد يشترط البنك سداد جزء منها.`, "warn");
   if (!m.nonMortgageOk) html += note("التزاماتك غير العقارية تتجاوز 45% من دخلك، وهو حد نظامي لمن دخله أقل من 25,000 ريال، وقد يرفض البنك الطلب حتى تخفضها.", "warn");
-  if (m.limitedBy === "age") html += note(`قُصرت المدة إلى ${yearsAr(m.years)} حتى لا يتجاوز عمرك ${maxAge} سنة عند آخر قسط. بعض البنوك تقبل حتى 75 أو 77 سنة.`, "info");
-  if (m.limitedBy === "tenor") html += note(`قُصرت المدة إلى ${yearsAr(m.years)}، وهي أقصى مدة اخترتها. بعض البنوك تمنح 30 سنة.`, "info");
+  if (m.limitedBy === "age") html += note(`قُصرت المدة إلى ${yearsGen(m.years)} حتى لا يتجاوز عمرك ${maxAge} سنة عند آخر قسط. بعض البنوك تقبل حتى 75 أو 77 سنة.`, "info");
+  if (m.limitedBy === "tenor") html += note(`قُصرت المدة إلى ${yearsGen(m.years)}، وهي أقصى مدة اخترتها. بعض البنوك تمنح 30 سنة.`, "info");
   if (m.binding === "dbr" && m.downPayment > (1 - m.ltv) * v.price + 1) html += note("راتبك هو ما يحد التمويل، فتحتاج دفعة أكبر من الحد الأدنى. يرفع التمويل: مدة أطول، أو سداد التزامات قائمة، أو عقار أقل سعراً.", "info");
   if (m.band === "low") html += note(`دخلك في شريحة 15,000 ريال فأقل، فالسقف الكلي ${p0(m.cap)}. النص النظامي يسمح بـ65% لمستفيد الدعم السكني، والبنوك تطبق 55% منذ سبتمبر 2025 بحسب ما نقلته الصحافة.`, "info");
   if (m.band === "high") html += note(v.capMode === "high70" ? "لدخل 25,000 ريال فأكثر لا سقف نظامياً كلياً، والقرار لسياسة البنك. اخترت 70%، وهو أعلى ما يعلنه بعض البنوك." : "لدخل 25,000 ريال فأكثر لا سقف نظامياً كلياً، والقرار لسياسة البنك. الحاسبة تفترض 65%، ويرفعه بعض البنوك إلى 70%.", "info");

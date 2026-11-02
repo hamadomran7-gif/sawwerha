@@ -1,5 +1,5 @@
 import { ksaPension, rules } from "../calc.js";
-import { bind, money, num, table, big, note, arDate, monthsAr } from "../app.js";
+import { bind, money, num, table, big, note, arDate, monthsAr, monthsGen } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -33,7 +33,7 @@ bind(form, result, (v) => {
   html += table(rows, "تفصيل الحساب");
   if (p.status === "none") {
     if (isNew) html += note(`للمعاش في النظام الجديد: ${monthsAr(rules.sa.pension.new.minMonths)} على الأقل عند 65، أو ${monthsAr(rules.sa.pension.new.earlyMinMonths)} للمبكر من عمر 55. ومن لم يستوفِ ذلك عند 65 يُعوَّض: تعويض على مجموع الاشتراكات إن كانت مدته 60 شهراً فأكثر، أو دفعة واحدة إن قلّت.`, "warn");
-    else html += note(`تحتاج ${monthsAr(p.earlyMonthsNeeded)} للمبكر، أو بلوغ السن النظامية مع ${monthsAr(p.minMonths)} على الأقل. ومن لا يستحق معاشاً يُصرف له تعويض الدفعة الواحدة، وتقديره لمدتك: <strong>${money(p.lumpSum, cur)}</strong>.`, "warn");
+    else html += note(`تحتاج ${monthsGen(p.earlyMonthsNeeded)} للمبكر، أو بلوغ السن النظامية مع ${monthsGen(p.minMonths)} على الأقل. ومن لا يستحق معاشاً يُصرف له تعويض الدفعة الواحدة، وتقديره لمدتك: <strong>${money(p.lumpSum, cur)}</strong>.`, "warn");
   }
   if (isNew) html += note("الحد الأدنى بين 180 و480 شهراً تقديري (ينزل خطياً من 4,000 إلى 2,000 ريال)، والتأمينات هي التي تحدده. ولم يحسم النص هل يُطبق الحد الأدنى بعد خصم المبكر.", "info");
   else html += note("افترضنا أن مدد الاشتراك كلها بعد 1422هـ وأن الأجر لم يتجاوز سقف 150% من أجر بداية آخر 5 سنوات. المدد السابقة لعام 1422هـ تُحسب بقاسم 600.", "info");

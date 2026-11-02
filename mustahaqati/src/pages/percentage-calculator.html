@@ -1,0 +1,121 @@
+---json
+{
+  "title": "حاسبة النسبة المئوية — حساب النسبة والخصم ونسبة التغير",
+  "h1": "حاسبة النسبة المئوية",
+  "description": "احسب النسبة المئوية بسهولة: كم يساوي 15% من مبلغ، وكم نسبة رقم من رقم آخر، ونسبة الزيادة أو النقص بين رقمين، والسعر بعد الخصم أو بعد إضافة نسبة، مع طريقة الحساب لكل حالة.",
+  "short": "نسبة من مبلغ، ونسبة رقم من رقم، ونسبة التغير، والسعر بعد الخصم",
+  "lead": "اختر الحالة التي تناسبك من الحاسبات الأربع، وتظهر النتيجة فور الكتابة.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "percentage-calculator.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["salary-increase", "vat", "zakat-calculator", "date-difference"],
+  "faq": [
+    {"q": "كيف أحسب النسبة المئوية من مبلغ؟", "a": "اضرب المبلغ في النسبة واقسم على 100. مثال: 15% من 2,400 = 2,400 × 15 ÷ 100 = 360."},
+    {"q": "كيف أعرف نسبة رقم من رقم آخر؟", "a": "اقسم الجزء على الكل واضرب في 100. مثال: 45 من 60 = 45 ÷ 60 × 100 = 75%."},
+    {"q": "كيف أحسب نسبة الزيادة أو النقص؟", "a": "اطرح القيمة القديمة من الجديدة، واقسم الفرق على القديمة، واضرب في 100. من 80 إلى 100 زيادة 25%، ومن 100 إلى 80 نقص 20%."},
+    {"q": "كيف أحسب السعر بعد الخصم؟", "a": "اضرب السعر في (1 − نسبة الخصم ÷ 100). سعر 500 بخصم 30% = 500 × 0.70 = 350، والتوفير 150."},
+    {"q": "هل خصم 20% ثم 10% يساوي خصم 30%؟", "a": "لا. الخصم الثاني يُحسب على السعر بعد الخصم الأول: 100 × 0.8 × 0.9 = 72، أي خصم إجمالي 28% لا 30%."}
+  ],
+  "sources": []
+}
+---
+<section class="tool" aria-labelledby="t1">
+  <h2 id="t1">كم يساوي نسبة من مبلغ؟</h2>
+  <form id="f1" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="p1">النسبة (%)</label>
+        <input type="number" id="p1" name="p" inputmode="decimal" step="any" value="15">
+      </div>
+      <div class="field">
+        <label for="a1">من المبلغ</label>
+        <input type="number" id="a1" name="a" inputmode="decimal" step="any" value="2400">
+      </div>
+    </div>
+  </form>
+  <div id="r1" class="result" aria-live="polite"></div>
+</section>
+
+<section class="tool" aria-labelledby="t2">
+  <h2 id="t2">كم نسبة رقم من رقم آخر؟</h2>
+  <form id="f2" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="x2">الجزء</label>
+        <input type="number" id="x2" name="x" inputmode="decimal" step="any" value="45">
+      </div>
+      <div class="field">
+        <label for="y2">من الكل</label>
+        <input type="number" id="y2" name="y" inputmode="decimal" step="any" value="60">
+      </div>
+    </div>
+  </form>
+  <div id="r2" class="result" aria-live="polite"></div>
+</section>
+
+<section class="tool" aria-labelledby="t3">
+  <h2 id="t3">نسبة الزيادة أو النقص بين رقمين</h2>
+  <form id="f3" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="o3">القيمة القديمة</label>
+        <input type="number" id="o3" name="o" inputmode="decimal" step="any" value="80">
+      </div>
+      <div class="field">
+        <label for="n3">القيمة الجديدة</label>
+        <input type="number" id="n3" name="n" inputmode="decimal" step="any" value="100">
+      </div>
+    </div>
+  </form>
+  <div id="r3" class="result" aria-live="polite"></div>
+</section>
+
+<section class="tool" aria-labelledby="t4">
+  <h2 id="t4">السعر بعد الخصم أو بعد إضافة نسبة</h2>
+  <form id="f4" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="a4">السعر الأصلي</label>
+        <input type="number" id="a4" name="a" inputmode="decimal" step="any" value="500">
+      </div>
+      <div class="field">
+        <label for="p4">النسبة (%)</label>
+        <input type="number" id="p4" name="p" inputmode="decimal" step="any" value="30">
+      </div>
+      <div class="field">
+        <label for="k4">العملية</label>
+        <select id="k4" name="k">
+          <option value="off" selected>خصم</option>
+          <option value="add">إضافة (زيادة أو ضريبة)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="q4">خصم إضافي (%) — اختياري</label>
+        <input type="number" id="q4" name="q" inputmode="decimal" step="any" value="">
+        <span class="hint">يُحسب على السعر بعد الخصم الأول.</span>
+      </div>
+    </div>
+  </form>
+  <div id="r4" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد حساب النسبة المئوية</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المطلوب</th><th scope="col">الطريقة</th><th scope="col">مثال</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">نسبة من مبلغ</th><td>المبلغ × النسبة ÷ 100</td><td>15% من 2,400 = 360</td></tr>
+    <tr><th scope="row">نسبة رقم من رقم</th><td>الجزء ÷ الكل × 100</td><td>45 من 60 = 75%</td></tr>
+    <tr><th scope="row">نسبة التغير</th><td>(الجديد − القديم) ÷ القديم × 100</td><td>من 80 إلى 100 = +25%</td></tr>
+    <tr><th scope="row">بعد الخصم</th><td>السعر × (1 − النسبة ÷ 100)</td><td>500 بخصم 30% = 350</td></tr>
+    <tr><th scope="row">بعد الإضافة</th><td>السعر × (1 + النسبة ÷ 100)</td><td>200 + ضريبة 15% = 230</td></tr>
+    <tr><th scope="row">السعر قبل الإضافة</th><td>السعر النهائي ÷ (1 + النسبة ÷ 100)</td><td>230 ÷ 1.15 = 200</td></tr>
+  </tbody>
+</table>
+</div>
+<p>لاحظ أن الزيادة ثم النقص بالنسبة نفسها لا يعيدانك للرقم الأصلي: 100 بزيادة 25% تصبح 125، ونقص 25% منها يعطي 93.75. ولضريبة القيمة المضافة حاسبة خاصة في <a href="{{root}}vat/{{ix}}">حاسبة الضريبة</a>، ولزيادات الراتب <a href="{{root}}salary-increase/{{ix}}">حاسبة زيادة الراتب</a>.</p>
+</div>

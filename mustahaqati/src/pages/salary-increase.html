@@ -1,0 +1,86 @@
+---json
+{
+  "title": "حاسبة زيادة الراتب — نسبة الزيادة والراتب الجديد والزيادة السنوية",
+  "h1": "حاسبة زيادة الراتب ونسبتها",
+  "description": "احسب نسبة الزيادة بين راتبك القديم والجديد، أو راتبك بعد زيادة بنسبة معينة، أو راتبك بعد سنوات من زيادة سنوية ثابتة، مع الزيادة الشهرية والسنوية وأثر التضخم على قيمتها الحقيقية.",
+  "short": "نسبة الزيادة، والراتب بعد الزيادة، والزيادة السنوية المتكررة وأثر التضخم",
+  "lead": "اختر ما تريد حسابه وأدخل الأرقام، وتظهر النسبة والفرق شهرياً وسنوياً.",
+  "country": "gcc",
+  "category": "salary",
+  "tool": true,
+  "script": "salary-increase.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["percentage-calculator", "ksa-net-salary", "ksa-end-of-service", "uae-gratuity"],
+  "faq": [
+    {"q": "كيف أحسب نسبة زيادة الراتب؟", "a": "اطرح الراتب القديم من الجديد، واقسم الفرق على الراتب القديم، واضرب الناتج في 100. مثال: من 8,000 إلى 8,800: الفرق 800 ÷ 8,000 = 10%."},
+    {"q": "كيف أحسب راتبي بعد زيادة 5%؟", "a": "اضرب راتبك في 1.05. راتب 10,000 بعد زيادة 5% يصبح 10,500، أي 500 شهرياً و6,000 في السنة."},
+    {"q": "ما الزيادة الحقيقية بعد التضخم؟", "a": "اقسم (1 + نسبة الزيادة) على (1 + نسبة التضخم) واطرح 1. زيادة 5% مع تضخم 2% تعني زيادة حقيقية في القدرة الشرائية نحو 2.94%."},
+    {"q": "هل تؤثر زيادة الراتب على مكافأة نهاية الخدمة؟", "a": "نعم. المكافأة في السعودية تُحسب على آخر أجر فعلي، وفي الإمارات على آخر أجر أساسي، فالزيادة ترفع المكافأة عن كل سنوات الخدمة السابقة، لا عن السنة الأخيرة وحدها."},
+    {"q": "هل الزيادة السنوية إلزامية؟", "a": "لا يُلزم نظام العمل في السعودية ولا قانون العمل في الإمارات صاحب العمل في القطاع الخاص بزيادة سنوية، ما لم ينص عليها العقد أو لائحة تنظيم العمل في المنشأة."}
+  ],
+  "sources": [
+    {"t": "الهيئة العامة للإحصاء (السعودية) — مؤشر الرقم القياسي لأسعار المستهلك", "u": "https://www.stats.gov.sa"},
+    {"t": "المركز الاتحادي للتنافسية والإحصاء (الإمارات) — مؤشر أسعار المستهلك", "u": "https://fcsc.gov.ae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب زيادة راتبك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">ماذا تريد أن تحسب؟</label>
+        <select id="mode" name="mode">
+          <option value="diff" selected>نسبة الزيادة بين راتبين</option>
+          <option value="pct">راتبي بعد زيادة بنسبة معينة</option>
+          <option value="years">راتبي بعد سنوات من زيادة سنوية ثابتة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="old">الراتب الحالي أو القديم</label>
+        <input type="number" id="old" name="old" inputmode="decimal" min="0" step="any" value="8000" required>
+      </div>
+      <div class="field" data-mode="diff">
+        <label for="new">الراتب الجديد</label>
+        <input type="number" id="new" name="new" inputmode="decimal" min="0" step="any" value="8800">
+      </div>
+      <div class="field" data-mode="pct years">
+        <label for="pct">نسبة الزيادة (%)</label>
+        <input type="number" id="pct" name="pct" inputmode="decimal" step="any" value="5">
+      </div>
+      <div class="field" data-mode="years">
+        <label for="years">عدد السنوات</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="1" max="40" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="inflation">التضخم السنوي (%) — اختياري</label>
+        <input type="number" id="inflation" name="inflation" inputmode="decimal" step="any" value="">
+        <span class="hint">لمعرفة الزيادة الحقيقية في قدرتك الشرائية.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>طريقة حساب زيادة الراتب</h2>
+<ul>
+  <li><strong>نسبة الزيادة</strong> = (الراتب الجديد − الراتب القديم) ÷ الراتب القديم × 100.</li>
+  <li><strong>الراتب بعد الزيادة</strong> = الراتب × (1 + النسبة ÷ 100).</li>
+  <li><strong>بعد سنوات من زيادة ثابتة</strong> = الراتب × (1 + النسبة ÷ 100) مرفوعة لعدد السنوات، لأن كل زيادة تُحسب على الراتب بعد الزيادة السابقة.</li>
+</ul>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+من 8,000 إلى 8,800: زيادة 800 شهرياً (9,600 سنوياً)، ونسبتها <strong>10%</strong>.<br>
+راتب 10,000 بزيادة 4% سنوياً لمدة 5 سنوات: يصبح <strong>12,166.53</strong>، أي أكثر من 20% رغم أن 5 × 4% = 20%.</p>
+</div>
+
+<h2>أثر الزيادة على مستحقاتك</h2>
+<p>مكافأة نهاية الخدمة تُحسب على آخر أجر، فكل زيادة ترفع المكافأة عن كل سنوات الخدمة. احسب الفرق في <a href="{{root}}ksa-end-of-service/{{ix}}">حاسبة نهاية الخدمة في السعودية</a> أو <a href="{{root}}uae-gratuity/{{ix}}">حاسبة المكافأة في الإمارات</a>. وفي السعودية يرتفع أيضاً اشتراك التأمينات المستقطع من الأجر، فراجع <a href="{{root}}ksa-net-salary/{{ix}}">حاسبة الراتب الصافي</a>.</p>
+</div>
