@@ -24,10 +24,13 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-6"
+AGENT_VERSION = "2026.11.02-7"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
+# خيارات ComfyUI المستقرة على 4090: «Dynamic VRAM» علّق تهيئة النموذج 5.5 دقائق في 2026-11-02،
+# والذاكرة المثبّتة (26 GB) تضغط على ذاكرة النظام. الوضع التقليدي يحمّل النموذج كاملاً ثم يولّد بـ ~3 ث/خطوة.
+COMFY_FLAGS = ["--disable-dynamic-vram", "--disable-pinned-memory"]
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler(HERE / "agent.log", encoding="utf-8")])
 log = logging.getLogger("sawwerha")
 
@@ -130,16 +133,96 @@ def self_update(cfg: dict) -> bool:
 
 
 # ------------------------------------------------------------ مراقبة ComfyUI
-def restart_comfy() -> bool:
-    """يوقف عملية ComfyUI المتجمّدة؛ حلقة run_comfy.bat تعيد تشغيلها بعد 30 ثانية."""
-    if os.name != "nt":
+PS_KILL_LOOP = ("Get-CimInstance Win32_Process -Filter \"Name='cmd.exe'\" | Where-Object { $_.CommandLine -like '*run_comfy.bat*' } "
+                "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue; $_.ProcessId }")
+# مقيّد بـ python.exe: بدونه يطابق النمطُ سطرَ أوامر PowerShell نفسه فيوقف نفسه قبل ComfyUI.
+PS_KILL_COMFY = ("Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object { $_.CommandLine -like '*ComfyUI\\main.py*' } "
+                 "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue; $_.ProcessId }")
+PS_COUNT_LOOP = ("(Get-CimInstance Win32_Process -Filter \"Name='cmd.exe'\" | Where-Object { $_.CommandLine -like '*run_comfy.bat*' } "
+                 "| Measure-Object).Count")
+
+
+def _ps(cmd: str) -> str:
+    r = subprocess.run(["powershell", "-NoProfile", "-Command", cmd], capture_output=True, text=True, timeout=60)
+    return (r.stdout or "").strip()
+
+
+def comfy_bat(cfg: dict) -> Path:
+    return Path(cfg.get("comfy_bat") or (ROOT / "run_comfy.bat"))
+
+
+def start_comfy(bat: Path) -> None:
+    """يشغّل run_comfy.bat في نافذة مصغّرة لا تسرق التركيز من المستخدم."""
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    si.wShowWindow = 7  # SW_SHOWMINNOACTIVE
+    subprocess.Popen(["cmd.exe", "/c", str(bat)], cwd=str(bat.parent), creationflags=subprocess.CREATE_NEW_CONSOLE, startupinfo=si, close_fds=True)
+
+
+def patch_comfy_bat(text: str, flags: list):
+    """يضيف الخيارات الناقصة إلى سطر تشغيل main.py. يعيد النص الجديد أو None إن لم يلزم تغيير."""
+    lines = text.splitlines(keepends=True)
+    for i, line in enumerate(lines):
+        body = line.rstrip("\r\n")
+        head = body.lstrip().lower()
+        if "main.py" not in body or head.startswith(("rem ", "::", "echo ")):
+            continue
+        missing = [f for f in flags if f not in body.split()]
+        if not missing:
+            return None
+        lines[i] = body + " " + " ".join(missing) + (line[len(body):] or "\r\n")
+        return "".join(lines)
+    return None
+
+
+def ensure_comfy_launcher(cfg: dict, comfy, ps=None, starter=None) -> bool:
+    """يضمن أن run_comfy.bat يشغّل ComfyUI بالخيارات المستقرة؛ إن عدّله أعاد تشغيل ComfyUI.
+    لا يعمل إلا على ويندوز ولا يقاطع طلباً قيد التنفيذ. يعيد True إن أعاد التشغيل."""
+    if comfy is None or cfg.get("dry_run") or (os.name != "nt" and ps is None):
         return False
-    ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*ComfyUI\\main.py*' } "
-          "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force; $_.ProcessId }")
+    ps = ps or _ps
+    starter = starter or start_comfy
+    bat = comfy_bat(cfg)
+    if not bat.exists():
+        log.warning("launcher: %s not found", bat)
+        return False
+    text = bat.read_bytes().decode("latin-1")
+    new = patch_comfy_bat(text, list(cfg.get("comfy_flags", COMFY_FLAGS)))
+    if new is None:
+        return False
+    if comfy.busy():
+        log.info("launcher: ComfyUI busy — flags applied at next agent start")
+        return False
+    tmp = bat.with_name(bat.name + ".new")
+    tmp.write_bytes(new.encode("latin-1"))
+    loops = ps(PS_KILL_LOOP)
+    procs = ps(PS_KILL_COMFY)
+    os.replace(tmp, bat)
+    time.sleep(3)
+    starter(bat)
+    log.warning("launcher: ComfyUI restarted with %s (stopped loop=%s comfy=%s)", " ".join(cfg.get("comfy_flags", COMFY_FLAGS)), loops or "-", procs or "-")
+    deadline = time.time() + 300
+    while time.time() < deadline and not comfy.alive():
+        time.sleep(5)
+    return True
+
+
+def restart_comfy(cfg: dict = None, ps=None, starter=None) -> bool:
+    """يوقف عملية ComfyUI المتجمّدة؛ حلقة run_comfy.bat تعيد تشغيلها بعد 30 ثانية،
+    وإن لم تكن الحلقة تعمل أصلاً يشغّلها من جديد."""
+    if os.name != "nt" and ps is None:
+        return False
+    ps = ps or _ps
+    starter = starter or start_comfy
     try:
-        r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=60)
-        log.warning("ComfyUI watchdog: stopped %s", (r.stdout or "").strip() or "nothing")
-        return bool((r.stdout or "").strip())
+        stopped = ps(PS_KILL_COMFY)
+        log.warning("ComfyUI watchdog: stopped %s", stopped or "nothing")
+        if ps(PS_COUNT_LOOP) in ("", "0"):
+            bat = comfy_bat(cfg or {})
+            if bat.exists():
+                starter(bat)
+                log.warning("ComfyUI watchdog: started %s", bat)
+        return True
     except Exception as e:  # noqa: BLE001
         log.warning("ComfyUI watchdog failed: %s", e)
         return False
@@ -288,6 +371,11 @@ def main():
     down_since = None
     last_restart = 0.0
     log.info("agent %s started (dry_run=%s)", AGENT_VERSION, cfg.get("dry_run", False))
+    if not args.once:
+        try:
+            ensure_comfy_launcher(cfg, comfy)
+        except Exception as e:  # noqa: BLE001
+            log.warning("launcher check failed: %s", e)
     if comfy is not None and cfg.get("lightning", False) and comfy.alive():
         lightning_name(cfg, comfy)  # يبدأ تنزيل Lightning مبكراً إن لم يكن موجوداً
 
@@ -315,7 +403,7 @@ def main():
                 limit = float(cfg.get("comfy_watchdog_minutes", 10))
                 if limit > 0 and down_min >= limit and time.time() - last_restart > 1800:
                     last_restart = time.time()
-                    restart_comfy()
+                    restart_comfy(cfg)
                 time.sleep(poll)
                 continue
             down_since = None

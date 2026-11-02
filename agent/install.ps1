@@ -74,7 +74,7 @@ $runComfy = Join-Path $Root "run_comfy.bat"
 @"
 @echo off
 cd /d "$comfy"
-.\python_embeded\python.exe -s ComfyUI\main.py --listen 127.0.0.1 --port 8188 --disable-auto-launch
+.\python_embeded\python.exe -s ComfyUI\main.py --listen 127.0.0.1 --port 8188 --disable-auto-launch --disable-dynamic-vram --disable-pinned-memory
 "@ | Set-Content $runComfy -Encoding ASCII
 $runAgent = Join-Path $Root "run_agent.bat"
 @"
