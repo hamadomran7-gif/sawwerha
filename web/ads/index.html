@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>إعلانات صوّرها</title>
+<style>
+  :root { --bg:#fbf7f1; --fg:#221b2c; --muted:#6a6174; --line:#e6dcd0; --primary:#2b2140; --accent:#e39b00; --wa:#1fae55; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#15111c; --fg:#f1ebf5; --muted:#aaa0b6; --line:#352c42; --primary:#e9dcff; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 "IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  p.lead { color: var(--muted); margin: 0 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  figure { margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #000; }
+  video, img { display: block; width: 100%; height: auto; }
+  figcaption { background: var(--bg); padding: 10px 12px; font-size: .92rem; }
+  figcaption b { display: block; }
+  figcaption a { color: var(--accent); font-weight: 700; text-decoration: none; }
+  .note { margin-top: 28px; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>إعلانات صوّرها — جاهزة لميتا</h1>
+  <p class="lead">4 ريلز 9:16 (أقل من 10 ثوانٍ) وصورتان 4:5. مصنوعة آلياً من صور خط الإنتاج الحقيقية، وفيها عبارة الإفصاح عن الذكاء الاصطناعي.</p>
+  <div class="grid">
+    <figure><video src="/ads/reel-a-outcome.mp4" controls playsinline muted loop preload="metadata"></video><figcaption><b>A — النتيجة</b>قبل/بعد ثم الدعوة للعيّنة المجانية. <a href="/ads/reel-a-outcome.mp4" download>تنزيل</a></figcaption></figure>
+    <figure><video src="/ads/reel-b-price.mp4" controls playsinline muted loop preload="metadata"></video><figcaption><b>B — المقارنة بالسعر</b>سعر الاستوديو مقابل 6 صور بـ 149. <a href="/ads/reel-b-price.mp4" download>تنزيل</a></figcaption></figure>
+    <figure><video src="/ads/reel-c-marketplace.mp4" controls playsinline muted loop preload="metadata"></video><figcaption><b>C — بائعو نون وأمازون</b>الصورة البيضاء وشروط المنصّتين. <a href="/ads/reel-c-marketplace.mp4" download>تنزيل</a></figcaption></figure>
+    <figure><video src="/ads/reel-d-fidelity.mp4" controls playsinline muted loop preload="metadata"></video><figcaption><b>D — منتجك كما هو</b>جواب اعتراض «هل سيتغيّر منتجي؟». <a href="/ads/reel-d-fidelity.mp4" download>تنزيل</a></figcaption></figure>
+    <figure><img src="/ads/static-a-outcome.jpg" alt="إعلان ثابت: من صورة جوال إلى صورة تبيع" loading="lazy"><figcaption><b>ثابت A (4:5)</b><a href="/ads/static-a-outcome.jpg" download>تنزيل</a></figcaption></figure>
+    <figure><img src="/ads/static-c-marketplace.jpg" alt="إعلان ثابت: صورة رئيسية مطابقة لنون وأمازون" loading="lazy"><figcaption><b>ثابت C (4:5)</b><a href="/ads/static-c-marketplace.jpg" download>تنزيل</a></figcaption></figure>
+  </div>
+  <p class="note">النصوص المرافقة لكل إعلان في <code>ads/meta-ads.md</code>. الريلز بلا صوت؛ تُضاف موسيقى من مكتبة ميتا عند إنشاء الإعلان.</p>
+</main>
+</body>
+</html>

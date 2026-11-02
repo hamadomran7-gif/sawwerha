@@ -1,9 +1,9 @@
 /* صوّرها — مولّد ريلز إعلانات ميتا (9:16) وصور ثابتة (4:5) داخل المتصفح.
- * يعمل في أي صفحة تسمح بـ eval وfetch: يرسم الإطارات على canvas، ويرمّزها H.264 عبر WebCodecs،
- * ويجمعها في MP4 عبر mp4-muxer (MIT). لا يحتاج خادماً ولا npm.
+ * يرسم الإطارات على canvas، ويرمّزها H.264 عبر WebCodecs، ويجمعها في ملف MP4 بمُجمِّع صغير مكتوب هنا
+ * (بلا مكتبات خارجية). لا يحتاج خادماً ولا npm.
  *
  * الاستخدام:
- *   await window.SawwerhaReels.init({ muxerSrc })            // يحمّل الخطوط وmp4-muxer
+ *   await window.SawwerhaReels.init()                         // يحمّل الخطوط ويتحقق من دعم H.264
  *   const out = await window.SawwerhaReels.renderAll(images)  // images: {before, scene1, scene2, white} كـ ImageBitmap
  *   // out: [{ name, type, blob }]
  */
@@ -43,11 +43,79 @@
     if (!document.fonts.check('800 40px "Cairo"', "صوّرها")) throw new Error("Cairo font not available");
   }
 
-  async function loadMuxer(src) {
-    if (window.Mp4Muxer) return;
-    const code = await (await fetch(src)).text();
-    (0, eval)(code + "\n;window.Mp4Muxer = Mp4Muxer;");
-    if (!window.Mp4Muxer) throw new Error("mp4-muxer failed to load");
+  // ------------------------------------------------------------ مُجمِّع MP4 صغير (مسار فيديو H.264 واحد، Fast Start)
+  const u32 = (n) => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255];
+  const u16 = (n) => [(n >>> 8) & 255, n & 255];
+  const str4 = (t) => [...t].map((c) => c.charCodeAt(0));
+  function concat(parts) {
+    let n = 0;
+    for (const p of parts) n += p.length;
+    const out = new Uint8Array(n);
+    let o = 0;
+    for (const p of parts) { out.set(p, o); o += p.length; }
+    return out;
+  }
+  function box(type, ...parts) {
+    const payload = concat(parts);
+    const out = new Uint8Array(8 + payload.length);
+    out.set(u32(out.length), 0);
+    out.set(str4(type), 4);
+    out.set(payload, 8);
+    return out;
+  }
+  const fullbox = (type, version, flags, ...parts) => box(type, [version, (flags >>> 16) & 255, (flags >>> 8) & 255, flags & 255], ...parts);
+  const MATRIX = [].concat(u32(0x00010000), u32(0), u32(0), u32(0), u32(0x00010000), u32(0), u32(0), u32(0), u32(0x40000000));
+
+  class MiniMp4 {
+    constructor(width, height, fps) {
+      this.w = width; this.h = height; this.fps = fps; this.ts = 90000;
+      this.samples = []; this.avcC = null; this.lastPts = -Infinity;
+    }
+    add(chunk, meta) {
+      const d = meta && meta.decoderConfig && meta.decoderConfig.description;
+      if (d && !this.avcC) this.avcC = ArrayBuffer.isView(d) ? new Uint8Array(d.buffer, d.byteOffset, d.byteLength).slice() : new Uint8Array(d).slice();
+      if (chunk.timestamp < this.lastPts) throw new Error("encoder reordered frames (B-frames) — unsupported");
+      this.lastPts = chunk.timestamp;
+      const data = new Uint8Array(chunk.byteLength);
+      chunk.copyTo(data);
+      this.samples.push({ data, key: chunk.type === "key" });
+    }
+    moov(offset) {
+      const n = this.samples.length, delta = Math.round(this.ts / this.fps);
+      const mediaDur = n * delta, movieDur = Math.round((n * 1000) / this.fps);
+      const keys = [];
+      this.samples.forEach((smp, i) => { if (smp.key) keys.push(i + 1); });
+      const avc1 = box("avc1", [0, 0, 0, 0, 0, 0], u16(1), u16(0), u16(0), u32(0), u32(0), u32(0), u16(this.w), u16(this.h),
+        u32(0x00480000), u32(0x00480000), u32(0), u16(1), new Uint8Array(32), u16(0x0018), [0xff, 0xff], box("avcC", this.avcC));
+      const stbl = box("stbl",
+        fullbox("stsd", 0, 0, u32(1), avc1),
+        fullbox("stts", 0, 0, u32(1), u32(n), u32(delta)),
+        fullbox("stss", 0, 0, u32(keys.length), ...keys.map(u32)),
+        fullbox("stsc", 0, 0, u32(1), u32(1), u32(n), u32(1)),
+        fullbox("stsz", 0, 0, u32(0), u32(n), ...this.samples.map((x) => u32(x.data.length))),
+        fullbox("stco", 0, 0, u32(1), u32(offset)));
+      const minf = box("minf", fullbox("vmhd", 0, 1, u16(0), u16(0), u16(0), u16(0)),
+        box("dinf", fullbox("dref", 0, 0, u32(1), fullbox("url ", 0, 1))), stbl);
+      const mdia = box("mdia",
+        fullbox("mdhd", 0, 0, u32(0), u32(0), u32(this.ts), u32(mediaDur), u16(0x55c4), u16(0)),
+        fullbox("hdlr", 0, 0, u32(0), str4("vide"), u32(0), u32(0), u32(0), str4("VideoHandler"), [0]),
+        minf);
+      const tkhd = fullbox("tkhd", 0, 3, u32(0), u32(0), u32(1), u32(0), u32(movieDur), u32(0), u32(0), u16(0), u16(0), u16(0), u16(0),
+        MATRIX, u32(this.w * 65536), u32(this.h * 65536));
+      const mvhd = fullbox("mvhd", 0, 0, u32(0), u32(0), u32(1000), u32(movieDur), u32(0x00010000), u16(0x0100), u16(0), u32(0), u32(0),
+        MATRIX, new Uint8Array(24), u32(2));
+      return box("moov", mvhd, box("trak", tkhd, mdia));
+    }
+    finalize() {
+      if (!this.avcC) throw new Error("missing avcC (decoder description)");
+      const ftyp = box("ftyp", str4("isom"), u32(0x200), str4("isom"), str4("iso2"), str4("avc1"), str4("mp41"));
+      const dataLen = this.samples.reduce((a, x) => a + x.data.length, 0);
+      const probe = this.moov(0);
+      const offset = ftyp.length + probe.length + 8;
+      const moov = this.moov(offset);
+      const mdatHead = new Uint8Array([...u32(8 + dataLen), ...str4("mdat")]);
+      return new Blob([ftyp, moov, mdatHead, ...this.samples.map((x) => x.data)], { type: "video/mp4" });
+    }
   }
 
   function wrap(ctx, str, maxW) {
@@ -279,18 +347,18 @@
       const a1 = 1 - prog(t, 2.4, 2.7);
       if (a1 > 0) {
         text(ctx, "صورة واحدة في استوديو", W / 2, 640, { size: 78, alpha: a1 * prog(t, 0.1, 0.45) });
-        text(ctx, "من 150 إلى 350 درهماً", W / 2, 860, { size: 104, color: C.accentSoft, alpha: a1 * prog(t, 0.4, 0.75), maxW: 1000 });
+        text(ctx, "من 150 إلى 350 درهماً", W / 2, 860, { size: 86, color: C.accentSoft, alpha: a1 * prog(t, 0.4, 0.75), maxW: 1040 });
         text(ctx, "للصورة الواحدة", W / 2, 1030, { size: 48, weight: 500, family: "IBM Plex Sans Arabic", alpha: a1 * prog(t, 0.6, 0.9) });
         const sp = ease(prog(t, 1.4, 2.0));
         if (sp > 0) {
           ctx.save();
           ctx.globalAlpha = a1;
           ctx.strokeStyle = C.strike;
-          ctx.lineWidth = 16;
+          ctx.lineWidth = 14;
           ctx.lineCap = "round";
           ctx.beginPath();
-          ctx.moveTo(W - 70, 895);
-          ctx.lineTo(W - 70 - (W - 140) * sp, 830);
+          ctx.moveTo(W - 70, 890);
+          ctx.lineTo(W - 70 - (W - 140) * sp, 835);
           ctx.stroke();
           ctx.restore();
         }
@@ -441,11 +509,10 @@
     canvas.width = W;
     canvas.height = H;
     const ctx = canvas.getContext("2d", { alpha: false });
-    const target = new Mp4Muxer.ArrayBufferTarget();
-    const muxer = new Mp4Muxer.Muxer({ target, video: { codec: "avc", width: W, height: H, frameRate: FPS }, fastStart: "in-memory" });
+    const mux = new MiniMp4(W, H, FPS);
     let failure = null;
-    const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: (e) => { failure = e; } });
-    enc.configure({ codec: "avc1.640028", width: W, height: H, bitrate: opts.bitrate || 9_000_000, framerate: FPS, latencyMode: "quality", avc: { format: "avc" } });
+    const enc = new VideoEncoder({ output: (chunk, meta) => { try { mux.add(chunk, meta); } catch (e) { failure = e; } }, error: (e) => { failure = e; } });
+    enc.configure({ codec: "avc1.640028", width: W, height: H, bitrate: opts.bitrate || 10_000_000, framerate: FPS, latencyMode: "realtime", avc: { format: "avc" } });
     const n = Math.round(spec.dur * FPS);
     const posters = [];
     for (let i = 0; i < n; i++) {
@@ -464,8 +531,8 @@
     }
     await enc.flush();
     enc.close();
-    muxer.finalize();
-    return { video: new Blob([target.buffer], { type: "video/mp4" }), posters };
+    if (failure) throw failure;
+    return { video: mux.finalize(), posters };
   }
 
   async function renderStatic(spec) {
@@ -479,15 +546,16 @@
 
   window.SawwerhaReels = {
     W, H, FPS,
-    async init({ muxerSrc }) {
-      await Promise.all([loadFonts(), loadMuxer(muxerSrc)]);
-      const ok = await VideoEncoder.isConfigSupported({ codec: "avc1.640028", width: W, height: H, bitrate: 9_000_000, framerate: FPS });
+    async init(o = {}) {
+      if (o.fonts !== false) await loadFonts();
+      const ok = await VideoEncoder.isConfigSupported({ codec: "avc1.640028", width: W, height: H, bitrate: 10_000_000, framerate: FPS, latencyMode: "realtime" });
       if (!ok.supported) throw new Error("H.264 1080x1920 encoding not supported here");
       return true;
     },
     specs: (I) => [reelA(I), reelB(I), reelC(I), reelD(I)],
     statics: (I) => [staticA(I), staticC(I)],
     encodeReel,
+    MiniMp4,
     renderStatic,
     async renderAll(I, onProgress) {
       const out = [];
