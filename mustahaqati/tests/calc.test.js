@@ -753,3 +753,34 @@ test("الضمان الاجتماعي المطور", () => {
   assert.equal(c.capMatters, true);
   assert.equal(ksaSocialSecurity({ dependents: 0, earned: 2640 }).eligible, false);
 });
+
+import { ksaCivilPension, ksaMilitaryPension } from "../src/assets/calc.js";
+
+test("التقاعد المدني والعسكري في السعودية", () => {
+  const e1 = ksaCivilPension({ lastBasic: 12000, months: 304, reason: "resign" });
+  assert.equal(e1.status, "pension");
+  near(e1.pension, 7600);
+  assert.equal(ksaCivilPension({ lastBasic: 12000, months: 304, reason: "resign", transitional: true, monthsAt2024: 230 }).status, "pension");
+  const t = ksaCivilPension({ lastBasic: 12000, months: 304, reason: "resign", transitional: true, monthsAt2024: 200 });
+  assert.equal(t.anyExitRequired, 336);
+  assert.equal(t.status, "deferred");
+  const e2 = ksaCivilPension({ lastBasic: 10000, months: 240, reason: "early" });
+  assert.equal(e2.status, "pension_conditional");
+  near(e2.pension, 5000);
+  assert.equal(ksaCivilPension({ lastBasic: 10000, months: 240, reason: "resign" }).status, "deferred");
+  near(ksaCivilPension({ lastBasic: 15000, months: 420, reason: "age" }).pension, 13125);
+  near(ksaCivilPension({ lastBasic: 15000, months: 504, reason: "age" }).pension, 15000);
+  const e4 = ksaCivilPension({ lastBasic: 9000, months: 96, reason: "resign" });
+  assert.equal(e4.status, "notional");
+  near(e4.lump, 86400);
+  near(e4.buyCost, 38880);
+  near(e4.pensionAfterBuy, 2250);
+  near(ksaCivilPension({ lastBasic: 9000, months: 96, reason: "abolished" }).lump, 120960);
+  assert.equal(ksaCivilPension({ lastBasic: 9000, months: 200, reason: "abolished" }).status, "pension");
+  assert.equal(ksaCivilPension({ lastBasic: 9000, months: 40, reason: "resign" }).status, "lump");
+  const mil = ksaMilitaryPension({ lastSalary: 7744, months: 300 });
+  near(mil.pension, 5531.43, 0.01);
+  assert.equal(mil.eligible, true);
+  assert.equal(ksaMilitaryPension({ lastSalary: 7744, months: 120 }).eligible, false);
+  near(ksaMilitaryPension({ lastSalary: 15000, months: 420 }).pension, 15000);
+});

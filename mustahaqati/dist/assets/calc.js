@@ -1558,3 +1558,51 @@ export function ksaSocialSecurity({ dependents = 0, earned = 0, unearned = 0, ci
   const capMinimum = eligible ? Math.max(0, Math.min(minimum, S.familyMax) - counted) : 0;
   return { minimum, counted: r2(counted), eligible, raw: r2(raw), capFinal: r2(capFinal), capMinimum: r2(capMinimum), capMatters: r2(capFinal) !== r2(capMinimum) };
 }
+
+/* ------------------------------------------------------------------ */
+/* السعودية — التقاعد المدني والعسكري                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * التقاعد المدني لمن اشترك قبل 3/7/2024: المعاش = آخر راتب أساسي × أشهر الخدمة ÷ 480 (بحد 480 شهراً)، بلا خصم للمبكر.
+ * reason: age (بلوغ السن النظامية أو الوفاة أو العجز) | resign | early (طلب بموافقة الجهة) | abolished (إلغاء الوظيفة أو فصل غير تأديبي) | disciplinary
+ * monthsAt2024: أشهر الخدمة في 3/7/2024 للمشمول بالجدول الانتقالي (يحدد الأشهر اللازمة للمعاش قبل السن).
+ */
+export function ksaCivilPension({ lastBasic, months, reason = "resign", transitional = false, monthsAt2024 = 0 }) {
+  const C = rules.sa.civilPension;
+  const b = nz(lastBasic);
+  const m = Math.max(0, Math.floor(Number(months) || 0));
+  const counted = Math.min(m, C.maxMonths);
+  const pension = (b * counted) / C.divisorMonths;
+  let anyExit = C.anyExitMinMonths;
+  if (transitional) {
+    const row = rules.sa.pension.transitional.earlyTable.find(([lo, hi]) => nz(monthsAt2024) >= lo && nz(monthsAt2024) < hi);
+    if (row) anyExit = row[2];
+  }
+  let status;
+  if (reason === "age") status = "pension";
+  else if (m >= anyExit) status = "pension";
+  else if (reason === "early" && m >= C.earlyApprovalMinMonths && !transitional) status = "pension_conditional";
+  else if (reason === "abolished" && m >= C.abolitionMinMonths) status = "pension";
+  else if (m >= C.deferredMinMonths) status = "deferred";
+  else if (m >= C.notionalMinMonths) status = "notional";
+  else status = "lump";
+  const rate = reason === "resign" || reason === "disciplinary" ? C.gratuityRateResign : C.gratuityRate;
+  const lump = b * 12 * rate * (m / 12);
+  const buyMonths = status === "notional" ? C.notionalMaxTotalMonths - m : 0;
+  return {
+    counted, pct: counted / C.divisorMonths, pension: r2(pension), status, anyExitRequired: anyExit,
+    belowMin: pension < C.minPensionUnverified, lumpRate: rate, lump: r2(lump),
+    buyMonths, buyCost: r2(b * C.notionalRateInferred * buyMonths), pensionAfterBuy: r2((b * C.notionalMaxTotalMonths) / C.divisorMonths),
+  };
+}
+
+/** التقاعد العسكري: آخر راتب × الأشهر ÷ 420 (السقف 100% عند 35 سنة استنتاجاً)، ويُستحق بـ18 سنة فعلية أو 20 مدنية وعسكرية منها 8 عسكرية أو بلوغ 55. */
+export function ksaMilitaryPension({ lastSalary, months, civilMonths = 0, age = 0 }) {
+  const M = rules.sa.militaryPension;
+  const m = Math.max(0, Math.floor(Number(months) || 0));
+  const total = m + Math.max(0, Math.floor(Number(civilMonths) || 0));
+  const counted = Math.min(total, M.maxMonthsInferred);
+  const eligible = m >= M.minActualMonths || (total >= M.minCombinedMonths && m >= M.minMilitaryWithinCombined) || nz(age) >= M.pensionAtAge;
+  return { counted, pct: counted / M.divisorMonths, pension: r2((nz(lastSalary) * counted) / M.divisorMonths), eligible };
+}

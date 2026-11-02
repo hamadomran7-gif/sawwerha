@@ -30,6 +30,7 @@ export function countAr(n, one, two, few, many, single, digits = 1) {
   if (v === 0) return `0 ${single}`;
   if (v === 1) return one;
   if (v === 2) return two;
+  if (v % 100 === 0) return `${num(v, 0)} ${single}`;
   if (v % 100 >= 3 && v % 100 <= 10) return `${num(v, 0)} ${few}`;
   return `${num(v, 0)} ${many}`;
 }

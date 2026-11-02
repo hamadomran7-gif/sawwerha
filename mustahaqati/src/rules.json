@@ -672,6 +672,34 @@
       "maxCarsIndependent": 1,
       "maxCarsFamily": 3,
       "maxDomesticWorkers": 2
+    },
+    "civilPension": {
+      "law": "نظام التقاعد المدني (م/41 لعام 1393هـ) المواد 13 و15 و16 و18 و19 و23 و23 مكرر (المرسوم م/118 لعام 1443هـ)، وقرار مجلس الوزراء 1022 (1445هـ)",
+      "contribEmployee": 0.09,
+      "contribGovernment": 0.09,
+      "divisorMonths": 480,
+      "maxMonths": 480,
+      "mandatoryAgeHijri": 60,
+      "maxExtensionAgeHijri": 65,
+      "anyExitMinMonths": 300,
+      "earlyApprovalMinMonths": 240,
+      "abolitionMinMonths": 180,
+      "deferredMinMonths": 120,
+      "notionalMinMonths": 60,
+      "notionalMaxTotalMonths": 120,
+      "notionalRateInferred": 0.18,
+      "gratuityRate": 0.14,
+      "gratuityRateResign": 0.1,
+      "minPensionUnverified": 1983.75
+    },
+    "militaryPension": {
+      "law": "نظام التقاعد العسكري (م/24 لعام 1395هـ) المادة 7 المعدلة",
+      "divisorMonths": 420,
+      "maxMonthsInferred": 420,
+      "minActualMonths": 216,
+      "minCombinedMonths": 240,
+      "minMilitaryWithinCombined": 96,
+      "pensionAtAge": 55
     }
   },
   "gcc": {
