@@ -24,7 +24,7 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-2"
+AGENT_VERSION = "2026.11.02-3"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -210,7 +210,7 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
             if not dry and cfg.get("edit_mode", "edit") == "edit" and comfy is not None:
                 for attempt in range(3):
                     try:
-                        cand = pipeline.edit_scene(comfy, white_path, job["category"], v, life_size, seed + attempt * 101, steps=steps, revision_note=job.get("revision_note"), prefix=f"job{job['id']}_p{idx}_s{v}", lora=lora)
+                        cand = pipeline.edit_scene(comfy, cut, job["category"], v, life_size, seed + attempt * 101, steps=steps, revision_note=job.get("revision_note"), prefix=f"job{job['id']}_p{idx}_s{v}", lora=lora, work_dir=str(work), canvas=int(cfg.get("scene_canvas", 1024)))
                         ok, why = pipeline.quality_ok(cand)
                         if ok:
                             scene = cand

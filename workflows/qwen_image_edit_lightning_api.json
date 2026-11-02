@@ -1,5 +1,5 @@
 {
- "_about": "Qwen-Image-Edit + Lightning 8-step LoRA (lightx2v/Qwen-Image-Lightning, Apache-2.0). cfg 1.0 skips the negative pass. Input scaled to ~1MP. {{...}} placeholders are filled by the agent.",
+ "_about": "Product-locked scene (inpaint) for Qwen-Image-Edit + Lightning 8-step LoRA (lightx2v/Qwen-Image-Lightning, Apache-2.0), cfg 1. Input is an RGBA PNG: product on neutral grey, alpha = product. LoadImage MASK (=1-alpha) marks the background to generate; the product latent is held fixed, and the agent pastes the original product pixels back afterwards. {{...}} placeholders are filled by the agent.",
  "1": {
   "class_type": "LoadImage",
   "inputs": {
@@ -60,7 +60,7 @@
     0
    ],
    "image": [
-    "13",
+    "1",
     0
    ]
   }
@@ -78,7 +78,7 @@
     0
    ],
    "image": [
-    "13",
+    "1",
     0
    ]
   }
@@ -87,7 +87,7 @@
   "class_type": "VAEEncode",
   "inputs": {
    "pixels": [
-    "13",
+    "1",
     0
    ],
    "vae": [
@@ -118,7 +118,7 @@
     0
    ],
    "latent_image": [
-    "9",
+    "16",
     0
    ]
   }
@@ -146,19 +146,34 @@
    ]
   }
  },
- "13": {
-  "class_type": "ImageScaleToTotalPixels",
+ "15": {
+  "class_type": "GrowMask",
   "inputs": {
-   "image": [
+   "mask": [
     "1",
-    0
+    1
    ],
-   "upscale_method": "lanczos",
-   "megapixels": 1.0,
-   "resolution_steps": 16
+   "expand": 6,
+   "tapered_corners": true
   },
   "_meta": {
-   "title": "Scale to ~1MP (Qwen native)"
+   "title": "Let the model blend a few px into the product edge (covered later by the original pixels)"
+  }
+ },
+ "16": {
+  "class_type": "SetLatentNoiseMask",
+  "inputs": {
+   "samples": [
+    "9",
+    0
+   ],
+   "mask": [
+    "15",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Generate background only; product latent stays fixed"
   }
  },
  "14": {

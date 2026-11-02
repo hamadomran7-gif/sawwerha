@@ -1,6 +1,6 @@
 {
   "_about": "مشاهد اللايف ستايل لكل فئة. البرومبت بالإنجليزية لأن النماذج تفهمها أفضل. القاعدة الثابتة: المنتج لا يتغير.",
-  "keep": "Keep the product exactly as it is: same shape, same colors, same label text, same proportions, same logo. Do not add text, watermarks, people, hands, or extra products.",
+  "keep": "Keep the product exactly as it is: same shape, same colors, same label text, same proportions, same logo. Only create the surroundings, surface, lighting and background around it. Do not add text, watermarks, people, hands, or extra products.",
   "negative": "deformed product, changed label, extra text, watermark, people, hands, blurry, low quality, duplicated product, cropped product, cartoon",
   "categories": {
     "perfume": [
@@ -11,17 +11,17 @@
       "Place this product on a dark wooden tray with a small brass incense burner in the background, Emirati majlis atmosphere, warm light."
     ],
     "fashion": [
-      "Display this garment laid flat on a clean linen surface with soft natural light from a window, minimal styling, top-down view, fashion catalog style.",
-      "Display this garment on an invisible mannequin against a soft beige studio backdrop with gentle shadows, premium boutique look.",
-      "Place this item on a marble vanity with gold accents and soft morning light, elegant and modest fashion editorial style.",
-      "Display this garment hanging on a wooden hanger against a warm sand-colored wall with soft shadow, desert-minimal aesthetic.",
-      "Display this item on a cream fabric backdrop with soft folds and diffused light, close-up on texture and details."
+      "Show this garment in front of a soft beige studio backdrop with gentle diffused light and a subtle floor shadow, premium boutique catalog style.",
+      "Show this garment against a warm sand-colored wall with soft window light and long gentle shadows, desert-minimal modest fashion aesthetic.",
+      "Show this item in front of a cream fabric backdrop with soft folds and diffused light, elegant and calm.",
+      "Show this garment in a bright minimal boutique with a blurred clothing rack and plants in the background, soft natural light.",
+      "Show this item against a white plaster arch backdrop with soft shadows and a small dried-flower vase on the floor, modern editorial look."
     ],
     "jewelry": [
       "Place this jewelry piece on a dark velvet surface with dramatic soft spotlight, macro photography, tiny sparkle highlights, luxury jewelry advertising.",
       "Place this piece on a white marble slab with a thin gold line accent and soft daylight, clean and premium.",
       "Place this piece on a smooth beige stone with soft shadows and blurred greenery in the background, natural elegance.",
-      "Place this piece inside an open elegant jewelry box lined with cream silk, soft studio lighting, close-up.",
+      "Place this piece next to an open elegant jewelry box lined with cream silk, soft studio lighting, close-up.",
       "Place this piece on glossy black acrylic with mirror reflection and warm rim light, high-end campaign look."
     ],
     "home": [
@@ -35,7 +35,7 @@
       "Place this product on a rustic wooden board with a linen napkin and soft natural light, appetizing food photography, shallow depth of field.",
       "Place this product on a white ceramic plate on a marble table with scattered pistachios and a small coffee cup, Arabic hospitality style.",
       "Place this product on a dark slate surface with warm directional light and subtle steam, dramatic food advertising.",
-      "Place this product in a gift presentation on a cream background with gold ribbon details, Eid gifting style.",
+      "Place this product next to elegant gift boxes with gold ribbon on a cream background, Eid gifting style.",
       "Place this product on a light wooden table with soft morning light and a blurred kitchen background, fresh and clean."
     ],
     "beauty": [
