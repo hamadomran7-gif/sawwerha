@@ -737,3 +737,19 @@ test("معاش التقاعد في الكويت", () => {
   assert.equal(kuwaitPension({ gender: "m", age: 38, serviceYears: 12, base: 1200 }).status, "none");
   assert.equal(kuwaitPension({ gender: "m", age: 45, serviceYears: 20, base: 1200 }).status, "too_young");
 });
+
+import { ksaSocialSecurity } from "../src/assets/calc.js";
+
+test("الضمان الاجتماعي المطور", () => {
+  const a = ksaSocialSecurity({ dependents: 4, earned: 2000 });
+  assert.equal(a.minimum, 3960);
+  near(a.counted, 1000);
+  near(a.capFinal, 2960);
+  near(ksaSocialSecurity({ dependents: 4, earned: 2000, citizenAccount: 1500, countCitizenAccount: true }).capFinal, 1460);
+  near(ksaSocialSecurity({ dependents: 0, earned: 1800, unearned: 300 }).capFinal, 120);
+  const c = ksaSocialSecurity({ dependents: 8, earned: 3000 });
+  near(c.capFinal, 5000);
+  near(c.capMinimum, 3500);
+  assert.equal(c.capMatters, true);
+  assert.equal(ksaSocialSecurity({ dependents: 0, earned: 2640 }).eligible, false);
+});

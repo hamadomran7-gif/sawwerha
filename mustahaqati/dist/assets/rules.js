@@ -656,6 +656,23 @@ export default {
       "deductionCapPct": 25,
       "claimTimeLimitMonths": 12,
       "contractEndsAtAge": 60
+    },
+    "socialSecurity": {
+      "law": "نظام الضمان الاجتماعي (المرسوم الملكي م/32 وتاريخ 4/4/1442هـ) ولائحته التنفيذية، والتوجيه الملكي برفع المبالغ (أكتوبر 2023)",
+      "basicHead": 1320,
+      "perDependent": 660,
+      "currentSince": "2023-11-01",
+      "previousHead": 1100,
+      "previousDependent": 550,
+      "familyMax": 5000,
+      "earnedRate": 0.5,
+      "unearnedRate": 1,
+      "paymentDay": 1,
+      "maxMonthsAbroad": 3,
+      "independentMinAge": 18,
+      "maxCarsIndependent": 1,
+      "maxCarsFamily": 3,
+      "maxDomesticWorkers": 2
     }
   },
   "gcc": {

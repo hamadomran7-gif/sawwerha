@@ -1538,3 +1538,23 @@ export function kuwaitPension({ gender = "m", age, serviceYears = 0, serviceMont
     excessYears: r2(excessYears), excessLump, capYears, remunerationOk, remuneration: r2(remuneration),
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* السعودية — الضمان الاجتماعي المطور                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * المعاش = (1,320 لرب الأسرة أو المستقل + 660 لكل تابع) − الدخل المحتسب (50% من الدخل المكتسب كالرواتب والمعاشات، و100% من غيره كالإيجار والإعانات).
+ * يُستحق إذا كان الدخل المحتسب أقل من الحد الأدنى. سقف الأسرة 5,000 (مصادر ثانوية، وموضع تطبيقه غير محسوم: نعرض القراءتين).
+ */
+export function ksaSocialSecurity({ dependents = 0, earned = 0, unearned = 0, citizenAccount = 0, countCitizenAccount = false }) {
+  const S = rules.sa.socialSecurity;
+  const deps = Math.max(0, Math.floor(Number(dependents) || 0));
+  const minimum = S.basicHead + S.perDependent * deps;
+  const counted = S.earnedRate * nz(earned) + S.unearnedRate * nz(unearned) + (countCitizenAccount ? nz(citizenAccount) : 0);
+  const eligible = counted < minimum;
+  const raw = eligible ? minimum - counted : 0;
+  const capFinal = Math.min(raw, S.familyMax);
+  const capMinimum = eligible ? Math.max(0, Math.min(minimum, S.familyMax) - counted) : 0;
+  return { minimum, counted: r2(counted), eligible, raw: r2(raw), capFinal: r2(capFinal), capMinimum: r2(capMinimum), capMatters: r2(capFinal) !== r2(capMinimum) };
+}
