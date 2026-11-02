@@ -120,6 +120,7 @@ fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
 .btn { font: inherit; font-weight: 700; border: 0; border-radius: 10px; padding: 11px 20px; cursor: pointer; background: var(--primary); color: var(--primary-ink); min-height: 46px; }
 .btn.secondary { background: var(--surface-2); color: var(--fg); font-weight: 500; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
 .btn:hover { filter: brightness(1.06); }
 
 /* النتيجة */

@@ -165,3 +165,28 @@ document.addEventListener("click", async (e) => {
   }
   setTimeout(() => (btn.textContent = label), 2000);
 });
+
+// زر مشاركة الحاسبة (واتساب أو مشاركة الجهاز)، إلا داخل صفحات التضمين
+(() => {
+  if (typeof document === "undefined" || document.body.classList.contains("embed")) return;
+  const actions = document.querySelector("#calc .actions");
+  if (!actions || actions.querySelector("[data-share]")) return;
+  const url = location.origin + location.pathname;
+  const title = document.title.split(" — ")[0];
+  const a = document.createElement("a");
+  a.className = "btn secondary";
+  a.dataset.share = "1";
+  a.href = `https://wa.me/?text=${encodeURIComponent(`${title}\n${url}`)}`;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.textContent = "شارك الحاسبة";
+  a.addEventListener("click", async (e) => {
+    if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+      e.preventDefault();
+      try {
+        await navigator.share({ title, url });
+      } catch {}
+    }
+  });
+  actions.appendChild(a);
+})();
