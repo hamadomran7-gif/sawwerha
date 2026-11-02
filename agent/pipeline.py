@@ -16,6 +16,18 @@ WORKFLOW_PATH = HERE.parent / "workflows" / "qwen_image_edit_api.json"
 _session = None
 
 
+def _preload_cuda_libs() -> None:
+    """يحمّل مكتبات CUDA/cuDNN المثبتة عبر pip (onnxruntime-gpu[cuda,cudnn]) ليعمل القصّ على كرت الشاشة.
+    إن لم تتوفر يعمل onnxruntime على المعالج تلقائياً."""
+    try:
+        import onnxruntime as ort  # noqa: WPS433
+
+        if hasattr(ort, "preload_dlls"):
+            ort.preload_dlls()
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def cutout(img: Image.Image, dry_run: bool = False) -> Image.Image:
     """يعيد صورة RGBA للمنتج بلا خلفية (rembg + BiRefNet-general، ترخيص MIT)."""
     img = ImageOps.exif_transpose(img).convert("RGBA")
@@ -27,6 +39,7 @@ def cutout(img: Image.Image, dry_run: bool = False) -> Image.Image:
     except ImportError as e:  # pragma: no cover
         raise RuntimeError("rembg غير مثبت: pip install rembg[gpu]") from e
     if _session is None:
+        _preload_cuda_libs()
         _session = new_session("birefnet-general")
     out = remove(img, session=_session, alpha_matting=False, post_process_mask=True)
     return out.convert("RGBA")

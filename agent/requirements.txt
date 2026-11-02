@@ -1,4 +1,4 @@
 requests>=2.31
 pillow>=10.0
 rembg[gpu]>=2.0.60
-onnxruntime-gpu>=1.18
+onnxruntime-gpu[cuda,cudnn]>=1.21
