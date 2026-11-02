@@ -1,0 +1,140 @@
+---json
+{
+  "title": "حاسبة الإجازة السنوية والمرضية في عُمان 2026 — قانون العمل 53/2023",
+  "h1": "حاسبة الإجازة السنوية والمرضية في عُمان",
+  "description": "احسب رصيد إجازتك السنوية وبدلها في عُمان وفق قانون العمل 53/2023: 30 يوماً بالأجر الشامل بعد 6 أشهر، والبدل عند انتهاء الخدمة بالأجر الشامل، وأجر الإجازة المرضية حتى 182 يوماً: 21 بأجر كامل ثم 14 بـ75% ثم 35 بـ50% ثم 112 بـ35%، مع حصة صندوق الحماية الاجتماعية منذ يوليو 2026.",
+  "short": "30 يوماً بالأجر الشامل، والمرضية حتى 182 يوماً بنسب متدرجة",
+  "lead": "اختر نوع الحساب وأدخل راتبك وتواريخك، ويظهر رصيدك وبدله أو أجر إجازتك المرضية.",
+  "country": "om",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-leave.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": [
+    "oman-end-of-service",
+    "bahrain-leave",
+    "qatar-leave",
+    "gcc-end-of-service-comparison"
+  ],
+  "faq": [
+    {
+      "q": "كم الإجازة السنوية في عُمان؟",
+      "a": "30 يوماً على الأقل بالأجر الشامل في السنة (المادة 78 من قانون العمل 53/2023)، ولا يجوز القيام بها قبل 6 أشهر من الالتحاق بالعمل."
+    },
+    {
+      "q": "هل يُصرف بدل الإجازة بالأجر الشامل أم الأساسي؟",
+      "a": "عند انتهاء الخدمة: بالأجر الشامل عن رصيدك. وأثناء الخدمة يجوز صرف بدل الأيام التي لم تحصل عليها بالأجر الأساسي، بشرط موافقتك الكتابية (المادة 81)."
+    },
+    {
+      "q": "كم يوماً يمكن ترحيلها؟",
+      "a": "يحتفظ العامل برصيد لا يزيد على 30 يوماً ما لم يكن عدم انتفاعه بالإجازة لمصلحة العمل، ويجب أن يقوم بإجازة لا تقل عن 30 يوماً مرة على الأقل كل سنتين."
+    },
+    {
+      "q": "كم الإجازة المرضية في عُمان؟",
+      "a": "حتى 182 يوماً في العام من الأجر الشامل: الأيام 1–21 بأجر كامل، و22–35 بـ75%، و36–70 بـ50%، و71–182 بـ35%."
+    },
+    {
+      "q": "من يدفع أجر الإجازة المرضية بعد يوليو 2026؟",
+      "a": "منذ 19 يوليو 2026 يدفع صاحب العمل الأيام السبعة الأولى، ويعوّضه صندوق الحماية الاجتماعية عن اليوم الثامن فما بعده بالنسب نفسها، ويشمل ذلك العمانيين وغير العمانيين. حق العامل لم يتغير."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل العماني م.س 53/2023 — المواد 1 و78–82 (قانون)",
+      "u": "https://qanoon.om/p/2023/rd2023053/"
+    },
+    {
+      "t": "قرار صندوق الحماية الاجتماعية ر/13/2026 — شمول غير العمانيين بتأمين الإجازات",
+      "u": "https://qanoon.om/p/2026/spf20269904/"
+    },
+    {
+      "t": "جريدة عُمان — تطبيق تأمين الإجازات المرضية (يوليو 2026)",
+      "u": "https://www.omandaily.om/ampArticle/1206951"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="om">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">نوع الحساب</label>
+        <select id="mode" name="mode">
+          <option value="annual">رصيد الإجازة السنوية وبدلها</option>
+          <option value="sick">أجر الإجازة المرضية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (ر.ع)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="600" required>
+        <span class="hint">الأساسي.</span>
+      </div>
+      <div class="field">
+        <label for="allowances">مجموع العلاوات والبدلات (ر.ع)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="400">
+        <span class="hint">تدخل في الأجر الشامل.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2023-08-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">تاريخ نهاية الخدمة أو تاريخ اليوم</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">الأيام التي حصلت عليها طوال المدة</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="50">
+      </div>
+      <div class="field" data-annual>
+        <label for="timing">متى يُصرف البدل؟</label>
+        <select id="timing" name="timing">
+          <option value="end">عند انتهاء الخدمة (بالأجر الشامل)</option>
+          <option value="inService">أثناء الخدمة بموافقتي الكتابية (بالأساسي)</option>
+        </select>
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">أيام الإجازة المرضية خلال السنة</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازة السنوية في عُمان</h2>
+<ul>
+  <li><strong>30 يوماً على الأقل بالأجر الشامل</strong>، ولا تزيد بالأقدمية.</li>
+  <li>لا يجوز القيام بها قبل <strong>6 أشهر</strong> من الالتحاق.</li>
+  <li>الترحيل حتى 30 يوماً، والإجازة الإلزامية 30 يوماً مرة كل سنتين على الأقل.</li>
+  <li>البدل عند انتهاء الخدمة بالأجر الشامل، وأثناءها بالأساسي وبموافقة كتابية.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر شامل 1,000 ريال عماني (منه أساسي 600)، و20 يوماً غير مستخدمة:<br>
+عند انتهاء الخدمة: 1,000 ÷ 30 × 20 = <strong>666.67 ريالاً</strong>.<br>
+أثناء الخدمة بموافقة كتابية: 600 ÷ 30 × 20 = 400 ريال.</p>
+</div>
+
+<h2>الإجازة المرضية في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الأيام في العام</th><th scope="col">نسبة الأجر الشامل</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1–21</th><td>100%</td></tr>
+    <tr><th scope="row">22–35</th><td>75%</td></tr>
+    <tr><th scope="row">36–70</th><td>50%</td></tr>
+    <tr><th scope="row">71–182</th><td>35%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>وعند انتهاء خدمتك احسب <a href="{{root}}oman-end-of-service/{{ix}}">مكافأة نهاية الخدمة في عُمان</a>.</p>
+</div>

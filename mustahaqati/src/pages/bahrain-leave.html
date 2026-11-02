@@ -1,0 +1,135 @@
+---json
+{
+  "title": "حاسبة الإجازة السنوية والمرضية في البحرين 2026 — 30 يوماً وبدل الرصيد",
+  "h1": "حاسبة الإجازة السنوية والمرضية في البحرين",
+  "description": "احسب رصيد إجازتك السنوية وبدلها في البحرين وفق قانون العمل 36/2012: 30 يوماً بمعدل 2.5 يوم عن كل شهر، والبدل على الأجر الأساسي الأخير مع العلاوة الاجتماعية، وأجر الإجازة المرضية بعد 3 أشهر: 15 يوماً كاملة ثم 20 بنصف الأجر ثم 20 بلا أجر.",
+  "short": "30 يوماً (2.5 يوم/شهر) على الأساسي والعلاوة الاجتماعية، والمرضية 15 + 20",
+  "lead": "اختر نوع الحساب وأدخل راتبك وتواريخك، ويظهر رصيدك وبدله أو أجر إجازتك المرضية.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-leave.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": [
+    "bahrain-end-of-service",
+    "oman-leave",
+    "kuwait-leave",
+    "gcc-end-of-service-comparison"
+  ],
+  "faq": [
+    {
+      "q": "كم الإجازة السنوية في البحرين؟",
+      "a": "30 يوماً على الأقل مدفوعة الأجر بمعدل يومين ونصف عن كل شهر، لمن أمضى سنة في الخدمة، وبنسبة المدة لمن خدمته أقل من سنة. وقرر مجلس الوزراء في 2013 أنها أيام تقويمية."
+    },
+    {
+      "q": "على أي راتب يُحسب بدل الإجازة؟",
+      "a": "على الأجر الأساسي الأخير مضافاً إليه العلاوة الاجتماعية (المادة 47)، دون بدلات السكن والنقل."
+    },
+    {
+      "q": "هل يجوز ترحيل الإجازة؟",
+      "a": "على صاحب العمل تسوية رصيد الإجازات والأجر المقابل له كل سنتين على الأكثر. وللعامل أن يحصل على 15 يوماً على الأقل في السنة منها 6 أيام متصلة. ويسقط بدل الأيام التي حددها صاحب العمل ورفض العامل القيام بها كتابةً."
+    },
+    {
+      "q": "كم الإجازة المرضية في البحرين؟",
+      "a": "بعد 3 أشهر متصلة في الخدمة: 15 يوماً مدفوعة الأجر، ثم 20 يوماً بنصف الأجر، ثم 20 يوماً بلا أجر خلال السنة. ويُجمَّع رصيد الأيام المدفوعة وبنصف الأجر حتى 240 يوماً."
+    },
+    {
+      "q": "هل توجد إجازة مرضية إضافية للأمراض المزمنة؟",
+      "a": "إجازة الثلاثين يوماً للأمراض المزمنة الصادرة في 2025 تخص القطاع الحكومي. وفي القطاع الخاص طُرحت مقترحات لم تصبح نافذة بعد."
+    }
+  ],
+  "sources": [
+    {
+      "t": "هيئة التشريع والرأي القانوني — قانون العمل في القطاع الأهلي 36/2012",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    },
+    {
+      "t": "هيئة التشريع — قائمة تعديلات القانون 36/2012",
+      "u": "https://lloc.gov.bh/Legislation/Amendments/K3612"
+    },
+    {
+      "t": "Norton Rose Fulbright — قانون العمل البحريني: الأيام التقويمية (2013)",
+      "u": "https://www.globalworkplaceinsider.com/2013/06/bahrains-new-labour-law-whats-in-a-day/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="bh">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">نوع الحساب</label>
+        <select id="mode" name="mode">
+          <option value="annual">رصيد الإجازة السنوية وبدلها</option>
+          <option value="sick">أجر الإجازة المرضية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (د.ب)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="700" required>
+        <span class="hint">الأساسي الأخير.</span>
+      </div>
+      <div class="field">
+        <label for="social">العلاوة الاجتماعية (د.ب)</label>
+        <input type="number" id="social" name="social" inputmode="decimal" min="0" step="1" value="100">
+        <span class="hint">تدخل في بدل الإجازة السنوية.</span>
+      </div>
+      <div class="field">
+        <label for="allowances">بدلات أخرى (السكن والنقل وغيرها) (د.ب)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="200">
+        <span class="hint">تدخل في أجر الإجازة المرضية فقط.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2024-01-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">تاريخ نهاية الخدمة أو تاريخ اليوم</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">الأيام التي حصلت عليها طوال المدة</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="40">
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">أيام الإجازة المرضية خلال السنة</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+      <div class="field full inline" data-sick hidden>
+        <input type="checkbox" id="eligible" name="eligible" checked>
+        <label for="eligible">أمضيت 3 أشهر على الأقل في الخدمة</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازة السنوية في البحرين</h2>
+<ul>
+  <li><strong>30 يوماً على الأقل</strong> بمعدل 2.5 يوم عن كل شهر، وبالنسبة لمن خدمته أقل من سنة.</li>
+  <li>أيام تقويمية، فتُحسب العطل الأسبوعية والرسمية الواقعة داخلها.</li>
+  <li>للعامل 15 يوماً في السنة على الأقل منها 6 أيام متصلة، و6 أيام عارضة تُخصم من السنوية.</li>
+  <li>البدل على الأساسي الأخير مع العلاوة الاجتماعية، والتسوية كل سنتين على الأكثر.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> أساسي وعلاوة اجتماعية 1,000 دينار، و20 يوماً غير مستخدمة: 1,000 ÷ 30 × 20 = <strong>666.67 ديناراً</strong>.<br>
+خدمة 7 أشهر: 7 × 2.5 = 17.5 يوماً، وبدلها 583.33 ديناراً.</p>
+</div>
+
+<h2>الإجازة المرضية في البحرين</h2>
+<ul>
+  <li>بعد <strong>3 أشهر متصلة</strong> في الخدمة، وبشهادة من مركز صحي حكومي أو عيادة يعتمدها صاحب العمل.</li>
+  <li>15 يوماً مدفوعة الأجر، ثم 20 بنصف الأجر، ثم 20 بلا أجر خلال السنة.</li>
+  <li>يُجمَّع الرصيد غير المستخدم حتى 240 يوماً.</li>
+</ul>
+<p>وعند انتهاء خدمتك احسب <a href="{{root}}bahrain-end-of-service/{{ix}}">مكافأة نهاية الخدمة في البحرين</a>.</p>
+</div>

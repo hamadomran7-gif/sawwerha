@@ -519,6 +519,37 @@ export default {
       "wageBasis": "الأجر الأساسي الأخير",
       "forfeitArticle": "61",
       "paymentRule": "قبل نهاية اليوم التالي لانتهاء العقد (المادة 67)"
+    },
+    "annualLeave": {
+      "law": "قانون العمل القطري 14/2004 المواد 8 و72 و79 و80 و81",
+      "daysPerYear": 21,
+      "daysPerYearAfterFive": 28,
+      "afterYears": 5,
+      "eligibilityMonths": 12,
+      "carryOverMaxFraction": 0.5,
+      "daysPerMonth": 30,
+      "wageBasis": "basic"
+    },
+    "sickLeave": {
+      "law": "قانون العمل القطري 14/2004 المادتان 82 و72",
+      "minServiceMonths": 3,
+      "maxDays": 84,
+      "tiers": [
+        {
+          "days": 14,
+          "frac": 1
+        },
+        {
+          "days": 28,
+          "frac": 0.5
+        },
+        {
+          "days": 42,
+          "frac": 0
+        }
+      ],
+      "daysPerMonth": 30,
+      "wageBasis": "basic"
     }
   },
   "kw": {
@@ -556,6 +587,46 @@ export default {
       ],
       "marriageWindowMonths": 12,
       "forfeitArticle": "41/أ"
+    },
+    "annualLeave": {
+      "law": "القانون الكويتي 6/2010 المادة 70 (بالقانون 85/2017) والمواد 55 و62 و67 و71–74",
+      "daysPerYear": 30,
+      "workingDays": true,
+      "eligibilityMonths": 6,
+      "carryOverMaxYears": 2,
+      "daysPerMonth": 26,
+      "daysPerMonthAlt": 30,
+      "wageBasis": "total"
+    },
+    "sickLeave": {
+      "law": "القانون الكويتي 6/2010 المادة 69",
+      "minServiceMonths": 0,
+      "maxDays": 75,
+      "tiers": [
+        {
+          "days": 15,
+          "frac": 1
+        },
+        {
+          "days": 10,
+          "frac": 0.75
+        },
+        {
+          "days": 10,
+          "frac": 0.5
+        },
+        {
+          "days": 10,
+          "frac": 0.25
+        },
+        {
+          "days": 30,
+          "frac": 0
+        }
+      ],
+      "daysPerMonth": 30,
+      "daysPerMonthAlt": 26,
+      "wageBasis": "total"
     }
   },
   "om": {
@@ -571,6 +642,42 @@ export default {
       "savingsPct": 0.09,
       "savingsNoLaterThan": "2027-07-19",
       "forfeitArticle": "40"
+    },
+    "annualLeave": {
+      "law": "قانون العمل العماني م.س 53/2023 المواد 1 و78 و79 و81",
+      "daysPerYear": 30,
+      "eligibilityMonths": 6,
+      "carryOverMaxDays": 30,
+      "daysPerMonth": 30,
+      "wageBasisEnd": "total",
+      "wageBasisInService": "basic"
+    },
+    "sickLeave": {
+      "law": "قانون العمل العماني م.س 53/2023 المادة 82، وقانون الحماية الاجتماعية م.س 52/2023",
+      "minServiceMonths": 0,
+      "maxDays": 182,
+      "tiers": [
+        {
+          "days": 21,
+          "frac": 1
+        },
+        {
+          "days": 14,
+          "frac": 0.75
+        },
+        {
+          "days": 35,
+          "frac": 0.5
+        },
+        {
+          "days": 112,
+          "frac": 0.35
+        }
+      ],
+      "daysPerMonth": 30,
+      "wageBasis": "total",
+      "spfStart": "2026-07-19",
+      "spfEmployerDays": 7
     }
   },
   "bh": {
@@ -584,6 +691,37 @@ export default {
       "sioStart": "2024-03-01",
       "sioRateFirst": 0.042,
       "sioRateAfter": 0.084
+    },
+    "annualLeave": {
+      "law": "قانون العمل البحريني 36/2012 المواد 47 و58 و59",
+      "daysPerYear": 30,
+      "accrualPerMonth": 2.5,
+      "eligibilityMonths": 0,
+      "settlementMaxYears": 2,
+      "daysPerMonth": 30,
+      "wageBasis": "basicPlusSocial"
+    },
+    "sickLeave": {
+      "law": "قانون العمل البحريني 36/2012 المادتان 65 و66",
+      "minServiceMonths": 3,
+      "maxDays": 55,
+      "tiers": [
+        {
+          "days": 15,
+          "frac": 1
+        },
+        {
+          "days": 20,
+          "frac": 0.5
+        },
+        {
+          "days": 20,
+          "frac": 0
+        }
+      ],
+      "accumulationMaxDays": 240,
+      "daysPerMonth": 30,
+      "wageBasis": "total"
     }
   }
 };

@@ -1,0 +1,143 @@
+---json
+{
+  "title": "حاسبة الإجازة السنوية والمرضية في الكويت 2026 — 30 يوم عمل وبدل الرصيد",
+  "h1": "حاسبة الإجازة السنوية والمرضية في الكويت",
+  "description": "احسب رصيد إجازتك السنوية وبدلها في القطاع الأهلي بالكويت: 30 يوم عمل بعد تعديل 2017 (لا تُحسب منها الراحة الأسبوعية والعطل)، تُستحق بعد 6 أشهر، والبدل على آخر أجر شامل، وأجر الإجازة المرضية: 15 يوماً كاملة ثم 10 بثلاثة أرباع ثم 10 بالنصف ثم 10 بالربع.",
+  "short": "30 يوم عمل سنوياً على الأجر الشامل، والمرضية 75 يوماً بشرائح",
+  "lead": "اختر نوع الحساب وأدخل راتبك وتواريخك، ويظهر رصيدك وبدله أو أجر إجازتك المرضية.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-leave.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": [
+    "kuwait-end-of-service",
+    "qatar-leave",
+    "bahrain-leave",
+    "gcc-end-of-service-comparison"
+  ],
+  "faq": [
+    {
+      "q": "هل زادت الإجازة السنوية في الكويت إلى 35 يوماً؟",
+      "a": "لا. مقترح الـ35 يوماً في 2019 لم يصدر، ثم ردّت الحكومة قانون 2020. النافذ هو القانون 85/2017: الإجازة 30 يوم عمل على الأقل، لا تُحسب منها أيام الراحة الأسبوعية ولا العطل الرسمية ولا أيام المرض، فهي نحو 35 يوماً تقويمياً لمن يعمل 6 أيام."
+    },
+    {
+      "q": "متى أستحق أول إجازة؟",
+      "a": "بعد 6 أشهر من الخدمة في السنة الأولى (كانت 9 أشهر قبل 2017)، وعن كسور السنة بنسبتها."
+    },
+    {
+      "q": "على أي راتب يُحسب بدل الإجازة؟",
+      "a": "على آخر أجر تقاضاه العامل، والأجر في القانون هو الأساسي مع ما يُدفع بصفة دورية من علاوات وبدلات. والممارسة الشائعة تقسمه على 26 يوم عمل، ولا نص صريح على القاسم."
+    },
+    {
+      "q": "هل يجوز تجميع الإجازات؟",
+      "a": "يجوز تجميعها حتى إجازة سنتين، وأكثر من ذلك باتفاق الطرفين. وعند انتهاء العقد يُصرف بدل كل الأيام المجتمعة أياً كان سبب الانتهاء، ولا يجوز التنازل عنها أثناء الخدمة."
+    },
+    {
+      "q": "كم الإجازة المرضية في الكويت؟",
+      "a": "خلال السنة: 15 يوماً بأجر كامل، ثم 10 أيام بثلاثة أرباع الأجر، ثم 10 بنصفه، ثم 10 بربعه، ثم 30 يوماً بلا أجر، دون شرط لمدة الخدمة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "ILO NATLEX — قانون العمل في القطاع الأهلي الكويتي 6/2010 وتعديلاته",
+      "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"
+    },
+    {
+      "t": "الأنباء — نص القانون 6/2010 (فبراير 2010)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "محاماة نت — القانون 85/2017 بتعديل المادة 70",
+      "u": "https://www.mohamah.net/law/?p=143919"
+    },
+    {
+      "t": "الراي — ردّ قانون زيادة الإجازة (سبتمبر 2020)",
+      "u": "https://www.alraimedia.com/ampArticle/907364"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="kw">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">نوع الحساب</label>
+        <select id="mode" name="mode">
+          <option value="annual">رصيد الإجازة السنوية وبدلها</option>
+          <option value="sick">أجر الإجازة المرضية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (د.ك)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="800" required>
+        <span class="hint">الأساسي.</span>
+      </div>
+      <div class="field">
+        <label for="allowances">البدلات الدورية (السكن والمعيشة وغيرها) (د.ك)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="200">
+        <span class="hint">لا تُدخل بدل النقل أو المصروفات.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2022-09-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">تاريخ نهاية الخدمة أو تاريخ اليوم</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">الأيام التي حصلت عليها طوال المدة</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="90">
+      </div>
+      <div class="field" data-annual>
+        <label for="divisor">قسمة الأجر الشهري على</label>
+        <select id="divisor" name="divisor">
+          <option value="26">26 يوم عمل (الممارسة الشائعة)</option>
+          <option value="30">30 يوماً</option>
+        </select>
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">أيام الإجازة المرضية خلال السنة</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازة السنوية في الكويت بعد تعديل 2017</h2>
+<ul>
+  <li><strong>30 يوم عمل على الأقل</strong> مدفوعة الأجر، ولا تزيد بالأقدمية.</li>
+  <li>لا تُحسب منها أيام الراحة الأسبوعية، ولا العطل الرسمية، ولا الإجازات المرضية الواقعة خلالها.</li>
+  <li>تُستحق عن السنة الأولى بعد <strong>6 أشهر</strong>، وعن كسور السنة بنسبتها.</li>
+  <li>يُدفع أجرها قبل القيام بها، ويجوز تجميعها حتى سنتين.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> آخر أجر شامل 1,000 دينار، و20 يوم عمل غير مستخدمة: 1,000 ÷ 26 × 20 = <strong>769.23 ديناراً</strong>، أو 666.67 بالقسمة على 30.</p>
+</div>
+
+<h2>الإجازة المرضية في الكويت</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الأيام خلال السنة</th><th scope="col">الأجر</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">أول 15 يوماً</th><td>كامل</td></tr>
+    <tr><th scope="row">الـ10 التالية</th><td>ثلاثة أرباع</td></tr>
+    <tr><th scope="row">الـ10 التالية</th><td>النصف</td></tr>
+    <tr><th scope="row">الـ10 التالية</th><td>الربع</td></tr>
+    <tr><th scope="row">الـ30 التالية</th><td>بدون أجر</td></tr>
+  </tbody>
+</table>
+</div>
+<p>وعند انتهاء خدمتك احسب <a href="{{root}}kuwait-end-of-service/{{ix}}">مكافأة نهاية الخدمة في الكويت</a>.</p>
+</div>

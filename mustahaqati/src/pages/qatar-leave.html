@@ -1,0 +1,131 @@
+---json
+{
+  "title": "حاسبة الإجازة السنوية والمرضية في قطر 2026 — بدل الرصيد وأجر الإجازة المرضية",
+  "h1": "حاسبة الإجازة السنوية والمرضية في قطر",
+  "description": "احسب رصيد إجازتك السنوية وبدلها في قطر وفق قانون العمل 14/2004: 21 يوماً لمن خدمته أقل من 5 سنوات و28 يوماً بعدها، والبدل على الأجر الأساسي ÷ 30، وأجر الإجازة المرضية: أسبوعان بأجر كامل ثم 4 أسابيع بنصف الأجر بعد 3 أشهر من الخدمة.",
+  "short": "21 ثم 28 يوماً سنوياً على الأساسي، والمرضية: 14 كاملة و28 بالنصف",
+  "lead": "اختر نوع الحساب وأدخل راتبك وتواريخك، ويظهر رصيدك وبدله أو أجر إجازتك المرضية.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-leave.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": [
+    "qatar-end-of-service",
+    "kuwait-leave",
+    "uae-annual-leave",
+    "gcc-end-of-service-comparison"
+  ],
+  "faq": [
+    {
+      "q": "كم الإجازة السنوية في قطر؟",
+      "a": "3 أسابيع (21 يوماً) لمن خدمته أقل من 5 سنوات، و4 أسابيع (28 يوماً) لمن خدمته 5 سنوات فأكثر، بعد سنة كاملة مستمرة من الخدمة، ويجوز للعقد أن يمنح أكثر."
+    },
+    {
+      "q": "على أي راتب يُحسب بدل الإجازة؟",
+      "a": "على الأجر الأساسي في تاريخ الاستحقاق (المادة 72)، والشهر 30 يوماً (المادة 8). البدلات كالسكن والمواصلات لا تدخل."
+    },
+    {
+      "q": "هل يجوز ترحيل الإجازة؟",
+      "a": "بطلب كتابي من العامل يجوز تأجيل ما لا يزيد على نصف مدة الإجازة إلى السنة التالية فقط. ويجوز تجزئتها بموافقة العامل على فترتين كحد أقصى."
+    },
+    {
+      "q": "هل أستحق بدلاً عن إجازتي إذا انتهى عقدي؟",
+      "a": "نعم. إذا انتهى العقد لأي سبب قبل حصولك على إجازتك تستحق بدلاً نقدياً يعادل أجرك عن الأيام المستحقة (المادة 81). أما من تنتهي خدمته قبل إكمال السنة الأولى فالمسألة غير محسومة."
+    },
+    {
+      "q": "كم الإجازة المرضية في قطر؟",
+      "a": "بعد 3 أشهر من الالتحاق بالعمل: أسبوعان بأجر كامل، ثم 4 أسابيع بنصف الأجر، ثم بلا أجر حتى يعود العامل أو تنتهي خدمته. ويجوز إنهاء الخدمة في نهاية الأسبوع الثاني عشر إذا ثبت عجزه طبياً."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل القطري 14/2004 — النص العربي للمواد 8 و72 و79–82 (محاماة نت)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "التميمي — أهم تعديلات قانون العمل القطري 2026 (لم تمس الإجازات)",
+      "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"
+    },
+    {
+      "t": "Clyde & Co — الإجازات في قطر",
+      "u": "https://www.legal500.com/intelligence/qatar/employment-and-hr/all-work-and-no-play-workplace-leave-in-qatar"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="qa">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">نوع الحساب</label>
+        <select id="mode" name="mode">
+          <option value="annual">رصيد الإجازة السنوية وبدلها</option>
+          <option value="sick">أجر الإجازة المرضية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (ريال قطري)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">الأساسي فقط؛ عليه تُحسب الإجازتان.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2021-03-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">تاريخ نهاية الخدمة أو تاريخ اليوم</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">الأيام التي حصلت عليها طوال المدة</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="60">
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">أيام الإجازة المرضية خلال السنة</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+      <div class="field full inline" data-sick hidden>
+        <input type="checkbox" id="eligible" name="eligible" checked>
+        <label for="eligible">أمضيت 3 أشهر على الأقل في الخدمة</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازة السنوية في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">مدة الخدمة</th><th scope="col">الإجازة السنوية</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">أقل من 5 سنوات</th><td>3 أسابيع (21 يوماً)</td></tr>
+    <tr><th scope="row">5 سنوات فأكثر</th><td>4 أسابيع (28 يوماً)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>تُستحق بعد سنة كاملة مستمرة، وعن كسور السنة بنسبتها. وأجرها وبدلها على <strong>الأجر الأساسي</strong> مقسوماً على 30.</p>
+
+<div class="example">
+<p><strong>مثال:</strong> أساسي 10,000 ريال، و20 يوماً غير مستخدمة عند انتهاء العقد: 20 × 333.33 = <strong>6,666.67 ريالاً</strong>.<br>
+التراكم: خدمة 3.5 سنوات = 73.5 يوماً، و6 سنوات = 5 × 21 + 28 = 133 يوماً.</p>
+</div>
+
+<h2>الإجازة المرضية في قطر</h2>
+<ul>
+  <li>بعد <strong>3 أشهر</strong> من الالتحاق، وبشهادة من طبيب يقبله صاحب العمل.</li>
+  <li>أسبوعان بأجر كامل، ثم 4 أسابيع بنصف الأجر، ثم بلا أجر، عن كل سنة خدمة، وعلى الأجر الأساسي.</li>
+</ul>
+<div class="example">
+<p><strong>مثال:</strong> أساسي 10,000 ريال و40 يوماً مرضياً: 14 × 333.33 + 26 × 166.67 = <strong>9,000 ريال</strong>.</p>
+</div>
+<p>وعند انتهاء خدمتك احسب <a href="{{root}}qatar-end-of-service/{{ix}}">مكافأة نهاية الخدمة في قطر</a>.</p>
+</div>

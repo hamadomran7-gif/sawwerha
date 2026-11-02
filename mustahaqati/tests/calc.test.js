@@ -437,3 +437,33 @@ test("الإمارات: معاش القانون الجديد والقديم وم
   assert.equal(d.status, "early");
   near(d.pension, 14000);
 });
+
+import { gccLeaveBalance, gccLeaveEncash, gccSickPay } from "../src/assets/calc.js";
+
+test("إجازات قطر والكويت وعُمان والبحرين: البدل والمرضية", () => {
+  near(gccLeaveEncash({ country: "qa", days: 20, basic: 10000, allowances: 4000 }).amount, 6666.67);
+  near(gccLeaveEncash({ country: "kw", days: 20, basic: 8000, allowances: 2000 }).amount, 7692.31);
+  near(gccLeaveEncash({ country: "kw", days: 20, basic: 8000, allowances: 2000, divisor: 30 }).amount, 6666.67);
+  near(gccLeaveEncash({ country: "om", days: 20, basic: 6000, allowances: 4000 }).amount, 6666.67);
+  near(gccLeaveEncash({ country: "om", days: 20, basic: 6000, allowances: 4000, timing: "inService" }).amount, 4000);
+  near(gccLeaveEncash({ country: "bh", days: 20, basic: 9000, social: 1000, allowances: 3000 }).amount, 6666.67);
+  near(gccSickPay({ country: "qa", days: 40, basic: 10000 }).paid, 9000);
+  near(gccSickPay({ country: "kw", days: 40, basic: 10000 }).paid, 9583.33);
+  const om = gccSickPay({ country: "om", days: 40, basic: 10000 });
+  near(om.paid, 11333.33);
+  near(om.employerShare, 2333.33);
+  near(om.fundShare, 9000);
+  near(gccSickPay({ country: "bh", days: 40, basic: 10000 }).paid, 8333.33);
+  assert.equal(gccSickPay({ country: "qa", days: 10, basic: 10000, eligible: false }).paid, 0);
+});
+
+test("رصيد الإجازة السنوية: قطر 21 ثم 28، والكويت بعد 6 أشهر", () => {
+  near(gccLeaveBalance({ country: "qa", start: "2020-01-01", end: "2025-12-31" }).accrued, 133);
+  near(gccLeaveBalance({ country: "qa", start: "2022-07-01", end: "2025-12-31" }).accrued, 73.5);
+  const q = gccLeaveBalance({ country: "qa", start: "2025-05-01", end: "2025-12-31" });
+  assert.equal(q.alt, 0);
+  near(q.accrued, 14);
+  assert.equal(gccLeaveBalance({ country: "kw", start: "2025-08-01", end: "2025-12-31" }).accrued, 0);
+  near(gccLeaveBalance({ country: "kw", start: "2025-05-01", end: "2025-12-31" }).accrued, 20);
+  near(gccLeaveBalance({ country: "bh", start: "2025-06-01", end: "2025-12-31", taken: 5 }).balance, 12.5);
+});

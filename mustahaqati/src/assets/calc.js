@@ -1002,3 +1002,70 @@ export function uaePension({ birth, firstReg, end, avgSalary, gender = "m" }) {
     employeeContribution: r2(contribSalary * L.contribEmployee),
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* الإجازة السنوية والمرضية — قطر والكويت وعُمان والبحرين              */
+/* ------------------------------------------------------------------ */
+
+/** رصيد الإجازة السنوية المستحق عن مدة الخدمة، ناقص المستخدم. */
+export function gccLeaveBalance({ country, start, end, taken = 0 }) {
+  const R = rules[country].annualLeave;
+  const d = serviceDuration(start, end, 0);
+  if (!d) return null;
+  const months = d.years * 12 + d.months + d.days / 30;
+  let accrued = 0, alt = null, belowEligibility = false;
+  if (country === "qa") {
+    const full = Math.floor(months / 12);
+    const rem = months - full * 12;
+    for (let i = 1; i <= full; i++) accrued += i <= R.afterYears ? R.daysPerYear : R.daysPerYearAfterFive;
+    accrued += (full + 1 <= R.afterYears ? R.daysPerYear : R.daysPerYearAfterFive) * (rem / 12);
+    if (full === 0) alt = 0; // السنة الأولى غير المكتملة: قراءتان
+  } else {
+    if (months < R.eligibilityMonths) belowEligibility = true;
+    accrued = belowEligibility && country === "kw" ? 0 : R.daysPerYear * (months / 12);
+  }
+  const t = Math.max(0, Number(taken) || 0);
+  return { months: r2(months), accrued: r2(accrued), alt, belowEligibility, taken: t, balance: r2(Math.max(0, accrued - t)), altBalance: alt === null ? null : 0 };
+}
+
+/** أساس الأجر اليومي لكل دولة ونوع إجازة. */
+function gccDailyWage(country, kind, { basic = 0, allowances = 0, social = 0, divisor, timing }) {
+  const b = Number(basic) || 0, a = Number(allowances) || 0, s = Number(social) || 0;
+  const R = rules[country][kind];
+  let monthly, basis;
+  if (country === "qa") { monthly = b; basis = "الأجر الأساسي"; }
+  else if (country === "kw") { monthly = b + a + s; basis = "آخر أجر شامل (الأساسي والبدلات الدورية)"; }
+  else if (country === "om") {
+    if (kind === "annualLeave" && timing === "inService") { monthly = b; basis = "الأجر الأساسي (صرف أثناء الخدمة بموافقة كتابية)"; }
+    else { monthly = b + a + s; basis = "الأجر الشامل"; }
+  } else {
+    if (kind === "annualLeave") { monthly = b + s; basis = "الأجر الأساسي مضافاً إليه العلاوة الاجتماعية"; }
+    else { monthly = b + a + s; basis = "الأجر الشامل"; }
+  }
+  const div = Number(divisor) || R.daysPerMonth;
+  return { monthly, daily: monthly / div, divisor: div, basis };
+}
+
+/** بدل الإجازة السنوية عن عدد من الأيام. */
+export function gccLeaveEncash({ country, days, ...w }) {
+  const x = gccDailyWage(country, "annualLeave", w);
+  const n = Math.max(0, Number(days) || 0);
+  return { daily: r2(x.daily), divisor: x.divisor, basis: x.basis, monthly: r2(x.monthly), amount: r2(n * x.daily) };
+}
+
+/** أجر الإجازة المرضية بالشرائح. */
+export function gccSickPay({ country, days, eligible = true, ...w }) {
+  const R = rules[country].sickLeave;
+  const x = gccDailyWage(country, "sickLeave", w);
+  const d = Math.max(0, Math.floor(Number(days) || 0));
+  if (!eligible && R.minServiceMonths > 0) return { eligible: false, daily: r2(x.daily), basis: x.basis, rows: [], paid: 0, normal: r2(d * x.daily), deduction: r2(d * x.daily) };
+  const counted = Math.min(d, R.maxDays);
+  const t = tierPay(counted, R.tiers, x.daily);
+  let employerShare = null, fundShare = null;
+  if (country === "om") {
+    const first = tierPay(Math.min(counted, R.spfEmployerDays), R.tiers, x.daily);
+    employerShare = r2(first.paid);
+    fundShare = r2(t.paid - first.paid);
+  }
+  return { eligible: true, daily: r2(x.daily), divisor: x.divisor, basis: x.basis, rows: t.rows, paid: r2(t.paid), normal: r2(counted * x.daily), deduction: r2(counted * x.daily - t.paid), exceeded: d > R.maxDays, employerShare, fundShare };
+}
