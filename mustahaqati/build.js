@@ -196,6 +196,9 @@ function build({ check = false, preview = false } = {}) {
       bodyClass: isHome ? "home" : `page page-${meta.slug}`,
       pageScript: meta.script ? `<script type="module" src="${root}assets/pages/${meta.script}"></script>` : "",
       noindex: meta.noindex ? '<meta name="robots" content="noindex">' : "",
+      adsense: site.adsense
+        ? `<meta name="google-adsense-account" content="${site.adsense}">\n<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${site.adsense}" crossorigin="anonymous"></script>`
+        : "",
     });
 
     if (isNotFound) {
@@ -223,6 +226,8 @@ function build({ check = false, preview = false } = {}) {
   fs.writeFileSync(path.join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
   // ملفات إثبات الملكية (Google Search Console وغيره) من site.json → verification: ["googleXXXX.html", ...]
   for (const v of site.verification || []) fs.writeFileSync(path.join(DIST, v), `google-site-verification: ${v}`);
+  // ads.txt لـ Google AdSense (يُعرَّف الناشر من site.json → adsense: "ca-pub-…")
+  if (site.adsense) fs.writeFileSync(path.join(DIST, "ads.txt"), `google.com, ${site.adsense.replace(/^ca-/, "")}, DIRECT, f08c47fec0942fa0\n`);
   fs.writeFileSync(path.join(DIST, "_headers"), `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: SAMEORIGIN\n`);
 
   if (check) checkLinks(pages);
