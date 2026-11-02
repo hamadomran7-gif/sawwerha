@@ -1,0 +1,84 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-net-salary-calculator",
+  "alternate": "ksa-net-salary",
+  "title": "Saudi Net Salary Calculator 2026 — Take-Home Pay After GOSI",
+  "h1": "Saudi Net Salary Calculator After GOSI",
+  "description": "Calculate your take-home pay in Saudi Arabia after the GOSI deduction: 9.75% for Saudis on basic salary plus housing, the graded rate for new subscribers since July 2024, and no deduction for non-Saudis, with the SAR 45,000 contribution cap.",
+  "short": "Take-home pay after GOSI for Saudis, new subscribers and non-Saudis",
+  "lead": "Enter your salary components and nationality to see the monthly deduction and the salary that actually reaches your account.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-gosi", "en-ksa-employee-cost", "en-ksa-end-of-service", "en-ksa-dependents-fee"],
+  "faq": [
+    {"q": "How much GOSI is deducted from a Saudi employee's salary?", "a": "9.75% of the contributory wage (basic plus housing): 9% for the pension branch and 0.75% for SANED unemployment insurance. For a new subscriber who started work for the first time after 3 July 2024, the pension rate started at 9% and rises by half a point a year until it reaches 11%."},
+    {"q": "Is anything deducted from transport allowance or commission?", "a": "No. The contribution base is basic salary and cash housing allowance only. Transport allowance, commission and seasonal bonuses are outside it, so they reach you in full."},
+    {"q": "Is anything deducted from a non-Saudi's salary?", "a": "No. Nothing is deducted from a non-Saudi employee's salary; the employer alone pays 2% for occupational hazards."},
+    {"q": "What is the cap on the contributory wage?", "a": "SAR 45,000 a month. If basic salary and housing exceed it, contributions are calculated on SAR 45,000 only."},
+    {"q": "How is housing counted if the company provides accommodation?", "a": "In-kind housing is valued at two months' basic salary a year, which equals one sixth of basic salary a month. Tick \"Company-provided accommodation\" in the calculator to apply it."}
+  ],
+  "sources": [
+    {"t": "General Organization for Social Insurance (GOSI)", "u": "https://www.gosi.gov.sa"},
+    {"t": "Al Eqtisadiah — the graded increase for new subscribers (30 June 2025), Arabic", "u": "https://www.aleqt.com/2025/06/30/article_2763270.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your net salary</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Basic salary (SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="10000" required>
+      </div>
+      <div class="field">
+        <label for="housing">Monthly cash housing allowance (SAR)</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="1" value="2500">
+        <span class="hint">If housing is provided in kind, leave 0 and tick the option below.</span>
+      </div>
+      <div class="field">
+        <label for="transport">Transport allowance (SAR)</label>
+        <input type="number" id="transport" name="transport" inputmode="decimal" min="0" step="1" value="1000">
+      </div>
+      <div class="field">
+        <label for="other">Other allowances (SAR)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <fieldset class="field full">
+        <legend>Nationality and system</legend>
+        <div class="choices">
+          <label><input type="radio" name="status" value="saudi" checked><span>Saudi (subscribed before 3 July 2024)</span></label>
+          <label><input type="radio" name="status" value="saudi_new"><span>Saudi, first subscribed from 3 July 2024</span></label>
+          <label><input type="radio" name="status" value="expat"><span>Non-Saudi</span></label>
+        </div>
+      </fieldset>
+      <div class="field full inline">
+        <input type="checkbox" id="inkind" name="inkind">
+        <label for="inkind">Company-provided accommodation (valued at one sixth of basic a month)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>What is deducted from your salary</h2>
+<ul>
+  <li><strong>Saudi, subscribed before 3 July 2024:</strong> 9% pension + 0.75% SANED = 9.75% of basic plus housing.</li>
+  <li><strong>Saudi, new subscriber:</strong> a pension rate that started at 9% and rises by half a point each July until 11%, plus 0.75% SANED.</li>
+  <li><strong>Non-Saudi:</strong> nothing. The employer pays 2% for occupational hazards.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> a Saudi employee subscribed before July 2024 with basic SAR 10,000, housing SAR 2,500 and transport SAR 1,000. Contributory wage SAR 12,500; deduction 9.75% = SAR 1,218.75. <strong>Net salary = 13,500 − 1,218.75 = SAR 12,281.25</strong>.</p>
+</div>
+<p>Employers: see both shares in the <a href="{{root}}en/gosi-calculator/{{ix}}">GOSI calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-net-salary/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

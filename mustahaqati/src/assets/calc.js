@@ -226,9 +226,10 @@ export function gosiContribution({ basic, housing = 0, isSaudi = true, newSubscr
   };
 }
 
-export function ksaNetSalary({ basic, housing = 0, transport = 0, other = 0, isSaudi = true, newSubscriber = false, asOf = new Date() }) {
+/** inKindHousing: قيمة السكن العيني (سدس الأساسي) — تدخل وعاء الاشتراك ولا تدخل الراتب النقدي. */
+export function ksaNetSalary({ basic, housing = 0, transport = 0, other = 0, inKindHousing = 0, isSaudi = true, newSubscriber = false, asOf = new Date() }) {
   const gross = (Number(basic) || 0) + (Number(housing) || 0) + (Number(transport) || 0) + (Number(other) || 0);
-  const gosi = gosiContribution({ basic, housing, isSaudi, newSubscriber, asOf });
+  const gosi = gosiContribution({ basic, housing: (Number(housing) || 0) + (Number(inKindHousing) || 0), isSaudi, newSubscriber, asOf });
   return { gross: r2(gross), gosi, net: r2(gross - gosi.employeeAmount), annualNet: r2((gross - gosi.employeeAmount) * 12) };
 }
 

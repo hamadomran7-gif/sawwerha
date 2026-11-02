@@ -9,8 +9,8 @@ bind(form, result, (v) => {
   if (v.basic === null || v.basic === undefined) return null;
   const isSaudi = v.status !== "expat";
   const newSubscriber = v.status === "saudi_new";
-  const housing = v.inkind ? (v.basic || 0) / 6 : v.housing || 0;
-  const r = ksaNetSalary({ basic: v.basic || 0, housing, transport: v.transport || 0, other: v.other || 0, isSaudi, newSubscriber });
+  const inKindHousing = v.inkind ? (v.basic || 0) / 6 : 0;
+  const r = ksaNetSalary({ basic: v.basic || 0, housing: v.inkind ? 0 : v.housing || 0, inKindHousing, transport: v.transport || 0, other: v.other || 0, isSaudi, newSubscriber });
   const g = r.gosi;
 
   let html = big("الراتب الصافي الشهري", money(r.net, cur), `الإجمالي ${money(r.gross, cur)} − خصم التأمينات ${money(g.employeeAmount, cur)}`);
@@ -26,7 +26,7 @@ bind(form, result, (v) => {
     "تفصيل الخصم"
   );
   if (!isSaudi) html += note("غير السعودي: لا يُخصم أي اشتراك من الراتب. صاحب العمل يدفع 2% عن الأخطار المهنية.", "ok");
-  if (newSubscriber) html += note(`نسبة المعاشات المطبّقة اليوم للمشترك الجديد ${pct(g.pensionRate * 100, 1)}، وترتفع 0.5% في 3 يوليو من كل سنة حتى 11%.`, "info");
+  if (newSubscriber) html += note(`نسبة المعاشات المطبّقة اليوم للمشترك الجديد ${pct(g.pensionRate * 100, 1)}، وترتفع نصف نقطة مئوية في يوليو من كل سنة حتى 11%.`, "info");
   if (g.capped) html += note(`تجاوز الأساسي وبدل السكن سقف الاشتراك (${num(rules.sa.gosi.wageCeiling, 0)} ريال)، فحُسب الاشتراك على السقف فقط.`, "info");
   return html;
 });

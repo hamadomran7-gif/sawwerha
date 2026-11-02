@@ -1,0 +1,78 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-maternity-leave-calculator",
+  "alternate": "ksa-maternity-leave",
+  "title": "Saudi Maternity Leave Calculator 2026 — 12 Weeks on Full Pay and Your Dates",
+  "h1": "Saudi Maternity Leave Calculator",
+  "description": "Work out your maternity leave dates in the Saudi private sector after the amendment of Article 151 in force since 19 February 2025: 12 weeks on full pay, starting no more than four weeks before the expected delivery date, with six compulsory weeks after the birth, an optional unpaid month, and paternity leave.",
+  "short": "12 weeks on full pay, 6 of them compulsory after the birth, with no service requirement",
+  "lead": "Enter the expected delivery date and your leave start date to see the last day of leave, your return date and the compulsory weeks.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-ksa-maternity-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-sick-leave", "en-ksa-annual-leave", "en-uae-maternity-leave", "en-ksa-notice-period"],
+  "faq": [
+    {"q": "How long is maternity leave in Saudi Arabia after the 2025 amendments?", "a": "12 weeks (84 days) on full pay, up from 10 weeks. The change has been in force since 19 February 2025 under Royal Decree M/44."},
+    {"q": "Is there a minimum service requirement for maternity pay?", "a": "No. Article 152, which linked maternity pay to length of service, was repealed, so an employee is entitled to all 12 weeks on full pay whatever her length of service."},
+    {"q": "When can maternity leave start?", "a": "The employee decides how to spread the weeks, provided the leave starts no more than 4 weeks before the expected delivery date and 6 weeks are taken after the birth. The expected date is set by a certified medical certificate."},
+    {"q": "What if the baby arrives late?", "a": "If the birth is late so that less than 6 weeks of leave remain after it, the shortfall is granted unpaid to complete the 6 compulsory weeks."},
+    {"q": "Can maternity leave be extended?", "a": "Yes. The employee may always extend the leave by one unpaid month. If the baby is sick or has a disability and needs constant care, she gets one month on full pay after maternity leave ends, extendable by one unpaid month."},
+    {"q": "How much paternity leave is there?", "a": "3 days on full pay, taken within 7 days of the birth, under Article 113 as amended in 2025."},
+    {"q": "Can I be dismissed during pregnancy or leave?", "a": "No. The employer may not dismiss or warn of dismissal during pregnancy or maternity leave, including illness arising from pregnancy or delivery for up to 180 days a year (Article 155)."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — Labour Law amendments by Royal Decree M/44, Articles 113 and 151 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "Ministry of Human Resources — fully paid maternity leave for working women, June 2025 (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/%D8%A5%D8%AC%D8%A7%D8%B2%D8%A9-%D9%88%D8%B6%D8%B9-%D8%A8%D8%A3%D8%AC%D8%B1-%D9%83%D8%A7%D9%85%D9%84-%D9%84%D9%84%D9%85%D8%B1%D8%A3%D8%A9-%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D9%84%D8%A9"},
+    {"t": "Clyde & Co — Saudi Labour Law amendments: leave entitlements (April 2025)", "u": "https://www.clydeco.com/en/insights/2025/04/ksa-labour-law-amendments-leave-entitlement"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Plan your maternity leave</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="due">Expected delivery date</label>
+        <input type="date" id="due" name="due" value="2026-06-01" required>
+        <span class="hint">As stated in the medical certificate.</span>
+      </div>
+      <div class="field">
+        <label for="start">Leave start date</label>
+        <input type="date" id="start" name="start" value="2026-05-04">
+        <span class="hint">No more than 4 weeks before the expected date.</span>
+      </div>
+      <div class="field">
+        <label for="wage">Actual monthly wage (SAR, optional)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Leave around childbirth in Saudi Arabia</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Leave</th><th scope="col">Length</th><th scope="col">Pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Maternity leave</th><td>12 weeks, up to 4 before the birth and at least 6 after</td><td>Full pay</td></tr>
+    <tr><th scope="row">Optional extension</th><td>1 month</td><td>Unpaid</td></tr>
+    <tr><th scope="row">Sick or disabled baby</th><td>1 month, extendable by 1 month</td><td>Full pay, then unpaid</td></tr>
+    <tr><th scope="row">Paternity leave</th><td>3 days within 7 days of the birth</td><td>Full pay</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> expected date 1 June 2026, leave from 4 May 2026 (four weeks before). The 84 days end on 26 July 2026, and you are back at work on 27 July — provided the baby arrives on time.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-maternity-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

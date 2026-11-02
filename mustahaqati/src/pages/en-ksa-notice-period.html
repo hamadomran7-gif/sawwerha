@@ -1,0 +1,84 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-notice-period-calculator",
+  "alternate": "ksa-notice-period",
+  "title": "Saudi Notice Period Calculator 2026 — 30 Days for Employees, 60 for Employers",
+  "h1": "Saudi Notice Period and Notice Pay Calculator",
+  "description": "Calculate the notice period and payment in lieu of notice in Saudi Arabia after the amendment of Article 75 in force since 19 February 2025: for open-ended contracts paid monthly, 30 days when the employee resigns and 60 days when the employer terminates, 30 days for non-monthly pay, with compensation at the actual wage (Article 76).",
+  "short": "30 days if the employee resigns, 60 if the employer terminates, paid at the actual wage",
+  "lead": "Choose who ended the contract, how the wage is paid and how much notice was given to see the compensation and who owes it.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-ksa-notice-period.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-final-settlement", "en-ksa-end-of-service", "en-ksa-annual-leave", "en-uae-notice-pay"],
+  "faq": [
+    {"q": "Did the notice period in Saudi Arabia change in 2025?", "a": "Yes. Before 19 February 2025 the notice period was 60 days for both sides if the wage was paid monthly. Since the amendment of Article 75 it is 30 days when the employee ends the contract and 60 days when the employer does, and it remains 30 days for both sides if the wage is not paid monthly."},
+    {"q": "What wage is notice pay based on?", "a": "Article 76 obliges the party that did not observe the notice to pay the other an amount equal to the employee's wage for the notice period, unless they agreed on more. Under the Labour Law the wage means the actual wage: basic salary plus fixed allowances."},
+    {"q": "Does the notice period apply to fixed-term contracts?", "a": "No. Article 75 covers open-ended contracts. In a fixed-term contract, early termination by the employer without a valid reason falls under Article 77, and an employee's resignation is accepted 30 days after submission, which the employer may defer for up to 60 days."},
+    {"q": "My employer gave me only part of the notice — how much am I owed?", "a": "The text says \"the employee's wage for the notice period\", and common practice is to pay only for the part not served. The calculator shows both amounts for comparison."},
+    {"q": "Can notice pay be combined with Article 77 compensation?", "a": "This is not settled. Some law firms consider that only one is awarded, while others combine them. Do not assume they add up automatically; claim each separately."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — Labour Law amendments by Royal Decree M/44, Article 75 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "HRDF — Saudi Labour Law, Articles 2 and 76 (English)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"},
+    {"t": "Ministry of Human Resources — guide to the rights and duties of employers and workers, 2025 (Arabic)", "u": "https://prod.hrsd.gov.sa/sites/default/files/2025-12/awareness-guide-on-the-rights-and-duties-of-employers-and-workers---1-.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate notice pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Actual monthly wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="12000" required>
+        <span class="hint">Basic salary plus fixed allowances.</span>
+      </div>
+      <div class="field">
+        <label for="who">Who ended the contract?</label>
+        <select id="who" name="who">
+          <option value="employer">The employer</option>
+          <option value="worker">The employee</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="pay">How the wage is paid</label>
+        <select id="pay" name="pay">
+          <option value="monthly">Monthly</option>
+          <option value="other">Weekly, daily or otherwise</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="given">Notice days actually given</label>
+        <input type="number" id="given" name="given" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">0 if the termination was immediate.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Notice periods since February 2025</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Open-ended contract</th><th scope="col">Employee resigns</th><th scope="col">Employer terminates</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Wage paid monthly</th><td>30 days</td><td>60 days</td></tr>
+    <tr><th scope="row">Wage not paid monthly</th><td>30 days</td><td>30 days</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> actual wage SAR 12,000 paid monthly, and the employer ends the contract immediately. Notice period 60 days; daily wage 12,000 ÷ 30 = SAR 400. <strong>Notice pay = 60 × 400 = SAR 24,000</strong>.</p>
+</div>
+<p>Notice pay comes on top of your end-of-service award and unused leave — add them up in the <a href="{{root}}en/saudi-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-notice-period/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

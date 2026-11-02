@@ -1,0 +1,70 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-overtime-calculator",
+  "alternate": "ksa-overtime",
+  "title": "Saudi Overtime Calculator 2026 — Overtime Pay Under Article 107 (MHRSD Formula)",
+  "h1": "Saudi Overtime Pay Calculator",
+  "description": "Calculate overtime pay in Saudi Arabia under amended Article 107 and the Ministry of Human Resources formula: the actual hourly wage plus 50% of the basic hourly wage, with the compensatory leave option (an hour and a half off for each overtime hour) and the 720-hour annual limit.",
+  "short": "Actual hourly wage + 50% of the basic hourly wage, or time off in lieu",
+  "lead": "Enter your basic salary, fixed allowances and overtime hours to see your overtime hourly rate and the amount owed.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-ksa-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-annual-leave", "en-ksa-sick-leave", "en-ksa-gosi", "en-uae-overtime"],
+  "faq": [
+    {"q": "How is overtime calculated in Saudi Arabia?", "a": "Under the Ministry of Human Resources formula: the actual hourly wage (actual wage ÷ 30 ÷ 8) plus 50% of the basic hourly wage (basic ÷ 30 ÷ 8). The ministry's example: basic SAR 4,000 and actual wage SAR 6,000 give 25 + 8.33 = SAR 33.33 an hour."},
+    {"q": "Can I take time off instead of overtime pay?", "a": "Yes, since Article 107 was amended in 2025 and with the employee's consent: paid compensatory leave of at least an hour and a half for each overtime hour, to be used within 60 days unless agreed otherwise, and no more than 30 days a year."},
+    {"q": "What is the maximum overtime?", "a": "720 hours a year under the executive regulations, which may be exceeded with the employee's consent."},
+    {"q": "Is work on holidays overtime?", "a": "Yes. All hours worked on holidays and Eid days count as overtime (Article 107)."},
+    {"q": "What are working hours in Ramadan?", "a": "For Muslim workers, 6 hours a day or 36 hours a week (Article 98). Hours beyond that are usually treated as overtime; no official source sets the hourly divisor during Ramadan."},
+    {"q": "Why is the result different from 1.5 × the hourly wage?", "a": "Because the law sets overtime pay as the hourly wage — based on the actual wage including allowances — plus 50% of the basic wage. Multiplying the basic hourly wage alone by 1.5 ignores allowances and gives a lower amount."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — Labour Law amendments by Royal Decree M/44, Article 107 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "Ministry of Human Resources — article on overtime hours, 2025 (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/313"},
+    {"t": "Ministry of Human Resources — guide to the rights and duties of employers and workers, 2025 (Arabic)", "u": "https://prod.hrsd.gov.sa/sites/default/files/2025-12/awareness-guide-on-the-rights-and-duties-of-employers-and-workers---1-.pdf"},
+    {"t": "Clyde & Co — Saudi Labour Law amendments: leave entitlements (April 2025)", "u": "https://www.clydeco.com/en/insights/2025/04/ksa-labour-law-amendments-leave-entitlement"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your overtime pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="4000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Fixed allowances (SAR)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="2000">
+        <span class="hint">Housing, transport and others — part of the actual wage.</span>
+      </div>
+      <div class="field">
+        <label for="hours">Overtime hours</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="0" step="0.5" value="3" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate pay</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The overtime formula</h2>
+<p>Overtime hourly rate = <strong>actual hourly wage + 50% of the basic hourly wage</strong>, where the actual wage is basic salary plus fixed allowances, and each hourly wage is the monthly figure ÷ 30 ÷ 8.</p>
+<div class="example">
+<p><strong>Example (the ministry's own):</strong> basic SAR 4,000 and allowances SAR 2,000 (actual wage SAR 6,000).</p>
+<p>Actual hourly wage = 6,000 ÷ 30 ÷ 8 = SAR 25. Basic hourly wage = 4,000 ÷ 30 ÷ 8 = SAR 16.67, and half of it is SAR 8.33.<br>
+<strong>Overtime rate = SAR 33.33 an hour</strong>; 3 hours = SAR 100.</p>
+</div>
+<h2>Time off in lieu</h2>
+<p>Since 2025, with your consent, the employer may give paid compensatory leave instead of pay: at least 1.5 hours off for each overtime hour, used within 60 days, up to 30 days a year. Prefer Arabic? Use the <a href="{{root}}ksa-overtime/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -101,5 +101,10 @@
  "en-uae-notice-pay": "8c3d7c5a404f58fa",
  "en-uae-overtime": "edc15f351607788a",
  "en-uae-sick-leave": "5a14e911ad4d16ef",
- "en-vat": "641e14dde171e872"
+ "en-vat": "641e14dde171e872",
+ "en-ksa-maternity-leave": "7344059c329c5641",
+ "en-ksa-net-salary": "4b7e7171b6300d9a",
+ "en-ksa-notice-period": "a191dae3087d80c5",
+ "en-ksa-overtime": "57ee3b1c05c47675",
+ "en-ksa-sick-leave": "226b09ecbcc2f67f"
 }

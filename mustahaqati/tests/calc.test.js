@@ -784,3 +784,11 @@ test("التقاعد المدني والعسكري في السعودية", () =>
   assert.equal(ksaMilitaryPension({ lastSalary: 7744, months: 120 }).eligible, false);
   near(ksaMilitaryPension({ lastSalary: 15000, months: 420 }).pension, 15000);
 });
+
+
+test("الراتب الصافي: السكن العيني يدخل الوعاء لا الراتب النقدي", () => {
+  const r = ksaNetSalary({ basic: 12000, inKindHousing: 2000, transport: 1000, isSaudi: true, asOf: new Date("2026-11-03") });
+  near(r.gosi.base, 14000);
+  near(r.gross, 13000);
+  near(r.net, 13000 - 14000 * 0.0975);
+});
