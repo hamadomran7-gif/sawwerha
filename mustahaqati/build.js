@@ -540,6 +540,8 @@ async function build({ check = false, preview = false } = {}) {
   fs.writeFileSync(path.join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
   // ملفات إثبات الملكية (Google Search Console وغيره) من site.json → verification: ["googleXXXX.html", ...]
   for (const v of site.verification || []) fs.writeFileSync(path.join(DIST, v), `google-site-verification: ${v}`);
+  // مفتاح IndexNow (Bing وYandex وغيرهما): ملف نصي باسم المفتاح في الجذر
+  if (site.indexnow) fs.writeFileSync(path.join(DIST, `${site.indexnow}.txt`), site.indexnow);
   // ads.txt لـ Google AdSense (يُعرَّف الناشر من site.json → adsense: "ca-pub-…")
   if (site.adsense) fs.writeFileSync(path.join(DIST, "ads.txt"), `google.com, ${site.adsense.replace(/^ca-/, "")}, DIRECT, f08c47fec0942fa0\n`);
   // صفحات /embed/ تُعرض داخل مواقع أخرى، فتُستثنى من منع الإطارات

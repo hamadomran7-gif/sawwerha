@@ -16,6 +16,7 @@ WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
 UPDATED = "2026-11-02"
+INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
 
 MARK = ('<span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
         'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>'
@@ -166,6 +167,7 @@ def main():
     sm += "".join(f"  <url><loc>{u}</loc><lastmod>{UPDATED}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
     sm += "</urlset>\n"
     (WEB / "sitemap.xml").write_text(sm, encoding="utf-8")
+    (WEB / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
     (WEB / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /ads/\nSitemap: {DOMAIN}/sitemap.xml\n", encoding="utf-8")
     print(f"sitemap: {len(urls)} urls")
 
