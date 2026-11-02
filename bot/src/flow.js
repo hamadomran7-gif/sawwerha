@@ -134,6 +134,26 @@ const T = {
   },
 };
 
+/** متابعة واحدة لمن استلم العيّنة ولم يختر باقة (داخل نافذة 24 ساعة في واتساب). */
+export function offerFollowupActions({ customer, env }) {
+  const lang = customer.lang || "ar";
+  const p = prices(env);
+  const body =
+    lang === "en"
+      ? "Did you like your free images? 👀 The full-resolution versions come without the watermark, plus a white image tuned for noon and another for Amazon. Pick a pack and get them within 24 hours:"
+      : "هل أعجبتك صورك المجانية؟ 👀 صور الباقات بدقة كاملة وبلا علامة مائية، ومعها نسخة بيضاء لنون وأخرى لأمازون. اختر باقتك وتصلك خلال 24 ساعة:";
+  return { actions: [{ type: "text", body }, packageList(lang, p)] };
+}
+
+/** تذكير واحد بطلب ينتظر الدفع. */
+export function paymentReminderText(lang, order) {
+  const pkg = PACKAGES[order.package_code];
+  const name = pkg ? (lang === "en" ? pkg.nameEn : pkg.nameAr) : "";
+  return lang === "en"
+    ? `Reminder: your order (${name}) is waiting for payment:\n${order.payment_link}\nIt activates automatically once paid.`
+    : `تذكير: طلبك (${name}) بانتظار الدفع:\n${order.payment_link}\nيتفعّل الطلب تلقائياً بعد الدفع.`;
+}
+
 /** رسالة دعوة صديق مع رابط واتساب يحمل كود الإحالة. */
 export function referralInviteText(lang, code, env = {}) {
   const number = env.WA_PUBLIC_NUMBER || "971507241548";

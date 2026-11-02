@@ -278,3 +278,20 @@ test("الإحالة: صديق يشتري أول باقة ← عيّنة مجا�
   const own = await env.DB.prepare("SELECT ref_code FROM customers WHERE phone = ?").bind(FRIEND).first();
   assert.equal(own.ref_code, null);
 });
+
+test("المتابعات: تذكير واحد بعد العيّنة وآخر للدفع المعلّق، بلا تكرار", async () => {
+  const P1 = "971500000030", P2 = "971500000031";
+  await env.DB.prepare("INSERT INTO customers (phone, lang, state, last_seen) VALUES (?, 'ar', 'offer', datetime('now','-20 hours'))").bind(P1).run();
+  await env.DB.prepare("INSERT INTO customers (phone, lang, state, last_seen) VALUES (?, 'ar', 'awaiting_payment', datetime('now','-3 hours'))").bind(P2).run();
+  await env.DB.prepare("INSERT INTO orders (phone, kind, package_code, status, price, payment_link, created_at) VALUES (?, 'package', 'SINGLE', 'awaiting_payment', 149, 'https://pay.ziina.com/x', datetime('now','-3 hours'))").bind(P2).run();
+  const run = async () => { const c = ctx(); await worker.scheduled({}, env, c); await c.done(); };
+  const before = sent.length;
+  await run();
+  const after1 = sent.slice(before);
+  assert.ok(after1.some((m) => m.to === P1 && /أعجبتك صورك المجانية/.test(m.text?.body || "")));
+  assert.ok(after1.some((m) => m.to === P1 && m.type === "interactive"));
+  assert.ok(after1.some((m) => m.to === P2 && /بانتظار الدفع/.test(m.text?.body || "") && /pay\.ziina\.com/.test(m.text.body)));
+  const mid = sent.length;
+  await run();
+  assert.equal(sent.slice(mid).filter((m) => m.to === P1 || m.to === P2).length, 0);
+});

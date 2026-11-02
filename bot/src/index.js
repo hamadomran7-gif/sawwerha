@@ -1,5 +1,5 @@
 // صوّرها — بوت واتساب على Cloudflare Workers
-import { handleInbound, deliveryActions, paidActions, paymentLinkMessage, PACKAGES, prices, referralInviteText, referralCreditedText } from "./flow.js";
+import { handleInbound, deliveryActions, paidActions, paymentLinkMessage, PACKAGES, prices, referralInviteText, referralCreditedText, offerFollowupActions, paymentReminderText } from "./flow.js";
 import { instagramTick, REELS } from "./social.js";
 import * as wa from "./wa.js";
 import * as db from "./db.js";
@@ -400,7 +400,52 @@ async function weeklyReport(env) {
   await notifyOwner(env, formatReport(r));
 }
 
+/**
+ * متابعات آلية داخل نافذة 24 ساعة في واتساب (رسالة واحدة لكل حالة):
+ * 1) من استلم العيّنة ولم يختر باقة بعد 18–23 ساعة من آخر رسالة منه.
+ * 2) طلب ينتظر الدفع منذ 2–20 ساعة، والعميل تواصل خلال آخر 23 ساعة.
+ */
+async function followUps(env) {
+  const offers = await env.DB.prepare(
+    "SELECT * FROM customers WHERE state = 'offer' AND (julianday('now') - julianday(last_seen)) * 24 BETWEEN 18 AND 23 LIMIT 50"
+  ).all();
+  for (const c of offers.results || []) {
+    if (isTestPhone(c.phone)) continue;
+    const key = `followup_${c.phone}`;
+    if (await db.getMeta(env.DB, key)) continue;
+    await db.setMeta(env.DB, key, new Date().toISOString());
+    try {
+      const { actions } = offerFollowupActions({ customer: c, env });
+      await execute(env, c, null, actions);
+    } catch (e) {
+      console.error("offer follow-up failed", c.phone, e);
+    }
+  }
+  const pend = await env.DB.prepare(
+    "SELECT o.*, c.lang AS lang FROM orders o JOIN customers c ON c.phone = o.phone WHERE o.status = 'awaiting_payment' AND o.payment_link IS NOT NULL AND (julianday('now') - julianday(o.created_at)) * 24 BETWEEN 2 AND 20 AND (julianday('now') - julianday(c.last_seen)) * 24 < 23 LIMIT 50"
+  ).all();
+  for (const o of pend.results || []) {
+    if (isTestPhone(o.phone)) continue;
+    const key = `payremind_${o.id}`;
+    if (await db.getMeta(env.DB, key)) continue;
+    await db.setMeta(env.DB, key, "1");
+    try {
+      const body = paymentReminderText(o.lang || "ar", o);
+      await wa.sendText(env, o.phone, body);
+      await db.logMessage(env.DB, { phone: o.phone, direction: "out", type: "text", body });
+    } catch (e) {
+      console.error("payment reminder failed", o.id, e);
+    }
+  }
+}
+
 async function cron(env) {
+  // 0أ) المتابعات (العيّنة بلا شراء، والدفع المعلّق)
+  try {
+    await followUps(env);
+  } catch (e) {
+    console.error("follow-ups failed", e);
+  }
   // 0) التقرير الأسبوعي
   try {
     await weeklyReport(env);
