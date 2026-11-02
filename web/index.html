@@ -140,7 +140,7 @@
       <figure><img src="/samples/scene-2.jpg" alt="مشهد على حجر بيج مع عود وإضاءة دافئة" width="1328" height="1328" loading="lazy" decoding="async"><figcaption><span data-ar>مشهد لإنستغرام</span><span data-en>Instagram scene</span></figcaption></figure>
     </div>
     <p class="muted" style="margin-top:10px;font-size:.9rem"><span data-ar>العيّنات المجانية تحمل علامة مائية صغيرة؛ صور الباقات المدفوعة بدونها وبدقة كاملة.</span><span data-en>Free samples carry a small watermark; paid package images come without it, at full resolution.</span></p>
-    <p style="margin-top:16px"><a class="cta" id="cta3" href="#" rel="noopener"><span data-ar>جرّبها على منتجك مجاناً</span><span data-en>Try it on your product, free</span></a></p>
+    <p style="margin-top:16px"><a class="cta" id="cta4" href="#" rel="noopener"><span data-ar>جرّبها على منتجك مجاناً</span><span data-en>Try it on your product, free</span></a></p>
   </section>
 
   <section aria-labelledby="pr">
@@ -194,7 +194,7 @@
     try{ localStorage.setItem("sawwerha-lang", l); }catch(e){}
     var msg = l === "en" ? "Hi, I want my 3 free product photos" : "مرحباً، أريد صور منتجي الثلاث المجانية";
     var href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
-    ["cta1","cta2","cta3"].forEach(function(id){ var a=document.getElementById(id); if(a){ a.href = href; a.target = "_blank"; } });
+    ["cta1","cta2","cta3","cta4"].forEach(function(id){ var a=document.getElementById(id); if(a){ a.href = href; a.target = "_blank"; } });
   }
   var saved = "ar"; try{ saved = localStorage.getItem("sawwerha-lang") || "ar"; }catch(e){}
   setLang(saved);
