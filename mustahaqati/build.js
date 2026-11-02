@@ -328,7 +328,8 @@ function homeHubs(pages, root) {
 
 function hubList(meta, pages, root) {
   const c = meta.hub;
-  const mine = pages.filter((p) => isContent(p.meta) && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)));
+  const NO_VAT = ["qa", "kw"]; // لا ضريبة قيمة مضافة في قطر والكويت
+  const mine = pages.filter((p) => isContent(p.meta) && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)) && !(NO_VAT.includes(c) && p.meta.category === "tax"));
   return CATEGORY_ORDER.map((cat) => {
     const inCat = mine.filter((p) => p.meta.category === cat);
     if (!inCat.length) return "";
