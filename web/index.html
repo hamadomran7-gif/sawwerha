@@ -109,8 +109,8 @@
   <section class="hero" aria-labelledby="h1">
     <div>
       <h1 id="h1"><span data-ar>صور منتجات احترافية لمتجرك، خلال ساعات، من صورة بجوالك</span><span data-en>Professional product photos for your shop, within hours, from a phone photo</span></h1>
-      <p class="lead"><span data-ar>أرسل صورة منتجك على واتساب واستلم 3 صور مجاناً: صورة بخلفية بيضاء جاهزة لنون وأمازون، وصورتان بمشهد تسويقي لإنستغرام. بلا استوديو، بلا مواعيد، بلا شحن.</span><span data-en>Send a product photo on WhatsApp and get 3 free images: a white-background shot ready for noon and Amazon, plus two lifestyle scenes for Instagram. No studio, no appointments, no shipping.</span></p>
-      <a class="cta" id="cta1" href="#" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-ar>أرسل صورة منتجك الآن</span><span data-en>Send your product photo now</span></a>
+      <p class="lead"><span data-ar>أرسل صورة منتجك على واتساب واستلم 3 صور مجاناً: صورة بخلفية بيضاء جاهزة لنون وأمازون، وصورتان بمشهد تسويقي لإنستغرام. كل ذلك من جوالك خلال ساعات.</span><span data-en>Send a product photo on WhatsApp and get 3 free images: a white-background shot ready for noon and Amazon, plus two lifestyle scenes for Instagram. All from your phone, within hours.</span></p>
+      <a class="cta" id="cta1" href="#" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-ar>احصل على 3 صور مجاناً</span><span data-en>Get my 3 free images</span></a>
       <span class="sub muted"><span data-ar>العيّنة مجانية بالكامل، ومن دون أي التزام. الخدمة تعمل آلياً على مدار الساعة.</span><span data-en>The sample is completely free with no commitment. The service runs automatically 24/7.</span></span>
     </div>
     <div class="hero-art">
@@ -140,6 +140,7 @@
       <figure><img src="/samples/scene-2.jpg" alt="مشهد على حجر بيج مع عود وإضاءة دافئة" width="1328" height="1328" loading="lazy" decoding="async"><figcaption><span data-ar>مشهد لإنستغرام</span><span data-en>Instagram scene</span></figcaption></figure>
     </div>
     <p class="muted" style="margin-top:10px;font-size:.9rem"><span data-ar>العيّنات المجانية تحمل علامة مائية صغيرة؛ صور الباقات المدفوعة بدونها وبدقة كاملة.</span><span data-en>Free samples carry a small watermark; paid package images come without it, at full resolution.</span></p>
+    <p style="margin-top:16px"><a class="cta" id="cta3" href="#" rel="noopener"><span data-ar>جرّبها على منتجك مجاناً</span><span data-en>Try it on your product, free</span></a></p>
   </section>
 
   <section aria-labelledby="pr">
@@ -198,6 +199,20 @@
   var saved = "ar"; try{ saved = localStorage.getItem("sawwerha-lang") || "ar"; }catch(e){}
   setLang(saved);
   document.getElementById("langBtn").addEventListener("click", function(){ setLang(body.getAttribute("data-lang") === "ar" ? "en" : "ar"); });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+  // حركة خفيفة عند التمرير (GSAP). المحتوى ظاهر بالكامل إن لم تُحمَّل المكتبة أو طلب المستخدم تقليل الحركة.
+  window.addEventListener("load", function(){
+    if (!window.gsap || !window.ScrollTrigger) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(".ba figure.after", { clipPath: "inset(0 0 0 100%)", duration: 1.1, ease: "power3.out", delay: .25 });
+    gsap.utils.toArray(".step, .gallery figure, .plan, .promise > div").forEach(function(el, i){
+      gsap.from(el, { y: 24, opacity: 0, duration: .6, ease: "power2.out", delay: (i % 4) * .06, scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+    });
+  });
 </script>
 </body>
 </html>
