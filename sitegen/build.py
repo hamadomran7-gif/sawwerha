@@ -38,6 +38,7 @@ SERVICE_LINKS = [
     ("/amazon-product-photos/", "صور منتجات أمازون", "ar"),
     ("/white-background-product-photos/", "صور بخلفية بيضاء", "ar"),
     ("/perfume-product-photos/", "تصوير العطور والعود", "ar"),
+    ("/tools/marketplace-image-checker/", "فحص صور نون وأمازون (مجاناً)", "ar"),
     ("/en/", "AI product photos UAE", "en"),
 ]
 
@@ -73,7 +74,22 @@ def faq_html(meta, ui):
 
 def jsonld(meta, url, ui):
     org = {"@type": "Organization", "@id": DOMAIN + "/#org", "name": "صوّرها", "alternateName": "Sawwerha", "url": DOMAIN + "/", "email": "support@sawwerha.app"}
-    graph = [org, {
+    if meta.get("app"):
+        graph = [org, {
+            "@type": "WebApplication",
+            "name": meta["service_name"],
+            "description": meta["description"],
+            "url": url,
+            "inLanguage": meta["lang"],
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": True,
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "AED"},
+            "publisher": {"@id": DOMAIN + "/#org"},
+        }]
+    else:
+        graph = [org]
+    graph += [{
         "@type": "Service",
         "name": meta["service_name"],
         "serviceType": meta.get("service_type", "Product photo editing"),
@@ -90,6 +106,8 @@ def jsonld(meta, url, ui):
             {"@type": "ListItem", "position": 2, "name": meta["crumb"], "item": url},
         ],
     }]
+    if meta.get("app"):
+        graph = [g for g in graph if g.get("@type") != "Service"]
     if meta.get("faq"):
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in meta["faq"]]})
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("<", "\\u003c")
