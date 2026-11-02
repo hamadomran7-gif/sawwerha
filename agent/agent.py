@@ -24,7 +24,7 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-5"
+AGENT_VERSION = "2026.11.02-6"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -129,6 +129,22 @@ def self_update(cfg: dict) -> bool:
     return True
 
 
+# ------------------------------------------------------------ مراقبة ComfyUI
+def restart_comfy() -> bool:
+    """يوقف عملية ComfyUI المتجمّدة؛ حلقة run_comfy.bat تعيد تشغيلها بعد 30 ثانية."""
+    if os.name != "nt":
+        return False
+    ps = ("Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*ComfyUI\\main.py*' } "
+          "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force; $_.ProcessId }")
+    try:
+        r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True, timeout=60)
+        log.warning("ComfyUI watchdog: stopped %s", (r.stdout or "").strip() or "nothing")
+        return bool((r.stdout or "").strip())
+    except Exception as e:  # noqa: BLE001
+        log.warning("ComfyUI watchdog failed: %s", e)
+        return False
+
+
 # ------------------------------------------------------------ Lightning LoRA
 _lightning = {"name": None, "downloading": False}
 
@@ -212,6 +228,7 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
         for v in range(n_scenes):
             seed = seed_base + v
             scene = None
+            conn_errors = 0
             if not dry and cfg.get("edit_mode", "edit") == "edit" and comfy is not None:
                 for attempt in range(3):
                     try:
@@ -221,8 +238,15 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
                             scene = cand
                             break
                         log.warning("quality check failed (%s), retrying", why)
+                    except requests.RequestException as e:
+                        conn_errors += 1
+                        log.warning("ComfyUI unreachable (attempt %s): %s", attempt + 1, e)
+                        time.sleep(10)
                     except Exception as e:  # noqa: BLE001
                         log.warning("edit_scene failed (attempt %s): %s", attempt + 1, e)
+                if conn_errors >= 3:
+                    # لا نسلّم مشاهد بديلة ضعيفة لأن ComfyUI متوقف: يعود الطلب للطابور
+                    raise RuntimeError("ComfyUI unavailable — job requeued")
             if scene is None:
                 scene = pipeline.composite_scene(cut, life_size, seed)
             outputs.append(pipeline.save_jpeg(scene, str(work / f"p{idx}_life_{v + 1}.jpg")))
@@ -261,6 +285,8 @@ def main():
     update_every = 60 * int(cfg.get("update_check_minutes", 30))
     last_update_check = time.time()
     last_rev = None
+    down_since = None
+    last_restart = 0.0
     log.info("agent %s started (dry_run=%s)", AGENT_VERSION, cfg.get("dry_run", False))
     if comfy is not None and cfg.get("lightning", False) and comfy.alive():
         lightning_name(cfg, comfy)  # يبدأ تنزيل Lightning مبكراً إن لم يكن موجوداً
@@ -283,9 +309,16 @@ def main():
                 time.sleep(poll)
                 continue
             if comfy is not None and not comfy.alive():
-                log.warning("ComfyUI not reachable at %s — waiting", cfg.get("comfy_url"))
+                down_since = down_since or time.time()
+                down_min = (time.time() - down_since) / 60
+                log.warning("ComfyUI not reachable at %s for %.0f min — waiting", cfg.get("comfy_url"), down_min)
+                limit = float(cfg.get("comfy_watchdog_minutes", 10))
+                if limit > 0 and down_min >= limit and time.time() - last_restart > 1800:
+                    last_restart = time.time()
+                    restart_comfy()
                 time.sleep(poll)
                 continue
+            down_since = None
             job = worker.next_job()
             if not job:
                 if args.once:
