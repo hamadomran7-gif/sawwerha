@@ -1,0 +1,118 @@
+---json
+{
+  "title": "حاسبة تكلفة الموظف على صاحب العمل في السعودية 2026 — سعودي ووافد",
+  "h1": "حاسبة تكلفة الموظف على صاحب العمل في السعودية",
+  "description": "احسب التكلفة الشهرية والسنوية الحقيقية للموظف على المنشأة في السعودية: الراتب، وحصة صاحب العمل في التأمينات الاجتماعية، والمقابل المالي ورخصة العمل والإقامة للوافد، والتأمين الطبي، ومخصص مكافأة نهاية الخدمة.",
+  "short": "الراتب والتأمينات والمقابل المالي والإقامة ومخصص نهاية الخدمة",
+  "lead": "أدخل راتب الموظف وجنسيته، وتظهر تكلفته الكاملة على المنشأة شهرياً وسنوياً، بنداً بنداً.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-employee-cost.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-gosi", "ksa-net-salary", "ksa-dependents-fee", "ksa-end-of-service"],
+  "faq": [
+    {"q": "كم تكلفة الموظف السعودي على صاحب العمل غير الراتب؟", "a": "حصة صاحب العمل في التأمينات: 9% لفرع المعاشات (للمشترك قبل 3 يوليو 2024) و2% للأخطار المهنية و0.75% لساند، أي 11.75% من الأجر الأساسي وبدل السكن بحد أقصى 45,000 ريال، يضاف إليها مخصص نهاية الخدمة والتأمين الطبي."},
+    {"q": "كم تكلفة العامل الوافد على المنشأة؟", "a": "فوق الراتب: 2% أخطار مهنية من الأساسي والسكن، والمقابل المالي 800 ريال شهرياً إذا زاد الوافدون على السعوديين أو 700 ريال، ورسم رخصة العمل 100 ريال سنوياً، ورسم الإقامة، والتأمين الطبي، ومخصص نهاية الخدمة."},
+    {"q": "كم مخصص مكافأة نهاية الخدمة الشهري؟", "a": "المكافأة نصف أجر شهر عن كل سنة من السنوات الخمس الأولى، وأجر شهر عن كل سنة بعدها، فيكون المخصص الشهري نحو أجر ÷ 24 في السنوات الخمس الأولى، وأجر ÷ 12 بعدها، على الأجر الفعلي الأخير."},
+    {"q": "هل يجوز تحميل العامل رسوم الإقامة أو المقابل المالي؟", "a": "لا. المادة 40 من نظام العمل تُلزم صاحب العمل برسوم الإقامة ورخصة العمل وتجديدهما وغرامات تأخيرهما، ورسوم تغيير المهنة والخروج والعودة للعامل."}
+  ],
+  "sources": [
+    {"t": "التأمينات الاجتماعية — نسب الاشتراك", "u": "https://www.gosi.gov.sa"},
+    {"t": "وزارة الموارد البشرية — المادة 40 من نظام العمل", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/64434"},
+    {"t": "Saudi Gazette — المقابل المالي ورسوم رخصة العمل لكل فترة", "u": "https://www.saudigazette.com.sa/article/614537"},
+    {"t": "وزارة الموارد البشرية — نظام العمل (المادتان 84 و85)", "u": "https://www.hrsd.gov.sa"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة الموظف</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="nat">جنسية الموظف</label>
+        <select id="nat" name="nat">
+          <option value="sa" selected>سعودي</option>
+          <option value="expat">وافد</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي (شهرياً)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="100" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="housing">بدل السكن (شهرياً)</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="100" value="1500">
+      </div>
+      <div class="field">
+        <label for="other">البدلات الأخرى (شهرياً)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="100" value="500">
+        <span class="hint">النقل والبدلات الثابتة الأخرى.</span>
+      </div>
+      <div class="field">
+        <label for="medical">التأمين الطبي (سنوياً)</label>
+        <input type="number" id="medical" name="medical" inputmode="decimal" min="0" step="100" value="2500">
+        <span class="hint">حسب عرض شركة التأمين وفئة الوثيقة.</span>
+      </div>
+      <div class="field">
+        <label for="years">سنوات خدمة الموظف</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="1">
+        <span class="hint">لتحديد مخصص نهاية الخدمة.</span>
+      </div>
+      <div class="field" data-nat="sa">
+        <label for="newSub">تاريخ أول اشتراك في التأمينات</label>
+        <select id="newSub" name="newSub">
+          <option value="no" selected>قبل 3 يوليو 2024</option>
+          <option value="yes">من 3 يوليو 2024 فما بعد</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="ratio">نسبة الوافدين في المنشأة</label>
+        <select id="ratio" name="ratio">
+          <option value="high" selected>الوافدون أكثر من السعوديين (800 شهرياً)</option>
+          <option value="low">الوافدون مساوون أو أقل (700 شهرياً)</option>
+          <option value="exempt">معفاة (منشأة صغيرة مستفيدة أو صناعية)</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="iqamaFee">رسم الإقامة</label>
+        <select id="iqamaFee" name="iqamaFee">
+          <option value="reported" selected>650 ريالاً للسنة (المتداول عند السداد)</option>
+          <option value="base">500 ريال للسنة (الرسم الأساسي)</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="ticket">تذكرة السفر السنوية (إن نص عليها العقد)</label>
+        <input type="number" id="ticket" name="ticket" inputmode="decimal" min="0" step="100" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>ما الذي يدخل في تكلفة الموظف؟</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">السعودي</th><th scope="col">الوافد</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">التأمينات على صاحب العمل</th><td>11.75% (9% معاشات + 2% أخطار + 0.75% ساند)، وأعلى قليلاً للمشترك الجديد</td><td>2% أخطار مهنية</td></tr>
+    <tr><th scope="row">وعاء التأمينات</th><td colspan="2">الأساسي + بدل السكن، بحد أقصى 45,000 ريال شهرياً</td></tr>
+    <tr><th scope="row">المقابل المالي</th><td>—</td><td>800 أو 700 ريال شهرياً</td></tr>
+    <tr><th scope="row">رخصة العمل والإقامة</th><td>—</td><td>100 + 650 (أو 500) ريال سنوياً</td></tr>
+    <tr><th scope="row">مخصص نهاية الخدمة</th><td colspan="2">نصف أجر شهر عن كل سنة في السنوات الخمس الأولى، ثم أجر شهر</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> وافد براتب 6,000 أساسي و1,500 سكن و500 بدلات، والوافدون أكثر، وتأمين طبي 2,500 سنوياً، في سنته الأولى: الراتب 8,000، والأخطار 150، والمقابل 800، والرخصة والإقامة 62.50، والتأمين الطبي 208.33، ومخصص المكافأة 333.33، فالتكلفة نحو <strong>9,554 ريالاً شهرياً</strong>، أي 19% فوق الراتب.</p>
+</div>
+
+<p>رسوم مرافقي العامل لا تلزم صاحب العمل نظاماً؛ احسبها في <a href="{{root}}ksa-dependents-fee/{{ix}}">حاسبة رسوم المرافقين</a>. وصافي ما يستلمه الموظف في <a href="{{root}}ksa-net-salary/{{ix}}">حاسبة الراتب الصافي</a>.</p>
+</div>
