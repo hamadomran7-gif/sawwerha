@@ -46,6 +46,16 @@ def cutout(img: Image.Image, dry_run: bool = False) -> Image.Image:
     return out.convert("RGBA")
 
 
+def release_cutout() -> None:
+    """يحرّر جلسة BiRefNet (وذاكرة كرت الشاشة التي تحجزها) قبل توليد المشاهد في ComfyUI."""
+    global _session
+    if _session is not None:
+        _session = None
+        import gc  # noqa: WPS433
+
+        gc.collect()
+
+
 def _bbox_crop(rgba: Image.Image) -> Image.Image:
     bbox = rgba.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox()
     return rgba.crop(bbox) if bbox else rgba

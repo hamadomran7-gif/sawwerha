@@ -24,7 +24,7 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-3"
+AGENT_VERSION = "2026.11.02-4"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -187,11 +187,14 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
     log.info("scenes via %s (%s steps)", "Lightning" if lora else "standard workflow", steps)
     keys = []
 
+    # المرحلة أ: القصّ لكل المنتجات أولاً، ثم تحرير ذاكرة كرت الشاشة لـ ComfyUI
+    cuts = []
     for idx, key in enumerate(job["inputs"], start=1):
         src = worker.download(key, work / f"in_{idx}{Path(key).suffix or '.jpg'}")
-        img = Image.open(src)
-        cut = pipeline.cutout(img, dry_run=dry)
+        cuts.append(pipeline.cutout(Image.open(src), dry_run=dry))
+    pipeline.release_cutout()
 
+    for idx, cut in enumerate(cuts, start=1):
         # 1) الصورة البيضاء (دائماً أولى الصور)
         white = pipeline.white_background(cut, size=out_size)
         white_path = pipeline.save_jpeg(white, str(work / f"p{idx}_white_1.jpg"))
