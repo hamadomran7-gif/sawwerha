@@ -1,0 +1,75 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-end-of-service-calculator",
+  "alternate": "oman-end-of-service",
+  "title": "Oman End of Service Gratuity Calculator 2026 — New Labour Law and Earlier Service",
+  "h1": "Oman End of Service Gratuity Calculator",
+  "description": "Calculate the end-of-service gratuity for non-Omani private-sector workers under Article 61 of the Labour Law (Royal Decree 53/2023): one month's basic salary for each year since 31 July 2023, with earlier service under the old law (15 days for each of the first three years, then a month), as the Ministry of Labour explains.",
+  "short": "A month's basic pay per year since July 2023; earlier service under the old rule",
+  "lead": "Enter your last basic salary and your service dates. The calculator splits your service at 31 July 2023 and applies the right rule to each part.",
+  "country": "om",
+  "category": "eos",
+  "tool": true,
+  "script": "en-oman-end-of-service.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-end-of-service", "en-qatar-end-of-service", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How is end-of-service gratuity calculated in Oman?", "a": "Under Article 61 of the Labour Law issued by Royal Decree 53/2023, a non-Omani worker receives one month's basic salary for each year of service from 31 July 2023. Service before that date is calculated under the previous law: 15 days' basic salary for each of the first three years and a month for each year after, as the Ministry of Labour has explained."},
+    {"q": "Does resignation reduce the gratuity in Oman?", "a": "No. The gratuity is the same whether the worker resigns or the employer ends the contract. It is lost only on dismissal for one of the cases in Article 40."},
+    {"q": "Is the gratuity calculated on basic or total salary?", "a": "On the last basic salary, without allowances."},
+    {"q": "Will gratuity be replaced by a savings scheme in Oman?", "a": "Under the Social Protection Law, a savings scheme with a 9% contribution of basic salary will replace the gratuity for non-Omanis for service after it starts, no later than 19 July 2027. Until then the gratuity rules apply."}
+  ],
+  "sources": [
+    {"t": "Labour Law — Royal Decree 53/2023 (Articles 40, 41, 61; Arabic)", "u": "https://qanoon.om/p/2023/rd2023053/"},
+    {"t": "Previous Labour Law — Royal Decree 35/2003 (Article 39; Arabic)", "u": "https://qanoon.om/p/2003/rd2003035/"},
+    {"t": "Oman Observer — Labour Ministry clarifies end-of-service gratuity (August 2026)", "u": "https://www.omanobserver.om/article/1194067/oman/labour/labour-ministry-clarifies-end-of-service-gratuity"},
+    {"t": "Al Tamimi — Social Protection Law timeline extensions under Royal Decree 60/2025", "u": "https://www.tamimi.com/law-update/general/articles/omani-social-protection-law-key-timeline-extensions-under-sultani-decree-60-2025"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your gratuity</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Last basic salary (OMR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="0.001" value="600" required>
+        <span class="hint">Basic salary only, without allowances.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field">
+        <label for="reason">How did your service end?</label>
+        <select id="reason" name="reason">
+          <option value="normal" selected>Resignation, termination or contract end</option>
+          <option value="art40">Dismissal under Article 40</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate gratuity</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Two periods, two rules</h2>
+<ul>
+  <li><strong>From 31 July 2023:</strong> one month's basic salary for each year of service (Article 61 of the current law).</li>
+  <li><strong>Before 31 July 2023:</strong> 15 days' basic salary for each of the first three years, then a month for each year after (the previous law), as the Ministry of Labour explains.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> basic salary OMR 600, from 1 January 2020 to 31 October 2026. About 3.58 years before 31 July 2023 give 0.5 × 3 + 0.58 = 2.08 months, and about 3.25 years after give 3.25 months, for a total of about 5.33 months, or <strong>roughly OMR 3,200</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}oman-end-of-service/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>

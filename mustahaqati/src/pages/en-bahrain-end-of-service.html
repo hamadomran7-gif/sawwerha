@@ -1,0 +1,69 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-end-of-service-calculator",
+  "alternate": "bahrain-end-of-service",
+  "title": "Bahrain End of Service Gratuity Calculator 2026 — Employer and SIO Shares",
+  "h1": "Bahrain End of Service Gratuity Calculator",
+  "description": "Calculate the end-of-service gratuity for non-Bahraini private-sector workers: half a month's pay for each of the first three years and a month for each year after, on the last wage (Article 116), split between the employer (service before 1 March 2024) and the Social Insurance Organization (service since then).",
+  "short": "Half a month then a month per year, split between the employer and SIO",
+  "lead": "Enter your last wage and your service dates to see your gratuity and who pays each part.",
+  "country": "bh",
+  "category": "eos",
+  "tool": true,
+  "script": "en-bahrain-end-of-service.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-end-of-service", "en-kuwait-end-of-service", "en-qatar-end-of-service"],
+  "faq": [
+    {"q": "How is end-of-service gratuity calculated in Bahrain?", "a": "Half a month's wage for each of the first three years of service and a full month's wage for each year after, on the last wage (basic salary plus social allowance), under Article 116 of Labour Law 36/2012 and Article 9 of Decision 109/2023. There is no minimum, no cap and no reduction for resignation."},
+    {"q": "Who pays the gratuity in Bahrain since 2024?", "a": "Since 1 March 2024, the Social Insurance Organization pays the part of the gratuity for service from that date, funded by employer contributions. The employer pays the part for service before 1 March 2024."},
+    {"q": "Does resignation reduce the gratuity in Bahrain?", "a": "No. The gratuity is not reduced when the worker resigns."},
+    {"q": "How do I claim the SIO part?", "a": "The SIO part is requested through the organization's website after the end of service, and it cannot exceed the contributions paid for you."}
+  ],
+  "sources": [
+    {"t": "Prime Minister's Decision No. 109 of 2023 on end-of-service benefits for non-Bahrainis — Legislation and Legal Opinion Commission (Arabic)", "u": "https://www.lloc.gov.bh/Legislation/HTM/RCAB10923"},
+    {"t": "Labour Law for the Private Sector 36/2012 (official translation) — LMRA: Articles 47 and 116", "u": "https://lmra.gov.bh/files/cms/shared/file/labour%20law.pdf"},
+    {"t": "EY — Bahrain implements new end-of-service benefit system from 1 March 2024", "u": "https://ey.com/en_gl/tax-alerts/bahrain-implements-new-end-of-service-benefit-system-from-1-marc"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your gratuity</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last wage (BHD)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="0.001" value="700" required>
+        <span class="hint">Basic salary plus social allowance, if any.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2021-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate gratuity</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Bahrain gratuity rules</h2>
+<ul>
+  <li><strong>Rate:</strong> half a month's wage for each of the first three years, then a month for each year after.</li>
+  <li><strong>Wage:</strong> the last wage, meaning basic salary plus social allowance.</li>
+  <li><strong>Resignation:</strong> no reduction; no minimum and no cap.</li>
+  <li><strong>Who pays:</strong> the employer for service before 1 March 2024, the Social Insurance Organization for service since then.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> last wage BHD 700 and 5 years of service. First three years: 3 × 0.5 = 1.5 months; two more years: 2 months; total 3.5 months = <strong>BHD 2,450</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}bahrain-end-of-service/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
