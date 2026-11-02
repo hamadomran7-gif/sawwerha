@@ -1069,3 +1069,29 @@ export function gccSickPay({ country, days, eligible = true, ...w }) {
   }
   return { eligible: true, daily: r2(x.daily), divisor: x.divisor, basis: x.basis, rows: t.rows, paid: r2(t.paid), normal: r2(counted * x.daily), deduction: r2(counted * x.daily - t.paid), exceeded: d > R.maxDays, employerShare, fundShare };
 }
+
+/* ------------------------------------------------------------------ */
+/* الزكاة                                                               */
+/* ------------------------------------------------------------------ */
+
+/** زكاة المال: 2.5% إذا بلغ المال الزكوي النصاب وحال عليه الحول. */
+export function zakatCalc({ cash = 0, g24 = 0, g22 = 0, g21 = 0, g18 = 0, silverGrams = 0, trade = 0, receivables = 0, debts = 0, deductDebts = false, price24 = 0, priceSilver = 0, basis = "lower" }) {
+  const Z = rules.zakat;
+  const n = (x) => Math.max(0, Number(x) || 0);
+  const p24 = n(price24), pS = n(priceSilver);
+  const goldPure = n(g24) + (n(g22) * 22) / 24 + (n(g21) * 21) / 24 + (n(g18) * 18) / 24;
+  const goldValue = goldPure * p24;
+  const silverValue = n(silverGrams) * pS;
+  const gross = n(cash) + goldValue + silverValue + n(trade) + n(receivables);
+  const total = Math.max(0, gross - (deductDebts ? n(debts) : 0));
+  const nisabGold24 = Z.nisabGoldGrams * p24;
+  const nisabGold21 = (Z.nisabGoldGrams * Z.darIftaKarat / 24) * p24;
+  const nisabSilver = Z.nisabSilverGrams * pS;
+  let nisab;
+  if (basis === "gold24") nisab = nisabGold24;
+  else if (basis === "gold21") nisab = nisabGold21;
+  else if (basis === "silver") nisab = nisabSilver;
+  else nisab = pS > 0 && p24 > 0 ? Math.min(nisabGold24, nisabSilver) : p24 > 0 ? nisabGold24 : nisabSilver;
+  const due = nisab > 0 && total >= nisab;
+  return { goldPure: r2(goldPure), goldValue: r2(goldValue), silverValue: r2(silverValue), gross: r2(gross), total: r2(total), nisab: r2(nisab), nisabGold24: r2(nisabGold24), nisabGold21: r2(nisabGold21), nisabSilver: r2(nisabSilver), due, zakat: due ? r2(total * Z.rate) : 0 };
+}

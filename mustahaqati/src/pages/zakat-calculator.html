@@ -1,0 +1,130 @@
+---json
+{
+  "title": "حاسبة الزكاة 2026 — زكاة المال والذهب والمدخرات بالنصاب الصحيح",
+  "h1": "حاسبة زكاة المال والذهب",
+  "description": "احسب زكاة مالك ومدخراتك وذهبك وفضتك وعروض التجارة: ربع العشر (2.5%) إذا بلغ المال النصاب وحال عليه الحول. تحسب الحاسبة النصاب بثلاث طرق (الذهب عيار 24، أو عيار 21، أو الفضة، أو الأقل منها) بسعر اليوم الذي تدخله، وتحوّل عيارات الذهب إلى ذهب خالص.",
+  "short": "ربع العشر من المال الزكوي، مع النصاب بالذهب أو الفضة وتحويل العيارات",
+  "lead": "أدخل سعر جرام الذهب عيار 24 اليوم وسعر جرام الفضة، ثم أموالك الزكوية، وتظهر الزكاة الواجبة وطريقة حسابها.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "zakat-calculator.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["hijri-gregorian-converter", "age-hijri", "vat", "ksa-personal-finance"],
+  "faq": [
+    {"q": "كم نصاب زكاة المال؟", "a": "نصاب الذهب 85 جراماً من الذهب الخالص (عيار 24)، ونصاب الفضة 595 جراماً. ويرى كثير من العلماء، ومنهم الدليل المبسط لزكاة الأفراد الصادر عن هيئة الزكاة والضريبة والجمارك السعودية، أن نصاب النقود هو الأقل من النصابين، وهو نصاب الفضة عادةً. وتعتمد دار الإفتاء المصرية قيمة 85 جراماً من الذهب عيار 21."},
+    {"q": "كم مقدار الزكاة؟", "a": "ربع العشر، أي 2.5% من المال الزكوي كله، ويساوي قسمة المال على 40. فمن ملك 100,000 بلغت نصابها وحال عليها الحول فزكاتها 2,500."},
+    {"q": "متى تجب الزكاة؟", "a": "إذا بلغ المال النصاب، وحال عليه حول قمري كامل وهو في ملكك. والأرباح والزيادات تتبع أصل المال في حوله عند كثير من الفقهاء، والمال المستفاد من راتب ونحوه يُضم إلى ما عندك عند حلول الحول بحسب ما تختاره من الطرق المعتبرة."},
+    {"q": "كيف أحسب زكاة الذهب عيار 21 أو 18؟", "a": "حوّله إلى ذهب خالص: الجرامات × العيار ÷ 24. فـ97.14 جراماً عيار 21 تساوي 85 جراماً خالصاً، وهو النصاب. والحاسبة تحوّل العيارات آلياً."},
+    {"q": "هل في الحلي الملبوس زكاة؟", "a": "اختلف الفقهاء في حلي المرأة المعدّ للبس المباح: أوجب الزكاة فيه الحنفية وبعض العلماء المعاصرين، ولم يوجبها جمهور الفقهاء. أما الذهب المدخر أو المعدّ للاستثمار فتجب فيه الزكاة باتفاق. أدخل في الحاسبة ما تجب فيه الزكاة بحسب الرأي الذي تأخذ به."},
+    {"q": "هل تُخصم الديون التي عليّ؟", "a": "في المسألة خلاف بين الفقهاء. من يرى خصم الدين الحالّ (المستحق الآن) يطرحه من المال قبل حساب النصاب، والحاسبة تتيح لك ذلك بخيار مستقل."}
+  ],
+  "sources": [
+    {"t": "هيئة الزكاة والضريبة والجمارك — الدليل المبسط لزكاة الأفراد", "u": "https://zatca.gov.sa/ar/HelpCenter/guidelines/Documents/Simplified-Zakat-Individual.pdf"},
+    {"t": "دار الإفتاء المصرية — نصاب زكاة المال والمقدار الواجب في إخراجها", "u": "https://www.dar-alifta.org/ar/Fatwa/Details/18349/نصاب-زكاة-المال-والمقدار-الواجب-في-إخراجها"},
+    {"t": "الإسلام سؤال وجواب — حساب زكاة الذهب عيار 21", "u": "https://islamqa.info/ar/answers/396499"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب زكاتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cur">العملة</label>
+        <select id="cur" name="cur">
+          <option value="درهم">درهم إماراتي</option>
+          <option value="ريال">ريال سعودي</option>
+          <option value="ريال قطري">ريال قطري</option>
+          <option value="د.ك">دينار كويتي</option>
+          <option value="ر.ع">ريال عماني</option>
+          <option value="د.ب">دينار بحريني</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basis">طريقة حساب النصاب</label>
+        <select id="basis" name="basis">
+          <option value="lower">الأقل من الذهب والفضة (الأحظ للفقراء)</option>
+          <option value="gold24">85 جراماً ذهب عيار 24</option>
+          <option value="gold21">85 جراماً ذهب عيار 21 (دار الإفتاء المصرية)</option>
+          <option value="silver">595 جراماً فضة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="price24">سعر جرام الذهب عيار 24 اليوم</label>
+        <input type="number" id="price24" name="price24" inputmode="decimal" min="0" step="0.01" value="" placeholder="من محل ذهب أو موقع أسعار">
+      </div>
+      <div class="field">
+        <label for="priceSilver">سعر جرام الفضة اليوم</label>
+        <input type="number" id="priceSilver" name="priceSilver" inputmode="decimal" min="0" step="0.01" value="">
+      </div>
+      <div class="field full">
+        <label for="cash">النقد والأرصدة البنكية والمدخرات</label>
+        <input type="number" id="cash" name="cash" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="g24">ذهب عيار 24 (جرام)</label>
+        <input type="number" id="g24" name="g24" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g22">ذهب عيار 22 (جرام)</label>
+        <input type="number" id="g22" name="g22" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g21">ذهب عيار 21 (جرام)</label>
+        <input type="number" id="g21" name="g21" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g18">ذهب عيار 18 (جرام)</label>
+        <input type="number" id="g18" name="g18" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="silver">فضة (جرام)</label>
+        <input type="number" id="silver" name="silver" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="trade">عروض التجارة والأسهم المعدّة للمتاجرة (القيمة السوقية)</label>
+        <input type="number" id="trade" name="trade" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="receivables">ديون لك يُرجى تحصيلها</label>
+        <input type="number" id="receivables" name="receivables" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="debts">ديون حالّة عليك</label>
+        <input type="number" id="debts" name="debts" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="deductDebts" name="deductDebts">
+        <label for="deductDebts">اطرح الديون الحالّة من المال (على قول من يرى خصمها)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب الزكاة</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف تُحسب زكاة المال؟</h2>
+<ol>
+  <li><strong>اجمع أموالك الزكوية:</strong> النقد والأرصدة، والذهب والفضة المدخرين، وعروض التجارة بقيمتها السوقية، والديون المرجو تحصيلها.</li>
+  <li><strong>قارنها بالنصاب:</strong> قيمة 85 جراماً من الذهب الخالص أو 595 جراماً من الفضة بسعر يوم إخراج الزكاة.</li>
+  <li><strong>تحقق من الحول:</strong> أن يمضي على المال حول قمري كامل وهو في ملكك.</li>
+  <li><strong>أخرج ربع العشر:</strong> 2.5% من المجموع، أي المال ÷ 40.</li>
+</ol>
+
+<div class="example">
+<p><strong>مثال:</strong> مدخرات 50,000 و97.14 جراماً ذهب عيار 21 للادخار، وسعر جرام عيار 24 = 400.</p>
+<p>الذهب الخالص = 97.14 × 21 ÷ 24 = 85 جراماً، قيمته 34,000 تقريباً.<br>
+المال الزكوي = 84,000 تقريباً، وهو فوق النصاب بأي طريقة.<br>
+<strong>الزكاة = 84,000 × 2.5% = 2,100 تقريباً</strong>.</p>
+</div>
+
+<h2>لماذا تختلف طرق النصاب؟</h2>
+<p>النقود الورقية لا نص فيها بعينها، فقاسها العلماء على الذهب أو الفضة. يرى فريق اعتبار الأقل من النصابين لأنه أحظ للفقراء، وهو ما يعتمده الدليل المبسط لزكاة الأفراد لدى هيئة الزكاة والضريبة والجمارك السعودية. ويعتمد آخرون نصاب الذهب، ومنهم دار الإفتاء المصرية بقيمة 85 جراماً من الذهب عيار 21. اختر الطريقة التي يأخذ بها المفتي الذي تثق به.</p>
+<p>الحاسبة لا تجلب الأسعار تلقائياً؛ أدخل سعر الجرام من محل ذهب أو موقع أسعار موثوق يوم إخراج الزكاة.</p>
+</div>

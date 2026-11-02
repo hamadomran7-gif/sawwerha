@@ -467,3 +467,23 @@ test("رصيد الإجازة السنوية: قطر 21 ثم 28، والكويت
   near(gccLeaveBalance({ country: "kw", start: "2025-05-01", end: "2025-12-31" }).accrued, 20);
   near(gccLeaveBalance({ country: "bh", start: "2025-06-01", end: "2025-12-31", taken: 5 }).balance, 12.5);
 });
+
+import { zakatCalc } from "../src/assets/calc.js";
+
+test("الزكاة: النصاب وربع العشر وتحويل العيارات", () => {
+  const z = zakatCalc({ cash: 50000, g21: 97.14, price24: 400, priceSilver: 5, basis: "gold24" });
+  near(z.goldPure, 85, 0.01);
+  near(z.nisabGold24, 34000);
+  near(z.total, 84000, 1);
+  assert.equal(z.due, true);
+  near(z.zakat, 2100, 0.1);
+  const low = zakatCalc({ cash: 10000, price24: 400, priceSilver: 5 });
+  near(low.nisab, 2975);
+  assert.equal(low.due, true);
+  near(low.zakat, 250);
+  const no = zakatCalc({ cash: 10000, price24: 400, priceSilver: 5, basis: "gold24" });
+  assert.equal(no.due, false);
+  near(zakatCalc({ cash: 10000, price24: 400, basis: "gold21" }).nisab, 29750);
+  near(zakatCalc({ cash: 50000, debts: 20000, deductDebts: true, price24: 400, basis: "gold21" }).zakat, 750);
+  assert.equal(zakatCalc({ cash: 50000, debts: 20000, deductDebts: true, price24: 400, basis: "gold24" }).due, false);
+});
