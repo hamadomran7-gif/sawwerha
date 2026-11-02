@@ -708,3 +708,32 @@ test("عمال الخدمة المساعدة في الإمارات", () => {
   near(uaeRecruitmentRefund({ cost: 12000, contractMonths: 24, monthsWorked: 4 }).refund, 10000);
   near(uaeRecruitmentRefund({ cost: 12000, contractMonths: 24, monthsWorked: 0.5 }).refund, 12000);
 });
+
+import { kuwaitPension, kuwaitGratuityTiers } from "../src/assets/calc.js";
+
+test("معاش التقاعد في الكويت", () => {
+  const e1 = kuwaitPension({ gender: "m", age: 55, serviceYears: 25, base: 2000, married: true, children: 2 });
+  near(e1.basic, 1275);
+  assert.equal(e1.toppedUp, false);
+  near(e1.remuneration, 27000);
+  const e2 = kuwaitPension({ gender: "f", age: 50, serviceYears: 20, base: 1000 });
+  near(e2.basic, 750);
+  assert.equal(e2.final, 1010);
+  near(e2.remuneration, 18000);
+  near(kuwaitPension({ gender: "f", age: 47, serviceYears: 20, base: 1000 }).basic, 637.5);
+  const e3 = kuwaitPension({ gender: "m", age: 52, serviceYears: 26, serviceMonths: 6, base: 1400, married: true });
+  near(e3.pct, 0.88, 0.0001);
+  near(e3.basic, 1047.2, 0.01);
+  assert.equal(e3.reductionType, "permanent");
+  near(e3.remuneration, 25200);
+  const b3 = kuwaitPension({ gender: "m", age: 52, serviceYears: 31, base: 1400, married: true });
+  near(b3.basic, 1250.2, 0.01);
+  assert.equal(b3.reductionType, "temporary");
+  near(b3.excessLump.total, 1680);
+  const c3 = kuwaitPension({ gender: "m", age: 52, serviceYears: 35, base: 1400 });
+  near(c3.basic, 1330);
+  near(c3.excessLump.total, 8400);
+  near(kuwaitGratuityTiers(1200, 12).total, 20160);
+  assert.equal(kuwaitPension({ gender: "m", age: 38, serviceYears: 12, base: 1200 }).status, "none");
+  assert.equal(kuwaitPension({ gender: "m", age: 45, serviceYears: 20, base: 1200 }).status, "too_young");
+});

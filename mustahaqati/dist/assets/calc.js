@@ -1468,3 +1468,73 @@ export function uaeRecruitmentRefund({ cost, contractMonths, monthsWorked, medic
   const remaining = Math.max(0, cmo - Math.ceil(mw));
   return { full, remaining, refund: r2(full ? c : (c / cmo) * remaining) };
 }
+
+/* ------------------------------------------------------------------ */
+/* الكويت — معاش التأمينات الاجتماعية للكويتيين                          */
+/* ------------------------------------------------------------------ */
+
+/** مكافأة التقاعد بشرائحها: مرتب التسوية × 12 × (10% لأول 5 سنوات، 12% للتالية، 15% للتالية، 20% لما بقي). */
+export function kuwaitGratuityTiers(base, years) {
+  const K = rules.kw.pension;
+  let left = Math.max(0, Number(years) || 0), sum = 0, i = 0;
+  const parts = [];
+  for (; i < K.gratuityTierYears.length && left > 0; i++) {
+    const y = Math.min(left, K.gratuityTierYears[i]);
+    parts.push({ years: r2(y), rate: K.gratuityTierRates[i], amount: r2(base * 12 * K.gratuityTierRates[i] * y) });
+    sum += base * 12 * K.gratuityTierRates[i] * y;
+    left -= y;
+  }
+  if (left > 0) {
+    const rate = K.gratuityTierRates[K.gratuityTierRates.length - 1];
+    parts.push({ years: r2(left), rate, amount: r2(base * 12 * rate * left) });
+    sum += base * 12 * rate * left;
+  }
+  return { total: r2(sum), parts };
+}
+
+/**
+ * معاش التقاعد الأساسي في الكويت: 65% من مرتب التسوية (بحد 1,500) عن 15 سنة + 2% عن كل سنة (و1/12 منها عن كل شهر) حتى 95% عند 30 سنة،
+ * مع تخفيض التقاعد المبكر (دائم أو مؤقت)، والحد الأدنى بحسب الحالة الاجتماعية، ومكافأة التقاعد والمكافأة المالية (110/2014).
+ */
+export function kuwaitPension({ gender = "m", age, serviceYears = 0, serviceMonths = 0, base, supplementary = 0, married = false, children = 0, contribSince2015 = true }) {
+  const K = rules.kw.pension;
+  const men = gender !== "f";
+  const months = Math.max(0, Math.round((Number(serviceYears) || 0) * 12 + (Number(serviceMonths) || 0)));
+  const yrs = Math.floor(months / 12), mon = months % 12;
+  const decimalYears = months / 12;
+  const b = Math.min(nz(base), K.basicWageCap);
+  const a = Math.floor(Number(age) || 0);
+  const normalAge = men ? K.normalAgeMen : K.normalAgeWomen;
+  const earlyMin = normalAge - K.maxEarlyYears;
+  const noRed = men ? K.noReductionServiceMen : K.noReductionServiceWomen;
+  const tempMin = men ? K.temporaryMinServiceMen : K.temporaryMinServiceWomen;
+
+  if (yrs < K.minServiceYears) return { status: "none", base: r2(b), decimalYears: r2(decimalYears), lump: kuwaitGratuityTiers(b, decimalYears) };
+  if (a < earlyMin && yrs < noRed) return { status: "too_young", base: r2(b), decimalYears: r2(decimalYears), earlyMin, normalAge, lump: kuwaitGratuityTiers(b, decimalYears) };
+
+  const pct = Math.min(K.maxPct, K.accrualBase + K.accrualPerYear * (yrs - K.accrualBaseYears) + (K.accrualPerYear / 12) * mon);
+  const gross = b * pct;
+  let reduction = 0, reductionType = null;
+  if (a < normalAge && yrs < noRed) {
+    const idx = Math.min(4, Math.max(0, a - earlyMin));
+    if (yrs >= tempMin) { reduction = K.earlyReductionTemporary[idx]; reductionType = "temporary"; }
+    else { reduction = K.earlyReductionPermanent[idx]; reductionType = "permanent"; }
+  }
+  const basic = gross * (1 - reduction);
+  const sup = nz(supplementary);
+  const total = basic + sup;
+  const k = Math.max(0, Math.floor(Number(children) || 0));
+  const minimum = !married ? K.minPensionSingleOrWoman : k === 0 ? K.minPensionMarriedNoChildren : K.minPensionByChildren[Math.min(k, K.minPensionByChildren.length) - 1];
+  const excessYears = Math.max(0, decimalYears - K.maxServiceYears);
+  const excessLump = excessYears ? kuwaitGratuityTiers(b, excessYears) : null;
+  const ageOver = Math.max(0, a - normalAge);
+  const capYears = K.remunerationCapYears[Math.min(ageOver, K.remunerationCapYears.length - 1)];
+  const remunerationOk = contribSince2015 || a >= normalAge || decimalYears >= 30;
+  const remuneration = remunerationOk ? b * Math.min(decimalYears, capYears) : 0;
+  return {
+    status: "pension", base: r2(b), decimalYears: r2(decimalYears), pct, gross: r2(gross), reduction, reductionType,
+    reductionEndsAge: reductionType === "temporary" ? (men ? K.temporaryEndsAgeMen : K.temporaryEndsAgeWomen) : null,
+    basic: r2(basic), supplementary: r2(sup), total: r2(total), minimum, toppedUp: total < minimum, final: r2(Math.max(total, minimum)),
+    excessYears: r2(excessYears), excessLump, capYears, remunerationOk, remuneration: r2(remuneration),
+  };
+}

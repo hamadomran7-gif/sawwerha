@@ -786,6 +786,71 @@ export default {
       "daysPerMonth": 30,
       "daysPerMonthAlt": 26,
       "wageBasis": "total"
+    },
+    "pension": {
+      "law": "قانون التأمينات الاجتماعية 61/1976 وتعديلاته (قانون التقاعد المبكر 2019، وقانون 2022، وقرار وزير المالية 6/2023 بالحد الأدنى)، والقانون 110/2014 (المكافأة المالية)",
+      "basicWageCap": 1500,
+      "supplementaryBand": 1250,
+      "minServiceYears": 15,
+      "normalAgeMen": 55,
+      "normalAgeWomen": 50,
+      "maxEarlyYears": 5,
+      "earlyReductionPermanent": [
+        0.25,
+        0.2,
+        0.15,
+        0.1,
+        0.05
+      ],
+      "earlyReductionTemporary": [
+        0.1,
+        0.08,
+        0.06,
+        0.04,
+        0.02
+      ],
+      "temporaryMinServiceMen": 30,
+      "temporaryMinServiceWomen": 25,
+      "temporaryEndsAgeMen": 65,
+      "temporaryEndsAgeWomen": 60,
+      "noReductionServiceMen": 35,
+      "noReductionServiceWomen": 30,
+      "accrualBase": 0.65,
+      "accrualBaseYears": 15,
+      "accrualPerYear": 0.02,
+      "maxPct": 0.95,
+      "maxServiceYears": 30,
+      "minPensionSingleOrWoman": 1010,
+      "minPensionMarriedNoChildren": 1126,
+      "minPensionByChildren": [
+        1196,
+        1265,
+        1335,
+        1405,
+        1475,
+        1545,
+        1615
+      ],
+      "annualIncrease": 20,
+      "annualIncreaseMonth": 8,
+      "gratuityTierYears": [
+        5,
+        5,
+        5
+      ],
+      "gratuityTierRates": [
+        0.1,
+        0.12,
+        0.15,
+        0.2
+      ],
+      "remunerationCapYears": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "remunerationMinContribMonths": 24
     }
   },
   "om": {
