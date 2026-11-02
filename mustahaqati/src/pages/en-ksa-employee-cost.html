@@ -1,0 +1,116 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-employee-cost-calculator",
+  "alternate": "ksa-employee-cost",
+  "title": "Saudi Employee Cost Calculator 2026 — GOSI, Expat Levy, Iqama and End of Service",
+  "h1": "Saudi Arabia Employee Cost Calculator",
+  "description": "Calculate the true monthly and annual cost of an employee to a company in Saudi Arabia: salary, the employer's GOSI share, the expat levy, work permit and iqama fees, medical insurance and the end-of-service provision, for Saudi and expat staff.",
+  "short": "Salary, GOSI, expat levy, iqama and end-of-service provision",
+  "lead": "Enter the employee's salary and nationality to see their full cost to the company each month and year, item by item.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-employee-cost.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-dependents-fee", "en-ksa-final-settlement", "en-ksa-end-of-service"],
+  "faq": [
+    {"q": "What does a Saudi employee cost the employer beyond salary?", "a": "The employer's GOSI share: 9% pension (for those insured before 3 July 2024), 2% occupational hazards and 0.75% SANED, i.e. 11.75% of basic salary plus housing allowance up to SAR 45,000, plus the end-of-service provision and medical insurance."},
+    {"q": "What does an expat employee cost the company?", "a": "On top of salary: 2% occupational hazards on basic plus housing, the expat levy of SAR 800 a month if expats outnumber Saudis (SAR 700 otherwise), the SAR 100 annual work permit fee, the iqama fee, medical insurance and the end-of-service provision."},
+    {"q": "How much is the monthly end-of-service provision?", "a": "The award is half a month's wage per year for the first five years and a month per year after, so the monthly provision is about wage ÷ 24 in the first five years and wage ÷ 12 after, on the last actual wage."},
+    {"q": "Can the employer charge the iqama or levy to the employee?", "a": "No. Article 40 of the Labor Law makes the employer pay the iqama and work permit fees, their renewal and late fines, and the costs of changing profession and the worker's exit and re-entry visas."}
+  ],
+  "sources": [
+    {"t": "GOSI — contribution rates", "u": "https://www.gosi.gov.sa"},
+    {"t": "Ministry of Human Resources — Article 40 of the Labor Law (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/64434"},
+    {"t": "Saudi Gazette — expat levy and work permit fees by period", "u": "https://www.saudigazette.com.sa/article/614537"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the employee's cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="nat">Employee nationality</label>
+        <select id="nat" name="nat">
+          <option value="sa">Saudi</option>
+          <option value="expat" selected>Expat</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Basic salary (monthly, SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="100" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="housing">Housing allowance (monthly)</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="100" value="1500">
+      </div>
+      <div class="field">
+        <label for="other">Other allowances (monthly)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="100" value="500">
+      </div>
+      <div class="field">
+        <label for="medical">Medical insurance (yearly)</label>
+        <input type="number" id="medical" name="medical" inputmode="decimal" min="0" step="100" value="2500">
+      </div>
+      <div class="field">
+        <label for="years">Years of service</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="1">
+        <span class="hint">Sets the end-of-service provision rate.</span>
+      </div>
+      <div class="field" data-nat="sa">
+        <label for="newSub">First GOSI registration</label>
+        <select id="newSub" name="newSub">
+          <option value="no" selected>Before 3 July 2024</option>
+          <option value="yes">On or after 3 July 2024</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="ratio">Expats vs Saudis in the company</label>
+        <select id="ratio" name="ratio">
+          <option value="high" selected>More expats than Saudis (SAR 800/month)</option>
+          <option value="low">Equal or fewer expats (SAR 700/month)</option>
+          <option value="exempt">Exempt (qualifying small or industrial company)</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="iqamaFee">Iqama fee</label>
+        <select id="iqamaFee" name="iqamaFee">
+          <option value="reported" selected>SAR 650 a year (commonly charged)</option>
+          <option value="base">SAR 500 a year (base fee)</option>
+        </select>
+      </div>
+      <div class="field" data-nat="expat">
+        <label for="ticket">Annual air ticket (if in the contract)</label>
+        <input type="number" id="ticket" name="ticket" inputmode="decimal" min="0" step="100" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>What goes into employee cost in Saudi Arabia</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Saudi</th><th scope="col">Expat</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Employer GOSI share</th><td>11.75% (9% pension + 2% hazards + 0.75% SANED), slightly higher for new registrants</td><td>2% occupational hazards</td></tr>
+    <tr><th scope="row">GOSI wage base</th><td colspan="2">Basic plus housing, capped at SAR 45,000 a month</td></tr>
+    <tr><th scope="row">Expat levy</th><td>—</td><td>SAR 800 or 700 a month</td></tr>
+    <tr><th scope="row">Work permit and iqama</th><td>—</td><td>SAR 100 + 650 (or 500) a year</td></tr>
+    <tr><th scope="row">End-of-service provision</th><td colspan="2">Half a month per year for the first five years, then a month</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> an expat on SAR 6,000 basic, 1,500 housing and 500 other allowances, more expats than Saudis, SAR 2,500 medical insurance, in the first year: salary 8,000, hazards 150, levy 800, permit and iqama 62.50, insurance 208.33 and end-of-service provision 333.33, about <strong>SAR 9,554 a month</strong>, or 19% above salary.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-employee-cost/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
