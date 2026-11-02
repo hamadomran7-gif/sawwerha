@@ -610,3 +610,25 @@ test("إضافة أشهر هجرية", () => {
   const d = addHijriMonths("2026-06-16", 4);
   assert.ok(d > "2026-10-10" && d < "2026-10-16", d);
 });
+
+import { uaeSpecialLeave, addWorkingDays } from "../src/assets/calc.js";
+
+test("أيام العمل والإجازات الخاصة في الإمارات", () => {
+  // 2026-11-02 اثنين
+  const w = addWorkingDays("2026-11-02", 5, "sat-sun");
+  assert.equal(w.first, "2026-11-02");
+  assert.equal(w.last, "2026-11-06");
+  assert.equal(w.back, "2026-11-09");
+  const w2 = addWorkingDays("2026-11-07", 1, "sat-sun"); // سبت
+  assert.equal(w2.first, "2026-11-09");
+  assert.equal(addWorkingDays("2026-11-05", 5, "fri-sat").last, "2026-11-11");
+  const s = uaeSpecialLeave({ type: "spouse", date: "2026-11-01" });
+  assert.equal(s.end, "2026-11-05");
+  assert.equal(uaeSpecialLeave({ type: "relative", date: "2026-11-01" }).back, "2026-11-04");
+  const p = uaeSpecialLeave({ type: "parental", date: "2026-05-10", start: "2026-11-05" });
+  assert.equal(p.deadline, "2026-11-09");
+  assert.equal(p.withinWindow, false);
+  assert.equal(uaeSpecialLeave({ type: "parental", date: "2026-05-10", start: "2026-06-01" }).withinWindow, true);
+  assert.equal(uaeSpecialLeave({ type: "study", date: "2026-12-01", years: 1 }).eligible, false);
+  assert.equal(uaeSpecialLeave({ type: "study", date: "2026-12-01", years: 3 }).calendarDays, 14);
+});

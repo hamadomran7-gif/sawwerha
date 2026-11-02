@@ -185,6 +185,15 @@ export default {
           3
         ]
       }
+    },
+    "specialLeave": {
+      "law": "المرسوم بقانون اتحادي 33/2021 بشأن تنظيم علاقات العمل، المادة 32 (إجازات أخرى)",
+      "spouseDeathDays": 5,
+      "relativeDeathDays": 3,
+      "parentalWorkingDays": 5,
+      "parentalWithinMonths": 6,
+      "studyWorkingDays": 10,
+      "studyServiceYears": 2
     }
   },
   "sa": {

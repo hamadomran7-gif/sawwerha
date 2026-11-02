@@ -837,7 +837,7 @@ export function hijriMonthLength(year, month) {
 }
 
 export const WEEKDAYS_AR = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-export const WEEKENDS = { "fri-sat": [5, 6], "sat-sun": [6, 0], fri: [5], none: [] };
+export const WEEKENDS = { "fri-sat": [5, 6], "sat-sun": [6, 0], fri: [5], sun: [0], none: [] };
 
 /** الفرق بين تاريخين: أيام كلية، وسنوات/أشهر/أيام، وأيام العمل بعد استبعاد عطلة نهاية الأسبوع. */
 export function dateDiff({ start, end, inclusive = false, weekend = "fri-sat" }) {
@@ -1281,6 +1281,50 @@ export function ksaSpecialLeave({ type, date, start, hajjDays, years = 0 }) {
       back, end: back ? shiftDate(back, -1) : null, days: back ? Math.round((toUTC(back) - toUTC(date)) / 86400000) : null,
       gBack, gEnd: shiftDate(gBack, -1), gDays: Math.round((toUTC(gBack) - toUTC(date)) / 86400000),
     };
+  }
+  return null;
+}
+
+/** يعدّ n يوم عمل ابتداءً من تاريخ (أو أول يوم عمل بعده) متجاوزاً عطلة نهاية الأسبوع، ويعيد أول يوم وآخر يوم ويوم العودة. */
+export function addWorkingDays(iso, n, weekend = "sat-sun") {
+  const off = WEEKENDS[weekend] || [];
+  const isOff = (d) => off.includes(d.getUTCDay());
+  let d = addDaysUTC(iso, 0);
+  let first = null, count = 0, guard = 0;
+  while (count < n && guard++ < 1000) {
+    if (!isOff(d)) {
+      if (!first) first = isoOf(d);
+      count++;
+      if (count === n) break;
+    }
+    d = addDaysUTC(d, 1);
+  }
+  const last = isoOf(d);
+  let back = addDaysUTC(d, 1);
+  while (isOff(back) && guard++ < 1000) back = addDaysUTC(back, 1);
+  return { first, last, back: isoOf(back), calendarDays: daysBetween(first, last) + 1 };
+}
+
+/**
+ * الإمارات — المادة 32: الحداد 5 أيام لوفاة الزوج و3 للأقارب من تاريخ الوفاة، وإجازة الوالدين 5 أيام عمل خلال 6 أشهر من الولادة،
+ * وإجازة الدراسة 10 أيام عمل في السنة بعد سنتين من الخدمة.
+ */
+export function uaeSpecialLeave({ type, date, start, weekend = "sat-sun", years = 0 }) {
+  const L = rules.ae.specialLeave;
+  if (!date || isNaN(toUTC(date))) return null;
+  if (type === "spouse" || type === "relative") {
+    const days = type === "spouse" ? L.spouseDeathDays : L.relativeDeathDays;
+    return { type, days, start: date, end: shiftDate(date, days - 1), back: shiftDate(date, days) };
+  }
+  if (type === "parental") {
+    const s = start || date;
+    const deadline = shiftDate(shiftMonths(date, L.parentalWithinMonths), -1);
+    const w = addWorkingDays(s, L.parentalWorkingDays, weekend);
+    return { type, workingDays: L.parentalWorkingDays, start: w.first, end: w.last, back: w.back, calendarDays: w.calendarDays, deadline, beforeBirth: s < date, withinWindow: s >= date && w.last <= deadline };
+  }
+  if (type === "study") {
+    const w = addWorkingDays(date, L.studyWorkingDays, weekend);
+    return { type, workingDays: L.studyWorkingDays, start: w.first, end: w.last, back: w.back, calendarDays: w.calendarDays, eligible: Number(years) >= L.studyServiceYears };
   }
   return null;
 }

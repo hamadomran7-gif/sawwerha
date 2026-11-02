@@ -1,0 +1,94 @@
+---json
+{
+  "title": "حاسبة إجازة الحداد والوالدين والدراسة في الإمارات 2026 — المادة 32",
+  "h1": "حاسبة الإجازات الخاصة في قانون العمل الإماراتي",
+  "description": "احسب إجازتك الخاصة بأجر في القطاع الخاص بالإمارات وتاريخ عودتك: الحداد 5 أيام لوفاة الزوج و3 أيام لوفاة الوالدين أو الأبناء أو الإخوة أو الأجداد أو الأحفاد، وإجازة الوالدين 5 أيام عمل خلال 6 أشهر من الولادة، وإجازة الدراسة 10 أيام عمل في السنة.",
+  "short": "الحداد 5 أو 3 أيام، والوالدين 5 أيام عمل، والدراسة 10 أيام عمل",
+  "lead": "اختر نوع الإجازة وتاريخها وعطلتك الأسبوعية، وتظهر أيام الإجازة وتاريخ عودتك للعمل.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "uae-special-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-annual-leave", "uae-maternity-leave", "uae-sick-leave", "date-difference"],
+  "faq": [
+    {"q": "كم إجازة الوفاة في الإمارات للقطاع الخاص؟", "a": "5 أيام بأجر لوفاة الزوج، و3 أيام بأجر لوفاة أحد الوالدين أو الأبناء أو الإخوة أو الأحفاد أو الأجداد، تبدأ من تاريخ الوفاة، بحسب المادة 32 من المرسوم بقانون اتحادي 33 لسنة 2021."},
+    {"q": "كم إجازة الأبوة في الإمارات؟", "a": "إجازة الوالدين 5 أيام عمل بأجر للأب أو الأم لرعاية المولود، تؤخذ متصلة أو متفرقة خلال 6 أشهر من تاريخ الولادة، وهي إضافة إلى إجازة الوضع للأم."},
+    {"q": "هل يحق للموظف إجازة دراسية في الإمارات؟", "a": "نعم، 10 أيام عمل في السنة لأداء الامتحانات لمن يدرس في مؤسسة تعليمية معتمدة في الدولة، بشرط أن يكون قد أمضى سنتين على الأقل لدى صاحب العمل."},
+    {"q": "هل تشمل إجازة الحداد أيام العطلة الأسبوعية؟", "a": "النص يحدد المدة بالأيام ويبدأها من تاريخ الوفاة، فتُحسب أياماً متصلة. أما إجازة الوالدين وإجازة الدراسة فمحددتان بأيام العمل، فلا تُحتسب فيهما العطلة الأسبوعية."},
+    {"q": "هل توجد إجازة حج في قانون العمل الإماراتي الجديد؟", "a": "لم تنص المادة 32 على إجازة للحج في القطاع الخاص، فيرجع ذلك إلى عقد العمل أو لائحة المنشأة، أو تؤخذ من الإجازة السنوية أو بدون أجر باتفاق الطرفين."}
+  ],
+  "sources": [
+    {"t": "Gulf News — الإجازات الخاصة في قانون العمل الجديد (المادة 32)", "u": "https://gulfnews.com/amp/story/living-in-uae%2Fask-us%2Fnew-uae-labour-law-bereavement-leave-study-leave-sabbatical-1.1637243770009"},
+    {"t": "حكومة دبي — الإجازات في القطاع الخاص", "u": "https://www.dubai.ae/living/jobs-employment/leaves"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — إجازة الحداد", "u": "https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/types-of-leaves-and-entitlements-in-the-private-sector/compassionate-leave-bereavement-leave"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب إجازتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">نوع الإجازة</label>
+        <select id="type" name="type">
+          <option value="spouse" selected>وفاة الزوج أو الزوجة (5 أيام)</option>
+          <option value="relative">وفاة أحد الوالدين أو الأبناء أو الإخوة أو الأحفاد أو الأجداد (3 أيام)</option>
+          <option value="parental">إجازة الوالدين بعد الولادة (5 أيام عمل)</option>
+          <option value="study">إجازة الدراسة للامتحانات (10 أيام عمل)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="date" data-label>تاريخ الوفاة</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="field" data-for="parental">
+        <label for="start">بداية الإجازة</label>
+        <input type="date" id="start" name="start">
+        <span class="hint">خلال 6 أشهر من الولادة. اتركه فارغاً للبدء يوم الولادة.</span>
+      </div>
+      <div class="field" data-for="parental study">
+        <label for="weekend">عطلتك الأسبوعية</label>
+        <select id="weekend" name="weekend">
+          <option value="sat-sun" selected>السبت والأحد</option>
+          <option value="fri-sat">الجمعة والسبت</option>
+          <option value="sun">الأحد فقط</option>
+          <option value="fri">الجمعة فقط</option>
+        </select>
+      </div>
+      <div class="field" data-for="study">
+        <label for="years">سنوات خدمتك لدى صاحب العمل</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.5" value="2">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازات الخاصة في المادة 32</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الإجازة</th><th scope="col">المدة</th><th scope="col">الشرط</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">وفاة الزوج</th><td>5 أيام بأجر</td><td>تبدأ من تاريخ الوفاة</td></tr>
+    <tr><th scope="row">وفاة الوالدين أو الأبناء أو الإخوة أو الأحفاد أو الأجداد</th><td>3 أيام بأجر</td><td>تبدأ من تاريخ الوفاة</td></tr>
+    <tr><th scope="row">إجازة الوالدين</th><td>5 أيام عمل بأجر</td><td>للأب أو الأم، متصلة أو متفرقة، خلال 6 أشهر من الولادة</td></tr>
+    <tr><th scope="row">إجازة الدراسة</th><td>10 أيام عمل في السنة</td><td>لأداء الامتحانات في مؤسسة معتمدة في الدولة، بعد سنتين من الخدمة</td></tr>
+    <tr><th scope="row">الخدمة الوطنية والاحتياطية</th><td>حسب التشريعات</td><td>للمواطن، إجازة بأجر</td></tr>
+  </tbody>
+</table>
+</div>
+<p>لصاحب العمل أن يطلب ما يثبت الواقعة من الجهات المختصة. وإجازة الوضع للأم (60 يوماً) تحسبها في <a href="{{root}}uae-maternity-leave/{{ix}}">حاسبة إجازة الأمومة</a>، والإجازة السنوية في <a href="{{root}}uae-annual-leave/{{ix}}">حاسبة الإجازة السنوية</a>.</p>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+توفيت والدة الموظف يوم الأحد 1 نوفمبر 2026: إجازته 3 أيام حتى الثلاثاء 3 نوفمبر، ويعود الأربعاء <strong>4 نوفمبر</strong>.<br>
+بدأ أب إجازة الوالدين الاثنين 2 نوفمبر وعطلته السبت والأحد: تنتهي الجمعة 6 نوفمبر، ويعود الاثنين <strong>9 نوفمبر</strong>.</p>
+</div>
+</div>
