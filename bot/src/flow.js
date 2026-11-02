@@ -208,7 +208,7 @@ function matchFaq(text) {
  */
 export function handleInbound({ customer, order, msg, env, paused = false }) {
   const brand = env.BRAND || "صوّرها";
-  const email = env.SUPPORT_EMAIL || "support@sawwerha.com";
+  const email = env.SUPPORT_EMAIL || "support@sawwerha.app";
   const p = prices(env);
   const freeLimit = Number(env.FREE_SAMPLES_PER_PHONE || 1);
   const lang = msg.type === "text" ? detectLang(msg.text, customer.lang || "ar") : customer.lang || "ar";

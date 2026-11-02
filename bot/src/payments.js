@@ -17,9 +17,9 @@ export async function createPaymentLink(env, order, customer) {
     amount: Math.round(Number(order.price) * 100), // بالفلس
     currency_code: "AED",
     message: `${env.BRAND || "Sawwerha"} — طلب #${order.id} — ${order.package_code}`,
-    success_url: `${env.PUBLIC_URL || "https://sawwerha.com"}/paid?order=${order.id}`,
-    cancel_url: `${env.PUBLIC_URL || "https://sawwerha.com"}/cancel?order=${order.id}`,
-    failure_url: `${env.PUBLIC_URL || "https://sawwerha.com"}/failed?order=${order.id}`,
+    success_url: `${env.PUBLIC_URL || "https://sawwerha.app"}/paid?order=${order.id}`,
+    cancel_url: `${env.PUBLIC_URL || "https://sawwerha.app"}/cancel?order=${order.id}`,
+    failure_url: `${env.PUBLIC_URL || "https://sawwerha.app"}/failed?order=${order.id}`,
     test: env.ZIINA_TEST === "true",
     transaction_source: "directApi",
   };
