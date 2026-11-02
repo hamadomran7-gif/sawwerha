@@ -1,0 +1,104 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-leave-calculator",
+  "alternate": "oman-leave",
+  "title": "Oman Annual Leave and Sick Leave Calculator 2026 — Labour Law 53/2023",
+  "h1": "Oman Annual and Sick Leave Calculator",
+  "description": "Calculate your annual leave balance and its value in Oman under Labour Law 53 of 2023 — 30 days a year on gross pay after six months — and sick leave pay of up to 182 days: 21 days full pay, 14 at 75%, 35 at 50% and 112 at 35%, with the Social Protection Fund's share since July 2026.",
+  "short": "30 days a year on gross pay; sick leave up to 182 days in tiers",
+  "lead": "Choose the calculation, then enter your salary and dates to see your leave balance and its value, or your sick leave pay.",
+  "country": "om",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-end-of-service", "en-bahrain-leave", "en-qatar-leave", "en-uae-annual-leave"],
+  "faq": [
+    {"q": "How much annual leave is there in Oman?", "a": "At least 30 days a year on gross pay (Article 78 of Labour Law 53 of 2023), and leave may not be taken before six months of service."},
+    {"q": "Is unused leave paid on gross or basic salary?", "a": "At the end of service: on gross pay for your balance. During service, days you have not taken may be paid on basic salary, with your written consent (Article 81)."},
+    {"q": "How many days can be carried over?", "a": "An employee may keep a balance of no more than 30 days unless the leave was not taken in the interest of work, and must take at least 30 days of leave at least once every two years."},
+    {"q": "How much sick leave is there in Oman?", "a": "Up to 182 days a year on gross pay: days 1–21 on full pay, 22–35 at 75%, 36–70 at 50% and 71–182 at 35%."},
+    {"q": "Who pays sick leave since July 2026?", "a": "Since 19 July 2026 the employer pays the first seven days and the Social Protection Fund reimburses the employer from the eighth day at the same rates, for Omanis and non-Omanis. The employee's entitlement has not changed."}
+  ],
+  "sources": [
+    {"t": "Oman Labour Law, Royal Decree 53/2023 — Articles 1 and 78–82 (Qanoon), Arabic", "u": "https://qanoon.om/p/2023/rd2023053/"},
+    {"t": "Social Protection Fund decision R/13/2026 — extending leave insurance to non-Omanis (Qanoon), Arabic", "u": "https://qanoon.om/p/2026/spf20269904/"},
+    {"t": "Oman Daily — sick leave insurance takes effect (July 2026), Arabic", "u": "https://www.omandaily.om/ampArticle/1206951"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="om">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">Calculation</label>
+        <select id="mode" name="mode">
+          <option value="annual">Annual leave balance and encashment</option>
+          <option value="sick">Sick leave pay</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Monthly basic salary (OMR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="600" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Total allowances (OMR)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="400">
+        <span class="hint">Part of gross pay.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2023-08-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">End of service, or today</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">Leave days taken over the whole period</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="50">
+      </div>
+      <div class="field" data-annual>
+        <label for="timing">When is the leave paid out?</label>
+        <select id="timing" name="timing">
+          <option value="end">At the end of service (gross pay)</option>
+          <option value="inService">During service with my written consent (basic pay)</option>
+        </select>
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">Sick days in the year</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Sick leave tiers in Oman</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Days in the year</th><th scope="col">Pay (of gross)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1–21</th><td>100%</td></tr>
+    <tr><th scope="row">22–35</th><td>75%</td></tr>
+    <tr><th scope="row">36–70</th><td>50%</td></tr>
+    <tr><th scope="row">71–182</th><td>35%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> gross pay OMR 1,000 (basic 600) and 20 unused days.<br>
+At the end of service: 1,000 ÷ 30 × 20 = <strong>OMR 666.67</strong>.<br>
+During service with written consent: 600 ÷ 30 × 20 = OMR 400.</p>
+</div>
+<p>Leaving your job? Add your gratuity in the <a href="{{root}}en/oman-end-of-service-calculator/{{ix}}">Oman end of service calculator</a>. Prefer Arabic? Use the <a href="{{root}}oman-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -1,0 +1,96 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-leave-calculator",
+  "alternate": "qatar-leave",
+  "title": "Qatar Annual Leave and Sick Leave Calculator 2026 — Leave Encashment and Sick Pay",
+  "h1": "Qatar Annual and Sick Leave Calculator",
+  "description": "Calculate your annual leave balance and its cash value in Qatar under Labour Law 14 of 2004 — 21 days for under five years of service and 28 days after, paid on basic salary ÷ 30 — and sick leave pay: two weeks on full pay, then four weeks on half pay, after three months of service.",
+  "short": "21 then 28 days a year on basic pay; sick leave 14 days full and 28 half",
+  "lead": "Choose the calculation, then enter your salary and dates to see your leave balance and its value, or your sick leave pay.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-qatar-end-of-service", "en-kuwait-leave", "en-uae-annual-leave", "en-oman-leave"],
+  "faq": [
+    {"q": "How much annual leave do employees get in Qatar?", "a": "Three weeks (21 days) for those with under five years of service and four weeks (28 days) for five years or more, after one full year of continuous service. A contract may give more."},
+    {"q": "What salary is leave encashment based on?", "a": "On basic salary at the date the leave falls due (Article 72), with a month counted as 30 days (Article 8). Allowances such as housing and transport are not included."},
+    {"q": "Can leave be carried over?", "a": "On the employee's written request, up to half of the leave may be postponed to the following year only. Leave may be split into two periods at most with the employee's agreement."},
+    {"q": "Am I paid for unused leave when my contract ends?", "a": "Yes. If the contract ends for any reason before you take your leave, you are paid cash equal to your wage for the days due (Article 81). For service ending before the first full year, the point is not settled."},
+    {"q": "How much sick leave is there in Qatar?", "a": "After three months of service: two weeks on full pay, then four weeks on half pay, then unpaid leave until the employee returns or the service ends. The employer may end the service at the end of the twelfth week if a medical report shows the employee cannot work."}
+  ],
+  "sources": [
+    {"t": "Al Tamimi — top 10 amendments to the Qatar Labour Law in 2026 (leave unchanged)", "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"},
+    {"t": "Legal 500 / Clyde & Co — workplace leave in Qatar", "u": "https://www.legal500.com/intelligence/qatar/employment-and-hr/all-work-and-no-play-workplace-leave-in-qatar"},
+    {"t": "Qatar Labour Law 14 of 2004 — Arabic text of Articles 8, 72 and 79–82 (Mohamah)", "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="qa">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">Calculation</label>
+        <select id="mode" name="mode">
+          <option value="annual">Annual leave balance and encashment</option>
+          <option value="sick">Sick leave pay</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Monthly basic salary (QAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Basic only — both kinds of leave are paid on it.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2021-03-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">End of service, or today</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">Leave days taken over the whole period</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="60">
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">Sick days in the year</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+      <div class="field full inline" data-sick hidden>
+        <input type="checkbox" id="eligible" name="eligible" checked>
+        <label for="eligible">I have completed at least 3 months of service</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Leave rules in Qatar</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Leave</th><th scope="col">Entitlement</th><th scope="col">Pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Annual, under 5 years</th><td>21 days a year</td><td>Basic salary</td></tr>
+    <tr><th scope="row">Annual, 5 years or more</th><td>28 days a year</td><td>Basic salary</td></tr>
+    <tr><th scope="row">Sick, first 2 weeks</th><td>14 days</td><td>Full basic pay</td></tr>
+    <tr><th scope="row">Sick, next 4 weeks</th><td>28 days</td><td>Half pay</td></tr>
+    <tr><th scope="row">Sick, after that</th><td>Until return or end of service</td><td>Unpaid</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> basic salary QAR 8,000 and 20 unused days. Daily wage 8,000 ÷ 30 = QAR 266.67. <strong>Leave encashment = QAR 5,333.33</strong>.</p>
+</div>
+<p>Leaving your job? Add your gratuity in the <a href="{{root}}en/qatar-end-of-service-calculator/{{ix}}">Qatar end of service calculator</a>. Prefer Arabic? Use the <a href="{{root}}qatar-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -1,0 +1,97 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-leave-calculator",
+  "alternate": "kuwait-leave",
+  "title": "Kuwait Annual Leave and Sick Leave Calculator 2026 — 30 Working Days and Leave Salary",
+  "h1": "Kuwait Annual and Sick Leave Calculator",
+  "description": "Calculate your annual leave balance and its value in Kuwait's private sector: 30 working days a year since the 2017 amendment (rest days and holidays excluded), due after six months, paid on your last full wage — and sick leave pay: 15 days full, 10 at three-quarters, 10 at half and 10 at quarter pay.",
+  "short": "30 working days a year on full wage; sick leave of 75 days in tiers",
+  "lead": "Choose the calculation, then enter your salary and dates to see your leave balance and its value, or your sick leave pay.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-end-of-service", "en-qatar-leave", "en-bahrain-leave", "en-uae-annual-leave"],
+  "faq": [
+    {"q": "Did annual leave in Kuwait rise to 35 days?", "a": "No. The 2019 proposal for 35 days was not enacted, and the government returned the 2020 law. Law 85 of 2017 is in force: at least 30 working days, not counting weekly rest days, public holidays or sick days — about 35 calendar days for someone working six days a week."},
+    {"q": "When is the first leave due?", "a": "After six months of service in the first year (it was nine months before 2017), and part years count pro rata."},
+    {"q": "What salary is leave pay based on?", "a": "On the last wage the employee received, which the law defines as basic pay plus allowances paid regularly. Common practice divides it by 26 working days, but no text sets the divisor."},
+    {"q": "Can leave be accumulated?", "a": "Leave may accumulate up to two years' worth, or more by agreement. When the contract ends, all accumulated days are paid whatever the reason for termination, and leave may not be waived during service."},
+    {"q": "How much sick leave is there in Kuwait?", "a": "In a year: 15 days on full pay, then 10 days at three-quarters, 10 at half, 10 at a quarter, then 30 days unpaid, with no minimum service."}
+  ],
+  "sources": [
+    {"t": "ILO NATLEX — Kuwait private-sector Labour Law 6 of 2010 and amendments", "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"},
+    {"t": "Al Anba — text of Law 6 of 2010 (February 2010), Arabic", "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"},
+    {"t": "Mohamah — Law 85 of 2017 amending Article 70, Arabic", "u": "https://www.mohamah.net/law/?p=143919"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="kw">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">Calculation</label>
+        <select id="mode" name="mode">
+          <option value="annual">Annual leave balance and encashment</option>
+          <option value="sick">Sick leave pay</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Monthly basic salary (KWD)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="800" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Regular allowances — housing, cost of living and others (KWD)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="200">
+        <span class="hint">Do not include transport allowance or expenses.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2022-09-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">End of service, or today</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">Leave days taken over the whole period</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="90">
+      </div>
+      <div class="field" data-annual>
+        <label for="divisor">Divide the monthly wage by</label>
+        <select id="divisor" name="divisor">
+          <option value="26">26 working days (common practice)</option>
+          <option value="30">30 days</option>
+        </select>
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">Sick days in the year</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Leave rules in Kuwait's private sector</h2>
+<ul>
+  <li><strong>Annual leave:</strong> at least 30 working days a year; weekly rest days, public holidays and sick days do not count against it.</li>
+  <li><strong>First year:</strong> due after six months of service, pro rata for part years.</li>
+  <li><strong>Pay:</strong> the last full wage — basic plus regular allowances.</li>
+  <li><strong>Sick leave:</strong> 15 days full pay, 10 at three-quarters, 10 at half, 10 at a quarter, then 30 days unpaid.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> last full wage KWD 1,000 and 20 unused working days: 1,000 ÷ 26 × 20 = <strong>KWD 769.23</strong>, or KWD 666.67 dividing by 30.</p>
+</div>
+<p>Leaving your job? Add your indemnity in the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">Kuwait indemnity calculator</a>. Prefer Arabic? Use the <a href="{{root}}kuwait-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

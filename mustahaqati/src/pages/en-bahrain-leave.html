@@ -1,0 +1,100 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-leave-calculator",
+  "alternate": "bahrain-leave",
+  "title": "Bahrain Annual Leave and Sick Leave Calculator 2026 — 30 Days and Leave Encashment",
+  "h1": "Bahrain Annual and Sick Leave Calculator",
+  "description": "Calculate your annual leave balance and its value in Bahrain under Labour Law 36 of 2012 — 30 days a year at 2.5 days a month, paid on your last basic salary plus social allowance — and sick leave pay after three months: 15 days full pay, 20 on half pay and 20 unpaid.",
+  "short": "30 days (2.5 a month) on basic plus social allowance; sick leave 15 + 20",
+  "lead": "Choose the calculation, then enter your salary and dates to see your leave balance and its value, or your sick leave pay.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-bahrain-end-of-service", "en-oman-leave", "en-kuwait-leave", "en-uae-annual-leave"],
+  "faq": [
+    {"q": "How much annual leave is there in Bahrain?", "a": "At least 30 paid days a year at two and a half days a month for those with a year of service, and pro rata for less than a year. The Cabinet decided in 2013 that these are calendar days."},
+    {"q": "What salary is leave encashment based on?", "a": "On the last basic salary plus the social allowance (Article 47), without housing or transport allowances."},
+    {"q": "Can leave be carried over?", "a": "The employer must settle the leave balance and its pay at least every two years. The employee is entitled to take at least 15 days a year, 6 of them consecutive. Payment is lost for days the employer scheduled and the employee refused in writing."},
+    {"q": "How much sick leave is there in Bahrain?", "a": "After three months of continuous service: 15 days on full pay, then 20 days on half pay, then 20 days unpaid in a year. Unused full-pay and half-pay days accumulate up to 240 days."},
+    {"q": "Is there extra sick leave for chronic illness?", "a": "The 30-day chronic illness leave introduced in 2025 is for the government sector. For the private sector, proposals have been made but are not yet in force."}
+  ],
+  "sources": [
+    {"t": "Legislation and Legal Opinion Commission — Labour Law for the Private Sector 36/2012, Arabic", "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"},
+    {"t": "LMRA — Labour Law 36/2012, official English translation", "u": "https://lmra.gov.bh/files/cms/shared/file/labour%20law.pdf"},
+    {"t": "Norton Rose Fulbright — Bahrain's labour law: what's in a day (2013)", "u": "https://www.globalworkplaceinsider.com/2013/06/bahrains-new-labour-law-whats-in-a-day/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave</h2>
+  <form id="calc" novalidate>
+    <input type="hidden" name="country" value="bh">
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">Calculation</label>
+        <select id="mode" name="mode">
+          <option value="annual">Annual leave balance and encashment</option>
+          <option value="sick">Sick leave pay</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Monthly basic salary (BHD)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="700" required>
+        <span class="hint">Your last basic salary.</span>
+      </div>
+      <div class="field">
+        <label for="social">Social allowance (BHD)</label>
+        <input type="number" id="social" name="social" inputmode="decimal" min="0" step="1" value="100">
+        <span class="hint">Counts towards annual leave pay.</span>
+      </div>
+      <div class="field">
+        <label for="allowances">Other allowances — housing, transport and others (BHD)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="200">
+        <span class="hint">Count towards sick leave pay only.</span>
+      </div>
+      <div class="field" data-annual>
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2024-01-01">
+      </div>
+      <div class="field" data-annual>
+        <label for="end">End of service, or today</label>
+        <input type="date" id="end" name="end" value="2026-10-31">
+      </div>
+      <div class="field" data-annual>
+        <label for="taken">Leave days taken over the whole period</label>
+        <input type="number" id="taken" name="taken" inputmode="decimal" min="0" step="0.5" value="40">
+      </div>
+      <div class="field" data-sick hidden>
+        <label for="sickDays">Sick days in the year</label>
+        <input type="number" id="sickDays" name="sickDays" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+      <div class="field full inline" data-sick hidden>
+        <input type="checkbox" id="eligible" name="eligible" checked>
+        <label for="eligible">I have completed at least 3 months of service</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Leave rules in Bahrain</h2>
+<ul>
+  <li><strong>Annual leave:</strong> 30 calendar days a year, earned at 2.5 days a month.</li>
+  <li><strong>Pay:</strong> last basic salary plus social allowance (Article 47).</li>
+  <li><strong>Sick leave:</strong> after three months — 15 days full pay, 20 half pay, 20 unpaid; unused paid days accumulate up to 240.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> basic plus social allowance BHD 1,000 and 20 unused days: 1,000 ÷ 30 × 20 = <strong>BHD 666.67</strong>.<br>
+Seven months of service: 7 × 2.5 = 17.5 days, worth BHD 583.33.</p>
+</div>
+<p>Leaving your job? Add your gratuity in the <a href="{{root}}en/bahrain-end-of-service-calculator/{{ix}}">Bahrain end of service calculator</a>. Prefer Arabic? Use the <a href="{{root}}bahrain-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
