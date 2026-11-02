@@ -487,3 +487,13 @@ test("الزكاة: النصاب وربع العشر وتحويل العيارا
   near(zakatCalc({ cash: 50000, debts: 20000, deductDebts: true, price24: 400, basis: "gold21" }).zakat, 750);
   assert.equal(zakatCalc({ cash: 50000, debts: 20000, deductDebts: true, price24: 400, basis: "gold24" }).due, false);
 });
+
+import { probationEnd } from "../src/assets/calc.js";
+
+test("نهاية فترة التجربة", () => {
+  assert.equal(probationEnd({ country: "ae", start: "2026-01-15", months: 6 }).lastDay, "2026-07-14");
+  assert.equal(probationEnd({ country: "ae", start: "2026-01-15", months: 9 }).capped, true);
+  assert.equal(probationEnd({ country: "sa", start: "2026-01-01", days: 90 }).lastDay, "2026-03-31");
+  assert.equal(probationEnd({ country: "sa", start: "2026-01-01", days: 90, excluded: 5 }).lastDay, "2026-04-05");
+  assert.equal(probationEnd({ country: "sa", start: "2026-01-01", days: 200 }).capped, true);
+});

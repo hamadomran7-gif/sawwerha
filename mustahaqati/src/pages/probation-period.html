@@ -1,0 +1,80 @@
+---json
+{
+  "title": "حاسبة فترة التجربة 2026 — متى تنتهي فترة التجربة في الإمارات والسعودية؟",
+  "h1": "حاسبة نهاية فترة التجربة",
+  "description": "احسب آخر يوم في فترة التجربة: في الإمارات حتى 6 أشهر من المباشرة (المادة 9)، وفي السعودية حتى 180 يوماً بعد تعديل المادة 53 في 2025، مع إضافة الأيام المستثناة. وتعرّف على حقوق الإنهاء والإخطار خلال التجربة في البلدين.",
+  "short": "الإمارات حتى 6 أشهر، والسعودية حتى 180 يوماً، مع حقوق الإنهاء خلال التجربة",
+  "lead": "اختر الدولة وأدخل تاريخ المباشرة ومدة التجربة في عقدك، ويظهر آخر يوم فيها.",
+  "country": "gcc",
+  "category": "eos",
+  "tool": true,
+  "script": "probation-period.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-notice-pay", "ksa-article-80", "date-difference", "uae-sick-leave"],
+  "faq": [
+    {"q": "كم مدة فترة التجربة في الإمارات؟", "a": "لا تزيد على 6 أشهر من تاريخ مباشرة العمل (المادة 9 من المرسوم بقانون 33/2021). ولصاحب العمل إنهاء العقد خلالها بإخطار كتابي قبل 14 يوماً على الأقل."},
+    {"q": "كم مدة فترة التجربة في السعودية بعد تعديلات 2025؟", "a": "لا يتجاوز مجموعها 180 يوماً في جميع الأحوال، ويجب النص عليها صراحةً في عقد العمل مع تحديد مدتها. وكانت قبل التعديل 90 يوماً قابلة للتمديد باتفاق مكتوب إلى 180."},
+    {"q": "هل أستحق مكافأة إذا أُنهي عقدي خلال التجربة؟", "a": "في السعودية لا يستحق أي من الطرفين تعويضاً ولا يستحق العامل مكافأة عن مدة التجربة. وفي الإمارات لا تُستحق المكافأة قبل إكمال سنة خدمة أصلاً، والتجربة لا تتجاوز 6 أشهر."},
+    {"q": "هل يجوز تكرار فترة التجربة؟", "a": "في السعودية لا يُوضع العامل تحت التجربة أكثر من مرة لدى صاحب العمل نفسه، إلا باتفاق مكتوب على أن تكون لمهنة أو عمل مختلف، أو بعد مضي 6 أشهر على انتهاء العلاقة السابقة."},
+    {"q": "ما الأيام التي لا تُحسب من فترة التجربة في السعودية؟", "a": "كان النص السابق يستثني إجازتي العيدين والإجازة المرضية. وبعد تعديل 2025 أحالت المادة 53 تحديد الإجازات المستثناة إلى اللائحة التنفيذية، فتحقق منها وأدخل عددها في الحاسبة."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 33/2021 — المادة 9 (فترة التجربة)", "u": "https://uaelegislation.gov.ae/ar/legislations/1541/download"},
+    {"t": "أم القرى — تعديل نظام العمل السعودي بالمرسوم الملكي م/44 (المادة 53)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "قيود — فترة التجربة: المدة والتكرار بعد تعديلات 2025", "u": "https://www.qoyod.com/learn/فترة-التجربة-المدة-والتكرار/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب نهاية فترة التجربة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="country">الدولة</label>
+        <select id="country" name="country">
+          <option value="ae">الإمارات</option>
+          <option value="sa">السعودية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ مباشرة العمل</label>
+        <input type="date" id="start" name="start" value="2026-09-01" required>
+      </div>
+      <div class="field" data-ae>
+        <label for="months">مدة التجربة في العقد (بالأشهر)</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="6" step="1" value="6">
+      </div>
+      <div class="field" data-sa hidden>
+        <label for="days">مدة التجربة في العقد (بالأيام)</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="180" step="1" value="90">
+      </div>
+      <div class="field" data-sa hidden>
+        <label for="excluded">أيام مستثناة من حساب التجربة</label>
+        <input type="number" id="excluded" name="excluded" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">بحسب اللائحة التنفيذية، كالإجازات التي لا تُحسب منها.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>فترة التجربة في البلدين</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الإمارات</th><th scope="col">السعودية</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الحد الأقصى</th><td>6 أشهر من المباشرة</td><td>180 يوماً في جميع الأحوال</td></tr>
+    <tr><th scope="row">إنهاء صاحب العمل</th><td>إخطار كتابي قبل 14 يوماً</td><td>لكل طرف الإنهاء دون تعويض</td></tr>
+    <tr><th scope="row">انتقال العامل</th><td>إخطار قبل شهر لصاحب عمل آخر في الدولة، و14 يوماً لمغادرة الدولة</td><td>دون تعويض لأي طرف</td></tr>
+    <tr><th scope="row">المكافأة</th><td>لا تُستحق قبل سنة خدمة</td><td>لا تُستحق عن مدة التجربة</td></tr>
+  </tbody>
+</table>
+</div>
+<p>وإذا انتهى العقد خلال التجربة في الإمارات دون مراعاة الإخطار، احسب التعويض في <a href="{{root}}uae-notice-pay/{{ix}}">حاسبة بدل الإنذار</a>.</p>
+</div>

@@ -1095,3 +1095,17 @@ export function zakatCalc({ cash = 0, g24 = 0, g22 = 0, g21 = 0, g18 = 0, silver
   const due = nisab > 0 && total >= nisab;
   return { goldPure: r2(goldPure), goldValue: r2(goldValue), silverValue: r2(silverValue), gross: r2(gross), total: r2(total), nisab: r2(nisab), nisabGold24: r2(nisabGold24), nisabGold21: r2(nisabGold21), nisabSilver: r2(nisabSilver), due, zakat: due ? r2(total * Z.rate) : 0 };
 }
+
+/** نهاية فترة التجربة: الإمارات حتى 6 أشهر (المادة 9)، والسعودية حتى 180 يوماً (المادة 53 بعد 2025) مع أيام مستثناة يدخلها المستخدم. */
+export function probationEnd({ country = "ae", start, months = 0, days = 0, excluded = 0 }) {
+  if (!start) return null;
+  const ex = Math.max(0, Math.floor(Number(excluded) || 0));
+  if (country === "ae") {
+    const m = Math.min(Math.max(0, Number(months) || 0), 6);
+    const last = shiftDate(shiftMonths(start, m), -1);
+    return { country, lengthLabel: m, capped: Number(months) > 6, lastDay: last, firstAfter: shiftDate(last, 1) };
+  }
+  const d = Math.min(Math.max(0, Math.floor(Number(days) || 0)), 180);
+  const last = shiftDate(start, d + ex - 1);
+  return { country, lengthLabel: d, capped: Number(days) > 180, excluded: ex, lastDay: last, firstAfter: shiftDate(last, 1) };
+}
