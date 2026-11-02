@@ -1,0 +1,77 @@
+---json
+{
+  "title": "حاسبة الأجر اليومي وأجر الساعة من الراتب الشهري — وخصم أيام الغياب",
+  "h1": "حاسبة الأجر اليومي وأجر الساعة",
+  "description": "حوّل راتبك الشهري إلى أجر يومي وأجر ساعة وأجر أسبوعي وسنوي بطريقة نظام العمل في السعودية والإمارات (الشهر 30 يوماً واليوم 8 ساعات)، واحسب خصم أيام الغياب أو الإجازة بدون راتب.",
+  "short": "الأجر اليومي وأجر الساعة والسنوي، وخصم أيام الغياب",
+  "lead": "أدخل راتبك الشهري، وتظهر قيمة يومك وساعتك، وخصم أي أيام غياب أو إجازة بدون راتب.",
+  "country": "gcc",
+  "category": "salary",
+  "tool": true,
+  "script": "daily-hourly-wage.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["salary-increase", "working-hours-calculator", "ksa-overtime", "uae-overtime"],
+  "faq": [
+    {"q": "كيف أحسب الأجر اليومي من الراتب الشهري؟", "a": "اقسم الراتب الشهري على 30. هذه طريقة الحساب المعتمدة في السعودية والإمارات لأغلب المستحقات، كأجر العمل الإضافي ومكافأة نهاية الخدمة. راتب 6,000 أجره اليومي 200."},
+    {"q": "كيف أحسب أجر الساعة؟", "a": "اقسم الأجر اليومي على ساعات العمل اليومية (8 ساعات): راتب 6,000 ÷ 30 ÷ 8 = 25 للساعة. وفي العمل الإضافي يُضاف إليه 50% من أجر الساعة الأساسي في السعودية، و25% في الإمارات."},
+    {"q": "كم يُخصم من راتبي عن يوم غياب؟", "a": "لا يستحق العامل أجراً عن أيام غيابه دون عذر، فيُخصم أجر يوم (الراتب ÷ 30) عن كل يوم، وقد تترتب على الغياب جزاءات أخرى وفق لائحة تنظيم العمل في المنشأة."},
+    {"q": "هل يدخل البدل في الأجر اليومي؟", "a": "يتوقف على الحق المحسوب: مكافأة نهاية الخدمة في الإمارات تُحسب على الأجر الأساسي، وفي السعودية على الأجر الفعلي (الأساسي والبدلات الثابتة). لذلك تعرض الحاسبة الأجر الذي تدخله أنت."}
+  ],
+  "sources": [
+    {"t": "وزارة الموارد البشرية السعودية — احتساب أجر العمل الإضافي", "u": "https://www.hrsd.gov.sa/fr/node/5557745"},
+    {"t": "Gulf News — ساعات العمل والأجر الإضافي في الإمارات", "u": "https://gulfnews.com/living-in-uae/ask-us/5-things-to-know-about-working-hours-overtime-in-the-uae-1.1674568533187"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب أجرك اليومي</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="salary">الراتب الشهري</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">الأساسي أو الإجمالي، حسب ما تريد حسابه.</span>
+      </div>
+      <div class="field">
+        <label for="hours">ساعات العمل اليومية</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="1" max="24" step="0.5" value="8">
+      </div>
+      <div class="field">
+        <label for="absent">أيام غياب أو إجازة بدون راتب (اختياري)</label>
+        <input type="number" id="absent" name="absent" inputmode="decimal" min="0" max="31" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="basis">طريقة القسمة</label>
+        <select id="basis" name="basis">
+          <option value="30" selected>الشهر 30 يوماً (المعتمد نظاماً)</option>
+          <option value="26">26 يوم عمل (بعض العقود)</option>
+          <option value="22">22 يوم عمل (عطلة يومين)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>طريقة الحساب</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المطلوب</th><th scope="col">المعادلة</th><th scope="col">راتب 6,000</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الأجر اليومي</th><td>الراتب ÷ 30</td><td>200</td></tr>
+    <tr><th scope="row">أجر الساعة</th><td>الأجر اليومي ÷ 8</td><td>25</td></tr>
+    <tr><th scope="row">الأجر الأسبوعي</th><td>الراتب × 12 ÷ 52</td><td>1,384.62</td></tr>
+    <tr><th scope="row">الأجر السنوي</th><td>الراتب × 12</td><td>72,000</td></tr>
+    <tr><th scope="row">خصم 3 أيام غياب</th><td>الأجر اليومي × 3</td><td>600</td></tr>
+  </tbody>
+</table>
+</div>
+<p>القسمة على 30 هي المعتمدة في نظام العمل السعودي وقانون العمل الإماراتي لحساب أجر اليوم والساعة في العمل الإضافي ومكافأة نهاية الخدمة وبدل الإجازة. وبعض العقود تنص على أيام العمل الفعلية، فاختر الطريقة التي في عقدك.</p>
+<p>لحساب أجر الساعات الإضافية بالنسب النظامية استخدم <a href="{{root}}ksa-overtime/{{ix}}">حاسبة العمل الإضافي في السعودية</a> أو <a href="{{root}}uae-overtime/{{ix}}">حاسبة العمل الإضافي في الإمارات</a>، ولساعات دوامك <a href="{{root}}working-hours-calculator/{{ix}}">حاسبة ساعات العمل</a>.</p>
+</div>
