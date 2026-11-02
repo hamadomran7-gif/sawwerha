@@ -530,6 +530,9 @@ async function build({ check = false, preview = false } = {}) {
       bodyClass: isHome ? "home" : `page page-${meta.slug}`,
       pageScript: meta.script ? `<script type="module" src="${root}assets/pages/${meta.script}"></script>` : "",
       noindex: meta.noindex ? '<meta name="robots" content="noindex">' : "",
+      ogImage: fs.existsSync(path.join(SRC, "assets", "og", `${meta.slug}.jpg`))
+        ? `<meta property="og:image" content="${site.domain}/assets/og/${meta.slug}.jpg">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta property="og:image:alt" content="${esc(meta.h1 || meta.title)}">\n<meta name="twitter:card" content="summary_large_image">`
+        : "",
       adsense: site.adsense
         ? `<meta name="google-adsense-account" content="${site.adsense}">\n<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${site.adsense}" crossorigin="anonymous"></script>`
         : "",
