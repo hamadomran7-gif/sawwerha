@@ -1,0 +1,83 @@
+---json
+{
+  "title": "مقارنة الإجازة السنوية والمرضية في دول الخليج 2026 — كم تقبض إذا مرضت؟",
+  "h1": "مقارنة الإجازات في دول الخليج الست",
+  "description": "قارن الإجازة السنوية والإجازة المرضية وأجرها في الإمارات والسعودية وقطر والكويت وعُمان والبحرين، واحسب كم تقبض عن أيام المرض نفسها في كل دولة وفق قانون عملها.",
+  "short": "الإجازة السنوية والمرضية وأجرها في الدول الست جنباً إلى جنب",
+  "lead": "أدخل أجرك الشهري وعدد أيام المرض، وتظهر لك المقارنة بين الدول الست، ثم جداول الإجازة السنوية والمرضية.",
+  "country": "gcc",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-leave-comparison.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["gcc-end-of-service-comparison", "uae-sick-leave", "ksa-sick-leave", "qatar-leave", "kuwait-leave", "oman-leave"],
+  "faq": [
+    {"q": "أي دولة خليجية تعطي أطول إجازة سنوية؟", "a": "الإمارات والكويت وعُمان والبحرين 30 يوماً في السنة (والكويت 30 يوم عمل لا تُحسب منها الراحة الأسبوعية والعطل). والسعودية 21 يوماً ترتفع إلى 30 بعد 5 سنوات، وقطر 21 يوماً ترتفع إلى 28 بعد 5 سنوات."},
+    {"q": "أي دولة تعطي أطول إجازة مرضية مدفوعة؟", "a": "عُمان الأطول: حتى 182 يوماً في السنة بأجر متدرج من الكامل إلى 35%. تليها السعودية بـ90 يوماً مدفوعة (30 كاملة و60 بثلاثة أرباع الأجر)، ثم الكويت والإمارات."},
+    {"q": "هل يُدفع أجر الإجازة المرضية خلال فترة التجربة؟", "a": "في الإمارات لا أجر عن المرض خلال التجربة. وفي قطر والبحرين يُشترط إكمال 3 أشهر خدمة. والقواعد التفصيلية في صفحة كل دولة."},
+    {"q": "على أي أجر تُحسب الإجازة المرضية؟", "a": "يختلف بين الدول: قطر على الأجر الأساسي، والكويت وعُمان والبحرين على الأجر الشامل، والسعودية على الأجر الفعلي (الأساسي والبدلات الثابتة)، والإمارات على الأجر الشامل بمقتضى نص القانون مع خلاف في التطبيق. تستخدم المقارنة أجراً واحداً للتبسيط، فراجع حاسبة دولتك للرقم الدقيق."}
+  ],
+  "sources": [
+    {"t": "الإمارات — المرسوم بقانون اتحادي 33/2021 (المادتان 29 و31)", "u": "https://mohre.gov.ae"},
+    {"t": "السعودية — نظام العمل (المادتان 109 و117)", "u": "https://www.hrsd.gov.sa/ar/knowledge-centre/decisions-and-regulations/regulation/406"},
+    {"t": "عُمان — قانون العمل م.س 53/2023 (المواد 78–82)", "u": "https://qanoon.om/p/2023/rd2023053/"},
+    {"t": "البحرين — قانون العمل 36/2012 (الترجمة الرسمية)", "u": "https://lmra.gov.bh/files/cms/shared/file/labour%20law.pdf"},
+    {"t": "الكويت — القانون 6/2010 (المادتان 69 و70)", "u": "https://www.alkarama.org/sites/default/files/2017-06/Law%20Of%20Labor_AR.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم تقبض عن أيام المرض في كل دولة؟</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الأجر الشهري</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000" required>
+        <span class="hint">بعملة البلد؛ للمقارنة نفترض الأجر نفسه في كل دولة.</span>
+      </div>
+      <div class="field">
+        <label for="days">أيام الإجازة المرضية في السنة</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="365" step="1" value="40" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">قارن</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الإجازة السنوية في دول الخليج</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدولة</th><th scope="col">المدة</th><th scope="col">بداية الاستحقاق</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}uae-annual-leave/{{ix}}">الإمارات</a></th><td>30 يوماً</td><td>يومان عن كل شهر بين 6 أشهر وسنة</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-annual-leave/{{ix}}">السعودية</a></th><td>21 يوماً، و30 بعد 5 سنوات</td><td>بالنسبة لجزء السنة</td></tr>
+    <tr><th scope="row"><a href="{{root}}qatar-leave/{{ix}}">قطر</a></th><td>21 يوماً، و28 بعد 5 سنوات</td><td>بعد سنة خدمة</td></tr>
+    <tr><th scope="row"><a href="{{root}}kuwait-leave/{{ix}}">الكويت</a></th><td>30 يوم عمل</td><td>بعد 6 أشهر</td></tr>
+    <tr><th scope="row"><a href="{{root}}oman-leave/{{ix}}">عُمان</a></th><td>30 يوماً</td><td>بعد 6 أشهر</td></tr>
+    <tr><th scope="row"><a href="{{root}}bahrain-leave/{{ix}}">البحرين</a></th><td>30 يوماً (2.5 يوم عن كل شهر)</td><td>من أول شهر</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>الإجازة المرضية في دول الخليج</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدولة</th><th scope="col">الشرائح في السنة</th><th scope="col">الحد الأقصى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}uae-sick-leave/{{ix}}">الإمارات</a></th><td>15 يوماً كاملة، 30 بنصف الأجر، 45 بلا أجر (بعد التجربة)</td><td>90 يوماً</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-sick-leave/{{ix}}">السعودية</a></th><td>30 كاملة، 60 بثلاثة أرباع الأجر، 30 بلا أجر</td><td>120 يوماً</td></tr>
+    <tr><th scope="row"><a href="{{root}}qatar-leave/{{ix}}">قطر</a></th><td>14 كاملة، 28 بالنصف، 42 بلا أجر (بعد 3 أشهر)</td><td>84 يوماً</td></tr>
+    <tr><th scope="row"><a href="{{root}}kuwait-leave/{{ix}}">الكويت</a></th><td>15 كاملة، 10 بثلاثة أرباع، 10 بالنصف، 10 بالربع، 30 بلا أجر</td><td>75 يوماً</td></tr>
+    <tr><th scope="row"><a href="{{root}}oman-leave/{{ix}}">عُمان</a></th><td>21 كاملة، 14 بثلاثة أرباع، 35 بالنصف، 112 بنسبة 35%</td><td>182 يوماً</td></tr>
+    <tr><th scope="row"><a href="{{root}}bahrain-leave/{{ix}}">البحرين</a></th><td>15 كاملة، 20 بالنصف، 20 بلا أجر (بعد 3 أشهر)</td><td>55 يوماً</td></tr>
+  </tbody>
+</table>
+</div>
+<p>المقارنة تبسيطية بأجر واحد. أساس الأجر وشروط الاستحقاق تختلف بين الدول، فاحسب حالتك الدقيقة في صفحة دولتك. ولمقارنة مكافأة نهاية الخدمة راجع <a href="{{root}}gcc-end-of-service-comparison/{{ix}}">مقارنة نهاية الخدمة في الخليج</a>.</p>
+</div>
