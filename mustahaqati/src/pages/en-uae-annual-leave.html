@@ -1,0 +1,70 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-annual-leave-calculator",
+  "alternate": "uae-annual-leave",
+  "title": "UAE Annual Leave Calculator 2026 — Leave Balance and Leave Salary Encashment",
+  "h1": "UAE Annual Leave and Leave Salary Calculator",
+  "description": "Calculate your annual leave balance in the UAE private sector under Article 29 of Federal Decree-Law 33 of 2021: 30 days per year, 2 days per month between six months and a year, and the cash value of unused leave on your basic salary when you leave.",
+  "short": "30 days a year, 2 days a month after six months, and the cash value of unused leave",
+  "lead": "Enter your basic salary, start date and leave days already taken to see your remaining balance and its cash value.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-uae-annual-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-final-settlement", "en-uae-gratuity", "en-uae-maid-gratuity"],
+  "faq": [
+    {"q": "How many days of annual leave do I get in the UAE?", "a": "30 calendar days for each year of service under Article 29 of Federal Decree-Law No. 33 of 2021. Between six months and one year of service, you get 2 days for each month."},
+    {"q": "How is unused leave paid when I leave?", "a": "When your service ends, you are paid for the leave days you have not taken. The daily rate is your basic salary divided by 30."},
+    {"q": "Is annual leave salary calculated on basic or gross salary?", "a": "Cash for unused leave at the end of service is calculated on basic salary. While you are on leave, you receive your full wage."},
+    {"q": "Can my employer refuse to let me carry forward leave?", "a": "The employer may set the dates of leave according to work needs. Carrying leave forward is allowed with the employer's agreement, and unused days are paid in cash when the service ends."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 — MOHRE (Article 29)", "u": "https://mohre.gov.ae"},
+    {"t": "Government of Dubai — leaves for private-sector employees", "u": "https://www.dubai.ae/living/jobs-employment/leaves"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave balance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="7000" required>
+      </div>
+      <div class="field">
+        <label for="used">Leave days taken since you started</label>
+        <input type="number" id="used" name="used" inputmode="decimal" min="0" step="1" value="40">
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2024-02-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Calculation date (or last working day)</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate balance</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>UAE annual leave rules</h2>
+<ul>
+  <li><strong>Entitlement:</strong> 30 days for each year of service, pro rata for part years.</li>
+  <li><strong>First year:</strong> nothing before six months; 2 days for each month between six months and a year.</li>
+  <li><strong>Cash in lieu:</strong> at the end of service, unused days are paid at basic salary ÷ 30.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> basic salary AED 7,000, started 1 February 2024, 40 days taken by 30 November 2026. Accrued 85 days; remaining 45 days, worth <strong>AED 10,500</strong> if paid out.</p>
+</div>
+<p>Combine it with your gratuity and notice pay in the <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-annual-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
