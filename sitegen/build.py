@@ -141,7 +141,7 @@ def render(meta, body):
 
 <footer class="wrap">
   <nav class="links" aria-label="{ui['services']}">{services}</nav>
-  <nav class="links" aria-label="policies" style="margin-top:8px"><a href="/terms.html">{ui['terms']}</a><a href="/privacy.html">{ui['privacy']}</a><a href="mailto:support@sawwerha.app">support@sawwerha.app</a></nav>
+  <nav class="links" aria-label="policies" style="margin-top:8px"><a href="/terms">{ui['terms']}</a><a href="/privacy">{ui['privacy']}</a><a href="mailto:support@sawwerha.app">support@sawwerha.app</a></nav>
   <p style="margin-top:10px">{esc(ui['legal'])}</p>
   <p class="src">{'Last updated' if lang == 'en' else 'آخر تحديث'}: <time datetime="{UPDATED}">{UPDATED}</time></p>
 </footer>
@@ -161,7 +161,7 @@ def main():
         out.write_text(render(meta, body), encoding="utf-8")
         urls.append((f"{DOMAIN}/{meta['slug']}/", "0.8"))
         print("wrote", out.relative_to(ROOT))
-    urls += [(DOMAIN + "/terms.html", "0.3"), (DOMAIN + "/privacy.html", "0.3")]
+    urls += [(DOMAIN + "/terms", "0.3"), (DOMAIN + "/privacy", "0.3")]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sm += "".join(f"  <url><loc>{u}</loc><lastmod>{UPDATED}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
     sm += "</urlset>\n"
