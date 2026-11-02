@@ -463,7 +463,7 @@ export function ageCalc({ birth, asOf = new Date() }) {
 /** التاريخ الهجري (أم القرى) عبر Intl؛ يُعيد null إذا لم يدعمه المحرك. */
 export function hijriParts(date) {
   try {
-    const fmt = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura-nu-latn", { day: "numeric", month: "numeric", year: "numeric" });
+    const fmt = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura-nu-latn", { day: "numeric", month: "numeric", year: "numeric", timeZone: "UTC" });
     const parts = Object.fromEntries(fmt.formatToParts(toUTC(date)).filter((p) => p.type !== "literal").map((p) => [p.type, p.value]));
     const y = parseInt(String(parts.year).replace(/\D/g, ""), 10);
     const m = parseInt(parts.month, 10);
@@ -795,4 +795,52 @@ export function shiftDate(iso, days) {
 /** يزيح تاريخ ISO بعدد من الأشهر (مع ضبط نهاية الشهر) ويعيده ISO. */
 export function shiftMonths(iso, months) {
   return isoOf(addMonthsUTC(iso, months));
+}
+
+/* ------------------------------------------------------------------ */
+/* التحويل بين التقويمين والفرق بين تاريخين                            */
+/* ------------------------------------------------------------------ */
+
+/** هجري (أم القرى) → ميلادي ISO. يعيد null إذا كان اليوم غير موجود في ذلك الشهر أو خارج نطاق التقويم. */
+export function hijriToGregorian({ year, month, day }) {
+  const y = Number(year), m = Number(month), d = Number(day);
+  if (!(y >= 1300 && y <= 1600 && m >= 1 && m <= 12 && d >= 1 && d <= 30)) return null;
+  const epoch = Date.UTC(622, 6, 19); // 1 محرم 1هـ ≈ 19 يوليو 622م (ميلادي ممتد)
+  const guess = epoch + Math.round((y - 1) * 354.36667 + (m - 1) * 29.530589 + (d - 1)) * 86400000;
+  for (let off = 0; off <= 45; off++) {
+    for (const s of off ? [off, -off] : [0]) {
+      const t = new Date(guess + s * 86400000);
+      const h = hijriParts(t);
+      if (h && h.year === y && h.month === m && h.day === d) return isoOf(t);
+    }
+  }
+  return null;
+}
+
+/** عدد أيام الشهر الهجري (29 أو 30) وفق أم القرى. */
+export function hijriMonthLength(year, month) {
+  return hijriToGregorian({ year, month, day: 30 }) ? 30 : hijriToGregorian({ year, month, day: 29 }) ? 29 : null;
+}
+
+export const WEEKDAYS_AR = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+export const WEEKENDS = { "fri-sat": [5, 6], "sat-sun": [6, 0], fri: [5], none: [] };
+
+/** الفرق بين تاريخين: أيام كلية، وسنوات/أشهر/أيام، وأيام العمل بعد استبعاد عطلة نهاية الأسبوع. */
+export function dateDiff({ start, end, inclusive = false, weekend = "fri-sat" }) {
+  const s = toUTC(start), e = toUTC(end);
+  if (isNaN(s) || isNaN(e)) return null;
+  const sign = e < s ? -1 : 1;
+  const a = sign > 0 ? s : e, b = sign > 0 ? e : s;
+  const bEff = inclusive ? new Date(b.getTime() + 86400000) : b;
+  const total = Math.round((bEff - a) / 86400000);
+  const ymd = ageCalc({ birth: a, asOf: bEff }) || { years: 0, months: 0, days: 0 };
+  const off = WEEKENDS[weekend] || [];
+  let work = 0;
+  const full = Math.floor(total / 7);
+  work += full * (7 - off.length);
+  for (let i = full * 7; i < total; i++) {
+    const wd = new Date(a.getTime() + i * 86400000).getUTCDay();
+    if (!off.includes(wd)) work++;
+  }
+  return { sign, total, weeks: Math.floor(total / 7), restDays: total % 7, years: ymd.years, months: ymd.months, days: ymd.days, workDays: work, startWeekday: WEEKDAYS_AR[s.getUTCDay()], endWeekday: WEEKDAYS_AR[e.getUTCDay()] };
 }

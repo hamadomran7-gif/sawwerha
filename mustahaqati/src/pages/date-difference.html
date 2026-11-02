@@ -1,0 +1,75 @@
+---json
+{
+  "title": "حاسبة الفرق بين تاريخين — عدد الأيام وأيام العمل بين تاريخين",
+  "h1": "حاسبة الفرق بين تاريخين وأيام العمل",
+  "description": "احسب عدد الأيام بين تاريخين، وبالأسابيع والأشهر والسنوات، وعدد أيام العمل بعد استبعاد عطلة نهاية الأسبوع (الجمعة والسبت أو السبت والأحد)، مع التاريخين بالهجري. مفيدة لحساب مهلة الإشعار والإجازات ومدة الخدمة.",
+  "short": "الأيام والأسابيع والأشهر بين تاريخين، وأيام العمل دون عطلة الأسبوع",
+  "lead": "أدخل تاريخ البداية والنهاية واختر عطلة نهاية الأسبوع، وتظهر المدة وأيام العمل.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "date-difference.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": ["hijri-gregorian-converter", "age-hijri", "uae-notice-pay", "ksa-notice-period"],
+  "faq": [
+    {"q": "هل يُحتسب يوم النهاية؟", "a": "افتراضياً لا: من 1 إلى 2 من الشهر يوم واحد. فعّل خيار «احتساب يوم النهاية» إذا كنت تعدّ أيام إجازة أو مهلة تشمل اليومين الأول والأخير."},
+    {"q": "ما عطلة نهاية الأسبوع في دول الخليج؟", "a": "في السعودية وقطر والكويت والبحرين وعُمان الجمعة والسبت. وفي الإمارات تعمل الجهات الحكومية الاتحادية من الاثنين إلى الجمعة مع نصف يوم الجمعة منذ 2022، وتختلف عطلة القطاع الخاص بحسب صاحب العمل، فاختر ما يناسب عقدك."},
+    {"q": "هل تُستبعد العطل الرسمية من أيام العمل؟", "a": "لا. تستبعد الحاسبة عطلة نهاية الأسبوع فقط. اطرح أيام العطل الرسمية الواقعة في المدة يدوياً."},
+    {"q": "كيف أحسب مهلة الإشعار بها؟", "a": "ضع تاريخ تسليم الإشعار بداية، وتاريخ آخر يوم عمل نهاية، وفعّل احتساب يوم النهاية. ثم قارن النتيجة بالمهلة في عقدك أو في النظام."}
+  ],
+  "sources": [
+    {"t": "The National — كل ما نعرفه عن تغيير عطلة نهاية الأسبوع في الإمارات (ديسمبر 2021)", "u": "https://www.thenationalnews.com/uae/government/2021/12/08/everything-we-know-about-the-uaes-weekend-change-from-schools-to-private-sector"},
+    {"t": "Squire Patton Boggs — تغيير أسبوع العمل في الإمارات من 1 يناير 2022 (القطاع الخاص حر في الاختيار)", "u": "https://squirepattonboggs.com/en/insights/publications/2021/12/uae-working-week-changes-from-1-january-2022"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب المدة بين تاريخين</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="start">تاريخ البداية</label>
+        <input type="date" id="start" name="start" value="2026-11-01" required>
+      </div>
+      <div class="field">
+        <label for="end">تاريخ النهاية</label>
+        <input type="date" id="end" name="end" value="2026-12-31" required>
+      </div>
+      <div class="field">
+        <label for="weekend">عطلة نهاية الأسبوع</label>
+        <select id="weekend" name="weekend">
+          <option value="fri-sat">الجمعة والسبت (السعودية وأغلب الخليج)</option>
+          <option value="sat-sun">السبت والأحد</option>
+          <option value="fri">الجمعة فقط</option>
+          <option value="none">بلا عطلة</option>
+        </select>
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="inclusive" name="inclusive">
+        <label for="inclusive">احتساب يوم النهاية</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>متى تحتاج هذه الحاسبة؟</h2>
+<ul>
+  <li><strong>مهلة الإشعار:</strong> هل مرّت 30 أو 60 يوماً من تاريخ تسليم الإشعار؟</li>
+  <li><strong>الإجازات:</strong> كم يوم عمل تستهلك إجازة من تاريخ إلى تاريخ؟</li>
+  <li><strong>فترة التجربة:</strong> متى تنتهي الأشهر الستة أو التسعون يوماً؟</li>
+  <li><strong>الإقامات والعقود:</strong> كم بقي على تاريخ الانتهاء؟</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> من الأحد 1 نوفمبر إلى الثلاثاء 1 ديسمبر 2026 = 30 يوماً، أي شهر واحد. وأيام العمل فيها مع عطلة الجمعة والسبت = 22 يوماً.</p>
+</div>
+
+<p>لمدة الخدمة التي تُحسب عليها المكافأة استخدم حاسبة دولتك، مثل <a href="{{root}}uae-gratuity/{{ix}}">مكافأة نهاية الخدمة في الإمارات</a> أو <a href="{{root}}ksa-end-of-service/{{ix}}">في السعودية</a>، لأنها تطبق قواعد احتساب كسور السنة.</p>
+</div>

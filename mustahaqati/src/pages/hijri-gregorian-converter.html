@@ -1,0 +1,94 @@
+---json
+{
+  "title": "تحويل التاريخ من هجري إلى ميلادي والعكس — بتقويم أم القرى",
+  "h1": "تحويل التاريخ من هجري إلى ميلادي والعكس",
+  "description": "حوّل أي تاريخ من الهجري إلى الميلادي أو من الميلادي إلى الهجري بتقويم أم القرى المعتمد في السعودية، مع اسم اليوم وعدد أيام الشهر الهجري، للسنوات من 1300 إلى 1600 هـ.",
+  "short": "هجري ← ميلادي وميلادي ← هجري، مع اليوم وعدد أيام الشهر",
+  "lead": "اختر اتجاه التحويل وأدخل التاريخ، وتظهر النتيجة فوراً مع اسم اليوم.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "hijri-gregorian-converter.js",
+  "published": "2026-11-02",
+  "updated": "2026-11-02",
+  "related": ["date-difference", "age-hijri", "ksa-maternity-leave", "ksa-end-of-service"],
+  "faq": [
+    {"q": "ما تقويم أم القرى؟", "a": "تقويم هجري حسابي تعتمده المملكة العربية السعودية في المعاملات الرسمية، ويحدد بدايات الأشهر مسبقاً وفق حسابات فلكية. وتستخدمه هذه الأداة في التحويل بالاتجاهين."},
+    {"q": "لماذا يختلف التاريخ أحياناً يوماً واحداً عن الإعلان الرسمي؟", "a": "لأن بداية رمضان وشوال وذي الحجة تُعلن بالرؤية الشرعية، وقد تخالف تقويم أم القرى بيوم. للمواعيد الدينية اعتمد الإعلان الرسمي، وللمعاملات والعقود اعتمد التقويم."},
+    {"q": "كم يوماً في الشهر الهجري؟", "a": "29 أو 30 يوماً. تعرض الأداة عدد أيام الشهر الذي أدخلته وفق أم القرى، وتنبهك إذا أدخلت اليوم 30 في شهر من 29 يوماً."},
+    {"q": "كم سنة ميلادية تعادل السنة الهجرية؟", "a": "السنة الهجرية نحو 354 أو 355 يوماً، أي أقصر من الميلادية بنحو 11 يوماً، فكل 33 سنة ميلادية تقارب 34 سنة هجرية."},
+    {"q": "هل تصلح الأداة لتواريخ العقود والإقامات؟", "a": "نعم للتحويل بين التقويمين. وإذا كان المستند الرسمي يذكر التاريخين معاً فالتاريخ المدوّن فيه هو المعتمد."}
+  ],
+  "sources": [
+    {"t": "تقويم أم القرى — جامعة أم القرى", "u": "https://www.ummulqura.org.sa"},
+    {"t": "Unicode CLDR — تقويم islamic-umalqura المستخدم في المتصفحات", "u": "https://cldr.unicode.org/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">حوّل التاريخ</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">اتجاه التحويل</label>
+        <select id="mode" name="mode">
+          <option value="g2h">من ميلادي إلى هجري</option>
+          <option value="h2g">من هجري إلى ميلادي</option>
+        </select>
+      </div>
+      <div class="field" data-g>
+        <label for="g">التاريخ الميلادي</label>
+        <input type="date" id="g" name="g" value="2026-11-02">
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hd">اليوم الهجري</label>
+        <input type="number" id="hd" name="hd" inputmode="decimal" min="1" max="30" step="1" value="1">
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hm">الشهر الهجري</label>
+        <select id="hm" name="hm" inputmode="decimal">
+          <option value="1">محرم (1)</option>
+          <option value="2">صفر (2)</option>
+          <option value="3">ربيع الأول (3)</option>
+          <option value="4">ربيع الآخر (4)</option>
+          <option value="5">جمادى الأولى (5)</option>
+          <option value="6">جمادى الآخرة (6)</option>
+          <option value="7">رجب (7)</option>
+          <option value="8">شعبان (8)</option>
+          <option value="9" selected>رمضان (9)</option>
+          <option value="10">شوال (10)</option>
+          <option value="11">ذو القعدة (11)</option>
+          <option value="12">ذو الحجة (12)</option>
+        </select>
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hy">السنة الهجرية</label>
+        <input type="number" id="hy" name="hy" inputmode="decimal" min="1300" max="1600" step="1" value="1448">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">حوّل</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف يعمل التحويل؟</h2>
+<p>تعتمد الأداة على تقويم <strong>أم القرى</strong> المدمج في المتصفحات الحديثة، وهو التقويم الذي تعتمده السعودية في المعاملات الرسمية. لا يُرسل أي تاريخ إلى خادم؛ يجري الحساب كله على جهازك.</p>
+<ul>
+  <li><strong>من ميلادي إلى هجري:</strong> تحويل مباشر لليوم المطلوب.</li>
+  <li><strong>من هجري إلى ميلادي:</strong> تبحث الأداة عن اليوم الميلادي المقابل، وتنبهك إذا كان الشهر الهجري 29 يوماً فقط.</li>
+</ul>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+1 رمضان 1447 هـ = الأربعاء 18 فبراير 2026 بتقويم أم القرى.<br>
+1 محرم 1446 هـ = الأحد 7 يوليو 2024.<br>
+2 نوفمبر 2026 = 22 جمادى الأولى 1448 هـ.</p>
+</div>
+
+<h2>لماذا يهمّ التحويل في حقوق العمل؟</h2>
+<p>بعض العقود والقرارات في السعودية مؤرخة بالهجري، بينما تُحسب المكافأة والإجازات بالأيام. حوّل التاريخ هنا، ثم احسب المدة في <a href="{{root}}date-difference/{{ix}}">حاسبة الفرق بين تاريخين</a> أو مكافأتك في <a href="{{root}}ksa-end-of-service/{{ix}}">حاسبة نهاية الخدمة</a>.</p>
+</div>

@@ -347,3 +347,26 @@ test("السعودية: خطة إجازة الوضع 12 أسبوعاً", () => {
   assert.equal(e.tooEarly, true);
   assert.equal(e.start, "2026-05-04");
 });
+
+import { hijriToGregorian, hijriMonthLength, dateDiff } from "../src/assets/calc.js";
+
+test("التحويل الهجري ↔ الميلادي (أم القرى)", () => {
+  assert.equal(hijriToGregorian({ year: 1447, month: 9, day: 1 }), "2026-02-18");
+  assert.equal(hijriToGregorian({ year: 1446, month: 1, day: 1 }), "2024-07-07");
+  const h = hijriParts(new Date(Date.UTC(2026, 10, 2)));
+  assert.deepEqual(h, { year: 1448, month: 5, day: 22 });
+  assert.equal(hijriToGregorian({ year: h.year, month: h.month, day: h.day }), "2026-11-02");
+  assert.ok([29, 30].includes(hijriMonthLength(1447, 9)));
+  assert.equal(hijriToGregorian({ year: 1447, month: 13, day: 1 }), null);
+});
+
+test("الفرق بين تاريخين وأيام العمل", () => {
+  const d = dateDiff({ start: "2026-11-01", end: "2026-12-01", weekend: "fri-sat" });
+  assert.equal(d.total, 30);
+  assert.equal(d.months, 1);
+  assert.equal(d.workDays, 22);
+  const inc = dateDiff({ start: "2026-11-01", end: "2026-11-30", inclusive: true, weekend: "sat-sun" });
+  assert.equal(inc.total, 30);
+  assert.equal(inc.workDays, 21);
+  assert.equal(dateDiff({ start: "2026-12-01", end: "2026-11-01" }).sign, -1);
+});

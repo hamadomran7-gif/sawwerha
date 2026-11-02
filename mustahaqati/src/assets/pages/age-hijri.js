@@ -1,5 +1,5 @@
 import { ageCalc, hijriParts, hijriAgeFromDays, HIJRI_MONTHS } from "../calc.js";
-import { bind, num, table, big, note, duration } from "../app.js";
+import { bind, table, big, note, duration, daysAr, weeksAr, monthsAr } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -22,10 +22,10 @@ bind(form, result, (v) => {
     [
       ["تاريخ ميلادك بالهجري (أم القرى)", hijriText(hb)],
       ["تاريخ الحساب بالهجري", hijriText(ht)],
-      ["عدد الأيام التي عشتها", `${num(a.totalDays, 0)} يوماً`],
-      ["بالأشهر الميلادية", `${num(a.years * 12 + a.months, 0)} شهراً`],
-      ["بالأسابيع", `${num(Math.floor(a.totalDays / 7), 0)} أسبوعاً`],
-      ["بقي على عيد ميلادك القادم", `${num(a.daysToBirthday, 0)} يوماً`],
+      ["عدد الأيام التي عشتها", daysAr(a.totalDays)],
+      ["بالأشهر الميلادية", monthsAr(a.years * 12 + a.months)],
+      ["بالأسابيع", weeksAr(Math.floor(a.totalDays / 7))],
+      ["بقي على عيد ميلادك القادم", daysAr(a.daysToBirthday)],
     ],
     "تفاصيل"
   );

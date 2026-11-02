@@ -30,6 +30,8 @@ function countAr(n, one, two, few, many, single) {
 }
 export const daysAr = (n) => countAr(n, "يوم واحد", "يومان", "أيام", "يوماً", "يوم");
 export const hoursAr = (n) => countAr(n, "ساعة واحدة", "ساعتان", "ساعات", "ساعة", "ساعة");
+export const weeksAr = (n) => countAr(n, "أسبوع واحد", "أسبوعان", "أسابيع", "أسبوعاً", "أسبوع");
+export const monthsAr = (n) => countAr(n, "شهر واحد", "شهران", "أشهر", "شهراً", "شهر");
 export function pct(n, digits = 2) {
   return `${num(n, digits)}%`;
 }
@@ -135,9 +137,9 @@ export function dateInputToday(el, offsetDays = 0) {
 export function duration(d) {
   if (!d) return "—";
   const parts = [];
-  if (d.years) parts.push(`${d.years} ${d.years === 1 ? "سنة" : d.years === 2 ? "سنتان" : d.years <= 10 ? "سنوات" : "سنة"}`);
-  if (d.months) parts.push(`${d.months} ${d.months === 1 ? "شهر" : d.months === 2 ? "شهران" : d.months <= 10 ? "أشهر" : "شهراً"}`);
-  if (d.days) parts.push(`${d.days} ${d.days === 1 ? "يوم" : d.days === 2 ? "يومان" : d.days <= 10 ? "أيام" : "يوماً"}`);
+  if (d.years) parts.push(d.years === 1 ? "سنة واحدة" : d.years === 2 ? "سنتان" : `${d.years} ${d.years <= 10 ? "سنوات" : "سنة"}`);
+  if (d.months) parts.push(d.months === 1 ? "شهر واحد" : d.months === 2 ? "شهران" : `${d.months} ${d.months <= 10 ? "أشهر" : "شهراً"}`);
+  if (d.days) parts.push(d.days === 1 ? "يوم واحد" : d.days === 2 ? "يومان" : `${d.days} ${d.days <= 10 ? "أيام" : "يوماً"}`);
   return parts.length ? parts.join(" و") : "أقل من يوم";
 }
 
