@@ -1,5 +1,10 @@
 // أدوات مشتركة لصفحات الحاسبات: قراءة النموذج، التنسيق، الحفظ المحلي، عرض النتائج.
 
+const EN = typeof document !== "undefined" && document.documentElement.lang === "en";
+const UI = EN
+  ? { error: "Could not calculate", incomplete: "Fill in the required fields to see the result.", copied: "Copied", selectCopy: "Select the text and copy it", share: "Share this calculator" }
+  : { error: "تعذّر الحساب", incomplete: "أكمل الحقول المطلوبة لعرض النتيجة.", copied: "تم النسخ", selectCopy: "حدّد النص وانسخه", share: "شارك الحاسبة" };
+
 const nf = new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const nf0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
@@ -94,13 +99,13 @@ export function bind(form, resultEl, compute, { save = true } = {}) {
     try {
       html = compute(values);
     } catch (e) {
-      html = `<p class="warn">تعذّر الحساب: ${String(e.message || e)}</p>`;
+      html = `<p class="warn">${UI.error}: ${String(e.message || e)}</p>`;
     }
     if (html) {
       resultEl.innerHTML = html;
       resultEl.hidden = false;
     } else {
-      resultEl.innerHTML = `<p class="muted">أكمل الحقول المطلوبة لعرض النتيجة.</p>`;
+      resultEl.innerHTML = `<p class="muted">${UI.incomplete}</p>`;
     }
     if (save) persist(form);
   };
@@ -158,14 +163,14 @@ document.addEventListener("click", async (e) => {
   const label = btn.dataset.label || (btn.dataset.label = btn.textContent);
   try {
     await navigator.clipboard.writeText(text);
-    btn.textContent = "تم النسخ";
+    btn.textContent = UI.copied;
   } catch {
     const range = document.createRange();
     range.selectNodeContents(target);
     const sel = getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-    btn.textContent = "حدّد النص وانسخه";
+    btn.textContent = UI.selectCopy;
   }
   setTimeout(() => (btn.textContent = label), 2000);
 });
@@ -183,7 +188,7 @@ document.addEventListener("click", async (e) => {
   a.href = `https://wa.me/?text=${encodeURIComponent(`${title}\n${url}`)}`;
   a.target = "_blank";
   a.rel = "noopener";
-  a.textContent = "شارك الحاسبة";
+  a.textContent = UI.share;
   a.addEventListener("click", async (e) => {
     if (navigator.share && matchMedia("(pointer: coarse)").matches) {
       e.preventDefault();

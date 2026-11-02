@@ -1,0 +1,121 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-dependent-fee-calculator",
+  "alternate": "ksa-dependents-fee",
+  "title": "Saudi Dependent Fee Calculator 2026 — Iqama Renewal for 3, 6, 9 or 12 Months",
+  "h1": "Saudi Dependent Fee and Iqama Renewal Calculator",
+  "description": "Calculate the Saudi dependent fee (SAR 400 per dependent per month) for renewing your family's iqama for 3, 6, 9 or 12 months, plus what the employer pays for the worker: the expat levy of SAR 800 or 700 a month, the work permit and the iqama fee, and late-renewal fines.",
+  "short": "SAR 400 per dependent per month, plus the employer's levy and iqama fees",
+  "lead": "Enter the number of dependents and the renewal period to see your family's fees, and what your employer pays for your own iqama and work permit.",
+  "country": "sa",
+  "category": "fees",
+  "tool": true,
+  "script": "en-ksa-dependents-fee.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-exit-reentry", "en-ksa-end-of-service", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How much is the dependent fee in Saudi Arabia in 2026?", "a": "SAR 400 per dependent per month, or SAR 4,800 a year, the rate in force since 1 July 2020. It is paid in advance for the same period as the head of family's iqama renewal: SAR 1,200 per person for 3 months, 2,400 for 6, 3,600 for 9 and 4,800 for 12."},
+    {"q": "Has the dependent fee changed?", "a": "No decision changing the SAR 400 rate had been issued by November 2026. The Ministry of Finance said in 2024 that the fee was under review, but no change has been announced."},
+    {"q": "Does the employer pay the dependent fee?", "a": "The law does not require it. Article 40 of the Labor Law makes the employer pay the worker's own iqama and work permit fees, their renewal and late fines, but it does not cover the family. The dependent fee is paid by the head of family unless the contract says otherwise."},
+    {"q": "Is the dependent fee refunded on final exit?", "a": "No. It is paid in advance and is not refundable, and the fee must be paid up to the date of the final exit request."},
+    {"q": "What is the fine for late iqama renewal?", "a": "If the iqama is not renewed within 3 days of expiry: SAR 500 the first time, SAR 1,000 the second time, and deportation the third time. The fine for the worker's own iqama is paid by the employer under Article 40."},
+    {"q": "Can I renew the iqama for only 3 months?", "a": "Yes. Since November 2021 a private-sector worker's iqama and work permit can be renewed for 3, 6, 9 or 12 months, and the dependent fee is paid for the same period."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — Cabinet Decision 325 on quarterly iqama issue and renewal (Arabic)", "u": "https://www.uqn.gov.sa/details?p=17244"},
+    {"t": "Ministry of Human Resources — Article 40 of the Labor Law (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/64434"},
+    {"t": "Saudi Gazette — expat levy and work permit fees by period", "u": "https://www.saudigazette.com.sa/article/614537"},
+    {"t": "Saudi Gazette (SPA) — late iqama renewal fines", "u": "https://www.saudigazette.com.sa/article/589179"},
+    {"t": "Gulf News — up to SR1,000 fine for delaying ID renewal (2024)", "u": "https://gulfnews.com/amp/world/gulf/saudi/saudi-arabia-up-to-sr1000-fine-for-delaying-id-renewal-these-are-the-conditions-for-renewal-1.103900733"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your renewal fees</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="dependents">Number of dependents</label>
+        <input type="number" id="dependents" name="dependents" inputmode="decimal" min="0" max="30" step="1" value="3" required>
+        <span class="hint">Wife, children, parents and anyone on your sponsorship. The fee is the same for all.</span>
+      </div>
+      <div class="field">
+        <label for="months">Renewal period</label>
+        <select id="months" name="months">
+          <option value="3">3 months</option>
+          <option value="6">6 months</option>
+          <option value="9">9 months</option>
+          <option value="12" selected>12 months</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="adultIqamas">Dependents with their own iqama</label>
+        <input type="number" id="adultIqamas" name="adultIqamas" inputmode="decimal" min="0" max="30" step="1" value="0">
+        <span class="hint">Iqama fee of SAR 500 a year for a family member above the legal age. Those listed on your iqama don't pay it.</span>
+      </div>
+      <div class="field">
+        <label for="late">Was the renewal more than 3 days late?</label>
+        <select id="late" name="late">
+          <option value="0" selected>No</option>
+          <option value="1">Yes, first time</option>
+          <option value="2">Yes, second time</option>
+          <option value="3">Yes, third time</option>
+        </select>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="includeWorker" name="includeWorker" checked>
+        <label for="includeWorker">Include the worker's own fees (paid by the employer)</label>
+      </div>
+      <div class="field" data-worker>
+        <label for="ratio">Expats vs Saudis in the company</label>
+        <select id="ratio" name="ratio">
+          <option value="high" selected>More expats than Saudis (SAR 800/month)</option>
+          <option value="low">Equal or fewer expats (SAR 700/month)</option>
+          <option value="exempt">Exempt (qualifying small or industrial company)</option>
+        </select>
+      </div>
+      <div class="field" data-worker>
+        <label for="iqamaFee">Worker iqama fee</label>
+        <select id="iqamaFee" name="iqamaFee">
+          <option value="reported" selected>SAR 650 a year (commonly charged)</option>
+          <option value="base">SAR 500 a year (base fee)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Saudi iqama renewal fees by period</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item (SAR)</th><th scope="col">3 months</th><th scope="col">6 months</th><th scope="col">9 months</th><th scope="col">12 months</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Dependent fee (per person)</th><td>1,200</td><td>2,400</td><td>3,600</td><td>4,800</td></tr>
+    <tr><th scope="row">Expat levy (more expats)</th><td>2,400</td><td>4,800</td><td>7,200</td><td>9,600</td></tr>
+    <tr><th scope="row">Expat levy (equal or fewer expats)</th><td>2,100</td><td>4,200</td><td>6,300</td><td>8,400</td></tr>
+    <tr><th scope="row">Work permit</th><td>25</td><td>50</td><td>75</td><td>100</td></tr>
+    <tr><th scope="row">Worker iqama (commonly charged)</th><td>163</td><td>325</td><td>488</td><td>650</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The official iqama fee is SAR 500 a year; SAR 650 (500 plus 150 in other charges) is what is commonly charged, so check the amount shown in Absher or Muqeem. Optional platform service fees are not included.</p>
+
+<h2>Who pays what?</h2>
+<ul>
+  <li><strong>Employer:</strong> the expat levy, the work permit fee, the worker's iqama fee and renewal, and their late fines (Article 40 of the Labor Law). These may not be charged to the worker.</li>
+  <li><strong>Head of family:</strong> the dependent fee, the iqama fee for any family member with their own iqama, and the family's exit and re-entry visas.</li>
+</ul>
+
+<div class="example">
+<p><strong>Example:</strong> wife and 3 children for 12 months: 4 × 400 × 12 = <strong>SAR 19,200</strong> (SAR 4,800 for 3 months). The worker's own renewal for 12 months with more expats than Saudis: 9,600 + 100 + 650 = <strong>SAR 10,350</strong>, paid by the employer.</p>
+</div>
+<p>Travelling? Calculate the <a href="{{root}}en/saudi-exit-reentry-visa-fee-calculator/{{ix}}">exit and re-entry visa fee</a> for each family member. Prefer Arabic? Use the <a href="{{root}}ksa-dependents-fee/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -16,6 +16,7 @@ const FONT_DIR = process.env.FONT_DIR;
 const FORCE = process.argv.includes("--force");
 const VERSION = "v2";
 const COUNTRY = { ae: "الإمارات", sa: "السعودية", qa: "قطر", kw: "الكويت", om: "عُمان", bh: "البحرين", gcc: "الخليج", all: "عام" };
+const COUNTRY_EN = { ae: "UAE", sa: "Saudi Arabia", qa: "Qatar", kw: "Kuwait", om: "Oman", bh: "Bahrain", gcc: "GCC", all: "General" };
 
 if (!FONT_DIR || !fs.existsSync(path.join(FONT_DIR, "ibmplexsansarabic"))) {
   console.error("FONT_DIR يجب أن يشير إلى مجلد ofl من google/fonts (فيه ibmplexsansarabic وnotokufiarabic)");
@@ -36,9 +37,11 @@ function readMeta(file) {
 function html(meta) {
   const title = meta.h1 || meta.title;
   const sub = meta.short || "";
-  const chip = meta.hub ? COUNTRY[meta.hub] : COUNTRY[meta.country] || "";
+  const en = meta.lang === "en";
+  const C = en ? COUNTRY_EN : COUNTRY;
+  const chip = meta.hub ? C[meta.hub] : C[meta.country] || "";
   const size = title.length > 60 ? 54 : title.length > 42 ? 62 : 72;
-  return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><style>
+  return `<!doctype html><html lang="${en ? "en" : "ar"}" dir="${en ? "ltr" : "rtl"}"><head><meta charset="utf-8"><style>
 @font-face{font-family:Plex;font-weight:500;src:url("${font("ibmplexsansarabic/IBMPlexSansArabic-Medium.ttf")}")}
 @font-face{font-family:Plex;font-weight:700;src:url("${font("ibmplexsansarabic/IBMPlexSansArabic-Bold.ttf")}")}
 @font-face{font-family:Kufi;font-weight:100 900;src:url("${font("notokufiarabic/NotoKufiArabic[wght].ttf")}")}
@@ -51,7 +54,7 @@ body{font-family:Plex,sans-serif;color:#fff;background:linear-gradient(135deg,#0
 .c2{width:300px;height:300px;left:140px;top:-150px;background:rgba(255,255,255,.04)}
 .wrap{position:absolute;inset:56px 72px;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;gap:16px}
-.brand{font-family:Kufi;font-weight:800;font-size:44px;letter-spacing:0}
+.brand{font-family:${en ? "Plex,sans-serif" : "Kufi"};font-weight:${en ? 700 : 800};font-size:44px;letter-spacing:0}
 .logo{width:56px;height:56px}
 .chip{margin-inline-start:auto;font-weight:700;font-size:26px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 22px}
 h1{margin-top:auto;font-weight:700;font-size:${size}px;line-height:1.28;max-width:1056px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -59,10 +62,10 @@ h1{margin-top:auto;font-weight:700;font-size:${size}px;line-height:1.28;max-widt
 .foot{margin-top:28px;display:flex;align-items:center;justify-content:space-between;font-size:24px;color:#bfe3d8}
 .dom{direction:ltr;font-weight:700;color:#fff;font-size:26px}
 </style></head><body><div class="bg"><div class="c1"></div><div class="c2"></div></div><div class="wrap">
-<div class="top"><svg class="logo" viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="5" fill="#fff" opacity=".18"/><path d="M9 13h14M9 18h10M9 23h6" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg><span class="brand">مستحقاتي</span>${chip ? `<span class="chip">${esc(chip)}</span>` : ""}</div>
+<div class="top"><svg class="logo" viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="5" fill="#fff" opacity=".18"/><path d="M9 13h14M9 18h10M9 23h6" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg><span class="brand">${en ? "Mustahaqati" : "مستحقاتي"}</span>${chip ? `<span class="chip">${esc(chip)}</span>` : ""}</div>
 <h1>${esc(title)}</h1>
 ${sub ? `<p class="sub">${esc(sub)}</p>` : ""}
-<div class="foot"><span>حاسبة مجانية · كل رقم بمادته القانونية</span><span class="dom">mustahaqati.org</span></div>
+<div class="foot"><span>${en ? "Free calculator · every figure cites the law" : "حاسبة مجانية · كل رقم بمادته القانونية"}</span><span class="dom">mustahaqati.org</span></div>
 </div></body></html>`;
 }
 

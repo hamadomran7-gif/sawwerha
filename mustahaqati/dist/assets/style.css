@@ -45,7 +45,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-html { direction: rtl; }
+html[dir="rtl"] { direction: rtl; }
+html[dir="ltr"] { direction: ltr; }
 body {
   margin: 0; background: var(--bg); color: var(--fg);
   font-family: var(--font-body); font-size: 17px; line-height: 1.75;
@@ -237,3 +238,5 @@ body.embed main.wrap { padding-top: 10px; padding-bottom: 10px; }
 .more > summary::after { content: "+"; color: var(--primary); font-weight: 700; }
 .more[open] > summary::after { content: "–"; }
 .more[open] { padding-bottom: 14px; }
+
+.lang-switch { font-size: 14px; font-weight: 500; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; white-space: nowrap; }

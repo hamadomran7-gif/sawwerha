@@ -1,0 +1,102 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-exit-reentry-visa-fee-calculator",
+  "alternate": "ksa-exit-reentry-visa",
+  "title": "Saudi Exit Re-entry Visa Fee Calculator 2026 — Single, Multiple and Extension From Abroad",
+  "h1": "Saudi Exit Re-entry Visa Fee Calculator",
+  "description": "Calculate the Saudi exit and re-entry visa fee: single SAR 200 for up to two months plus SAR 100 for each extra month, multiple SAR 500 for three months plus SAR 200 per extra month, and extensions from outside the Kingdom at double the monthly fee, for each family member.",
+  "short": "Single SAR 200 for 2 months, multiple SAR 500 for 3 months, double to extend from abroad",
+  "lead": "Choose the visa type, its length and the number of travellers, add any extension, and see the fee per person and for the family.",
+  "country": "sa",
+  "category": "fees",
+  "tool": true,
+  "script": "en-ksa-exit-reentry.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-dependents-fee", "en-ksa-end-of-service", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How much is a single exit re-entry visa?", "a": "SAR 200 for one trip of up to two months, plus SAR 100 for each additional month. Part of a month counts as a full month, so 61 days cost SAR 300."},
+    {"q": "How much is a multiple exit re-entry visa?", "a": "SAR 500 for multiple trips within three months, plus SAR 200 for each additional month: six months cost SAR 1,100 and 91 days cost SAR 700."},
+    {"q": "How much does it cost to extend the visa from outside Saudi Arabia?", "a": "The monthly fee is doubled for someone outside the Kingdom: SAR 200 per month for a single visa and SAR 400 for a multiple visa. The visa and iqama must be valid, and the visa cannot be extended if less than 90 days remain on the iqama."},
+    {"q": "Is the fee refunded if I cancel the visa?", "a": "No. The Passports Directorate has said fees for cancelled exit and re-entry visas are not refunded."},
+    {"q": "How much is the final exit visa fee?", "a": "There is no published government fee for a final exit visa, but dependent fees must be paid up to the date of the request, traffic fines must be settled, and the passport must be valid for 60 days. It must be used within 60 days or a SAR 1,000 fine applies."},
+    {"q": "Who pays the exit re-entry fee?", "a": "The worker's own visa fee is paid by the employer under Article 40 of the Labor Law; family members' visas are paid by the head of family. Each person needs their own visa and fee."}
+  ],
+  "sources": [
+    {"t": "Al-Eqtisad — visa fee amendments in force from 1/1/1438H (Arabic)", "u": "https://www.aleqtsad.org/?p=46515"},
+    {"t": "Ajel, citing the Passports Directorate — 61-day and 91-day examples (Arabic)", "u": "https://ajel.sa/local/xtr2nh"},
+    {"t": "Gulf News — no refunds for cancelled exit and re-entry visas (2025)", "u": "https://gulfnews.com/world/gulf/saudi/saudi-arabia-no-refunds-for-canceled-exit-and-re-entry-visas-1.500163506"},
+    {"t": "Gulf News — moving to Saudi Arabia: the exit/re-entry visa", "u": "https://gulfnews.com/living-in-uae/relocate/moving-to-saudi-arabia-all-you-need-to-know-about-the-exitre-entry-visa-1.1673364074549"},
+    {"t": "Ministry of Human Resources — Article 40 of the Labor Law (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/articles/64434"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the visa fee</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="type">Visa type</label>
+        <select id="type" name="type">
+          <option value="single" selected>Single (one trip)</option>
+          <option value="multiple">Multiple (several trips)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="days">Visa length (days)</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="730" step="1" value="60" required>
+        <span class="hint">A month is 30 days; part of a month counts as a full month.</span>
+      </div>
+      <div class="field">
+        <label for="persons">Number of travellers</label>
+        <input type="number" id="persons" name="persons" inputmode="decimal" min="1" max="30" step="1" value="1">
+        <span class="hint">Each family member needs their own visa and fee.</span>
+      </div>
+      <div class="field">
+        <label for="extendMonths">Extension months (if any)</label>
+        <input type="number" id="extendMonths" name="extendMonths" inputmode="decimal" min="0" max="24" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="where">Where you are when extending</label>
+        <select id="where" name="where">
+          <option value="inside" selected>Inside Saudi Arabia</option>
+          <option value="outside">Outside Saudi Arabia (double monthly fee)</option>
+        </select>
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="worker" name="worker" checked>
+        <label for="worker">One traveller is the worker (fee paid by the employer)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Exit and re-entry visa fees by length</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Length</th><th scope="col">Single (SAR)</th><th scope="col">Multiple (SAR)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Up to 2 months (60 days)</th><td>200</td><td>500</td></tr>
+    <tr><th scope="row">3 months (90 days)</th><td>300</td><td>500</td></tr>
+    <tr><th scope="row">4 months</th><td>400</td><td>700</td></tr>
+    <tr><th scope="row">6 months</th><td>600</td><td>1,100</td></tr>
+    <tr><th scope="row">12 months</th><td>1,200</td><td>2,300</td></tr>
+    <tr><th scope="row">Extra month from inside</th><td>100</td><td>200</td></tr>
+    <tr><th scope="row">Extra month from abroad</th><td>200</td><td>400</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Fees are per person. The visa cannot run beyond the iqama's validity, and it is issued only while the traveller is in Saudi Arabia with a valid iqama and a passport valid for at least 90 days.</p>
+
+<div class="example">
+<p><strong>Example:</strong> a family of five (worker, wife and 3 children) on a single visa for 3 months: 5 × 300 = <strong>SAR 1,500</strong>, of which 300 is paid by the employer and 1,200 by the head of family. Extending everyone by one month from abroad: 5 × 200 = <strong>SAR 1,000</strong>.</p>
+</div>
+<p>Before issuing family visas, pay the <a href="{{root}}en/saudi-dependent-fee-calculator/{{ix}}">dependent fee</a>. Prefer Arabic? Use the <a href="{{root}}ksa-exit-reentry-visa/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

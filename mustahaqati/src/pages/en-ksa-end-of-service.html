@@ -1,0 +1,91 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-end-of-service-calculator",
+  "alternate": "ksa-end-of-service",
+  "title": "Saudi End of Service Calculator 2026 — Resignation and Termination (Articles 84 & 85)",
+  "h1": "Saudi Arabia End of Service Calculator",
+  "description": "Calculate your end-of-service award in Saudi Arabia under the Labor Law: half a month's wage for each of the first five years and a full month for each year after, with the resignation fractions of Article 85 (none before 2 years, one third, two thirds, full after 10 years) and the 2025 amendments.",
+  "short": "Half a month then a full month per year, with the resignation fractions",
+  "lead": "Enter your last monthly wage, your start date and last working day, and why your contract ended. The award appears instantly, with the article of law behind each figure.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-ksa-end-of-service.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-dependents-fee", "en-ksa-exit-reentry", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How is end of service calculated in Saudi Arabia?", "a": "Half a month's wage for each of the first five years of service and a full month's wage for each year after that, based on the last actual wage (basic salary plus fixed allowances such as housing and transport). Part years count pro rata (Article 84)."},
+    {"q": "How much do I get if I resign?", "a": "Nothing before two years of service, one third of the award from two to five years, two thirds from more than five to under ten years, and the full award after ten years (Article 85)."},
+    {"q": "Do the resignation fractions apply to open-ended contracts after the 2025 amendments?", "a": "Since 19 February 2025 the law treats resignation as a fixed-term contract matter, and an employee on an open-ended contract ends it by notice under Article 75. Several practitioners argue such an employee is owed the full award, but there is no published ministry position or court principle yet, so the calculator shows the cautious figure and the full amount."},
+    {"q": "When is the full award paid despite resignation?", "a": "When a female employee resigns within six months of marriage or three months of childbirth, when the employee leaves due to force majeure (Article 87), or leaves under one of the Article 81 cases such as the employer's breach of contract."},
+    {"q": "When is no award due?", "a": "When the employer terminates the contract for one of the Article 80 cases, after giving the employee a chance to object, or when the contract ends during probation."}
+  ],
+  "sources": [
+    {"t": "Saudi Labor Law — Ministry of Human Resources and Social Development (Articles 80, 84, 85, 87; Arabic)", "u": "https://www.hrsd.gov.sa/ar/knowledge-centre/decisions-and-regulations/regulation/406"},
+    {"t": "Official end-of-service calculator — Ministry of Human Resources (Arabic)", "u": "https://www.hrsd.gov.sa/ar/services/eservices-calculator"},
+    {"t": "Umm Al-Qura — Royal Decree M/44 amending the Labor Law (in force 19 Feb 2025; Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your end-of-service award</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last monthly wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000" required>
+        <span class="hint">Basic salary plus fixed allowances (housing, transport…): the "actual wage" in the law.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2019-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field full">
+        <label for="reason">Why did the contract end?</label>
+        <select id="reason" name="reason">
+          <option value="contract_end" selected>Contract expired or was ended by the employer</option>
+          <option value="resignation">Resignation from a fixed-term contract (Article 79 bis)</option>
+          <option value="worker_notice">Employee ended an open-ended contract with notice (Article 75)</option>
+          <option value="mutual">Mutual written agreement to end the contract</option>
+          <option value="article_81">Employee left under Article 81 (employer breach, etc.)</option>
+          <option value="resignation_marriage">Female employee resigned within 6 months of marriage</option>
+          <option value="resignation_childbirth">Female employee resigned within 3 months of childbirth</option>
+          <option value="force_majeure">Left due to force majeure</option>
+          <option value="article_80">Dismissed by the employer under Article 80</option>
+          <option value="probation">Contract ended during probation</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the Saudi end-of-service award is calculated</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service</th><th scope="col">Full award (Article 84)</th><th scope="col">On resignation (Article 85)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Less than 2 years</th><td>Half a month per year</td><td>Nothing</td></tr>
+    <tr><th scope="row">2 to 5 years</th><td>Half a month per year</td><td>One third</td></tr>
+    <tr><th scope="row">More than 5, under 10 years</th><td>Half a month for each of the first 5, then a full month</td><td>Two thirds</td></tr>
+    <tr><th scope="row">10 years or more</th><td>Half a month for each of the first 5, then a full month</td><td>Full award</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> last wage SAR 9,000 and 8 years of service. First five years: 5 × 4,500 = 22,500. Three more years: 3 × 9,000 = 27,000. Full award: <strong>SAR 49,500</strong>. On resignation (more than five years): two thirds = <strong>SAR 33,000</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-end-of-service/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>

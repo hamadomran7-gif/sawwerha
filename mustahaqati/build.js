@@ -29,6 +29,7 @@ const site = JSON.parse(fs.readFileSync(path.join(SRC, "..", "site.json"), "utf8
 const rules = JSON.parse(fs.readFileSync(path.join(SRC, "rules.json"), "utf8"));
 const layout = fs.readFileSync(path.join(SRC, "layout.html"), "utf8");
 const layoutEmbed = fs.readFileSync(path.join(SRC, "layout-embed.html"), "utf8");
+const layoutEn = fs.readFileSync(path.join(SRC, "layout-en.html"), "utf8");
 
 const COUNTRY_NAMES = { ae: "الإمارات", sa: "السعودية", gcc: "الخليج", qa: "قطر", kw: "الكويت", om: "عُمان", bh: "البحرين", all: "عام" };
 const CURRENCY = { ae: "AED", sa: "SAR", qa: "QAR", kw: "KWD", om: "OMR", bh: "BHD", gcc: "AED" };
@@ -43,6 +44,39 @@ const CATEGORY_NAMES = {
   tools: "أدوات عامة",
 };
 const CATEGORY_ORDER = ["eos", "salary", "leave", "finance", "fees", "property", "tax", "tools"];
+
+/* اللغات: العربية أساس الموقع، والإنجليزية لصفحات مختارة تحت /en/ (meta.lang = "en"). */
+const langOf = (m) => m.lang || "ar";
+const SITE_NAME = { ar: site.name, en: site.nameEn || "Mustahaqati" };
+const T = {
+  ar: {
+    home: "الرئيسية",
+    crumbs: "مسار التنقل",
+    related: "حاسبات وصفحات ذات صلة",
+    allIn: (c) => `كل حاسبات ${c} وحقوق الموظف فيها ←`,
+    scenarios: "حالات شائعة بالتفصيل",
+    faq: "أسئلة شائعة",
+    sources: "المصادر",
+    lastReview: (d) => `آخر مراجعة للأرقام والمعادلات في هذه الصفحة: ${d}.`,
+    byline: (link, d) => `إعداد ومراجعة: ${link} · آخر تحديث: ${d}`,
+    team: (n) => `فريق ${n}`,
+    countries: COUNTRY_NAMES,
+  },
+  en: {
+    home: "Home",
+    crumbs: "Breadcrumb",
+    related: "Related calculators",
+    allIn: (c) => `All ${c} calculators →`,
+    scenarios: "Common cases",
+    faq: "Frequently asked questions",
+    sources: "Sources",
+    lastReview: (d) => `Figures and formulas on this page were last reviewed on ${d}.`,
+    byline: (link, d) => `Prepared and reviewed by ${link} · Last updated: ${d}`,
+    team: (n) => `the ${n} team`,
+    countries: { ae: "UAE", sa: "Saudi Arabia", gcc: "GCC", qa: "Qatar", kw: "Kuwait", om: "Oman", bh: "Bahrain", all: "General" },
+  },
+};
+const homeSlug = (lang) => (lang === "en" ? "en-index" : "index");
 
 function esc(s) {
   return String(s)
@@ -238,20 +272,21 @@ function expandBlocks(body) {
 /* ------------------------------------------------------------------ */
 
 function crumbsFor(meta, pages) {
-  const items = [{ name: "الرئيسية", page: pages.find((p) => p.meta.slug === "index").meta }];
-  const hub = pages.find((p) => p.meta.hub && p.meta.hub === meta.country);
+  const L = T[langOf(meta)];
+  const items = [{ name: L.home, page: pages.find((p) => p.meta.slug === homeSlug(langOf(meta))).meta }];
+  const hub = pages.find((p) => p.meta.hub && p.meta.hub === meta.country && langOf(p.meta) === langOf(meta));
   if (meta.hub) {
     // المحور نفسه
-  } else if (hub) items.push({ name: COUNTRY_NAMES[meta.country], page: hub.meta });
-  else items.push({ name: COUNTRY_NAMES[meta.country] || "الخليج" });
+  } else if (hub) items.push({ name: L.countries[meta.country], page: hub.meta });
+  else items.push({ name: L.countries[meta.country] || L.countries.gcc });
   const parent = meta.parent && pages.find((p) => p.meta.slug === meta.parent);
   if (parent) items.push({ name: parent.meta.h1 || parent.meta.title, page: parent.meta });
   items.push({ name: meta.h1 || meta.title, current: true });
   return items;
 }
 
-function crumbsHtml(items, root) {
-  return `<nav class="crumbs" aria-label="مسار التنقل">${items
+function crumbsHtml(items, root, lang = "ar") {
+  return `<nav class="crumbs" aria-label="${T[lang].crumbs}">${items
     .map((it) =>
       it.current
         ? `<span aria-current="page">${esc(it.name)}</span>`
@@ -267,7 +302,7 @@ function relatedFor(meta, pages) {
   const out = [];
   const add = (slug) => {
     const m = by.get(slug);
-    if (!m || slug === meta.slug || out.includes(slug) || !isContent(m) || m.hub) return;
+    if (!m || slug === meta.slug || out.includes(slug) || !isContent(m) || m.hub || langOf(m) !== langOf(meta)) return;
     out.push(slug);
   };
   if (meta.parent) {
@@ -281,24 +316,26 @@ function relatedFor(meta, pages) {
 
 function relatedHtml(meta, pages, root) {
   const list = relatedFor(meta, pages);
-  const hub = pages.find((p) => p.meta.hub && p.meta.hub === meta.country && !meta.hub);
+  const L = T[langOf(meta)];
+  const hub = pages.find((p) => p.meta.hub && p.meta.hub === meta.country && !meta.hub && langOf(p.meta) === langOf(meta));
   if (!list.length && !hub) return "";
   const items = list.map((m) => `<li><a href="${root}${pageUrl(m)}">${esc(m.h1 || m.title)}</a></li>`).join("");
-  const hubLink = hub ? `<p class="hub-link"><a href="${root}${pageUrl(hub.meta)}">كل حاسبات ${esc(COUNTRY_NAMES[meta.country])} وحقوق الموظف فيها ←</a></p>` : "";
-  return `<section class="related" aria-labelledby="rel-h"><h2 id="rel-h">حاسبات وصفحات ذات صلة</h2>${items ? `<ul>${items}</ul>` : ""}${hubLink}</section>`;
+  const hubLink = hub ? `<p class="hub-link"><a href="${root}${pageUrl(hub.meta)}">${esc(L.allIn(L.countries[meta.country]))}</a></p>` : "";
+  return `<section class="related" aria-labelledby="rel-h"><h2 id="rel-h">${L.related}</h2>${items ? `<ul>${items}</ul>` : ""}${hubLink}</section>`;
 }
 
 function scenariosHtml(meta, pages, root) {
   const kids = pages.filter((p) => p.meta.parent === meta.slug && isContent(p.meta));
   if (!kids.length) return "";
-  return `<section class="scenarios" aria-labelledby="sc-h"><h2 id="sc-h">حالات شائعة بالتفصيل</h2><div class="cards">${kids
+  return `<section class="scenarios" aria-labelledby="sc-h"><h2 id="sc-h">${T[langOf(meta)].scenarios}</h2><div class="cards">${kids
     .map((p) => `<a class="card" href="${root}${pageUrl(p.meta)}"><strong>${esc(p.meta.h1 || p.meta.title)}</strong><span class="muted">${esc(p.meta.short || p.meta.description)}</span></a>`)
     .join("")}</div></section>`;
 }
 
 function card(m, root) {
+  const C = T[langOf(m)].countries;
   return `<a class="card" href="${root}${pageUrl(m)}">
-  <span class="chip chip-${m.country || "gcc"}">${COUNTRY_NAMES[m.country] || "الخليج"}</span>
+  <span class="chip chip-${m.country || "gcc"}">${C[m.country] || C.gcc}</span>
   <strong>${esc(m.h1 || m.title)}</strong>
   <span class="muted">${esc(m.short || m.description)}</span>
 </a>`;
@@ -306,7 +343,7 @@ function card(m, root) {
 
 function toolCards(pages, root, filter) {
   return pages
-    .filter((p) => p.meta.tool && filter(p.meta))
+    .filter((p) => p.meta.tool && langOf(p.meta) === "ar" && filter(p.meta))
     .map((p) => card(p.meta, root))
     .join("\n");
 }
@@ -320,7 +357,7 @@ function homeSections(pages, root) {
 }
 
 function homeHubs(pages, root) {
-  const hubs = pages.filter((p) => p.meta.hub);
+  const hubs = pages.filter((p) => p.meta.hub && langOf(p.meta) === "ar");
   if (!hubs.length) return "";
   return `<section class="group hubs" aria-labelledby="g-hubs"><h2 id="g-hubs">ابدأ من دولتك</h2><div class="cards">${hubs
     .map((p) => `<a class="card card-hub" href="${root}${pageUrl(p.meta)}"><span class="chip chip-${p.meta.hub}">${esc(COUNTRY_NAMES[p.meta.hub])}</span><strong>${esc(p.meta.h1)}</strong><span class="muted">${esc(p.meta.short || "")}</span></a>`)
@@ -330,7 +367,7 @@ function homeHubs(pages, root) {
 function hubList(meta, pages, root) {
   const c = meta.hub;
   const NO_VAT = ["qa", "kw"]; // لا ضريبة قيمة مضافة في قطر والكويت
-  const mine = pages.filter((p) => isContent(p.meta) && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)) && !(NO_VAT.includes(c) && p.meta.category === "tax"));
+  const mine = pages.filter((p) => isContent(p.meta) && langOf(p.meta) === "ar" && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)) && !(NO_VAT.includes(c) && p.meta.category === "tax"));
   return CATEGORY_ORDER.map((cat) => {
     const inCat = mine.filter((p) => p.meta.category === cat);
     if (!inCat.length) return "";
@@ -361,19 +398,20 @@ function embedBox(meta, pages) {
 
 function faqHtml(meta) {
   if (!meta.faq || !meta.faq.length) return "";
-  return `<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">أسئلة شائعة</h2>${meta.faq
+  return `<section class="faq" aria-labelledby="faq-h"><h2 id="faq-h">${T[langOf(meta)].faq}</h2>${meta.faq
     .map((q) => `<details><summary>${esc(q.q)}</summary><div class="faq-a"><p>${esc(q.a)}</p></div></details>`)
     .join("")}</section>`;
 }
 
 function sourcesHtml(meta) {
   if (!meta.sources || !meta.sources.length) return "";
-  return `<section class="sources" aria-labelledby="src-h"><h2 id="src-h">المصادر</h2><ul>${meta.sources
+  return `<section class="sources" aria-labelledby="src-h"><h2 id="src-h">${T[langOf(meta)].sources}</h2><ul>${meta.sources
     .map((s) => `<li><a href="${esc(s.u)}" rel="noopener nofollow" target="_blank">${esc(s.t)}</a>${s.d ? ` <span class="muted">(${esc(s.d)})</span>` : ""}</li>`)
-    .join("")}</ul><p class="muted small">آخر مراجعة للأرقام والمعادلات في هذه الصفحة: ${esc(meta.updated)}.</p></section>`;
+    .join("")}</ul><p class="muted small">${esc(T[langOf(meta)].lastReview(meta.updated))}</p></section>`;
 }
 
 function jsonLd(meta, abs, crumbs) {
+  const lang = langOf(meta);
   const orgId = site.domain + "/#org";
   const org = {
     "@type": "Organization",
@@ -397,7 +435,7 @@ function jsonLd(meta, abs, crumbs) {
       applicationCategory: "FinanceApplication",
       operatingSystem: "Any",
       browserRequirements: "Requires JavaScript",
-      inLanguage: "ar",
+      inLanguage: lang,
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: CURRENCY[meta.country] || "AED" },
       publisher: { "@id": orgId },
@@ -406,15 +444,15 @@ function jsonLd(meta, abs, crumbs) {
   }
   if (isContent(meta)) {
     if (meta.hub) {
-      graph.push({ "@type": "CollectionPage", name: meta.h1, url: abs, description: meta.description, inLanguage: "ar", publisher: { "@id": orgId }, dateModified: meta.updated });
+      graph.push({ "@type": "CollectionPage", name: meta.h1, url: abs, description: meta.description, inLanguage: lang, publisher: { "@id": orgId }, dateModified: meta.updated });
     } else {
       graph.push({
         "@type": "Article",
         headline: String(meta.h1 || meta.title).slice(0, 110),
         description: meta.description,
-        inLanguage: "ar",
+        inLanguage: lang,
         mainEntityOfPage: abs,
-        author: { "@type": "Organization", name: `فريق ${site.name}`, url: site.domain + "/about/" },
+        author: { "@type": "Organization", name: SITE_NAME[lang], url: site.domain + "/about/" },
         publisher: { "@id": orgId },
         datePublished: meta.published || meta.updated,
         dateModified: meta.updated,
@@ -429,7 +467,7 @@ function jsonLd(meta, abs, crumbs) {
         .map((c, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          name: c.page && c.page.slug === "index" ? site.name : c.name,
+          name: c.page && c.page.slug === homeSlug(lang) ? SITE_NAME[lang] : c.name,
           item: c.current ? abs : site.domain + "/" + (c.page.slug === "index" ? "" : pagePath(c.page) + "/"),
         })),
     });
@@ -467,10 +505,23 @@ async function build({ check = false, preview = false } = {}) {
     for (const k of ["parent", "embed", "embedOf"]) if (p.meta[k] && !slugs.has(p.meta[k])) throw new Error(`${p.meta.slug}: ${k} يشير إلى صفحة غير موجودة (${p.meta[k]})`);
   }
   const urls = [];
+  // الصفحات المترجمة: meta.alternate في الصفحة الإنجليزية يشير إلى نظيرتها العربية (والعكس يُستنتج)
+  const bySlug = new Map(pages.map((p) => [p.meta.slug, p.meta]));
+  const twin = new Map();
+  for (const p of pages) {
+    if (!p.meta.alternate) continue;
+    if (!bySlug.has(p.meta.alternate)) throw new Error(`${p.meta.slug}: alternate يشير إلى صفحة غير موجودة (${p.meta.alternate})`);
+    twin.set(p.meta.slug, p.meta.alternate);
+    twin.set(p.meta.alternate, p.meta.slug);
+  }
+  const absOf = (m) => site.domain + "/" + (m.slug === "index" ? "" : pagePath(m) + "/");
 
   for (const p of pages) {
     const { meta } = p;
+    const lang = langOf(meta);
+    const L = T[lang];
     const isHome = meta.slug === "index";
+    const isHomeLike = isHome || !!meta.home;
     const isNotFound = meta.slug === "404";
     // صفحة 404 تُقدَّم من أي مسار، فروابطها مطلقة
     const root = rootFor(meta);
@@ -505,30 +556,44 @@ async function build({ check = false, preview = false } = {}) {
       continue;
     }
 
-    const crumbs = isHome || isNotFound ? null : crumbsFor(meta, pages);
-    const main = isHome || isNotFound ? body : `${body}${scenariosHtml(meta, pages, root)}${faqHtml(meta)}${embedBox(meta, pages)}${sourcesHtml(meta)}${relatedHtml(meta, pages, root)}`;
+    const crumbs = isHomeLike || isNotFound ? null : crumbsFor(meta, pages);
+    const main = isHomeLike || isNotFound ? body : `${body}${scenariosHtml(meta, pages, root)}${faqHtml(meta)}${embedBox(meta, pages)}${sourcesHtml(meta)}${relatedHtml(meta, pages, root)}`;
+    const other = twin.has(meta.slug) ? bySlug.get(twin.get(meta.slug)) : null;
+    const arM = other ? (lang === "ar" ? meta : other) : null;
+    const enM = other ? (lang === "en" ? meta : other) : null;
+    const alternates = other
+      ? `<link rel="alternate" hreflang="ar" href="${absOf(arM)}">\n<link rel="alternate" hreflang="en" href="${absOf(enM)}">\n<link rel="alternate" hreflang="x-default" href="${absOf(arM)}">`
+      : "";
+    const switchTo = other || (lang === "en" ? bySlug.get("index") : null);
+    const langSwitch = switchTo
+      ? `<a class="lang-switch" href="${root}${pageUrl(switchTo)}" hreflang="${langOf(switchTo)}" lang="${langOf(switchTo)}">${langOf(switchTo) === "en" ? "English" : "العربية"}</a>`
+      : "";
+    const enHome = bySlug.get("en-index");
 
-    const html = render(layout, {
-      lang: site.lang,
+    const html = render(lang === "en" ? layoutEn : layout, {
+      lang,
+      alternates,
+      langSwitch,
+      enHome: enHome ? root + pageUrl(enHome) : "",
       title: esc(meta.title),
       description: esc(meta.description),
       canonical: abs,
       root,
-      home: root + ix() || "./",
+      home: lang === "en" && enHome ? root + pageUrl(enHome) : root + ix() || "./",
       ix: ix(),
-      siteName: esc(site.name),
+      siteName: esc(SITE_NAME[lang]),
       tagline: esc(site.tagline),
       h1: esc(meta.h1 || meta.title),
       lead: meta.lead ? `<p class="lead">${esc(meta.lead)}</p>` : "",
       byline: isContent(meta)
-        ? `<p class="byline">إعداد ومراجعة: <a href="${root}about/${ix()}">فريق ${esc(site.name)}</a> · آخر تحديث: <time datetime="${esc(meta.updated)}">${esc(meta.updated)}</time></p>`
+        ? `<p class="byline">${L.byline(`<a href="${root}${lang === "en" && enHome ? pageUrl(enHome) + "#about" : "about/" + ix()}">${esc(L.team(SITE_NAME[lang]))}</a>`, `<time datetime="${esc(meta.updated)}">${esc(meta.updated)}</time>`)}</p>`
         : "",
-      breadcrumb: crumbs ? crumbsHtml(crumbs, root) : "",
+      breadcrumb: crumbs ? crumbsHtml(crumbs, root, lang) : "",
       main,
       jsonld: jsonLd(meta, abs, crumbs),
       year: String(new Date().getFullYear()),
       updated: esc(meta.updated),
-      bodyClass: isHome ? "home" : `page page-${meta.slug}`,
+      bodyClass: isHomeLike ? "home" : `page page-${meta.slug}`,
       pageScript: meta.script ? `<script type="module" src="${root}assets/pages/${meta.script}"></script>` : "",
       noindex: meta.noindex ? '<meta name="robots" content="noindex">' : "",
       ogImage: fs.existsSync(path.join(SRC, "assets", "og", `${meta.slug}.jpg`))
@@ -554,7 +619,7 @@ async function build({ check = false, preview = false } = {}) {
     }
     fs.writeFileSync(path.join(outDir, "index.html"), out);
     if (!meta.noindex) {
-      const priority = isHome ? "1.0" : meta.tool || meta.hub ? "0.8" : isContent(meta) ? "0.7" : "0.3";
+      const priority = isHome ? "1.0" : meta.home ? "0.9" : meta.tool || meta.hub ? "0.8" : isContent(meta) ? "0.7" : "0.3";
       urls.push({ loc: abs, lastmod: meta.updated, priority });
     }
   }
