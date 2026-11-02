@@ -24,7 +24,7 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-7"
+AGENT_VERSION = "2026.11.02-8"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -301,9 +301,10 @@ def produce(job: dict, cfg: dict, worker: Worker, comfy) -> list:
         white_path = pipeline.save_jpeg(white, str(work / f"p{idx}_white_1.jpg"))
         outputs = [white_path]
         if per_product >= 6:
-            # نسخة ثانية بخلفية بيضاء بزاوية قص أضيق (لقطة تفصيل)
-            detail = pipeline.white_background(cut, size=out_size, fill=0.95)
-            outputs.append(pipeline.save_jpeg(detail, str(work / f"p{idx}_white_2.jpg")))
+            # نسخة ثانية مضبوطة لنون: المنتج ~80% من الإطار (هامش 10% أعلى وأسفل كما توصي نون)،
+            # بينما الأولى 85% كما تشترط أمازون. كلتاهما خلفية بيضاء نقية بلا ظل.
+            noon = pipeline.white_background(cut, size=out_size, fill=0.80)
+            outputs.append(pipeline.save_jpeg(noon, str(work / f"p{idx}_white_noon.jpg")))
 
         # 2) المشاهد
         n_scenes = per_product - len(outputs)
