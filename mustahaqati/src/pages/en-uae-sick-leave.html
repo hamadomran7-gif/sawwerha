@@ -1,0 +1,105 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-sick-leave-calculator",
+  "alternate": "uae-sick-leave",
+  "title": "UAE Sick Leave Calculator 2026 — Sick Leave Pay and Salary Deduction (Article 31)",
+  "h1": "UAE Sick Leave Pay Calculator",
+  "description": "Calculate sick leave pay in the UAE private sector under Article 31 of the Labour Law: up to 90 days per year of service after probation — the first 15 days on full pay, the next 30 on half pay and the last 45 unpaid — and how much is deducted from your salary.",
+  "short": "15 days full pay, 30 half pay, 45 unpaid — after probation",
+  "lead": "Enter your salary and the sick days taken in your current year of service to see your sick leave pay and the deduction from your salary.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-uae-sick-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-maternity-leave", "en-uae-annual-leave", "en-uae-notice-pay", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "Do I get paid sick leave during probation?", "a": "No. There is no paid sick leave during probation, although the employer may grant unpaid sick leave on the basis of a medical report. The 90-day entitlement starts after probation ends."},
+    {"q": "Is sick pay calculated on basic or gross salary?", "a": "The law says \"full pay\" and \"half pay\", and Article 1 defines pay as the basic wage plus allowances, so this calculator uses your gross salary by default. Some employers use basic salary only, and no official statement settles the point, so the calculator shows both."},
+    {"q": "Does the sick leave balance renew every year?", "a": "Yes. The 90 days apply to each year of service, consecutive or intermittent, and the law does not carry unused days over to the next year."},
+    {"q": "When must I tell my employer I am sick?", "a": "Within 3 working days, with a medical report from a medical authority. Late notice may lead to the days being treated as absence."},
+    {"q": "When is sick leave unpaid?", "a": "Article 20 of the executive regulations names two cases: illness caused by the worker's misconduct, such as alcohol or drug use, and illness caused by breaking safety instructions the worker was told about."},
+    {"q": "What happens after 90 days?", "a": "If you cannot return to work after using up your sick leave, the employer may end your service, but must pay all your dues, including end-of-service gratuity."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Articles 1 and 31)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "UAE Government portal — types of leave in the private sector", "u": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/Types-of-leaves"},
+    {"t": "Cabinet Resolution 1 of 2022 (executive regulations), Article 20 — Arabic", "u": "https://uaelegislation.gov.ae/ar/legislations/1547/download"},
+    {"t": "Gulf News — how sick leave is calculated under the new labour law", "u": "https://gulfnews.com/living-in-uae/ask-us/new-uae-labour-law-how-are-sick-leaves-calculated-1.1638197752756"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your sick leave pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Monthly allowances (AED)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="4000">
+        <span class="hint">Housing, transport and others. Leave 0 if none.</span>
+      </div>
+      <div class="field">
+        <label for="days">Sick days in your current year of service</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="20" required>
+        <span class="hint">Add up consecutive and separate days since your service year began.</span>
+      </div>
+      <div class="field">
+        <label for="stage">Employment stage</label>
+        <select id="stage" name="stage">
+          <option value="after">Probation completed</option>
+          <option value="probation">Still on probation</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="basis">Salary used for the calculation</label>
+        <select id="basis" name="basis">
+          <option value="total">Gross pay: basic + allowances (the wording of the law)</option>
+          <option value="basic">Basic only (used by some employers)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How sick leave is paid in the UAE</h2>
+<p>Article 31 of Federal Decree-Law 33 of 2021 gives a worker who has finished probation up to <strong>90 days</strong> of sick leave, consecutive or intermittent, for each year of service, in three tiers:</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Days</th><th scope="col">Pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">First 15 days</th><td>Full pay</td></tr>
+    <tr><th scope="row">Next 30 days</th><td>Half pay</td></tr>
+    <tr><th scope="row">Following 45 days</th><td>Unpaid</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The daily wage is the monthly wage divided by 30. Days are added up within the same year of service, whether as one long absence or separate days.</p>
+<div class="example">
+<p><strong>Example:</strong> basic salary AED 8,000 and allowances AED 4,000 (gross AED 12,000), 20 sick days after probation.</p>
+<p>Daily wage = 12,000 ÷ 30 = AED 400.<br>
+First 15 days on full pay = 15 × 400 = AED 6,000.<br>
+Next 5 days on half pay = 5 × 200 = AED 1,000.<br>
+<strong>Sick leave pay = AED 7,000</strong> instead of AED 8,000, a deduction of AED 1,000.<br>
+On basic salary alone the pay would be only AED 4,666.67.</p>
+</div>
+<h2>Conditions to know</h2>
+<ul>
+  <li><strong>Notice:</strong> within 3 working days, with a medical report.</li>
+  <li><strong>Probation:</strong> no paid sick leave; unpaid sick leave may be granted.</li>
+  <li><strong>Loss of pay:</strong> illness caused by misconduct or by breaking safety instructions (executive regulations, Article 20).</li>
+  <li><strong>After the 90 days:</strong> the employer may end your service if you cannot return, and must pay all your dues.</li>
+</ul>
+<p>Expecting a baby? See the <a href="{{root}}en/uae-maternity-leave-calculator/{{ix}}">maternity leave calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-sick-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

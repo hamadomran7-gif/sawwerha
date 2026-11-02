@@ -92,5 +92,14 @@
  "gcc-leave-comparison": "52ac1e09051dcf5c",
  "en-privacy": "5c49005f41ec03ac",
  "en-ksa-employee-cost": "f45a47be3eeccc99",
- "ksa-civil-retirement": "f83f31d659ddf837"
+ "ksa-civil-retirement": "f83f31d659ddf837",
+ "en-dubai-mortgage-fees": "9da3880e6913f113",
+ "en-ksa-annual-leave": "6fb0bc8c7e977d30",
+ "en-ksa-gosi": "3d0a0e2dbc158829",
+ "en-uae-iloe": "c64f247b85b41f3f",
+ "en-uae-maternity-leave": "25037da8ff67797f",
+ "en-uae-notice-pay": "8c3d7c5a404f58fa",
+ "en-uae-overtime": "edc15f351607788a",
+ "en-uae-sick-leave": "5a14e911ad4d16ef",
+ "en-vat": "641e14dde171e872"
 }

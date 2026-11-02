@@ -1,0 +1,102 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-maternity-leave-calculator",
+  "alternate": "uae-maternity-leave",
+  "title": "UAE Maternity Leave Calculator 2026 — 60 Days, Maternity Pay and Return Date",
+  "h1": "UAE Maternity Leave Pay Calculator",
+  "description": "Calculate maternity leave pay in the UAE private sector under Article 30 of the Labour Law: 60 days, 45 on full pay and 15 on half pay, up to 45 more unpaid days for pregnancy-related illness, 30 days on full pay to care for a sick child, your return date, and parental leave.",
+  "short": "45 days full pay + 15 days half pay, plus 5 working days of parental leave",
+  "lead": "Enter your salary and leave start date to see your maternity pay, the key dates and the difference from your usual salary.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-uae-maternity-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-sick-leave", "en-uae-annual-leave", "en-uae-gratuity", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "Do I need a minimum period of service for maternity leave?", "a": "No. The current text of Article 30 gives 60 days of maternity leave with no service requirement: 45 days on full pay and 15 days on half pay."},
+    {"q": "When can maternity leave start?", "a": "It may start from the last day of the month before the expected month of delivery, at the employee's request and with a medical certificate giving the likely date."},
+    {"q": "Am I entitled to leave if the baby is stillborn?", "a": "Yes. Maternity leave is due if delivery happens after six months or more of pregnancy, even if the baby is stillborn or dies after birth."},
+    {"q": "What is parental leave in the UAE?", "a": "Five paid working days for the father or the mother, taken in one block or separately within six months of the birth, on proof of birth. It is separate from maternity leave."},
+    {"q": "Do I get nursing breaks after I return?", "a": "Yes. One or two breaks a day totalling no more than one hour, for six months from the delivery date. The UAE Government portal says they are paid."},
+    {"q": "Do the extra pregnancy-illness days count as service?", "a": "No. The additional absence of up to 45 unpaid days for illness caused by pregnancy or delivery is not counted as service for end-of-service gratuity or pension."},
+    {"q": "I heard about 90 days in Abu Dhabi — does it apply to me?", "a": "In 2024 Abu Dhabi announced a programme giving Emirati women in the emirate's private sector 90 days of maternity leave. It is optional for employers and not part of federal law. The federal minimum for all employees is still 60 days."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Articles 30 and 32)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "UAE Government portal — types of leave in the private sector", "u": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/Types-of-leaves"},
+    {"t": "The National — Abu Dhabi maternity leave for Emirati mothers in the private sector (2024)", "u": "https://www.thenationalnews.com/news/uae/2024/08/27/maternity-leave-details-announced-for-abu-dhabi-mothers-working-in-private-sector/"},
+    {"t": "Khaleej Times — extended paid maternity leave in the private sector under consideration (May 2025)", "u": "https://www.khaleejtimes.com/uae/extended-paid-maternity-leave-private-sector-consideration"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your maternity pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Monthly allowances (AED)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="3000">
+      </div>
+      <div class="field">
+        <label for="start">Leave start date (optional)</label>
+        <input type="date" id="start" name="start" value="">
+        <span class="hint">To work out the last day and return date.</span>
+      </div>
+      <div class="field">
+        <label for="extra">Extra unpaid days for pregnancy-related illness</label>
+        <input type="number" id="extra" name="extra" inputmode="decimal" min="0" max="45" step="1" value="0">
+        <span class="hint">Up to 45 days with a medical certificate.</span>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="child" name="child">
+        <label for="child">The baby is sick or has a disability and needs constant care (30 days on full pay)</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="childUnpaid" name="childUnpaid">
+        <label for="childUnpaid">Extend child care by 30 more unpaid days</label>
+      </div>
+      <div class="field full">
+        <label for="basis">Salary used for the calculation</label>
+        <select id="basis" name="basis">
+          <option value="total">Gross pay: basic + allowances (the wording of the law)</option>
+          <option value="basic">Basic only (used by some employers)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Maternity leave in the UAE private sector</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Leave</th><th scope="col">Length</th><th scope="col">Pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Maternity leave</th><td>60 days</td><td>45 days full pay, 15 days half pay</td></tr>
+    <tr><th scope="row">Pregnancy or delivery illness</th><td>Up to 45 more days</td><td>Unpaid, not counted as service</td></tr>
+    <tr><th scope="row">Sick or disabled baby</th><td>30 days, extendable by 30</td><td>Full pay, then unpaid</td></tr>
+    <tr><th scope="row">Parental leave (either parent)</th><td>5 working days within 6 months</td><td>Full pay</td></tr>
+    <tr><th scope="row">Nursing breaks</th><td>Up to 1 hour a day for 6 months</td><td>Paid</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> basic salary AED 6,000 and allowances AED 3,000 (gross AED 9,000).</p>
+<p>Daily wage = 9,000 ÷ 30 = AED 300.<br>
+45 days on full pay = AED 13,500. 15 days on half pay = AED 2,250.<br>
+<strong>Maternity pay = AED 15,750</strong> for 60 days, against AED 18,000 of normal pay.</p>
+</div>
+<p>Some employers calculate maternity pay on basic salary only. The law says "full pay" and defines pay as including allowances, so the calculator uses gross pay by default and lets you switch. Prefer Arabic? Use the <a href="{{root}}uae-maternity-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

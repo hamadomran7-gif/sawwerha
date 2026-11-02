@@ -1,0 +1,64 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-iloe-calculator",
+  "alternate": "uae-iloe",
+  "title": "UAE ILOE Calculator 2026 — Unemployment Insurance Payout and Premium",
+  "h1": "UAE Unemployment Insurance (ILOE) Calculator",
+  "description": "Calculate your UAE unemployment insurance (ILOE) payout: 60% of your average basic salary, capped at AED 10,000 a month in Category A and AED 20,000 in Category B, for up to three months, plus your monthly premium (AED 5 or AED 10) and the eligibility conditions.",
+  "short": "60% of basic, capped at AED 10,000 or 20,000, for three months — and your premium",
+  "lead": "Enter your basic salary to see your category, your monthly premium and the compensation you would receive if you lost your job.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-iloe.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-gratuity", "en-uae-final-settlement", "en-uae-notice-pay"],
+  "faq": [
+    {"q": "Who can claim ILOE compensation?", "a": "You must have been subscribed continuously for at least 12 months before losing your job, the termination must not be for disciplinary reasons or by resignation, you must claim within 30 days of leaving work, and you must not be working for another employer when you claim."},
+    {"q": "How long is compensation paid?", "a": "Up to three months per claim, or until you find a new job, whichever comes first."},
+    {"q": "What is the fine for not subscribing?", "a": "AED 400 for not subscribing within the deadline after the work permit is issued, and AED 200 for being more than three months late with premiums. The policy may also be cancelled, restarting the subscription period."},
+    {"q": "Does ILOE cover resignation?", "a": "No. It covers involuntary job loss only. Resignation, disciplinary dismissal and termination by mutual agreement are not covered."},
+    {"q": "Is the payout based on basic or gross salary?", "a": "On your average basic salary over the six months before you lost your job, not on gross salary."}
+  ],
+  "sources": [
+    {"t": "ILOE — official unemployment insurance portal", "u": "https://www.iloe.ae"},
+    {"t": "Gulf News — when ILOE compensation stops and what affects eligibility", "u": "https://gulfnews.com/living-in-uae/ask-us/iloe-uae-when-unemployment-compensation-stops-1.500439395"},
+    {"t": "Edarabia — UAE unemployment insurance guide 2026: categories, premiums and compensation", "u": "https://www.edarabia.com/uae-unemployment-insurance-scheme-employees/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your ILOE payout</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="basic">Average basic salary over the last 6 months (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="100" value="12000" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>ILOE categories</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Category</th><th scope="col">Basic salary</th><th scope="col">Premium</th><th scope="col">Monthly cap</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">A</th><td>Up to AED 16,000</td><td>AED 5 a month</td><td>AED 10,000</td></tr>
+    <tr><th scope="row">B</th><td>Above AED 16,000</td><td>AED 10 a month</td><td>AED 20,000</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> average basic salary AED 12,000 (Category A). 60% = AED 7,200 a month, below the AED 10,000 cap. <strong>Up to AED 21,600</strong> over three months, for a premium of AED 60 a year.</p>
+</div>
+<p>Losing your job also triggers your gratuity, unused leave and notice pay — add them up in the <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-iloe/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

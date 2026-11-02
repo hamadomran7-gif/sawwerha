@@ -658,6 +658,14 @@ function checkLinks(pages) {
     }
   };
   walk(DIST);
+  // كل slug في related يجب أن يشير إلى صفحة موجودة (relatedFor يتجاهل المفقود بصمت)
+  const slugs = new Set(pages.map((p) => p.meta.slug));
+  for (const p of pages)
+    for (const r of p.meta.related || [])
+      if (!slugs.has(r)) {
+        console.error(`related في ${p.meta.slug} يشير إلى صفحة غير موجودة: ${r}`);
+        bad++;
+      }
   for (const file of files) {
     const html = fs.readFileSync(file, "utf8");
     const rel = path.relative(DIST, path.dirname(file));

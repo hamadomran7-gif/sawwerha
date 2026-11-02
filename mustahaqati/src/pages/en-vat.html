@@ -1,0 +1,93 @@
+---json
+{
+  "lang": "en",
+  "path": "en/vat-calculator",
+  "alternate": "vat",
+  "title": "VAT Calculator UAE, Saudi Arabia and GCC 2026 — Add or Remove VAT",
+  "h1": "GCC VAT Calculator",
+  "description": "Add VAT to any amount or extract it from a VAT-inclusive price: 5% in the UAE and Oman, 15% in Saudi Arabia and 10% in Bahrain, or any custom rate.",
+  "short": "Add or extract VAT at UAE, Saudi, Bahrain and Oman rates",
+  "lead": "Choose a country or enter a rate, and say whether the amount is before VAT or includes it.",
+  "country": "gcc",
+  "category": "tax",
+  "tool": true,
+  "script": "en-vat.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-dubai-mortgage-fees", "en-ksa-employee-cost"],
+  "faq": [
+    {"q": "How do I remove VAT from a VAT-inclusive amount?", "a": "Divide the inclusive amount by (1 + the rate). In Saudi Arabia: 1,150 ÷ 1.15 = SAR 1,000 before VAT, and the VAT is SAR 150. Divide by 1.15 — do not multiply by 15%."},
+    {"q": "What are the VAT rates in the Gulf?", "a": "UAE 5% (since 2018), Saudi Arabia 15% (since July 2020), Bahrain 10% (since 2022) and Oman 5% (since 2021). Qatar and Kuwait have not introduced VAT."},
+    {"q": "What is the difference between zero-rated and exempt supplies?", "a": "Zero-rated supplies (such as exports and some education and healthcare in the UAE) carry 0% VAT on the invoice and the business can recover its input VAT. Exempt supplies (such as some financial services and residential rent) carry no VAT, and the related input VAT cannot be recovered."},
+    {"q": "When must a business register for VAT in the UAE?", "a": "Registration is mandatory when taxable supplies exceed AED 375,000 in the last 12 months, and voluntary from AED 187,500."}
+  ],
+  "sources": [
+    {"t": "UAE Federal Tax Authority", "u": "https://tax.gov.ae"},
+    {"t": "Saudi Zakat, Tax and Customs Authority (ZATCA)", "u": "https://zatca.gov.sa"},
+    {"t": "Bahrain National Bureau for Revenue", "u": "https://www.nbr.gov.bh"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate VAT</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" inputmode="decimal" min="0" step="0.01" value="1000" required>
+      </div>
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="ae">UAE — 5%</option>
+          <option value="sa">Saudi Arabia — 15%</option>
+          <option value="bh">Bahrain — 10%</option>
+          <option value="om">Oman — 5%</option>
+          <option value="custom">Custom rate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rate">Rate (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.5" value="5">
+        <span class="hint">Set automatically by country; you can change it.</span>
+      </div>
+      <fieldset class="field">
+        <legend>The amount entered is</legend>
+        <div class="choices">
+          <label><input type="radio" name="mode" value="add" checked><span>Before VAT (add VAT)</span></label>
+          <label><input type="radio" name="mode" value="extract"><span>VAT-inclusive (remove VAT)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>VAT rates in the GCC</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Country</th><th scope="col">Rate</th><th scope="col">In force since</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">UAE</th><td>5%</td><td>January 2018</td></tr>
+    <tr><th scope="row">Saudi Arabia</th><td>15%</td><td>5% from January 2018, 15% since July 2020</td></tr>
+    <tr><th scope="row">Bahrain</th><td>10%</td><td>5% from January 2019, 10% since January 2022</td></tr>
+    <tr><th scope="row">Oman</th><td>5%</td><td>April 2021</td></tr>
+    <tr><th scope="row">Qatar and Kuwait</th><td>Not introduced</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>The two formulas</h2>
+<ul>
+  <li><strong>Adding VAT:</strong> inclusive amount = amount × (1 + rate).</li>
+  <li><strong>Removing VAT:</strong> amount before VAT = inclusive amount ÷ (1 + rate); the VAT is the difference.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> an invoice of SAR 2,300 including VAT in Saudi Arabia. Before VAT = 2,300 ÷ 1.15 = SAR 2,000, and the VAT is SAR 300.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}vat/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

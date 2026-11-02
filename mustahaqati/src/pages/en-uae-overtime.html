@@ -1,0 +1,88 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-overtime-calculator",
+  "alternate": "uae-overtime",
+  "title": "UAE Overtime Calculator 2026 — Overtime Pay at 25% and 50% Under the Labour Law",
+  "h1": "UAE Overtime Pay Calculator",
+  "description": "Calculate overtime pay in the UAE private sector under Federal Decree-Law 33 of 2021: basic salary ÷ 30 ÷ 8 for the hourly rate, plus 25% for ordinary overtime and 50% for work between 10 pm and 4 am, on your weekly rest day or on a public holiday.",
+  "short": "+25% for ordinary overtime, +50% at night, on rest days and public holidays",
+  "lead": "Enter your basic salary, the overtime hours and their type to see your hourly rate and the overtime pay you are owed.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-uae-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-final-settlement", "en-uae-annual-leave", "en-uae-sick-leave", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How is the hourly rate calculated in the UAE?", "a": "Divide your monthly basic salary by 30 to get the daily wage, then by 8 to get the normal hourly wage. Ordinary overtime is paid at that rate plus 25%, and overtime between 10 pm and 4 am, on your weekly rest day or on a public holiday at that rate plus 50%."},
+    {"q": "What is the maximum overtime allowed?", "a": "Two hours a day, except where overtime is needed to prevent a serious loss or accident. The executive regulations also cap total working hours over three consecutive weeks."},
+    {"q": "What if I work on my rest day?", "a": "You are entitled to a substitute rest day, or to the pay for that day plus 50% of your basic wage."},
+    {"q": "Do managers get overtime pay?", "a": "No. The executive regulations exclude senior supervisory staff who hold the employer's powers over workers, as well as some other groups such as ships' crews. Check your contract."},
+    {"q": "Is overtime calculated on basic or gross salary?", "a": "The law sets the premium on the basic wage. Some employers pay it on the gross salary as a benefit, which is allowed because it is better for the employee."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Articles 17–21)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "Khaleej Times — when overtime is paid at 50%", "u": "https://www.khaleejtimes.com/uae/legal/overtime-pay-explained"},
+    {"t": "Hono — how to calculate overtime in the UAE, with examples (2026)", "u": "https://www.hono.ai/blog/how-to-calculate-overtime-in-uae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your overtime pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="hours">Overtime hours in the month</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="0" step="0.5" value="20" required>
+      </div>
+      <div class="field full">
+        <label for="type">Type of hours</label>
+        <select id="type" name="type">
+          <option value="day">Extra hours on a normal working day (+25%)</option>
+          <option value="night">Hours between 10 pm and 4 am (+50%)</option>
+          <option value="restday">Work on your weekly rest day (+50%)</option>
+          <option value="holiday">Work on a public holiday (+50%)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate pay</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Overtime rules in the UAE Labour Law</h2>
+<p>Normal working hours are 8 hours a day or 48 hours a week (Article 17). Anything beyond that is overtime, paid as follows:</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Situation</th><th scope="col">Pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Extra hour on a normal working day</th><td>Hourly wage + 25%</td></tr>
+    <tr><th scope="row">Extra hour between 10 pm and 4 am (except shift workers)</th><td>Hourly wage + 50%</td></tr>
+    <tr><th scope="row">Work on the weekly rest day</th><td>A substitute rest day, or the day's wage + 50%</td></tr>
+    <tr><th scope="row">Work on a public holiday</th><td>A substitute day, or the day's wage + 50%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> basic salary AED 6,000 and 20 ordinary overtime hours.</p>
+<p>Daily wage = 6,000 ÷ 30 = AED 200. Hourly wage = 200 ÷ 8 = AED 25.<br>
+Overtime hour = 25 × 1.25 = AED 31.25. <strong>Overtime pay = 20 × 31.25 = AED 625</strong>.</p>
+</div>
+<h2>Legal limits and exclusions</h2>
+<ul>
+  <li>Overtime may not exceed two hours a day, except in cases of necessity.</li>
+  <li>Working hours are reduced by two hours a day during Ramadan.</li>
+  <li>Senior supervisory staff with the employer's powers, ships' crews and preparatory work of up to one hour outside working hours are excluded from overtime pay.</li>
+</ul>
+<p>Leaving your job? Add everything up in the <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-overtime/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

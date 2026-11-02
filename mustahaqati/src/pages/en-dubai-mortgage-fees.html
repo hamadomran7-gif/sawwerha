@@ -1,0 +1,116 @@
+---json
+{
+  "lang": "en",
+  "path": "en/dubai-mortgage-calculator",
+  "alternate": "dubai-mortgage-fees",
+  "title": "Dubai Mortgage Calculator 2026 — Down Payment, DLD Fees and Monthly Payment",
+  "h1": "Dubai Mortgage and Property Purchase Cost Calculator",
+  "description": "Work out the cash you need to buy a property in Dubai: the minimum down payment under UAE Central Bank loan-to-value limits, the 4% Dubai Land Department transfer fee, title deed and trustee fees, 0.25% mortgage registration, valuation, bank and agent fees, and your monthly mortgage payment.",
+  "short": "Down payment, 4% DLD fee, mortgage registration, agent fee and monthly payment",
+  "lead": "Enter the price, the buyer type and the loan terms to see every cash cost on purchase day and your expected monthly payment.",
+  "country": "ae",
+  "category": "property",
+  "tool": true,
+  "script": "en-dubai-mortgage-fees.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-vat", "en-uae-gratuity", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "How much is the down payment for a property in Dubai?", "a": "For a first ready home up to AED 5 million: 20% for both residents and UAE nationals (financing up to 80%). Above AED 5 million: 35% for residents and 30% for nationals. For a second or investment property: 40% for residents and 35% for nationals. Off-plan property is usually financed at 50%."},
+    {"q": "What are the Dubai Land Department fees?", "a": "4% of the sale price (legally split between buyer and seller, but usually paid by the buyer), AED 580 for the title deed plus AED 20 in knowledge and innovation fees, and the registration trustee fee: AED 2,000 for properties under AED 500,000 and AED 4,000 above that, plus 5% VAT."},
+    {"q": "How much is mortgage registration?", "a": "0.25% of the loan amount plus about AED 290 in administrative fees, paid to the Dubai Land Department when the mortgage is registered."},
+    {"q": "Can the fees be added to the mortgage?", "a": "No. The Central Bank's loan-to-value limits apply to the property value only, so the fees — roughly 7% of the price — are cash on top of the down payment."},
+    {"q": "What is the maximum mortgage term?", "a": "25 years, provided the borrower's age at the final payment does not exceed the bank's limit, usually 65 for salaried employees and 70 for the self-employed."}
+  ],
+  "sources": [
+    {"t": "Property Finder — Dubai Land Department fees", "u": "https://www.propertyfinder.ae/blog/dld-fees-dubai/", "d": "3 July 2026"},
+    {"t": "Property Finder — loan-to-value limits in the UAE", "u": "https://www.propertyfinder.ae/blog/ltv-meaning/", "d": "16 April 2026"},
+    {"t": "Dubai Land Department — services and fees", "u": "https://dubailand.gov.ae"},
+    {"t": "Central Bank of the UAE — mortgage loan regulations", "u": "https://www.centralbank.ae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your purchase costs</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="price">Property price (AED)</label>
+        <input type="number" id="price" name="price" inputmode="decimal" min="0" step="10000" value="1500000" required>
+      </div>
+      <div class="field">
+        <label for="rate">Annual interest rate (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.01" value="4.5">
+      </div>
+      <div class="field">
+        <label for="years">Loan term (years)</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="1" max="25" step="1" value="25">
+      </div>
+      <div class="field">
+        <label for="bankfee">Bank arrangement fee (% of loan)</label>
+        <input type="number" id="bankfee" name="bankfee" inputmode="decimal" min="0" step="0.05" value="1">
+      </div>
+      <fieldset class="field">
+        <legend>Buyer</legend>
+        <div class="choices">
+          <label><input type="radio" name="buyer" value="expat" checked><span>Resident</span></label>
+          <label><input type="radio" name="buyer" value="national"><span>UAE national</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend>Property</legend>
+        <div class="choices">
+          <label><input type="radio" name="purpose" value="first" checked><span>First home</span></label>
+          <label><input type="radio" name="purpose" value="second"><span>Second or investment</span></label>
+          <label><input type="radio" name="purpose" value="offplan"><span>Off-plan</span></label>
+        </div>
+      </fieldset>
+      <div class="field full inline">
+        <input type="checkbox" id="mortgage" name="mortgage" checked>
+        <label for="mortgage">Buying with a mortgage</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="agent" name="agent" checked>
+        <label for="agent">Through a real estate agent (2% commission + VAT)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Central Bank loan-to-value limits</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Case</th><th scope="col">Resident</th><th scope="col">UAE national</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">First home up to AED 5 million</th><td>80%</td><td>80%</td></tr>
+    <tr><th scope="row">First home above AED 5 million</th><td>65%</td><td>70%</td></tr>
+    <tr><th scope="row">Second or investment property</th><td>60%</td><td>65%</td></tr>
+    <tr><th scope="row">Off-plan (bank practice)</th><td>50%</td><td>50%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>These are maximums; a bank may lend less depending on your income, age and the property. The down payment is the difference between the price and the loan.</p>
+<h2>Cash fees on purchase day</h2>
+<ul>
+  <li><strong>Transfer fee:</strong> 4% of the price to the Dubai Land Department.</li>
+  <li><strong>Title deed:</strong> AED 580 plus AED 20 in knowledge and innovation fees.</li>
+  <li><strong>Registration trustee:</strong> AED 2,000 (under AED 500,000) or AED 4,000 (above), plus 5% VAT.</li>
+  <li><strong>Mortgage registration:</strong> 0.25% of the loan plus AED 290.</li>
+  <li><strong>Bank valuation:</strong> about AED 2,500 to 3,500.</li>
+  <li><strong>Bank arrangement fee:</strong> usually up to 1% of the loan.</li>
+  <li><strong>Agent commission:</strong> 2% of the price plus 5% VAT.</li>
+  <li><strong>Developer NOC:</strong> AED 500 to 5,000 depending on the developer (not included in the calculator).</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> an apartment at AED 1,500,000, resident buyer, first home, 80% financing at 4.5% over 25 years, through an agent.</p>
+<p>Down payment AED 300,000. Fees: DLD 60,000 + 600 + trustee 4,200 + mortgage registration 3,290 + valuation 3,000 + bank 12,000 + agent 31,500 ≈ AED 114,590.<br>
+<strong>Cash needed ≈ AED 414,590</strong>, and the monthly payment ≈ AED 6,670.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}dubai-mortgage-fees/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

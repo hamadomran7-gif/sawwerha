@@ -1,0 +1,78 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gosi-calculator",
+  "alternate": "ksa-gosi",
+  "title": "GOSI Calculator 2026 — Saudi Social Insurance Contributions for Employee and Employer",
+  "h1": "GOSI Contribution Calculator",
+  "description": "Calculate monthly and annual GOSI contributions in Saudi Arabia: 9.75% from a Saudi employee and 11.75% from the employer under the previous system, the graded pension rate for new subscribers since July 2024, and 2% occupational hazards for non-Saudis — on basic salary plus housing, capped at SAR 45,000.",
+  "short": "Employee and employer shares for pension, SANED and occupational hazards",
+  "lead": "For employees and employers alike: see both shares in riyals for each branch, monthly and annually.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-gosi.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-employee-cost", "en-ksa-end-of-service", "en-ksa-final-settlement", "en-ksa-annual-leave"],
+  "faq": [
+    {"q": "How much GOSI is deducted from a Saudi employee's salary?", "a": "Under the previous system, 9% for the pension branch plus 0.75% for SANED (unemployment insurance), 9.75% in total, on basic salary plus housing allowance up to SAR 45,000 a month. The employer pays 9% pension, 0.75% SANED and 2% occupational hazards, 11.75% in total."},
+    {"q": "Why do two Saudi employees pay different pension rates?", "a": "The new Social Insurance Law of July 2024 applies a graded rate to people who subscribe for the first time from 3 July 2024: it started at 9% and rises by half a point each July until it reaches 11%. Earlier subscribers stay at 9%."},
+    {"q": "Do non-Saudi employees pay GOSI?", "a": "Nothing is deducted from a non-Saudi employee's salary. The employer pays 2% for occupational hazards on the employee's basic salary plus housing."},
+    {"q": "What salary is GOSI calculated on?", "a": "The contributory wage: basic salary plus cash housing allowance, capped at SAR 45,000 a month. Transport and other allowances are not included."},
+    {"q": "When are contributions paid?", "a": "The employer pays each month's contributions, including the employee's deducted share, within the first 15 days of the following month, or a late-payment fine applies."}
+  ],
+  "sources": [
+    {"t": "General Organization for Social Insurance (GOSI)", "u": "https://www.gosi.gov.sa"},
+    {"t": "Umm Al-Qura — the new Social Insurance Law (Royal Decree M/273), Arabic", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "Al Eqtisadiah — the graded increase for new subscribers (30 June 2025), Arabic", "u": "https://www.aleqt.com/2025/06/30/article_2763270.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate GOSI contributions</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Basic salary (SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+      </div>
+      <div class="field">
+        <label for="housing">Cash housing allowance (SAR)</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="1" value="2000">
+      </div>
+      <fieldset class="field full">
+        <legend>Subscriber type</legend>
+        <div class="choices">
+          <label><input type="radio" name="status" value="saudi" checked><span>Saudi (subscribed before 3 July 2024)</span></label>
+          <label><input type="radio" name="status" value="saudi_new"><span>Saudi, first subscribed from 3 July 2024</span></label>
+          <label><input type="radio" name="status" value="expat"><span>Non-Saudi</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>GOSI contribution rates</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Branch</th><th scope="col">Employee</th><th scope="col">Employer</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Pension (Saudis, earlier subscribers)</th><td>9%</td><td>9%</td></tr>
+    <tr><th scope="row">Pension (Saudis, new since July 2024)</th><td>Graded, 9% rising to 11%</td><td>Same as employee</td></tr>
+    <tr><th scope="row">SANED unemployment insurance (Saudis)</th><td>0.75%</td><td>0.75%</td></tr>
+    <tr><th scope="row">Occupational hazards (everyone)</th><td>—</td><td>2%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a Saudi employee subscribed before July 2024 with basic salary SAR 8,000 and housing SAR 2,000. Contributory wage SAR 10,000. <strong>Employee share 9.75% = SAR 975</strong>, employer share 11.75% = SAR 1,175 a month.</p>
+</div>
+<p>Hiring? See the full monthly cost in the <a href="{{root}}en/saudi-employee-cost-calculator/{{ix}}">employee cost calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-gosi/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -1,0 +1,98 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-notice-period-pay-calculator",
+  "alternate": "uae-notice-pay",
+  "title": "UAE Notice Period Pay Calculator 2026 — Payment in Lieu of Notice (30 to 90 Days)",
+  "h1": "UAE Notice Period Pay Calculator",
+  "description": "Calculate payment in lieu of notice in the UAE under Article 43 of the Labour Law: pay for the whole notice period or the part not served, on your last gross wage (basic plus allowances), and the probation notice periods of Article 9 — 14 days from the employer, one month to move to another UAE employer.",
+  "short": "Pay for unserved notice on gross wage, and the 14-day and one-month probation notices",
+  "lead": "Choose who ended the contract, the notice period in your contract and how much of it was served to see the notice pay and who owes it to whom.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "en-uae-notice-pay.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-final-settlement", "en-uae-gratuity", "en-uae-annual-leave", "en-uae-iloe"],
+  "faq": [
+    {"q": "Is notice pay calculated on basic or gross salary in the UAE?", "a": "On the last wage the worker received, and Article 1 defines the wage as the basic wage plus allowances. So notice pay is calculated on gross pay, not on basic salary alone, unlike end-of-service gratuity."},
+    {"q": "How long is the notice period in the UAE?", "a": "The employment contract sets it, but it may not be less than 30 days or more than 90 days, and it applies to both sides: the employer when terminating and the employee when resigning."},
+    {"q": "Am I paid during the notice period?", "a": "Yes. You receive your full wage at your last rate for the notice days you work. Notice pay is only due for days that are not served."},
+    {"q": "Do I get time off to look for work during notice?", "a": "If the employer ended the contract, you may take one unpaid working day a week to look for work, choosing the day and telling the employer at least 3 days in advance. This does not apply when you resign."},
+    {"q": "I resigned and left before the notice ended — what do I owe?", "a": "You must pay the employer notice pay equal to your wage for the rest of the notice period, even if the employer suffered no loss."},
+    {"q": "What notice applies during probation?", "a": "The employer must give at least 14 days. An employee moving to another employer in the UAE must give at least one month, and the new employer compensates the original one for recruitment costs unless agreed otherwise. An employee leaving the UAE must give 14 days. Whoever breaks the notice pays the wage for the period or the part left."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Articles 1, 9 and 43)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "Gulf News — notice period rules for resignation and probation (October 2026)", "u": "https://gulfnews.com/living-in-uae/ask-us/uae-notice-period-rules-resignation-probation-1.500723395"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate notice pay</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="10000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Monthly allowances (AED)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="5000">
+        <span class="hint">Housing, transport and others — they count towards notice pay.</span>
+      </div>
+      <div class="field">
+        <label for="stage">When did the contract end?</label>
+        <select id="stage" name="stage">
+          <option value="after">After probation</option>
+          <option value="probation">During probation</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">Who ended the contract?</label>
+        <select id="who" name="who">
+          <option value="employer">The employer</option>
+          <option value="worker">The employee (resignation)</option>
+        </select>
+      </div>
+      <div class="field" data-after>
+        <label for="notice">Notice period in the contract (days)</label>
+        <input type="number" id="notice" name="notice" inputmode="decimal" min="30" max="90" step="1" value="60">
+        <span class="hint">Between 30 and 90 days.</span>
+      </div>
+      <div class="field" data-prob hidden>
+        <label for="dest">If the employee resigns during probation</label>
+        <select id="dest" name="dest">
+          <option value="uae">Moving to another UAE employer (one month)</option>
+          <option value="leave">Leaving the UAE (14 days)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">Notice days actually served</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">0 if the termination was immediate.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Notice rules in the UAE</h2>
+<ul>
+  <li><strong>Length:</strong> set by the contract, between 30 and 90 days, for both resignation and termination (Article 43).</li>
+  <li><strong>Pay in lieu:</strong> whoever does not observe the notice pays the other side the wage for the notice period, or for the part not served, even without any loss.</li>
+  <li><strong>Wage used:</strong> the last gross wage — basic plus allowances — divided by 30 for the daily rate.</li>
+  <li><strong>Probation (Article 9):</strong> 14 days' notice from the employer; one month from an employee moving to another UAE employer; 14 days from an employee leaving the country.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> basic AED 10,000 and allowances AED 5,000, a 60-day notice period, and the employer ends the contract immediately.</p>
+<p>Daily wage = 15,000 ÷ 30 = AED 500. <strong>Notice pay = 60 × 500 = AED 30,000</strong>, owed by the employer on top of gratuity and unused leave.</p>
+</div>
+<p>Add your gratuity and leave in the <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-notice-pay/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

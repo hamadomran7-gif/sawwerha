@@ -1,0 +1,72 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-annual-leave-calculator",
+  "alternate": "ksa-annual-leave",
+  "title": "Saudi Annual Leave Calculator 2026 — Leave Balance and Leave Encashment",
+  "h1": "Saudi Annual Leave and Leave Encashment Calculator",
+  "description": "Calculate your annual leave entitlement in Saudi Arabia — 21 days a year, rising to 30 days after five years — and the cash value of unused leave when you leave, under Articles 109 and 111 of the Saudi Labour Law.",
+  "short": "21 or 30 days a year, and the cash value of unused days",
+  "lead": "Enter your wage, your years of service and the days you have used this leave year to see the remaining days and their value.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-ksa-annual-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-final-settlement", "en-ksa-end-of-service", "en-ksa-exit-reentry", "en-ksa-gosi"],
+  "faq": [
+    {"q": "How many days of annual leave do employees get in Saudi Arabia?", "a": "At least 21 days on full pay, rising to 30 days once the employee has completed five consecutive years with the same employer (Article 109)."},
+    {"q": "Am I paid for unused leave when I leave my job?", "a": "Yes. Article 111 entitles you to pay for leave days you have earned but not taken when you leave, and for part years in proportion to the time worked, at your last wage."},
+    {"q": "Can leave be postponed or paid in cash during employment?", "a": "With the employer's agreement, leave or part of it may be carried over to the next year. Cash in place of leave during employment is not an absolute right and depends on agreement."},
+    {"q": "Are public holidays deducted from annual leave?", "a": "No. Eid al-Fitr, Eid al-Adha, National Day and Founding Day are separate paid holidays and are not counted against annual leave."}
+  ],
+  "sources": [
+    {"t": "Saudi Labour Law, Articles 109 to 111 — Ministry of Human Resources (Arabic)", "u": "https://www.hrsd.gov.sa/ar/knowledge-centre/decisions-and-regulations/regulation/406"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your leave balance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Your last wage: basic plus fixed allowances.</span>
+      </div>
+      <div class="field">
+        <label for="years">Completed years of service</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="1" value="6" required>
+      </div>
+      <div class="field">
+        <label for="months">Months elapsed in the current leave year</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="12" step="1" value="8" required>
+        <span class="hint">12 if the year is complete.</span>
+      </div>
+      <div class="field">
+        <label for="used">Days used from this year's balance</label>
+        <input type="number" id="used" name="used" inputmode="decimal" min="0" step="1" value="5">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Annual leave rules in Saudi Arabia</h2>
+<ul>
+  <li><strong>Entitlement:</strong> at least 21 days a year on full pay, and 30 days after five consecutive years with the employer (Article 109).</li>
+  <li><strong>Leaving work:</strong> unused days are paid at your last wage, and part years count pro rata (Article 111).</li>
+  <li><strong>Daily rate:</strong> the monthly wage divided by 30.</li>
+  <li><strong>Public holidays:</strong> the two Eids, National Day and Founding Day are separate from annual leave.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> wage SAR 8,000, six years of service (30 days a year), eight months into the leave year, five days used. Earned 20 days; remaining 15 days, worth <strong>SAR 4,000</strong>.</p>
+</div>
+<p>Leaving your job? Add your end-of-service award in the <a href="{{root}}en/saudi-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-annual-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
