@@ -632,3 +632,22 @@ test("أيام العمل والإجازات الخاصة في الإمارات"
   assert.equal(uaeSpecialLeave({ type: "study", date: "2026-12-01", years: 1 }).eligible, false);
   assert.equal(uaeSpecialLeave({ type: "study", date: "2026-12-01", years: 3 }).calendarDays, 14);
 });
+
+import { workHours } from "../src/assets/calc.js";
+
+test("ساعات العمل والساعات الإضافية", () => {
+  const a = workHours({ country: "sa", start: "08:00", end: "17:00", breakMin: 60, days: 5 });
+  assert.equal(a.workMin, 480);
+  assert.equal(a.weeklyMin, 2400);
+  assert.equal(a.otDailyStdMin, 0);
+  const b = workHours({ country: "sa", start: "08:00", end: "18:00", breakMin: 60, days: 5 });
+  assert.equal(b.otDailyStdMin, 300);
+  assert.equal(b.otWeeklyStdMin, 0);
+  const c = workHours({ country: "sa", start: "09:00", end: "17:00", breakMin: 30, days: 6, ramadan: true });
+  assert.equal(c.dailyMaxMin, 360);
+  assert.equal(c.otWeeklyStdMin, 450 * 6 - 36 * 60);
+  const n = workHours({ country: "ae", start: "22:00", end: "07:00", breakMin: 60, days: 6 });
+  assert.equal(n.presenceMin, 540);
+  assert.equal(n.otWeeklyStdMin, 0);
+  assert.equal(workHours({ country: "ae", start: "09:00", end: "17:00", breakMin: 60, days: 5, ramadan: true }).otPerDayMin, 60);
+});

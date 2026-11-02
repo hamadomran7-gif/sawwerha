@@ -1328,3 +1328,41 @@ export function uaeSpecialLeave({ type, date, start, weekend = "sat-sun", years 
   }
   return null;
 }
+
+/* ------------------------------------------------------------------ */
+/* ساعات العمل والدوام (السعودية والإمارات)                             */
+/* ------------------------------------------------------------------ */
+
+const toMin = (t) => {
+  const m = /^(\d{1,2}):(\d{2})/.exec(String(t || ""));
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+};
+
+/** ساعات الدوام اليومية والأسبوعية والساعات الإضافية بالمعيارين اليومي والأسبوعي، مع فحص حدود النظام. */
+export function workHours({ country = "sa", start, end, breakMin = 60, days = 5, ramadan = false, muslim = true }) {
+  const s = toMin(start), e = toMin(end);
+  if (s === null || e === null) return null;
+  const presence = (e - s + 1440) % 1440 || 1440;
+  const br = Math.max(0, Math.min(presence, Number(breakMin) || 0));
+  const work = presence - br;
+  const d = Math.max(1, Math.min(7, Math.round(Number(days) || 5)));
+  let dailyMax, weeklyMax;
+  if (country === "ae") {
+    const W = rules.ae.workHours;
+    dailyMax = (W.hoursPerDay - (ramadan ? W.ramadanReductionPerDay : 0)) * 60;
+    weeklyMax = ramadan ? dailyMax * Math.min(d, 6) : W.hoursPerWeek * 60;
+  } else {
+    const W = rules.sa.workHours;
+    const r = ramadan && muslim;
+    dailyMax = (r ? W.ramadanMuslimPerDay : W.hoursPerDay) * 60;
+    weeklyMax = (r ? W.ramadanMuslimPerWeek : W.hoursPerWeek) * 60;
+  }
+  const weekly = work * d;
+  const otDailyStd = Math.max(0, work - dailyMax) * d;
+  const otWeeklyStd = Math.max(0, weekly - weeklyMax);
+  return {
+    presenceMin: presence, breakMin: br, workMin: work, days: d, weeklyMin: weekly, monthlyMin: Math.round((weekly * 52) / 12),
+    dailyMaxMin: dailyMax, weeklyMaxMin: weeklyMax, otDailyStdMin: otDailyStd, otWeeklyStdMin: otWeeklyStd,
+    otPerDayMin: Math.max(0, work - dailyMax),
+  };
+}

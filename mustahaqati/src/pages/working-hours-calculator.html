@@ -1,0 +1,98 @@
+---json
+{
+  "title": "حاسبة ساعات العمل والدوام — الساعات الإضافية وحدود النظام في السعودية والإمارات",
+  "h1": "حاسبة ساعات العمل والدوام",
+  "description": "احسب ساعات دوامك الفعلية يومياً وأسبوعياً وشهرياً بعد خصم الاستراحة، والساعات الإضافية بالمعيار اليومي (8 ساعات) والأسبوعي (48 ساعة)، وساعات رمضان، وهل يلتزم جدولك بحدود نظام العمل في السعودية والإمارات.",
+  "short": "ساعات الدوام الفعلية والإضافية، وساعات رمضان، وحدود الاستراحة",
+  "lead": "أدخل وقت بداية الدوام ونهايته ومدة الاستراحة وأيام العمل، وتظهر ساعاتك الفعلية وما يزيد على الحد النظامي.",
+  "country": "gcc",
+  "category": "leave",
+  "tool": true,
+  "script": "working-hours-calculator.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-overtime", "uae-overtime", "uae-ramadan-working-hours", "date-difference"],
+  "faq": [
+    {"q": "كم ساعات العمل الرسمية في القطاع الخاص؟", "a": "في السعودية والإمارات 8 ساعات في اليوم أو 48 ساعة في الأسبوع. ويجوز لصاحب العمل اعتماد المعيار اليومي أو الأسبوعي، فإذا اعتمد الأسبوعي جاز توزيع 48 ساعة على أيام الأسبوع بشرط ألا تُتجاوز حدود الاستراحة والحضور."},
+    {"q": "هل تُحسب الاستراحة من ساعات العمل؟", "a": "لا. في السعودية لا تدخل فترات الراحة في ساعات العمل الفعلية (المادة 102)، ولا يجوز العمل أكثر من 5 ساعات متتالية دون استراحة لا تقل عن نصف ساعة، ولا البقاء في مكان العمل أكثر من 12 ساعة في اليوم. وفي الإمارات استراحة لا تقل عن ساعة بعد 5 ساعات متواصلة."},
+    {"q": "كم ساعات العمل في رمضان؟", "a": "في السعودية 6 ساعات يومياً و36 ساعة أسبوعياً للعاملين المسلمين. وفي الإمارات تُخفض ساعات العمل في القطاع الخاص ساعتين يومياً خلال رمضان."},
+    {"q": "كم الحد الأقصى للساعات الإضافية؟", "a": "في الإمارات لا تزيد الساعات الإضافية على ساعتين في اليوم، ولا يزيد مجموع ساعات العمل على 144 ساعة كل 3 أسابيع إلا لمنع خسارة جسيمة أو حادث. وفي السعودية حد سنوي قدره 720 ساعة إضافية ما لم يوافق العامل على أكثر."},
+    {"q": "كيف أحسب أجر الساعات الإضافية؟", "a": "في السعودية أجر الساعة الفعلي مضافاً إليه 50% من أجر الساعة الأساسي، وفي الإمارات أجر الساعة الأساسي مضافاً إليه 25%، و50% بين 10 مساءً و4 صباحاً. احسبه في حاسبتي العمل الإضافي للبلدين."}
+  ],
+  "sources": [
+    {"t": "صبار — فترات العمل والراحة في نظام العمل السعودي (المواد 101–103)", "u": "https://sabbar.com/blog/employee-break-ksa"},
+    {"t": "Gulf News — ساعات العمل والإضافي في الإمارات (المواد 17–19)", "u": "https://gulfnews.com/living-in-uae/ask-us/5-things-to-know-about-working-hours-overtime-in-the-uae-1.1674568533187"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — ساعات العمل في القطاع الخاص", "u": "https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/working-hours"},
+    {"t": "وزارة الموارد البشرية السعودية — نظام العمل", "u": "https://www.hrsd.gov.sa"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب ساعات دوامك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="country">الدولة</label>
+        <select id="country" name="country">
+          <option value="sa" selected>السعودية</option>
+          <option value="ae">الإمارات</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="days">أيام العمل في الأسبوع</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="7" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="start">بداية الدوام</label>
+        <input type="time" id="start" name="start" value="08:00" required>
+      </div>
+      <div class="field">
+        <label for="end">نهاية الدوام</label>
+        <input type="time" id="end" name="end" value="17:00" required>
+        <span class="hint">إن كانت قبل البداية حُسب الدوام ليلياً حتى اليوم التالي.</span>
+      </div>
+      <div class="field">
+        <label for="breakMin">مدة الاستراحة (دقائق)</label>
+        <input type="number" id="breakMin" name="breakMin" inputmode="decimal" min="0" max="600" step="5" value="60">
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="ramadan" name="ramadan">
+        <label for="ramadan">في شهر رمضان</label>
+      </div>
+      <div class="field inline" data-country="sa">
+        <input type="checkbox" id="muslim" name="muslim" checked>
+        <label for="muslim">العامل مسلم (تخفيض رمضان في السعودية للمسلمين)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>حدود ساعات العمل في النظام</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">القاعدة</th><th scope="col">السعودية</th><th scope="col">الإمارات</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الساعات العادية</th><td>8 يومياً أو 48 أسبوعياً</td><td>8 يومياً أو 48 أسبوعياً</td></tr>
+    <tr><th scope="row">رمضان</th><td>6 يومياً و36 أسبوعياً للمسلمين</td><td>تخفيض ساعتين يومياً</td></tr>
+    <tr><th scope="row">الاستراحة</th><td>نصف ساعة على الأقل بعد 5 ساعات متتالية، ولا تُحسب من العمل</td><td>ساعة على الأقل بعد 5 ساعات متواصلة</td></tr>
+    <tr><th scope="row">الحضور اليومي</th><td>12 ساعة كحد أقصى في مكان العمل</td><td>—</td></tr>
+    <tr><th scope="row">الساعات الإضافية</th><td>720 ساعة في السنة ما لم يوافق العامل على أكثر</td><td>ساعتان يومياً، و144 ساعة عمل كل 3 أسابيع</td></tr>
+    <tr><th scope="row">أجر الساعة الإضافية</th><td>الأجر الفعلي + 50% من الأساسي</td><td>الأساسي + 25% (و50% ليلاً)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+دوام من 8 صباحاً إلى 6 مساءً باستراحة ساعة، 5 أيام: 9 ساعات يومياً و45 أسبوعياً. بالمعيار اليومي <strong>5 ساعات إضافية</strong> في الأسبوع، وبالمعيار الأسبوعي لا إضافي لأن 45 أقل من 48.<br>
+في رمضان بالسعودية دوام 7 ساعات فعلية 5 أيام: 35 ساعة، أقل من 36، لكن كل يوم يزيد ساعة على 6 بالمعيار اليومي.</p>
+</div>
+
+<p>لحساب أجر الإضافي بالريال أو الدرهم استخدم <a href="{{root}}ksa-overtime/{{ix}}">حاسبة العمل الإضافي في السعودية</a> أو <a href="{{root}}uae-overtime/{{ix}}">حاسبة العمل الإضافي في الإمارات</a>.</p>
+</div>

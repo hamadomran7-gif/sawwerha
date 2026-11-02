@@ -194,6 +194,16 @@ export default {
       "parentalWithinMonths": 6,
       "studyWorkingDays": 10,
       "studyServiceYears": 2
+    },
+    "workHours": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المواد 17–19، وقرار مجلس الوزراء 1/2022 المادة 15",
+      "hoursPerDay": 8,
+      "hoursPerWeek": 48,
+      "ramadanReductionPerDay": 2,
+      "maxConsecutiveHours": 5,
+      "minBreakMinutes": 60,
+      "maxOvertimePerDay": 2,
+      "maxHoursPer3Weeks": 144
     }
   },
   "sa": {
@@ -596,6 +606,18 @@ export default {
       "iddahNonMuslimDays": 15,
       "examNoticeDays": 15,
       "unpaidSuspendAfterDays": 20
+    },
+    "workHours": {
+      "law": "نظام العمل السعودي المواد 98 و101 و102 و104 و107",
+      "hoursPerDay": 8,
+      "hoursPerWeek": 48,
+      "ramadanMuslimPerDay": 6,
+      "ramadanMuslimPerWeek": 36,
+      "maxConsecutiveHours": 5,
+      "minBreakMinutes": 30,
+      "maxPresenceHours": 12,
+      "overtimeAnnualCapHours": 720,
+      "weeklyRestHours": 24
     }
   },
   "gcc": {
