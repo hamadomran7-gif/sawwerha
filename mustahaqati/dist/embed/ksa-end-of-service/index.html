@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة مكافأة نهاية الخدمة في السعودية — مستحقاتي</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="embed">
+<main class="wrap">
+  <section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">حاسبة مكافأة نهاية الخدمة في السعودية</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الأجر الشهري الأخير (ريال)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000" required>
+        <span class="hint">الأساسي + البدلات الثابتة (السكن، النقل...). هذا هو «الأجر الفعلي» في النظام.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2019-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field full">
+        <label for="reason">سبب انتهاء العلاقة العمالية</label>
+        <select id="reason" name="reason">
+          <option value="contract_end" selected>انتهاء مدة العقد أو إنهاؤه من صاحب العمل</option>
+          <option value="resignation">استقالة العامل</option>
+          <option value="resignation_marriage">استقالة العاملة خلال 6 أشهر من الزواج</option>
+          <option value="resignation_childbirth">استقالة العاملة خلال 3 أشهر من الوضع</option>
+          <option value="force_majeure">ترك العمل لقوة قاهرة خارجة عن الإرادة</option>
+          <option value="article_80">فسخ العقد من صاحب العمل لإحدى حالات المادة 80</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب المكافأة</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+
+  <p class="embed-credit">الحاسبة مقدّمة من <a href="https://mustahaqati.org/ksa-end-of-service/" target="_blank" rel="noopener">مستحقاتي — حاسبة مكافأة نهاية الخدمة في السعودية</a></p>
+</main>
+<script type="module" src="../../assets/app.js"></script>
+<script type="module" src="../../assets/pages/ksa-end-of-service.js"></script>
+</body>
+</html>

@@ -187,8 +187,39 @@ fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 .example { background: var(--surface-2); border-inline-start: 4px solid var(--primary); border-radius: 10px; padding: 12px 16px; margin: 14px 0; }
 .example p:last-child { margin-bottom: 0; }
 
+/* جداول البيانات المولّدة: الصف الأول عنوان، والأرقام بعرض ثابت */
+.article table.data { min-width: 100%; }
+.article table.data caption { caption-side: top; text-align: start; font-weight: 700; color: var(--muted); padding: 4px 0 8px; }
+.article table.data tbody th { background: var(--surface); font-weight: 600; white-space: nowrap; }
+.article table.data thead th { white-space: nowrap; font-size: .9rem; }
+.article table.data td { font-variant-numeric: tabular-nums; }
+.article .table-scroll + .table-scroll { margin-top: 18px; }
+
+/* سطر المؤلف والتحديث */
+.byline { font-size: .88rem; color: var(--muted); margin: -2px 0 14px; }
+.byline a { color: inherit; }
+
+/* الحالات الشائعة والمحاور */
+.scenarios h2 { margin-top: 1.6em; }
+.hub-link { margin: 10px 0 0; font-weight: 500; }
+.card-hub strong { font-size: 1.1rem; }
+.chip-gcc, .chip-qa, .chip-kw, .chip-om, .chip-bh { background: var(--surface-2); color: var(--muted); }
+
+/* أضف الحاسبة إلى موقعك */
+.embed-box { margin-top: 1.6em; padding: 16px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--surface); max-width: 68ch; }
+.embed-box h2 { margin-top: 0; }
+.embed-box textarea.code { width: 100%; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--fg); resize: vertical; direction: ltr; text-align: left; }
+
+/* صفحة التضمين داخل المواقع الأخرى */
+body.embed { background: var(--surface); }
+body.embed main.wrap { padding-top: 10px; padding-bottom: 10px; }
+.embed-credit { font-size: .85rem; color: var(--muted); margin: 12px 0 4px; }
+
 @media (max-width: 480px) {
   body { font-size: 16px; }
+  .article table.data { font-size: .84rem; }
+  .article table.data th, .article table.data td { padding: 6px 5px; }
+  .article table.data thead th { white-space: normal; }
   .tool { padding: 16px; }
   .breakdown th { width: 55%; }
   .breakdown td { white-space: normal; }

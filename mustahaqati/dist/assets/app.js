@@ -128,7 +128,8 @@ document.addEventListener("click", async (e) => {
   if (!btn) return;
   const target = document.querySelector(btn.dataset.copy);
   if (!target) return;
-  const text = target.innerText.trim();
+  const text = ("value" in target ? target.value : target.innerText).trim();
+  const label = btn.dataset.label || (btn.dataset.label = btn.textContent);
   try {
     await navigator.clipboard.writeText(text);
     btn.textContent = "تم النسخ";
@@ -140,5 +141,5 @@ document.addEventListener("click", async (e) => {
     sel.addRange(range);
     btn.textContent = "حدّد النص وانسخه";
   }
-  setTimeout(() => (btn.textContent = "نسخ النتيجة"), 2000);
+  setTimeout(() => (btn.textContent = label), 2000);
 });

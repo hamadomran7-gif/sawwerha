@@ -20,7 +20,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Noto+Kufi+Arabic:wght@700&display=swap">
 <link rel="stylesheet" href="{{root}}assets/style.css">
 {{jsonld}}
-<!-- AdSense: ضع وسم السكربت الخاص بحسابك هنا بعد الموافقة -->
 </head>
 <body class="{{bodyClass}}">
 <a class="skip" href="#main">تجاوز إلى المحتوى</a>
@@ -31,9 +30,9 @@
       <span>{{siteName}}</span>
     </a>
     <nav class="nav" aria-label="التنقل الرئيسي">
+      <a href="{{root}}uae/{{ix}}">الإمارات</a>
+      <a href="{{root}}ksa/{{ix}}">السعودية</a>
       <a href="{{home}}#g-eos">نهاية الخدمة</a>
-      <a href="{{home}}#g-salary">الراتب</a>
-      <a href="{{home}}#g-finance">التمويل</a>
       <a href="{{home}}#all">كل الحاسبات</a>
     </nav>
   </div>
@@ -43,6 +42,7 @@
   {{breadcrumb}}
   <h1>{{h1}}</h1>
   {{lead}}
+  {{byline}}
   <div class="ad ad-top" aria-hidden="true"></div>
   {{main}}
   <div class="ad ad-bottom" aria-hidden="true"></div>

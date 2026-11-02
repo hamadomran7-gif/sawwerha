@@ -1,0 +1,31 @@
+<!--defaults {"heading":"احسب مكافأتك","basic":"8000","start":"2019-03-01","end":"2026-11-30","unpaid":"0"}-->
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">{{heading}}</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="{{basic}}" placeholder="مثال: 8000" required>
+        <span class="hint">الأساسي فقط بدون البدلات، كما هو مكتوب في عقد العمل.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="{{start}}" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="{{end}}" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">أيام الإجازة بدون راتب (اختياري)</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="{{unpaid}}">
+        <span class="hint">تُطرح من مدة الخدمة لأنها لا تُحتسب قانوناً.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب المكافأة</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
