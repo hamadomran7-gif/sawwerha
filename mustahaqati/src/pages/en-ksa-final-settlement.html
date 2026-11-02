@@ -1,0 +1,120 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-final-settlement-calculator",
+  "alternate": "ksa-final-settlement",
+  "title": "Saudi Final Settlement Calculator 2026 — End of Service, Leave and Notice Pay",
+  "h1": "Saudi Arabia Final Settlement Calculator",
+  "description": "Calculate your final settlement in Saudi Arabia: the end-of-service award by reason of termination, pay for unused annual leave (Article 111), notice compensation paid or deducted (Article 76), and unpaid salary, payable within one or two weeks (Article 88).",
+  "short": "End of service, unused leave, notice pay and unpaid salary in one figure",
+  "lead": "Enter your wage, service dates, the reason your contract ended and your unused leave. Your final settlement appears item by item.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-ksa-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-end-of-service", "en-ksa-dependents-fee", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "What is included in a final settlement in Saudi Arabia?", "a": "The end-of-service award according to why the contract ended, pay for annual leave you were entitled to but did not take (Article 111), wages up to your last working day, notice compensation if the notice period was not respected, and any other contractual dues, minus any work-related debt you owe the employer."},
+    {"q": "When must the final settlement be paid in Saudi Arabia?", "a": "Within one week of the contract ending if the employer ended it, and within two weeks if the worker ended it, under Article 88 of the Labor Law."},
+    {"q": "Is unused leave paid if I resign?", "a": "Yes. A worker who leaves before taking leave he is entitled to is paid for those days, whatever the reason the contract ended (Article 111)."},
+    {"q": "Can the employer deduct from my final settlement?", "a": "The employer may deduct any debt owed by the worker because of the work (Article 88), such as a documented advance. The worker's iqama, work permit and levy fees may not be charged to the worker."},
+    {"q": "Which wage is used?", "a": "The last actual wage: basic salary plus fixed allowances such as housing and transport, for the end-of-service award, leave pay and notice compensation."}
+  ],
+  "sources": [
+    {"t": "Saudi Labor Law — Ministry of Human Resources (Articles 75, 76, 84, 85, 88, 111; Arabic)", "u": "https://www.hrsd.gov.sa/ar/knowledge-centre/decisions-and-regulations/regulation/406"},
+    {"t": "Sabbar — employee rights in Saudi Arabia (Article 88; Arabic)", "u": "https://sabbar.com/blog/employee-rights-in-saudi-arabia"},
+    {"t": "Umm Al-Qura — Royal Decree M/44 amending the Labor Law (in force 19 Feb 2025; Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your final settlement</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last monthly actual wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000" required>
+        <span class="hint">Basic plus fixed allowances.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2019-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-11-30" required>
+      </div>
+      <div class="field full">
+        <label for="reason">Why did the contract end?</label>
+        <select id="reason" name="reason">
+          <option value="contract_end" selected>Contract expired or was ended by the employer</option>
+          <option value="resignation">Resignation from a fixed-term contract (Article 79 bis)</option>
+          <option value="worker_notice">Employee ended an open-ended contract with notice (Article 75)</option>
+          <option value="mutual">Mutual written agreement</option>
+          <option value="article_81">Employee left under Article 81</option>
+          <option value="resignation_marriage">Female employee resigned within 6 months of marriage</option>
+          <option value="resignation_childbirth">Female employee resigned within 3 months of childbirth</option>
+          <option value="force_majeure">Left due to force majeure</option>
+          <option value="article_80">Dismissed by the employer under Article 80</option>
+          <option value="probation">Contract ended during probation</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="leaveDays">Unused annual leave (days)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">Days worked in the last month not yet paid</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" max="31" step="1" value="0">
+      </div>
+      <div class="field full">
+        <label for="noticeCase">Notice period (open-ended contract)</label>
+        <select id="noticeCase" name="noticeCase">
+          <option value="none" selected>Fully served, or not applicable (fixed-term contract expired)</option>
+          <option value="employer">Employer ended it without the full 60 days' notice</option>
+          <option value="worker">I ended it without the full 30 days' notice</option>
+        </select>
+      </div>
+      <div class="field" data-notice>
+        <label for="givenDays">Notice days actually served</label>
+        <input type="number" id="givenDays" name="givenDays" inputmode="decimal" min="0" max="60" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="other">Other dues (SAR)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Unpaid overtime, a contractual ticket, commissions…</span>
+      </div>
+      <div class="field">
+        <label for="deductions">Deductions (SAR)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">A documented work-related debt to the employer.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>What goes into a Saudi final settlement</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">How it is calculated</th><th scope="col">Article</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">End-of-service award</th><td>Half a month per year for the first five years, then a month, reduced on resignation by length of service</td><td>84, 85</td></tr>
+    <tr><th scope="row">Unused leave</th><td>Daily wage (wage ÷ 30) × days</td><td>111</td></tr>
+    <tr><th scope="row">Notice compensation</th><td>Wage for the unserved days of 60 (employer) or 30 (worker)</td><td>75, 76</td></tr>
+    <tr><th scope="row">Unpaid salary</th><td>Daily wage × days worked but not paid</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> wage SAR 9,000 and 8 years of service ended by the employer of an open-ended contract with 30 days' notice instead of 60, and 21 days of unused leave: award 49,500, leave pay 6,300 and 30 days of notice 9,000, a total of <strong>SAR 64,800</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-final-settlement/{{ix}}" hreflang="ar" lang="ar">Arabic version of this calculator</a>.</p>
+</div>
