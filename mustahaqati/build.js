@@ -620,13 +620,16 @@ async function build({ check = false, preview = false } = {}) {
     fs.writeFileSync(path.join(outDir, "index.html"), out);
     if (!meta.noindex) {
       const priority = isHome ? "1.0" : meta.home ? "0.9" : meta.tool || meta.hub ? "0.8" : isContent(meta) ? "0.7" : "0.3";
-      urls.push({ loc: abs, lastmod: meta.updated, priority });
+      urls.push({ loc: abs, lastmod: meta.updated, priority, alt: other && !other.noindex ? { ar: absOf(arM), en: absOf(enM) } : null });
     }
   }
 
   // sitemap + robots + 404
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-    .map((u) => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod><priority>${u.priority}</priority></url>`)
+  // hreflang في خريطة الموقع أيضاً: كل صفحة لها نظيرة تُدرج الثلاثة (ar وen وx-default)
+  const altXml = (a) =>
+    a ? `<xhtml:link rel="alternate" hreflang="ar" href="${a.ar}"/><xhtml:link rel="alternate" hreflang="en" href="${a.en}"/><xhtml:link rel="alternate" hreflang="x-default" href="${a.ar}"/>` : "";
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls
+    .map((u) => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod><priority>${u.priority}</priority>${altXml(u.alt)}</url>`)
     .join("\n")}\n</urlset>\n`;
   fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemap);
   fs.writeFileSync(path.join(DIST, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
