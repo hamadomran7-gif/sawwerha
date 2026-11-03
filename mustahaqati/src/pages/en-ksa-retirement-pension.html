@@ -1,0 +1,100 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gosi-pension-calculator",
+  "alternate": "ksa-retirement-pension",
+  "title": "GOSI Pension Calculator 2026 — Saudi Retirement Pension Under the Old and New Systems",
+  "h1": "GOSI Retirement Pension Calculator",
+  "description": "Estimate the GOSI retirement pension for Saudi employees: the previous system (average of the last two years × contribution months ÷ 480) with the new retirement ages for the transitional group, and the new system for those first registered from 3 July 2024 (2.25% a year, age 65, early retirement with a 3% annual reduction).",
+  "short": "Old and new systems, the transitional retirement ages, and early retirement",
+  "lead": "Choose your system and enter your date of birth, contribution start date and planned retirement date to see your estimated pension and the conditions.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-retirement-pension.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-gosi", "en-ksa-saned", "en-ksa-net-salary", "en-uae-pension"],
+  "faq": [
+    {"q": "How is the pension calculated under the previous system?", "a": "The average contributory wage of the last 24 months × the number of contribution months ÷ 480 — that is 2.5% for each year — up to 100% of the average and with a minimum of SAR 1,983.75. Example: average SAR 10,000 and 25 years = SAR 6,250."},
+    {"q": "How is the pension calculated under the new system?", "a": "For those first registered from 3 July 2024: 2.25% × the average of the highest wages over 180 months × years of contribution, up to 100%. The normal age is 65 with at least 180 months. Example: average SAR 10,000 and 25 years at 65 = SAR 5,625."},
+    {"q": "Did the retirement age change for existing members?", "a": "Yes, for those who on 3 July 2024 were under 50 Hijri years (48.5 Gregorian) and had fewer than 240 months: their normal age becomes between 58 years 4 months and 65, depending on their age that day, and early retirement needs 300 to 360 months depending on their service. The formula did not change. Those aged 50 Hijri or more, or with 240 months or more, keep the previous age and early-retirement rules."},
+    {"q": "Is there a reduction for early retirement?", "a": "Not under the previous system (including the transitional group). Under the new system early retirement needs 360 months and age 55, with a 3% reduction for every 12 months — the lower of the months left to 65 or the months short of 480."},
+    {"q": "Which wage is the pension based on?", "a": "The contributory wage: basic salary plus housing allowance, capped at SAR 45,000 a month. Other allowances such as transport are not included."},
+    {"q": "What if I don't qualify for a pension?", "a": "Under the previous system a lump-sum compensation is paid: 10% of the average wage for each of the first 60 months and 12% for each month after. Under the new system, those who do not reach 180 months by 65 are compensated on their total contributions."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — the new Social Insurance Law (Royal Decree M/273), Articles 16, 17 and 26 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "Umm Al-Qura — Cabinet Decision 1022: age and early-retirement tables for the transitional group (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25237"},
+    {"t": "GOSI — pensions branch (previous system)", "u": "https://www.gosi.gov.sa/GOSIOnline/Annuity&locale=en_US"},
+    {"t": "GOSI — awareness journey for members affected by the changes (Arabic)", "u": "https://awareness.gosi.gov.sa/journey4.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Estimate your pension</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="system">When did you first contribute to GOSI or civil retirement?</label>
+        <select id="system" name="system">
+          <option value="legacy">Before 3 July 2024 (previous system)</option>
+          <option value="new">For the first time from 3 July 2024 (new system)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="birth">Date of birth (Gregorian)</label>
+        <input type="date" id="birth" name="birth" value="1985-05-15" required>
+      </div>
+      <div class="field">
+        <label for="start">Contribution start date</label>
+        <input type="date" id="start" name="start" value="2008-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Planned retirement or leaving date</label>
+        <input type="date" id="end" name="end" value="2038-01-01" required>
+      </div>
+      <div class="field">
+        <label for="gaps">Months without contributions</label>
+        <input type="number" id="gaps" name="gaps" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Periods between the two dates when you were not contributing.</span>
+      </div>
+      <div class="field full">
+        <label for="avg">Average contributory wage (SAR)</label>
+        <input type="number" id="avg" name="avg" inputmode="decimal" min="0" step="1" value="12000" required>
+        <span class="hint">Basic plus housing. Previous system: average of the last 24 months. New system: average of the highest wages over 180 months.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate pension</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The two systems side by side</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Previous system</th><th scope="col">New system</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Applies to</th><td>Contributing before 3 July 2024</td><td>First contribution from 3 July 2024</td></tr>
+    <tr><th scope="row">Average wage</th><td>Last 24 months</td><td>Highest wages over 180 months</td></tr>
+    <tr><th scope="row">Rate per year</th><td>2.5% (months ÷ 480)</td><td>2.25%</td></tr>
+    <tr><th scope="row">Normal age</th><td>60 Hijri with 120 months (or the transitional table)</td><td>65 Gregorian with 180 months</td></tr>
+    <tr><th scope="row">Early retirement</th><td>300 months at any age, no reduction (300–360 for the transitional group)</td><td>360 months and age 55, 3% reduction a year</td></tr>
+    <tr><th scope="row">Minimum pension</th><td>SAR 1,983.75</td><td>4,000 at 480 months, falling to 2,000 at 180</td></tr>
+    <tr><th scope="row">Employee pension contribution</th><td>9%</td><td>10% since July 2026, rising to 11% in 2028</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Examples with an average wage of SAR 10,000:</strong><br>
+Previous system, 25 years (300 months) at any age: 10,000 × 300 ÷ 480 = <strong>SAR 6,250</strong>.<br>
+Previous system, 35 years at the normal age: <strong>SAR 8,750</strong>.<br>
+New system, 25 years at 65: 2.25% × 10,000 × 25 = <strong>SAR 5,625</strong>.<br>
+New system, early at 58 after 35 years: 7,875 less 15% = <strong>SAR 6,693.75</strong>.</p>
+</div>
+<p>Government employees under the civil retirement system have a different formula (last basic salary ÷ 480). Prefer Arabic? Use the <a href="{{root}}ksa-retirement-pension/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
