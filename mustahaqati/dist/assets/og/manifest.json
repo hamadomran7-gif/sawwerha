@@ -169,7 +169,7 @@
  "ksa-electricity-bill-table": "9c275252fd2fa055",
  "ksa-pension-table": "ac54ffb221b9f733",
  "ksa-water-bill-table": "b3c46c5ccacf7ff7",
- "uae-pension-table": "809d19e7fde21f41",
+ "uae-pension-table": "99a2c767e1690803",
  "en-ksa-eos-table": "cde1079b401e2980",
  "ksa-eos-table": "2b1cb50d394f63c9",
  "en-kuwait-eos-table": "95fd0c578592d7dd",
@@ -185,5 +185,8 @@
  "abu-dhabi-pension": "521316962349aea8",
  "en-abu-dhabi-pension": "f8f85df8ab5906e2",
  "en-uae-emiratisation": "ba101c81aa89d8ca",
- "uae-emiratisation": "882bdd70c09a9f1d"
+ "uae-emiratisation": "882bdd70c09a9f1d",
+ "en-about": "84c787260d1583e6",
+ "en-ksa-pension-table": "014d46d9bc9f5b09",
+ "en-uae-pension-table": "3c5449e3a2ea28de"
 }

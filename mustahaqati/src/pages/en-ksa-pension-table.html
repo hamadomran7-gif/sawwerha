@@ -1,0 +1,46 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-pension-table",
+  "alternate": "ksa-pension-table",
+  "parent": "en-ksa-retirement-pension",
+  "article": true,
+  "title": "Saudi GOSI Pension Table 2026 by Years of Contribution and Salary",
+  "h1": "Saudi GOSI Pension Table by Years and Salary",
+  "short": "Monthly pension for average wages of SAR 4,000 to 30,000 after 10 to 40 years",
+  "description": "Ready-made table of the monthly GOSI retirement pension in Saudi Arabia by average wage and years of contribution: the previous system (2.5% a year with a SAR 1,983.75 minimum) and the new system for those first insured from 3 July 2024 (2.25% a year at 65).",
+  "lead": "Find your years of contribution in the rows and your average wage in the columns to read your estimated monthly pension. For your exact dates, use the calculator.",
+  "country": "sa",
+  "category": "salary",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "What is the GOSI pension after 25 years in Saudi Arabia?", "a": "Under the previous system 62.5% of the average wage of the last two years: an average of SAR 10,000 gives SAR 6,250 a month. Under the new system 56.25% of the average of the highest wages over 15 years: SAR 5,625."},
+    {"q": "What is the GOSI pension after 30 years?", "a": "Under the previous system 75%: an average of 10,000 gives SAR 7,500. Under the new system 67.5%: SAR 6,750."},
+    {"q": "What does the asterisk in the table mean?", "a": "The calculated pension is below the minimum, so it is raised to it: SAR 1,983.75 under the previous system, and under the new system from SAR 2,000 for 15 years rising gradually to SAR 4,000 for 40 years."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — new Social Insurance Law (Royal Decree M/273)", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "General Organization for Social Insurance (GOSI)", "u": "https://www.gosi.gov.sa"}
+  ]
+}
+---
+<div class="article">
+<p>The tables are generated with the same rules as the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a> and assume you have reached the statutory retirement age and meet the pension conditions.</p>
+
+<h2>Previous system (insured before 3 July 2024)</h2>
+{{table:ksa-pension-grid lang=en}}
+<p class="muted small">Pension = average wage of the last 24 months × months of contribution ÷ 480, up to 100%. Asterisk: raised to the SAR 1,983.75 minimum.</p>
+
+<h2>New system (first insured from 3 July 2024)</h2>
+{{table:ksa-pension-grid system=new lang=en}}
+<p class="muted small">Pension = 2.25% × average of the highest wages over 180 months × years of contribution, at age 65 with at least 180 months. Asterisk: raised to the graduated minimum of SAR 2,000 to 4,000.</p>
+
+<h2>What the table leaves out</h2>
+<ul>
+  <li>The contributory wage is basic salary plus housing allowance only, capped at SAR 45,000.</li>
+  <li>Early retirement under the new system is reduced by 3% for each year, and deferring past 65 adds 3% for each year.</li>
+  <li>Older members in the transitional group have a retirement age between 58 and 65 depending on their age in July 2024, with the same formula.</li>
+</ul>
+<p>To compare with the other Gulf countries, see the <a href="{{root}}en/gcc-pension-comparison/{{ix}}">GCC pension comparison</a>. Prefer Arabic? Use the <a href="{{root}}ksa-pension-table/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

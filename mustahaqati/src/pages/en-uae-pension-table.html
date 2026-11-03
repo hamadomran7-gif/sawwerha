@@ -1,0 +1,51 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-pension-table",
+  "alternate": "uae-pension-table",
+  "parent": "en-uae-pension",
+  "article": true,
+  "title": "UAE Pension Table 2026 for Emiratis by Years of Service and Salary (GPSSA and Abu Dhabi)",
+  "h1": "UAE Pension Table by Years of Service and Salary",
+  "short": "Monthly pension for salaries of AED 10,000 to 70,000 after 15 to 35 years, including Abu Dhabi",
+  "description": "Ready-made table of the monthly pension for Emiratis at GPSSA by pension salary and years of service: the old law (60% for 15 years plus 2% a year), the new law for those first registered from 31 October 2023 (2.67% a year up to 30 years then 4%, AED 10,000 minimum) and the Abu Dhabi Pension Fund (3.2% a year up to 25 years then 2%, AED 10,200 minimum).",
+  "lead": "Find your years of service in the rows and your pension salary in the columns to read your estimated monthly pension once you qualify. For your exact dates, use the calculator.",
+  "country": "ae",
+  "category": "salary",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "What is the UAE pension after 25 years of service?", "a": "Under the old law 80% of the pension salary (average of the last 5 years): a salary of 30,000 gives AED 24,000. Under the new law 66.75% of the 6-year average: AED 20,025. In Abu Dhabi 80% of the 6-year average: AED 24,000."},
+    {"q": "What is the UAE pension after 20 years of service?", "a": "Under the old law 70%: a salary of 20,000 gives AED 14,000. Under the new law 53.4%: AED 10,680. In Abu Dhabi 64%: AED 12,800."},
+    {"q": "What does the asterisk in the table mean?", "a": "The calculated pension is below the minimum (AED 10,000 under the new federal law and AED 10,200 in Abu Dhabi), so it is raised to the minimum and the government pays the difference."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law 57/2023 on pensions and social security", "u": "https://uaelegislation.gov.ae/en/legislations/2254/download"},
+    {"t": "General Pension and Social Security Authority (GPSSA)", "u": "https://gpssa.gov.ae"},
+    {"t": "Abu Dhabi Pension Fund — consolidated text of Law 2/2000", "u": "https://www.pension.gov.ae/en-us/PensionLaw/Pension%20Law.pdf"}
+  ]
+}
+---
+<div class="article">
+<p>The tables are generated with the same rules as the <a href="{{root}}en/uae-pension-calculator/{{ix}}">UAE pension calculator</a> and assume you qualify for a pension (age 60 with 15 years, or the resignation conditions).</p>
+
+<h2>Old law (registered before 31 October 2023)</h2>
+{{table:uae-pension-grid lang=en}}
+<p class="muted small">Pension = average contribution salary of the last 5 years × (60% for 15 years + 2% for each extra year), up to 100% at 35 years, with the contribution salary capped at AED 50,000.</p>
+
+<h2>New law (first registered from 31 October 2023)</h2>
+{{table:uae-pension-grid system=new lang=en}}
+<p class="muted small">Pension = average contribution salary of the last 6 years × (2.67% a year up to 30, then 4%), up to 100%, with the contribution salary capped at AED 70,000. Asterisk: raised to the AED 10,000 minimum.</p>
+
+<h2>Abu Dhabi Pension Fund (Abu Dhabi nationals)</h2>
+{{table:uae-pension-grid system=ad lang=en}}
+<p class="muted small">Pension = average of the last 6 years × (3.2% a year up to 25, then 2%), up to 100% at 35 years, with the contribution salary capped at AED 150,000 for existing members. Asterisk: raised to the AED 10,200 minimum. For eligibility and the early-retirement routes, use the <a href="{{root}}en/abu-dhabi-pension-calculator/{{ix}}">Abu Dhabi pension calculator</a>.</p>
+
+<h2>What the table leaves out</h2>
+<ul>
+  <li>Members who do not qualify for a pension get an end-of-service gratuity instead: 1.5 months' salary for each of the first five years, 2 months for each of the next five and 3 months after that.</li>
+  <li>Sharjah government employees are under a separate system.</li>
+  <li>Periodic pension increases decided by the authorities are not included.</li>
+</ul>
+<p>To compare with the other Gulf countries, see the <a href="{{root}}en/gcc-pension-comparison/{{ix}}">GCC pension comparison</a>. Prefer Arabic? Use the <a href="{{root}}uae-pension-table/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

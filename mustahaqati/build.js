@@ -363,6 +363,7 @@ const TABLES = {
   },
   /** السعودية: معاش التأمينات حسب سنوات الاشتراك والأجر (النظام السابق أو الجديد) مع الحد الأدنى */
   "ksa-pension-grid"(a) {
+    const en = a.lang === "en";
     const P = rules.sa.pension;
     const isNew = a.system === "new";
     const salaries = listNums(a.salaries, [4000, 6000, 8000, 10000, 15000, 20000, 30000]);
@@ -380,31 +381,45 @@ const TABLES = {
       const base = Math.min(L.maxPct * S, (S * m) / L.divisorMonths);
       return base < L.minPension ? `${fmt0.format(L.minPension)}*` : fmt0.format(base);
     };
-    const rows = years.map((y) => [yearsLabel(y), ...salaries.map((S) => cell(S, y))]);
+    const yl = (y) => (en ? `${fmt0.format(y)} years` : yearsLabel(y));
+    const rows = years.map((y) => [yl(y), ...salaries.map((S) => cell(S, y))]);
     return tableWrap(
-      a.caption || (isNew ? "النظام الجديد (من 3 يوليو 2024) عند سن 65 — ريال شهرياً" : "النظام السابق — ريال شهرياً"),
-      ["مدة الاشتراك", ...salaries.map((S) => `متوسط ${fmt0.format(S)}`)],
+      a.caption || (en ? (isNew ? "New system (from 3 July 2024) at age 65 — SAR a month" : "Previous system — SAR a month") : isNew ? "النظام الجديد (من 3 يوليو 2024) عند سن 65 — ريال شهرياً" : "النظام السابق — ريال شهرياً"),
+      [en ? "Contribution period" : "مدة الاشتراك", ...salaries.map((S) => (en ? `Average ${fmt0.format(S)}` : `متوسط ${fmt0.format(S)}`))],
       rows
     );
   },
-  /** الإمارات: معاش المواطن حسب سنوات الخدمة وراتب حساب المعاش (القانون القديم أو الجديد) */
+  /** الإمارات: معاش المواطن حسب سنوات الخدمة وراتب حساب المعاش (القانون القديم أو الجديد، أو صندوق أبوظبي system=ad) */
   "uae-pension-grid"(a) {
-    const A = rules.ae.pension;
+    const en = a.lang === "en";
+    const isAd = a.system === "ad";
     const isNew = a.system === "new";
+    const A = rules.ae.pension;
+    const D = rules.ae.abuDhabiPension;
     const L = isNew ? A.new : A.legacy;
     const salaries = listNums(a.salaries, [10000, 15000, 20000, 30000, 40000, 50000, 70000]);
     const years = listNums(a.years, [15, 20, 25, 30, 35]);
-    const pct = (y) => (isNew ? Math.min(L.maxPct, Math.min(y, L.breakYears) * L.accrualUpTo30 + Math.max(0, y - L.breakYears) * L.accrualOver30) : Math.min(L.maxPct, L.basePct + (y - L.baseYears) * L.stepPct));
+    const pct = (y) =>
+      isAd
+        ? Math.min(D.maxPct, D.accrualFirst * Math.min(y, D.firstYears) + D.accrualAfter * Math.max(0, Math.min(y, D.maxYears) - D.firstYears))
+        : isNew
+        ? Math.min(L.maxPct, Math.min(y, L.breakYears) * L.accrualUpTo30 + Math.max(0, y - L.breakYears) * L.accrualOver30)
+        : Math.min(L.maxPct, L.basePct + (y - L.baseYears) * L.stepPct);
     const cell = (S, y) => {
-      const base = Math.min(S, L.salaryMax);
+      const base = Math.min(S, isAd ? D.existing.cap : L.salaryMax);
       const v = base * pct(y);
-      if (isNew && v < L.minPension) return `${fmt0.format(L.minPension)}*`;
+      const min = isAd ? D.minPension : isNew ? L.minPension : 0;
+      if (min && v < min) return `${fmt0.format(min)}*`;
       return fmt0.format(v);
     };
-    const rows = years.map((y) => [`${yearsLabel(y)} (${fmt2.format(pct(y) * 100).replace(/\.?0+$/, "")}%)`, ...salaries.map((S) => cell(S, y))]);
+    const yl = (y) => (en ? `${fmt0.format(y)} years` : yearsLabel(y));
+    const rows = years.map((y) => [`${yl(y)} (${fmt2.format(pct(y) * 100).replace(/\.?0+$/, "")}%)`, ...salaries.map((S) => cell(S, y))]);
+    const cap = en
+      ? isAd ? "Abu Dhabi Pension Fund (after Law 18/2023) — AED a month" : isNew ? "New law (from 31 October 2023) — AED a month" : "Old law (registered before 31 October 2023) — AED a month"
+      : isAd ? "صندوق أبوظبي للمعاشات (بعد القانون 18/2023) — درهم شهرياً" : isNew ? "القانون الجديد (من 31 أكتوبر 2023) — درهم شهرياً" : "القانون القديم (المسجلون قبل 31 أكتوبر 2023) — درهم شهرياً";
     return tableWrap(
-      a.caption || (isNew ? "القانون الجديد (من 31 أكتوبر 2023) — درهم شهرياً" : "القانون القديم (المسجلون قبل 31 أكتوبر 2023) — درهم شهرياً"),
-      ["مدة الخدمة (النسبة)", ...salaries.map((S) => `راتب ${fmt0.format(S)}`)],
+      a.caption || cap,
+      [en ? "Service (percentage)" : "مدة الخدمة (النسبة)", ...salaries.map((S) => (en ? `Salary ${fmt0.format(S)}` : `راتب ${fmt0.format(S)}`))],
       rows
     );
   },
