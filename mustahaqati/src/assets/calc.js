@@ -1246,6 +1246,60 @@ export function ksaExpatFees({ dependents = 0, months = 12, adultIqamas = 0, inc
   return { months: m, dependentsFee, adultIqama: r2(adultIqama), family: r2(dependentsFee + adultIqama), worker, annualDependents: n(dependents) * F.dependentMonthly * 12 };
 }
 
+/**
+ * رسوم نقل الخدمات (نقل الكفالة): رسم النقل بحسب ترتيبه (2,000 ثم 4,000 ثم 6,000 حداً أعلى) على صاحب العمل الجديد،
+ * وتجديد المقابل المالي ورخصة العمل والإقامة لفترات 3 أشهر من تاريخ النقل، ومتأخرات العامل المتغيب أو المنشأة غير القائمة.
+ * domestic: حد 4 نقلات، وعبر «مساند» تكلفة نقل متفق عليها وتكلفة تشغيلية 100، ومقابل 9,600 سنوياً لكل منزلي فوق الحد.
+ */
+export function ksaTransferCost({ sector = "establishment", nth = 1, permitValid = true, monthsLeft = 0, renewMonths = 12, expatsExceed = true, iqamaFee = "reported", status = "onjob", arrearsMonths = 0, route = "musaned", transferCost = 0, nationality = "", employer = "citizen", domesticCount = 0 } = {}) {
+  const T = rules.sa.transferFees, F = rules.sa.expatFees;
+  const k = Math.max(1, Math.floor(Number(nth) || 1));
+  const fee = T.fees[Math.min(k, T.fees.length) - 1];
+  if (sector === "domestic") {
+    if (k > T.domesticMaxTransfers) return { sector, nth: k, allowed: false, max: T.domesticMaxTransfers };
+    const cap = T.domesticCaps2023[nationality] || null;
+    const viaMusaned = route === "musaned";
+    const agreed = viaMusaned ? Math.max(0, Number(transferCost) || 0) : 0;
+    const op = viaMusaned ? T.domesticOperatingFee : 0;
+    const free = employer === "resident" ? T.domesticFreeResident : T.domesticFreeCitizen;
+    const after = Math.max(0, Math.floor(Number(domesticCount) || 0)) + 1;
+    const extraLevy = after > free ? T.domesticExtraLevy : 0;
+    const now = fee + op + agreed;
+    return { sector, nth: k, allowed: true, fee, feeAssumed: k > 3, operating: op, agreed, cap, overCap: !!(cap && agreed > cap), extraLevy, free, workersAfter: after, now, firstYear: now + extraLevy };
+  }
+  const m = (x) => [3, 6, 9, 12].find((p) => p >= x) || 12;
+  const levyMonth = expatsExceed ? F.levyHigh : F.levyLow;
+  const iqamaYear = iqamaFee === "base" ? F.iqamaAnnualBase : F.workerIqamaReported;
+  const renewal = (months) => ({ months, levy: levyMonth * months, permit: (F.workPermitAnnual * months) / 12, iqama: (iqamaYear * months) / 12, total: r2(levyMonth * months + (F.workPermitAnnual * months) / 12 + (iqamaYear * months) / 12) });
+  let now = fee, later = null, arrears = null;
+  const left = Math.max(0, Math.min(12, Math.floor(Number(monthsLeft) || 0)));
+  if (!permitValid) {
+    later = renewal(m(Number(renewMonths) || 12));
+    now += later.total;
+    if (status === "absent" || status === "closed") {
+      const a = Math.max(0, Math.floor(Number(arrearsMonths) || 0));
+      arrears = { months: a, levy: levyMonth * a, permit: r2((F.workPermitAnnual * a) / 12), total: r2(levyMonth * a + (F.workPermitAnnual * a) / 12) };
+      now += arrears.total;
+    }
+  }
+  const coverRenewal = permitValid && left < 12 ? renewal(m(12 - left)) : null;
+  const firstYear = permitValid ? fee + (coverRenewal ? coverRenewal.total : 0) : now;
+  return { sector, nth: k, allowed: true, fee, feeAssumed: k > 3, levyMonth, iqamaYear, permitValid: !!permitValid, monthsLeft: left, now: r2(now), renewalNow: later, arrears, coverRenewal, firstYear: r2(firstYear) };
+}
+
+/**
+ * هل يحتاج نقل خدمات عامل المنشأة موافقة صاحب العمل الحالي؟ (القرار 51848، وتوضيح «قوى» 2026)
+ * contract: active | ended (انتهى العقد الموثق) | unpaid (لم يُدفع الأجر 3 أشهر)
+ */
+export function ksaTransferConsent({ monthsInKsa = 0, contract = "active", iqamaExpired = false } = {}) {
+  const T = rules.sa.transferFees;
+  if (contract === "ended") return { consent: false, notice: false, route: "contract-ended" };
+  if (contract === "unpaid") return { consent: false, notice: false, route: "unpaid" };
+  if ((Number(monthsInKsa) || 0) >= T.noConsentMonths) return { consent: false, notice: true, noticeDays: T.noticeDaysDefault, route: "after12" };
+  if (iqamaExpired) return { consent: false, notice: true, noticeDays: T.noticeDaysDefault, route: "expired", disputed: true };
+  return { consent: true, notice: false, route: "consent", monthsToGo: T.noConsentMonths - Math.max(0, Math.floor(Number(monthsInKsa) || 0)) };
+}
+
 /** تأشيرة الخروج والعودة: المفردة 200 لشهرين ثم 100 للشهر، والمتعددة 500 لثلاثة أشهر ثم 200، وجزء الشهر شهر. */
 export function ksaExitReentryFee({ type = "single", days = 60, persons = 1, extendMonths = 0, outside = false }) {
   const E = rules.sa.expatFees.exitReentry;

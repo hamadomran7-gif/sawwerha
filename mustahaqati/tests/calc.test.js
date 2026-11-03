@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaTransferCost,
+  ksaTransferConsent,
   serviceDuration,
   uaeNafis,
   uaeNetSalary,
@@ -1659,4 +1661,40 @@ test("GCC school holiday countdown (batch29)", () => {
   assert.equal(schoolCountdown({ country: "qa", today: "2026-11-03" }).next.returnDate, "2027-01-04");
   assert.equal(schoolCountdown({ country: "bh", today: "2027-01-01" }).next.returnDate, "2027-01-31");
   assert.equal(schoolCountdown({ country: "kw", today: "2027-06-20", audience: "teachers" }).next.returnDate, "2027-09-05");
+});
+
+test("رسوم نقل الخدمات في السعودية: أمثلة الدفعة 30", () => {
+  const a = ksaTransferCost({ nth: 1, permitValid: true, monthsLeft: 7 });
+  assert.equal(a.now, 2000);
+  assert.equal(a.coverRenewal.months, 6);
+  assert.equal(a.coverRenewal.total, 5175);
+  assert.equal(a.firstYear, 7175);
+  assert.equal(ksaTransferCost({ nth: 1, permitValid: true, monthsLeft: 7, expatsExceed: false }).firstYear, 6575);
+  assert.equal(ksaTransferCost({ nth: 1, permitValid: true, monthsLeft: 7, iqamaFee: "base" }).firstYear, 7100);
+  assert.equal(ksaTransferCost({ nth: 1, permitValid: true, monthsLeft: 12 }).firstYear, 2000);
+  assert.equal(ksaTransferCost({ nth: 3, permitValid: false, renewMonths: 3 }).now, 8587.5);
+  assert.equal(ksaTransferCost({ nth: 3, permitValid: false, renewMonths: 12 }).now, 16350);
+  const abs = ksaTransferCost({ nth: 3, permitValid: false, renewMonths: 12, status: "absent", arrearsMonths: 4 });
+  assert.equal(abs.arrears.levy, 3200);
+  assert.equal(abs.now, 19583.33);
+  assert.equal(ksaTransferCost({ nth: 4 }).fee, 6000);
+  assert.equal(ksaTransferCost({ nth: 7 }).fee, 6000);
+  const d = ksaTransferCost({ sector: "domestic", nth: 2, route: "musaned", transferCost: 15000, nationality: "PH" });
+  assert.equal(d.now, 19100);
+  assert.equal(d.cap, 19270);
+  assert.equal(d.overCap, false);
+  assert.equal(ksaTransferCost({ sector: "domestic", nth: 2, route: "musaned", transferCost: 15000, nationality: "PH", domesticCount: 4 }).firstYear, 28700);
+  assert.equal(ksaTransferCost({ sector: "domestic", nth: 1, route: "abshir", employer: "resident", domesticCount: 2 }).firstYear, 11600);
+  assert.equal(ksaTransferCost({ sector: "domestic", nth: 3, route: "noconsent" }).now, 6000);
+  assert.equal(ksaTransferCost({ sector: "domestic", nth: 5 }).allowed, false);
+});
+
+test("موافقة صاحب العمل على نقل الخدمات", () => {
+  assert.equal(ksaTransferConsent({ monthsInKsa: 18 }).consent, false);
+  assert.equal(ksaTransferConsent({ monthsInKsa: 18 }).noticeDays, 90);
+  assert.equal(ksaTransferConsent({ monthsInKsa: 8 }).consent, true);
+  assert.equal(ksaTransferConsent({ monthsInKsa: 8 }).monthsToGo, 4);
+  assert.equal(ksaTransferConsent({ monthsInKsa: 3, contract: "ended" }).route, "contract-ended");
+  assert.equal(ksaTransferConsent({ monthsInKsa: 3, contract: "unpaid" }).consent, false);
+  assert.equal(ksaTransferConsent({ monthsInKsa: 3, iqamaExpired: true }).route, "expired");
 });

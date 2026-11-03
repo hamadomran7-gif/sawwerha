@@ -530,6 +530,39 @@ const TABLES = {
       });
     return tableWrap(a.caption || "", en ? ["Event", "Dates", "Length", "Return"] : ["الحدث", "التاريخ", "المدة", "العودة"], rows);
   },
+  "ksa-transfer-fees"(a) {
+    const en = a.lang === "en";
+    const T = calc.rules.sa.transferFees;
+    const f = (n) => fmt0.format(n);
+    const rows = en
+      ? [
+          ["1st transfer", f(T.fees[0]), f(T.fees[0])],
+          ["2nd transfer", f(T.fees[1]), f(T.fees[1])],
+          ["3rd transfer", f(T.fees[2]), f(T.fees[2])],
+          ["4th transfer", `${f(T.fees[2])} (cap)`, `${f(T.fees[2])} (assumed; not published)`],
+          ["5th and later", `${f(T.fees[2])} (cap)`, `Not allowed (max ${T.domesticMaxTransfers} transfers)`],
+        ]
+      : [
+          ["النقل الأول", f(T.fees[0]), f(T.fees[0])],
+          ["النقل الثاني", f(T.fees[1]), f(T.fees[1])],
+          ["النقل الثالث", f(T.fees[2]), f(T.fees[2])],
+          ["النقل الرابع", `${f(T.fees[2])} (حدٌّ أعلى)`, `${f(T.fees[2])} (مفترض، لم يُنشر)`],
+          ["الخامس فأكثر", `${f(T.fees[2])} (حدٌّ أعلى)`, `غير متاح (${T.domesticMaxTransfers} نقلات حداً أقصى)`],
+        ];
+    return tableWrap(a.caption || "", en ? ["Transfer", "Establishment worker (SAR)", "Domestic worker (SAR)"] : ["النقل", "عامل منشأة (ريال)", "عامل منزلي (ريال)"], rows);
+  },
+  "ksa-domestic-transfer-caps"(a) {
+    const en = a.lang === "en";
+    const caps = calc.rules.sa.transferFees.domesticCaps2023;
+    const N = en
+      ? { PH: "Philippines", ID: "Indonesia", LK: "Sri Lanka", BD: "Bangladesh", KE: "Kenya", UG: "Uganda", SL: "Sierra Leone", BI: "Burundi", ET: "Ethiopia" }
+      : { PH: "الفلبين", ID: "إندونيسيا", LK: "سريلانكا", BD: "بنغلاديش", KE: "كينيا", UG: "أوغندا", SL: "سيراليون", BI: "بوروندي", ET: "إثيوبيا" };
+    const rows = Object.entries(caps).sort((x, y) => y[1] - x[1]).map(([k, v]) => [N[k] || k, fmt0.format(v)]);
+    const cap = en
+      ? "Musaned transfer-cost caps announced at launch (August 2023); they may have changed, so check the cap shown in Musaned"
+      : "سقف تكلفة النقل في مساند كما أُعلن عند إطلاق الخدمة (أغسطس 2023)، وقد يكون عُدّل، فتحقق من السقف الظاهر في مساند";
+    return tableWrap(a.caption || cap, en ? ["Nationality", "Cap (SAR)"] : ["الجنسية", "السقف (ريال)"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];
