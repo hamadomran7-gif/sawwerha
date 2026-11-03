@@ -1,0 +1,64 @@
+---json
+{
+  "lang": "en",
+  "path": "en/darb-toll-calculator",
+  "alternate": "darb-calculator",
+  "title": "Darb Toll Calculator 2026 — Abu Dhabi Road Tolls at AED 4 Peak, No Monthly Cap",
+  "h1": "Abu Dhabi Darb Toll Calculator",
+  "description": "Work out your Abu Dhabi Darb toll cost: AED 4 per crossing at peak times, 7–9 AM and 3–7 PM, Monday to Saturday, free at other times, on Sundays and public holidays, and no daily or monthly cap for private vehicles since 1 September 2025.",
+  "short": "AED 4 at peak (7–9 AM and 3–7 PM), free otherwise, and no monthly cap since September 2025",
+  "lead": "Enter how many times you cross at peak times and on how many days, to see your daily, monthly and yearly Darb cost.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "en-darb.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-salik-calculator", "en-uae-fuel-prices", "en-abu-dhabi-pension", "en-uae-net-salary"],
+  "faq": [
+    {"q": "How much is the Darb toll in Abu Dhabi?", "a": "AED 4 per crossing at peak times: 7–9 AM and 3–7 PM, Monday to Saturday. Crossings at other times are free."},
+    {"q": "Were the Darb daily and monthly caps removed?", "a": "Yes. Since 1 September 2025 there is no daily or monthly cap for private vehicles, so every peak crossing costs AED 4."},
+    {"q": "Is Darb free on Sunday?", "a": "Yes, crossings are free on Sundays and official public holidays."},
+    {"q": "Who is exempt from Darb fees?", "a": "Eligible groups remain exempt, including people of determination, low-income families, senior citizens and retirees, after registering on the platform."}
+  ],
+  "sources": [
+    {"t": "Abu Dhabi Mobility — Darb fees and peak hours", "u": "https://admobility.gov.ae/en/darb-fees"},
+    {"t": "Abu Dhabi Mobility — Daily and monthly caps removed", "u": "https://admobility.gov.ae/en/darb-daily-and-monthly-caps"},
+    {"t": "Aletihad — Darb changes from 1 September 2025 (14 Aug 2025)", "u": "https://en.aletihad.ae/amp/news/uae/4597865/to-ease-traffic-flow-in-the-emirate--integrated-transport-ce"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your Darb cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="crossingsPerDay">Crossings a day at peak times</label>
+        <input type="number" id="crossingsPerDay" name="crossingsPerDay" inputmode="decimal" min="0" max="40" step="1" value="2">
+        <span class="hint">7–9 AM and 3–7 PM. Crossings at other times are free.</span>
+      </div>
+      <div class="field">
+        <label for="days">Days a week you cross, Monday to Saturday</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" max="6" step="1" value="5">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Current Darb rules</h2>
+<ul>
+  <li><strong>Fee:</strong> AED 4 per crossing at peak times.</li>
+  <li><strong>Peak:</strong> 7–9 AM and 3–7 PM, Monday to Saturday (the evening window was 5–7 PM before September 2025).</li>
+  <li><strong>Free:</strong> all other times, Sundays and official public holidays.</li>
+  <li><strong>Caps:</strong> the daily cap (previously AED 16) and the monthly cap for private vehicles were removed on 1 September 2025.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> an employee crossing two gates in the morning and two in the evening, five days a week: 4 × AED 4 = AED 16 a day, AED 80 a week and about AED 346 a month.</p>
+</div>
+</div>

@@ -1,0 +1,61 @@
+---json
+{
+  "title": "حاسبة درب أبوظبي 2026 — رسوم بوابات الطرق 4 دراهم في الذروة بلا حد شهري",
+  "h1": "حاسبة رسوم درب في أبوظبي",
+  "description": "احسب كلفة بوابات درب في أبوظبي: 4 دراهم لكل عبور في الذروة من 7 إلى 9 صباحاً ومن 3 إلى 7 مساءً من الإثنين إلى السبت، ومجاناً في غيرها ويوم الأحد والعطل الرسمية، وبلا حد يومي أو شهري للمركبات الخاصة منذ 1 سبتمبر 2025.",
+  "short": "4 دراهم في الذروة (7–9 صباحاً و3–7 مساءً)، ومجاناً غيرها، وبلا حد شهري منذ سبتمبر 2025",
+  "lead": "أدخل عدد مرات عبورك في الذروة وأيام العبور، فتظهر كلفة درب اليومية والشهرية والسنوية.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "darb.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["salik-calculator", "uae-fuel-prices", "abu-dhabi-pension", "uae-net-salary"],
+  "faq": [
+    {"q": "كم رسوم بوابات درب في أبوظبي؟", "a": "4 دراهم لكل عبور في الذروة: من 7 إلى 9 صباحاً ومن 3 إلى 7 مساءً، من الإثنين إلى السبت. والعبور في غير هذه الأوقات مجاني."},
+    {"q": "هل ألغي الحد اليومي والشهري لدرب؟", "a": "نعم، منذ 1 سبتمبر 2025 لا يوجد حد يومي ولا شهري للمركبات الخاصة، فتُحتسب 4 دراهم عن كل عبور في الذروة مهما تكرر."},
+    {"q": "هل درب مجاني يوم الأحد؟", "a": "نعم، العبور مجاني يوم الأحد وفي العطل الرسمية."},
+    {"q": "من المعفى من رسوم درب؟", "a": "يستمر إعفاء الفئات المؤهلة، ومنها أصحاب الهمم والأسر محدودة الدخل وكبار المواطنين والمتقاعدون، بالتسجيل في المنصة."}
+  ],
+  "sources": [
+    {"t": "أبوظبي للتنقل — رسوم درب وأوقات الذروة", "u": "https://admobility.gov.ae/en/darb-fees"},
+    {"t": "أبوظبي للتنقل — إلغاء الحدين اليومي والشهري", "u": "https://admobility.gov.ae/en/darb-daily-and-monthly-caps"},
+    {"t": "الاتحاد — تعديلات درب من 1 سبتمبر 2025 (14/8/2025)", "u": "https://en.aletihad.ae/amp/news/uae/4597865/to-ease-traffic-flow-in-the-emirate--integrated-transport-ce"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب كلفة درب</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="crossingsPerDay">مرات العبور يومياً في أوقات الذروة</label>
+        <input type="number" id="crossingsPerDay" name="crossingsPerDay" inputmode="decimal" min="0" max="40" step="1" value="2">
+        <span class="hint">7–9 صباحاً و3–7 مساءً. العبور في غيرها مجاني.</span>
+      </div>
+      <div class="field">
+        <label for="days">أيام العبور من الإثنين إلى السبت أسبوعياً</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" max="6" step="1" value="5">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد درب الحالية</h2>
+<ul>
+  <li><strong>الرسم:</strong> 4 دراهم لكل عبور في الذروة.</li>
+  <li><strong>الذروة:</strong> 7–9 صباحاً و3–7 مساءً، من الإثنين إلى السبت (كانت الفترة المسائية 5–7 قبل سبتمبر 2025).</li>
+  <li><strong>المجاني:</strong> كل الأوقات الأخرى، ويوم الأحد، والعطل الرسمية.</li>
+  <li><strong>الحدود:</strong> أُلغي الحد اليومي (16 درهماً سابقاً) والحد الشهري للمركبات الخاصة منذ 1 سبتمبر 2025.</li>
+</ul>
+<div class="example">
+<p><strong>مثال:</strong> موظف يعبر بوابتين صباحاً وبوابتين مساءً 5 أيام في الأسبوع: 4 × 4 = 16 درهماً يومياً، و80 درهماً أسبوعياً، ونحو 346 درهماً شهرياً.</p>
+</div>
+</div>

@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  abuDhabiDarbCost,
   uaeSalikCost,
   ksaFuelCost,
   uaeFuelCost,
@@ -2214,4 +2215,11 @@ test("كلفة سالك الشهرية بالتعرفة المتغيرة وال�
   assert.equal(r.weekly, 92.4);
   assert.equal(r.monthly, 400.09);
   assert.equal(uaeSalikCost({ peakPerDay: 2, workdays: 5, asOf: new Date("2026-05-15T08:00:00") }).weekly, 60);
+});
+
+test("كلفة درب أبوظبي بلا حد شهري", () => {
+  const r = abuDhabiDarbCost({ crossingsPerDay: 4, days: 5 });
+  assert.equal(r.daily, 16);
+  assert.equal(r.weekly, 80);
+  assert.equal(r.monthly, 346.4);
 });

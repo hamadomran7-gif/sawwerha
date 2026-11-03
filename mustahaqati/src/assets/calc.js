@@ -997,6 +997,14 @@ export function uaeSalikCost({ peakPerDay = 0, lowPerDay = 0, workdays = 5, sund
   };
 }
 
+/** كلفة درب أبوظبي: 4 دراهم لكل عبور في الذروة (7–9 صباحاً و3–7 مساءً، الإثنين–السبت)، ومجاناً في غيرها والأحد والعطل، وبلا حد يومي أو شهري منذ 1 سبتمبر 2025. */
+export function abuDhabiDarbCost({ crossingsPerDay = 0, days = 5 } = {}) {
+  const D = rules.ae.darb;
+  const c = Math.max(0, Number(crossingsPerDay) || 0), d = Math.min(6, Math.max(0, Number(days) || 0));
+  const daily = c * D.fee, weekly = daily * d;
+  return { fee: D.fee, daily: r2(daily), weekly: r2(weekly), monthly: r2(weekly * D.weeksPerMonth), yearly: r2(weekly * 52), crossingsMonthly: Math.round(c * d * D.weeksPerMonth) };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));
