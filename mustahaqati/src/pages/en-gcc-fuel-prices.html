@@ -1,0 +1,103 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gcc-petrol-prices",
+  "alternate": "gcc-fuel-prices",
+  "title": "GCC Petrol Prices November 2026 — UAE, Saudi Arabia, Qatar, Kuwait, Oman and Bahrain Compared",
+  "h1": "Petrol and Diesel Prices Across the GCC",
+  "description": "Compare the price of a litre of 91, 95 and 98 petrol and diesel in all six GCC states in local currency and AED: Kuwait is cheapest (95 at 105 fils ≈ AED 1.25) and the UAE dearest (AED 4.04 in November 2026), with a calculator for the cost of a fill in each country.",
+  "short": "Price per litre in all six states in local currency and AED, and the cost of a fill",
+  "lead": "Pick the fuel and tank size to see the cost of a fill in all six states in AED, cheapest first.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-gcc-fuel-compare.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-uae-fuel-prices",
+    "en-ksa-fuel-prices",
+    "en-qatar-fuel-prices",
+    "en-oman-fuel-prices",
+    "en-gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "Where is petrol cheapest in the GCC?",
+      "a": "Kuwait: 91 at 85 fils and 95 at 105 fils a litre, about AED 1.01 and 1.25. Qatar comes next, then Saudi Arabia, Oman and Bahrain; the UAE is dearest."
+    },
+    {
+      "q": "What does 95 petrol cost across the GCC?",
+      "a": "UAE AED 4.04 (November 2026), Saudi Arabia SAR 2.33, Qatar QAR 2.10, Oman 239 baisa, Kuwait 105 fils and Bahrain 247 fils (September 2026)."
+    },
+    {
+      "q": "How often do GCC fuel prices change?",
+      "a": "Monthly in the UAE, Qatar and Bahrain; quarterly in Kuwait (in practice only Ultra 98 moves); yearly by Aramco in Saudi Arabia; and Oman's prices are frozen at the October 2021 cap."
+    },
+    {
+      "q": "How much is a 60-litre fill of 95 in each country?",
+      "a": "About AED 75 in Kuwait, 127 in Qatar, 137 in Saudi Arabia and Oman, 145 in Bahrain and 242 in the UAE."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Khaleej Times — UAE prices for November 2026",
+      "u": "https://www.khaleejtimes.com/business/energy/uae-petrol-diesel-prices-november-2026-announced"
+    },
+    {
+      "t": "QNA via Fana News — Qatar prices for November 2026",
+      "u": "https://www.fananews.com/language/en/qatarenergy-sets-fuel-prices-for-november-2026/"
+    },
+    {
+      "t": "Al-Rai — Kuwait prices for Q3 2026 (30 Jun 2026)",
+      "u": "https://www.alraimedia.com/ampArticle/1771206"
+    },
+    {
+      "t": "OGN — Bahrain prices for September 2026 (2 Sep 2026)",
+      "u": "https://ognnews.com/ArticleTA/467419/bahrain-announces-september-fuel-prices"
+    },
+    {
+      "t": "Oman Observer — Oman keeps October 2021 prices (1 Jan 2024)",
+      "u": "https://www.omanobserver.om/article/1147608/business/energy/fuel-prices-in-oman-set-to-continue-at-october-2021-rates"
+    },
+    {
+      "t": "Central Bank of Kuwait KWD average, October 2026",
+      "u": "https://allratestoday.com/blog/kuwait-usd-kwd-exchange-rate-history-2008-2026/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Compare the cost of a fill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">Fuel</label>
+        <select id="grade" name="grade">
+          <option value="91">91 petrol</option>
+          <option value="95" selected>95 petrol</option>
+          <option value="98">98 petrol</option>
+          <option value="diesel">Diesel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">Tank size (litres)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Compare</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Price per litre in local currency</h2>
+{{table:gcc-fuel-table lang=en caption="Sorted cheapest first by 95 petrol"}}
+<h2>Price per litre in AED</h2>
+{{table:gcc-fuel-table lang=en mode=aed caption="At the official pegs; Kuwaiti dinar at its October 2026 average"}}
+<p>Prices change monthly in the UAE, Qatar and Bahrain and quarterly in Kuwait (where 91, 95 and diesel have been fixed since September 2016 and only Ultra 98 moves); Aramco reviews Saudi prices yearly, and Oman's are frozen at the October 2021 cap. Bahrain shows the latest official price we found (September 2026). Fuel in Bahrain is zero-rated for VAT, while UAE, Saudi and Omani prices include their VAT.</p>
+<p>Country pages with calculators: <a href="{{root}}en/uae-petrol-prices/{{ix}}">UAE</a> · <a href="{{root}}en/saudi-petrol-prices/{{ix}}">Saudi Arabia</a> · <a href="{{root}}en/qatar-petrol-prices/{{ix}}">Qatar</a> · <a href="{{root}}en/oman-petrol-prices/{{ix}}">Oman</a>.</p>
+</div>

@@ -1,0 +1,100 @@
+---json
+{
+  "title": "أسعار البنزين في دول الخليج نوفمبر 2026 — مقارنة الإمارات والسعودية وقطر والكويت وعُمان والبحرين",
+  "h1": "مقارنة أسعار البنزين والديزل في دول الخليج",
+  "description": "قارن سعر لتر البنزين 91 و95 و98 والديزل في الدول الست بالعملة المحلية وبالدرهم: الكويت الأرخص (95 بـ105 فلوس ≈ 1.25 درهم) والإمارات الأغلى (4.04 درهم في نوفمبر 2026)، مع حاسبة كلفة تعبئة الخزان في كل دولة.",
+  "short": "سعر اللتر في الدول الست بالعملة المحلية وبالدرهم، وكلفة التعبئة في كل دولة",
+  "lead": "اختر نوع الوقود وسعة الخزان، فتظهر كلفة التعبئة في الدول الست بالدرهم مرتبة من الأرخص.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "gcc-fuel-compare.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "uae-fuel-prices",
+    "ksa-fuel-prices",
+    "qatar-fuel-prices",
+    "oman-fuel-prices",
+    "gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "ما أرخص بنزين في دول الخليج؟",
+      "a": "الكويت: بنزين 91 بـ85 فلساً وبنزين 95 بـ105 فلوس للتر، أي نحو 1.01 و1.25 درهم. تليها قطر ثم السعودية وعُمان والبحرين، والإمارات الأغلى."
+    },
+    {
+      "q": "كم سعر بنزين 95 في دول الخليج؟",
+      "a": "الإمارات 4.04 درهم (نوفمبر 2026)، والسعودية 2.33 ريال، وقطر 2.10 ريال، وعُمان 239 بيسة، والكويت 105 فلوس، والبحرين 247 فلساً (سبتمبر 2026)."
+    },
+    {
+      "q": "كيف تتغير أسعار الوقود في الخليج؟",
+      "a": "شهرياً في الإمارات وقطر والبحرين، وربع سنوياً في الكويت (فعلياً بنزين ألترا 98 وحده)، وتراجعها أرامكو سنوياً في السعودية، وهي ثابتة عند سقف أكتوبر 2021 في عُمان."
+    },
+    {
+      "q": "كم تكلفة تعبئة 60 لتراً من بنزين 95 في كل دولة؟",
+      "a": "نحو 75 درهماً في الكويت، و127 في قطر، و137 في السعودية وعُمان، و145 في البحرين، و242 في الإمارات."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Khaleej Times — أسعار الإمارات لنوفمبر 2026",
+      "u": "https://www.khaleejtimes.com/business/energy/uae-petrol-diesel-prices-november-2026-announced"
+    },
+    {
+      "t": "وكالة الأنباء القطرية عبر Fana News — أسعار قطر لنوفمبر 2026",
+      "u": "https://www.fananews.com/language/en/qatarenergy-sets-fuel-prices-for-november-2026/"
+    },
+    {
+      "t": "الراي — أسعار الكويت للربع الثالث 2026 (30/6/2026)",
+      "u": "https://www.alraimedia.com/ampArticle/1771206"
+    },
+    {
+      "t": "OGN — أسعار البحرين لسبتمبر 2026 (2/9/2026)",
+      "u": "https://ognnews.com/ArticleTA/467419/bahrain-announces-september-fuel-prices"
+    },
+    {
+      "t": "Oman Observer — استمرار أسعار أكتوبر 2021 في عُمان (1/1/2024)",
+      "u": "https://www.omanobserver.om/article/1147608/business/energy/fuel-prices-in-oman-set-to-continue-at-october-2021-rates"
+    },
+    {
+      "t": "متوسط سعر الدينار الكويتي من بنك الكويت المركزي، أكتوبر 2026",
+      "u": "https://allratestoday.com/blog/kuwait-usd-kwd-exchange-rate-history-2008-2026/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">قارن كلفة التعبئة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">نوع الوقود</label>
+        <select id="grade" name="grade">
+          <option value="91">بنزين 91</option>
+          <option value="95" selected>بنزين 95</option>
+          <option value="98">بنزين 98</option>
+          <option value="diesel">ديزل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">سعة الخزان (لتر)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">قارن</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>سعر لتر الوقود بالعملة المحلية</h2>
+{{table:gcc-fuel-table caption="مرتبة من الأرخص في بنزين 95"}}
+<h2>سعر اللتر محوّلاً إلى الدرهم</h2>
+{{table:gcc-fuel-table mode=aed caption="بأسعار الربط الرسمية، والدينار الكويتي بمتوسط أكتوبر 2026"}}
+<p>تُحدَّث الأسعار في الإمارات وقطر والبحرين شهرياً، وفي الكويت كل ربع سنة (وبنزين 91 و95 والديزل فيها ثابتة منذ سبتمبر 2016، والمتغير ألترا 98)، وتراجعها أرامكو سنوياً في السعودية، وهي مثبتة في عُمان عند سقف أكتوبر 2021. والبحرين بآخر سعر رسمي وجدناه (سبتمبر 2026). والوقود في البحرين خاضع للنسبة الصفرية من الضريبة، وأسعار الإمارات والسعودية وعُمان شاملة ضريبتها.</p>
+<p>تفاصيل كل دولة وحاسبتها: <a href="{{root}}uae-fuel-prices/{{ix}}">الإمارات</a> · <a href="{{root}}ksa-fuel-prices/{{ix}}">السعودية</a> · <a href="{{root}}qatar-fuel-prices/{{ix}}">قطر</a> · <a href="{{root}}oman-fuel-prices/{{ix}}">عُمان</a>.</p>
+</div>

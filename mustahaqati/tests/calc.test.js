@@ -11,6 +11,7 @@ import {
   kuwaitUtilityBill,
   abuDhabiUtilityBill,
   etihadWeBill,
+  gccFuelCompare,
   uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
@@ -2336,4 +2337,20 @@ test("etihadWeBill: الوافد والمواطن مع الرسم الإضافي
   assert.equal(n.total, 680.4);
   assert.equal(n.surcharge, 0);
   assert.equal(etihadWeBill({ category: "industrial", kwh: 1000 }).perKwh, 0.44);
+});
+
+test("gccFuelCompare: الكويت الأرخص والإمارات الأغلى في بنزين 95", () => {
+  const r = gccFuelCompare({ grade: "95", tank: 60 });
+  assert.equal(r.rows.length, 6);
+  assert.equal(r.cheapest.country, "kw");
+  assert.equal(r.dearest.country, "ae");
+  assert.equal(r.dearest.tankAed, 242.4);
+  const qa = r.rows.find((x) => x.country === "qa");
+  assert.equal(qa.aed, 2.119);
+  assert.equal(qa.tankLocal, 126);
+  const kw = r.rows.find((x) => x.country === "kw");
+  assert.equal(kw.aed, 1.252);
+  assert.equal(r.rows.find((x) => x.country === "bh").asOf, "2026-09");
+  assert.equal(gccFuelCompare({ grade: "98" }).rows.length, 3);
+  assert.equal(gccFuelCompare({ grade: "diesel" }).cheapest.country, "kw");
 });

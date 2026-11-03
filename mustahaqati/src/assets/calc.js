@@ -1104,6 +1104,38 @@ export function gccFuelCost({ country = "qa", fuel = null, tank = 60, km = 0, pe
   };
 }
 
+/** أنواع الوقود المتقابلة بين دول الخليج: 91 و95 و98 والديزل. */
+export const GCC_FUEL_GRADES = {
+  ae: { 91: "eplus91", 95: "special95", 98: "super98", diesel: "diesel" },
+  sa: { 91: "g91", 95: "g95", diesel: "diesel" },
+  qa: { 91: "premium91", 95: "super95", diesel: "diesel" },
+  om: { 91: "m91", 95: "m95", diesel: "diesel" },
+  kw: { 91: "g91", 95: "g95", 98: "ultra98", diesel: "diesel" },
+  bh: { 91: "jayyid91", 95: "mumtaz95", 98: "super98", diesel: "diesel" },
+};
+
+/** مقارنة سعر لتر الوقود وتعبئة الخزان في الدول الست بالعملة المحلية وبالدرهم والدولار، مرتبة من الأرخص. */
+export function gccFuelCompare({ grade = "95", tank = 60 } = {}) {
+  const fx = rules.gcc.fx;
+  const t = Math.max(0, Number(tank) || 0);
+  const rows = [];
+  for (const [c, map] of Object.entries(GCC_FUEL_GRADES)) {
+    const key = map[grade];
+    const F = rules[c] && rules[c].fuel;
+    if (!key || !F) continue;
+    const P = F.months ? F.months[F.current] : F.prices;
+    const local = P && P[key];
+    if (local === undefined) continue;
+    const cur = rules[c].currency;
+    const aed = local * fx.aedPer[cur];
+    rows.push({ country: c, key, local, cur, asOf: F.current || F.period || F.since || null, aed: r3(aed), usd: r3(aed / fx.usdAed), tankLocal: r3(local * t), tankAed: r2(aed * t), tankUsd: r2((aed * t) / fx.usdAed) });
+  }
+  rows.sort((a, b) => a.aed - b.aed);
+  const max = rows.length ? rows[rows.length - 1].tankAed : 0;
+  rows.forEach((x) => (x.saveVsMax = r2(max - x.tankAed)));
+  return { grade, tank: t, rows, cheapest: rows[0] || null, dearest: rows[rows.length - 1] || null };
+}
+
 /** كلفة سالك الشهرية بالتعرفة المتغيرة: الذروة 6 دراهم والذروة المنخفضة 4 والأحد 4 والليل مجاناً، مع ضريبة 5% منذ 1 يونيو 2026. */
 export function uaeSalikCost({ peakPerDay = 0, lowPerDay = 0, workdays = 5, sundayPerWeek = 0, asOf = new Date() } = {}) {
   const S = rules.ae.salik;

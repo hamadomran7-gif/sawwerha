@@ -815,6 +815,28 @@ const TABLES = {
     }
     return tableWrap(a.caption || "", en ? ["Month", "Payment date", "Note"] : ["الشهر", "موعد الصرف", "ملاحظة"], rows);
   },
+  "gcc-fuel-table"(a) {
+    const en = a.lang === "en";
+    const N = { ae: ["الإمارات", "UAE"], sa: ["السعودية", "Saudi Arabia"], qa: ["قطر", "Qatar"], om: ["عُمان", "Oman"], kw: ["الكويت", "Kuwait"], bh: ["البحرين", "Bahrain"] };
+    const CUR = { AED: ["درهم", "AED"], SAR: ["ريال", "SAR"], QAR: ["ريال قطري", "QAR"], OMR: ["ريال عُماني", "OMR"], KWD: ["دينار", "KWD"], BHD: ["دينار", "BHD"] };
+    const mf = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { month: "long", year: "numeric", timeZone: "UTC" });
+    const asOf = (c, F) => (F.current ? mf.format(new Date(`${F.current}-01T00:00:00Z`)) : F.periodLabel ? F.periodLabel[en ? "en" : "ar"] : F.since ? (en ? `since ${F.since}` : `منذ ${F.since}`) : "");
+    const fxd = (n, d) => (n === undefined ? "—" : n.toFixed(d));
+    const aedMode = a.mode === "aed";
+    const order = calc.gccFuelCompare({ grade: "95" }).rows.map((x) => x.country);
+    const rows = order.map((c) => {
+      const F = calc.rules[c].fuel;
+      const P = F.months ? F.months[F.current] : F.prices;
+      const cur = calc.rules[c].currency;
+      const d = F.decimals || 2;
+      const k = (g) => calc.GCC_FUEL_GRADES[c][g];
+      const v = (g) => (k(g) && P[k(g)] !== undefined ? (aedMode ? fxd(P[k(g)] * calc.rules.gcc.fx.aedPer[cur], 2) : fxd(P[k(g)], d)) : "—");
+      const label = c === "sa" ? (en ? "since Jan 2026" : "منذ يناير 2026") : c === "om" ? (en ? "cap since Oct 2021" : "سقف منذ أكتوبر 2021") : asOf(c, F);
+      return [`<strong>${N[c][en ? 1 : 0]}</strong>`, v("91"), v("95"), v("98"), v("diesel"), aedMode ? label : `${CUR[cur][en ? 1 : 0]} · ${label}`];
+    });
+    const head = en ? ["Country", "91", "95", "98", "Diesel", aedMode ? "Price date" : "Currency · date"] : ["الدولة", "91", "95", "98", "ديزل", aedMode ? "تاريخ السعر" : "العملة · التاريخ"];
+    return tableWrap(a.caption || "", head, rows);
+  },
   "fuel-history"(a) {
     const en = a.lang === "en";
     const F = calc.rules[a.country].fuel;
