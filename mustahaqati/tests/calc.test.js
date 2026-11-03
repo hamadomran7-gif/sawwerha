@@ -31,6 +31,7 @@ import {
   omanPension,
   omanOldAge,
   qatarPension,
+  gccPensionCompare,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1011,4 +1012,21 @@ test("قطر — معاش القانون 1/2022 (أمثلة مطابقة لنص�
   // كسر المدة: أكثر من 6 أشهر سنة كاملة
   assert.equal(qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 24, months: 7, salary: 30000 }).Y, 25);
   assert.ok(qatarPension({ sector: "gov", reason: "resign", ageYears: 40, years: 0, months: 10, salary: 10000 }).refundOnly);
+});
+
+test("مقارنة معاشات الخليج — النسب عند 30 سنة", () => {
+  const rows = Object.fromEntries(gccPensionCompare({ years: 30, salary: 10000 }).map((r) => [r.key, r]));
+  near(rows["ae-legacy"].pct, 0.9, 1e-9);
+  near(rows["ae-new"].pct, 0.801, 1e-9);
+  near(rows["sa-legacy"].pct, 0.75, 1e-9);
+  near(rows["sa-new"].pct, 0.675, 1e-9);
+  near(rows.kw.pct, 0.95, 1e-9);
+  near(rows.qa.pct, 1, 1e-9);
+  near(rows.bh.pct, 0.6, 1e-9);
+  near(rows.om.pct, 0.6, 1e-9);
+  assert.equal(rows.qa.pension, 10000);
+  const r15 = Object.fromEntries(gccPensionCompare({ years: 15 }).map((r) => [r.key, r]));
+  assert.equal(r15.qa.eligible, false);
+  assert.equal(r15["sa-legacy"].eligible, true);
+  near(gccPensionCompare({ years: 35 }).find((r) => r.key === "ae-new").pct, 1, 1e-9);
 });

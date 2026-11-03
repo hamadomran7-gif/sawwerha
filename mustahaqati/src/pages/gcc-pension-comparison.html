@@ -1,0 +1,85 @@
+---json
+{
+  "title": "مقارنة معاشات التقاعد في دول الخليج 2026 — كم نسبة المعاش من الراتب في كل دولة؟",
+  "h1": "مقارنة معاش التقاعد للمواطن في دول الخليج الست",
+  "description": "قارن نسبة معاش التقاعد من الراتب بعد العدد نفسه من سنوات الخدمة في الإمارات والسعودية والكويت وقطر والبحرين وعُمان، مع سن التقاعد وأدنى مدة للمعاش وأساس الحساب في كل دولة، وروابط حاسبة كل دولة.",
+  "short": "نسبة المعاش من الراتب بعد 15 إلى 40 سنة في الدول الست، وسن التقاعد وأدنى مدة",
+  "lead": "أدخل سنوات خدمتك وراتبك، وتظهر نسبة المعاش ومبلغه في كل دولة لمواطن بلغ سن التقاعد الاعتيادية، ثم جدول المقارنة الكامل.",
+  "country": "gcc",
+  "category": "salary",
+  "tool": true,
+  "script": "gcc-pension-comparison.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-pension", "ksa-retirement-pension", "kuwait-pension", "qatar-pension", "bahrain-pension", "oman-pension"],
+  "faq": [
+    {"q": "أي دولة خليجية تعطي أعلى معاش تقاعد؟", "a": "بعد 30 سنة خدمة: قطر 100% من راتب حساب المعاش، ثم الكويت 95%، ثم الإمارات 90% لمن سُجّل قبل أكتوبر 2023 و80.1% للجدد، ثم السعودية 75% (النظام السابق) و67.5% (الجديد)، ثم البحرين وعُمان 60%. لكن أساس الحساب وسن التقاعد يختلفان، فالمقارنة تقريبية."},
+    {"q": "كم سنة خدمة يلزم للمعاش في كل دولة؟", "a": "عند سن التقاعد الاعتيادية: 10 سنوات في السعودية بالنظام السابق و15 بالجديد، و15 في الإمارات والكويت والبحرين، و25 في قطر (منها 20 فعلية)، ولا مدة دنيا في عُمان. ولكل دولة شروط مختلفة للتقاعد المبكر."},
+    {"q": "ما سن التقاعد في دول الخليج؟", "a": "60 في الإمارات والبحرين وعُمان (و55 للمرأة في عُمان دون خصم)، و60 حداً أدنى في قطر، و60 في السعودية بالنظام السابق و65 لمن اشترك من يوليو 2024، و55 للرجل و50 للمرأة في الكويت."},
+    {"q": "هل يُحسب المعاش على آخر راتب؟", "a": "يختلف: قطر على آخر راتب للحكومي ومتوسط 3 سنوات للخاص، والسعودية على متوسط آخر سنتين (السابق) أو أعلى 15 سنة (الجديد)، والإمارات على متوسط 5 سنوات (السابق) أو 6 سنوات (الجديد)، والبحرين على متوسط 5 سنوات، والكويت على أفضل راتب أو متوسط آخر 5 سنوات بحد 1,500 دينار للأساسي، وعُمان على متوسط مسار الأجور المعاد تقييمه."}
+  ],
+  "sources": [
+    {"t": "الإمارات — المرسوم بقانون اتحادي 57/2023 (الهيئة العامة للمعاشات)", "u": "https://gpssa.gov.ae"},
+    {"t": "قطر — القانون 1/2022 بإصدار قانون التأمينات الاجتماعية (الميزان)", "u": "https://almeezan.qa/legislations/ff5e6696-5502-42af-b342-c2f9882cec6a"},
+    {"t": "البحرين — القانون 14/2022 بتعديل قانون التأمين الاجتماعي", "u": "https://www.lloc.gov.bh/Legislation/HTM/K1422"},
+    {"t": "عُمان — قانون الحماية الاجتماعية 52/2023", "u": "https://qanoon.om/p/2023/l2023052/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">قارن معاشك في الدول الست</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="years">سنوات الخدمة (الاشتراك)</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="1" max="45" step="1" value="30" required>
+      </div>
+      <div class="field">
+        <label for="salary">راتب حساب المعاش</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="20000">
+        <span class="hint">بعملة بلدك؛ نفترض الرقم نفسه أساساً للمعاش في كل دولة.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">قارن</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>نسبة المعاش من الراتب بحسب سنوات الخدمة</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدولة</th><th scope="col">15 سنة</th><th scope="col">20</th><th scope="col">25</th><th scope="col">30</th><th scope="col">35</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}uae-pension/{{ix}}">الإمارات (قبل أكتوبر 2023)</a></th><td>60%</td><td>70%</td><td>80%</td><td>90%</td><td>100%</td></tr>
+    <tr><th scope="row"><a href="{{root}}uae-pension/{{ix}}">الإمارات (الجدد)</a></th><td>40.1%</td><td>53.4%</td><td>66.8%</td><td>80.1%</td><td>100%</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-retirement-pension/{{ix}}">السعودية (قبل يوليو 2024)</a></th><td>37.5%</td><td>50%</td><td>62.5%</td><td>75%</td><td>87.5%</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-retirement-pension/{{ix}}">السعودية (الجدد)</a></th><td>33.8%</td><td>45%</td><td>56.3%</td><td>67.5%</td><td>78.8%</td></tr>
+    <tr><th scope="row"><a href="{{root}}kuwait-pension/{{ix}}">الكويت</a></th><td>65%</td><td>75%</td><td>85%</td><td>95%</td><td>95%</td></tr>
+    <tr><th scope="row"><a href="{{root}}qatar-pension/{{ix}}">قطر</a></th><td>—*</td><td>—*</td><td>83.3%</td><td>100%</td><td>100%</td></tr>
+    <tr><th scope="row"><a href="{{root}}bahrain-pension/{{ix}}">البحرين</a></th><td>30%</td><td>40%</td><td>50%</td><td>60%</td><td>70%</td></tr>
+    <tr><th scope="row"><a href="{{root}}oman-pension/{{ix}}">عُمان</a></th><td>30%</td><td>40%</td><td>50%</td><td>60%</td><td>70%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>* قطر تشترط 25 سنة اشتراك. ومن كان مشتركاً قبل 2023 وبلغ سن التقاعد بعد 15 إلى 19 سنة يُسوى معاشه على 25 إلى 29 سنة، وبعد 20 سنة فأكثر على 30 سنة (100%).</p>
+
+<h2>سن التقاعد وأدنى مدة وأساس الحساب</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدولة</th><th scope="col">سن التقاعد</th><th scope="col">أدنى مدة للمعاش</th><th scope="col">أساس الحساب</th><th scope="col">الحد الأقصى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الإمارات</th><td>60</td><td>15 سنة</td><td>متوسط 5 سنوات (السابق) أو 6 سنوات (الجديد)</td><td>100%</td></tr>
+    <tr><th scope="row">السعودية</th><td>60 (السابق)، 65 (الجديد)</td><td>10 سنوات (السابق)، 15 (الجديد)</td><td>متوسط آخر سنتين، أو أعلى 15 سنة</td><td>100%</td></tr>
+    <tr><th scope="row">الكويت</th><td>55 للرجل، 50 للمرأة</td><td>15 سنة</td><td>أفضل راتب أو متوسط 5 سنوات، بحد 1,500 للأساسي</td><td>95%</td></tr>
+    <tr><th scope="row">قطر</th><td>60 على الأقل</td><td>25 سنة منها 20 فعلية</td><td>آخر راتب (حكومي) أو متوسط 3 سنوات (خاص)</td><td>100%</td></tr>
+    <tr><th scope="row">البحرين</th><td>60</td><td>15 سنة</td><td>متوسط آخر 5 سنوات</td><td>80%</td></tr>
+    <tr><th scope="row">عُمان</th><td>60 للرجل، 55 للمرأة</td><td>لا مدة دنيا</td><td>متوسط الأجور المعاد تقييمه</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<p>المقارنة تقريبية: تفترض الراتب نفسه أساساً للمعاش في كل دولة، ولا تشمل الحدود الدنيا والمعاش التكميلي والمكافآت والزيادات السنوية. ولحساب معاشك بدقة استخدم حاسبة دولتك من الجدول أعلاه. ولمقارنة مكافأة نهاية الخدمة للوافدين راجع <a href="{{root}}gcc-end-of-service-comparison/{{ix}}">مقارنة نهاية الخدمة في الخليج</a>.</p>
+</div>

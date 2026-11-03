@@ -1947,6 +1947,33 @@ export function qatarPension({ sector = "gov", gender = "m", reason = "age", age
   };
 }
 
+/**
+ * مقارنة نسبة معاش التقاعد من راتب الحساب في دول الخليج الست لمواطن بلغ السن الاعتيادية، بعدد سنوات الاشتراك نفسه.
+ * تبسيط: أساس الحساب يختلف بين الدول (آخر راتب أو متوسط سنوات)، والحد الأدنى والتكميلي والمكافآت خارج المقارنة.
+ */
+export function gccPensionCompare({ years, salary = 0 }) {
+  const y = Math.max(0, Number(years) || 0);
+  const S = Math.max(0, Number(salary) || 0);
+  const AE = rules.ae.pension, SA = rules.sa.pension, KW = rules.kw.pension, QA = rules.qa.pension, BH = rules.bh.pension, OM = rules.om.pension;
+  const rows = [
+    { key: "ae-legacy", country: "ae", age: AE.legacy.retirementAge, minYears: AE.legacy.minYears, pct: y >= AE.legacy.baseYears ? Math.min(AE.legacy.maxPct, AE.legacy.basePct + (y - AE.legacy.baseYears) * AE.legacy.stepPct) : 0, base: "avg60" },
+    { key: "ae-new", country: "ae", age: AE.new.retirementAge, minYears: AE.new.minYears, pct: Math.min(AE.new.maxPct, Math.min(y, AE.new.breakYears) * AE.new.accrualUpTo30 + Math.max(0, y - AE.new.breakYears) * AE.new.accrualOver30), base: "avg72" },
+    { key: "sa-legacy", country: "sa", age: SA.legacy.retirementAgeHijri, minYears: SA.legacy.minMonths / 12, pct: Math.min(SA.legacy.maxPct, (y * 12) / SA.legacy.divisorMonths), base: "avg24" },
+    { key: "sa-new", country: "sa", age: SA.new.retirementAge, minYears: SA.new.minMonths / 12, pct: Math.min(SA.new.maxPct, y * SA.new.accrualPerYear), base: "best180" },
+    { key: "kw", country: "kw", age: KW.normalAgeMen, minYears: KW.minServiceYears, pct: y >= KW.accrualBaseYears ? Math.min(KW.maxPct, KW.accrualBase + (y - KW.accrualBaseYears) * KW.accrualPerYear) : 0, base: "kw" },
+    { key: "qa", country: "qa", age: QA.retirementAge, minYears: QA.minYears, pct: Math.min(1, y / QA.divisor), base: "qa" },
+    { key: "bh", country: "bh", age: BH.age, minYears: BH.minMonths / 12, pct: Math.min(BH.maxPct, y / BH.divisor), base: "avg60" },
+    { key: "om", country: "om", age: OM.oldAge, minYears: 0, pct: y * OM.accrual, base: "omCareer" },
+  ];
+  return rows
+    .map((r) => {
+      const eligible = y >= r.minYears;
+      const pct = r.pct;
+      return { ...r, eligible, pct, pension: eligible ? r2(S * pct) : 0 };
+    })
+    .sort((a, b) => (b.eligible - a.eligible) || b.pct - a.pct);
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
