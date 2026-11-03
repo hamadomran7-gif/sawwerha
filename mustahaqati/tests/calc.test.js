@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  hijriMonthGrid,
   hijriEventCountdown,
   ramadanHours,
   gccUnemployment,
@@ -1484,4 +1485,14 @@ test("العد التنازلي لرمضان وساعات الدوام في رم
   assert.equal(ramadanHours({ country: "kw", normal: 8, days: 5 }).daily, 7.2);
   assert.equal(ramadanHours({ country: "om", normal: 8, days: 6 }).weekly, 30);
   assert.equal(ramadanHours({ country: "qa", normal: 8, days: 6, muslim: false }).weekly, 36);
+});
+
+test("شبكة الشهر الهجري بتقويم أم القرى", () => {
+  const g = hijriMonthGrid({ year: 1448, month: 9 });
+  assert.equal(g.start, "2027-02-08"); assert.equal(g.length, 29); assert.equal(g.end, "2027-03-08"); assert.equal(g.firstWeekday, 1);
+  const m = hijriMonthGrid({ year: 1448, month: 5 });
+  assert.equal(m.start, "2026-10-12"); assert.equal(m.length, 30); assert.equal(m.days[22].iso, "2026-11-03");
+  let total = 0; for (let k = 1; k <= 12; k++) total += hijriMonthGrid({ year: 1448, month: k }).length;
+  assert.equal(total, 355);
+  assert.equal(hijriMonthGrid({ year: 1700, month: 1 }), null);
 });

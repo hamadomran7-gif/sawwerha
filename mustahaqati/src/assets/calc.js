@@ -2975,6 +2975,17 @@ export function ramadanHours({ country = "sa", normal = 8, days = 5, muslim = tr
   return { country, applies, all: cfg.all, normalDaily: n, normalWeekly: r2(n * dd), daily, weekly: r2(daily * dd), cut: r2(n - daily), capDaily: cfg.daily ?? null, capWeekly: cfg.weekly ?? null, minus: cfg.minus ?? null, days: dd };
 }
 
+/** شبكة الشهر الهجري بتقويم أم القرى: أيامه بتواريخها الميلادية، ويوم الأسبوع لأوله (0 = الأحد). */
+export function hijriMonthGrid({ year, month }) {
+  const y = Number(year), m = Number(month);
+  const len = hijriMonthLength(y, m);
+  const start = hijriToGregorian({ year: y, month: m, day: 1 });
+  if (!len || !start) return null;
+  const s = utcDay(start);
+  const days = Array.from({ length: len }, (_, i) => ({ d: i + 1, iso: isoUTC(plusDays(s, i)) }));
+  return { year: y, month: m, length: len, start, end: days[len - 1].iso, firstWeekday: s.getUTCDay(), days };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

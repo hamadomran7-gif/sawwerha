@@ -499,6 +499,19 @@ const TABLES = {
     const rows = H.items.map((it) => [en ? it.en : it.ar, daysLabel(it), cell(it.d2026, null, it.official2026), cell(it.d2027, it.alt2027, it.official2027)]);
     return tableWrap(a.caption || "", en ? ["Holiday", "Days", "Rest of 2026", "2027"] : ["العطلة", "الأيام", "ما تبقى من 2026", "2027"], rows);
   },
+  /** التقويم الهجري لسنة كاملة بتقويم أم القرى: أول كل شهر بالميلادي وعدد أيامه */
+  "hijri-year"(a) {
+    const en = a.lang === "en";
+    const y = Number(a.year || 1448);
+    const AR = ["محرم", "صفر", "ربيع الأول", "ربيع الآخر", "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"];
+    const EN = ["Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani", "Jumada al-Ula", "Jumada al-Akhirah", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qa'dah", "Dhu al-Hijjah"];
+    const fmt = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+    const rows = AR.map((name, i) => {
+      const g = calc.hijriMonthGrid({ year: y, month: i + 1 });
+      return [`${en ? EN[i] : name} ${y}`, fmt.format(new Date(`${g.start}T00:00:00Z`)), fmt.format(new Date(`${g.end}T00:00:00Z`)), en ? `${g.length} days` : `${g.length} يوماً`];
+    });
+    return tableWrap(a.caption || "", en ? ["Hijri month", "First day", "Last day", "Length"] : ["الشهر الهجري", "أوله", "آخره", "عدد أيامه"], rows);
+  },
   "ksa-art87-compare"(a) {
     const en = a.lang === "en";
     const wage = Number(a.wage || 8000);
