@@ -1,0 +1,81 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-personal-loan-calculator",
+  "alternate": "ksa-personal-finance",
+  "title": "Saudi Personal Loan Calculator 2026 — Instalment and SAMA Deduction Limit",
+  "h1": "Saudi Personal Finance Calculator",
+  "description": "Calculate the monthly instalment and total cost of personal finance in Saudi Arabia, and check it against the Saudi Central Bank (SAMA) deduction limit: 33% of salary for employees and 25% for retirees.",
+  "short": "Instalment and total cost, with the 33% or 25% SAMA deduction check",
+  "lead": "Enter the finance amount, annual percentage rate, term and salary to see your instalment and whether it fits the deduction limit.",
+  "country": "sa",
+  "category": "finance",
+  "tool": true,
+  "script": "en-ksa-personal-finance.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-mortgage", "en-ksa-net-salary", "en-uae-personal-loan", "en-ksa-end-of-service"],
+  "faq": [
+    {"q": "How much of my salary can go on instalments in Saudi Arabia?", "a": "Total monthly instalments may not exceed 33% of an employee's salary or 25% of a retiree's, under SAMA's consumer finance rules. Home finance has higher limits set by income."},
+    {"q": "What is the difference between APR and the profit rate?", "a": "The annual percentage rate (APR) includes the profit and all admin fees and insurance, so it is the right figure for comparing banks. The calculator works out the instalment on a reducing balance at the rate you enter."},
+    {"q": "What is the maximum term for personal finance?", "a": "Banks commonly offer up to 60 months, and some finance companies offer different terms. Check the bank's offer."},
+    {"q": "Can I repay early?", "a": "Yes. The rules cap what can be charged on early repayment of consumer finance at a maximum of three months' future profit."}
+  ],
+  "sources": [
+    {"t": "Saudi Central Bank — deduction ratio and default (instructions to banks)", "u": "https://rulebook.sama.gov.sa/en/node/6840"},
+    {"t": "Saudi Central Bank — consumer finance rules", "u": "https://www.sama.gov.sa"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your instalment</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="principal">Finance amount (SAR)</label>
+        <input type="number" id="principal" name="principal" inputmode="decimal" min="0" step="1000" value="100000" required>
+      </div>
+      <div class="field">
+        <label for="rate">Annual percentage rate, APR (%)</label>
+        <input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.01" value="7" required>
+      </div>
+      <div class="field">
+        <label for="months">Term (months)</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="120" step="1" value="60" required>
+      </div>
+      <div class="field">
+        <label for="salary">Monthly salary (SAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="9000">
+      </div>
+      <div class="field">
+        <label for="other">Other monthly instalments (SAR)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="100" value="0">
+      </div>
+      <fieldset class="field">
+        <legend>Status</legend>
+        <div class="choices">
+          <label><input type="radio" name="status" value="employee" checked><span>Employee (33% limit)</span></label>
+          <label><input type="radio" name="status" value="retiree"><span>Retiree (25% limit)</span></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the instalment is calculated</h2>
+<p>The calculator uses the reducing-balance method at the annual percentage rate, the standard method in bank finance. The rate advertised in offers is usually the APR including fees, and that is the figure to compare.</p>
+
+<div class="example">
+<p><strong>Example:</strong> SAR 100,000 of finance at 7% over 60 months on a salary of SAR 9,000.</p>
+<p>Instalment ≈ SAR 1,980. Total cost ≈ SAR 118,800. The deduction ratio is 22%, under the 33% limit, so the finance complies.</p>
+</div>
+
+<h2>Deduction limits</h2>
+<p>SAMA's instructions require banks to keep total monthly instalments within 33% of an employee's salary and 25% of a retiree's. The aim is to protect customers from default, so all existing obligations count towards the ratio, including the minimum payment on credit cards. For home finance, use the <a href="{{root}}en/saudi-mortgage-calculator/{{ix}}">Saudi mortgage calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-personal-finance/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
