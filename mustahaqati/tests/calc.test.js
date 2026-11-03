@@ -22,6 +22,7 @@ import {
   vat,
   ageCalc,
   hijriParts,
+  ksaWaterBill,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -872,4 +873,25 @@ test("سلم رواتب موظفي الدولة والمعلمين", () => {
   assert.equal(t.nextBasic, 7000);
   assert.equal(t.increment, 300);
   near(ksaGovSalary({ rank: 8, step: 1, system: "gosiNew", asOf: new Date("2026-11-03") }).deduction, 801);
+});
+
+test("السعودية — فاتورة المياه 2027 والتعرفة الحالية", () => {
+  const n30 = ksaWaterBill({ m3: 30 });
+  assert.equal(n30.water, 45);
+  assert.equal(n30.sewer, 22.5);
+  assert.equal(n30.fixed, 30);
+  assert.equal(n30.subtotal, 97.5);
+  assert.equal(n30.total, 112.13);
+  const c30 = ksaWaterBill({ m3: 30, tariff: "current" });
+  assert.equal(c30.subtotal, 24.75);
+  assert.equal(c30.total, 28.46);
+  assert.equal(ksaWaterBill({ m3: 40, tariff: "current" }).subtotal, 69.75); // مثال الوزارة 2016
+  assert.equal(ksaWaterBill({ m3: 60, tariff: "current" }).subtotal, 182.25);
+  assert.equal(ksaWaterBill({ m3: 60 }).subtotal, 322.5);
+  // غير موصول بالصرف، وعداد 21–40 مم، ووحدتان
+  const u = ksaWaterBill({ m3: 30, sewer: false, meter: 40, units: 2, vat: false });
+  assert.equal(u.total, 45 + 40 + 20);
+  // تجاري: 8 للمتر + 4 صرف، ورسم 40/20 لعداد ≤ 20 مم
+  assert.equal(ksaWaterBill({ m3: 10, sector: "commercial", vat: false }).total, 120 + 60);
+  assert.equal(ksaWaterBill({ m3: 10, sector: "government", vat: false }).total, 150 + 1500);
 });

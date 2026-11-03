@@ -1,0 +1,136 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-water-bill-calculator",
+  "alternate": "ksa-water-bill",
+  "title": "Saudi Water Bill Calculator 2027 — New NWC Tiers, Sewage and Meter Fees",
+  "h1": "Saudi Water Bill Calculator (New 2027 Tariff)",
+  "description": "Calculate your monthly water bill in Saudi Arabia under the new tariff from 1 January 2027: SAR 1 per cubic metre up to 15 m³, then 2, 4 and 6, with sewage at half those rates, fixed fees of SAR 20 to 100 by meter size, plus VAT — and compare it with the current tariff.",
+  "short": "SAR 1, 2, 4 and 6 per m³ from 2027, sewage at half, meter fees, and the comparison",
+  "lead": "Enter your monthly consumption in cubic metres and your meter size to see the bill under the new tariff, each tier, and the difference from the current tariff.",
+  "country": "sa",
+  "category": "tools",
+  "tool": true,
+  "script": "en-ksa-water-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-electricity-bill", "en-ksa-net-salary", "en-vat"],
+  "faq": [
+    {"q": "What is the new water tariff for homes in Saudi Arabia?", "a": "From 1 January 2027, residential: SAR 1 per cubic metre from 0 to 15 m³ a month, SAR 2 for the part above 15 up to 30, SAR 4 above 30 up to 45, and SAR 6 above 45. Sewage is added at half those rates, so the totals are SAR 1.5, 3, 6 and 9 per m³."},
+    {"q": "Is all my consumption charged at the highest tier?", "a": "No. Each cubic metre is charged at the rate of the tier it falls in. At 30 m³ you pay 15 m³ at SAR 1 and 15 m³ at SAR 2 for water, SAR 45 in all, plus SAR 22.50 for sewage."},
+    {"q": "What are the new fixed meter fees?", "a": "A monthly fee for the main residential unit by meter diameter: up to 20 mm SAR 20 for water and 10 for sewage; 21–40 mm 40 and 20; 41–65 mm 60 and 30; 66–100 mm 80 and 40; over 100 mm 100 and 50. Each additional unit adds SAR 20 for water and 10 for sewage."},
+    {"q": "What was the old water tariff?", "a": "Since 2016: 10 halalas per m³ up to 15 m³, SAR 1 up to 30, SAR 3 up to 45, SAR 4 up to 60 and SAR 6 above, with sewage at 50% of the water charge where the service is available."},
+    {"q": "Is VAT added?", "a": "VAT of 15% is added to water bills. The announced figures do not mention VAT, so the calculator adds it to both consumption and fixed fees; you can switch it off to see the amount before tax."},
+    {"q": "What if my home is not connected to the sewage network?", "a": "Under the current tariff sewage is charged only where the service is available. The new tariff announcement does not say this explicitly, so choose “No” to see the bill without sewage charges."},
+    {"q": "What are the non-residential and government rates?", "a": "Non-residential: one tier of SAR 8 per m³ for water and 4 for sewage, with a fixed fee of SAR 40 to 150 for water by meter size and half that for sewage. Government: SAR 10 for water and 5 for sewage, with fixed fees of SAR 1,000 and 500. Industrial and agricultural use is not covered by the change."},
+    {"q": "What is the SAR 500 monthly support?", "a": "Alongside the electricity and water tariff changes, a royal directive grants SAR 500 a month to civil and military state employees, retirees, family members of deceased insured people and retirees, and social security families. GOSI said retirees will receive it automatically from 1 January 2027."}
+  ],
+  "sources": [
+    {"t": "SPA — National Water Company announces the new water and wastewater tariff from 1 January 2027 (Arabic)", "u": "https://www.spa.gov.sa/N2709803"},
+    {"t": "Ajel — tiers and fixed fees by meter size, 25 October 2026 (Arabic)", "u": "https://ajel.sa/local/1mpq84yte"},
+    {"t": "Umm Al-Qura — royal directive on the SAR 500 monthly support (Arabic)", "u": "https://www.uqn.gov.sa/news/custodian-of-the-two-holy-mosques/4002216"},
+    {"t": "Saudi Gazette — current water and sewage tariff (April 2016)", "u": "https://saudigazette.com.sa/article/152632"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your bill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">Account type</label>
+        <select id="sector" name="sector">
+          <option value="residential" selected>Residential</option>
+          <option value="commercial">Non-residential (commercial)</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="m3">Monthly consumption (m³)</label>
+        <input type="number" id="m3" name="m3" inputmode="decimal" min="0" step="1" value="30" required>
+        <span class="hint">From your bill or the NWC app. A typical household uses about 20 to 30 m³.</span>
+      </div>
+      <div class="field" data-meter>
+        <label for="meter">Meter size</label>
+        <select id="meter" name="meter">
+          <option value="20" selected>Up to 20 mm (most homes)</option>
+          <option value="40">21 to 40 mm</option>
+          <option value="65">41 to 65 mm</option>
+          <option value="100">66 to 100 mm</option>
+          <option value="100000">Over 100 mm</option>
+        </select>
+      </div>
+      <div class="field" data-res>
+        <label for="units">Residential units on the meter</label>
+        <input type="number" id="units" name="units" inputmode="decimal" min="1" max="200" step="1" value="1">
+        <span class="hint">SAR 20 for water and 10 for sewage are added for each unit after the first.</span>
+      </div>
+      <div class="field">
+        <label for="sewer">Connected to the sewage network?</label>
+        <select id="sewer" name="sewer">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="vat">15% VAT</label>
+        <select id="vat" name="vat">
+          <option value="yes" selected>Add it</option>
+          <option value="no">Exclude it</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>New residential water tariff from 1 January 2027</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Monthly consumption</th><th scope="col">Water (SAR/m³)</th><th scope="col">Sewage (SAR/m³)</th><th scope="col">Total</th><th scope="col">Current (total)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Up to 15 m³</th><td>1</td><td>0.5</td><td>1.5</td><td>0.15</td></tr>
+    <tr><th scope="row">15 to 30 m³</th><td>2</td><td>1</td><td>3</td><td>1.5</td></tr>
+    <tr><th scope="row">30 to 45 m³</th><td>4</td><td>2</td><td>6</td><td>4.5</td></tr>
+    <tr><th scope="row">45 to 60 m³</th><td>6</td><td>3</td><td>9</td><td>6</td></tr>
+    <tr><th scope="row">Over 60 m³</th><td>6</td><td>3</td><td>9</td><td>9</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The tiers are progressive: each cubic metre is charged at its own tier's rate, not at the highest rate. The current tariff has five tiers; the new one has four.</p>
+
+<h2>New fixed monthly fees by meter size</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Meter size</th><th scope="col">Residential: water + sewage</th><th scope="col">Non-residential: water + sewage</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Up to 20 mm</th><td>20 + 10 = SAR 30</td><td>40 + 20 = SAR 60</td></tr>
+    <tr><th scope="row">21–40 mm</th><td>40 + 20 = SAR 60</td><td>60 + 30 = SAR 90</td></tr>
+    <tr><th scope="row">41–65 mm</th><td>60 + 30 = SAR 90</td><td>80 + 40 = SAR 120</td></tr>
+    <tr><th scope="row">66–100 mm</th><td>80 + 40 = SAR 120</td><td>100 + 50 = SAR 150</td></tr>
+    <tr><th scope="row">Over 100 mm</th><td>100 + 50 = SAR 150</td><td>150 + 75 = SAR 225</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Homes pay SAR 20 for water and 10 for sewage for each additional unit. Government accounts pay fixed fees of SAR 1,000 for water and 500 for sewage, and SAR 10 per m³ for water and 5 for sewage.</p>
+
+<div class="example">
+<p><strong>Example:</strong> a home with a 20 mm meter uses 30 m³ in a month.</p>
+<p>Water: 15 × 1 + 15 × 2 = SAR 45. Sewage: half of that, SAR 22.50. Fixed fees: 20 + 10 = SAR 30.<br>
+SAR 97.50 before tax, and <strong>SAR 112.13</strong> with 15% VAT.<br>
+Under the current tariff: 15 × 0.10 + 15 × 1 = SAR 16.50 for water and 8.25 for sewage, SAR 24.75 in all, or SAR 28.46 with VAT (without any current meter fee).</p>
+</div>
+
+<h2>Before you rely on the figure</h2>
+<ul>
+  <li>The new figures come from the National Water Company's announcement as reported by the press; your official bill is the reference.</li>
+  <li>The comparison with the current tariff leaves out any meter fee on your current bill, because its amount is not published.</li>
+  <li>Bills that span 2026 and 2027 charge consumption before 1 January 2027 at the current tariff and the rest at the new one.</li>
+</ul>
+<p>For electricity, use the <a href="{{root}}en/saudi-electricity-bill-calculator/{{ix}}">Saudi electricity bill calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-water-bill/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

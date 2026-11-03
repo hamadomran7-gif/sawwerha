@@ -1691,6 +1691,46 @@ export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, day
   return { t1, t2, p1: prices[0], p2: prices[1], consumption: r2(consumption), fixedMonthly, fixed: r2(fixed), subtotal: r2(subtotal), vat: r2(vat), total: r2(subtotal + vat) };
 }
 
+/**
+ * السعودية — فاتورة المياه الشهرية: شرائح تصاعدية حدّية (كل متر بسعر شريحته)، والصرف الصحي نصف سعر المياه
+ * في الاستهلاك والرسوم الثابتة، ورسم ثابت بحسب قطر العداد (+ رسم لكل وحدة سكنية إضافية)، ثم ضريبة القيمة المضافة.
+ * tariff: new (من 1/1/2027) | current (قرار مجلس الوزراء 95 لعام 1437هـ، بلا رسم عداد لأنه غير منشور).
+ */
+export function ksaWaterBill({ m3, sector = "residential", meter = 20, units = 1, sewer = true, tariff = "new", vat = true }) {
+  const W = rules.sa.waterBill;
+  const T = (tariff === "current" ? W.current : W.new)[sector];
+  if (!T) return null;
+  const q = Math.max(0, Number(m3) || 0);
+  const tiers = [];
+  let water = 0;
+  T.tiers.forEach(([from, price], i) => {
+    const to = i + 1 < T.tiers.length ? T.tiers[i + 1][0] : Infinity;
+    const qty = Math.max(0, Math.min(q, to) - from);
+    if (qty > 0) {
+      tiers.push({ from, to: to === Infinity ? null : to, qty, price, water: r2(qty * price), sewer: sewer ? r2(qty * price * W.sewerShare) : 0 });
+      water += qty * price;
+    }
+  });
+  let fixedWater = 0;
+  if (tariff !== "current") {
+    if (T.fixedFlat) fixedWater = T.fixedFlat;
+    else {
+      const mm = Number(meter) || 20;
+      fixedWater = (T.fixed.find(([max]) => mm <= max) || T.fixed[T.fixed.length - 1])[1];
+    }
+    if (T.extraUnit) fixedWater += Math.max(0, Math.floor(Number(units) || 1) - 1) * T.extraUnit;
+  }
+  const sewerCharge = sewer ? water * W.sewerShare : 0;
+  const fixedSewer = sewer ? fixedWater * W.sewerShare : 0;
+  const subtotal = water + sewerCharge + fixedWater + fixedSewer;
+  const tax = vat ? subtotal * W.vat : 0;
+  return {
+    tiers, water: r2(water), sewer: r2(sewerCharge), fixedWater, fixedSewer, fixed: fixedWater + fixedSewer,
+    consumption: r2(water + sewerCharge), subtotal: r2(subtotal), vat: r2(tax), total: r2(subtotal + tax),
+    perM3: q ? r2((subtotal + tax) / q) : null,
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
