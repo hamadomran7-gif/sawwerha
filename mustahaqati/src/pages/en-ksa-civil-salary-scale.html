@@ -1,0 +1,147 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-civil-service-salary-scale",
+  "alternate": "ksa-civil-salary-scale",
+  "title": "Saudi Civil Service Salary Scale 2026 — Salary by Rank and Step with Transport Allowance",
+  "h1": "Saudi Civil Service Salary Scale Calculator",
+  "description": "Calculate a Saudi government employee's salary from the general civil service salary scale: basic salary for each rank (1–15) and step, the transport allowance (SAR 500 to 1,200), the 9% pension deduction, net pay, and your salary after the annual increment on 1 January, with the full scale table.",
+  "short": "Basic salary by rank and step, transport allowance, deductions and the January increment",
+  "lead": "Choose your rank, step and pension system to see your basic and net salary and your salary after the next increment.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-civil-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-retirement-pension", "en-ksa-retirement-age", "en-ksa-gosi", "en-ksa-net-salary", "en-ksa-mortgage"],
+  "faq": [
+    {"q": "What is the starting salary on the Saudi civil service scale?", "a": "SAR 3,000 at step 1 of rank 1, the minimum wage for state employees since 1432H. The highest salary on the scale is SAR 28,640 at step 10 of rank 15."},
+    {"q": "When is the annual increment paid to Saudi government employees?", "a": "On the first day of the financial year, 1 January, since Article 17 of the Civil Service Law was amended in 1441H; it used to be on 1 Muharram. The increment moves you to the next step in the same rank, so there is none after the last step."},
+    {"q": "How much is the transport allowance for government employees?", "a": "Under Article 36 of the Financial Rights and Benefits Regulation: SAR 500 for ranks 1–5, 700 for ranks 6–10, 900 for ranks 11–13 and 1,200 for rank 14. Rank 15 is given a government car, with SAR 2,000 a month until it is provided, for up to six months."},
+    {"q": "How much is deducted for the pension?", "a": "9% of basic salary for those under the civil retirement system, matched by the government. Those first appointed from 3 July 2024 fall under the new social insurance system: 10% since July 2026, rising by half a point a year to 11%. The transport allowance is not included."},
+    {"q": "Is there a housing or cost-of-living allowance?", "a": "There is no general housing allowance in the Financial Rights and Benefits Regulation. The cost-of-living allowance of SAR 1,000 a month paid from January 2018 was stopped from June 2020, and no similar allowance applies today."},
+    {"q": "Did the salary scale change in 2025 or 2026?", "a": "We found no new general scale as of November 2026; the figures have been in use since 1432H. Engineers moved to a separate engineering scale from 31 December 2024 (starting at SAR 8,650 for an engineer according to the press), and teachers have had their own scale since July 2020."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — Civil Service Law (Articles 17 and 18 and the attached scale, Arabic)", "u": "https://prev.hrsd.gov.sa/sites/default/files/15012021.pdf"},
+    {"t": "Ministry of Human Resources — Financial Rights and Benefits Regulation (Articles 36 and 44)", "u": "https://prod.hrsd.gov.sa/sites/default/files/2023-03/Financial%20Rights%20and%20Benefits.pdf"},
+    {"t": "Al-Maal — civil service salary scale by rank and step (updated October 2026, Arabic)", "u": "https://almaal.org/salary-scale-for-the-emirates-employees"},
+    {"t": "Al Eqtisadiah — Article 17 amendment: increment from the start of the financial year (June 2020, Arabic)", "u": "https://www.aleqt.com/2020/06/15/article_1851421.html"},
+    {"t": "Al Eqtisadiah — engineering jobs salary scale from 31 December 2024 (Arabic)", "u": "https://www.aleqt.com/2024/12/27/article_2754777.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your salary from the scale</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="rank">Rank</label>
+        <select id="rank" name="rank">
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+          <option value="4">Rank 4</option>
+          <option value="5">Rank 5</option>
+          <option value="6">Rank 6</option>
+          <option value="7">Rank 7</option>
+          <option value="8" selected>Rank 8</option>
+          <option value="9">Rank 9</option>
+          <option value="10">Rank 10</option>
+          <option value="11">Rank 11</option>
+          <option value="12">Rank 12</option>
+          <option value="13">Rank 13</option>
+          <option value="14">Rank 14</option>
+          <option value="15">Rank 15</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step</label>
+        <select id="step" name="step">
+          <option value="1">Step 1</option>
+          <option value="2">Step 2</option>
+          <option value="3">Step 3</option>
+          <option value="4">Step 4</option>
+          <option value="5">Step 5</option>
+          <option value="6">Step 6</option>
+          <option value="7">Step 7</option>
+          <option value="8">Step 8</option>
+          <option value="9">Step 9</option>
+          <option value="10">Step 10</option>
+          <option value="11">Step 11</option>
+          <option value="12">Step 12</option>
+          <option value="13">Step 13</option>
+          <option value="14">Step 14</option>
+          <option value="15">Step 15</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="system">Pension system</label>
+        <select id="system" name="system">
+          <option value="civil">Civil retirement — appointed before 3 July 2024 (9%)</option>
+          <option value="gosiNew">New social insurance system — first appointed from 3 July 2024</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The general civil service salary scale in figures</h2>
+<p>Basic salary = the rank's first salary + (step − 1) × the increment. Employees are appointed at step 1 of their job's rank and move up one step every 1 January until the last step.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Rank</th><th scope="col">First salary</th><th scope="col">Annual increment</th><th scope="col">Steps</th><th scope="col">Top salary</th><th scope="col">Transport allowance</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>3,000</td><td>135</td><td>15</td><td>4,890</td><td>500</td></tr>
+    <tr><th scope="row">2</th><td>3,430</td><td>165</td><td>15</td><td>5,740</td><td>500</td></tr>
+    <tr><th scope="row">3</th><td>3,945</td><td>190</td><td>15</td><td>6,605</td><td>500</td></tr>
+    <tr><th scope="row">4</th><td>4,530</td><td>230</td><td>15</td><td>7,750</td><td>500</td></tr>
+    <tr><th scope="row">5</th><td>5,240</td><td>265</td><td>15</td><td>8,950</td><td>500</td></tr>
+    <tr><th scope="row">6</th><td>6,065</td><td>305</td><td>15</td><td>10,335</td><td>700</td></tr>
+    <tr><th scope="row">7</th><td>7,010</td><td>365</td><td>15</td><td>12,120</td><td>700</td></tr>
+    <tr><th scope="row">8</th><td>8,010</td><td>415</td><td>15</td><td>13,820</td><td>700</td></tr>
+    <tr><th scope="row">9</th><td>9,275</td><td>470</td><td>15</td><td>15,855</td><td>700</td></tr>
+    <tr><th scope="row">10</th><td>10,275</td><td>510</td><td>15</td><td>17,415</td><td>700</td></tr>
+    <tr><th scope="row">11</th><td>11,815</td><td>530</td><td>14</td><td>18,705</td><td>900</td></tr>
+    <tr><th scope="row">12</th><td>13,435</td><td>570</td><td>13</td><td>20,275</td><td>900</td></tr>
+    <tr><th scope="row">13</th><td>15,180</td><td>605</td><td>12</td><td>21,835</td><td>900</td></tr>
+    <tr><th scope="row">14</th><td>17,015</td><td>700</td><td>11</td><td>24,015</td><td>1,200</td></tr>
+    <tr><th scope="row">15</th><td>20,855</td><td>865</td><td>10</td><td>28,640</td><td>Government car</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>The full scale (basic salary in SAR)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Rank \ Step</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th><th scope="col">7</th><th scope="col">8</th><th scope="col">9</th><th scope="col">10</th><th scope="col">11</th><th scope="col">12</th><th scope="col">13</th><th scope="col">14</th><th scope="col">15</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>3,000</td><td>3,135</td><td>3,270</td><td>3,405</td><td>3,540</td><td>3,675</td><td>3,810</td><td>3,945</td><td>4,080</td><td>4,215</td><td>4,350</td><td>4,485</td><td>4,620</td><td>4,755</td><td>4,890</td></tr>
+    <tr><th scope="row">2</th><td>3,430</td><td>3,595</td><td>3,760</td><td>3,925</td><td>4,090</td><td>4,255</td><td>4,420</td><td>4,585</td><td>4,750</td><td>4,915</td><td>5,080</td><td>5,245</td><td>5,410</td><td>5,575</td><td>5,740</td></tr>
+    <tr><th scope="row">3</th><td>3,945</td><td>4,135</td><td>4,325</td><td>4,515</td><td>4,705</td><td>4,895</td><td>5,085</td><td>5,275</td><td>5,465</td><td>5,655</td><td>5,845</td><td>6,035</td><td>6,225</td><td>6,415</td><td>6,605</td></tr>
+    <tr><th scope="row">4</th><td>4,530</td><td>4,760</td><td>4,990</td><td>5,220</td><td>5,450</td><td>5,680</td><td>5,910</td><td>6,140</td><td>6,370</td><td>6,600</td><td>6,830</td><td>7,060</td><td>7,290</td><td>7,520</td><td>7,750</td></tr>
+    <tr><th scope="row">5</th><td>5,240</td><td>5,505</td><td>5,770</td><td>6,035</td><td>6,300</td><td>6,565</td><td>6,830</td><td>7,095</td><td>7,360</td><td>7,625</td><td>7,890</td><td>8,155</td><td>8,420</td><td>8,685</td><td>8,950</td></tr>
+    <tr><th scope="row">6</th><td>6,065</td><td>6,370</td><td>6,675</td><td>6,980</td><td>7,285</td><td>7,590</td><td>7,895</td><td>8,200</td><td>8,505</td><td>8,810</td><td>9,115</td><td>9,420</td><td>9,725</td><td>10,030</td><td>10,335</td></tr>
+    <tr><th scope="row">7</th><td>7,010</td><td>7,375</td><td>7,740</td><td>8,105</td><td>8,470</td><td>8,835</td><td>9,200</td><td>9,565</td><td>9,930</td><td>10,295</td><td>10,660</td><td>11,025</td><td>11,390</td><td>11,755</td><td>12,120</td></tr>
+    <tr><th scope="row">8</th><td>8,010</td><td>8,425</td><td>8,840</td><td>9,255</td><td>9,670</td><td>10,085</td><td>10,500</td><td>10,915</td><td>11,330</td><td>11,745</td><td>12,160</td><td>12,575</td><td>12,990</td><td>13,405</td><td>13,820</td></tr>
+    <tr><th scope="row">9</th><td>9,275</td><td>9,745</td><td>10,215</td><td>10,685</td><td>11,155</td><td>11,625</td><td>12,095</td><td>12,565</td><td>13,035</td><td>13,505</td><td>13,975</td><td>14,445</td><td>14,915</td><td>15,385</td><td>15,855</td></tr>
+    <tr><th scope="row">10</th><td>10,275</td><td>10,785</td><td>11,295</td><td>11,805</td><td>12,315</td><td>12,825</td><td>13,335</td><td>13,845</td><td>14,355</td><td>14,865</td><td>15,375</td><td>15,885</td><td>16,395</td><td>16,905</td><td>17,415</td></tr>
+    <tr><th scope="row">11</th><td>11,815</td><td>12,345</td><td>12,875</td><td>13,405</td><td>13,935</td><td>14,465</td><td>14,995</td><td>15,525</td><td>16,055</td><td>16,585</td><td>17,115</td><td>17,645</td><td>18,175</td><td>18,705</td><td>—</td></tr>
+    <tr><th scope="row">12</th><td>13,435</td><td>14,005</td><td>14,575</td><td>15,145</td><td>15,715</td><td>16,285</td><td>16,855</td><td>17,425</td><td>17,995</td><td>18,565</td><td>19,135</td><td>19,705</td><td>20,275</td><td>—</td><td>—</td></tr>
+    <tr><th scope="row">13</th><td>15,180</td><td>15,785</td><td>16,390</td><td>16,995</td><td>17,600</td><td>18,205</td><td>18,810</td><td>19,415</td><td>20,020</td><td>20,625</td><td>21,230</td><td>21,835</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><th scope="row">14</th><td>17,015</td><td>17,715</td><td>18,415</td><td>19,115</td><td>19,815</td><td>20,515</td><td>21,215</td><td>21,915</td><td>22,615</td><td>23,315</td><td>24,015</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><th scope="row">15</th><td>20,855</td><td>21,720</td><td>22,585</td><td>23,450</td><td>24,315</td><td>25,180</td><td>26,045</td><td>26,910</td><td>27,775</td><td>28,640</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> rank 8, step 1: basic SAR 8,010 + transport SAR 700 = 8,710, less the 9% pension deduction (720.90) = <strong>net SAR 7,989.10</strong>. On 1 January the employee moves to step 2: SAR 8,425.</p>
+</div>
+<p>Figures follow the scale in use since 1432H as published consistently by secondary sources and match the increment rule; check your payslip to confirm. For your pension at retirement, see the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a>.</p>
+</div>

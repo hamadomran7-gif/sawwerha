@@ -480,14 +480,20 @@ const TABLES = {
     );
   },
   "ksa-art87-compare"(a) {
+    const en = a.lang === "en";
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);
+    const yl = (y) => (en ? `${fmt0.format(y)} ${y === 1 ? "year" : "years"}` : yearsLabel(y));
     const rows = years.map((y) => {
       const res = calc.ksaEndOfService({ wage, years: y, reason: "resignation" }).total;
       const a87 = calc.ksaEndOfService({ wage, years: y, reason: "resignation_marriage" }).total;
-      return [yearsLabel(y), fmt0.format(res), fmt0.format(a87), `+${fmt0.format(a87 - res)}`];
+      return [yl(y), fmt0.format(res), fmt0.format(a87), `+${fmt0.format(a87 - res)}`];
     });
-    return tableWrap(a.caption || `أجر فعلي ${fmt0.format(wage)} ريال`, ["مدة الخدمة", "استقالة عادية (م85)", "زواج أو وضع (م87)", "الفرق"], rows);
+    return tableWrap(
+      a.caption || (en ? `Actual wage SAR ${fmt0.format(wage)}` : `أجر فعلي ${fmt0.format(wage)} ريال`),
+      en ? ["Service", "Ordinary resignation (Art. 85)", "Marriage or childbirth (Art. 87)", "Difference"] : ["مدة الخدمة", "استقالة عادية (م85)", "زواج أو وضع (م87)", "الفرق"],
+      rows
+    );
   },
 };
 
