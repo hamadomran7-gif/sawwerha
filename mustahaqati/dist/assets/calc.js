@@ -2349,6 +2349,118 @@ export function uaeResidencyCheck(input = {}) {
   return { results: out, equity, eligible: out.filter((r) => r.status === "yes"), possible: out.filter((r) => r.status === "maybe") };
 }
 
+/**
+ * السعودية — تعويض الدفعة الواحدة في التأمينات.
+ * القديم (لمن له مدة قبل 3/7/2024): متوسط آخر 24 شهراً × (10% لكل شهر من أول 60 + 12% لما زاد)، وما قبل 1/1/1422هـ بـ6% ثم 7%.
+ * الجديد: مجموع اشتراكات المعاشات من الطرفين (18% ثم +1% كل يوليو حتى 22%) اسمياً، وتُقيَّم بمؤشر الأسعار (لا تحسبه الحاسبة).
+ */
+export function ksaLumpSum({ system = "legacy", months = 0, pre1422Months = 0, avgWage = 0, monthlyWage = 0, start, end }) {
+  const L = rules.sa.lumpSum.legacy, N = rules.sa.lumpSum.new;
+  if (system === "new") {
+    if (!start || !end || isNaN(toUTC(start)) || isNaN(toUTC(end)) || toUTC(end) < toUTC(start)) return null;
+    const w = Math.min(Math.max(0, Number(monthlyWage) || 0), rules.sa.workInjury.wageCap);
+    const s = toUTC(start), e = toUTC(end);
+    const rows = [];
+    let total = 0, count = 0;
+    let y = s.getUTCFullYear(), m = s.getUTCMonth();
+    while (Date.UTC(y, m, 1) <= Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), 1)) {
+      const iso = new Date(Date.UTC(y, m, 1)).toISOString().slice(0, 10);
+      const rate = N.rates.filter(([d]) => iso >= d.slice(0, 7) + "-01").pop();
+      const r = rate ? rate[1] : N.rates[0][1];
+      total += w * r;
+      count += 1;
+      const last = rows[rows.length - 1];
+      if (last && last.rate === r) last.months += 1;
+      else rows.push({ rate: r, months: 1 });
+      m += 1;
+      if (m > 11) { m = 0; y += 1; }
+    }
+    return { system, months: count, rows, nominal: r2(total), lumpOnly: count < N.installmentsFromMonths, pensionEligibleMonths: N.pensionMinMonths };
+  }
+  const mm = Math.max(0, Math.floor(Number(months) || 0));
+  const p = Math.min(mm, Math.max(0, Math.floor(Number(pre1422Months) || 0)));
+  const avg = Math.max(0, Number(avgWage) || 0);
+  const T = L.tierMonths;
+  const pre60 = Math.min(p, T), post60 = Math.min(mm, T) - pre60;
+  const preAbove = Math.max(0, p - T), postAbove = Math.max(0, mm - T) - preAbove;
+  const factor = pre60 * L.pre1422UpTo60 + post60 * L.pctUpTo60 + preAbove * L.pre1422Above60 + postAbove * L.pctAbove60;
+  const lump = avg * factor;
+  const pensionNow = mm >= L.pensionMinMonths ? avg * (Math.min(mm, L.divisorMonths) / L.divisorMonths) : 0;
+  const buyMonths = mm >= L.pensionMinMonths - L.buyMaxMonths && mm < L.pensionMinMonths ? L.pensionMinMonths - mm : 0;
+  return {
+    system, months: mm, factor: Math.round(factor * 1000) / 1000, lump: r2(lump), pensionEligible: mm >= L.pensionMinMonths, pensionNow: r2(pensionNow),
+    buyMonths, buyCost: r2(buyMonths * L.buyRate * avg), pensionAfterBuy: buyMonths ? r2(avg * (L.pensionMinMonths / L.divisorMonths)) : 0,
+  };
+}
+
+/**
+ * السعودية — تعويضات فرع الأخطار المهنية (إصابة العمل).
+ * type: temporary | permanent | death. degree كسر (0.3 = 30%). system: legacy (له مدة قبل 3/7/2024) | new.
+ */
+export function ksaWorkInjury({ type = "permanent", saudi = true, system = "legacy", wage = 0, days = 0, gosiDays = 0, degree = 0, age = 30, attendance = false, survivors = 1 }) {
+  const W = rules.sa.workInjury;
+  const avg = Math.min(Math.max(0, Number(wage) || 0), W.wageCap);
+  if (type === "temporary") {
+    const d = Math.max(0, Math.floor(Number(days) || 0));
+    const g = Math.min(d, Math.max(0, Math.floor(Number(gosiDays) || 0)));
+    const daily = avg / W.daysPerMonth;
+    const total = (d - g) * daily * W.dailyPct + g * daily * W.dailyPctGosiTreatment;
+    return { type, daily: r2(daily), days: d, gosiDays: g, fullPay: r2((d - g) * daily * W.dailyPct), gosiPay: r2(g * daily * W.dailyPctGosiTreatment), total: r2(total) };
+  }
+  const minTotal = system === "new" ? W.totalMinNew : W.totalMinLegacy;
+  const totalPension = Math.max(avg, minTotal);
+  if (type === "death") {
+    const n = Math.max(1, Math.floor(Number(survivors) || 1));
+    if (!saudi) return { type, saudi, lump: r2(avg * W.nonSaudiDeathMonths), months: W.nonSaudiDeathMonths };
+    const shares = system === "new" ? W.survivorNew : W.survivorLegacy;
+    const share = shares[Math.min(n, shares.length) - 1];
+    const monthly = totalPension * share;
+    const grant = system === "new" ? 0 : Math.min(W.deathGrantCapLegacy, totalPension * W.deathGrantMonthsLegacy);
+    return { type, saudi, share, monthly: r2(monthly), grant: r2(grant) };
+  }
+  // دائم: كلي أو جزئي
+  const deg = Math.min(1, Math.max(0, Number(degree) || 0));
+  const a = Math.max(0, Number(age) || 0);
+  const ageRounded = Math.floor(a) + (a - Math.floor(a) >= 0.5 ? 1 : 0);
+  if (deg >= 1) {
+    const att = attendance ? (system === "legacy" ? Math.min(totalPension * W.attendancePct, W.attendanceCapLegacy) : totalPension * W.attendancePct) : 0;
+    const monthly = totalPension + att;
+    if (!saudi) return { type, saudi, kind: "total", monthly: r2(monthly), lump: r2(monthly * W.nonSaudiTotalMonths), months: W.nonSaudiTotalMonths };
+    return { type, saudi, kind: "total", monthly: r2(monthly), attendance: r2(att), minApplied: avg < minTotal };
+  }
+  const partialMonthly = deg * avg;
+  if (deg >= W.partialPensionMin) {
+    if (!saudi) return { type, saudi, kind: "partial-high", monthly: r2(partialMonthly), lump: r2(partialMonthly * W.nonSaudiPartialMonths), months: W.nonSaudiPartialMonths };
+    return { type, saudi, kind: "partial-high", monthly: r2(partialMonthly) };
+  }
+  const months = Math.max(W.partialLumpMinMonths, W.partialLumpMonths - Math.max(0, ageRounded - W.reduceAboveAge));
+  return { type, saudi, kind: "partial-low", monthly: r2(partialMonthly), months, lump: r2(partialMonthly * months) };
+}
+
+/**
+ * الإمارات — تعويض إصابة العمل (المادة 37 والقرار 657/2022): الأجر أثناء العلاج كامل 6 أشهر ثم نصفه 6،
+ * والوفاة والعجز الكلي أجر أساسي 24 شهراً بين 18,000 و200,000، والجزئي النسبة × تعويض الوفاة.
+ */
+export function uaeWorkInjury({ basic = 0, total = 0, treatmentDays = 0, degree = 0 }) {
+  const W = rules.ae.workInjury;
+  const b = Math.max(0, Number(basic) || 0);
+  const t = Math.max(b, Number(total) || 0);
+  const d = Math.max(0, Math.floor(Number(treatmentDays) || 0));
+  const fullDays = Math.min(d, W.fullWageMonths * W.daysPerMonth);
+  const halfDays = Math.min(Math.max(0, d - fullDays), W.halfWageMonths * W.daysPerMonth);
+  const daily = t / W.daysPerMonth;
+  const treatmentPay = fullDays * daily + halfDays * daily * 0.5;
+  const raw = b * W.deathMonthsBasic;
+  const death = Math.min(W.deathMax, Math.max(W.deathMin, raw));
+  const deg = Math.min(1, Math.max(0, Number(degree) || 0));
+  const partial = deg * death;
+  const partialAlt = deg ? Math.min(W.deathMax, Math.max(W.deathMin, deg * raw)) : 0;
+  return {
+    daily: r2(daily), fullDays, halfDays, uncoveredDays: Math.max(0, d - fullDays - halfDays), fullPay: r2(fullDays * daily), halfPay: r2(halfDays * daily * 0.5), treatmentPay: r2(treatmentPay),
+    raw: r2(raw), death: r2(death), clamped: raw !== death, partial: r2(partial), partialAlt: r2(partialAlt), gpssaPartial: r2(deg * W.gpssaPartialBase),
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

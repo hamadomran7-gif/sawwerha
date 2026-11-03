@@ -435,6 +435,17 @@
         "dldGoldenPackage": 9884.75,
         "dldFamilyMember": 5774.5
       }
+    },
+    "workInjury": {
+      "law": "المرسوم بقانون اتحادي 33/2021 المادتان 37 و38، والقرار الوزاري 657/2022",
+      "fullWageMonths": 6,
+      "halfWageMonths": 6,
+      "daysPerMonth": 30,
+      "deathMonthsBasic": 24,
+      "deathMin": 18000,
+      "deathMax": 200000,
+      "gpssaPartialBase": 75000,
+      "gpssaLegacyDeathLump": 75000
     }
   },
   "sa": {
@@ -1703,6 +1714,78 @@
           }
         }
       }
+    },
+    "lumpSum": {
+      "law": "نظام التأمينات الاجتماعية (م/33 لعام 1421هـ) المادة 41 ولائحته، والنظام الجديد (م/273) المادتان 25 و27",
+      "legacy": {
+        "tierMonths": 60,
+        "pctUpTo60": 0.1,
+        "pctAbove60": 0.12,
+        "pre1422UpTo60": 0.06,
+        "pre1422Above60": 0.07,
+        "pensionMinMonths": 120,
+        "buyMaxMonths": 60,
+        "buyRate": 0.18,
+        "divisorMonths": 480,
+        "payAgeHijri": 60
+      },
+      "new": {
+        "effective": "2024-07-03",
+        "payAge": 65,
+        "pensionMinMonths": 180,
+        "installmentsFromMonths": 60,
+        "rates": [
+          [
+            "2024-07-03",
+            0.18
+          ],
+          [
+            "2025-07-01",
+            0.19
+          ],
+          [
+            "2026-07-01",
+            0.2
+          ],
+          [
+            "2027-07-01",
+            0.21
+          ],
+          [
+            "2028-07-01",
+            0.22
+          ]
+        ]
+      }
+    },
+    "workInjury": {
+      "law": "نظام التأمينات الاجتماعية (م/273) المواد 28–40، ونظام 1421 معدلاً بالبند سادساً من المرسوم",
+      "wageCap": 45000,
+      "dailyPct": 1.0,
+      "dailyPctGosiTreatment": 0.75,
+      "daysPerMonth": 30,
+      "totalMinLegacy": 1983.75,
+      "totalMinNew": 2000,
+      "attendancePct": 0.5,
+      "attendanceCapLegacy": 3500,
+      "partialPensionMin": 0.5,
+      "partialLumpMonths": 60,
+      "reduceAboveAge": 45,
+      "partialLumpMinMonths": 36,
+      "nonSaudiTotalMonths": 84,
+      "nonSaudiPartialMonths": 60,
+      "nonSaudiDeathMonths": 84,
+      "survivorLegacy": [
+        0.5,
+        0.75,
+        1.0
+      ],
+      "survivorNew": [
+        0.5,
+        0.75
+      ],
+      "deathGrantMonthsLegacy": 3,
+      "deathGrantCapLegacy": 10000
     }
   },
   "gcc": {

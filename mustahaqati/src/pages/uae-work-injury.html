@@ -1,0 +1,100 @@
+---json
+{
+  "title": "حاسبة تعويض إصابة العمل في الإمارات 2026 — الأجر أثناء العلاج والعجز والوفاة",
+  "h1": "حاسبة تعويض إصابة العمل في الإمارات",
+  "description": "احسب تعويض إصابة العمل في القطاع الخاص بالإمارات وفق المادة 37 من المرسوم بقانون 33/2021: الأجر كاملاً 6 أشهر ثم نصفه 6 أشهر أثناء العلاج، وتعويض الوفاة والعجز الكلي أجر أساسي 24 شهراً بين 18,000 و200,000 درهم، والعجز الجزئي بنسبته من تعويض الوفاة.",
+  "short": "الأجر أثناء العلاج، والوفاة والعجز الكلي 24 شهراً (18,000–200,000)، والجزئي بنسبته",
+  "lead": "أدخل راتبك الأساسي والإجمالي ومدة العلاج ونسبة العجز، ويظهر ما يدفعه صاحب العمل.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "uae-work-injury.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-sick-leave", "uae-gratuity", "uae-final-settlement", "uae-pension"],
+  "faq": [
+    {"q": "كم تعويض الوفاة بإصابة العمل في الإمارات؟", "a": "أجر أساسي 24 شهراً، على ألا يقل عن 18,000 درهم ولا يزيد على 200,000 درهم، يُصرف لورثة العامل مع مكافأة نهاية الخدمة وباقي المستحقات (المادة 37/3)."},
+    {"q": "كيف يُحسب تعويض العجز الجزئي في الإمارات؟", "a": "نسبة العجز من جدول نسب العجز × تعويض الوفاة (أجر أساسي 24 شهراً بين 18,000 و200,000). مثال: عجز 30% وأساسي 6,000 = 30% × 144,000 = 43,200 درهم."},
+    {"q": "هل يُدفع راتبي أثناء علاج إصابة العمل؟", "a": "نعم: يدفع صاحب العمل الأجر كاملاً خلال العلاج حتى 6 أشهر، ثم نصفه 6 أشهر أخرى أو حتى الشفاء أو ثبوت العجز أو الوفاة، وتكاليف العلاج كلها عليه."},
+    {"q": "كم نسبة العجز لفقد عين أو يد في الإمارات؟", "a": "بحسب جدول نسب العجز: فقد عين واحدة 45%، واليد اليمنى من الرسغ 38% واليسرى 34%، والسبابة اليمنى 15% واليسرى 10%، وفقد البصر كلياً أو الشلل التام عجز كلي 100%. ويُعامل العضو الأيسر للأعسر معاملة الأيمن."},
+    {"q": "متى يسقط حق العامل في تعويض الإصابة؟", "a": "إذا تعمد إصابة نفسه، أو كانت تحت تأثير الكحول أو المخدرات، أو خالف تعليمات السلامة المعلنة عمداً، أو بسوء سلوكه المتعمد، أو رفض الفحص أو العلاج دون سبب جدي (المادة 38). والدعوى تُرفع خلال سنتين من انتهاء علاقة العمل."},
+    {"q": "هل يختلف التعويض للمواطن المشترك في المعاشات؟", "a": "المواطن تصرف له الهيئة العامة للمعاشات معاشاً عن الوفاة أو العجز الكلي كأن مدته 35 سنة، وعن العجز الجزئي نسبته × 75,000 درهم، وله الرجوع على صاحب العمل عند خطئه. واستحقاقه تعويض المادة 37 فوق ذلك غير محسوم نصاً."}
+  ],
+  "sources": [
+    {"t": "المرسوم بقانون اتحادي 33/2021 — المادتان 37 و38", "u": "https://uaelegislation.gov.ae/en/legislations/1541/download"},
+    {"t": "قرار مجلس الوزراء 33/2022 بشأن إصابات العمل والأمراض المهنية وجداوله", "u": "https://uaelegislation.gov.ae/en/legislations/1559"},
+    {"t": "البوابة الرسمية لحكومة الإمارات — تعويض إصابة العمل (أكتوبر 2025)", "u": "https://u.ae/ar/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/Work-Injury-Compensation-in-the-UAE"},
+    {"t": "القرار الوزاري 657/2022 بشأن إصابات العمل (نص منشور)", "u": "https://gulfmigration.grc.net/database/legal_module/United%20Arab%20Emirates/Ministerial%20Resolution%20No.%20(657)%20of%202022%20on%20Rules%20and%20Guidelines%20to%20Deal%20with%20Work%20Injuries%20&%20Occupational%20Diseases.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب التعويض</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="100" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="total">الراتب الإجمالي الشهري (درهم)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="100" value="9000">
+        <span class="hint">للأجر أثناء العلاج.</span>
+      </div>
+      <div class="field">
+        <label for="treatmentDays">أيام العلاج والانقطاع عن العمل</label>
+        <input type="number" id="treatmentDays" name="treatmentDays" inputmode="decimal" min="0" step="1" value="45">
+      </div>
+      <div class="field">
+        <label for="degree">نسبة العجز الدائم (%)</label>
+        <input type="number" id="degree" name="degree" inputmode="decimal" min="0" max="100" step="1" value="30">
+        <span class="hint">0 إن شُفيت تماماً، و100 للعجز الكلي.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>ما يدفعه صاحب العمل عند إصابة العمل</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">العلاج</th><td>كل التكاليف حتى الشفاء أو ثبوت العجز، ومنها الإقامة والعمليات والأطراف الصناعية والانتقال</td></tr>
+    <tr><th scope="row">الأجر أثناء العلاج</th><td>كاملاً حتى 6 أشهر، ثم نصفه 6 أشهر أخرى أو حتى الشفاء أو ثبوت العجز أو الوفاة</td></tr>
+    <tr><th scope="row">الوفاة</th><td>أجر أساسي 24 شهراً، بين 18,000 و200,000 درهم، مع مكافأة نهاية الخدمة</td></tr>
+    <tr><th scope="row">العجز الكلي</th><td>مثل تعويض الوفاة</td></tr>
+    <tr><th scope="row">العجز الجزئي</th><td>نسبة العجز من الجدول × تعويض الوفاة</td></tr>
+    <tr><th scope="row">الإبلاغ والدفع</th><td>إبلاغ الوزارة خلال 48 ساعة، والدفع خلال 10 أيام من التقرير الطبي الذي يحدد النسبة</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>أمثلة من جدول نسب العجز</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الإصابة</th><th scope="col">النسبة</th><th scope="col">بأساسي 6,000</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">فقد البصر كلياً أو الشلل التام</th><td>100%</td><td>144,000</td></tr>
+    <tr><th scope="row">فقد عين واحدة</th><td>45%</td><td>64,800</td></tr>
+    <tr><th scope="row">اليد اليمنى من الرسغ</th><td>38%</td><td>54,720</td></tr>
+    <tr><th scope="row">اليد اليسرى من الرسغ</th><td>34%</td><td>48,960</td></tr>
+    <tr><th scope="row">السبابة اليمنى</th><td>15%</td><td>21,600</td></tr>
+    <tr><th scope="row">السبابة اليسرى</th><td>10%</td><td>14,400</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+علاج 45 يوماً براتب إجمالي 9,000: 45 × 300 = <strong>13,500 درهم</strong> أجر فترة العلاج.<br>
+عجز 30% بأساسي 6,000: 24 × 6,000 = 144,000 × 30% = <strong>43,200 درهم</strong>.<br>
+وفاة بأساسي 10,000: 240,000 تُقص إلى <strong>200,000 درهم</strong>، وبأساسي 700: 16,800 تُرفع إلى 18,000.</p>
+</div>
+<p>النص يحتمل قراءة أخرى للحدين في العجز الجزئي (تطبيقهما على الناتج بعد النسبة)، فنعرض الفرق في النتيجة عند وجوده. والحاسبة تقديرية: النسبة تحددها الجهة الطبية المختصة. ويُضاف إلى التعويض مكافأة نهاية الخدمة؛ احسبها في <a href="{{root}}uae-gratuity/{{ix}}">حاسبة مكافأة نهاية الخدمة</a>.</p>
+</div>

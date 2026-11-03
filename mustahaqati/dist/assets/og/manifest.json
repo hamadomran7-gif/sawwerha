@@ -212,5 +212,11 @@
  "qatar-notice-period": "ac4b2a28885735ca",
  "qatar-overtime": "26234d5688bb10ef",
  "en-uae-golden-visa": "05205015c9e06967",
- "uae-golden-visa": "0b8191c2b881e2de"
+ "uae-golden-visa": "0b8191c2b881e2de",
+ "en-ksa-gosi-lump-sum": "9334e42be818d33a",
+ "en-ksa-work-injury": "60caa3e05911ead2",
+ "en-uae-work-injury": "b937315b085ae021",
+ "ksa-gosi-lump-sum": "63ce74f1594a0543",
+ "ksa-work-injury": "00c806cb2272f841",
+ "uae-work-injury": "7fee6ec450fbc0f2"
 }

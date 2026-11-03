@@ -40,6 +40,9 @@ import {
   gccOvertime,
   gccNotice,
   uaeResidencyCheck,
+  ksaLumpSum,
+  ksaWorkInjury,
+  uaeWorkInjury,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1245,4 +1248,56 @@ test("الإمارات — أهلية الإقامة الذهبية والخضر
   const c = uaeResidencyCheck({ investment: 2000000 });
   assert.equal(st(c, "g-investment"), "yes");
   assert.equal(st(c, "gr-investor"), "yes");
+});
+
+test("السعودية — تعويض الدفعة الواحدة", () => {
+  assert.equal(ksaLumpSum({ months: 96, avgWage: 8000 }).lump, 82560);
+  assert.equal(ksaLumpSum({ months: 150, avgWage: 10000 }).lump, 168000);
+  assert.equal(ksaLumpSum({ months: 150, pre1422Months: 30, avgWage: 10000 }).lump, 156000);
+  const b = ksaLumpSum({ months: 96, avgWage: 8000 });
+  assert.equal(b.buyMonths, 24);
+  assert.equal(b.buyCost, 34560);
+  assert.equal(b.pensionAfterBuy, 2000);
+  const n1 = ksaLumpSum({ system: "new", monthlyWage: 8000, start: "2024-08-01", end: "2027-07-31" });
+  assert.equal(n1.months, 36);
+  assert.equal(n1.nominal, 54960);
+  assert.equal(n1.lumpOnly, true);
+  const n2 = ksaLumpSum({ system: "new", monthlyWage: 10000, start: "2026-07-01", end: "2036-06-30" });
+  assert.equal(n2.months, 120);
+  assert.equal(n2.nominal, 260400);
+});
+
+test("السعودية — إصابة العمل في التأمينات", () => {
+  assert.equal(ksaWorkInjury({ type: "temporary", wage: 8000, days: 45 }).total, 12000);
+  near(ksaWorkInjury({ type: "temporary", wage: 8000, days: 45, gosiDays: 10 }).total, 11333.33, 0.01);
+  { const t = ksaWorkInjury({ type: "temporary", wage: 8000, days: 45, gosiDays: 10 }); near(t.fullPay, 9333.33, 0.01); near(t.gosiPay, 2000, 0.01); }
+  assert.equal(ksaWorkInjury({ wage: 8000, degree: 0.3, age: 35 }).lump, 144000);
+  assert.equal(ksaWorkInjury({ wage: 8000, degree: 0.3, age: 52 }).lump, 127200);
+  assert.equal(ksaWorkInjury({ wage: 8000, degree: 0.3, age: 75 }).lump, 86400);
+  assert.equal(ksaWorkInjury({ wage: 20000, degree: 0.3, age: 35 }).lump, 360000);
+  assert.equal(ksaWorkInjury({ wage: 8000, degree: 0.6 }).monthly, 4800);
+  assert.equal(ksaWorkInjury({ wage: 8000, degree: 0.6, saudi: false }).lump, 288000);
+  const d3 = ksaWorkInjury({ type: "death", wage: 8000, survivors: 3 });
+  assert.equal(d3.monthly, 8000);
+  assert.equal(d3.grant, 10000);
+  assert.equal(ksaWorkInjury({ type: "death", wage: 8000, survivors: 2 }).monthly, 6000);
+  assert.equal(ksaWorkInjury({ type: "death", wage: 8000, survivors: 3, system: "new" }).monthly, 6000);
+  assert.equal(ksaWorkInjury({ type: "death", wage: 8000, saudi: false }).lump, 672000);
+  assert.equal(ksaWorkInjury({ wage: 1500, degree: 1 }).monthly, 1983.75);
+});
+
+test("الإمارات — تعويض إصابة العمل", () => {
+  assert.equal(uaeWorkInjury({ basic: 6000, total: 9000, treatmentDays: 45 }).treatmentPay, 13500);
+  { const u = uaeWorkInjury({ basic: 10000, total: 10000, treatmentDays: 400 }); assert.equal(u.fullPay, 60000); assert.equal(u.halfPay, 30000); assert.equal(u.treatmentPay, 90000); assert.equal(u.uncoveredDays, 40); }
+  assert.equal(uaeWorkInjury({ basic: 6000, degree: 0.3 }).partial, 43200);
+  assert.equal(uaeWorkInjury({ basic: 12000, degree: 0.3 }).partial, 60000);
+  assert.equal(uaeWorkInjury({ basic: 12000, degree: 0.3 }).partialAlt, 86400);
+  assert.equal(uaeWorkInjury({ basic: 2000, degree: 0.3 }).partial, 14400);
+  assert.equal(uaeWorkInjury({ basic: 6000 }).death, 144000);
+  assert.equal(uaeWorkInjury({ basic: 10000 }).death, 200000);
+  assert.equal(uaeWorkInjury({ basic: 700 }).death, 18000);
+  const t = uaeWorkInjury({ basic: 6000, total: 9000, treatmentDays: 300 });
+  assert.equal(t.fullDays, 180);
+  assert.equal(t.halfDays, 120);
+  assert.equal(t.treatmentPay, 180 * 300 + 120 * 150);
 });

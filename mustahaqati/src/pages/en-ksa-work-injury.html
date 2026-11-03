@@ -1,0 +1,124 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-work-injury-compensation-calculator",
+  "alternate": "ksa-work-injury",
+  "title": "Saudi Work Injury Compensation Calculator 2026 — GOSI Temporary, Permanent Disability and Death Benefits",
+  "h1": "Saudi Work Injury Compensation Calculator",
+  "description": "Calculate GOSI occupational hazards benefits in Saudi Arabia: a daily allowance of 100% of wage (75% while treated at GOSI's expense), a 100% pension for total disability, a proportional pension from 50% disability, a lump sum of 60 times the partial pension below 50% reduced after age 45, lump sums of 84 and 60 times for non-Saudis, and survivors' pensions on death.",
+  "short": "Daily allowance, total and partial disability, non-Saudi lump sums and survivors' pensions",
+  "lead": "Choose the type of case and enter the average contributory wage for the last 3 months to see the GOSI benefit.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-work-injury.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-gosi", "en-ksa-sick-leave", "en-ksa-gosi-lump-sum", "en-ksa-end-of-service"],
+  "faq": [
+    {"q": "How much is work injury compensation under GOSI?", "a": "During treatment, a daily allowance of 100% of the daily contributory wage (75% while treated at GOSI's expense); then, by disability degree: a monthly pension of 100% of the average wage for total disability, a proportional pension for 50% or more, and a lump sum of 60 times the partial pension below 50%."},
+    {"q": "How is compensation for partial disability under 50% calculated?", "a": "Degree × average wage gives the notional pension, multiplied by 60. If the injured worker was over 45 on the day of the injury, the multiple falls by one for each extra year, to a minimum of 36. Example: 30% disability, SAR 8,000 wage, age 35 = 2,400 × 60 = SAR 144,000."},
+    {"q": "Do non-Saudis get work injury compensation?", "a": "Yes, as lump sums instead of pensions: 84 times the monthly pension for total disability or death, 60 times for partial disability of 50% or more, and below 50% the same as Saudis."},
+    {"q": "What wage are work injury benefits based on?", "a": "The daily allowance uses the wage of the month before the injury; pensions and lump sums use the average contributory wage of the 3 months before the injury month, capped at SAR 45,000 a month. The branch is funded by a 2% employer contribution."},
+    {"q": "What do survivors get after a fatal work injury?", "a": "A pension based on the total-disability pension (100% of the average): under the old system 50% for one survivor, 75% for two and 100% for three or more, plus a 3-month grant capped at SAR 10,000; under the new system 50% for one and 75% for two or more, with no grant."},
+    {"q": "Did the compensation caps change in 2024?", "a": "Yes. Royal Decree M/273 removed the caps on disability lump sums (SAR 165,000 and 330,000) and raised the reduction age from 40 to 45 even for existing members; some pages still show the old figures."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — new Social Insurance Law (M/273): Articles 28 to 40 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "Umm Al-Qura — Royal Decree M/273, clause 6 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25238"},
+    {"t": "GOSI — occupational hazards branch benefits", "u": "https://www.gosi.gov.sa/GOSIOnline/OH_Branch_Benefits&locale=en_US"},
+    {"t": "GOSI — occupational hazards services", "u": "https://www.gosi.gov.sa/GOSIOnline/Occupational_Hazard&locale=en_US"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out the benefit</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">Type of case</label>
+        <select id="type" name="type">
+          <option value="temporary">Temporary disability (treatment period)</option>
+          <option value="permanent" selected>Permanent disability (total or partial)</option>
+          <option value="death">Death from a work injury</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="wage">Average monthly contributory wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="100" value="8000" required>
+        <span class="hint">The 3 months before the injury, capped at 45,000.</span>
+      </div>
+      <div class="field">
+        <label for="saudi">Nationality</label>
+        <select id="saudi" name="saudi">
+          <option value="yes" selected>Saudi</option>
+          <option value="no">Non-Saudi</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="system">System</label>
+        <select id="system" name="system">
+          <option value="legacy" selected>Contributions before 3 July 2024</option>
+          <option value="new">First insured from 3 July 2024</option>
+        </select>
+      </div>
+      <div class="field" data-temp>
+        <label for="days">Days of temporary disability</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="45">
+      </div>
+      <div class="field" data-temp>
+        <label for="gosiDays">Of which days treated at GOSI's expense</label>
+        <input type="number" id="gosiDays" name="gosiDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-perm>
+        <label for="degree">Disability degree (%)</label>
+        <input type="number" id="degree" name="degree" inputmode="decimal" min="0" max="100" step="1" value="30">
+      </div>
+      <div class="field" data-perm>
+        <label for="age">Age on the day of the injury</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="15" max="80" step="0.5" value="35">
+      </div>
+      <div class="field" data-perm>
+        <label for="attendance">Needs constant help from others?</label>
+        <select id="attendance" name="attendance">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div class="field" data-death>
+        <label for="survivors">Number of eligible family members</label>
+        <input type="number" id="survivors" name="survivors" inputmode="decimal" min="1" max="10" step="1" value="2">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Occupational hazards benefits</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Case</th><th scope="col">Saudi</th><th scope="col">Non-Saudi</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Treatment</th><td colspan="2">Daily allowance of 100% of the daily contributory wage, 75% while treated at GOSI's expense, until recovery or disability is established</td></tr>
+    <tr><th scope="row">Total disability</th><td>Pension of 100% of the average (minimum 1,983.75 or 2,000), + 50% for constant help</td><td>84 times the pension in one payment</td></tr>
+    <tr><th scope="row">Disability of 50% or more</th><td>Monthly pension = degree × average</td><td>60 times the partial pension</td></tr>
+    <tr><th scope="row">Disability under 50%</th><td colspan="2">Degree × average × 60, falling by one for each year over 45, minimum 36 times, no cap</td></tr>
+    <tr><th scope="row">Death</th><td>Survivors' pension of 50% or 75% (or 100% for three under the old system), plus a 3-month grant up to 10,000 under the old system</td><td>84 times the pension</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples on a wage of SAR 8,000:</strong><br>
+Temporary disability of 45 days: 45 × 266.67 = <strong>SAR 12,000</strong>, or 11,333.33 with 10 days in hospital at GOSI's expense.<br>
+30% disability at age 35: 2,400 × 60 = <strong>SAR 144,000</strong>; at age 52: 2,400 × 53 = 127,200.<br>
+60% disability: a pension of <strong>SAR 4,800</strong> a month for a Saudi, and 60 × 4,800 = 288,000 for a non-Saudi.<br>
+Death of a non-Saudi: 84 × 8,000 = <strong>SAR 672,000</strong>.</p>
+</div>
+<p>The worker must be registered with GOSI before the injury, and the employer must report it within 3 days of being told. Daily allowances must be claimed within a year and other benefits within 5 years. This is an estimate: the disability degree is set by the medical committees, and the official amount is in GOSI's decision. For ordinary sick leave, see the <a href="{{root}}en/saudi-sick-leave-calculator/{{ix}}">sick leave calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-work-injury/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

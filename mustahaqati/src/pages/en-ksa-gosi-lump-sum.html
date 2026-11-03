@@ -1,0 +1,102 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gosi-lump-sum-calculator",
+  "alternate": "ksa-gosi-lump-sum",
+  "title": "GOSI Lump-Sum Compensation Calculator 2026 — Old and New Saudi Social Insurance Systems",
+  "h1": "GOSI Lump-Sum Compensation Calculator",
+  "description": "Calculate GOSI's one-off lump-sum compensation for Saudis who do not qualify for a pension: under the old system 10% of the last 24 months' average wage for each of the first 60 months and 12% after, and under the new system the employer's and employee's pension contributions revalued by the consumer price index — with when it is paid and how it compares with buying service for a pension.",
+  "short": "10% then 12% of the average wage per month (old system); total contributions (new system)",
+  "lead": "Choose your system and enter your months of contribution and average wage to see the lump sum, when it is paid, and whether buying service for a pension is better.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-gosi-lump-sum.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-retirement-pension", "en-ksa-retirement-age", "en-ksa-gosi", "en-ksa-saned"],
+  "faq": [
+    {"q": "How is GOSI lump-sum compensation calculated?", "a": "Under the old system (anyone insured before 3 July 2024): the last 24 months' average wage × 10% for each of the first 60 months and 12% for each month after, with months before 1/1/1422H at 6% and 7%. Under the new system: the total pension contributions paid by employer and employee, revalued by the consumer price index and never below their nominal value."},
+    {"q": "When is the lump sum paid?", "a": "Under the old system at 60 Hijri years after leaving covered work for those without a pension, or earlier in cases including a woman who leaves work without a pension right, death, non-occupational disability, loss of nationality and imprisonment of 5 years or more. Under the new system only at 65 with under 180 months, or on disability, death or loss of nationality."},
+    {"q": "Is the lump sum paid when I resign?", "a": "Not for men under either system: leaving work alone does not trigger payment before the age. Under the old system, a woman who leaves work without a pension right may claim it."},
+    {"q": "How much is the lump sum for 8 years of service?", "a": "96 months on an average of SAR 8,000 under the old system: 8,000 × (60 × 10% + 36 × 12%) = SAR 82,560."},
+    {"q": "Is it better to take the lump sum or buy service?", "a": "Under the old system, someone with 60 to 119 months at age 60 may buy the missing months up to 120 at 18% of the average wage per month and get a monthly pension. For example, 96 months on SAR 8,000: buying 24 months costs SAR 34,560 and gives a pension of SAR 2,000 a month."},
+    {"q": "Can I restore the period if I return to work?", "a": "Under the old system, yes, if you repay the full lump sum in one payment within a year of returning to covered work; your earlier service then counts again."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — new Social Insurance Law (Royal Decree M/273): Articles 25 and 27 and transitional clauses", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "GOSI — Annuities and lump-sum compensation", "u": "https://www.gosi.gov.sa/GOSIOnline/Annuity&locale=en_US"},
+    {"t": "GOSI — Annuities branch regulations (Articles 13, 14 and 43)", "u": "https://www.gosi.gov.sa/GOSIOnline/Annuties_Branch_Benefits&locale=en_US"},
+    {"t": "Okaz — executive regulations: revaluation by the consumer price index (February 2025, Arabic)", "u": "https://www.okaz.com.sa/ampArticle/2180579"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your lump sum</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="system">Your GOSI system</label>
+        <select id="system" name="system">
+          <option value="legacy" selected>I have contributions before 3 July 2024 (old system)</option>
+          <option value="new">My first contribution was from 3 July 2024 (new system)</option>
+        </select>
+      </div>
+      <div class="field" data-legacy>
+        <label for="months">Months of contribution</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="600" step="1" value="96">
+      </div>
+      <div class="field" data-legacy>
+        <label for="avgWage">Average wage of the last 24 months (SAR)</label>
+        <input type="number" id="avgWage" name="avgWage" inputmode="decimal" min="0" step="100" value="8000">
+        <span class="hint">Basic plus housing, capped at 45,000.</span>
+      </div>
+      <div class="field" data-legacy>
+        <label for="pre1422Months">Of which months before 1/1/1422H (March 2001)</label>
+        <input type="number" id="pre1422Months" name="pre1422Months" inputmode="decimal" min="0" max="600" step="1" value="0">
+      </div>
+      <div class="field" data-new>
+        <label for="monthlyWage">Monthly contributory wage (SAR)</label>
+        <input type="number" id="monthlyWage" name="monthlyWage" inputmode="decimal" min="0" step="100" value="8000">
+      </div>
+      <div class="field" data-new>
+        <label for="start">First contribution date</label>
+        <input type="date" id="start" name="start" value="2024-08-01">
+      </div>
+      <div class="field" data-new>
+        <label for="end">Last contribution date</label>
+        <input type="date" id="end" name="end" value="2027-07-31">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Which system applies to you?</h2>
+<p>Anyone with any uncompensated contribution period before 3 July 2024 stays under the old rules for the lump sum, even for months after that date. Anyone first insured from 3 July 2024 (or compensated for all earlier periods and then back at work) is under the new system.</p>
+
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Old system</th><th scope="col">New system</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Amount</th><td>Average × (10% per month for the first 60 + 12% after)</td><td>Total pension contributions of both parties, revalued by the consumer price index</td></tr>
+    <tr><th scope="row">When paid</th><td>At 60 Hijri after leaving work, or early for women, death, disability, loss of nationality and other cases</td><td>At 65 with under 180 months, or disability, death or loss of nationality</td></tr>
+    <tr><th scope="row">How paid</th><td>One payment</td><td>One payment under 60 months; one payment or instalments from 60 months</td></tr>
+    <tr><th scope="row">Alternative</th><td>Buy up to 60 months at 18% to reach 120 months and a pension</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Old system, 96 months on an average of 8,000: 8,000 × (6 + 36 × 0.12) = <strong>SAR 82,560</strong> at 60 Hijri, or buy 24 months for 34,560 to get a pension of SAR 2,000 a month.<br>
+A woman under the old system who leaves work after 150 months on an average of 10,000: <strong>SAR 168,000</strong>, claimable as soon as she leaves.<br>
+New system, August 2024 to July 2027 on 8,000: 36 months of contributions (18%, then 19%, 20% and 21%) = <strong>SAR 54,960</strong> as a minimum, paid at 65.</p>
+</div>
+<p>This is an estimate: the CPI revaluation and the number of instalments under the new system are set by the regulations, and the official amount is on your GOSI statement. To see whether you qualify for a pension instead, use the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a> and the <a href="{{root}}en/saudi-retirement-age-calculator/{{ix}}">retirement age calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-gosi-lump-sum/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

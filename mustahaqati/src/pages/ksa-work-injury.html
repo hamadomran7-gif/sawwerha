@@ -1,0 +1,121 @@
+---json
+{
+  "title": "حاسبة تعويض إصابة العمل في التأمينات الاجتماعية 2026 — العجز المؤقت والدائم والوفاة",
+  "h1": "حاسبة تعويض إصابة العمل في السعودية",
+  "description": "احسب تعويضات فرع الأخطار المهنية في التأمينات الاجتماعية: البدل اليومي 100% من الأجر (75% أثناء العلاج على نفقة المؤسسة)، والعجز الكلي معاش 100%، والجزئي من 50% معاش بنسبته، ودونه تعويض مقطوع 60 ضعفاً ينقص بعد سن 45، ودفعات غير السعودي 84 و60 ضعفاً، ومعاش الورثة عند الوفاة.",
+  "short": "البدل اليومي، والعجز الكلي والجزئي، ودفعات غير السعودي، ومعاش الورثة",
+  "lead": "اختر نوع الإصابة وأدخل متوسط أجر الاشتراك لآخر 3 أشهر، ويظهر التعويض بحسب نظام التأمينات.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-work-injury.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-gosi", "ksa-sick-leave", "ksa-gosi-lump-sum", "ksa-end-of-service"],
+  "faq": [
+    {"q": "كم تعويض إصابة العمل في التأمينات الاجتماعية؟", "a": "خلال العلاج بدل يومي 100% من أجر الاشتراك اليومي (75% أثناء العلاج على نفقة المؤسسة)، ثم بحسب نسبة العجز: معاش شهري 100% من متوسط الأجر للعجز الكلي، ومعاش بنسبة العجز إن بلغ 50% فأكثر، وتعويض مقطوع 60 ضعفاً من المعاش الجزئي إن قل عن 50%."},
+    {"q": "كيف يُحسب تعويض العجز الجزئي أقل من 50%؟", "a": "النسبة × متوسط الأجر = المعاش المفترض، ثم × 60. وإن تجاوز المصاب 45 سنة يوم الإصابة ينقص شهراً عن كل سنة زائدة، بحد أدنى 36 ضعفاً. مثال: عجز 30% وأجر 8,000 وعمر 35 = 2,400 × 60 = 144,000 ريال."},
+    {"q": "هل يحق لغير السعودي تعويض إصابة العمل؟", "a": "نعم، يُصرف له مبلغ مقطوع بدل المعاش: 84 ضعفاً من المعاش الشهري للعجز الكلي أو الوفاة، و60 ضعفاً للعجز الجزئي 50% فأكثر، ودون 50% كالسعودي."},
+    {"q": "على أي أجر تُحسب تعويضات إصابة العمل؟", "a": "البدل اليومي على أجر الشهر السابق للإصابة، والمعاشات والتعويضات على متوسط أجر الاشتراك لآخر 3 أشهر قبل شهر الإصابة، بحد أقصى 45,000 ريال شهرياً. واشتراك الفرع 2% على صاحب العمل وحده."},
+    {"q": "كم معاش الورثة عند الوفاة بإصابة عمل؟", "a": "يُحسب على أساس معاش العجز الكلي (100% من المتوسط): في النظام السابق 50% لمستحق واحد و75% لاثنين و100% لثلاثة فأكثر مع منحة 3 أشهر بحد 10,000 ريال، وفي النظام الجديد 50% لواحد و75% لاثنين فأكثر بلا منحة."},
+    {"q": "هل تغيّرت سقوف التعويض في 2024؟", "a": "نعم. المرسوم م/273 ألغى سقف التعويض المقطوع للعجز (165,000 و330,000 ريال) ورفع سن الإنقاص من 40 إلى 45 حتى للمشتركين القدامى، وبعض الصفحات ما زالت تعرض الأرقام القديمة."}
+  ],
+  "sources": [
+    {"t": "أم القرى — نظام التأمينات الاجتماعية الجديد (م/273): المواد 28 إلى 40", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "أم القرى — المرسوم الملكي م/273 (البند سادساً)", "u": "https://www.uqn.gov.sa/details?p=25238"},
+    {"t": "التأمينات الاجتماعية — منافع فرع الأخطار المهنية", "u": "https://www.gosi.gov.sa/GOSIOnline/OH_Branch_Benefits&locale=en_US"},
+    {"t": "التأمينات الاجتماعية — خدمات الأخطار المهنية", "u": "https://www.gosi.gov.sa/GOSIOnline/Occupational_Hazard&locale=en_US"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب التعويض</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">نوع الحالة</label>
+        <select id="type" name="type">
+          <option value="temporary">عجز مؤقت (فترة العلاج)</option>
+          <option value="permanent" selected>عجز دائم (كلي أو جزئي)</option>
+          <option value="death">وفاة بإصابة عمل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="wage">متوسط أجر الاشتراك الشهري (ريال)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="100" value="8000" required>
+        <span class="hint">آخر 3 أشهر قبل الإصابة، بحد 45,000.</span>
+      </div>
+      <div class="field">
+        <label for="saudi">الجنسية</label>
+        <select id="saudi" name="saudi">
+          <option value="yes" selected>سعودي</option>
+          <option value="no">غير سعودي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="system">النظام</label>
+        <select id="system" name="system">
+          <option value="legacy" selected>لي اشتراك قبل 3 يوليو 2024</option>
+          <option value="new">أول اشتراك من 3 يوليو 2024</option>
+        </select>
+      </div>
+      <div class="field" data-temp>
+        <label for="days">أيام العجز المؤقت</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="45">
+      </div>
+      <div class="field" data-temp>
+        <label for="gosiDays">منها أيام علاج على نفقة التأمينات</label>
+        <input type="number" id="gosiDays" name="gosiDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-perm>
+        <label for="degree">نسبة العجز (%)</label>
+        <input type="number" id="degree" name="degree" inputmode="decimal" min="0" max="100" step="1" value="30">
+      </div>
+      <div class="field" data-perm>
+        <label for="age">العمر يوم الإصابة</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="15" max="80" step="0.5" value="35">
+      </div>
+      <div class="field" data-perm>
+        <label for="attendance">يحتاج مساعدة دائمة من الغير؟</label>
+        <select id="attendance" name="attendance">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم</option>
+        </select>
+      </div>
+      <div class="field" data-death>
+        <label for="survivors">عدد المستحقين من العائلة</label>
+        <input type="number" id="survivors" name="survivors" inputmode="decimal" min="1" max="10" step="1" value="2">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تعويضات فرع الأخطار المهنية</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحالة</th><th scope="col">السعودي</th><th scope="col">غير السعودي</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">العلاج</th><td colspan="2">بدل يومي 100% من أجر الاشتراك اليومي، و75% أثناء العلاج على نفقة المؤسسة، حتى الشفاء أو ثبوت العجز</td></tr>
+    <tr><th scope="row">عجز كلي</th><td>معاش 100% من المتوسط (حد أدنى 1,983.75 أو 2,000)، و+50% لمن يحتاج مساعدة دائمة</td><td>84 ضعفاً من المعاش دفعة واحدة</td></tr>
+    <tr><th scope="row">عجز 50% فأكثر</th><td>معاش شهري = النسبة × المتوسط</td><td>60 ضعفاً من المعاش الجزئي</td></tr>
+    <tr><th scope="row">عجز دون 50%</th><td colspan="2">النسبة × المتوسط × 60، وينقص شهراً عن كل سنة فوق 45، بحد أدنى 36 ضعفاً، بلا سقف</td></tr>
+    <tr><th scope="row">الوفاة</th><td>معاش للورثة 50% أو 75% (أو 100% لثلاثة في النظام السابق)، ومنحة 3 أشهر بحد 10,000 في السابق</td><td>84 ضعفاً من المعاش</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة بأجر 8,000 ريال:</strong><br>
+عجز مؤقت 45 يوماً: 45 × 266.67 = <strong>12,000 ريال</strong>، ومع 10 أيام تنويم على نفقة التأمينات 11,333.33.<br>
+عجز 30% وعمر 35: 2,400 × 60 = <strong>144,000 ريال</strong>، وبعمر 52: 2,400 × 53 = 127,200.<br>
+عجز 60%: معاش <strong>4,800 ريال</strong> شهرياً للسعودي، و60 × 4,800 = 288,000 لغير السعودي.<br>
+وفاة غير سعودي: 84 × 8,000 = <strong>672,000 ريال</strong>.</p>
+</div>
+<p>يشترط أن يكون العامل مسجلاً في التأمينات قبل الإصابة، وأن يبلغ صاحب العمل خلال 3 أيام من إخطار العامل. وتُقبل المطالبة بالبدل اليومي خلال سنة، وبالتعويضات الأخرى خلال 5 سنوات. والحاسبة تقديرية: نسبة العجز تحددها اللجان الطبية، والمبلغ الرسمي في قرار التأمينات. ولإجازتك المرضية العادية راجع <a href="{{root}}ksa-sick-leave/{{ix}}">حاسبة الإجازة المرضية</a>.</p>
+</div>
