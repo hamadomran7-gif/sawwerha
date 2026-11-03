@@ -1,0 +1,174 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-health-practitioners-salary-scale",
+  "alternate": "ksa-health-salary-scale",
+  "title": "Saudi Health Practitioners Salary Scale 2026 — Calculator for Doctors, Pharmacists, Specialists and Technicians",
+  "h1": "Saudi Health Practitioners Salary Scale Calculator",
+  "description": "Calculate a health practitioner's salary in Saudi Arabia from the health jobs scale: basic pay by category (consultant, deputy and resident physician, pharmacist, specialist, technician, health assistant), level and step, the full-time allowance from 70% to 20%, the SAR 750 infection and SAR 600 danger allowances, transport, deductions, and the SAR 500 allowance from January 2027.",
+  "short": "11 categories × 7 levels × 4 steps, full-time allowance 70% to 20%, infection and danger",
+  "lead": "Choose your category, level, step and the allowances you receive to see your basic, gross and net salary, and your pay after the next increment.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-health-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-civil-salary-scale", "en-ksa-teachers-salary-scale", "en-ksa-military-salary-scale", "en-ksa-civil-retirement", "en-ksa-salary-date", "en-ksa-gov-leave-compensation"],
+  "faq": [
+    {"q": "What is the salary of a health specialist in Saudi Arabia?", "a": "A specialist starts at SAR 7,130 (level 1, step 1), plus the 20% working-hours allowance on the level's first step (1,426) and transport, so the gross is about SAR 9,256 with SAR 700 transport. A senior specialist starts at 8,775 and a consultant specialist at 10,535."},
+    {"q": "What is a resident physician's salary in Saudi Arabia?", "a": "A resident starts at SAR 9,200 and receives a full-time allowance of 70% of the level's first step at level 1 (6,440). At step 2: 9,695 + 6,440 + transport 700 = SAR 16,835 gross before deductions."},
+    {"q": "What is a consultant physician's salary?", "a": "A consultant starts at SAR 14,950 at level 1 with a 70% full-time allowance (10,465), giving SAR 25,415 before transport. The highest basic in the scale is SAR 39,040 at level 7 step 4, where the full-time allowance is 40%."},
+    {"q": "What is a nurse's salary on the health scale?", "a": "There is no separate nursing scale; nurses are placed on the specialist, technician or health assistant category according to their qualification. A bachelor's holder usually starts on the specialist scale (7,130) and a diploma holder on the technician scale (4,670), with the 20% working-hours allowance."},
+    {"q": "When is the annual increment paid to health practitioners?", "a": "The annual increment on the health scale follows the Civil Service Law, whose Article 17 sets it at the start of the fiscal year, 1 January. It moves you one step within the level; moving to the next level requires using up the four steps, a year at the top of the level and two latest ratings of very good or above."},
+    {"q": "Does the SAR 500 allowance cover health practitioners?", "a": "The royal order of 25 October 2026 granted a monthly SAR 500 allowance to civilian and military employees on civil service scales and operating items and to retirees, not added to basic salary. The health jobs scale is a civil service scale, so it most likely covers them from January 2027. Staff moved to the Health Holding Company are outside these scales."}
+  ],
+  "sources": [
+    {"t": "Prince Sattam University — health jobs salary scale (12/2024)", "u": "https://www.psau.edu.sa/dhr/sitesuploads/dhr/2024-12/%D8%A7%D9%84%D8%B5%D8%AD%D9%8A%D9%8A%D9%86.pdf"},
+    {"t": "Qassim University — health jobs regulation (1/2025)", "u": "https://www.qu.edu.sa/wp-content/uploads/2025/05/v1/2025-01-22-10-33-53_الوظائف-الصحية.pdf"},
+    {"t": "Ministry of Human Resources — health jobs regulation", "u": "https://hrsd.gov.sa/ar/policies/%D9%84%D8%A7%D8%A6%D8%AD%D8%A9-%D8%A7%D9%84%D9%88%D8%B8%D8%A7%D8%A6%D9%81-%D8%A7%D9%84%D8%B5%D8%AD%D9%8A%D8%A9"},
+    {"t": "Ministry of Health — guide to health practitioners' financial rights (1434H)", "u": "https://www.moh.gov.sa/Ministry/MediaCenter/Publications/Documents/HAQOQ%20BOOK%20OK.pdf"},
+    {"t": "Ministry of Health — details of the health scale and allowances (30/5/2009)", "u": "https://www.moh.gov.sa/ministry/mediacenter/news/pages/news-2009-5-30-001.aspx"},
+    {"t": "Ministry of Health — transfer bonuses to Health Holding (4/5/2026)", "u": "https://www.moh.gov.sa/ministry/mediacenter/news/pages/news-2026-05-04-001.aspx"},
+    {"t": "SPA — support measures and the SAR 500 allowance (25/10/2026)", "u": "https://www.spa.gov.sa/N2709796"},
+    {"t": "Al Eqtisadiah — the King directs support measures for citizens (25/10/2026)", "u": "https://www.aleqt.com/الأخبار/خادم-الحرمين-يوجه-بعدد-من-الإجراءات-الداعمة-للمواطنين-بالتزامن-مع-تعديل-تعريفات-الكهرباء-والمياه-15705"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your health scale salary</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cat">Category</label>
+        <select id="cat" name="cat">
+          <optgroup label="Physicians">
+            <option value="consultantPhysician">Consultant physician</option>
+            <option value="deputyPhysician">Deputy physician</option>
+            <option value="residentPhysician">Resident physician</option>
+          </optgroup>
+          <optgroup label="Pharmacists">
+            <option value="consultantPharmacist">Consultant pharmacist</option>
+            <option value="seniorPharmacist">Senior pharmacist</option>
+            <option value="pharmacist">Pharmacist</option>
+          </optgroup>
+          <optgroup label="Specialists">
+            <option value="consultantSpecialist">Consultant specialist</option>
+            <option value="seniorSpecialist">Senior specialist</option>
+            <option value="specialist" selected>Specialist</option>
+          </optgroup>
+          <optgroup label="Technicians and assistants">
+            <option value="technician">Technician</option>
+            <option value="healthAssistant">Health assistant</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label for="level">Level</label>
+        <select id="level" name="level">
+          <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="transport">Transport allowance</label>
+        <select id="transport" name="transport">
+          <option value="500">SAR 500</option>
+          <option value="700" selected>SAR 700</option>
+          <option value="900">SAR 900</option>
+          <option value="1200">SAR 1,200</option>
+        </select>
+        <span class="hint">It varies by category and level; choose the amount on your payslip.</span>
+      </div>
+      <div class="field">
+        <label for="supervision">Supervision allowance</label>
+        <select id="supervision" name="supervision">
+          <option value="0" selected>Not paid to me</option>
+          <option value="3000">3,000 (general hospital or central lab)</option>
+          <option value="5000">5,000 (specialist or referral hospital)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="system">Pension system</label>
+        <select id="system" name="system">
+          <option value="civil" selected>Civil retirement (hired before 3 July 2024): 9%</option>
+          <option value="gosiNew">New social insurance law (hired from 3 July 2024)</option>
+        </select>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="infection" name="infection">
+        <label for="infection">Infection allowance SAR 750 (isolation, quarantine, TB)</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="danger" name="danger">
+        <label for="danger">Danger allowance SAR 600</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the health jobs scale works</h2>
+<p>The current health jobs salary scale was issued by Royal Order 4097/M B on 25/6/1432H, and we found no newer scale up to November 2026. It has 11 categories, each with 7 levels of 4 steps and a fixed increment. The scale is continuous: the first step of the next level equals step 4 plus the level's increment. Physicians and pharmacists receive a full-time allowance, and the others a 20% working-hours allowance, calculated on the level's first step, not your step.</p>
+
+<h2>Physicians' salary scale</h2>
+{{table:ksa-health-scale cat=consultantPhysician lang=en}}
+{{table:ksa-health-scale cat=deputyPhysician lang=en}}
+{{table:ksa-health-scale cat=residentPhysician lang=en}}
+
+<h2>Pharmacists' salary scale</h2>
+{{table:ksa-health-scale cat=consultantPharmacist lang=en}}
+{{table:ksa-health-scale cat=seniorPharmacist lang=en}}
+{{table:ksa-health-scale cat=pharmacist lang=en}}
+
+<h2>Specialists' salary scale (including nursing)</h2>
+{{table:ksa-health-scale cat=consultantSpecialist lang=en}}
+{{table:ksa-health-scale cat=seniorSpecialist lang=en}}
+{{table:ksa-health-scale cat=specialist lang=en}}
+<p>There is no separate nursing scale: nurses are placed on the specialist, technician or health assistant category according to their qualification.</p>
+
+<h2>Technicians' and health assistants' salary scale</h2>
+{{table:ksa-health-scale cat=technician lang=en}}
+{{table:ksa-health-scale cat=healthAssistant lang=en}}
+
+<h2>Health practitioner allowances</h2>
+<ul>
+  <li><strong>Full-time allowance:</strong> physicians 70% at level 1, falling 5 points per level to 40% at level 7; pharmacists 45% down to 20%. Others receive a 20% working-hours allowance. All on the level's first step.</li>
+  <li><strong>Infection:</strong> SAR 750 a month for staff directly exposed in isolation, quarantine, TB and similar units.</li>
+  <li><strong>Danger:</strong> SAR 600 a month for jobs exposed to danger.</li>
+  <li><strong>90% cap:</strong> the full-time, forensic, isolation, psychiatric and danger allowances together may not exceed 90% of the level's first step; transport is outside the cap.</li>
+  <li><strong>Supervision:</strong> SAR 3,000 in general hospitals and central labs, and SAR 5,000 in specialist and referral hospitals, for medical directors and heads of department.</li>
+  <li><strong>Scarcity and excellence:</strong> up to 30% of the level's first step subject to conditions and committees, and 10% for a Saudi resident physician in small cities. Excellence requires an "excellent" rating in the last two appraisals.</li>
+  <li><strong>Remote areas:</strong> up to 20%, mountain areas 10% to 50%, not combined with other location allowances.</li>
+  <li><strong>Transport:</strong> SAR 500, 700, 900 or 1,200 depending on category and level.</li>
+</ul>
+<p>Allowances not included in the calculator (scarcity, excellence, remote areas, training, psychiatric and forensic) are granted by individual decisions, so add them from your payslip.</p>
+
+<h2>Increments and promotion</h2>
+<p>The annual increment follows the Civil Service Law, so it is paid on 1 January and moves you one step within the level. After step 4 you move to the next level after at least a year at the top of the level and two latest ratings of very good or above. A consultant physician at the end of level 7 receives an amount equal to the level's increment each year as a bonus that does not change the basic.</p>
+
+<h2>The SAR 500 allowance from January 2027</h2>
+<p>The royal order of 25 October 2026 granted a monthly SAR 500 allowance to civilian and military employees on civil service scales and operating items and to retirees, alongside the electricity and water tariff changes. Newspapers reported that it starts on 1 January 2027 and is not added to basic salary, so no pension is deducted from it and percentage allowances are not calculated on it.</p>
+
+<h2>Staff moved to Health Holding</h2>
+<p>Staff who moved to the health clusters of the Health Holding Company left this scale for the company's pay structure, on condition that their pay did not fall. They received a transfer bonus of 16% of basic salary per year of service, up to four salaries, and moved to social insurance with their service combined.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Specialist, level 1 step 1: 7,130 + working-hours allowance 1,426 + transport 700 = <strong>SAR 9,256</strong>, with a 641.70 deduction.<br>
+Resident physician, level 1 step 2: 9,695 + full-time 6,440 + transport 700 = <strong>SAR 16,835</strong>, with an 872.55 deduction.<br>
+Consultant physician, level 1 step 1: 14,950 + full-time 10,465 = <strong>SAR 25,415</strong> before transport.</p>
+</div>
+
+<p>For staff on civil service grades see the <a href="{{root}}en/saudi-civil-service-salary-scale/{{ix}}">general salary scale</a>, for teachers the <a href="{{root}}en/saudi-teachers-salary-scale/{{ix}}">teachers' scale</a>, and before retiring estimate your <a href="{{root}}en/saudi-civil-military-retirement-calculator/{{ix}}">pension</a>.</p>
+</div>

@@ -3625,6 +3625,61 @@ export function schoolCountdown({ country = "sa", variant, today, audience = "st
   };
 }
 
+/** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
+export function ksaAllowance2027(asOf = new Date()) {
+  const A = rules.sa.allowance2027;
+  return toUTC(asOf) >= new Date(`${A.from}T00:00:00Z`) ? A.amount : 0;
+}
+
+/**
+ * راتب الممارس الصحي من سلم الوظائف الصحية: الأساسي (الفئة × المستوى × الدرجة)، وبدل التفرغ أو فرق ساعات العمل نسبةً من أول مربوط المستوى،
+ * وبدلا العدوى 750 والخطر 600، وسقف 90% من أول مربوط المستوى للبدلات النسبية والمكانية معاً، والنقل والإشراف خارج السقف، واستقطاع التقاعد من الأساسي.
+ */
+export function ksaHealthSalary({ cat = "specialist", level = 1, step = 1, system = "civil", transport = null, infection = false, danger = false, supervision = 0, asOf = new Date() } = {}) {
+  const H = rules.sa.healthScale;
+  const C = H.cats[cat];
+  if (!C) return null;
+  const lv = Math.floor(Number(level) || 1);
+  const L = C.levels[String(lv)];
+  if (!L) return null;
+  const s = Math.floor(Number(step) || 1);
+  if (s < 1 || s > L.steps.length) return null;
+  const basic = L.steps[s - 1];
+  const first = L.steps[0];
+  const ftPct = C.fullTime[lv - 1];
+  const fullTime = r2(first * ftPct);
+  const capItems = fullTime + (infection ? H.infection : 0) + (danger ? H.danger : 0);
+  const cap = r2(first * H.capPct);
+  const capped = Math.min(capItems, cap);
+  const tr = transport === null || transport === undefined || transport === "" ? H.transportDefault : Math.max(0, Number(transport) || 0);
+  const sup = Math.max(0, Number(supervision) || 0);
+  const rate = system === "gosiNew" ? gosiNewEntrantPensionRate(asOf) : H.retirementRate;
+  const deduction = r2(basic * rate);
+  const gross = r2(basic + capped + tr + sup);
+  const lastStep = s === L.steps.length;
+  const nextLevel = C.levels[String(lv + 1)];
+  return {
+    cat, level: lv, step: s, basic, first, ftPct, fullTime, infection: infection ? H.infection : 0, danger: danger ? H.danger : 0,
+    capItems: r2(capItems), cap, capped: r2(capped), overCap: capItems > cap + 0.005, transport: tr, supervision: sup,
+    gross, rate, deduction, net: r2(gross - deduction), increment: L.increment,
+    nextBasic: lastStep ? null : L.steps[s], lastStep, nextLevelFirst: lastStep && nextLevel ? nextLevel.steps[0] : null, topOfScale: lastStep && !nextLevel,
+    allowance2027: rules.sa.allowance2027.amount,
+  };
+}
+
+/** راتب الفرد العسكري (من جندي إلى رئيس رقباء) من الجدول المتداول: الأساسي + بدل النقل − 9% تقاعد عسكري. */
+export function ksaMilitarySalary({ rank = "jundi", step = 1 } = {}) {
+  const M = rules.sa.militaryScale;
+  const R = M.enlisted[rank];
+  if (!R) return null;
+  const s = Math.floor(Number(step) || 1);
+  if (s < 1 || s > R.steps.length) return null;
+  const basic = R.steps[s - 1];
+  const deduction = r2(basic * M.retirementRate);
+  const gross = basic + R.transport;
+  return { rank, step: s, basic, transport: R.transport, gross, rate: M.retirementRate, deduction, net: r2(gross - deduction), state: r2(basic * M.stateRate), increment: R.increment, nextBasic: s < R.steps.length ? R.steps[s] : null, maxStep: R.steps.length, allowance2027: rules.sa.allowance2027.amount };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

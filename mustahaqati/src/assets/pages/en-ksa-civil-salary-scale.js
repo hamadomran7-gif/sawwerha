@@ -29,6 +29,7 @@ bind(form, result, (v) => {
       ["Gross", m(s.gross)],
       [`Pension deduction ${pct}% of basic`, `− ${m(s.deduction)}`],
       ["Net", m(s.net), { strong: true }],
+      [`Net from January 2027 with the SAR ${numEn(rules.sa.allowance2027.amount)} allowance (not part of basic)`, m(s.net + rules.sa.allowance2027.amount)],
       s.atMax ? ["Next increment", "None: this is the last step of the rank"] : [`Basic on 1 January ${nextJanYear()} (+${m(s.increment)})`, m(s.nextBasic)],
     ],
     "Salary breakdown"

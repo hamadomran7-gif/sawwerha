@@ -3,6 +3,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaHealthSalary,
+  ksaMilitarySalary,
+  ksaAllowance2027,
   ksaRecruitCost,
   ksaRecruitRefund,
   qaRecruitRefund,
@@ -1734,4 +1737,37 @@ test("تكلفة استقدام عاملة منزلية: أمثلة الدفعة
   assert.equal(kwRecruitCost({ region: "asia", sponsor: "expat", existingCount: 1, salary: 120 }).firstYear, 2240);
   assert.equal(kwRecruitCost({ sponsor: "expat", existingCount: 2 }).residence, 400);
   assert.equal(kwRecruitCost({ sponsor: "kuwaiti", existingCount: 3 }).residence, 50);
+});
+
+test("سلم الوظائف الصحية وسلم الأفراد: أمثلة الدفعة 28", () => {
+  const a = ksaHealthSalary({ cat: "specialist", level: 1, step: 1, transport: 700 });
+  assert.equal(a.fullTime, 1426);
+  assert.equal(a.gross, 9256);
+  assert.equal(a.deduction, 641.7);
+  const b = ksaHealthSalary({ cat: "residentPhysician", level: 1, step: 2, transport: 700 });
+  assert.equal(b.fullTime, 6440);
+  assert.equal(b.gross, 16835);
+  assert.equal(b.deduction, 872.55);
+  assert.equal(ksaHealthSalary({ cat: "consultantPhysician", level: 1, step: 1, transport: 0 }).gross, 25415);
+  assert.equal(ksaHealthSalary({ cat: "consultantPhysician", level: 7, step: 4, transport: 0 }).fullTime, 14284);
+  assert.equal(ksaHealthSalary({ cat: "residentPhysician", level: 1, step: 3 }).basic, 10190);
+  assert.equal(ksaHealthSalary({ cat: "technician", level: 6, step: 2 }).basic, 13610);
+  assert.equal(ksaHealthSalary({ cat: "specialist", level: 1, step: 4 }).nextLevelFirst, 8770);
+  const cap = ksaHealthSalary({ cat: "healthAssistant", level: 1, step: 1, infection: true, danger: true, transport: 500 });
+  assert.equal(cap.overCap, false);
+  assert.equal(cap.capped, 787 + 750 + 600);
+  const capped = ksaHealthSalary({ cat: "residentPhysician", level: 1, step: 1, infection: true, danger: true, transport: 0 });
+  assert.equal(capped.cap, 8280);
+  assert.equal(capped.capped, 7790);
+  assert.equal(capped.overCap, false);
+  const m = ksaMilitarySalary({ rank: "raqib", step: 3 });
+  assert.equal(m.basic, 5760);
+  assert.equal(m.gross, 6260);
+  assert.equal(m.deduction, 518.4);
+  assert.equal(m.net, 5741.6);
+  assert.equal(ksaMilitarySalary({ rank: "raisRuqaba", step: 15 }).basic, 12255);
+  assert.equal(ksaMilitarySalary({ rank: "wakilRaqib", step: 4 }).basic, 5085);
+  assert.equal(ksaMilitarySalary({ rank: "jundi", step: 1 }).net, 3430.2);
+  assert.equal(ksaAllowance2027(new Date("2026-12-31T00:00:00Z")), 0);
+  assert.equal(ksaAllowance2027(new Date("2027-01-01T00:00:00Z")), 500);
 });

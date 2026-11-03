@@ -610,6 +610,27 @@ const TABLES = {
     });
     return tableWrap(a.caption || (en ? "Annual residence fee per domestic worker in KWD, in force from 23 December 2025" : "رسم الإقامة السنوي لكل عامل منزلي بالدينار، النافذ من 23 ديسمبر 2025"), en ? ["Worker", "Kuwaiti family", "Expat family"] : ["العامل", "أسرة كويتية", "أسرة وافدة"], rows);
   },
+  "ksa-health-scale"(a) {
+    const en = a.lang === "en";
+    const H = calc.rules.sa.healthScale;
+    const C = H.cats[a.cat || "specialist"];
+    const rows = Object.keys(C.levels).sort((x, y) => x - y).map((lv) => {
+      const L = C.levels[lv];
+      return [en ? `Level ${lv}` : `المستوى ${lv}`, ...L.steps.map((n) => fmt0.format(n)), fmt0.format(L.increment), `${Math.round(C.fullTime[lv - 1] * 100)}%`];
+    });
+    const head = en ? ["Level", "Step 1", "Step 2", "Step 3", "Step 4", "Increment", "Full-time allowance"] : ["المستوى", "الدرجة 1", "الدرجة 2", "الدرجة 3", "الدرجة 4", "العلاوة", "بدل التفرغ"];
+    return tableWrap(a.caption || (en ? `${C.nameEn}: basic salary in SAR` : `${C.nameAr}: الراتب الأساسي بالريال`), head, rows);
+  },
+  "ksa-military-enlisted-scale"(a) {
+    const en = a.lang === "en";
+    const M = calc.rules.sa.militaryScale;
+    const ranks = M.order.map((k) => M.enlisted[k]);
+    const rows = [];
+    for (let i = 0; i < 15; i++) rows.push([en ? `Step ${i + 1}` : `الدرجة ${i + 1}`, ...ranks.map((R) => fmt0.format(R.steps[i]))]);
+    rows.push([en ? "Annual increment" : "العلاوة السنوية", ...ranks.map((R) => fmt0.format(R.increment))]);
+    rows.push([en ? "Transport allowance" : "بدل النقل", ...ranks.map((R) => fmt0.format(R.transport))]);
+    return tableWrap(a.caption || (en ? "Basic monthly salary in SAR (circulated table, not officially published)" : "الراتب الأساسي الشهري بالريال (جدول متداول غير منشور رسمياً)"), [en ? "Step" : "الدرجة", ...ranks.map((R) => (en ? R.nameEn : R.nameAr))], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

@@ -28,6 +28,7 @@ bind(form, result, (v) => {
       ["الإجمالي", money(s.gross, cur)],
       [`استقطاع التقاعد ${pct}% من الأساسي`, `− ${money(s.deduction, cur)}`],
       ["الصافي", money(s.net, cur), { strong: true }],
+      [`الصافي من يناير 2027 مع بدل ${num(rules.sa.allowance2027.amount, 0)} (لا يدخل في الأساسي)`, money(s.net + rules.sa.allowance2027.amount, cur)],
       s.atMax ? ["العلاوة القادمة", "لا علاوة: هذه آخر درجة في المرتبة"] : [`أساسيك في 1 يناير ${nextJanYear()} (+${money(s.increment, cur)})`, money(s.nextBasic, cur)],
     ],
     "تفصيل الراتب"

@@ -1,0 +1,98 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-military-salary-scale",
+  "alternate": "ksa-military-salary-scale",
+  "title": "Saudi Military Salary Scale 2026 (Enlisted) — Pay Calculator from Private to Master Sergeant",
+  "h1": "Saudi Enlisted Military Salary Scale Calculator",
+  "description": "Calculate an enlisted soldier's pay in Saudi Arabia from the circulated enlisted scale: basic pay from Private (SAR 3,220) to Master Sergeant (SAR 12,255) over 15 steps, the annual increment, the SAR 500 or 700 transport allowance, the 9% military pension deduction, and the SAR 500 allowance from January 2027.",
+  "short": "Private SAR 3,220 to Master Sergeant 12,255, transport 500 or 700, 9% deduction",
+  "lead": "Choose your rank and step to see your basic, gross and net pay, your pay after the next increment, and your pay from January 2027 with the SAR 500 allowance.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-military-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-civil-salary-scale", "en-ksa-health-salary-scale", "en-ksa-teachers-salary-scale", "en-ksa-civil-retirement", "en-ksa-salary-date", "en-ksa-retirement-pension"],
+  "faq": [
+    {"q": "What is a private's salary in Saudi Arabia in 2026?", "a": "A private's first step in the circulated table is SAR 3,220, plus a SAR 500 transport allowance, for SAR 3,720 gross before the 9% pension deduction (289.80). It rises by SAR 130 a year to 5,040 at step 15. The SAR 3,220 figure equals the 2010 pay of 2,800 after the 15% cost-of-living allowance was merged into basic pay."},
+    {"q": "What is the pay of a sergeant and a master sergeant?", "a": "A sergeant earns from 5,260 to 8,760 with a 250 increment and 500 transport. A master sergeant earns from 7,215 to 12,255 with a 360 increment and 700 transport. A staff sergeant earns from 6,180 to 10,380 with a 300 increment and 700 transport."},
+    {"q": "How much is deducted from military pay for the pension?", "a": "9% of basic pay under Article 3 of the Military Retirement Law, with the state paying the equivalent of 13%. The 2024 social insurance law does not cover serving military personnel."},
+    {"q": "When is the military annual increment paid?", "a": "The Enlisted Service Law moves a soldier to the next step on 1 Muharram, but in practice the increment has been paid with the January salary since Order A/86 paid the annual increment to civilians and military from 1 January 2018, provided a year has passed in the rank."},
+    {"q": "Does the SAR 500 allowance cover military personnel?", "a": "Yes. The royal order of 25 October 2026 granted a monthly SAR 500 allowance to civilian and military employees and retirees, and Al Yaum reported that it starts for officers and enlisted personnel on 1 January 2027 and is not added to basic pay."},
+    {"q": "Why don't you show the officers' salary scale?", "a": "The versions in circulation conflict: the captain's increment changes halfway up the scale and the major's increment is smaller than the second lieutenant's, and there is no official or press source for the table. We will publish it when we find a reliable version."}
+  ],
+  "sources": [
+    {"t": "Okaz — two new military scales, a private reaches 2,800 (31/8/2010)", "u": "https://www.okaz.com.sa/article/351696"},
+    {"t": "Arabian Business (Reuters) — Saudi Arabia raises wages for most military (31/8/2010)", "u": "https://www.arabianbusiness.com/gcc/saudi-arabia/saudi-arabia-raise-wages-for-most-military-345848"},
+    {"t": "SPA — the 15% cost-of-living allowance merged into salaries (29/5/2011)", "u": "https://www.spa.gov.sa/897663"},
+    {"t": "Al Eqtisadiah — monthly transport allowance for enlisted personnel amended (16/1/2012)", "u": "https://www.aleqt.com/2012/01/16/article_616616.html"},
+    {"t": "Okaz — danger 600 and infection 750 allowances raised (9/4/2013)", "u": "https://www.okaz.com.sa/article/559513"},
+    {"t": "Al Yaum — annual increment for civilians and military, Order A/86 (27/1/2019)", "u": "https://www.alyaum.com/ampArticle/6075243"},
+    {"t": "SPA — SAR 500 allowance for civilians, military and retirees (25/10/2026)", "u": "https://www.spa.gov.sa/N2709796"},
+    {"t": "Al Yaum — details of the SAR 500 allowance and start date (25/10/2026)", "u": "https://www.alyaum.com/ampArticle/6688493"},
+    {"t": "Capsulaa — military salary table in Saudi Arabia (2026)", "u": "https://www.capsulaa.sa/saudi-arabia-services/جدول-رواتب-العسكر-في-السعودية/"},
+    {"t": "Almaal — military salary scale (updated 18/10/2026)", "u": "https://almaal.org/?p=100836"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your pay from the enlisted scale</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="rank">Rank</label>
+        <select id="rank" name="rank">
+          <option value="jundi" selected>Private (Jundi)</option>
+          <option value="jundiAwwal">Private First Class (Jundi Awwal)</option>
+          <option value="arif">Corporal (Arif)</option>
+          <option value="wakilRaqib">Lance Sergeant (Wakil Raqib)</option>
+          <option value="raqib">Sergeant (Raqib)</option>
+          <option value="raqibAwwal">Staff Sergeant (Raqib Awwal)</option>
+          <option value="raisRuqaba">Master Sergeant (Raees Ruqaba)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Enlisted salary scale 2026</h2>
+{{table:ksa-military-enlisted-scale lang=en}}
+<p>This table circulates on specialist sites and we found no official published copy, so our confidence is medium. But it is arithmetically consistent in every cell (a fixed difference between steps), and the private's first step of 3,220 equals exactly the 2010 scale (2,800) after the 15% cost-of-living allowance was merged into basic pay in 1432H. We found no news of any change to military basic pay after 2011; later changes were to allowances. The older table in which a private starts at SAR 1,000 predates the 2010 raise and is no longer used.</p>
+
+<h2>Enlisted allowances</h2>
+<ul>
+  <li><strong>Transport:</strong> SAR 700 for master sergeants and staff sergeants, and SAR 500 for sergeants, lance sergeants, corporals, privates first class and privates (2012 amendment to the rights and benefits regulation).</li>
+  <li><strong>Danger and infection:</strong> raised for enlisted personnel to SAR 600 and 750 in 2013, as reported by Okaz, for work with explosives, aircrews, infectious diseases, radiology and laboratories.</li>
+  <li><strong>SAR 500 allowance:</strong> from 1 January 2027 for officers, enlisted personnel and retirees, not added to basic pay.</li>
+  <li><strong>Housing:</strong> we found no basis for a general housing allowance for the military; the percentages in circulation (25% or 30%) have no source.</li>
+</ul>
+<p>Technical, security, aviation, paratrooper and special forces allowances vary by unit and job, and we found no reliable recent source for their amounts, so the calculator does not include them.</p>
+
+<h2>Increments and promotion</h2>
+<p>The annual increment moves a soldier to the next step. Article 15 of the Enlisted Service Law says 1 Muharram, but since 2018 it has been paid with the January salary, provided a year has passed in the rank. On promotion a soldier takes the first step of the new rank, or the first step above his current pay if that is higher.</p>
+
+<h2>Military retirement</h2>
+<p>9% of basic pay is deducted and the state pays 13%. The pension is one thirty-fifth of the last basic pay for each year of service, i.e. last basic × months of service ÷ 420, capped at the last basic pay. A master sergeant with 30 years of service and a last basic of 12,255 gets a pension of about SAR 10,504.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Sergeant, step 3: 5,760 + transport 500 = 6,260, minus a 518.40 deduction, so the net is <strong>SAR 5,741.60</strong>, or 6,241.60 from January 2027 with the SAR 500 allowance.<br>
+Private, step 1: 3,220 + 500 − 289.80 = <strong>SAR 3,430.20</strong>.</p>
+</div>
+
+<p>For civilian grades see the <a href="{{root}}en/saudi-civil-service-salary-scale/{{ix}}">general salary scale</a>, for health practitioners the <a href="{{root}}en/saudi-health-practitioners-salary-scale/{{ix}}">health jobs scale</a>, and for pay day the <a href="{{root}}en/saudi-salary-date/{{ix}}">salary date</a>.</p>
+</div>
