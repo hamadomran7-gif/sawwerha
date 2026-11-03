@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
   gccInheritance,
@@ -2185,4 +2186,15 @@ test("فاتورة ديوا (شرائح الكهرباء والمياه ورسم
   assert.equal(n.water, 1.5);
   assert.equal(n.housing, 0);
   assert.equal(uaeDewaBill({ category: "industrial", kwh: 12000, m3: 0 }).electricity, 3060);
+});
+
+test("أسعار الوقود في الإمارات وكلفة التعبئة", () => {
+  const r = uaeFuelCost({ fuel: "special95", tank: 60, km: 2000, per100: 8, month: "2026-11" });
+  assert.equal(r.price, 4.04);
+  assert.equal(r.prev, 4.28);
+  assert.equal(r.tankCost, 242.4);
+  assert.equal(r.litres, 160);
+  assert.equal(r.monthly, 646.4);
+  assert.equal(r.all.diesel.tank, 285);
+  assert.equal(uaeFuelCost({ fuel: "super98", tank: 50, month: "2026-01" }).prev, null);
 });

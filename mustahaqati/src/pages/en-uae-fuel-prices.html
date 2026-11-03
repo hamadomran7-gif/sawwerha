@@ -1,0 +1,73 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-petrol-prices",
+  "alternate": "uae-fuel-prices",
+  "title": "UAE Petrol Prices November 2026 — Full Tank and Monthly Fuel Cost Calculator",
+  "h1": "UAE Fuel Prices and Fuel Cost Calculator",
+  "description": "UAE petrol and diesel prices for November 2026 as announced by the Fuel Price Committee: Super 98 at AED 4.16, Special 95 at 4.04, E-Plus 91 at 3.97 and diesel at 4.75 a litre, with a full-tank and monthly fuel cost calculator, the change from October and a price table since January 2026.",
+  "short": "This month's price per litre, full-tank cost and monthly fuel cost, and the change from last month",
+  "lead": "Pick your fuel, tank size and monthly distance to see the cost of a full tank and your monthly fuel bill at this month's prices.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "en-uae-fuel.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-dewa-bill-calculator", "en-uae-net-salary", "en-uae-personal-loan"],
+  "faq": [
+    {"q": "What are UAE petrol prices for November 2026?", "a": "Super 98 is AED 4.16 a litre, Special 95 AED 4.04, E-Plus 91 AED 3.97 and diesel AED 4.75, down 5.6% for petrol and 1.04% for diesel from October."},
+    {"q": "When are UAE fuel prices announced?", "a": "The Fuel Price Committee announces them on the last day of each month, effective from the first of the next month, following average global prices."},
+    {"q": "How much does a 60-litre tank cost this month?", "a": "AED 242.40 with Special 95, AED 249.60 with Super 98, AED 238.20 with E-Plus 91 and AED 285 with diesel."},
+    {"q": "Do the prices include VAT?", "a": "Retail prices are announced including 5% VAT; it is the price you pay at the pump."}
+  ],
+  "sources": [
+    {"t": "Emarat Al Youm via WAM — UAE fuel prices for November 2026 (31 Oct 2026)", "u": "https://www.emaratalyoum.com/business/local/2026-10-31-1.2097905"},
+    {"t": "Emarat Al Youm — UAE fuel prices for October 2026 (30 Sep 2026)", "u": "https://www.emaratalyoum.com/business/arab-and-inter/2026-09-30-1.2087942"},
+    {"t": "OneClickDrive — UAE monthly fuel price tracker 2026 (updated 1 Nov 2026)", "u": "https://blog.oneclickdrive.com/uae-petrol-prices-2026-tracker/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your fuel cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="fuel">Fuel</label>
+        <select id="fuel" name="fuel">
+          <option value="super98">Super 98</option>
+          <option value="special95" selected>Special 95</option>
+          <option value="eplus91">E-Plus 91</option>
+          <option value="diesel">Diesel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">Tank size (litres)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+        <span class="hint">Small car 40–50, sedan 60–70, SUV 80–100.</span>
+      </div>
+      <div class="field">
+        <label for="km">Monthly distance (km)</label>
+        <input type="number" id="km" name="km" inputmode="decimal" min="0" step="50" value="2000">
+      </div>
+      <div class="field">
+        <label for="per100">Consumption (litres per 100 km)</label>
+        <input type="number" id="per100" name="per100" inputmode="decimal" min="0" max="40" step="0.1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>UAE fuel prices since January 2026 (AED per litre)</h2>
+{{table:uae-fuel-history lang=en caption="Monthly retail prices; the current month in bold"}}
+<p>Prices are announced on the last day of each month, take effect on the first, and include VAT. This page is updated with every announcement.</p>
+
+<h2>How to work out your fuel cost</h2>
+<p>Full tank = tank size × price per litre. Monthly cost = (monthly distance × litres per 100 km ÷ 100) × price per litre. A car driving 2,000 km a month at 8 litres per 100 km needs 160 litres, or AED 646.40 with Special 95 in November 2026.</p>
+</div>

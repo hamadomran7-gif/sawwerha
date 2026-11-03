@@ -815,6 +815,19 @@ const TABLES = {
     }
     return tableWrap(a.caption || "", en ? ["Month", "Payment date", "Note"] : ["الشهر", "موعد الصرف", "ملاحظة"], rows);
   },
+  "uae-fuel-history"(a) {
+    const en = a.lang === "en";
+    const F = calc.rules.ae.fuel;
+    const mf = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { month: "long", year: "numeric", timeZone: "UTC" });
+    const keys = Object.keys(F.months).sort().reverse();
+    const f2 = (n) => n.toFixed(2);
+    const rows = keys.map((k) => {
+      const p = F.months[k];
+      const label = mf.format(new Date(`${k}-01T00:00:00Z`));
+      return [k === F.current ? `<strong>${label}</strong>` : label, f2(p.super98), f2(p.special95), f2(p.eplus91), f2(p.diesel)];
+    });
+    return tableWrap(a.caption || "", en ? ["Month", "Super 98", "Special 95", "E-Plus 91", "Diesel"] : ["الشهر", "سوبر 98", "خاص 95", "إي بلس 91", "ديزل"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

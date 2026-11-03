@@ -951,6 +951,26 @@ export function uaeDewaBill({ category = "residential", kwh = 0, m3 = 0, annualR
   };
 }
 
+/** أسعار الوقود الشهرية في الإمارات: كلفة تعبئة الخزان وكلفة الوقود الشهرية من المسافة والاستهلاك، ومقارنة بالشهر السابق. */
+export function uaeFuelCost({ fuel = "special95", tank = 60, km = 0, per100 = 8, month = null } = {}) {
+  const F = rules.ae.fuel;
+  const keys = Object.keys(F.months).sort();
+  const m = month && F.months[month] ? month : F.current;
+  const i = keys.indexOf(m);
+  const prevKey = i > 0 ? keys[i - 1] : null;
+  const price = F.months[m][fuel];
+  if (price === undefined) return null;
+  const prev = prevKey ? F.months[prevKey][fuel] : null;
+  const t = Math.max(0, Number(tank) || 0), d = Math.max(0, Number(km) || 0), c = Math.max(0, Number(per100) || 0);
+  const litres = (d * c) / 100;
+  return {
+    month: m, prevMonth: prevKey, price, prev, change: prev === null ? null : r2(price - prev), changePct: prev ? r2(((price - prev) / prev) * 100) : null,
+    tankCost: r2(t * price), tankPrev: prev === null ? null : r2(t * prev), litres: r2(litres), monthly: r2(litres * price), yearly: r2(litres * price * 12),
+    all: Object.fromEntries(F.keys.map((k) => [k, { price: F.months[m][k], prev: prevKey ? F.months[prevKey][k] : null, tank: r2(t * F.months[m][k]) }])),
+    history: keys.map((k) => ({ month: k, ...F.months[k] })),
+  };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));
