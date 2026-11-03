@@ -909,13 +909,13 @@ export function maternityLeaveFromDue({ country = "sa", due } = {}) {
 }
 
 /** شرائح تصاعدية: كل جزء من الاستهلاك بسعر شريحته. tiers: [[حد أعلى أو null, سعر], ...] */
-function tierCost(q, tiers) {
+function tierCost(q, tiers, rd = r2) {
   let left = Math.max(0, Number(q) || 0), prev = 0, cost = 0;
   const rows = [];
   for (const [cap, price] of tiers) {
     const top = cap === null ? Infinity : cap;
     const take = Math.min(left, top - prev);
-    if (take > 0) { rows.push({ from: prev, to: cap, qty: r2(take), price, cost: r2(take * price) }); cost += take * price; left -= take; }
+    if (take > 0) { rows.push({ from: prev, to: cap, qty: r2(take), price, cost: rd(take * price) }); cost += take * price; left -= take; }
     prev = top;
     if (left <= 0) break;
   }
@@ -948,6 +948,50 @@ export function uaeDewaBill({ category = "residential", kwh = 0, m3 = 0, annualR
     electricity: r2(e.cost), elecRows: e.rows, water: r2(w.cost), waterRows: w.rows, fuelElec: r2(fuelE), fuelWater: r2(fuelW), fuelRates: { electricity: fe, water: fw },
     meterElec: meterE, meterWater: meterW, dewa: r2(dewa), vat: r2(vat), sewerFils: fils, sewerPerM3: r2(D.sewerage.gallonsPerM3 * fils / 100), sewer: r2(sewer), housing: r2(housing), total: r2(total),
     perKwh: kwh > 0 ? r2((e.cost + fuelE) / kwh * 100) / 100 : null,
+  };
+}
+
+const r3 = (x) => Math.round(x * 1000) / 1000;
+
+/**
+ * فاتورة هيئة الكهرباء والماء في البحرين الشهرية: القرار الوزاري 2/2025 (نافذ 1/1/2026) مع خفض شريحة 5,001–7,000 للمواطن إلى 16 فلساً.
+ * الأسعار شاملة ضريبة القيمة المضافة (م8). رسم إداري دينار لكل حساب كهرباء وماء (م9)، ورسم الصرف 20% من قيمة الماء
+ * لغير السكن الأول للمواطن، ورسوم البلدية يدخلها المستخدم. category: citizen | other | nonres
+ */
+export function bahrainEwaBill({ category = "citizen", kwh = 0, m3 = 0, municipal = 0 } = {}) {
+  const E = rules.bh.ewa;
+  const cat = E.electricity[category] ? category : "other";
+  const k = Math.max(0, Number(kwh) || 0), w3 = Math.max(0, Number(m3) || 0);
+  const e = tierCost(k, E.electricity[cat], r3);
+  const w = tierCost(w3, E.water[cat], r3);
+  const fixedElec = k > 0 ? E.fixed.electricity : 0, fixedWater = w3 > 0 ? E.fixed.water : 0;
+  const sewer = w.cost * E.sewagePct[cat];
+  const mun = Math.max(0, Number(municipal) || 0);
+  const ewa = e.cost + w.cost + fixedElec + fixedWater;
+  const full = k * E.electricity.other[0][1] + w3 * E.water.other[0][1];
+  return {
+    category: cat, electricity: r3(e.cost), elecRows: e.rows, water: r3(w.cost), waterRows: w.rows, fixedElec, fixedWater,
+    sewagePct: E.sewagePct[cat], sewer: r3(sewer), municipal: r3(mun), ewa: r3(ewa), total: r3(ewa + sewer + mun),
+    perKwh: k > 0 ? Math.round((e.cost / k) * 1e6) / 1e6 : null, unsubsidised: r3(full), support: cat === "citizen" ? r3(full - e.cost - w.cost) : 0,
+  };
+}
+
+/**
+ * فاتورة الكهرباء والماء في الكويت الشهرية: سعر ثابت للكيلوواط ساعة، والماء لكل 1,000 غالون إمبراطوري، حسب القطاع
+ * (القانون 20/2016 وقرارات 2017؛ السكن الخاص على تعرفته القديمة). المواطن في السكن الاستثماري بتعرفة السكن الخاص لوحدة واحدة.
+ * category: private | investment | kuwaitiInvestment | commercial | government | industrial | other ؛ waterUnit: gallons | m3
+ */
+export function kuwaitUtilityBill({ category = "investment", kwh = 0, water = 0, waterUnit = "gallons" } = {}) {
+  const K = rules.kw.utility;
+  const cat = category === "kuwaitiInvestment" ? "private" : K.electricity[category] !== undefined ? category : "investment";
+  const k = Math.max(0, Number(kwh) || 0), q = Math.max(0, Number(water) || 0);
+  const gallons = waterUnit === "m3" ? q * K.gallonsPerM3 : q;
+  const pe = K.electricity[cat], pw = K.water[cat];
+  const elec = k * pe, wat = (gallons / 1000) * pw;
+  const realElec = k * K.costPerKwh;
+  return {
+    category: cat, priceKwh: pe, pricePer1000: pw, gallons: r2(gallons), m3: r2(gallons / K.gallonsPerM3),
+    electricity: r3(elec), water: r3(wat), total: r3(elec + wat), realElec: r3(realElec), elecSupport: r3(Math.max(0, realElec - elec)),
   };
 }
 

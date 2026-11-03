@@ -1,0 +1,125 @@
+---json
+{
+  "title": "حاسبة فاتورة الكهرباء والماء في الكويت 2026 — سعر الكيلوواط للسكن الخاص والاستثماري",
+  "h1": "حاسبة فاتورة الكهرباء والماء في الكويت",
+  "description": "احسب فاتورة الكهرباء والماء في الكويت: 2 فلس للكيلوواط في السكن الخاص و5 فلوس في الاستثماري والتجاري، والماء 800 فلس لكل ألف غالون في السكن الخاص وديناران في الاستثماري، مع حالة المواطن في الشقة الاستثمارية وحجم الدعم الحكومي.",
+  "short": "سعر الكيلوواط والماء حسب نوع السكن، وحالة المواطن في الاستثماري، والدعم",
+  "lead": "اختر نوع العقار وأدخل استهلاكك الشهري من الكهرباء والماء، فتظهر فاتورتك بتعرفة وزارة الكهرباء والماء المطبقة.",
+  "country": "kw",
+  "category": "tools",
+  "tool": true,
+  "script": "kuwait-utility-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-net-salary",
+    "kuwait-family-residence-fees",
+    "bahrain-electricity-bill",
+    "dewa-bill-calculator",
+    "ksa-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "كم سعر الكيلوواط في الكويت 2026؟",
+      "a": "2 فلس في السكن الخاص (بيوت المواطنين)، و5 فلوس في السكن الاستثماري والتجاري، و3 فلوس للصناعي والزراعي، و12 فلساً للشاليهات والإسطبلات، و25 فلساً للحكومي، بلا شرائح."
+    },
+    {
+      "q": "كم سعر الماء في الكويت؟",
+      "a": "800 فلس لكل 1,000 غالون إمبراطوري في السكن الخاص، وديناران في الاستثماري والتجاري، و1.250 ديناراً للصناعي والزراعي، و4 دنانير للحكومي."
+    },
+    {
+      "q": "هل يدفع الكويتي في الشقة الاستثمارية سعر الوافد؟",
+      "a": "لا. يعامَل بتعرفة السكن الخاص لوحدة واحدة إذا لم يكن له دعم سكني آخر وقدّم المستندات، بحسب القانون 20/2016 والقرار الوزاري 2/2017."
+    },
+    {
+      "q": "هل رُفعت تعرفة الكهرباء في الكويت في 2025 أو 2026؟",
+      "a": "صدر مرسوم أميري في يناير 2025 يتيح إعادة تسعير الخدمات العامة بموافقة مجلس الوزراء، لكننا لم نجد قراراً نُفّذ برفع تعرفة الكهرباء والماء حتى نوفمبر 2026."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Arab Times — المستهلك يدفع 2 فلس والوزارة تتحمل 46 فلساً (24/7/2025)",
+      "u": "https://www.arabtimesonline.com/news/this-simple-change-could-cut-your-kuwait-utility-bill-by-90"
+    },
+    {
+      "t": "Arab Times — اعتماد تعرفة الكهرباء والماء للقطاعات (2/3/2017)",
+      "u": "https://arabtimesonline.com/news/electricity-water-tariffs-sanctioned"
+    },
+    {
+      "t": "الجريدة — القانون 20/2016 وجداول التعرفة (27/4/2016)",
+      "u": "https://www.aljarida.com/articles/1464212574462769700/"
+    },
+    {
+      "t": "FAOLEX — القرار الوزاري 2/2017 باللائحة التنفيذية",
+      "u": "https://leap.unep.org/en/countries/kw/national-legislation/ministerial-resolution-no-2-2017-regarding-executive-regulations"
+    },
+    {
+      "t": "Kuwait Times — مرسوم يتيح إعادة تسعير الخدمات العامة (19/1/2025)",
+      "u": "https://kuwaittimes.com/article/23631/kuwait/other-news/amiri-decree-allows-raising-charges-for-public-services"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب فاتورتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">نوع العقار</label>
+        <select id="category" name="category">
+          <option value="private">سكن خاص (بيت مواطن)</option>
+          <option value="investment" selected>سكن استثماري (شقة)</option>
+          <option value="kuwaitiInvestment">مواطن كويتي في سكن استثماري</option>
+          <option value="commercial">تجاري</option>
+          <option value="industrial">صناعي أو زراعي</option>
+          <option value="other">شاليه أو إسطبل وقطاعات أخرى</option>
+          <option value="government">حكومي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="kwh">استهلاك الكهرباء الشهري (ك.و.س)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500">
+      </div>
+      <div class="field">
+        <label for="water">استهلاك الماء الشهري</label>
+        <input type="number" id="water" name="water" inputmode="decimal" min="0" step="100" value="5000">
+        <span class="hint">بالغالون كما في الفاتورة، أو اختر المتر المكعب.</span>
+      </div>
+      <div class="field">
+        <label for="waterUnit">وحدة الماء</label>
+        <select id="waterUnit" name="waterUnit">
+          <option value="gallons" selected>غالون إمبراطوري</option>
+          <option value="m3">متر مكعب</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تعرفة الكهرباء والماء المطبقة في الكويت</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">القطاع</th><th scope="col">الكهرباء (فلس/ك.و.س)</th><th scope="col">الماء (د.ك لكل 1,000 غالون)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">السكن الخاص</th><td>2</td><td>0.800</td></tr>
+    <tr><th scope="row">السكن الاستثماري</th><td>5</td><td>2.000</td></tr>
+    <tr><th scope="row">التجاري</th><td>5</td><td>2.000</td></tr>
+    <tr><th scope="row">الصناعي والزراعي</th><td>3</td><td>1.250</td></tr>
+    <tr><th scope="row">الشاليهات والإسطبلات وغيرها</th><td>12</td><td>2.000</td></tr>
+    <tr><th scope="row">الحكومي</th><td>25</td><td>4.000</td></tr>
+  </tbody>
+</table>
+</div>
+<p>حدد القانون 20/2016 سقوفاً للتعرفة، وطُبّقت الأسعار الجديدة على التجاري من 22 مايو 2017 وعلى الاستثماري من 22 أغسطس 2017، وبقي السكن الخاص على تعرفته القديمة. والمتر المكعب = 219.969 غالوناً إمبراطورياً، فسعر الماء في الاستثماري نحو 440 فلساً للمتر.</p>
+
+<h2>أمثلة محسوبة</h2>
+<p>شقة وافد في سكن استثماري تستهلك 1,500 ك.و.س و20 م³ (4,399 غالوناً): كهرباء 1,500 × 0.005 = 7.500 د.ك، وماء 4,399.4 × 2 ÷ 1,000 = 8.799 د.ك، فالمجموع 16.299 د.ك. ولو كان الساكن كويتياً مسجلاً بتعرفة السكن الخاص: 3.000 + 3.520 = 6.520 د.ك.</p>
+<p>فيلا مواطن في سكن خاص تستهلك 5,000 ك.و.س و60 م³ (13,198 غالوناً): كهرباء 10 د.ك، وماء 10.559 د.ك، فالمجموع 20.559 د.ك.</p>
+<p>وفي كثير من العمارات لا يوجد عداد ماء لكل شقة، فيدفع المالك الماء ويُحمَّل في الإيجار. وتقول الوزارة إن كلفة الكيلوواط عليها نحو 48 فلساً، فيدفع ساكن السكن الخاص 2 فلس وتتحمل الدولة 46.</p>
+</div>

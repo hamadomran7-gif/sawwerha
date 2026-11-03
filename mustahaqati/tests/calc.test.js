@@ -7,6 +7,8 @@ import {
   uaeSalikCost,
   ksaFuelCost,
   gccFuelCost,
+  bahrainEwaBill,
+  kuwaitUtilityBill,
   uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
@@ -2236,7 +2238,9 @@ test("gccFuelCost: قطر شهري مع مقارنة الشهر السابق", (
   assert.equal(r.monthly, 312);
   assert.equal(r.yearly, 3744);
   assert.equal(r.all.super95.tank, 126);
-  assert.equal(gccFuelCost({ country: "qa", fuel: "diesel", month: "2026-09" }).prev, null);
+  assert.equal(gccFuelCost({ country: "qa", fuel: "diesel", month: "2026-01" }).prev, null);
+  assert.equal(gccFuelCost({ country: "qa", fuel: "premium91", month: "2026-02" }).change, -0.15);
+  assert.equal(gccFuelCost({ country: "qa", fuel: "premium91" }).history.length, 11);
   assert.equal(gccFuelCost({ country: "qa", fuel: "premium91" }).month, "2026-11");
 });
 
@@ -2251,4 +2255,42 @@ test("gccFuelCost: عُمان أسعار ثابتة بثلاث خانات", () =
   assert.equal(r.all.diesel.tank, 14.19);
   assert.equal(gccFuelCost({ country: "om", fuel: "g98" }), null);
   assert.equal(gccFuelCost({ country: "xx" }), null);
+});
+
+test("bahrainEwaBill: شقة وافد ومواطن في سكنه الأول (أمثلة القرار 2/2025)", () => {
+  const a = bahrainEwaBill({ category: "other", kwh: 1500, m3: 20 });
+  assert.equal(a.electricity, 48);
+  assert.equal(a.water, 15.5);
+  assert.equal(a.fixedElec + a.fixedWater, 2);
+  assert.equal(a.sewer, 3.1);
+  assert.equal(a.total, 68.6);
+  const b = bahrainEwaBill({ category: "citizen", kwh: 5000, m3: 60 });
+  assert.equal(b.electricity, 27);
+  assert.equal(b.water, 1.5);
+  assert.equal(b.sewer, 0);
+  assert.equal(b.total, 30.5);
+  assert.equal(b.support, 160 + 46.5 - 28.5);
+  const c = bahrainEwaBill({ category: "citizen", kwh: 7500, m3: 110 });
+  assert.equal(c.electricity, 75);
+  assert.equal(c.water, 1.5 + 3.2 + 7.75);
+  const n = bahrainEwaBill({ category: "nonres", kwh: 6000, m3: 0, municipal: 12.5 });
+  assert.equal(n.electricity, 110 + 32);
+  assert.equal(n.fixedWater, 0);
+  assert.equal(n.total, 143 + 12.5);
+});
+
+test("kuwaitUtilityBill: الاستثماري والخاص والمواطن في الاستثماري", () => {
+  const a = kuwaitUtilityBill({ category: "investment", kwh: 1500, water: 20, waterUnit: "m3" });
+  assert.equal(a.electricity, 7.5);
+  assert.equal(a.gallons, 4399.38);
+  assert.equal(a.water, 8.799);
+  assert.equal(a.total, 16.299);
+  const b = kuwaitUtilityBill({ category: "private", kwh: 5000, water: 13198.14 });
+  assert.equal(b.electricity, 10);
+  assert.equal(b.water, 10.559);
+  assert.equal(b.realElec, 240);
+  assert.equal(b.elecSupport, 230);
+  const c = kuwaitUtilityBill({ category: "kuwaitiInvestment", kwh: 1500, water: 4399.38 });
+  assert.equal(c.category, "private");
+  assert.equal(c.total, 3 + 3.52);
 });

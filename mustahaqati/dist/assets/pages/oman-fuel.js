@@ -4,7 +4,8 @@ import { bind, num, table, big, note } from "../app.js";
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
 const NAME = { m91: "بنزين M91", m95: "بنزين M95", diesel: "ديزل" };
-const omr = (n) => `${num(n, 3)} ريال عُماني`;
+const f3 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+const omr = (n) => `${f3.format(n)} ريال عُماني`;
 const baisa = (p) => `${Math.round(p * 1000)} بيسة`;
 
 bind(form, result, (v) => {

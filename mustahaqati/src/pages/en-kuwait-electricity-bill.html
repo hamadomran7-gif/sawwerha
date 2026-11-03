@@ -1,0 +1,128 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-electricity-water-bill",
+  "alternate": "kuwait-electricity-bill",
+  "title": "Kuwait Electricity and Water Bill Calculator 2026 — Tariff per kWh for Private and Investment Housing",
+  "h1": "Kuwait Electricity and Water Bill Calculator",
+  "description": "Work out your Kuwait electricity and water bill: 2 fils per kWh in private housing and 5 fils in investment and commercial property, water at 800 fils per 1,000 gallons in private housing and KD 2 in investment housing, with the rule for Kuwaitis in flats and the size of the state subsidy.",
+  "short": "Price per kWh and water by property type, Kuwaitis in flats and the subsidy",
+  "lead": "Pick the property type and enter your monthly electricity and water use to see your bill at the Ministry of Electricity and Water's applied tariff.",
+  "country": "kw",
+  "category": "tools",
+  "tool": true,
+  "script": "en-kuwait-utility-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-net-salary",
+    "en-kuwait-family-residence-fees",
+    "en-bahrain-electricity-bill",
+    "en-dewa-bill-calculator",
+    "en-ksa-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "What is the electricity price per kWh in Kuwait in 2026?",
+      "a": "2 fils in private housing (citizens' homes), 5 fils in investment housing and commercial property, 3 fils for industry and agriculture, 12 fils for chalets and stables and 25 fils for government, with no slabs."
+    },
+    {
+      "q": "What is the water tariff in Kuwait?",
+      "a": "800 fils per 1,000 imperial gallons in private housing, KD 2 in investment and commercial property, KD 1.250 for industry and agriculture and KD 4 for government."
+    },
+    {
+      "q": "Does a Kuwaiti in an investment flat pay the expat rate?",
+      "a": "No. They pay the private-housing rate for one unit if they have no other housing support and submit the documents, under Law 20 of 2016 and Ministerial Resolution 2 of 2017."
+    },
+    {
+      "q": "Did Kuwait raise electricity tariffs in 2025 or 2026?",
+      "a": "A January 2025 Amiri decree allows public-service charges to be repriced with Cabinet approval, but we found no implemented increase in electricity or water tariffs up to November 2026."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Arab Times — Customers pay 2 fils, the ministry covers 46 (24 Jul 2025)",
+      "u": "https://www.arabtimesonline.com/news/this-simple-change-could-cut-your-kuwait-utility-bill-by-90"
+    },
+    {
+      "t": "Arab Times — Electricity and water tariffs sanctioned (2 Mar 2017)",
+      "u": "https://arabtimesonline.com/news/electricity-water-tariffs-sanctioned"
+    },
+    {
+      "t": "Al-Jarida — Law 20 of 2016 tariff tables (27 Apr 2016)",
+      "u": "https://www.aljarida.com/articles/1464212574462769700/"
+    },
+    {
+      "t": "FAOLEX — Ministerial Resolution 2 of 2017 (executive regulations)",
+      "u": "https://leap.unep.org/en/countries/kw/national-legislation/ministerial-resolution-no-2-2017-regarding-executive-regulations"
+    },
+    {
+      "t": "Kuwait Times — Amiri decree allows raising charges for public services (19 Jan 2025)",
+      "u": "https://kuwaittimes.com/article/23631/kuwait/other-news/amiri-decree-allows-raising-charges-for-public-services"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your bill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">Property type</label>
+        <select id="category" name="category">
+          <option value="private">Private housing (citizen's home)</option>
+          <option value="investment" selected>Investment housing (flat)</option>
+          <option value="kuwaitiInvestment">Kuwaiti in investment housing</option>
+          <option value="commercial">Commercial</option>
+          <option value="industrial">Industrial or agricultural</option>
+          <option value="other">Chalet, stable or other sectors</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="kwh">Electricity use a month (kWh)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500">
+      </div>
+      <div class="field">
+        <label for="water">Water use a month</label>
+        <input type="number" id="water" name="water" inputmode="decimal" min="0" step="100" value="5000">
+        <span class="hint">In gallons as on the bill, or choose cubic metres.</span>
+      </div>
+      <div class="field">
+        <label for="waterUnit">Water unit</label>
+        <select id="waterUnit" name="waterUnit">
+          <option value="gallons" selected>Imperial gallons</option>
+          <option value="m3">Cubic metres</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Kuwait's applied electricity and water tariffs</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Sector</th><th scope="col">Electricity (fils/kWh)</th><th scope="col">Water (KD per 1,000 gallons)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Private housing</th><td>2</td><td>0.800</td></tr>
+    <tr><th scope="row">Investment housing</th><td>5</td><td>2.000</td></tr>
+    <tr><th scope="row">Commercial</th><td>5</td><td>2.000</td></tr>
+    <tr><th scope="row">Industrial and agricultural</th><td>3</td><td>1.250</td></tr>
+    <tr><th scope="row">Chalets, stables and others</th><td>12</td><td>2.000</td></tr>
+    <tr><th scope="row">Government</th><td>25</td><td>4.000</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Law 20 of 2016 set tariff ceilings; the new prices applied to commercial property from 22 May 2017 and to investment housing from 22 August 2017, while private housing kept its old tariff. One cubic metre is 219.969 imperial gallons, so investment-housing water costs about 440 fils per m³.</p>
+
+<h2>Worked examples</h2>
+<p>An expat flat in investment housing using 1,500 kWh and 20 m³ (4,399 gallons): electricity 1,500 × 0.005 = KD 7.500, water 4,399.4 × 2 ÷ 1,000 = KD 8.799, a total of KD 16.299. If the tenant is a registered Kuwaiti on the private-housing tariff: 3.000 + 3.520 = KD 6.520.</p>
+<p>A citizen's villa in private housing using 5,000 kWh and 60 m³ (13,198 gallons): electricity KD 10 and water KD 10.559, a total of KD 20.559.</p>
+<p>Many buildings have no water meter per flat, so the landlord pays water and builds it into the rent. The ministry says a kWh costs it about 48 fils, so a private-housing resident pays 2 fils and the state covers 46.</p>
+</div>
