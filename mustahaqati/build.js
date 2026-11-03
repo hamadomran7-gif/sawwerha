@@ -61,6 +61,7 @@ const T = {
     byline: (link, d) => `إعداد ومراجعة: ${link} · آخر تحديث: ${d}`,
     team: (n) => `فريق ${n}`,
     countries: COUNTRY_NAMES,
+    categories: CATEGORY_NAMES,
   },
   en: {
     home: "Home",
@@ -74,6 +75,7 @@ const T = {
     byline: (link, d) => `Prepared and reviewed by ${link} · Last updated: ${d}`,
     team: (n) => `the ${n} team`,
     countries: { ae: "UAE", sa: "Saudi Arabia", gcc: "GCC", qa: "Qatar", kw: "Kuwait", om: "Oman", bh: "Bahrain", all: "General" },
+    categories: { eos: "End of service", salary: "Salary, pensions and social insurance", leave: "Leave and overtime", finance: "Loans and finance", fees: "Residence and government fees", property: "Property", tax: "Tax", tools: "Everyday tools" },
   },
 };
 const homeSlug = (lang) => (lang === "en" ? "en-index" : "index");
@@ -567,8 +569,9 @@ function homeHubs(pages, root) {
 
 function hubList(meta, pages, root) {
   const c = meta.hub;
+  const lang = langOf(meta);
   const NO_VAT = ["qa", "kw"]; // لا ضريبة قيمة مضافة في قطر والكويت
-  const mine = pages.filter((p) => isContent(p.meta) && langOf(p.meta) === "ar" && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)) && !(NO_VAT.includes(c) && p.meta.category === "tax"));
+  const mine = pages.filter((p) => isContent(p.meta) && langOf(p.meta) === lang && !p.meta.hub && (p.meta.country === c || (p.meta.country === "gcc" && p.meta.tool)) && !(NO_VAT.includes(c) && p.meta.category === "tax"));
   return CATEGORY_ORDER.map((cat) => {
     const inCat = mine.filter((p) => p.meta.category === cat);
     if (!inCat.length) return "";
@@ -579,7 +582,7 @@ function hubList(meta, pages, root) {
       inCat.filter((k) => k.meta.parent === p.meta.slug).forEach((k) => ordered.push(k));
     });
     inCat.filter((p) => p.meta.parent && !ordered.includes(p)).forEach((p) => ordered.push(p));
-    return `<section class="group" aria-labelledby="h-${cat}"><h2 id="h-${cat}">${CATEGORY_NAMES[cat]}</h2><div class="cards">${ordered.map((p) => card(p.meta, root)).join("")}</div></section>`;
+    return `<section class="group" aria-labelledby="h-${cat}"><h2 id="h-${cat}">${T[lang].categories[cat]}</h2><div class="cards">${ordered.map((p) => card(p.meta, root)).join("")}</div></section>`;
   }).join("\n");
 }
 

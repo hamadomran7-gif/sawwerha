@@ -31,7 +31,7 @@
  "ksa": "b745f7e5fe3b1af7",
  "kuwait-end-of-service": "27574248f94288bb",
  "kuwait-leave": "83c6114aa18a5664",
- "kuwait": "4277e415f4a7edab",
+ "kuwait": "281c775d92a70950",
  "oman-end-of-service": "09058d12ea606cab",
  "oman-leave": "7ad74804883c7f83",
  "oman": "02494f7b338d9c11",
@@ -175,5 +175,11 @@
  "en-kuwait-eos-table": "95fd0c578592d7dd",
  "en-qatar-eos-table": "40622866afa985fb",
  "kuwait-eos-table": "155a6ec04c72505c",
- "qatar-eos-table": "aa6d3110214f1225"
+ "qatar-eos-table": "aa6d3110214f1225",
+ "en-ksa": "74b72164d9b0984f",
+ "en-uae": "93cc734c9cf8fb48",
+ "en-bahrain": "9c1ebf5a02c6e90d",
+ "en-kuwait": "73ceacfba86a73d7",
+ "en-oman": "2402e419b9a67973",
+ "en-qatar": "c06575af65e46bab"
 }
