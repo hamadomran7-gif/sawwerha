@@ -1,0 +1,83 @@
+---json
+{
+  "lang": "en",
+  "path": "en/salik-toll-calculator",
+  "alternate": "salik-calculator",
+  "title": "Salik Calculator 2026 — Monthly Toll Cost at AED 6 Peak and AED 4 Off-Peak plus VAT",
+  "h1": "Salik Monthly Toll Calculator",
+  "description": "Work out your monthly Salik cost under Dubai's variable toll pricing: AED 6 at peak times (6–10 AM and 4–8 PM), AED 4 at other times and on Sundays, free from 1 to 6 AM, with 5% VAT on every crossing since 1 June 2026, plus Ramadan timings and the ten gates.",
+  "short": "AED 6 at peak, AED 4 off-peak and on Sundays, free at night, plus 5% VAT since June 2026",
+  "lead": "Enter how many times you cross at peak and off-peak times and on how many days, to see your daily, monthly and yearly Salik cost.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "en-salik.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-fuel-prices", "en-dewa-bill-calculator", "en-uae-net-salary", "en-uae-public-holidays"],
+  "faq": [
+    {"q": "How much is Salik now?", "a": "AED 6 plus VAT at peak times Monday to Saturday (6–10 AM and 4–8 PM), AED 4 plus VAT at low-peak times (10 AM–4 PM and 8 PM–1 AM), and free from 1 to 6 AM."},
+    {"q": "How much is Salik on Sunday?", "a": "AED 4 plus VAT all day, and free from 1 to 6 AM, unless the Sunday is a public holiday or a public event day."},
+    {"q": "Is there VAT on Salik?", "a": "Yes, 5% on every crossing from 1 June 2026, so a peak crossing costs AED 6.30 and a low-peak one AED 4.20."},
+    {"q": "What are Salik timings in Ramadan?", "a": "Peak 9 AM–5 PM, low-peak 7–9 AM and 5 PM–2 AM, and free from 2 to 7 AM."},
+    {"q": "How many Salik gates are there?", "a": "Ten: Al Barsha, Al Garhoud Bridge, Business Bay Crossing, Al Maktoum Bridge, Al Mamzar South and North, Al Safa South and North, Airport Tunnel and Jebel Ali."}
+  ],
+  "sources": [
+    {"t": "Salik — Variable toll rates, Ramadan timings and VAT", "u": "https://www.salik.ae/en/Toll-Gates/variable-toll-rates"},
+    {"t": "Salik — Toll locations", "u": "https://www.salik.ae/en/Toll-Gates/toll-gates"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your Salik cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="peakPerDay">Crossings a day at peak times</label>
+        <input type="number" id="peakPerDay" name="peakPerDay" inputmode="decimal" min="0" max="40" step="1" value="2">
+        <span class="hint">6–10 AM and 4–8 PM.</span>
+      </div>
+      <div class="field">
+        <label for="lowPerDay">Crossings a day at low-peak times</label>
+        <input type="number" id="lowPerDay" name="lowPerDay" inputmode="decimal" min="0" max="40" step="1" value="0">
+        <span class="hint">10 AM–4 PM and 8 PM–1 AM. Crossings from 1 to 6 AM are free.</span>
+      </div>
+      <div class="field">
+        <label for="workdays">Days a week you cross, Monday to Saturday</label>
+        <input type="number" id="workdays" name="workdays" inputmode="decimal" min="0" max="6" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="sundayPerWeek">Crossings on Sunday</label>
+        <input type="number" id="sundayPerWeek" name="sundayPerWeek" inputmode="decimal" min="0" max="40" step="1" value="0">
+        <span class="hint">AED 4 all day except 1–6 AM.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Salik variable toll rates</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Period</th><th scope="col">Monday–Saturday</th><th scope="col">Sunday</th><th scope="col">Ramadan</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Peak</th><td>6–10 AM and 4–8 PM: AED 6</td><td>AED 4</td><td>9 AM–5 PM</td></tr>
+    <tr><th scope="row">Low-peak</th><td>10 AM–4 PM and 8 PM–1 AM: AED 4</td><td>AED 4</td><td>7–9 AM and 5 PM–2 AM</td></tr>
+    <tr><th scope="row">Free</th><td>1–6 AM</td><td>1–6 AM</td><td>2–7 AM</td></tr>
+  </tbody>
+</table>
+</div>
+<p>5% VAT is added to every crossing from 1 June 2026. Sunday rates do not apply when the Sunday is a public holiday or a public event day.</p>
+
+<h2>The ten Salik gates</h2>
+<p>Al Barsha, Al Garhoud Bridge, Business Bay Crossing, Al Maktoum Bridge, Al Mamzar South, Al Mamzar North, Al Safa South, Al Safa North, Airport Tunnel and Jebel Ali.</p>
+
+<div class="example">
+<p><strong>Example:</strong> an employee crossing two gates at peak time every day, five days a week: 2 × AED 6.30 = AED 12.60 a day, AED 63 a week and about AED 273 a month.</p>
+</div>
+</div>

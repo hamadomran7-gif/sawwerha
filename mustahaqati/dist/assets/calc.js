@@ -981,6 +981,22 @@ export function ksaFuelCost({ fuel = "g91", tank = 60, km = 0, per100 = 8 } = {}
   return { price, tankCost: r2(t * price), litres: r2(litres), monthly: r2(litres * price), yearly: r2(litres * price * 12), all: Object.fromEntries(["g91", "g95", "diesel"].map((k) => [k, { price: F.prices[k], tank: r2(t * F.prices[k]) }])) };
 }
 
+/** كلفة سالك الشهرية بالتعرفة المتغيرة: الذروة 6 دراهم والذروة المنخفضة 4 والأحد 4 والليل مجاناً، مع ضريبة 5% منذ 1 يونيو 2026. */
+export function uaeSalikCost({ peakPerDay = 0, lowPerDay = 0, workdays = 5, sundayPerWeek = 0, asOf = new Date() } = {}) {
+  const S = rules.ae.salik;
+  const day = isoUTC0(utcDay(asOf instanceof Date ? asOf : String(asOf)));
+  const vat = day >= S.vatFrom ? S.vat : 0;
+  const k = 1 + vat;
+  const p = Math.max(0, Number(peakPerDay) || 0), l = Math.max(0, Number(lowPerDay) || 0), w = Math.min(6, Math.max(0, Number(workdays) || 0)), su = Math.max(0, Number(sundayPerWeek) || 0);
+  const weekly = (p * S.rates.peak + l * S.rates.low) * w + su * S.rates.sunday;
+  const crossings = (p + l) * w + su;
+  return {
+    vat, peak: r2(S.rates.peak * k), low: r2(S.rates.low * k), sunday: r2(S.rates.sunday * k),
+    daily: r2((p * S.rates.peak + l * S.rates.low) * k), weekly: r2(weekly * k), monthly: r2(weekly * k * S.weeksPerMonth), yearly: r2(weekly * k * 52),
+    crossingsMonthly: Math.round(crossings * S.weeksPerMonth), vatMonthly: r2(weekly * vat * S.weeksPerMonth),
+  };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));

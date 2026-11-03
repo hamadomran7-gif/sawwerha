@@ -1198,6 +1198,43 @@
           "diesel": 4.75
         }
       }
+    },
+    "salik": {
+      "law": "شركة سالك — التعرفة المتغيرة لبوابات دبي منذ 31 يناير 2025، وضريبة القيمة المضافة 5% على كل عبور من 1 يونيو 2026",
+      "lastReview": "2026-11-03",
+      "rates": {
+        "peak": 6,
+        "low": 4,
+        "sunday": 4,
+        "night": 0
+      },
+      "vat": 0.05,
+      "vatFrom": "2026-06-01",
+      "weeksPerMonth": 4.33,
+      "gates": [
+        "البرشاء",
+        "جسر القرهود",
+        "معبر الخليج التجاري",
+        "جسر آل مكتوم",
+        "الممزر الجنوبي",
+        "الممزر الشمالي",
+        "الصفا الجنوبي",
+        "الصفا الشمالي",
+        "نفق المطار",
+        "جبل علي"
+      ],
+      "gatesEn": [
+        "Al Barsha",
+        "Al Garhoud Bridge",
+        "Business Bay Crossing",
+        "Al Maktoum Bridge",
+        "Al Mamzar South",
+        "Al Mamzar North",
+        "Al Safa South",
+        "Al Safa North",
+        "Airport Tunnel",
+        "Jebel Ali"
+      ]
     }
   },
   "sa": {

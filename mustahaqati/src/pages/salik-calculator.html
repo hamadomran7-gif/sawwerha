@@ -1,0 +1,80 @@
+---json
+{
+  "title": "حاسبة سالك 2026 — كم تدفع شهرياً بتعرفة الذروة 6 دراهم وغير الذروة 4 مع الضريبة",
+  "h1": "حاسبة سالك الشهرية في دبي",
+  "description": "احسب كلفة سالك الشهرية بتعرفة البوابات المتغيرة في دبي: 6 دراهم في الذروة (6–10 صباحاً و4–8 مساءً)، و4 دراهم خارجها ويوم الأحد، ومجاناً من 1 إلى 6 فجراً، مع ضريبة القيمة المضافة 5% على كل عبور منذ 1 يونيو 2026، ومواعيد رمضان والبوابات العشر.",
+  "short": "الذروة 6 دراهم، وغير الذروة والأحد 4، والليل مجاناً، مع ضريبة 5% منذ يونيو 2026",
+  "lead": "أدخل عدد مرات عبورك في الذروة وخارجها وأيام العبور، فتظهر كلفة سالك اليومية والشهرية والسنوية.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "salik.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-fuel-prices", "dewa-bill-calculator", "uae-net-salary", "uae-public-holidays"],
+  "faq": [
+    {"q": "كم سعر سالك الآن؟", "a": "6 دراهم + الضريبة في الذروة من الإثنين إلى السبت (6–10 صباحاً و4–8 مساءً)، و4 دراهم + الضريبة خارج الذروة (10 صباحاً–4 عصراً و8 مساءً–1 فجراً)، ومجاناً من 1 إلى 6 فجراً."},
+    {"q": "كم سعر سالك يوم الأحد؟", "a": "4 دراهم + الضريبة طوال اليوم، ومجاناً من 1 إلى 6 فجراً، ما لم يوافق الأحد عطلة رسمية أو فعالية عامة."},
+    {"q": "هل على سالك ضريبة قيمة مضافة؟", "a": "نعم، 5% على كل عبور من 1 يونيو 2026، فيصير عبور الذروة 6.30 درهم وغير الذروة 4.20 درهم."},
+    {"q": "ما مواعيد سالك في رمضان؟", "a": "الذروة 9 صباحاً–5 مساءً، وغير الذروة 7–9 صباحاً و5 مساءً–2 فجراً، ومجاناً من 2 إلى 7 فجراً."},
+    {"q": "كم عدد بوابات سالك؟", "a": "عشر بوابات: البرشاء، وجسر القرهود، ومعبر الخليج التجاري، وجسر آل مكتوم، والممزر الجنوبي والشمالي، والصفا الجنوبي والشمالي، ونفق المطار، وجبل علي."}
+  ],
+  "sources": [
+    {"t": "سالك — التعرفة المتغيرة للبوابات ومواعيد رمضان والضريبة", "u": "https://www.salik.ae/en/Toll-Gates/variable-toll-rates"},
+    {"t": "سالك — مواقع البوابات", "u": "https://www.salik.ae/en/Toll-Gates/toll-gates"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب كلفة سالك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="peakPerDay">مرات العبور يومياً في الذروة</label>
+        <input type="number" id="peakPerDay" name="peakPerDay" inputmode="decimal" min="0" max="40" step="1" value="2">
+        <span class="hint">6–10 صباحاً و4–8 مساءً.</span>
+      </div>
+      <div class="field">
+        <label for="lowPerDay">مرات العبور يومياً خارج الذروة</label>
+        <input type="number" id="lowPerDay" name="lowPerDay" inputmode="decimal" min="0" max="40" step="1" value="0">
+        <span class="hint">10 صباحاً–4 عصراً و8 مساءً–1 فجراً. والعبور من 1 إلى 6 فجراً مجاني.</span>
+      </div>
+      <div class="field">
+        <label for="workdays">أيام العبور من الإثنين إلى السبت أسبوعياً</label>
+        <input type="number" id="workdays" name="workdays" inputmode="decimal" min="0" max="6" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="sundayPerWeek">مرات العبور يوم الأحد</label>
+        <input type="number" id="sundayPerWeek" name="sundayPerWeek" inputmode="decimal" min="0" max="40" step="1" value="0">
+        <span class="hint">4 دراهم طوال اليوم عدا 1–6 فجراً.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تعرفة سالك المتغيرة</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الفترة</th><th scope="col">الإثنين–السبت</th><th scope="col">الأحد</th><th scope="col">في رمضان</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الذروة</th><td>6–10 صباحاً و4–8 مساءً: 6 دراهم</td><td>4 دراهم</td><td>9 صباحاً–5 مساءً</td></tr>
+    <tr><th scope="row">خارج الذروة</th><td>10 صباحاً–4 عصراً و8 مساءً–1 فجراً: 4 دراهم</td><td>4 دراهم</td><td>7–9 صباحاً و5 مساءً–2 فجراً</td></tr>
+    <tr><th scope="row">مجاناً</th><td>1–6 فجراً</td><td>1–6 فجراً</td><td>2–7 فجراً</td></tr>
+  </tbody>
+</table>
+</div>
+<p>تُضاف ضريبة القيمة المضافة 5% إلى كل عبور من 1 يونيو 2026. وأسعار الأحد لا تنطبق إذا وافق عطلة رسمية أو فعالية عامة.</p>
+
+<h2>بوابات سالك العشر</h2>
+<p>البرشاء، وجسر القرهود، ومعبر الخليج التجاري، وجسر آل مكتوم، والممزر الجنوبي، والممزر الشمالي، والصفا الجنوبي، والصفا الشمالي، ونفق المطار، وجبل علي.</p>
+
+<div class="example">
+<p><strong>مثال:</strong> موظف يعبر بوابتين في الذروة يومياً 5 أيام في الأسبوع: 2 × 6.30 = 12.60 درهم يومياً، و63 درهماً أسبوعياً، ونحو 273 درهماً شهرياً.</p>
+</div>
+</div>

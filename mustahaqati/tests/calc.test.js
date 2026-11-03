@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  uaeSalikCost,
   ksaFuelCost,
   uaeFuelCost,
   uaeDewaBill,
@@ -2205,4 +2206,12 @@ test("أسعار الوقود في السعودية وكلفة التعبئة", 
   assert.equal(r.tankCost, 130.8);
   assert.equal(r.monthly, 348.8);
   assert.equal(r.all.diesel.tank, 107.4);
+});
+
+test("كلفة سالك الشهرية بالتعرفة المتغيرة والضريبة", () => {
+  const r = uaeSalikCost({ peakPerDay: 2, lowPerDay: 1, workdays: 5, sundayPerWeek: 2, asOf: new Date("2026-11-03T08:00:00") });
+  assert.equal(r.peak, 6.3);
+  assert.equal(r.weekly, 92.4);
+  assert.equal(r.monthly, 400.09);
+  assert.equal(uaeSalikCost({ peakPerDay: 2, workdays: 5, asOf: new Date("2026-05-15T08:00:00") }).weekly, 60);
 });
