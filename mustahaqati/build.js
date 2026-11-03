@@ -464,6 +464,21 @@ const TABLES = {
       rows
     );
   },
+  /** البحرين: مكافأة نهاية الخدمة لغير البحرينيين (المادة 116) — نصف شهر عن كل سنة من أول 3 ثم شهر، على الأجر الأخير */
+  "bh-eos-grid"(a) {
+    const en = a.lang === "en";
+    const B = rules.bh.eos;
+    const wages = listNums(a.wages, [200, 300, 400, 500, 800, 1000, 1500, 2000]);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25]);
+    const months = (y) => Math.min(y, B.firstYears) * B.monthsFirst + Math.max(0, y - B.firstYears) * B.monthsAfter;
+    const yl = (y) => (en ? `${fmt0.format(y)} ${y === 1 ? "year" : "years"}` : yearsLabel(y));
+    const rows = years.map((y) => [`${yl(y)} (${fmt2.format(months(y)).replace(/\.?0+$/, "")} ${en ? "mo." : "شهر"})`, ...wages.map((w) => fmt0.format(months(y) * w))]);
+    return tableWrap(
+      a.caption || (en ? "Gratuity in BHD (rounded): half a month per year for the first 3 years, then a month" : "المكافأة بالدينار البحريني (مقرّبة): نصف شهر عن كل سنة من أول 3 سنوات ثم شهر"),
+      [en ? "Service (months of wage)" : "مدة الخدمة (أشهر الأجر)", ...wages.map((w) => (en ? `Wage ${fmt0.format(w)}` : `أجر ${fmt0.format(w)}`))],
+      rows
+    );
+  },
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);
