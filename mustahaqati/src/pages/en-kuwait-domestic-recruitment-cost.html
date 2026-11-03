@@ -1,0 +1,108 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-housemaid-recruitment-cost-calculator",
+  "alternate": "kuwait-domestic-recruitment-cost",
+  "title": "Kuwait Housemaid Recruitment Cost Calculator 2026 — KWD 750 Including the Ticket, and New Residence Fees",
+  "h1": "Kuwait Domestic Worker Recruitment Cost Calculator",
+  "description": "Calculate the cost of recruiting a housemaid in Kuwait: the maximum of KWD 750 from Asia and 575 from Africa including the ticket, or 350 with a private passport (Decision 2/2024), the residence fees in force from 23 December 2025 (KWD 10 for a Kuwaiti family up to 3 workers, 50 for expats up to 2), salary, and the office's 6-month guarantee.",
+  "short": "Asia KWD 750 and Africa 575 including the ticket; residence KWD 10 for Kuwaiti families",
+  "lead": "Choose where the worker comes from, your family type and how many domestic workers you already have; leave the price empty to use the maximum and see the first-year and two-year cost.",
+  "country": "kw",
+  "category": "fees",
+  "tool": true,
+  "script": "en-kuwait-domestic-recruitment.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-domestic-recruitment-cost", "en-qatar-domestic-recruitment-cost", "en-uae-domestic-worker", "en-kuwait-family-residence-fees", "en-kuwait-residency-fine", "en-kuwait-end-of-service"],
+  "faq": [
+    {"q": "How much does it cost to recruit a housemaid in Kuwait in 2026?", "a": "Commerce Minister Decision 2/2024 caps it at KWD 750 for a worker from Asia and KWD 575 from Africa, including the air ticket, and KWD 350 when the employer provides the worker's passport (private passport). With a KWD 10 residence and a KWD 120 salary, the first year costs a Kuwaiti family about KWD 2,200."},
+    {"q": "How much is a housemaid's residence fee in Kuwait after the change?", "a": "From 23 December 2025: for a Kuwaiti family, KWD 10 a year per worker for up to 3 workers, then KWD 50 for the 4th and 100 for the 5th. For an expat family, KWD 50 a year per worker for up to 2 workers, then 400 for the 3rd and 500 for the 4th. Temporary residence is KWD 5 a month."},
+    {"q": "What is the minimum wage for a domestic worker in Kuwait?", "a": "KWD 75 a month under Law 68/2015. The Philippines requires KWD 120 (USD 400), offices raised Filipina contracts to KWD 150 by agreement in 2025, and Ethiopian workers get about KWD 100 when new and 110 with experience."},
+    {"q": "Does the office refund me if the worker refuses to work?", "a": "Yes, within 6 months of receiving the worker: the office refunds what was paid and takes the worker back if she refuses to work or is absent, under Article 6 of Ministerial Decision 2194/2016. If she leaves before 6 months, the full amount is refunded with the return ticket."},
+    {"q": "Is the KWD 990 or 890 price still valid?", "a": "Not as far as we found. KWD 990 was the 2018 cap and 890 the February 2021 cap; Decision 2/2024 in January 2024 then set KWD 750 for Asia including the ticket. Some articles still cite 990, but we found no decision raising the cap after 2/2024."}
+  ],
+  "sources": [
+    {"t": "Al Jarida — KWD 750 maximum including the ticket, Decision 2/2024 (10/1/2024)", "u": "https://www.aljarida.com/article/50164"},
+    {"t": "Gulf News — Kuwait sets fee limits for hiring domestic workers (9/1/2024)", "u": "https://gulfnews.com/world/gulf/kuwait/kuwait-sets-fee-limits-for-hiring-domestic-workers-1.100313688"},
+    {"t": "Ministerial Decision 2194/2016 on domestic labour offices (NATLEX translation)", "u": "https://natlex.ilo.org/dyn/natlex2/natlex2/files/download/106433/Ministerial%20Decision%20No.%202194%20of%202016.pdf"},
+    {"t": "Arab Times — office must compensate the sponsor within 6 months (22/5/2021)", "u": "https://www.arabtimesonline.com/news/office-must-compensate-sponsor-if-worker-failure"},
+    {"t": "Kuwait Times — new residence and visa fees (23/11/2025)", "u": "https://kuwaittimes.com/article/36133/kuwait/other-news/kuwait-hikes-iqama-visa-fees/amp"},
+    {"t": "Al Rai — Ethiopian workers at KWD 575 (5/10/2024)", "u": "https://www.alraimedia.com/article/1703503/محليات/أخبار-محلية/العاملات-الإثيوبيات-على-الأبواب-والاستقدام-ب575-دينارا"},
+    {"t": "Al Jarida — Filipina salaries at KWD 150 (16/9/2025)", "u": "https://www.aljarida.com/article/109111"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the recruitment cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="region">Where is the worker from?</label>
+        <select id="region" name="region">
+          <option value="asia" selected>Asia (Philippines, Sri Lanka, India, Nepal...)</option>
+          <option value="africa">Africa (Ethiopia, Kenya...)</option>
+          <option value="privatePassport">Private passport (provided by the employer)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="price">Office price in KWD (optional)</label>
+        <input type="number" id="price" name="price" inputmode="decimal" min="0" step="1" placeholder="Empty = maximum">
+      </div>
+      <div class="field">
+        <label for="sponsor">Family</label>
+        <select id="sponsor" name="sponsor">
+          <option value="kuwaiti" selected>Kuwaiti</option>
+          <option value="expat">Expat</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="existingCount">Domestic workers you have now (before this one)</label>
+        <input type="number" id="existingCount" name="existingCount" inputmode="decimal" min="0" max="20" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="salary">Monthly salary (KWD)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="5" value="120">
+        <span class="hint">The legal minimum is KWD 75; at least 120 for a Filipina.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Maximum domestic worker recruitment price in Kuwait</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Category</th><th scope="col">Maximum (KWD)</th><th scope="col">Includes</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Asia</th><td>750</td><td>Air ticket and procedures</td></tr>
+    <tr><th scope="row">Africa</th><td>575</td><td>Air ticket and procedures</td></tr>
+    <tr><th scope="row">Private passport</th><td>350</td><td>Ticket not stated</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Set by Commerce Minister Decision 2/2024 on 9 January 2024, amending Decision 103/2022. The cap was KWD 990 in 2018, 890 in February 2021, then 850 for the Philippines and 700 for India, Sri Lanka and Nepal excluding the ticket in August 2022. Some articles still cite 990 in 2025, but we found no decision raising the cap after 2/2024.</p>
+
+<h2>New residence fees for domestic workers</h2>
+{{table:kw-recruit-residence lang=en}}
+<p>The new regulation took effect on 23 December 2025. Temporary residence for a domestic worker is KWD 5 a month. The fee for an expat family's 5th worker has not been published; the table assumes 500, the same as the 4th.</p>
+
+<h2>The office's 6-month guarantee</h2>
+<p>Under Article 6 of Ministerial Decision 2194/2016, the office refunds what was paid and takes the worker back within 6 months of receipt, in cases including refusal to work and absence. If the worker leaves before 6 months, the full amount is refunded with the return ticket.</p>
+
+<h2>How much is a housemaid's salary in Kuwait?</h2>
+<p>The legal minimum is KWD 75 a month (Law 68/2015). The Philippines requires KWD 120 (USD 400), offices raised Filipina contracts to KWD 150 by agreement in 2025, and Ethiopian workers get about KWD 100 when new and 110 with experience.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Asian worker for a Kuwaiti family with fewer than 3 workers, salary 120: 750 + 10 + 120 × 12 = <strong>KWD 2,200</strong> in the first year, or <strong>2,560</strong> at a salary of 150.<br>
+Asian worker as an expat family's second worker, salary 120: 750 + 50 + 1,440 = <strong>KWD 2,240</strong>; as the third, the residence fee is 400.</p>
+</div>
+
+<p>If you are an expat, also see <a href="{{root}}en/kuwait-family-residence-fees-calculator/{{ix}}">your family residence fees in Kuwait</a>, and compare with <a href="{{root}}en/saudi-housemaid-recruitment-cost-calculator/{{ix}}">Saudi Arabia</a> and <a href="{{root}}en/qatar-housemaid-recruitment-cost-calculator/{{ix}}">Qatar</a>.</p>
+</div>

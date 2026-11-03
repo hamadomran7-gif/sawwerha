@@ -1,0 +1,133 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-housemaid-recruitment-cost-calculator",
+  "alternate": "qatar-domestic-recruitment-cost",
+  "title": "Qatar Housemaid Recruitment Cost Calculator 2026 — Maximum Prices and Refunds under Decision 61/2026",
+  "h1": "Qatar Domestic Worker Recruitment Cost Calculator",
+  "description": "Calculate the cost of recruiting a housemaid in Qatar: the maximum recruitment price by nationality (Indonesia QAR 17,000, Sri Lanka 16,000, Philippines 15,000, Kenya and Ethiopia 9,000), 50% due at contract, the QAR 1,000 minimum wage with housing and food, and your refund during the 9-month guarantee under Labour Minister Decision 61/2026.",
+  "short": "Philippines QAR 15,000 maximum, 50% at contract, and a 9-month guarantee with 15% deducted per month",
+  "lead": "Choose the worker's nationality, leave the price empty to use the maximum or enter the office's price, or calculate what the office must refund if the worker refuses to work or runs away.",
+  "country": "qa",
+  "category": "fees",
+  "tool": true,
+  "script": "en-qatar-domestic-recruitment.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-domestic-recruitment-cost", "en-kuwait-domestic-recruitment-cost", "en-uae-domestic-worker", "en-qatar-family-residence-cost", "en-qatar-end-of-service", "en-qatar-final-settlement"],
+  "faq": [
+    {"q": "How much does it cost to hire a Filipina housemaid in Qatar?", "a": "The maximum is QAR 15,000 under Ministry of Commerce and Industry Decision 1/2022. It covers all recruitment costs and fees except quarantine, and 50% is paid at contract. With the QAR 1,000 minimum wage, the first year costs about QAR 27,000, plus QAR 500 for housing and QAR 300 for food per month if you do not provide them."},
+    {"q": "What does Labour Minister Decision 61/2026 change for domestic workers?", "a": "Published in the Official Gazette on 25 October 2026, it sets a 9-month office guarantee: a 3-month preliminary test period with a full refund minus government fees, then 6 months in which 15% of the amount is deducted for each month, with government fees borne by the office. It also raises the office's financial guarantee to QAR 750,000 from QAR 250,000."},
+    {"q": "How much do I get back if the housemaid runs away in month 5?", "a": "70% of the amount: on a QAR 15,000 cost, QAR 10,500. Months 1 to 3 refund the full amount minus government fees; from month 4, 15% is deducted for each month up to month 9 (10%), and nothing is refunded after that."},
+    {"q": "What is the minimum wage for a domestic worker in Qatar?", "a": "QAR 1,000 basic, plus QAR 500 for housing and QAR 300 for food if the employer does not provide them, under minimum wage Law 17/2020."},
+    {"q": "Have Qatar's recruitment prices changed since 2022?", "a": "We found no decision changing the maximum prices after January 2022, and no maximum for Nepal or Uganda. The new Decision 61/2026 regulates the guarantee and refunds; no price change was published with it."},
+    {"q": "When does the employer lose the right to a refund?", "a": "If the employer or a family member assaults the worker, breaches the contract, or does not pay the wage, under Article 20 of Decision 61/2026 as reported by Al Raya."}
+  ],
+  "sources": [
+    {"t": "QNA — decision setting maximum prices for recruiting domestic workers (24/1/2022)", "u": "https://www.qna.org.qa/en/News-Area/News/2022-01/24/0060-decision-setting-maximum-prices-for-recruitment-of-domestic-workers-announced"},
+    {"t": "Al Sharq — when the maximum recruitment price decision applies (25/1/2022)", "u": "https://al-sharq.com/article/25/01/2022/متى-يطبق-قرار-تعيين-الحد-الأقصى-لأسعار-استقدام-العمالة-المنزلية"},
+    {"t": "Al Raya — refund mechanism for recruitment offices (27/1/2022)", "u": "https://www.raya.com/2022/01/27/الراية-تنشر-آلية-استرداد-الأموال-من-مك"},
+    {"t": "Al Raya — Labour Minister decision on licensing recruitment for others (25/10/2026)", "u": "https://www.raya.com/2026/10/25/قرار-وزير-العمل-بشأن-تنظيم-شروط-وإجراءات-الترخيص-باستقدام-عمال-من-الخارج-لحساب-الغير"},
+    {"t": "Al Raya — 9-month guarantee period for domestic workers (25/10/2026)", "u": "https://www.raya.com/2026/10/25/9-أشهر-فترة-ضمان-لاختبار-الخدم"},
+    {"t": "Al Raya — experts and lawyers on the Labour Minister's decision (27/10/2026)", "u": "https://www.raya.com/2026/10/27/خبراء-ومحامون-ل-الراية-قرار-وزير-العمل-يعزز-ضمانات-مواجهة-هروب-الخدم"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the recruitment cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">What do you want to calculate?</label>
+        <select id="mode" name="mode">
+          <option value="cost" selected>Recruitment cost and first year</option>
+          <option value="refund">Refund from the office (Decision 61/2026)</option>
+        </select>
+      </div>
+
+      <div class="field" data-cost>
+        <label for="nationality">Worker's nationality</label>
+        <select id="nationality" name="nationality">
+          <option value="PH" selected>Philippines</option>
+          <option value="ID">Indonesia</option>
+          <option value="LK">Sri Lanka</option>
+          <option value="BD">Bangladesh</option>
+          <option value="IN">India</option>
+          <option value="KE">Kenya</option>
+          <option value="ET">Ethiopia</option>
+          <option value="other">Other nationality (no published maximum)</option>
+        </select>
+      </div>
+      <div class="field" data-cost>
+        <label for="price">Office price (optional)</label>
+        <input type="number" id="price" name="price" inputmode="decimal" min="0" step="1" placeholder="Empty = maximum">
+      </div>
+      <div class="field" data-cost>
+        <label for="salary">Basic monthly wage (QAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="50" value="1000">
+        <span class="hint">The minimum is QAR 1,000.</span>
+      </div>
+      <div class="field" data-cost>
+        <label for="housing">Housing</label>
+        <select id="housing" name="housing">
+          <option value="provided" selected>Provided by the employer</option>
+          <option value="cash">Not provided (+500 a month)</option>
+        </select>
+      </div>
+      <div class="field" data-cost>
+        <label for="food">Food</label>
+        <select id="food" name="food">
+          <option value="provided" selected>Provided by the employer</option>
+          <option value="cash">Not provided (+300 a month)</option>
+        </select>
+      </div>
+
+      <div class="field" data-refund>
+        <label for="cost">Amount paid to the office (QAR)</label>
+        <input type="number" id="cost" name="cost" inputmode="decimal" min="0" step="1" value="15000">
+      </div>
+      <div class="field" data-refund>
+        <label for="month">In which month after starting work did it happen?</label>
+        <input type="number" id="month" name="month" inputmode="decimal" min="1" max="24" step="1" value="5">
+      </div>
+      <div class="field" data-refund>
+        <label for="govFees">Government fees paid (first three months only)</label>
+        <input type="number" id="govFees" name="govFees" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Deducted from the refund only during the preliminary test period.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Maximum recruitment prices for domestic workers in Qatar</h2>
+{{table:qa-recruit-caps lang=en}}
+<p>Set by the Ministry of Commerce and Industry in Decision 1/2022 in coordination with the Ministry of Labour, in force since January 2022; we found no change up to November 2026. The price covers all recruitment costs and fees except quarantine. At contract you pay the fees and 50% of the amount; recruitment takes 60 to 90 days, and the medical test is within 15 days of arrival.</p>
+
+<h2>The 9-month guarantee under Decision 61/2026</h2>
+<p>Labour Minister Decision 61/2026, regulating licences to recruit workers from abroad on behalf of others, was published in the Official Gazette on 25 October 2026 and applies from the day after publication. It repeals Decision 8/2005 and gives offices 3 months to comply:</p>
+<ul>
+  <li><strong>3-month preliminary test period:</strong> the full amount paid is refunded minus government fees if the worker is unfit, breaches the contract, refuses to work or runs away, or if the employer ends the contract.</li>
+  <li><strong>6 additional months:</strong> 15% of the total amount is deducted for each month, for refusal, running away or chronic illness, and the office bears the government fees.</li>
+  <li><strong>Loss of the right:</strong> if the employer or the family assaults the worker, breaches the contract, or does not pay the wage.</li>
+  <li><strong>Office financial guarantee:</strong> QAR 750,000 instead of 250,000.</li>
+</ul>
+{{table:qa-recruit-refund cost=15000 lang=en}}
+
+<h2>How much is a housemaid's salary in Qatar?</h2>
+<p>The minimum wage is QAR 1,000 basic, plus QAR 500 for housing and QAR 300 for food a month if the employer does not provide them. So the lowest monthly cost for a live-in worker is QAR 1,000, and QAR 1,800 for a worker given neither housing nor food.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Filipina at the maximum with a QAR 1,000 wage, housing and food provided: 15,000 + 1,000 × 12 = <strong>QAR 27,000</strong> in the first year, QAR 7,500 of it at contract.<br>
+Running away in month 5 on a QAR 15,000 cost: 30% is deducted, so <strong>QAR 10,500</strong> is refunded.<br>
+Refusing to work in month 2 with QAR 1,200 of government fees: <strong>QAR 13,800</strong> is refunded.</p>
+</div>
+
+<p>Compare with <a href="{{root}}en/saudi-housemaid-recruitment-cost-calculator/{{ix}}">recruitment costs in Saudi Arabia</a> and <a href="{{root}}en/kuwait-housemaid-recruitment-cost-calculator/{{ix}}">Kuwait</a>, and if you are a resident, see <a href="{{root}}en/qatar-family-residence-cost-calculator/{{ix}}">your family residence fees in Qatar</a>.</p>
+</div>

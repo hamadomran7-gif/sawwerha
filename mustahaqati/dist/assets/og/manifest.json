@@ -350,5 +350,11 @@
  "qatar-school-holidays": "13d0ca23c14ad397",
  "uae-school-holidays": "e15488a51b9bccd8",
  "en-ksa-transfer-of-services-fees": "23fc6ca8a84d7332",
- "ksa-transfer-of-services-fees": "a1a26648f9210fd8"
+ "ksa-transfer-of-services-fees": "a1a26648f9210fd8",
+ "en-ksa-domestic-recruitment-cost": "31c311a6e58132a8",
+ "en-kuwait-domestic-recruitment-cost": "88281bedf0c49f8f",
+ "en-qatar-domestic-recruitment-cost": "c34bc2c0058edc23",
+ "ksa-domestic-recruitment-cost": "47ba4cd46c6f8c4e",
+ "kuwait-domestic-recruitment-cost": "fc335c06556e9ee1",
+ "qatar-domestic-recruitment-cost": "39403595f965f9df"
 }

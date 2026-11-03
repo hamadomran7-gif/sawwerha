@@ -2377,6 +2377,112 @@ export default {
       "noConsentMonths": 12,
       "noticeDaysDefault": 90,
       "arrearsToOldSince": "2022-06-09"
+    },
+    "recruitCost": {
+      "law": "قرارات وزارة الموارد البشرية بسقوف تكلفة الاستقدام (14/9/2022 إلى 20/10/2024)؛ قرار مجلس الوزراء 336 (المقابل المالي على العمالة المنزلية الزائدة)؛ الوثيقة النموذجية لتأمين عقد العمالة المنزلية",
+      "lastReview": "2026-11-03",
+      "vatRate": 0.15,
+      "caps": [
+        {
+          "nat": "PH",
+          "max": 14700,
+          "vatIncluded": 0,
+          "since": "2024-01-15"
+        },
+        {
+          "nat": "LK",
+          "max": 13800,
+          "vatIncluded": 0,
+          "since": "2024-01-15"
+        },
+        {
+          "nat": "BD",
+          "max": 11750,
+          "vatIncluded": 0,
+          "since": "2024-01-15"
+        },
+        {
+          "nat": "TH",
+          "max": 10000,
+          "vatIncluded": 0,
+          "since": "2022-09-14"
+        },
+        {
+          "nat": "KE",
+          "max": 9000,
+          "vatIncluded": 0,
+          "since": "2024-01-15"
+        },
+        {
+          "nat": "UG",
+          "max": 8300,
+          "vatIncluded": 0,
+          "since": "2024-01-15"
+        },
+        {
+          "nat": "SL",
+          "max": 7500,
+          "vatIncluded": 0,
+          "since": "2023-04-03"
+        },
+        {
+          "nat": "BI",
+          "max": 7500,
+          "vatIncluded": 0,
+          "since": "2023-03-01"
+        },
+        {
+          "nat": "ET",
+          "max": 5900,
+          "vatIncluded": 0,
+          "since": "2024-01-15",
+          "secondary": 1
+        },
+        {
+          "nat": "TZ",
+          "max": 5700,
+          "vatIncluded": 1,
+          "since": "2024-10-20"
+        }
+      ],
+      "avgJul2026": {
+        "PH": 14316,
+        "LK": 13914,
+        "BD": 7093,
+        "KE": 5670,
+        "TZ": 5323,
+        "BI": 5102,
+        "ET": 3972
+      },
+      "arrivalDaysJul2026": {
+        "PH": 50,
+        "LK": 47,
+        "BD": 56,
+        "KE": 49,
+        "TZ": 53,
+        "BI": 57,
+        "ET": 49
+      },
+      "visaFee": 2000,
+      "musanedServiceFee": 150,
+      "iqamaIssueFee": 600,
+      "levy": {
+        "perYear": 9600,
+        "citizenFree": 4,
+        "residentFree": 2
+      },
+      "contractMonths": 24,
+      "guaranteeDays": 90,
+      "recruitMaxDays": 90,
+      "extensionDays": 30,
+      "latePenaltyPct": 20,
+      "cancelInExtensionPct": 15,
+      "insuranceReplacementCap": 20000,
+      "insuranceOverallLimit": 25000,
+      "minWage": {
+        "PH": 1500,
+        "TH": 1875
+      }
     }
   },
   "gcc": {
@@ -3838,6 +3944,30 @@ export default {
       "employer": 0.14,
       "housingCap": 6000,
       "max": 100000
+    },
+    "recruitCost": {
+      "law": "قرار وزير التجارة والصناعة 1/2022 (سقوف الاستقدام)؛ قرار وزير العمل 61/2026 (الضمان 9 أشهر)",
+      "lastReview": "2026-11-03",
+      "caps": {
+        "ID": 17000,
+        "LK": 16000,
+        "PH": 15000,
+        "BD": 14000,
+        "IN": 14000,
+        "KE": 9000,
+        "ET": 9000
+      },
+      "capsDate": "2022-01-24",
+      "depositPct": 50,
+      "preliminaryMonths": 3,
+      "additionalMonths": 6,
+      "deductionPctPerMonth": 15,
+      "refundDecisionEffective": "2026-10-26",
+      "minWage": {
+        "basic": 1000,
+        "housing": 500,
+        "food": 300
+      }
     }
   },
   "kw": {
@@ -4431,6 +4561,37 @@ export default {
           "privateOnly": true
         }
       ]
+    },
+    "recruitCost": {
+      "law": "قرار وزير التجارة 2/2024 (سقف الاستقدام شاملاً التذكرة)؛ القرار الوزاري 2194/2016 (ضمان 6 أشهر)؛ القانون 68/2015 (الحد الأدنى للأجر)",
+      "lastReview": "2026-11-03",
+      "caps": {
+        "asia": 750,
+        "africa": 575,
+        "privatePassport": 350
+      },
+      "capsEffective": "2024-01-09",
+      "guaranteeMonths": 6,
+      "minWage": 75,
+      "residenceFrom": "2025-12-23",
+      "residence": {
+        "kuwaiti": {
+          "free": 3,
+          "base": 10,
+          "extra": [
+            50,
+            100
+          ]
+        },
+        "expat": {
+          "free": 2,
+          "base": 50,
+          "extra": [
+            400,
+            500
+          ]
+        }
+      }
     }
   },
   "om": {

@@ -563,6 +563,53 @@ const TABLES = {
       : "سقف تكلفة النقل في مساند كما أُعلن عند إطلاق الخدمة (أغسطس 2023)، وقد يكون عُدّل، فتحقق من السقف الظاهر في مساند";
     return tableWrap(a.caption || cap, en ? ["Nationality", "Cap (SAR)"] : ["الجنسية", "السقف (ريال)"], rows);
   },
+  "ksa-recruit-caps"(a) {
+    const en = a.lang === "en";
+    const R = calc.rules.sa.recruitCost;
+    const N = en
+      ? { PH: "Philippines", LK: "Sri Lanka", BD: "Bangladesh", TH: "Thailand", KE: "Kenya", UG: "Uganda", SL: "Sierra Leone", BI: "Burundi", ET: "Ethiopia", TZ: "Tanzania" }
+      : { PH: "الفلبين", LK: "سريلانكا", BD: "بنغلاديش", TH: "تايلاند", KE: "كينيا", UG: "أوغندا", SL: "سيراليون", BI: "بوروندي", ET: "إثيوبيا", TZ: "تنزانيا" };
+    const f2 = (n) => (Number.isInteger(n) ? fmt0.format(n) : n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    const df = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+    const rows = R.caps.map((c) => {
+      const gross = c.vatIncluded ? c.max : Math.round(c.max * (1 + R.vatRate) * 100) / 100;
+      const avg = R.avgJul2026[c.nat];
+      return [N[c.nat], `${fmt0.format(c.max)}${c.vatIncluded ? (en ? " (incl. VAT)" : " (شامل الضريبة)") : ""}`, f2(gross), avg ? fmt0.format(avg) : "—", df.format(new Date(`${c.since}T00:00:00Z`))];
+    });
+    return tableWrap(
+      a.caption || (en ? "Amounts in SAR. Averages are Musaned's July 2026 contract averages, including VAT." : "المبالغ بالريال. المتوسط من بيانات مساند لعقود يوليو 2026 شاملاً الضريبة."),
+      en ? ["Nationality", "Cap", "Cap with 15% VAT", "Average paid (Jul 2026)", "Cap set on"] : ["الجنسية", "السقف", "السقف مع الضريبة 15%", "متوسط المدفوع (يوليو 2026)", "تاريخ السقف"],
+      rows
+    );
+  },
+  "qa-recruit-caps"(a) {
+    const en = a.lang === "en";
+    const Q = calc.rules.qa.recruitCost;
+    const N = en ? { ID: "Indonesia", LK: "Sri Lanka", PH: "Philippines", BD: "Bangladesh", IN: "India", KE: "Kenya", ET: "Ethiopia" } : { ID: "إندونيسيا", LK: "سريلانكا", PH: "الفلبين", BD: "بنغلاديش", IN: "الهند", KE: "كينيا", ET: "إثيوبيا" };
+    const rows = Object.entries(Q.caps).map(([k, v]) => [N[k], fmt0.format(v), fmt0.format((v * Q.depositPct) / 100)]);
+    return tableWrap(a.caption || (en ? "Amounts in QAR, covering all recruitment costs and fees except quarantine" : "المبالغ بالريال القطري، وتشمل كل تكاليف الاستقدام ورسومه عدا الحجر الصحي"), en ? ["Nationality", "Maximum price", "50% due at contract"] : ["الجنسية", "الحد الأعلى للسعر", "50% عند التعاقد"], rows);
+  },
+  "qa-recruit-refund"(a) {
+    const en = a.lang === "en";
+    const cost = Number(a.cost || 15000);
+    const Q = calc.rules.qa.recruitCost;
+    const rows = [];
+    for (let m = 1; m <= Q.preliminaryMonths + Q.additionalMonths; m++) {
+      const r = calc.qaRecruitRefund({ cost, month: m });
+      rows.push([en ? `Month ${m}` : `الشهر ${m}`, `${r.pct}%`, fmt0.format(r.refund) + (r.stage === "preliminary" ? (en ? " minus government fees" : " ناقص الرسوم الحكومية") : "")]);
+    }
+    rows.push([en ? "After month 9" : "بعد الشهر 9", "0%", en ? "No refund" : "لا استرداد"]);
+    return tableWrap(a.caption || (en ? `Refund on a recruitment cost of QAR ${fmt0.format(cost)}` : `المسترد من تكلفة استقدام ${fmt0.format(cost)} ريال`), en ? ["When the case occurs", "Share refunded", "Refund (QAR)"] : ["متى وقعت الحالة", "النسبة المستردة", "المسترد (ريال)"], rows);
+  },
+  "kw-recruit-residence"(a) {
+    const en = a.lang === "en";
+    const rows = [1, 2, 3, 4, 5].map((n) => {
+      const k = calc.kwDomesticResidenceFee({ sponsor: "kuwaiti", n }).fee;
+      const e = calc.kwDomesticResidenceFee({ sponsor: "expat", n });
+      return [en ? `Worker no. ${n}` : `العامل ${n}`, fmt0.format(k), n === 5 ? (en ? `${fmt0.format(e.fee)} (assumed)` : `${fmt0.format(e.fee)} (مفترض)`) : fmt0.format(e.fee)];
+    });
+    return tableWrap(a.caption || (en ? "Annual residence fee per domestic worker in KWD, in force from 23 December 2025" : "رسم الإقامة السنوي لكل عامل منزلي بالدينار، النافذ من 23 ديسمبر 2025"), en ? ["Worker", "Kuwaiti family", "Expat family"] : ["العامل", "أسرة كويتية", "أسرة وافدة"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

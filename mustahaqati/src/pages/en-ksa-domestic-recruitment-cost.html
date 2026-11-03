@@ -1,0 +1,163 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-housemaid-recruitment-cost-calculator",
+  "alternate": "ksa-domestic-recruitment-cost",
+  "title": "Saudi Housemaid Recruitment Cost Calculator 2026 — Caps by Nationality, Fees and Refunds",
+  "h1": "Saudi Domestic Worker Recruitment Cost Calculator",
+  "description": "Calculate the cost of recruiting a housemaid in Saudi Arabia in 2026: the ministry cap by nationality (Philippines SAR 14,700, Sri Lanka 13,800, Kenya 9,000, Ethiopia 5,900) plus VAT, the SAR 2,000 visa fee, iqama, the SAR 9,600 levy on extra workers, salary, and how much you get back if the worker refuses to work or arrives late.",
+  "short": "Nationality cap plus VAT, SAR 2,000 visa, iqama and the levy on a 5th worker",
+  "lead": "Choose the worker's nationality, leave the price empty to use the cap or enter the office's price, and see the cost at contract, in the first year and over the contract, or calculate a refund.",
+  "country": "sa",
+  "category": "fees",
+  "tool": true,
+  "script": "en-ksa-domestic-recruitment.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-domestic-worker", "en-ksa-transfer-of-services-fees", "en-uae-domestic-worker", "en-qatar-domestic-recruitment-cost", "en-kuwait-domestic-recruitment-cost", "en-ksa-dependents-fee"],
+  "faq": [
+    {"q": "How much does it cost to hire a Filipina housemaid in Saudi Arabia in 2026?", "a": "The Ministry of Human Resources cap is SAR 14,700 before VAT, or SAR 16,905 with it, and the average paid on Musaned in July 2026 was about SAR 14,316 including VAT. With the SAR 2,000 visa fee, the SAR 172.50 e-service fee, the SAR 600 iqama and a SAR 1,500 salary for a year, the first year at the cap comes to about SAR 37,677.50 before insurance."},
+    {"q": "What is the recruitment cap for Ethiopian and Kenyan housemaids?", "a": "Ethiopia SAR 5,900, Kenya 9,000, Uganda 8,300, Burundi and Sierra Leone 7,500 each, and Tanzania 5,700 including VAT; 15% VAT is added to the others. The cap is a maximum, and the average actually paid is lower for African nationalities."},
+    {"q": "Does the recruitment cap include VAT?", "a": "No, except for Tanzania. The ministry's decisions say the price excludes VAT, so 15% is added to the caps for the Philippines, Sri Lanka, Bangladesh, Thailand, Kenya, Uganda, Sierra Leone, Burundi and Ethiopia. Tanzania's SAR 5,700 cap includes VAT."},
+    {"q": "How much is the domestic worker visa fee in Saudi Arabia?", "a": "SAR 2,000, as reported by the press citing Musaned, unchanged since at least 2014, plus a SAR 150 e-service fee before VAT. The ministry's page describes the visa request as free, so check the amount when you pay. A replacement visa has no government fee if the worker leaves for good within 90 days of entry."},
+    {"q": "When is the levy on domestic workers due?", "a": "When a citizen has more than 4 domestic workers or a resident more than 2: SAR 9,600 a year for each extra worker, applying to existing and new workers since 11 May 2023."},
+    {"q": "How much do I get back if the housemaid refuses to work or runs away?", "a": "Within 90 days of arrival the office refunds the cost as cost ÷ contract months × months remaining, so on a SAR 16,905 two-year contract with a refusal in month 2 it refunds SAR 15,496.25. After 90 days the contract insurance covers the case with the same formula, up to the lower of the cost and SAR 20,000. If she does not arrive within 90 days plus a 30-day extension, the amount is refunded with 20% of the contract value."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — recruitment cost caps reduced (15/1/2024)", "u": "https://www.hrsd.gov.sa/media-center/news/150120241"},
+    {"t": "SPA — recruitment costs cut for six nationalities (15/1/2024)", "u": "https://www.spa.gov.sa/N2029353"},
+    {"t": "Ministry of Human Resources — Tanzania cap SAR 5,700 including VAT (20/10/2024)", "u": "https://www.hrsd.gov.sa/media-center/news/171020241"},
+    {"t": "Ministry of Human Resources — caps of 14/9/2022 (Thailand 10,000 excluding VAT)", "u": "https://www.hrsd.gov.sa/media-center/news/1166867"},
+    {"t": "Ministry of Human Resources — levy on extra domestic workers", "u": "https://www.hrsd.gov.sa/en/media-center/news/33202023"},
+    {"t": "Ministry of Human Resources — mandatory domestic worker contract insurance from 1/2/2024", "u": "https://www.hrsd.gov.sa/media-center/news/251220231"},
+    {"t": "Insurance Authority — standard policy for domestic worker contracts", "u": "https://www.ia.gov.sa/documents/Rules/The_Standard_Insurance_Policy_on_Domestic_Workers_Contract.pdf"},
+    {"t": "Musaned — regulations for granting visas", "u": "https://www.musaned.com.sa/ar/regulations-for-granting-visas"},
+    {"t": "Okaz — Musaned average recruitment costs for July 2026 (12/8/2026)", "u": "https://www.okaz.com.sa/local/na/2261027"},
+    {"t": "Okaz — SAR 2,000 visa fee, SAR 150 e-service fee and replacement visa (17/11/2022)", "u": "https://www.okaz.com.sa/ampArticle/2119514"},
+    {"t": "Okaz — deporting a worker who refuses and the refund formula (28/11/2022)", "u": "https://www.okaz.com.sa/ampArticle/2120385"},
+    {"t": "Ajel citing Musaned — 90-day recruitment period, extension and 20% penalty (25/8/2024)", "u": "https://ajel.sa/thehour/mm68ksx082"},
+    {"t": "Gulf News — Musaned fees for hiring domestic workers (28/2/2024)", "u": "https://gulfnews.com/world/gulf/saudi/saudi-arabia-details-of-fees-for-hiring-domestic-workers-on-musaned-platform-1.101329175"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the recruitment cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">What do you want to calculate?</label>
+        <select id="mode" name="mode">
+          <option value="cost" selected>Recruitment cost and first year</option>
+          <option value="refund">Refund from the office or insurance</option>
+        </select>
+      </div>
+
+      <div class="field" data-cost>
+        <label for="nationality">Worker's nationality</label>
+        <select id="nationality" name="nationality">
+          <option value="PH" selected>Philippines</option>
+          <option value="LK">Sri Lanka</option>
+          <option value="BD">Bangladesh</option>
+          <option value="TH">Thailand</option>
+          <option value="KE">Kenya</option>
+          <option value="UG">Uganda</option>
+          <option value="SL">Sierra Leone</option>
+          <option value="BI">Burundi</option>
+          <option value="ET">Ethiopia</option>
+          <option value="TZ">Tanzania</option>
+          <option value="other">Indonesia, India or other (no published cap)</option>
+        </select>
+      </div>
+      <div class="field" data-cost>
+        <label for="price">Office contract price including VAT (optional)</label>
+        <input type="number" id="price" name="price" inputmode="decimal" min="0" step="1" placeholder="Empty = cap">
+        <span class="hint">Leave empty to use the cap, or enter the price shown on Musaned.</span>
+      </div>
+      <div class="field" data-cost>
+        <label for="employer">Employer</label>
+        <select id="employer" name="employer">
+          <option value="citizen" selected>Saudi citizen (up to 4 domestic workers exempt)</option>
+          <option value="resident">Resident (up to 2 exempt)</option>
+        </select>
+      </div>
+      <div class="field" data-cost>
+        <label for="existingCount">Domestic workers you have now (before this one)</label>
+        <input type="number" id="existingCount" name="existingCount" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field" data-cost>
+        <label for="salary">Monthly salary (SAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="50" value="1500">
+        <span class="hint">No Saudi statutory minimum. The Philippine floor is USD 400 (SAR 1,500); Thailand SAR 1,875.</span>
+      </div>
+      <div class="field" data-cost>
+        <label for="insurance">Contract insurance premium if billed separately (optional)</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Mandatory for the first two years of new contracts; the premium is not published and appears on the contract invoice.</span>
+      </div>
+
+      <div class="field" data-refund>
+        <label for="reason">Case</label>
+        <select id="reason" name="reason">
+          <option value="refusal" selected>Refused to work, absent or ran away</option>
+          <option value="late">Did not arrive within 90 days plus a 30-day extension</option>
+          <option value="cancel">I cancelled during the extension</option>
+        </select>
+      </div>
+      <div class="field" data-refund>
+        <label for="cost">Recruitment cost paid to the office (SAR)</label>
+        <input type="number" id="cost" name="cost" inputmode="decimal" min="0" step="1" value="16905">
+      </div>
+      <div class="field" data-refund data-month>
+        <label for="month">In which month of the contract did it happen?</label>
+        <input type="number" id="month" name="month" inputmode="decimal" min="1" max="24" step="1" value="2">
+        <span class="hint">The first three months from arrival are the office's guarantee; after that, the contract insurance.</span>
+      </div>
+      <div class="field" data-refund data-month>
+        <label for="contractMonths">Contract length in months</label>
+        <input type="number" id="contractMonths" name="contractMonths" inputmode="decimal" min="1" max="60" step="1" value="24">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Recruitment cost caps by nationality in 2026</h2>
+{{table:ksa-recruit-caps lang=en}}
+<p>The Ministry of Human Resources sets the maximum price of the recruitment contract with an office or company for ten nationalities and monitors it through Musaned. The last general cut was on 15 January 2024 and the last nationality added was Tanzania on 20 October 2024; we found no change in 2025 or 2026. No cap is published for Indonesia, India, Nepal, Gambia or Somalia, so enter the office's price for these.</p>
+
+<h2>What fees are there besides the office price?</h2>
+<ul>
+  <li><strong>Visa fee:</strong> SAR 2,000, unchanged since at least 2014 as reported by the press citing Musaned. The ministry's page calls the visa request free, so check the amount when you pay.</li>
+  <li><strong>Musaned e-service fee:</strong> SAR 150 before VAT, or SAR 172.50 with it.</li>
+  <li><strong>Iqama issue:</strong> SAR 600 for a domestic worker; since July 2026 it can be issued and renewed for periods starting at 3 months.</li>
+  <li><strong>Expat levy:</strong> SAR 9,600 a year for each domestic worker above 4 for a citizen and above 2 for a resident. There is no separate work permit fee for domestic workers.</li>
+  <li><strong>Domestic worker contract insurance:</strong> mandatory since 1 February 2024 for the first two years of new contracts. The premium is not published and varies with occupation, nationality, age, wage and contract cost.</li>
+  <li><strong>Replacement visa:</strong> no government fee if the worker leaves for good within 90 days of first entry.</li>
+</ul>
+<p>None of the recruitment, work permit, transfer or occupation-change costs may be charged to the worker; the penalty is a fine of up to SAR 20,000 and a 3-year recruitment ban.</p>
+
+<h2>How much is a housemaid's salary in Saudi Arabia?</h2>
+<p>Saudi Arabia has no statutory minimum wage for domestic workers; the floors are set by sending countries: the Philippines USD 400 (SAR 1,500) and Thailand USD 500 (SAR 1,875). Manila raised its floor to USD 500 in August 2025, but later reports said the Gulf was exempted and the position is contested, so agree the salary in the contract. Since 1 January 2026 all domestic worker salaries are paid electronically through Musaned to an account or wallet in the worker's name.</p>
+
+<h2>When do you get the recruitment cost back?</h2>
+<ul>
+  <li><strong>Within 90 days of arrival:</strong> if the worker refuses to work, the office deports her and refunds (total cost ÷ contract months) × months remaining.</li>
+  <li><strong>After 90 days:</strong> responsibility moves to the employer, and the contract insurance covers absence, running away and refusal to work with the same formula, up to the lower of the recruitment cost and SAR 20,000, with an overall policy limit of SAR 25,000.</li>
+  <li><strong>Late arrival:</strong> the maximum is 90 days from payment, then a 30-day extension. If she still does not arrive, the amount is refunded with a 20% penalty of the contract value; cancelling during the extension refunds it with 15%.</li>
+  <li><strong>Complaints:</strong> from your Musaned account: Contracts, then Contract details, then Submit a complaint.</li>
+</ul>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Filipina at the cap for a citizen with fewer than 5 workers: 16,905 + 2,000 + 172.50 + 600 + salary 1,500 × 12 = <strong>SAR 37,677.50</strong> in the first year, about SAR 2,344.90 a month over a two-year contract.<br>
+Ethiopian at the cap with a SAR 1,000 salary: 6,785 + 2,000 + 172.50 + 600 + 12,000 = <strong>SAR 21,557.50</strong>.<br>
+Refusal in month 2 of a SAR 16,905 two-year contract: 16,905 ÷ 24 × 22 = <strong>SAR 15,496.25</strong> refunded by the office.</p>
+</div>
+
+<p>Once the worker arrives, see her <a href="{{root}}en/saudi-domestic-worker-end-of-service-calculator/{{ix}}">end-of-contract entitlements</a>, and if you later transfer her services, the <a href="{{root}}en/saudi-sponsorship-transfer-fee-calculator/{{ix}}">transfer fee calculator</a>.</p>
+</div>

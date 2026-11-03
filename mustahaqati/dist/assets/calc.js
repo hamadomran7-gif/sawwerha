@@ -1300,6 +1300,103 @@ export function ksaTransferConsent({ monthsInKsa = 0, contract = "active", iqama
   return { consent: true, notice: false, route: "consent", monthsToGo: T.noConsentMonths - Math.max(0, Math.floor(Number(monthsInKsa) || 0)) };
 }
 
+/**
+ * تكلفة استقدام عاملة منزلية في السعودية: سعر العقد (السقف حسب الجنسية أو السعر المتفق عليه شاملاً الضريبة)،
+ * ورسم التأشيرة 2,000، والخدمة الإلكترونية في مساند 150 + الضريبة، والإقامة 600، والمقابل 9,600 للعامل الزائد، والأجر.
+ * price: سعر العقد شاملاً الضريبة؛ فارغ = السقف.
+ */
+export function ksaRecruitCost({ nationality = "PH", price = null, employer = "citizen", existingCount = 0, salary = 0, insurance = 0 } = {}) {
+  const R = rules.sa.recruitCost;
+  const capRow = R.caps.find((c) => c.nat === nationality) || null;
+  const capGross = capRow ? (capRow.vatIncluded ? capRow.max : r2(capRow.max * (1 + R.vatRate))) : null;
+  const hasPrice = price !== null && price !== "" && !isNaN(Number(price)) && Number(price) > 0;
+  if (!hasPrice && !capRow) return { nationality, needPrice: true };
+  const contract = hasPrice ? r2(Number(price)) : capGross;
+  const contractNet = r2(contract / (1 + R.vatRate));
+  const service = r2(R.musanedServiceFee * (1 + R.vatRate));
+  const upfront = r2(contract + R.visaFee + service);
+  const free = employer === "resident" ? R.levy.residentFree : R.levy.citizenFree;
+  const workerNo = Math.max(0, Math.floor(Number(existingCount) || 0)) + 1;
+  const levy = workerNo > free ? R.levy.perYear : 0;
+  const ins = Math.max(0, Number(insurance) || 0);
+  const wage = Math.max(0, Number(salary) || 0);
+  const firstYear = r2(upfront + R.iqamaIssueFee + levy + ins + wage * 12);
+  const twoYears = r2(upfront + R.iqamaIssueFee * 2 + levy * 2 + ins + wage * 24);
+  const avg = R.avgJul2026[nationality] || null;
+  return {
+    nationality, cap: capRow ? capRow.max : null, capVatIncluded: capRow ? !!capRow.vatIncluded : null, capGross, capSince: capRow ? capRow.since : null,
+    usedCap: !hasPrice, contract, contractNet, contractVat: r2(contract - contractNet), overCap: !!(hasPrice && capGross && contract > capGross + 0.005),
+    visa: R.visaFee, service, upfront, iqama: R.iqamaIssueFee, levy, workerNo, free, insurance: ins, wage, wages: wage * 12,
+    firstYear, twoYears, perMonth: r2(twoYears / 24), avg, arrivalDays: R.arrivalDaysJul2026[nationality] || null,
+  };
+}
+
+/**
+ * استرداد تكلفة الاستقدام في السعودية: خلال 90 يوماً من الوصول يرد المكتب (التكلفة ÷ أشهر العقد × المتبقي)،
+ * وبعدها يغطي التأمين بالمعادلة نفسها بحد أدنى بين التكلفة و20,000. late: لم تصل بعد 90 + 30 يوماً = المبلغ + 20%،
+ * cancel: الإلغاء خلال التمديد = المبلغ + 15%.
+ */
+export function ksaRecruitRefund({ cost = 0, contractMonths = 24, month = 1, reason = "refusal" } = {}) {
+  const R = rules.sa.recruitCost;
+  const c = Math.max(0, Number(cost) || 0);
+  if (reason === "late") return { reason, payer: "office", refund: r2(c * (1 + R.latePenaltyPct / 100)), extra: r2((c * R.latePenaltyPct) / 100) };
+  if (reason === "cancel") return { reason, payer: "office", refund: r2(c * (1 + R.cancelInExtensionPct / 100)), extra: r2((c * R.cancelInExtensionPct) / 100) };
+  const n = Math.max(1, Math.floor(Number(contractMonths) || R.contractMonths));
+  const m = Math.min(n, Math.max(1, Math.floor(Number(month) || 1)));
+  const remaining = n - m;
+  const raw = r2((c / n) * remaining);
+  const inGuarantee = m <= 3;
+  const cap = Math.min(c, R.insuranceReplacementCap);
+  const refund = inGuarantee ? raw : Math.min(raw, cap);
+  return { reason, payer: inGuarantee ? "office" : "insurance", month: m, contractMonths: n, remaining, perMonth: r2(c / n), raw, refund: r2(refund), capped: !inGuarantee && raw > cap, cap };
+}
+
+/** استرداد تكلفة الاستقدام في قطر (القرار 61/2026): الأشهر 1–3 كامل المبلغ ناقص الرسوم الحكومية، ثم يُخصم 15% عن كل شهر حتى التاسع. */
+export function qaRecruitRefund({ cost = 0, month = 1, govFees = 0 } = {}) {
+  const Q = rules.qa.recruitCost;
+  const c = Math.max(0, Number(cost) || 0);
+  const m = Math.max(1, Math.floor(Number(month) || 1));
+  const last = Q.preliminaryMonths + Q.additionalMonths;
+  if (m > last) return { month: m, refund: 0, pct: 0, expired: true, last };
+  if (m <= Q.preliminaryMonths) {
+    const g = Math.min(c, Math.max(0, Number(govFees) || 0));
+    return { month: m, stage: "preliminary", pct: 100, govFees: g, refund: r2(c - g), last };
+  }
+  const pct = 100 - Q.deductionPctPerMonth * (m - Q.preliminaryMonths);
+  return { month: m, stage: "additional", pct, govFees: 0, refund: r2((c * pct) / 100), last };
+}
+
+/** رسم إقامة العامل المنزلي في الكويت (اللائحة النافذة 23/12/2025): للعامل رقم n لدى الأسرة. */
+export function kwDomesticResidenceFee({ sponsor = "kuwaiti", n = 1 } = {}) {
+  const S = rules.kw.recruitCost.residence[sponsor === "expat" ? "expat" : "kuwaiti"];
+  const k = Math.max(1, Math.floor(Number(n) || 1));
+  if (k <= S.free) return { fee: S.base, extra: false };
+  const i = k - S.free - 1;
+  return { fee: S.extra[Math.min(i, S.extra.length - 1)], extra: true, assumed: i >= S.extra.length };
+}
+
+/** تكلفة استقدام عاملة منزلية في الكويت: السقف (آسيا 750 وأفريقيا 575 شاملة التذكرة، والجواز الخاص 350) والإقامة والأجر. */
+export function kwRecruitCost({ region = "asia", price = null, sponsor = "kuwaiti", existingCount = 0, salary = 0 } = {}) {
+  const K = rules.kw.recruitCost;
+  const cap = K.caps[region] ?? null;
+  const hasPrice = price !== null && price !== "" && !isNaN(Number(price)) && Number(price) > 0;
+  const contract = hasPrice ? r2(Number(price)) : cap;
+  const res = kwDomesticResidenceFee({ sponsor, n: Math.max(0, Math.floor(Number(existingCount) || 0)) + 1 });
+  const wage = Math.max(0, Number(salary) || 0);
+  return { region, cap, contract, overCap: !!(hasPrice && cap && contract > cap), residence: res.fee, residenceExtra: res.extra, residenceAssumed: !!res.assumed, wage, wages: r2(wage * 12), firstYear: r2(contract + res.fee + wage * 12), twoYears: r2(contract + res.fee * 2 + wage * 24), belowMinWage: wage > 0 && wage < K.minWage };
+}
+
+/** تكلفة استقدام عاملة منزلية في قطر: السقف حسب الجنسية (يشمل كل التكاليف عدا الحجر)، و50% عند التعاقد، والأجر (1,000 أساسي + 500 سكن + 300 طعام إن لم يوفَّرا). */
+export function qaRecruitCost({ nationality = "PH", price = null, salary = 1000, housing = false, food = false } = {}) {
+  const Q = rules.qa.recruitCost;
+  const cap = Q.caps[nationality] ?? null;
+  const hasPrice = price !== null && price !== "" && !isNaN(Number(price)) && Number(price) > 0;
+  if (!hasPrice && cap === null) return { nationality, needPrice: true };
+  const contract = hasPrice ? r2(Number(price)) : cap;
+  const wage = Math.max(0, Number(salary) || 0) + (housing ? Q.minWage.housing : 0) + (food ? Q.minWage.food : 0);
+  return { nationality, cap, contract, overCap: !!(hasPrice && cap !== null && contract > cap), deposit: r2((contract * Q.depositPct) / 100), wage, wages: r2(wage * 12), firstYear: r2(contract + wage * 12), belowMinWage: (Number(salary) || 0) > 0 && (Number(salary) || 0) < Q.minWage.basic };
+}
+
 /** تأشيرة الخروج والعودة: المفردة 200 لشهرين ثم 100 للشهر، والمتعددة 500 لثلاثة أشهر ثم 200، وجزء الشهر شهر. */
 export function ksaExitReentryFee({ type = "single", days = 60, persons = 1, extendMonths = 0, outside = false }) {
   const E = rules.sa.expatFees.exitReentry;

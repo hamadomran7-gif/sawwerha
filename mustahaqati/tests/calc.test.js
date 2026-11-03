@@ -3,6 +3,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaRecruitCost,
+  ksaRecruitRefund,
+  qaRecruitRefund,
+  qaRecruitCost,
+  kwRecruitCost,
   ksaTransferCost,
   ksaTransferConsent,
   serviceDuration,
@@ -1697,4 +1702,36 @@ test("موافقة صاحب العمل على نقل الخدمات", () => {
   assert.equal(ksaTransferConsent({ monthsInKsa: 3, contract: "ended" }).route, "contract-ended");
   assert.equal(ksaTransferConsent({ monthsInKsa: 3, contract: "unpaid" }).consent, false);
   assert.equal(ksaTransferConsent({ monthsInKsa: 3, iqamaExpired: true }).route, "expired");
+});
+
+test("تكلفة استقدام عاملة منزلية: أمثلة الدفعة 31", () => {
+  const ph = ksaRecruitCost({ nationality: "PH", salary: 1500 });
+  assert.equal(ph.contract, 16905);
+  assert.equal(ph.upfront, 19077.5);
+  assert.equal(ph.firstYear, 37677.5);
+  assert.equal(ph.twoYears, 56277.5);
+  assert.equal(ph.perMonth, 2344.9);
+  assert.equal(ksaRecruitCost({ nationality: "PH", price: 14316, salary: 1500 }).firstYear, 35088.5);
+  assert.equal(ksaRecruitCost({ nationality: "ET", salary: 1000 }).firstYear, 21557.5);
+  assert.equal(ksaRecruitCost({ nationality: "PH", salary: 1500, existingCount: 4 }).firstYear, 47277.5);
+  assert.equal(ksaRecruitCost({ nationality: "PH", salary: 1500, employer: "resident", existingCount: 2 }).levy, 9600);
+  assert.equal(ksaRecruitCost({ nationality: "TZ" }).contract, 5700);
+  assert.equal(ksaRecruitCost({ nationality: "PH", price: 18000 }).overCap, true);
+  assert.equal(ksaRecruitCost({ nationality: "ID" }).needPrice, true);
+  assert.equal(ksaRecruitRefund({ cost: 16905, month: 2 }).refund, 15496.25);
+  assert.equal(ksaRecruitRefund({ cost: 16905, month: 2 }).payer, "office");
+  assert.equal(ksaRecruitRefund({ cost: 16905, month: 8 }).refund, 11270);
+  assert.equal(ksaRecruitRefund({ cost: 16905, month: 8 }).payer, "insurance");
+  assert.equal(ksaRecruitRefund({ cost: 24000, month: 4 }).refund, 20000);
+  assert.equal(ksaRecruitRefund({ cost: 16905, reason: "late" }).refund, 20286);
+  assert.equal(ksaRecruitRefund({ cost: 16905, reason: "cancel" }).refund, 19440.75);
+  assert.deepEqual([1, 3, 4, 5, 6, 7, 8, 9, 10].map((m) => qaRecruitRefund({ cost: 15000, month: m }).refund), [15000, 15000, 12750, 10500, 8250, 6000, 3750, 1500, 0]);
+  assert.equal(qaRecruitRefund({ cost: 15000, month: 2, govFees: 1200 }).refund, 13800);
+  assert.equal(qaRecruitCost({ nationality: "PH" }).firstYear, 27000);
+  assert.equal(qaRecruitCost({ nationality: "PH", housing: true, food: true }).firstYear, 36600);
+  assert.equal(kwRecruitCost({ region: "asia", salary: 120 }).firstYear, 2200);
+  assert.equal(kwRecruitCost({ region: "asia", salary: 150 }).firstYear, 2560);
+  assert.equal(kwRecruitCost({ region: "asia", sponsor: "expat", existingCount: 1, salary: 120 }).firstYear, 2240);
+  assert.equal(kwRecruitCost({ sponsor: "expat", existingCount: 2 }).residence, 400);
+  assert.equal(kwRecruitCost({ sponsor: "kuwaiti", existingCount: 3 }).residence, 50);
 });
