@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaFuelCost,
   uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
@@ -2197,4 +2198,11 @@ test("أسعار الوقود في الإمارات وكلفة التعبئة", 
   assert.equal(r.monthly, 646.4);
   assert.equal(r.all.diesel.tank, 285);
   assert.equal(uaeFuelCost({ fuel: "super98", tank: 50, month: "2026-01" }).prev, null);
+});
+
+test("أسعار الوقود في السعودية وكلفة التعبئة", () => {
+  const r = ksaFuelCost({ fuel: "g91", tank: 60, km: 2000, per100: 8 });
+  assert.equal(r.tankCost, 130.8);
+  assert.equal(r.monthly, 348.8);
+  assert.equal(r.all.diesel.tank, 107.4);
 });

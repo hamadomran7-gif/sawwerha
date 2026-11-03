@@ -971,6 +971,16 @@ export function uaeFuelCost({ fuel = "special95", tank = 60, km = 0, per100 = 8,
   };
 }
 
+/** أسعار الوقود في السعودية (أرامكو): كلفة تعبئة الخزان والوقود الشهري. */
+export function ksaFuelCost({ fuel = "g91", tank = 60, km = 0, per100 = 8 } = {}) {
+  const F = rules.sa.fuel;
+  const price = F.prices[fuel];
+  if (price === undefined) return null;
+  const t = Math.max(0, Number(tank) || 0), d = Math.max(0, Number(km) || 0), c = Math.max(0, Number(per100) || 0);
+  const litres = (d * c) / 100;
+  return { price, tankCost: r2(t * price), litres: r2(litres), monthly: r2(litres * price), yearly: r2(litres * price * 12), all: Object.fromEntries(["g91", "g95", "diesel"].map((k) => [k, { price: F.prices[k], tank: r2(t * F.prices[k]) }])) };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));

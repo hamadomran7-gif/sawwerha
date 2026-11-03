@@ -4556,6 +4556,33 @@ export default {
       "minAge": 21,
       "fishermenMinAge": 18,
       "until": "2032-12-31"
+    },
+    "fuel": {
+      "law": "أسعار أرامكو السعودية لمنتجات الوقود للمستهلك (المراجعة السنوية في 1 يناير 2026)، ثابتة منذ ذلك التاريخ للبنزين 91 و95 والديزل",
+      "lastReview": "2026-11-03",
+      "since": "2026-01-01",
+      "keys": [
+        "g91",
+        "g95",
+        "diesel",
+        "kerosene",
+        "lpg"
+      ],
+      "prices": {
+        "g91": 2.18,
+        "g95": 2.33,
+        "diesel": 1.79,
+        "kerosene": 1.59,
+        "lpg": 1.09
+      },
+      "prev": {
+        "diesel": 1.66
+      },
+      "g98": {
+        "launched": "2026-01",
+        "launchPrice": 2.88,
+        "monthly": true
+      }
     }
   },
   "gcc": {

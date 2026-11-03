@@ -1,0 +1,81 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-petrol-prices",
+  "alternate": "ksa-fuel-prices",
+  "title": "Saudi Petrol Prices 2026 — Full Tank and Monthly Fuel Cost Calculator (Aramco)",
+  "h1": "Saudi Fuel Prices and Fuel Cost Calculator",
+  "description": "Saudi Aramco fuel prices since 1 January 2026: gasoline 91 at SAR 2.18 a litre, gasoline 95 at 2.33, diesel at 1.79 after rising from 1.66, kerosene 1.59 and LPG 1.09, with a calculator for the cost of a full tank and your monthly and yearly fuel bill.",
+  "short": "Aramco's price per litre, full-tank cost and monthly and yearly fuel cost",
+  "lead": "Pick your fuel, tank size and monthly distance to see the cost of a full tank and your monthly fuel bill.",
+  "country": "sa",
+  "category": "tools",
+  "tool": true,
+  "script": "en-ksa-fuel.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-electricity-bill", "en-ksa-water-bill", "en-ksa-net-salary", "en-uae-fuel-prices"],
+  "faq": [
+    {"q": "What are petrol prices in Saudi Arabia in 2026?", "a": "Gasoline 91 is SAR 2.18 a litre and gasoline 95 SAR 2.33, unchanged since July 2021. Diesel is SAR 1.79 from 1 January 2026, up from 1.66."},
+    {"q": "Do Saudi petrol prices change every month?", "a": "Not for 91, 95 or diesel; Aramco reviews them once a year at the end of the year. Gasoline 98, launched in January 2026, is priced monthly."},
+    {"q": "How much does a 60-litre tank cost?", "a": "SAR 130.80 with gasoline 91, 139.80 with 95 and 107.40 with diesel."},
+    {"q": "Do the prices include VAT?", "a": "Yes, pump prices include 15% VAT."}
+  ],
+  "sources": [
+    {"t": "Attaqa — Saudi fuel prices after the diesel increase (1 Jan 2026)", "u": "https://attaqa.net/2026/01/01/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d8%a7%d9%84%d9%88%d9%82%d9%88%d8%af-%d9%81%d9%8a-%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a%d8%a9-%d8%a8%d8%b9%d8%af-%d8%b2%d9%8a%d8%a7%d8%af%d8%a9-%d8%a7%d9%84%d8%af-2/"},
+    {"t": "Almuraba — Aramco prices for September 2026 unchanged (14 Sep 2026)", "u": "https://www.almuraba.net/?p=897978"},
+    {"t": "Okaz — Aramco launches gasoline 98 at SAR 2.88 (11 Jan 2026)", "u": "https://www.okaz.com.sa/economy/na/2230656"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your fuel cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="fuel">Fuel</label>
+        <select id="fuel" name="fuel">
+          <option value="g91" selected>Gasoline 91</option>
+          <option value="g95">Gasoline 95</option>
+          <option value="diesel">Diesel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">Tank size (litres)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+        <span class="hint">Small car 40–50, sedan 60–70, SUV 80–100.</span>
+      </div>
+      <div class="field">
+        <label for="km">Monthly distance (km)</label>
+        <input type="number" id="km" name="km" inputmode="decimal" min="0" step="50" value="2000">
+      </div>
+      <div class="field">
+        <label for="per100">Consumption (litres per 100 km)</label>
+        <input type="number" id="per100" name="per100" inputmode="decimal" min="0" max="40" step="0.1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Saudi fuel prices (SAR per litre)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Product</th><th scope="col">Price</th><th scope="col">Since</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Gasoline 91</th><td>2.18</td><td>July 2021</td></tr>
+    <tr><th scope="row">Gasoline 95</th><td>2.33</td><td>July 2021</td></tr>
+    <tr><th scope="row">Diesel</th><td>1.79 (was 1.66)</td><td>1 January 2026</td></tr>
+    <tr><th scope="row">Kerosene</th><td>1.59</td><td>—</td></tr>
+    <tr><th scope="row">LPG</th><td>1.09</td><td>—</td></tr>
+    <tr><th scope="row">Gasoline 98</th><td>Changes monthly</td><td>Launched January 2026 at 2.88</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Prices include VAT. Full tank = tank size × price per litre; monthly cost = (distance × litres per 100 km ÷ 100) × price. A car driving 2,000 km a month at 8 litres per 100 km needs 160 litres, or SAR 348.80 with gasoline 91.</p>
+</div>
