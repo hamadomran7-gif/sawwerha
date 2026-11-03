@@ -406,6 +406,20 @@ const TABLES = {
       rows
     );
   },
+  /** السعودية: مكافأة نهاية الخدمة الكاملة (المادة 84) حسب سنوات الخدمة والأجر */
+  "ksa-eos-grid"(a) {
+    const en = a.lang === "en";
+    const reason = a.reason || "contract_end";
+    const wages = listNums(a.wages, [4000, 6000, 8000, 10000, 15000, 20000, 30000]);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30]);
+    const yl = (y) => (en ? `${fmt0.format(y)} ${y === 1 ? "year" : "years"}` : yearsLabel(y));
+    const rows = years.map((y) => [yl(y), ...wages.map((w) => fmt0.format(calc.ksaEndOfService({ wage: w, years: y, reason }).total))]);
+    return tableWrap(
+      a.caption || (en ? "End-of-service award in SAR (rounded)" : "المكافأة بالريال (مقرّبة لأقرب ريال)"),
+      [en ? "Service" : "مدة الخدمة", ...wages.map((w) => (en ? `Wage ${fmt0.format(w)}` : `أجر ${fmt0.format(w)}`))],
+      rows
+    );
+  },
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);

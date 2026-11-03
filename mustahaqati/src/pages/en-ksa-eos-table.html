@@ -1,0 +1,40 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-end-of-service-table",
+  "alternate": "ksa-eos-table",
+  "parent": "en-ksa-end-of-service",
+  "article": true,
+  "title": "Saudi End of Service Table 2026 — Award by Wage and Years of Service",
+  "h1": "Saudi End of Service Award Table",
+  "short": "The award for every wage from SAR 4,000 to 30,000 and 1 to 30 years of service",
+  "description": "A ready-made table of the end-of-service award in the Saudi private sector for wages from SAR 4,000 to 30,000 and service from 1 to 30 years, calculated under Article 84: half a month's wage for each of the first five years and a month's wage for each year after, with a table for resignation.",
+  "lead": "Find the row for your years of service and the column for your last actual wage to read the award. For a period in days or special resignation cases, use the calculator.",
+  "country": "sa",
+  "category": "eos",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "How much is end of service for 5 years in Saudi Arabia?", "a": "Two and a half months' wage (half a month per year): a wage of SAR 10,000 gives SAR 25,000 when the contract ends or the employer terminates it. On resignation it is only a third: SAR 8,333."},
+    {"q": "How much is the award for 10 years?", "a": "7.5 months' wage: half a month for each of the first five years (2.5 months) and a month for each of the next five (5 months). A wage of SAR 10,000 gives SAR 75,000, due in full even on resignation."},
+    {"q": "Which wage is the award based on?", "a": "The last actual wage: basic pay plus fixed allowances such as housing and transport, not basic pay alone as in the UAE."},
+    {"q": "Is there a cap on the award in Saudi Arabia?", "a": "The Saudi Labour Law sets no cap, so the award keeps rising by a month's wage for each year after the fifth."}
+  ],
+  "sources": [
+    {"t": "Saudi Labour Law — Articles 84, 85 and 87 (HRDF, English)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"},
+    {"t": "Ministry of Human Resources — official end-of-service calculator", "u": "https://www.hrsd.gov.sa/ar/services/eservices-calculator"}
+  ]
+}
+---
+<div class="article">
+<p>The table is calculated with the same formula as the <a href="{{root}}en/saudi-end-of-service-calculator/{{ix}}">Saudi end-of-service calculator</a> and assumes whole years and a constant wage.</p>
+
+<h2>Full award (contract ends or employer terminates)</h2>
+{{table:ksa-eos-grid lang=en}}
+
+<h2>Award on resignation (Article 85)</h2>
+{{table:ksa-eos-grid lang=en reason=resignation years=1,2,3,4,5,6,7,8,9,10,15,20 caption="Resignation award in SAR: nothing before 2 years, a third up to 5, two thirds up to 10, full after that"}}
+
+<h2>The formula used</h2>
+<p>Award = (half a month's wage × years of service up to 5) + (a month's wage × years beyond 5), on the last actual wage. On resignation: nothing before two years, a third of the award from two to five years, two thirds above five and below ten, and the full award from ten years. For the resignation thresholds in detail, see the <a href="{{root}}en/saudi-resignation-gratuity-table/{{ix}}">resignation loss tables</a>. Prefer Arabic? Use the <a href="{{root}}ksa-eos-table/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
