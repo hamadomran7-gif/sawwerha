@@ -1580,6 +1580,63 @@ export default {
       ],
       "daysPerMonth": 30,
       "wageBasis": "basic"
+    },
+    "pension": {
+      "law": "قانون التأمينات الاجتماعية (القانون 1/2022، نافذ 3/1/2023) المواد 11 و12 و20 و24 و29 و30 و34 و35 و36 و42 و82 و83، وقرار مجلس الوزراء 11/2024",
+      "divisor": 30,
+      "salaryCap": 100000,
+      "housingCap": 6000,
+      "housingMinYears": 15,
+      "minYears": 25,
+      "minActualYears": 20,
+      "resignMinAge": 50,
+      "retirementAge": 60,
+      "refAgeMale": 60,
+      "refAgeFemale": 55,
+      "reductionResign": 0.025,
+      "reductionDisciplinary": 0.03,
+      "privateAvgYears": 3,
+      "privateAvgCap": 1.3,
+      "minPensionGov": 15000,
+      "employeeRate": 0.07,
+      "employerRate": 0.14,
+      "lumpCapOfEmployeeShare": 1.5,
+      "legacyFullFrom": 20,
+      "legacyFullYears": 30,
+      "legacyPartialFrom": 15,
+      "legacyPartialAdd": 10,
+      "transitional": [
+        [
+          1983,
+          42,
+          12,
+          17
+        ],
+        [
+          1984,
+          44,
+          14,
+          19
+        ],
+        [
+          1985,
+          46,
+          16,
+          21
+        ],
+        [
+          1986,
+          48,
+          18,
+          23
+        ],
+        [
+          1987,
+          50,
+          20,
+          25
+        ]
+      ]
     }
   },
   "kw": {

@@ -1,0 +1,151 @@
+---json
+{
+  "title": "حاسبة التقاعد في قطر 2026 — معاش التأمينات الاجتماعية والاستقالة والتقاعد المبكر",
+  "h1": "حاسبة معاش التقاعد للقطري (قانون التأمينات الاجتماعية)",
+  "description": "احسب معاش تقاعدك في قطر وفق القانون 1/2022: جزء من ثلاثين من راتب حساب المعاش عن كل سنة اشتراك حتى 100%، وشرط 25 سنة منها 20 فعلية، وتخفيض 2.5% عن كل سنة عند الاستقالة، والحد الأدنى 15,000 ريال للحكومي، وجدول المعاش المبكر لمن كان في الخدمة قبل 2023.",
+  "short": "1/30 لكل سنة حتى 100%، و25 سنة منها 20 فعلية، وتخفيض الاستقالة 2.5% للسنة",
+  "lead": "اختر قطاعك وسبب انتهاء الخدمة، وأدخل عمرك ومدة اشتراكك وراتب حساب المعاش، ويظهر معاشك الشهري أو تعويض الدفعة الواحدة.",
+  "country": "qa",
+  "category": "salary",
+  "tool": true,
+  "script": "qatar-pension.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["qatar-end-of-service", "qatar-leave", "kuwait-pension", "bahrain-pension"],
+  "faq": [
+    {"q": "كيف يُحسب معاش التقاعد في قطر؟", "a": "على أساس جزء من ثلاثين (1/30) من راتب حساب المعاش مضروباً في عدد سنوات مدة الاشتراك، على ألا يتجاوز المعاش راتب حساب المعاش (المادة 34). فمن اشترك 30 سنة يستحق 100% من راتب حساب المعاش، ومن اشترك 27 سنة يستحق 90%."},
+    {"q": "ما راتب حساب المعاش؟", "a": "في القطاع الحكومي آخر راتب حساب اشتراك، وفي القطاع الخاص متوسط راتب حساب الاشتراك في آخر 3 سنوات بحد 130% من راتب السنة الأولى منها (المادة 29). وراتب حساب الاشتراك هو الأساسي والعلاوة الاجتماعية وبدل السكن حتى 6,000 ريال، بحد أقصى 100,000 ريال."},
+    {"q": "ما شروط استحقاق المعاش في قطر؟", "a": "في غير الوفاة والعجز: مدة اشتراك 25 سنة على الأقل منها 20 سنة خدمة فعلية. وفي الاستقالة يُشترط أيضاً بلوغ 50 سنة، فإن قل العمر لا يُصرف المعاش إلا بعد بلوغها وتقديم الطلب. وسن التقاعد بحسب نظام الوظيفة على ألا يقل عن 60 (المادة 24)."},
+    {"q": "كم يُخفَّض المعاش عند الاستقالة؟", "a": "2.5% عن كل سنة من الفرق بين العمر عند انتهاء الخدمة و60 سنة للرجل أو 55 للمرأة، وكذلك عند انتهاء الخدمة لأسباب أخرى. وفي الفصل التأديبي أو الحكم في جريمة مخلة بالشرف 3% عن كل سنة (المادة 36)."},
+    {"q": "ما شروط المعاش المبكر لمن كان موظفاً قبل 2023؟", "a": "حدد قرار مجلس الوزراء 11/2024 حدوداً انتقالية بحسب سنة الميلاد لمن انتهت خدمته بالاستقالة أو الفصل أو لأسباب أخرى: مواليد 1983 وما قبلها 42 سنة عمراً و12 خدمة فعلية و17 اشتراكاً، ثم تزيد سنتين لكل مواليد سنة حتى مواليد 1987 فما بعدها: 50 و20 و25."},
+    {"q": "هل يحصل من اشترك قبل 2023 على معاش كامل عند سن التقاعد؟", "a": "نعم بشروط المادة 82: من كان خاضعاً للقانون 24/2002 وبلغ سن التقاعد ومدة اشتراكه 20 سنة أو أكثر يُسوى معاشه على 30 سنة، أي 100% من راتب حساب المعاش، ومن كانت مدته من 15 إلى أقل من 20 سنة يُسوى على 25 إلى 29 سنة، وتتحمل الخزانة العامة الفرق."},
+    {"q": "كم الحد الأدنى لمعاش التقاعد في قطر؟", "a": "15,000 ريال لصاحب المعاش من القطاع الحكومي، ما عدا حالات الاستقالة والفصل وانتهاء الخدمة لأسباب أخرى، وتتحمل الخزانة العامة تكلفته. ويجوز بموافقة مجلس الوزراء تطبيقه على القطاع الخاص (المادة 30)."},
+    {"q": "ماذا لو لم تتوافر شروط المعاش؟", "a": "يُصرف تعويض الدفعة الواحدة إذا تجاوزت مدة الاشتراك سنة (المادة 42)، وتحدده اللائحة براتب حساب المعاش عن كل سنة اشتراك بحد 150% من حصة المؤمن عليه المسددة، ويُصرف في حالات منها بلوغ 50 سنة أو العجز. وإن قلّت المدة عن سنة تُرد اشتراكات المؤمن عليه فقط."},
+    {"q": "كم نسبة اشتراك التأمينات في قطر؟", "a": "21% من راتب حساب الاشتراك بحد 100,000 ريال: 7% تُستقطع من الموظف و14% تدفعها جهة العمل (المادة 11)."}
+  ],
+  "sources": [
+    {"t": "الميزان — القانون 1/2022 بإصدار قانون التأمينات الاجتماعية (النص الرسمي)", "u": "https://almeezan.qa/legislations/ff5e6696-5502-42af-b342-c2f9882cec6a"},
+    {"t": "الوطن — جدول المعاش المبكر بقرار مجلس الوزراء 11/2024 (يونيو 2024)", "u": "https://www.al-watan.com/article/126311/%D8%A7%D9%84%D9%88%D8%B7%D9%86/%D8%B4%D8%B1%D9%88%D8%B7-%D9%84%D8%A7%D8%B3%D8%AA%D8%AD%D9%82%D8%A7%D9%82-%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%B4-%D8%A7%D9%84%D9%85%D8%A8%D9%83%D8%B1"},
+    {"t": "The Peninsula — اللائحة التنفيذية وتعويض الدفعة الواحدة (يناير 2025)", "u": "https://thepeninsulaqatar.com/article/26/01/2025/executive-regulations-of-social-insurance-law-aim-to-enhance-transparency-efficiency-grsia"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب معاشك التقاعدي</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">القطاع</label>
+        <select id="sector" name="sector">
+          <option value="gov" selected>حكومي</option>
+          <option value="private">خاص</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gender">الجنس</label>
+        <select id="gender" name="gender">
+          <option value="m" selected>رجل</option>
+          <option value="f">امرأة</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="reason">سبب انتهاء الخدمة</label>
+        <select id="reason" name="reason">
+          <option value="age" selected>بلوغ سن التقاعد (60 فأكثر)</option>
+          <option value="resign">الاستقالة</option>
+          <option value="other">انتهاء الخدمة لأسباب أخرى (مثل إنهاء العقد)</option>
+          <option value="disciplinary">الفصل التأديبي أو بحكم في جريمة مخلة بالشرف</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ageYears">العمر عند انتهاء الخدمة: سنوات</label>
+        <input type="number" id="ageYears" name="ageYears" inputmode="decimal" min="18" max="80" step="1" value="60" required>
+      </div>
+      <div class="field">
+        <label for="ageMonths">وأشهر</label>
+        <input type="number" id="ageMonths" name="ageMonths" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">مدة الاشتراك: سنوات</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="27" required>
+      </div>
+      <div class="field">
+        <label for="months">وأشهر</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="actualYears">منها خدمة فعلية (سنوات، اختياري)</label>
+        <input type="number" id="actualYears" name="actualYears" inputmode="decimal" min="0" max="50" step="1" placeholder="كل المدة">
+        <span class="hint">دون المدد المشتراة أو المضمومة. اتركه فارغاً إن كانت كل المدة فعلية.</span>
+      </div>
+      <div class="field">
+        <label for="salary" data-salary>آخر راتب حساب اشتراك (ريال)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="24000" required>
+        <span class="hint">الأساسي والعلاوة الاجتماعية وبدل السكن حتى 6,000، بحد 100,000.</span>
+      </div>
+      <div class="field" data-private>
+        <label for="firstYearSalary">راتب أول السنوات الثلاث الأخيرة (اختياري)</label>
+        <input type="number" id="firstYearSalary" name="firstYearSalary" inputmode="decimal" min="0" step="100" placeholder="لتطبيق حد 130%">
+      </div>
+      <div class="field">
+        <label for="legacy">كنت مشتركاً قبل 3 يناير 2023 (القانون 24/2002)؟</label>
+        <select id="legacy" name="legacy">
+          <option value="yes" selected>نعم</option>
+          <option value="no">لا</option>
+        </select>
+      </div>
+      <div class="field" data-early>
+        <label for="birthYear">سنة الميلاد</label>
+        <input type="number" id="birthYear" name="birthYear" inputmode="decimal" min="1950" max="2008" step="1" value="1980">
+        <span class="hint">لتطبيق جدول المعاش المبكر الانتقالي (القرار 11/2024).</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد المعاش في قانون التأمينات الاجتماعية القطري</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">القاعدة</th><th scope="col">المادة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المعاش</th><td>1/30 من راتب حساب المعاش × سنوات الاشتراك، بحد 100%</td><td>34</td></tr>
+    <tr><th scope="row">راتب حساب المعاش</th><td>الحكومي: آخر راتب اشتراك. الخاص: متوسط 3 سنوات بحد 130% من راتب أولاها</td><td>29</td></tr>
+    <tr><th scope="row">شروط الاستحقاق</th><td>25 سنة اشتراك منها 20 فعلية، و50 سنة في الاستقالة</td><td>24</td></tr>
+    <tr><th scope="row">التخفيض</th><td>2.5% للسنة (الاستقالة وأسباب أخرى)، 3% (الفصل التأديبي)، دون 60 للرجل و55 للمرأة</td><td>36</td></tr>
+    <tr><th scope="row">الحد الأدنى</th><td>15,000 ريال للحكومي عدا الاستقالة والفصل والأسباب الأخرى</td><td>30</td></tr>
+    <tr><th scope="row">كسور المدة والسن</th><td>جزء الشهر شهر، وما زاد على 6 أشهر سنة كاملة</td><td>20 و35</td></tr>
+    <tr><th scope="row">المشتركون قبل 2023 عند سن التقاعد</th><td>20 سنة فأكثر تُسوى على 30، ومن 15 إلى أقل من 20 على 25 إلى 29</td><td>82</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>جدول المعاش المبكر لمن كان في الخدمة قبل 2023 (القرار 11/2024)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">مواليد</th><th scope="col">أدنى سن</th><th scope="col">أدنى خدمة فعلية</th><th scope="col">أدنى مدة اشتراك</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1983 وما قبلها</th><td>42</td><td>12</td><td>17</td></tr>
+    <tr><th scope="row">1984</th><td>44</td><td>14</td><td>19</td></tr>
+    <tr><th scope="row">1985</th><td>46</td><td>16</td><td>21</td></tr>
+    <tr><th scope="row">1986</th><td>48</td><td>18</td><td>23</td></tr>
+    <tr><th scope="row">1987 فما بعدها</th><td>50</td><td>20</td><td>25</td></tr>
+  </tbody>
+</table>
+</div>
+<p>ينطبق الجدول على من كان في الخدمة عند نفاذ القانون وانتهت خدمته بالاستقالة أو الفصل أو لأسباب أخرى، ويبقى تخفيض المادة 36 قائماً.</p>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+حكومي مشترك قبل 2023 بلغ سن التقاعد بعد 27 سنة وآخر راتب اشتراك 24,000: تُسوى مدته على 30 سنة (المادة 82)، فالمعاش <strong>24,000 ريال</strong> (100%). ولو بلغها بعد 17 سنة تُسوى على 27 سنة، فالمعاش 21,600.<br>
+من انضم بعد 2023 لا تنطبق عليه المادة 82: 27 سنة براتب 24,000 تعطي 24,000 × 27 ÷ 30 = <strong>21,600 ريال</strong>، و25 سنة براتب 16,000 تعطي 13,333 فتُرفع إلى الحد الأدنى للحكومي <strong>15,000 ريال</strong>.<br>
+استقال الموظف بعمر 52 بعد 27 سنة براتب 24,000: 21,600 بتخفيض (60 − 52) × 2.5% = 20%، فالمعاش <strong>17,280 ريالاً</strong>، ولا يُرفع إلى الحد الأدنى.<br>
+خاص بعد 30 سنة ومتوسط آخر 3 سنوات 20,000 وراتب أولاها 14,000: الحد 130% × 14,000 = 18,200، فالمعاش <strong>18,200 ريال</strong>.</p>
+</div>
+<p>الحاسبة للقطري المدني في القطاعين الحكومي والخاص. وللعسكريين قانون مستقل، ولغير القطري راجع <a href="{{root}}qatar-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة في قطر</a>.</p>
+</div>

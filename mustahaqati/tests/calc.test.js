@@ -30,6 +30,7 @@ import {
   bahrainPension,
   omanPension,
   omanOldAge,
+  qatarPension,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -982,4 +983,32 @@ test("عُمان — معاش كبار السن بالجزأين والخصم", 
   assert.equal(d.pension, 0);
   // الضمان النقدي حد أدنى
   assert.equal(omanPension({ gender: "m", birth: "1970-01-01", retire: "2030-01-01", priorYears: 20, finalSalary: 1200, avgWage: 1300, guarantee: 900 }).pension, 900);
+});
+
+test("قطر — معاش القانون 1/2022 (أمثلة مطابقة لنصوص المواد 29 و30 و34 و36 و82)", () => {
+  assert.equal(qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 27, salary: 24000 }).pension, 21600);
+  const p = qatarPension({ sector: "private", reason: "age", ageYears: 60, years: 30, salary: 20000, firstYearSalary: 14000 });
+  assert.equal(p.pension, 18200);
+  assert.ok(p.avgCapped);
+  const m = qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 25, salary: 16000 });
+  assert.equal(m.pension, 15000);
+  assert.ok(m.minApplied);
+  assert.equal(qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 22, salary: 21000, legacy: true }).pension, 21000);
+  assert.equal(qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 17, salary: 21000, legacy: true }).pension, 18900);
+  const r = qatarPension({ sector: "gov", reason: "resign", ageYears: 52, years: 27, salary: 24000 });
+  assert.equal(r.reduction, 0.2);
+  assert.equal(r.pension, 17280);
+  // الاستقالة قبل 50: يُصرف عند بلوغها
+  assert.equal(qatarPension({ sector: "gov", reason: "resign", ageYears: 48, years: 26, salary: 20000 }).payAge, 50);
+  // جدول القرار 11/2024: مواليد 1983 بعمر 43 و17 سنة اشتراك منها 12 فعلية
+  const t1 = qatarPension({ sector: "gov", reason: "resign", ageYears: 43, years: 17, actualYears: 12, salary: 20000, legacy: true, birthYear: 1983 });
+  assert.ok(t1.eligible);
+  near(t1.reduction, 0.425, 1e-9);
+  // غير مستحق: تعويض الدفعة الواحدة = راتب حساب المعاش × السنوات
+  const l = qatarPension({ sector: "private", reason: "resign", ageYears: 50, years: 15, salary: 20000 });
+  assert.equal(l.eligible, false);
+  assert.equal(l.lump, 300000);
+  // كسر المدة: أكثر من 6 أشهر سنة كاملة
+  assert.equal(qatarPension({ sector: "gov", reason: "age", ageYears: 60, years: 24, months: 7, salary: 30000 }).Y, 25);
+  assert.ok(qatarPension({ sector: "gov", reason: "resign", ageYears: 40, years: 0, months: 10, salary: 10000 }).refundOnly);
 });

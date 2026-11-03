@@ -1,0 +1,154 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-pension-calculator",
+  "alternate": "qatar-pension",
+  "title": "Qatar Pension Calculator 2026 — GRSIA Pension, Resignation and Early Retirement",
+  "h1": "Qatar Pension Calculator (Social Insurance Law)",
+  "description": "Calculate a Qatari's pension under Law 1 of 2022: one thirtieth of the pension salary for each year of contribution up to 100%, the 25-year condition with 20 years of actual service, the 2.5% a year reduction on resignation, the QAR 15,000 government minimum, and the early pension table for those in service before 2023.",
+  "short": "1/30 a year up to 100%, 25 years with 20 actual, and the 2.5% resignation reduction",
+  "lead": "Choose your sector and the reason your service ends, then enter your age, contribution period and pension salary to see your monthly pension or the lump-sum compensation.",
+  "country": "qa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-qatar-pension.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-qatar-end-of-service", "en-qatar-leave", "en-bahrain-pension", "en-oman-pension"],
+  "faq": [
+    {"q": "How is the pension calculated in Qatar?", "a": "One thirtieth (1/30) of the pension salary multiplied by the years of contribution, and the pension may not exceed the pension salary (Article 34). 30 years gives 100% of the pension salary, and 27 years gives 90%."},
+    {"q": "What is the pension salary?", "a": "In government, the last contribution salary; in the private sector, the average contribution salary over the last three years, capped at 130% of the salary in the first of those years (Article 29). The contribution salary is basic pay, social allowance and housing allowance up to QAR 6,000, capped at QAR 100,000."},
+    {"q": "Who qualifies for a pension in Qatar?", "a": "Other than on death or disability: at least 25 years of contribution, including 20 years of actual service. On resignation the employee must also be 50; if younger, the pension is paid only after reaching 50 and applying. Retirement age follows the job system but is at least 60 (Article 24)."},
+    {"q": "How much is the pension reduced on resignation?", "a": "2.5% for each year between the age when service ends and 60 for men or 55 for women, and the same when service ends for other reasons. For disciplinary dismissal or a conviction for a crime involving honour, it is 3% a year (Article 36)."},
+    {"q": "What are the early pension conditions for those employed before 2023?", "a": "Cabinet Decision 11 of 2024 set transitional thresholds by year of birth for those whose service ends by resignation, dismissal or other reasons: born in 1983 or earlier, age 42 with 12 years of actual service and 17 of contribution, rising by two years for each birth year to 50, 20 and 25 for those born in 1987 or later."},
+    {"q": "Do those insured before 2023 get a full pension at retirement age?", "a": "Yes, under Article 82: anyone covered by Law 24 of 2002 who reaches retirement age with 20 or more years of contribution has the pension settled on 30 years, that is 100% of the pension salary, and 15 to under 20 years is settled on 25 to 29 years, with the state treasury paying the difference."},
+    {"q": "What is the minimum pension in Qatar?", "a": "QAR 15,000 for government pensioners, except on resignation, dismissal or service ending for other reasons; the state treasury bears the cost. The Cabinet may extend it to the private sector (Article 30)."},
+    {"q": "What if I do not qualify for a pension?", "a": "A lump-sum compensation is paid if the contribution period exceeds one year (Article 42). The regulations set it at one month's pension salary per year of contribution, capped at 150% of the employee's own paid contributions, payable in cases such as reaching 50 or disability. With one year or less, only your contributions are refunded."},
+    {"q": "What are the social insurance contribution rates in Qatar?", "a": "21% of the contribution salary, capped at QAR 100,000: 7% deducted from the employee and 14% paid by the employer (Article 11)."}
+  ],
+  "sources": [
+    {"t": "Al Meezan — Law 1 of 2022 issuing the Social Insurance Law (official text, Arabic)", "u": "https://almeezan.qa/legislations/ff5e6696-5502-42af-b342-c2f9882cec6a"},
+    {"t": "The Peninsula — executive regulations of the Social Insurance Law (January 2025)", "u": "https://thepeninsulaqatar.com/article/26/01/2025/executive-regulations-of-social-insurance-law-aim-to-enhance-transparency-efficiency-grsia"},
+    {"t": "Al Watan — early pension table, Cabinet Decision 11/2024 (Arabic)", "u": "https://www.al-watan.com/article/126311/%D8%A7%D9%84%D9%88%D8%B7%D9%86/%D8%B4%D8%B1%D9%88%D8%B7-%D9%84%D8%A7%D8%B3%D8%AA%D8%AD%D9%82%D8%A7%D9%82-%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%B4-%D8%A7%D9%84%D9%85%D8%A8%D9%83%D8%B1"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your pension</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">Sector</label>
+        <select id="sector" name="sector">
+          <option value="gov" selected>Government</option>
+          <option value="private">Private</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gender">Sex</label>
+        <select id="gender" name="gender">
+          <option value="m" selected>Man</option>
+          <option value="f">Woman</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="reason">Reason service ends</label>
+        <select id="reason" name="reason">
+          <option value="age" selected>Reaching retirement age (60 or over)</option>
+          <option value="resign">Resignation</option>
+          <option value="other">Service ending for other reasons (such as termination)</option>
+          <option value="disciplinary">Disciplinary dismissal or conviction for a crime involving honour</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ageYears">Age when service ends: years</label>
+        <input type="number" id="ageYears" name="ageYears" inputmode="decimal" min="18" max="80" step="1" value="60" required>
+      </div>
+      <div class="field">
+        <label for="ageMonths">and months</label>
+        <input type="number" id="ageMonths" name="ageMonths" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">Contribution period: years</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="27" required>
+      </div>
+      <div class="field">
+        <label for="months">and months</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="actualYears">Of which actual service (years, optional)</label>
+        <input type="number" id="actualYears" name="actualYears" inputmode="decimal" min="0" max="50" step="1" placeholder="All of it">
+        <span class="hint">Excluding purchased or added periods. Leave empty if all of it is actual service.</span>
+      </div>
+      <div class="field">
+        <label for="salary" data-salary>Last contribution salary (QAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="24000" required>
+        <span class="hint">Basic pay, social allowance and housing allowance up to 6,000, capped at 100,000.</span>
+      </div>
+      <div class="field" data-private>
+        <label for="firstYearSalary">Salary in the first of the last 3 years (optional)</label>
+        <input type="number" id="firstYearSalary" name="firstYearSalary" inputmode="decimal" min="0" step="100" placeholder="For the 130% cap">
+      </div>
+      <div class="field">
+        <label for="legacy">Insured before 3 January 2023 (Law 24 of 2002)?</label>
+        <select id="legacy" name="legacy">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="field" data-early>
+        <label for="birthYear">Year of birth</label>
+        <input type="number" id="birthYear" name="birthYear" inputmode="decimal" min="1950" max="2008" step="1" value="1980">
+        <span class="hint">For the transitional early pension table (Decision 11/2024).</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Pension rules in Qatar's Social Insurance Law</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th><th scope="col">Article</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Pension</th><td>1/30 of the pension salary × years of contribution, up to 100%</td><td>34</td></tr>
+    <tr><th scope="row">Pension salary</th><td>Government: last contribution salary. Private: 3-year average, capped at 130% of the first year's salary</td><td>29</td></tr>
+    <tr><th scope="row">Eligibility</th><td>25 years of contribution including 20 actual, and age 50 on resignation</td><td>24</td></tr>
+    <tr><th scope="row">Reduction</th><td>2.5% a year (resignation and other reasons), 3% (disciplinary), below 60 for men and 55 for women</td><td>36</td></tr>
+    <tr><th scope="row">Minimum</th><td>QAR 15,000 for government, except resignation, dismissal and other reasons</td><td>30</td></tr>
+    <tr><th scope="row">Part periods and ages</th><td>Part of a month counts as a month; more than 6 months counts as a full year</td><td>20 and 35</td></tr>
+    <tr><th scope="row">Insured before 2023, at retirement age</th><td>20 years or more settled on 30; 15 to under 20 settled on 25 to 29</td><td>82</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Early pension table for those in service before 2023 (Decision 11/2024)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Born</th><th scope="col">Minimum age</th><th scope="col">Minimum actual service</th><th scope="col">Minimum contribution</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1983 or earlier</th><td>42</td><td>12</td><td>17</td></tr>
+    <tr><th scope="row">1984</th><td>44</td><td>14</td><td>19</td></tr>
+    <tr><th scope="row">1985</th><td>46</td><td>16</td><td>21</td></tr>
+    <tr><th scope="row">1986</th><td>48</td><td>18</td><td>23</td></tr>
+    <tr><th scope="row">1987 or later</th><td>50</td><td>20</td><td>25</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The table applies to those in service when the law took effect whose service ends by resignation, dismissal or other reasons; the Article 36 reduction still applies.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A government employee insured before 2023 reaching retirement age after 27 years on a last contribution salary of QAR 24,000: the period is settled on 30 years (Article 82), so the pension is <strong>QAR 24,000</strong> (100%). After 17 years it would be settled on 27 years, giving 21,600.<br>
+For someone who joined after 2023, Article 82 does not apply: 27 years on 24,000 gives 24,000 × 27 ÷ 30 = <strong>QAR 21,600</strong>, and 25 years on 16,000 gives 13,333, raised to the government minimum of <strong>QAR 15,000</strong>.<br>
+Resigning at 52 after 27 years on 24,000: 21,600 reduced by (60 − 52) × 2.5% = 20%, so <strong>QAR 17,280</strong>, not raised to the minimum.<br>
+Private sector after 30 years on a 3-year average of 20,000 with 14,000 in the first year: the cap is 130% × 14,000 = 18,200, so <strong>QAR 18,200</strong>.</p>
+</div>
+<p>This calculator is for civilian Qataris in government and the private sector; the military have a separate law. Prefer Arabic? Use the <a href="{{root}}qatar-pension/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

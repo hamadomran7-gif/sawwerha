@@ -38,7 +38,7 @@
  "privacy": "85f0f19751495419",
  "qatar-end-of-service": "aa7dfde8a77a0d6b",
  "qatar-leave": "b21f9d039c95968b",
- "qatar": "40dc234c64bdb719",
+ "qatar": "7f05ced14d231411",
  "uae-annual-leave": "50768b830af77a45",
  "uae-dismissal-article-44": "a2bd5cbe07007172",
  "uae-gratuity-resignation": "50ab7db1caa0833c",
@@ -146,5 +146,7 @@
  "bahrain-pension": "9171f95542975567",
  "en-bahrain-pension": "18f39f5efa16ef95",
  "en-oman-pension": "a0b829228f830120",
- "oman-pension": "47a9cb89827ee202"
+ "oman-pension": "47a9cb89827ee202",
+ "en-qatar-pension": "14a37f4115baf1b1",
+ "qatar-pension": "cbec470b8b6d0f5c"
 }

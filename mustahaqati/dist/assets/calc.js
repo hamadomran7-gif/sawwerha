@@ -1892,6 +1892,61 @@ export function omanPension({ gender = "m", birth, retire, priorYears = 0, final
   };
 }
 
+/**
+ * قطر — معاش القطري (القانون 1/2022): 1/30 من راتب حساب المعاش × سنوات الاشتراك بحد 100% (م34).
+ * الحكومي: آخر راتب حساب اشتراك؛ الخاص: متوسط 3 سنوات بحد 130% من راتب أولاها (م29).
+ * الشروط لغير الوفاة والعجز: 25 سنة منها 20 فعلية، و50 سنة في الاستقالة (م24)، أو جدول القرار 11/2024 لمن كان في الخدمة قبل 2023 (م83).
+ * التخفيض 2.5% (الاستقالة وأسباب أخرى) أو 3% (الفصل التأديبي) عن كل سنة دون 60 للرجل و55 للمرأة (م36).
+ * reason: age | resign | other | disciplinary.
+ */
+export function qatarPension({ sector = "gov", gender = "m", reason = "age", ageYears, ageMonths = 0, years, months = 0, actualYears = null, salary, firstYearSalary = null, legacy = false, birthYear = null }) {
+  const Q = rules.qa.pension;
+  const roundY = (y, m) => Math.floor(Number(y) || 0) + ((Number(m) || 0) > 6 ? 1 : 0);
+  const Y = roundY(years, months);
+  const totalMonths = Math.floor(Number(years) || 0) * 12 + Math.floor(Number(months) || 0);
+  const age = roundY(ageYears, ageMonths);
+  const actual = actualYears === null || actualYears === undefined || actualYears === "" ? Y : Math.max(0, Number(actualYears) || 0);
+  const entered = Math.max(0, Number(salary) || 0);
+  let S = Math.min(entered, Q.salaryCap);
+  let avgCapped = false;
+  const first = Number(firstYearSalary) || 0;
+  if (sector === "private" && first > 0 && S > Q.privateAvgCap * first) {
+    S = Q.privateAvgCap * first;
+    avgCapped = true;
+  }
+  let settleYears = Y, eligible, legacyApplied = false, th = { age: Q.resignMinAge, actual: Q.minActualYears, contrib: Q.minYears }, transitional = false, payAge = null, reduction = 0;
+  if (reason === "age") {
+    if (legacy && Y >= Q.legacyFullFrom) { settleYears = Math.max(Y, Q.legacyFullYears); legacyApplied = true; }
+    else if (legacy && Y >= Q.legacyPartialFrom) { settleYears = Y + Q.legacyPartialAdd; legacyApplied = true; }
+    eligible = legacyApplied || (Y >= Q.minYears && actual >= Q.minActualYears);
+  } else {
+    if (legacy && birthYear) {
+      const row = Q.transitional.find(([by]) => Number(birthYear) <= by) || Q.transitional[Q.transitional.length - 1];
+      th = { age: row[1], actual: row[2], contrib: row[3] };
+      transitional = true;
+    }
+    eligible = Y >= th.contrib && actual >= th.actual;
+    if (eligible && reason === "resign" && age < th.age) payAge = th.age;
+    const ref = gender === "f" ? Q.refAgeFemale : Q.refAgeMale;
+    reduction = Math.max(0, ref - age) * (reason === "disciplinary" ? Q.reductionDisciplinary : Q.reductionResign);
+  }
+  const pctRaw = settleYears / Q.divisor;
+  const pct = Math.min(1, pctRaw);
+  const gross = S * pct;
+  let pension = eligible ? Math.max(0, gross * (1 - reduction)) : 0;
+  let minApplied = false;
+  if (eligible && sector === "gov" && reason === "age" && pension < Q.minPensionGov) { pension = Q.minPensionGov; minApplied = true; }
+  const employeeShare = Q.employeeRate * S * totalMonths;
+  const lumpRaw = S * Y;
+  const lump = !eligible && totalMonths > 12 ? Math.min(lumpRaw, Q.lumpCapOfEmployeeShare * employeeShare) : 0;
+  return {
+    Y, totalMonths, age, actual, S, salaryCapped: entered > Q.salaryCap, avgCapped, settleYears, legacyApplied, transitional, th,
+    eligible, payAge, reduction, pctRaw, pct, gross: r2(gross), pension: r2(pension), minApplied,
+    lump: r2(lump), refundOnly: !eligible && totalMonths <= 12, refund: r2(employeeShare),
+    employee: r2(S * Q.employeeRate), employer: r2(S * Q.employerRate),
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
