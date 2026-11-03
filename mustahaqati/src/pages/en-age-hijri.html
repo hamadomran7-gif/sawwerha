@@ -1,0 +1,62 @@
+---json
+{
+  "lang": "en",
+  "path": "en/age-calculator-hijri",
+  "alternate": "age-hijri",
+  "title": "Age Calculator in Hijri and Gregorian — Your Age in Both Calendars and in Days",
+  "h1": "Age Calculator in Hijri and Gregorian",
+  "description": "Work out your age in years, months and days in the Gregorian and Hijri (Umm al-Qura) calendars, with your Hijri date of birth, the number of days you have lived and how long until your next birthday.",
+  "short": "Your age in both calendars, and your Hijri date of birth",
+  "lead": "Enter your Gregorian date of birth to see the result in both calendars at once.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-age-hijri.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-hijri-gregorian-converter", "en-date-difference", "en-ksa-retirement-pension"],
+  "faq": [
+    {"q": "Why is my Hijri age higher than my Gregorian age?", "a": "Because the Hijri year is lunar, about 354 days, roughly eleven days shorter than the Gregorian year. Every 33 Gregorian years are therefore about 34 Hijri years."},
+    {"q": "Which Hijri calendar does the calculator use?", "a": "The Umm al-Qura calendar, the official calendar for government transactions in Saudi Arabia. It may differ by a day from the actual moon sighting in some months."},
+    {"q": "How do I find my Hijri date of birth?", "a": "Enter your Gregorian date and the calculator converts it to Hijri with the Umm al-Qura calendar. For official documents, use the date on your birth certificate or ID."},
+    {"q": "Is the birthday itself counted in the age?", "a": "Age here is the difference between the date of birth and today, so the day of birth is not counted as a completed day, which is the method used in official calculations."}
+  ],
+  "sources": [
+    {"t": "Umm al-Qura calendar — Umm Al-Qura University", "u": "https://www.ummulqura.org.sa"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your age</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="birth">Date of birth (Gregorian)</label>
+        <input type="date" id="birth" name="birth" value="1998-05-20" required>
+      </div>
+      <div class="field">
+        <label for="asof">Age on date</label>
+        <input type="date" id="asof" name="asof">
+        <span class="hint">Leave empty for your age today.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate age</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The difference between Hijri and Gregorian age</h2>
+<p>The Gregorian year is solar, 365.25 days, and the Hijri year is lunar, 354.37 days. The gap of about 11 days a year adds up to a full year roughly every 33 years, so someone who is 33 in Gregorian years has completed 34 Hijri years.</p>
+<p>The calculator uses the Umm al-Qura calendar to convert the date of birth, and works out the Hijri age from the actual number of days lived divided by the length of the lunar year.</p>
+<h2>When Hijri age matters</h2>
+<ul>
+  <li>Government transactions in Saudi Arabia that use the Hijri date, such as the retirement age and some employment conditions.</li>
+  <li>Age in Islamic rulings.</li>
+  <li>Ages of majority and some procedures counted in Hijri years under certain regulations.</li>
+</ul>
+<p>Prefer Arabic? Use the <a href="{{root}}age-hijri/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

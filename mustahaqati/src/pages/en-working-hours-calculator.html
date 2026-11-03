@@ -1,0 +1,100 @@
+---json
+{
+  "lang": "en",
+  "path": "en/working-hours-calculator",
+  "alternate": "working-hours-calculator",
+  "title": "Working Hours Calculator — Overtime and Legal Limits in Saudi Arabia and the UAE",
+  "h1": "Working Hours Calculator",
+  "description": "Work out your actual working hours per day, week and month after breaks, your overtime on the daily (8 hours) and weekly (48 hours) standards, Ramadan hours, and whether your schedule respects the legal limits in Saudi Arabia and the UAE.",
+  "short": "Actual and overtime hours, Ramadan hours and break rules",
+  "lead": "Enter your start and finish times, break and working days to see your actual hours and anything above the legal limit.",
+  "country": "gcc",
+  "category": "leave",
+  "tool": true,
+  "script": "en-working-hours-calculator.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-overtime", "en-uae-overtime", "en-uae-ramadan-working-hours", "en-daily-hourly-wage"],
+  "faq": [
+    {"q": "What are the official working hours in the private sector?", "a": "In Saudi Arabia and the UAE, 8 hours a day or 48 hours a week. The employer may use the daily or the weekly standard; under the weekly standard the 48 hours can be spread over the week as long as break and attendance limits are respected."},
+    {"q": "Do breaks count as working hours?", "a": "No. In Saudi Arabia rest periods are not part of actual working hours (Article 102); no one may work more than 5 hours in a row without a break of at least half an hour, or stay at work more than 12 hours a day. In the UAE, a break of at least one hour is due after 5 consecutive hours."},
+    {"q": "What are the working hours in Ramadan?", "a": "In Saudi Arabia, 6 hours a day and 36 a week for Muslim workers. In the UAE, private-sector working hours are reduced by two hours a day during Ramadan."},
+    {"q": "What is the maximum overtime?", "a": "In the UAE, overtime may not exceed two hours a day, and total working hours may not exceed 144 every 3 weeks except to prevent serious loss or an accident. In Saudi Arabia there is an annual cap of 720 overtime hours unless the worker agrees to more."},
+    {"q": "How is overtime paid?", "a": "In Saudi Arabia, the actual hourly wage plus 50% of the basic hourly wage; in the UAE, the basic hourly wage plus 25%, or 50% between 10 pm and 4 am. Work it out in the overtime calculators for the two countries."}
+  ],
+  "sources": [
+    {"t": "UAE Government portal — working hours in the private sector", "u": "https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/working-hours"},
+    {"t": "Gulf News — working hours and overtime in the UAE (Articles 17–19)", "u": "https://gulfnews.com/living-in-uae/ask-us/5-things-to-know-about-working-hours-overtime-in-the-uae-1.1674568533187"},
+    {"t": "Saudi Labour Law — Articles 98 to 107 (HRDF, English)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your hours</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="sa" selected>Saudi Arabia</option>
+          <option value="ae">UAE</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="days">Working days a week</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="7" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="start">Start time</label>
+        <input type="time" id="start" name="start" value="08:00" required>
+      </div>
+      <div class="field">
+        <label for="end">Finish time</label>
+        <input type="time" id="end" name="end" value="17:00" required>
+        <span class="hint">If earlier than the start, the shift is counted overnight.</span>
+      </div>
+      <div class="field">
+        <label for="breakMin">Break (minutes)</label>
+        <input type="number" id="breakMin" name="breakMin" inputmode="decimal" min="0" max="600" step="5" value="60">
+      </div>
+      <div class="field inline">
+        <input type="checkbox" id="ramadan" name="ramadan">
+        <label for="ramadan">During Ramadan</label>
+      </div>
+      <div class="field inline" data-country="sa">
+        <input type="checkbox" id="muslim" name="muslim" checked>
+        <label for="muslim">Muslim worker (Saudi Ramadan reduction applies to Muslims)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Legal working hour limits</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Rule</th><th scope="col">Saudi Arabia</th><th scope="col">UAE</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Normal hours</th><td>8 a day or 48 a week</td><td>8 a day or 48 a week</td></tr>
+    <tr><th scope="row">Ramadan</th><td>6 a day and 36 a week for Muslims</td><td>Two hours less a day</td></tr>
+    <tr><th scope="row">Break</th><td>At least half an hour after 5 consecutive hours, not counted as work</td><td>At least one hour after 5 consecutive hours</td></tr>
+    <tr><th scope="row">Daily attendance</th><td>12 hours at most at the workplace</td><td>—</td></tr>
+    <tr><th scope="row">Overtime limit</th><td>720 hours a year unless the worker agrees to more</td><td>Two hours a day, and 144 working hours every 3 weeks</td></tr>
+    <tr><th scope="row">Overtime pay</th><td>Actual wage + 50% of basic</td><td>Basic + 25% (50% at night)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+8 am to 6 pm with a one-hour break, 5 days: 9 hours a day and 45 a week. On the daily standard that is <strong>5 overtime hours</strong> a week; on the weekly standard there is no overtime because 45 is under 48.<br>
+In Ramadan in Saudi Arabia, 7 actual hours on 5 days is 35 hours, under 36, but each day is one hour over 6 on the daily standard.</p>
+</div>
+
+<p>To price the overtime in riyals or dirhams, use the <a href="{{root}}en/saudi-overtime-calculator/{{ix}}">Saudi overtime calculator</a> or the <a href="{{root}}en/uae-overtime-calculator/{{ix}}">UAE overtime calculator</a>. Prefer Arabic? Use the <a href="{{root}}working-hours-calculator/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

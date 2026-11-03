@@ -1,0 +1,80 @@
+---json
+{
+  "lang": "en",
+  "path": "en/daily-hourly-wage-calculator",
+  "alternate": "daily-hourly-wage",
+  "title": "Daily and Hourly Wage Calculator — From Monthly Salary, With Absence Deductions",
+  "h1": "Daily and Hourly Wage Calculator",
+  "description": "Convert your monthly salary into a daily, hourly, weekly and yearly wage the way Saudi and UAE labour law does it (a 30-day month and an 8-hour day), and work out the deduction for absence or unpaid leave days.",
+  "short": "Daily, hourly and yearly wage, and the deduction for absent days",
+  "lead": "Enter your monthly salary to see what a day and an hour of your work are worth, and the deduction for any absent or unpaid leave days.",
+  "country": "gcc",
+  "category": "salary",
+  "tool": true,
+  "script": "en-daily-hourly-wage.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-salary-increase", "en-working-hours-calculator", "en-ksa-overtime", "en-uae-overtime"],
+  "faq": [
+    {"q": "How do I work out my daily wage from my monthly salary?", "a": "Divide the monthly salary by 30. This is the method used in Saudi Arabia and the UAE for most entitlements, such as overtime and end-of-service pay. A salary of 6,000 gives a daily wage of 200."},
+    {"q": "How do I work out my hourly wage?", "a": "Divide the daily wage by your daily working hours (8): 6,000 ÷ 30 ÷ 8 = 25 an hour. For overtime, Saudi Arabia adds 50% of the basic hourly wage and the UAE adds 25%."},
+    {"q": "How much is deducted for a day of absence?", "a": "A worker is not paid for days of unexcused absence, so one day's wage (salary ÷ 30) is deducted for each day, and the establishment's work rules may impose other penalties."},
+    {"q": "Do allowances count in the daily wage?", "a": "It depends on the entitlement: UAE gratuity uses basic salary, while Saudi end-of-service uses the actual wage (basic plus fixed allowances). So the calculator uses whichever salary you enter."}
+  ],
+  "sources": [
+    {"t": "Saudi Ministry of Human Resources — calculating overtime pay (Arabic)", "u": "https://www.hrsd.gov.sa/fr/node/5557745"},
+    {"t": "Gulf News — working hours and overtime in the UAE", "u": "https://gulfnews.com/living-in-uae/ask-us/5-things-to-know-about-working-hours-overtime-in-the-uae-1.1674568533187"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your daily wage</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="salary">Monthly salary</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">Basic or total, depending on what you want to calculate.</span>
+      </div>
+      <div class="field">
+        <label for="hours">Daily working hours</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="1" max="24" step="0.5" value="8">
+      </div>
+      <div class="field">
+        <label for="absent">Absent or unpaid leave days (optional)</label>
+        <input type="number" id="absent" name="absent" inputmode="decimal" min="0" max="31" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="basis">Divide by</label>
+        <select id="basis" name="basis">
+          <option value="30" selected>30 days (the legal standard)</option>
+          <option value="26">26 working days (some contracts)</option>
+          <option value="22">22 working days (two-day weekend)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The formulas</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">What</th><th scope="col">Formula</th><th scope="col">Salary 6,000</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Daily wage</th><td>Salary ÷ 30</td><td>200</td></tr>
+    <tr><th scope="row">Hourly wage</th><td>Daily wage ÷ 8</td><td>25</td></tr>
+    <tr><th scope="row">Weekly wage</th><td>Salary × 12 ÷ 52</td><td>1,384.62</td></tr>
+    <tr><th scope="row">Yearly wage</th><td>Salary × 12</td><td>72,000</td></tr>
+    <tr><th scope="row">Deduction for 3 absent days</th><td>Daily wage × 3</td><td>600</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Dividing by 30 is the method in the Saudi Labour Law and the UAE Labour Law for the daily and hourly wage in overtime, end-of-service pay and leave pay. Some contracts use actual working days, so choose the method in yours.</p>
+<p>To price overtime at the legal rates, use the <a href="{{root}}en/saudi-overtime-calculator/{{ix}}">Saudi overtime calculator</a> or the <a href="{{root}}en/uae-overtime-calculator/{{ix}}">UAE overtime calculator</a>, and for your hours the <a href="{{root}}en/working-hours-calculator/{{ix}}">working hours calculator</a>. Prefer Arabic? Use the <a href="{{root}}daily-hourly-wage/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

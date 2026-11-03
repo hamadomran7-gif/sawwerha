@@ -1,0 +1,89 @@
+---json
+{
+  "lang": "en",
+  "path": "en/salary-increase-calculator",
+  "alternate": "salary-increase",
+  "title": "Salary Increase Calculator — Raise Percentage, New Salary and Annual Raises",
+  "h1": "Salary Increase Calculator",
+  "description": "Work out the percentage increase between your old and new salary, your salary after a raise of a given percentage, or your salary after years of a fixed annual raise, with the monthly and yearly difference and the effect of inflation on its real value.",
+  "short": "Raise percentage, salary after a raise, repeated annual raises and inflation",
+  "lead": "Choose what you want to calculate and enter the numbers to see the percentage and the monthly and yearly difference.",
+  "country": "gcc",
+  "category": "salary",
+  "tool": true,
+  "script": "en-salary-increase.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-percentage-calculator", "en-ksa-net-salary", "en-ksa-end-of-service", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How do I work out my pay rise percentage?", "a": "Subtract the old salary from the new one, divide the difference by the old salary and multiply by 100. From 8,000 to 8,800: 800 ÷ 8,000 = 10%."},
+    {"q": "How do I work out my salary after a 5% raise?", "a": "Multiply your salary by 1.05. A salary of 10,000 becomes 10,500 after a 5% raise, 500 more a month and 6,000 a year."},
+    {"q": "What is my real raise after inflation?", "a": "Divide (1 + the raise) by (1 + inflation) and subtract 1. A 5% raise with 2% inflation is a real increase in purchasing power of about 2.94%."},
+    {"q": "Does a pay rise affect my end-of-service gratuity?", "a": "Yes. Gratuity is calculated on the last actual wage in Saudi Arabia and the last basic salary in the UAE, so a raise lifts the gratuity for all your previous years of service, not just the last one."},
+    {"q": "Is an annual pay rise compulsory?", "a": "Neither the Saudi Labour Law nor the UAE Labour Law requires private-sector employers to give an annual raise, unless the contract or the establishment's work rules provide for one."}
+  ],
+  "sources": [
+    {"t": "General Authority for Statistics (Saudi Arabia) — consumer price index", "u": "https://www.stats.gov.sa"},
+    {"t": "Federal Competitiveness and Statistics Centre (UAE) — consumer price index", "u": "https://fcsc.gov.ae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your raise</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">What do you want to calculate?</label>
+        <select id="mode" name="mode">
+          <option value="diff" selected>Percentage raise between two salaries</option>
+          <option value="pct">My salary after a given raise</option>
+          <option value="years">My salary after years of a fixed annual raise</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="old">Current or old salary</label>
+        <input type="number" id="old" name="old" inputmode="decimal" min="0" step="any" value="8000" required>
+      </div>
+      <div class="field" data-mode="diff">
+        <label for="new">New salary</label>
+        <input type="number" id="new" name="new" inputmode="decimal" min="0" step="any" value="8800">
+      </div>
+      <div class="field" data-mode="pct years">
+        <label for="pct">Raise (%)</label>
+        <input type="number" id="pct" name="pct" inputmode="decimal" step="any" value="5">
+      </div>
+      <div class="field" data-mode="years">
+        <label for="years">Number of years</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="1" max="40" step="1" value="5">
+      </div>
+      <div class="field">
+        <label for="inflation">Annual inflation (%) — optional</label>
+        <input type="number" id="inflation" name="inflation" inputmode="decimal" step="any" value="">
+        <span class="hint">To see the real change in your purchasing power.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How a pay rise is calculated</h2>
+<ul>
+  <li><strong>Raise percentage</strong> = (new salary − old salary) ÷ old salary × 100.</li>
+  <li><strong>Salary after a raise</strong> = salary × (1 + percentage ÷ 100).</li>
+  <li><strong>After years of a fixed raise</strong> = salary × (1 + percentage ÷ 100) to the power of the number of years, because each raise applies to the salary after the previous one.</li>
+</ul>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+From 8,000 to 8,800: 800 more a month (9,600 a year), a raise of <strong>10%</strong>.<br>
+A salary of 10,000 with a 4% raise every year for 5 years becomes <strong>12,166.53</strong> — more than 20%, even though 5 × 4% = 20%.</p>
+</div>
+
+<h2>How a raise affects your entitlements</h2>
+<p>End-of-service gratuity is calculated on your last wage, so each raise increases it for all your years of service. Check the difference in the <a href="{{root}}en/saudi-end-of-service-calculator/{{ix}}">Saudi end-of-service calculator</a> or the <a href="{{root}}en/uae-gratuity-calculator/{{ix}}">UAE gratuity calculator</a>. In Saudi Arabia, the GOSI contribution deducted from your wage also rises; see the <a href="{{root}}en/saudi-net-salary-calculator/{{ix}}">net salary calculator</a>. Prefer Arabic? Use the <a href="{{root}}salary-increase/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
