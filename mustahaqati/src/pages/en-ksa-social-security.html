@@ -1,0 +1,104 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-social-security-calculator",
+  "alternate": "ksa-social-security",
+  "title": "Saudi Developed Social Security Calculator 2026 — How Much for the Head of Family and Each Dependent?",
+  "h1": "Saudi Developed Social Security Calculator",
+  "description": "Estimate the Saudi developed social security (Daman) payment: SAR 1,320 for the head of family or an independent applicant and SAR 660 for each dependent, minus counted income (half of salaries and pensions, all of rent and benefits), with eligibility conditions and the payment on the 1st of each month.",
+  "short": "SAR 1,320 for the head of family and 660 per dependent, minus counted income",
+  "lead": "Enter the number of dependents and the family's monthly income to see the family minimum, the counted income and the estimated payment.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-social-security.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-hafiz", "en-ksa-saned", "en-ksa-retirement-pension", "en-ksa-net-salary"],
+  "faq": [
+    {"q": "How much is the Saudi developed social security payment?", "a": "The family minimum is SAR 1,320 for the head of family or an independent applicant and SAR 660 for each dependent, since the November 2023 payment. The difference between that minimum and the family's counted income is paid, so a family of five (head of family and four dependents) with no income receives SAR 3,960."},
+    {"q": "How is income counted for developed social security?", "a": "50% of earned income such as salaries, business income and retirement pensions is counted, and 100% of unearned income such as rent and government benefits. Disability allowances, support programmes and in-kind aid are not counted."},
+    {"q": "Is the Citizen's Account deducted from social security?", "a": "The latest official text excludes Citizen's Account support from counted income, but the ministry's 2023 FAQ guide is inconsistent on this, so the calculator offers both options."},
+    {"q": "When is developed social security paid?", "a": "On the 1st of each Gregorian month, starting from the month after the eligibility decision."},
+    {"q": "What are the conditions for developed social security?", "a": "The applicant must be Saudi (with specific exceptions), must not have stayed outside the Kingdom for more than 3 months in the previous year, and the counted income must be below the family minimum. An independent applicant must be 18 or older and live independently. Signs of ineligibility include a family owning more than 3 cars or employing more than two domestic workers."},
+    {"q": "Is there a maximum payment?", "a": "Press sources mention a family maximum of SAR 5,000, and we found no official text saying whether it applies to the final payment or to the minimum before income is deducted, so the calculator shows both figures for large families."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — Social Security Law (Arabic)", "u": "https://www.hrsd.gov.sa/knowledge-centre/decisions-and-regulations/regulation-and-procedures/841045"},
+    {"t": "Umm Al-Qura — raising the basic minimum for social security beneficiaries (October 2023, Arabic)", "u": "https://www.uqn.gov.sa/details?p=23838"},
+    {"t": "Ministry of Human Resources — 20% increase in social security payments (2023)", "u": "https://hrsd.gov.sa/en/media-center/news/7788558"},
+    {"t": "Ajel, quoting the ministry's customer service — SAR 660 per dependent (Arabic)", "u": "https://ajel.sa/thehour/lbjnn39qwc"},
+    {"t": "Umm Al-Qura — Royal Decree M/35 on categories transferred from the previous system (2026, Arabic)", "u": "https://www.uqn.gov.sa/decisions-and-regulations/4001408"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Estimate your social security payment</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="dependents">Number of dependents</label>
+        <input type="number" id="dependents" name="dependents" inputmode="decimal" min="0" max="20" step="1" value="4" required>
+        <span class="hint">Wife, children and others you support, of any age. Do not count yourself.</span>
+      </div>
+      <div class="field">
+        <label for="earned">Earned income a month (SAR)</label>
+        <input type="number" id="earned" name="earned" inputmode="decimal" min="0" step="1" value="2000">
+        <span class="hint">Salaries, self-employment income, retirement pension. Half is counted.</span>
+      </div>
+      <div class="field">
+        <label for="unearned">Unearned income a month (SAR)</label>
+        <input type="number" id="unearned" name="unearned" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Rent and government benefits. Counted in full.</span>
+      </div>
+      <div class="field">
+        <label for="citizenAccount">Monthly Citizen's Account support (optional)</label>
+        <input type="number" id="citizenAccount" name="citizenAccount" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="countCitizenAccount" name="countCitizenAccount">
+        <label for="countCitizenAccount">Count the Citizen's Account as income (the latest text excludes it)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the developed social security payment is calculated</h2>
+<ol>
+  <li><strong>Family minimum</strong> = SAR 1,320 for the head of family or an independent applicant + SAR 660 for each dependent.</li>
+  <li><strong>Counted income</strong> = half of earned income (salaries, pensions and business income) + all unearned income (rent and benefits).</li>
+  <li><strong>Payment</strong> = family minimum − counted income, if the counted income is below the minimum.</li>
+</ol>
+
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Family size</th><th scope="col">Minimum (no income)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Independent applicant or head of family alone</th><td>1,320</td></tr>
+    <tr><th scope="row">Head of family and two dependents</th><td>2,640</td></tr>
+    <tr><th scope="row">Head of family and four dependents</th><td>3,960</td></tr>
+    <tr><th scope="row">Head of family and six dependents</th><td>5,280 (affected by the 5,000 cap)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Head of family with a wife and three children and a salary of 2,000: minimum 3,960, counted income 1,000, so the payment is <strong>SAR 2,960</strong>.<br>
+An independent widow with a pension of 1,800 and rent income of 300: minimum 1,320, counted income 900 + 300 = 1,200, so the payment is <strong>SAR 120</strong>.</p>
+</div>
+
+<h2>Important conditions</h2>
+<ul>
+  <li>The main home and one car are not counted as wealth; cash savings are added to income in a way whose details have not been published.</li>
+  <li>Signs of ineligibility: two or more cars for an independent applicant, more than 3 cars for a family, or more than two domestic workers.</li>
+  <li>Any change in income or family size must be reported within 15 days.</li>
+</ul>
+<p>This calculator is an estimate; the final amount is set by the Ministry of Human Resources after reviewing the application on the social support and protection platform. For other Saudi support, see the <a href="{{root}}en/saudi-hafiz-calculator/{{ix}}">Hafiz calculator</a> and the <a href="{{root}}en/saned-calculator/{{ix}}">SANED calculator</a>.</p>
+</div>

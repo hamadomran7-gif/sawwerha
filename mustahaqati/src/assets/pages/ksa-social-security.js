@@ -26,6 +26,7 @@ bind(form, result, (v) => {
     "تفصيل الحساب"
   );
   if (r.capMatters) html += note(`تذكر مصادر صحفية حداً أعلى للأسرة قدره ${num(S.familyMax, 0)} ريال. إن طُبق على المعاش النهائي فالمعاش ${money(r.capFinal, cur)}، وإن طُبق على الحد الأدنى قبل خصم الدخل فالمعاش ${money(r.capMinimum, cur)}.`, "warn");
+  if (!r.capMatters && r.eligible && r.capFinal < r.raw) html += note(`تذكر مصادر صحفية حداً أعلى للأسرة قدره ${num(S.familyMax, 0)} ريال، فاقتصر المعاش عليه.`, "info");
   if (!v.countCitizenAccount && v.citizenAccount) html += note("لم يُحتسب حساب المواطن لأن أحدث نص رسمي يستثنيه، وفعّل الخيار إن أردت حساب الرقم الأحوط.", "info");
   html += note("الحساب تقديري ولا يشمل شروط الثروة والمدخرات والإقامة خارج المملكة؛ القرار النهائي للوزارة بعد دراسة الطلب.", "info");
   return html;
