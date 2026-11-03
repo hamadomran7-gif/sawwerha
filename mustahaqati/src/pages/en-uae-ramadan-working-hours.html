@@ -1,0 +1,87 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-ramadan-working-hours",
+  "alternate": "uae-ramadan-working-hours",
+  "parent": "en-uae-overtime",
+  "title": "UAE Ramadan Working Hours 2027 — Private Sector Hours and Overtime Calculator",
+  "h1": "UAE Ramadan Working Hours and Overtime",
+  "short": "Two hours less a day for all employees; extra time beyond the reduced day counts as overtime",
+  "description": "Private-sector working hours in the UAE are cut by two hours a day during Ramadan for all employees, Muslim or not, under Article 15 of the executive regulations. Calculate the pay for hours worked beyond the reduced day as overtime at 25% or 50%.",
+  "lead": "Your Ramadan day is two hours shorter with no cut in pay. If you work beyond the reduced hours, enter your hours to see the expected overtime pay.",
+  "country": "ae",
+  "category": "leave",
+  "script": "en-uae-ramadan-hours.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-overtime", "en-ksa-overtime", "en-uae-annual-leave"],
+  "faq": [
+    {"q": "Are reduced Ramadan hours only for Muslims?", "a": "No. MOHRE circulars apply the reduction to all private-sector employees, under clause 2 of Article 15 of Cabinet Resolution 1 of 2022."},
+    {"q": "Is my salary reduced because of the shorter hours?", "a": "No. No provision allows cutting wages because of reduced Ramadan working hours."},
+    {"q": "Are hours beyond the reduced day overtime?", "a": "Article 19 treats time beyond normal working hours as overtime, and normal hours in Ramadan are the reduced ones. This reading is supported by legal opinions published in the UAE press, but we found no official circular stating it, so check your company policy."},
+    {"q": "How is the hourly rate calculated in Ramadan?", "a": "The ministry's general guidance divides basic salary by 30 and then by 8. Some opinions divide by the reduced Ramadan hours instead, which raises the hourly rate. The point is not settled, so the calculator shows both."},
+    {"q": "Does this apply to managers?", "a": "Supervisory staff with the employer's powers are excluded from the maximum working hours rules (executive regulations, Article 15), so they may not be owed overtime."},
+    {"q": "Can I work remotely in Ramadan?", "a": "MOHRE circulars allow employers to apply flexible or remote work during Ramadan, within the reduced daily working hours."}
+  ],
+  "sources": [
+    {"t": "MOHRE — working hours reduced by two hours a day in Ramadan 2026", "u": "https://mohre.gov.ae/en/media-center/news/12/2/2026/reduction-of-working-hours-for-private-sector-employees-by-two-hours-daily-during-the-holy-month-of"},
+    {"t": "UAE Government portal — working hours in the private sector", "u": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/employment-in-the-private-sector/working-hours"},
+    {"t": "Khaleej Times — are employees owed overtime in Ramadan? (March 2026)", "u": "https://www.khaleejtimes.com/uae/legal/ramadan-employees-eligible-overtime-working-remotely"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate Ramadan overtime</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000" required>
+        <span class="hint">Basic only — overtime is calculated on it.</span>
+      </div>
+      <div class="field">
+        <label for="normal">Your normal daily hours</label>
+        <input type="number" id="normal" name="normal" inputmode="decimal" min="1" max="12" step="0.5" value="8" required>
+      </div>
+      <div class="field">
+        <label for="worked">Hours you actually work a day in Ramadan</label>
+        <input type="number" id="worked" name="worked" inputmode="decimal" min="0" max="16" step="0.5" value="8" required>
+      </div>
+      <div class="field">
+        <label for="days">Working days in Ramadan</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" max="30" step="1" value="22">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="night" name="night">
+        <label for="night">The extra hours fall between 10 pm and 4 am (+50%, except shift workers)</label>
+      </div>
+      <div class="field full">
+        <label for="divisor">How the hourly rate is calculated</label>
+        <select id="divisor" name="divisor">
+          <option value="8">Basic ÷ 30 ÷ 8 (ministry's general formula)</option>
+          <option value="reduced">Basic ÷ 30 ÷ reduced Ramadan hours (alternative view)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How long is the working day in Ramadan?</h2>
+<p>Article 17 of Federal Decree-Law 33 of 2021 leaves Ramadan hours to the executive regulations, and Article 15 of the regulations <strong>reduces normal working hours by two hours a day</strong> during the month. A worker on 8 hours works 6, and one on 9 hours works 7, with no cut in pay. Ramadan 1448 AH is expected to start around 8 February 2027 under the Umm al-Qura calendar, subject to the moon sighting.</p>
+<h2>What if the employer asks for a full day?</h2>
+<p>Article 19 treats anything beyond normal working hours as overtime. Because normal hours in Ramadan are the reduced ones, hours beyond them count as overtime at 25% above the basic hourly wage, or 50% between 10 pm and 4 am. This reading is drawn from the two provisions and supported by published legal opinions; no official circular states it expressly.</p>
+<div class="example">
+<p><strong>Example:</strong> basic salary AED 6,000, normal day 8 hours, and the employer asks for 8 hours throughout Ramadan (22 working days).</p>
+<p>Ramadan day = 6 hours, so 2 extra hours a day.<br>
+Hourly wage = 6,000 ÷ 30 ÷ 8 = AED 25.<br>
+Daily overtime = 2 × 25 × 1.25 = AED 62.50.<br>
+<strong>Total = 22 × 62.50 = AED 1,375</strong>. Dividing by 6 hours instead would give AED 1,833.33.</p>
+</div>
+<p>For overtime during the rest of the year, use the <a href="{{root}}en/uae-overtime-calculator/{{ix}}">UAE overtime calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-ramadan-working-hours/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

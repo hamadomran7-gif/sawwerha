@@ -1,0 +1,106 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-gratuity-after-resignation",
+  "alternate": "uae-gratuity-resignation",
+  "parent": "en-uae-gratuity",
+  "title": "UAE Gratuity After Resignation 2026 — Do You Lose Any? Calculator and Examples",
+  "h1": "UAE Gratuity Calculation After Resignation",
+  "short": "Resign after one year and you get the full gratuity: examples for 2, 3 and 4 years",
+  "description": "Do you lose part of your gratuity if you resign in the UAE? Under the current law, no: resigning after one year of service gives the full gratuity of 21 then 30 days of basic salary per year. Calculate it, with a table of examples and the notice period rules.",
+  "lead": "Resignation no longer reduces end-of-service gratuity in the UAE private sector. Enter your basic salary, start date and last working day to see the amount.",
+  "country": "ae",
+  "category": "eos",
+  "script": "en-uae-gratuity.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "I resigned after 11 months — am I owed gratuity?", "a": "No gratuity is due before one year of continuous service. You are still owed your pay up to the last working day and cash for unused annual leave, which accrues at 2 days a month after six months of service."},
+    {"q": "Is gratuity calculated on my last salary?", "a": "Yes, on the last basic salary you received when the contract ended, without allowances."},
+    {"q": "Can my employer deduct anything from my gratuity?", "a": "Article 51 allows the employer to deduct amounts you owe under the law or a court ruling, as set by the executive regulations. The law does not allow taking away your gratuity simply because you resigned."},
+    {"q": "When must I receive my gratuity?", "a": "Within 14 days of the contract ending under Article 53. If payment is late, you can file a complaint with the Ministry of Human Resources and Emiratisation."},
+    {"q": "Does it matter if I move to another company?", "a": "No. The reason for resigning does not change the calculation, whether you join another employer or leave the country, as long as you completed a year of service and observed the notice period."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Articles 43, 51 and 53)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your gratuity after resigning</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Basic salary only, without allowances.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2023-03-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field">
+        <label for="unpaid">Unpaid leave days (optional)</label>
+        <input type="number" id="unpaid" name="unpaid" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Deducted from your service, as the law requires.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate gratuity</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The rule: resigning does not reduce gratuity</h2>
+<p>Article 51 of Federal Decree-Law 33 of 2021 sets one gratuity for full-time foreign employees who complete a year or more of continuous service, without distinguishing between resignation and termination by the employer:</p>
+<ul>
+  <li><strong>21 days</strong> of basic salary for each of the first five years.</li>
+  <li><strong>30 days</strong> for each year after that.</li>
+  <li>Capped at <strong>two years' pay</strong>, with part years pro-rated.</li>
+</ul>
+<h2>How much do you get if you resign? Worked examples</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service (basic AED 8,000)</th><th scope="col">Days of wage</th><th scope="col">Gratuity</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1 year</th><td>21</td><td>AED 5,600.00</td></tr>
+    <tr><th scope="row">2 years</th><td>42</td><td>AED 11,200.00</td></tr>
+    <tr><th scope="row">3 years</th><td>63</td><td>AED 16,800.00</td></tr>
+    <tr><th scope="row">4 years</th><td>84</td><td>AED 22,400.00</td></tr>
+    <tr><th scope="row">5 years</th><td>105</td><td>AED 28,000.00</td></tr>
+    <tr><th scope="row">7 years</th><td>165</td><td>AED 44,000.00</td></tr>
+    <tr><th scope="row">10 years</th><td>255</td><td>AED 68,000.00</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="muted small">Daily wage = basic ÷ 30. Three years: 3 × 21 = 63 days × 266.67 = AED 16,800.</p>
+<h2>What changed from the old law?</h2>
+<p>Under Federal Law 8 of 1980, an employee resigning from an unlimited contract received a third of the gratuity after one to three years of service and two thirds after three to five years, and the full amount only after five years. Since the current law took effect on 2 February 2022, that reduction is gone: an employee who resigns after one year receives the full gratuity under the same formula.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service at resignation</th><th scope="col">Old law 8/1980 (unlimited contract)</th><th scope="col">Current law 33/2021</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Under 1 year</th><td>Nothing</td><td>Nothing</td></tr>
+    <tr><th scope="row">1 to 3 years</th><td>One third</td><td>Full</td></tr>
+    <tr><th scope="row">3 to 5 years</th><td>Two thirds</td><td>Full</td></tr>
+    <tr><th scope="row">Over 5 years</th><td>Full</td><td>Full</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>Notice period before resigning</h2>
+<p>Article 43 requires written notice and working through the notice period in your contract, between 30 and 90 days. Whoever ends the contract without observing the notice owes the other side the wage for the notice period or the part not served — see the <a href="{{root}}en/uae-notice-period-pay-calculator/{{ix}}">notice pay calculator</a>.</p>
+<h2>What you receive with the gratuity</h2>
+<ul>
+  <li>Your pay up to the last working day.</li>
+  <li><a href="{{root}}en/uae-annual-leave-calculator/{{ix}}">Cash for unused annual leave</a>, on basic salary.</li>
+  <li>Any other dues in your contract.</li>
+</ul>
+<p>The employer must pay them within 14 days of the contract ending (Article 53). Prefer Arabic? Use the <a href="{{root}}uae-gratuity-resignation/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
