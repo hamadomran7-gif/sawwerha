@@ -631,6 +631,28 @@ const TABLES = {
     rows.push([en ? "Transport allowance" : "بدل النقل", ...ranks.map((R) => fmt0.format(R.transport))]);
     return tableWrap(a.caption || (en ? "Basic monthly salary in SAR (circulated table, not officially published)" : "الراتب الأساسي الشهري بالريال (جدول متداول غير منشور رسمياً)"), [en ? "Step" : "الدرجة", ...ranks.map((R) => (en ? R.nameEn : R.nameAr))], rows);
   },
+  "gcc-recruit-compare"(a) {
+    const en = a.lang === "en";
+    const S = calc.rules.sa.recruitCost, Q = calc.rules.qa.recruitCost, K = calc.rules.kw.recruitCost;
+    const sa = (nat) => {
+      const c = S.caps.find((x) => x.nat === nat);
+      if (!c) return "—";
+      const g = c.vatIncluded ? c.max : Math.round(c.max * (1 + S.vatRate) * 100) / 100;
+      return Number.isInteger(g) ? fmt0.format(g) : g.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+    const qa = (nat) => (Q.caps[nat] ? fmt0.format(Q.caps[nat]) : "—");
+    const africa = ["KE", "ET", "UG", "TZ", "BI", "SL"];
+    const kw = (nat) => fmt0.format(africa.includes(nat) ? K.caps.africa : K.caps.asia);
+    const N = en
+      ? { PH: "Philippines", LK: "Sri Lanka", BD: "Bangladesh", IN: "India", ID: "Indonesia", KE: "Kenya", ET: "Ethiopia", UG: "Uganda", TZ: "Tanzania" }
+      : { PH: "الفلبين", LK: "سريلانكا", BD: "بنغلاديش", IN: "الهند", ID: "إندونيسيا", KE: "كينيا", ET: "إثيوبيا", UG: "أوغندا", TZ: "تنزانيا" };
+    const rows = Object.keys(N).map((k) => [N[k], sa(k), qa(k), kw(k)]);
+    return tableWrap(
+      a.caption || (en ? "Maximum recruitment price. Saudi caps shown with 15% VAT; Kuwait's cap is by region and includes the ticket" : "الحد الأعلى لسعر الاستقدام. سقف السعودية معروض مع الضريبة 15%، وسقف الكويت بحسب المنطقة شاملاً التذكرة"),
+      en ? ["Nationality", "Saudi Arabia (SAR)", "Qatar (QAR)", "Kuwait (KWD)"] : ["الجنسية", "السعودية (ريال)", "قطر (ريال قطري)", "الكويت (دينار)"],
+      rows
+    );
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

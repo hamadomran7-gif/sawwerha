@@ -360,5 +360,7 @@
  "en-ksa-health-salary-scale": "56f07bb93d2504d9",
  "en-ksa-military-salary-scale": "e804fab043e06256",
  "ksa-health-salary-scale": "91fe1c7060d35d80",
- "ksa-military-salary-scale": "a7e3184d3bedeab2"
+ "ksa-military-salary-scale": "a7e3184d3bedeab2",
+ "en-gcc-domestic-worker-cost-comparison": "d80057d58d0236ff",
+ "gcc-domestic-worker-cost-comparison": "689fc772a27e90f8"
 }
