@@ -3424,7 +3424,7 @@ export function familyResidenceCost({ country = "ae-dubai", spouse = 1, children
 /* السعودية — مواعيد صرف الرواتب والدعم وعدّاد الأيام                  */
 /* ------------------------------------------------------------------ */
 
-export const KSA_PAY_ITEMS = ["salary", "citizen", "social", "pension", "saned", "hafiz", "disability", "sakani"];
+export const KSA_PAY_ITEMS = ["salary", "citizen", "social", "pension", "saned", "hafiz", "disability", "sakani", "stipend"];
 
 function saHolidayOn(iso) {
   const H = rules.sa.holidays;
@@ -3969,6 +3969,17 @@ export function ksaAllowance500({ category = "civil", income = 0, survivors = 1,
     electricity: { old: eOld, new: eNew, diff: r2(eNew - eOld) }, water: { old: wOld, new: wNew, diff: r2(wNew - wOld) },
     billIncrease, net: r2(amount - billIncrease), hasBills: Boolean(k || w),
   };
+}
+/** مكافأة الطالب الجامعي (م41 من اللائحة المالية للجامعات) بعد حسم صندوق الطلاب، ومكافأة التفوق السنوية. */
+export function ksaUniversityStipend({ category = "science", excellence = false } = {}) {
+  const U = rules.sa.universityStipend;
+  const gross = U.amounts[category];
+  if (gross === undefined) return null;
+  const tvtc = category.startsWith("tvtc");
+  const deduction = tvtc ? 0 : gross >= U.fund.threshold ? U.fund.high : U.fund.low;
+  const net = gross - deduction;
+  const exc = excellence && (category === "science" || category === "humanities") ? U.excellence : 0;
+  return { category, gross, deduction, net, excellence: exc, annual: net * 12 + exc, tvtc, graduate: category === "graduate" ? { books: gross, thesis: U.thesis } : null };
 }
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {

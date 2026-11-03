@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaUniversityStipend,
+  ksaNextPayDates as ksaNextPayDatesForStipend,
   uaePayDate,
   uaeNextPayDates,
   ksaAllowance500,
@@ -1984,4 +1986,15 @@ test("مواعيد الرواتب والمعاشات في الإمارات (ال
   assert.equal(pv.unsure, true);
   const next = uaeNextPayDates({ item: "federal", today: new Date("2026-11-03"), count: 2 });
   assert.equal(next[0].days, 27);
+});
+
+test("المكافأة الجامعية ومواعيدها (الدفعة 36)", () => {
+  assert.equal(ksaUniversityStipend({ category: "science" }).net, 990);
+  assert.equal(ksaUniversityStipend({ category: "humanities" }).net, 840);
+  assert.equal(ksaUniversityStipend({ category: "graduate" }).net, 890);
+  assert.equal(ksaUniversityStipend({ category: "science", excellence: true }).annual, 12880);
+  assert.equal(ksaUniversityStipend({ category: "graduate", excellence: true }).excellence, 0);
+  assert.equal(ksaUniversityStipend({ category: "tvtcCollege" }).deduction, 0);
+  const d = ksaNextPayDatesForStipend({ item: "stipend", today: new Date("2026-11-03"), count: 5 }).map((p) => p.date);
+  assert.deepEqual(d, ["2026-11-26", "2026-12-27", "2027-01-27", "2027-02-28", "2027-03-28"]);
 });

@@ -5,8 +5,8 @@ import { plural } from "./en-common.js";
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
 const MODE = form.dataset.mode || "item";
-const NAME = { salary: "Government salaries", citizen: "Citizen's Account", social: "Developed social security", pension: "GOSI pensions", saned: "SANED", hafiz: "Hafiz", disability: "Disability allowance (comprehensive rehabilitation)", sakani: "Housing support (Sakani)" };
-const ON = { salary: "payday", citizen: "the Citizen's Account deposit", social: "the social security deposit", pension: "the pension deposit", saned: "the SANED deposit", hafiz: "the Hafiz deposit", disability: "the disability allowance", sakani: "the housing support deposit" };
+const NAME = { salary: "Government salaries", citizen: "Citizen's Account", social: "Developed social security", pension: "GOSI pensions", saned: "SANED", hafiz: "Hafiz", disability: "Disability allowance (comprehensive rehabilitation)", sakani: "Housing support (Sakani)", stipend: "University student stipends" };
+const ON = { salary: "payday", citizen: "the Citizen's Account deposit", social: "the social security deposit", pension: "the pension deposit", saned: "the SANED deposit", hafiz: "the Hafiz deposit", disability: "the disability allowance", sakani: "the housing support deposit", stipend: "the university stipend" };
 const RULE = {
   salary: "Paid on the 27th of each Gregorian month; a Friday moves to the Thursday before and a Saturday to the Sunday after. The Ministry of Finance may pay early before Eid by a decision announced at the time.",
   citizen: "Deposited on the 10th of each Gregorian month; a Friday moves to the Thursday before and a Saturday to the Sunday after. In April 2024 the 10th was the first day of Eid and the deposit came a week early.",
@@ -16,6 +16,7 @@ const RULE = {
   hafiz: "Deposited on the 5th of each Gregorian month, with eligibility results between the 2nd and 4th. HRDF states no weekend rule; in 2019 the Eid payment came early.",
   disability: "The comprehensive rehabilitation allowance is paid on the 26th of each Gregorian month; on a weekend it moves to the next working day (Sunday).",
   sakani: "Housing support is deposited on the 24th of each Gregorian month by REDF decision; when the 24th fell on a Friday or Saturday in 2026, the deposit was announced the following Sunday.",
+  stipend: "Major universities pay stipends on the 27th of each Gregorian month with the salary cycle; each university pays from its own budget and may bring it forward for occasions. Moving Friday to Thursday and Saturday to Sunday is our inference from the salary rule.",
 };
 const HM = ["Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani", "Jumada al-Ula", "Jumada al-Akhirah", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qa'dah", "Dhu al-Hijjah"];
 const wdf = new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: "UTC" });
