@@ -1,0 +1,230 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-mortgage-calculator",
+  "alternate": "ksa-mortgage",
+  "title": "Saudi Mortgage Calculator 2026 — How Much Will the Bank Lend on Your Salary?",
+  "h1": "Saudi Arabia Home Finance (Mortgage) Calculator",
+  "description": "Work out the maximum home finance you can get in Saudi Arabia from your salary and commitments: a 55% or 65% debt burden ratio by income under SAMA's responsible lending principles, up to 90% financing for a first home (70% for non-Saudis), with the monthly instalment, down payment, fees and housing support.",
+  "short": "Maximum finance by salary, DBR and LTV, with the instalment and down payment",
+  "lead": "Enter your salary, commitments and the property price to see your maximum finance, the instalment and the down payment, and which limit caps your finance.",
+  "country": "sa",
+  "category": "finance",
+  "tool": true,
+  "script": "en-ksa-mortgage.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-net-salary",
+    "en-ksa-gosi",
+    "en-dubai-mortgage-fees",
+    "en-uae-personal-loan"
+  ],
+  "faq": [
+    {
+      "q": "What debt burden ratio applies to home finance in Saudi Arabia?",
+      "a": "Under SAMA's responsible lending principles for individuals: total commitments including the mortgage instalment may not exceed 55% of monthly income for incomes of SAR 15,000 or less, and 65% for incomes above 15,000 and below 25,000; above 25,000 it is left to bank policy. Personal finance instalments alone may not exceed 33.33% of salary, or 25% for retirees."
+    },
+    {
+      "q": "Was the DBR for subsidised finance cut to 55%?",
+      "a": "The regulation allows 65% for housing-support beneficiaries with incomes of SAR 15,000 or less, but the business press reported in September 2025, citing banking sources, that banks now apply 55% to new finance in this band. The calculator assumes 55%, and you can choose 65% in the advanced options."
+    },
+    {
+      "q": "How much is the down payment for a first home?",
+      "a": "At least 10% for a Saudi citizen's first home, as finance can reach 90% of the value. It can drop to 5% under the Real Estate Development Fund's down payment reduction programme for homes up to SAR 800,000. For a second home it is 30% at banks and 15% at real estate finance companies, and banks typically finance up to 70% for non-Saudis."
+    },
+    {
+      "q": "Can expats get a mortgage in Saudi Arabia?",
+      "a": "Yes. Banks typically finance up to 70% for non-Saudi residents, some require a 30% or larger down payment, and property in Makkah and Madinah cannot be financed for non-Saudis. Housing support programmes are for Saudi citizens only."
+    },
+    {
+      "q": "What is the maximum mortgage term?",
+      "a": "There is no regulatory cap on home finance tenor. 25 years is common, and some banks and Sakani beneficiaries get up to 30 years, provided your age at the last instalment does not exceed the bank's limit of 65 to 77."
+    },
+    {
+      "q": "How much are the admin fees?",
+      "a": "No more than 1% of the finance amount or SAR 5,000, whichever is lower, plus VAT. Banks must include all fees in the disclosed annual percentage rate (APR)."
+    },
+    {
+      "q": "What is the difference between a flat rate and the APR?",
+      "a": "A flat rate is charged on the original amount for the whole term, so it looks lower: 4% flat over 25 years is about a 6.36% APR. Enter the APR shown in the bank's offer."
+    }
+  ],
+  "sources": [
+    {
+      "t": "SAMA — responsible lending principles for individuals (Articles 13–19)",
+      "u": "https://rulebook.sama.gov.sa/node/1971"
+    },
+    {
+      "t": "SAMA — first-home LTV for citizens raised to 90%",
+      "u": "https://rulebook.sama.gov.sa/en/node/5410"
+    },
+    {
+      "t": "SAMA — cap on finance admin fees",
+      "u": "https://rulebook.sama.gov.sa/en/node/5448"
+    },
+    {
+      "t": "ZATCA — real estate transaction tax guide (Arabic)",
+      "u": "https://zatca.gov.sa/ar/eServices/Documents/RETT_Guide.pdf"
+    },
+    {
+      "t": "Al Eqtisadiah — banks cut the DBR to 55% (September 2025), Arabic",
+      "u": "https://www.aleqt.com/2025/09/27/article_2767119.html"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your home finance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="salary">Gross monthly salary or pension (SAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="100" value="15000" required>
+        <span class="hint">Basic plus fixed allowances, before deductions.</span>
+      </div>
+      <div class="field">
+        <label for="retiree">Status</label>
+        <select id="retiree" name="retiree">
+          <option value="no" selected>Employee</option>
+          <option value="yes">Retiree</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="personal">Current personal finance instalments (monthly)</label>
+        <input type="number" id="personal" name="personal" inputmode="decimal" min="0" step="100" value="0">
+      </div>
+      <div class="field">
+        <label for="otherDebts">Other monthly commitments</label>
+        <input type="number" id="otherDebts" name="otherDebts" inputmode="decimal" min="0" step="100" value="0">
+        <span class="hint">Car, cards (minimum payment on the full limit) and others.</span>
+      </div>
+      <div class="field">
+        <label for="price">Property price (SAR)</label>
+        <input type="number" id="price" name="price" inputmode="decimal" min="0" step="10000" value="900000" required>
+      </div>
+      <div class="field">
+        <label for="apr">Annual percentage rate, APR (%)</label>
+        <input type="number" id="apr" name="apr" inputmode="decimal" min="0" max="20" step="0.01" value="6.5" required>
+        <span class="hint">Indicative 5.5%–7.5% in 2026. Do not enter a flat rate.</span>
+      </div>
+      <div class="field">
+        <label for="years">Requested term (years)</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="1" max="30" step="1" value="25" required>
+      </div>
+      <div class="field">
+        <label for="age">Your age now</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="18" max="80" step="1" value="35">
+      </div>
+      <div class="field full">
+        <label for="support">Housing support (Saudi citizens)</label>
+        <select id="support" name="support">
+          <option value="none" selected>None</option>
+          <option value="dp150">Down payment support SAR 150,000 (net salary under 10,000)</option>
+          <option value="dp100">Down payment support SAR 100,000</option>
+          <option value="profit">Monthly profit support from the Real Estate Fund</option>
+        </select>
+      </div>
+      <details class="more">
+        <summary>Advanced options</summary>
+        <div class="fields">
+          <div class="field">
+            <label for="citizen">Nationality</label>
+            <select id="citizen" name="citizen">
+              <option value="yes" selected>Saudi</option>
+              <option value="no">Non-Saudi (resident)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="firstHome">Property</label>
+            <select id="firstHome" name="firstHome">
+              <option value="yes" selected>First home</option>
+              <option value="no">Second home or more</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="lender">Lender</label>
+            <select id="lender" name="lender">
+              <option value="bank" selected>Bank</option>
+              <option value="financeCo">Real estate finance company</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tenorCap">Bank's maximum term</label>
+            <select id="tenorCap" name="tenorCap">
+              <option value="25" selected>25 years</option>
+              <option value="30">30 years</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="maxAge">Maximum age at the last instalment</label>
+            <input type="number" id="maxAge" name="maxAge" inputmode="decimal" min="50" max="80" step="1" value="70">
+            <span class="hint">Bank policy, between 65 and 77.</span>
+          </div>
+          <div class="field">
+            <label for="otherIncome">Other regular income documented for two years (monthly)</label>
+            <input type="number" id="otherIncome" name="otherIncome" inputmode="decimal" min="0" step="100" value="0">
+            <span class="hint">Rent or fixed returns; half of it counts.</span>
+          </div>
+          <div class="field full">
+            <label for="capMode">Overall DBR cap</label>
+            <select id="capMode" name="capMode">
+              <option value="auto" selected>Current practice (55% up to 15,000, then 65%)</option>
+              <option value="regulatory">65% for subsidised finance up to 15,000, as in SAMA's text</option>
+              <option value="high70">70% for incomes of 25,000 and above (some banks)</option>
+            </select>
+          </div>
+          <div class="field full inline">
+            <input type="checkbox" id="redfReduced" name="redfReduced">
+            <label for="redfReduced">Eligible for the Fund's down payment reduction (5% instead of 10% for a home up to 800,000)</label>
+          </div>
+        </div>
+      </details>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the bank sets your finance amount</h2>
+<p>The bank gives you the lowest of three amounts: what your salary allows after the debt burden ratio, what the loan-to-value ratio allows, and what you actually need after any support. The calculator shows all three and which one limits your finance.</p>
+<h3>Debt burden ratio by income</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Monthly income</th><th scope="col">All commitments including the mortgage</th><th scope="col">Non-mortgage commitments</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">SAR 15,000 or less</th><td>55% (the text allows 65% for subsidised finance; banks apply 55% since 2025)</td><td>45%</td></tr>
+    <tr><th scope="row">Above 15,000 and below 25,000</th><td>65%</td><td>45%</td></tr>
+    <tr><th scope="row">25,000 and above</th><td>Bank policy (usually 65% to 70%)</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<p>In every band, personal finance instalments deducted from salary may not exceed 33.33% of it for employees and 25% for retirees.</p>
+<h3>Loan-to-value</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Case</th><th scope="col">Maximum finance</th><th scope="col">Minimum down payment</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Saudi citizen's first home</th><td>90%</td><td>10%</td></tr>
+    <tr><th scope="row">Down payment reduction (first home up to 800,000)</th><td>95%</td><td>5%</td></tr>
+    <tr><th scope="row">Second home, or non-Saudi, at banks</th><td>70%</td><td>30%</td></tr>
+    <tr><th scope="row">Second home at real estate finance companies</th><td>85%</td><td>15%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> salary SAR 15,000 with a personal instalment of 2,000, a SAR 900,000 property, 25 years at 5%: the salary allows about 1,069,000 and the 90% LTV allows 810,000, so the finance is <strong>SAR 810,000</strong> with an instalment of SAR 4,735 and a down payment of SAR 90,000.</p>
+</div>
+<h2>Before you sign</h2>
+<ul>
+  <li>Compare banks by APR, not the flat rate — the APR includes profit and all fees.</li>
+  <li>Admin fees are capped at 1% of the finance or SAR 5,000, whichever is lower, plus VAT.</li>
+  <li>The real estate transaction tax is 5%; the state covers it on the first million of a citizen's first home.</li>
+  <li>Banks usually use the lower of the price and the valuation, so finance may fall if the valuation comes in low.</li>
+</ul>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-mortgage/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
