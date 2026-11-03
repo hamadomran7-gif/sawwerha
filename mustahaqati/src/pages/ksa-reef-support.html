@@ -1,0 +1,128 @@
+---json
+{
+  "title": "دعم ريف 2026 — موعد الصرف (من 1 إلى 10) وكم الدعم لكل قطاع",
+  "h1": "دعم ريف: موعد الصرف وحاسبة الدعم",
+  "description": "متى يُصرف دعم ريف وكم يبلغ: نافذة الصرف من اليوم 1 إلى 10 من كل شهر ميلادي، والأسر المنتجة 10% من رأس المال شهرياً بحد 4,500 ريال، والمحاصيل البعلية والليمون والماشية بأسعارها المعلنة، وسقف 54,000 ريال سنوياً، واستمرار البرنامج حتى 2032.",
+  "short": "الصرف بين 1 و10 من كل شهر، والأسر المنتجة حتى 4,500 شهرياً، وسقف 54,000 سنوياً",
+  "lead": "يظهر كم بقي على نافذة الصرف القادمة، واختر قطاعك لتقدير مبلغ الدعم بالأسعار المعلنة.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-reef-support.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-payment-calendar", "ksa-citizen-account-date", "ksa-social-security", "ksa-salary-date", "ksa-university-stipend", "ksa-500-riyal-allowance"],
+  "faq": [
+    {"q": "متى يُصرف دعم ريف؟", "a": "خلال الأيام العشرة الأولى من كل شهر ميلادي (من اليوم 1 إلى 10) بحسب وزارة البيئة والمياه والزراعة، ويختلف تكرار الصرف بحسب القطاع، وقد يختلف وقت الإيداع من بنك لآخر. ولا يوجد يوم ثابت منشور."},
+    {"q": "كم دعم ريف للأسر المنتجة؟", "a": "10% من رأس المال المسجل في الطلب شهرياً بحد أعلى 4,500 ريال، ولا يتجاوز مجموع الدعم رأس المال، وسقف كل برامج الدعم المباشر 54,000 ريال سنوياً بحد 3 برامج."},
+    {"q": "هل توقف برنامج ريف؟", "a": "لا. قرر مجلس الوزراء في جلسة 20 أكتوبر 2026 استمرار برنامج التنمية الريفية الزراعية المستدامة حتى نهاية عام 2032."},
+    {"q": "ما شروط دعم ريف؟", "a": "سعودي، عمره 21 سنة فأكثر (18 للصيادين)، بلا وظيفة في القطاع العام أو الخاص، يمارس النشاط بنفسه ويقيم في منطقته، ودخله الشهري لا يتجاوز 6,000 ريال (و9,000 للراتب التقاعدي بحسب ما نُقل)، وبحد 3 برامج، مع حساب بنكي باسمه."},
+    {"q": "كم دعم ريف لصغار مربي الماشية؟", "a": "8 ريالات للرأس من الضأن والماعز، و40 للإبل، و60 للأبقار، لقطيع من 50 إلى 500 رأس، بحسب ما أعلنته الوزارة في 2022، مع نسبة استحقاق بحسب شريحة الدخل لم تُنشر."},
+    {"q": "كم دعم ريف للمحاصيل البعلية والليمون؟", "a": "ريالان لكل كيلوغرام من الدخن والذرة والقمح والشعير، و4 للسمسم، ونصف ريال للحبحب (2022). والليمون 0.55 ريال لكل كيلوغرام و3.5 لكل شجرة جديدة أو منتجة (2023). ويُشترط في كل القطاعات سقف 54,000 سنوياً."}
+  ],
+  "sources": [
+    {"t": "وزارة البيئة والمياه والزراعة — مواعيد صرف دعم ريف من 1 إلى 10", "u": "https://www.mewa.gov.sa/ar/MediaCenter/News/Pages/News2082020.aspx"},
+    {"t": "وزارة البيئة والمياه والزراعة — الدعم المالي المباشر للصيادين (8/1/1446هـ)", "u": "https://www.mewa.gov.sa/ar/MediaCenter/News/Pages/News9912020.aspx"},
+    {"t": "المدينة — استمرار برنامج ريف حتى نهاية 2032 (20/10/2026)", "u": "https://www.al-madina.com/ampArticle/1010042"},
+    {"t": "المدينة — دعم حتى 4,500 شهرياً وسقف 54 ألف ريال (19/1/2025)", "u": "https://www.al-madina.com/ampArticle/920204"},
+    {"t": "عكاظ — دعم صغار مربي الماشية (24/6/2022)", "u": "https://www.okaz.com.sa/ampArticle/2108603"},
+    {"t": "عاجل — قيمة دعم المحاصيل البعلية (2/10/2022)", "u": "https://ajel.sa/thehour/m7xgh7m371"},
+    {"t": "عاجل — قيمة دعم قطاع الليمون (8/1/2023)", "u": "https://ajel.sa/thehour/jglqimfltb"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">متى ينزل دعم ريف وكم تستحق؟</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">قطاعك</label>
+        <select id="sector" name="sector">
+          <option value="productive" selected>الأسر المنتجة (القيمة المضافة)</option>
+          <option value="rainfed">المحاصيل البعلية</option>
+          <option value="lemon">الليمون</option>
+          <option value="livestock">صغار مربي الماشية</option>
+          <option value="fisherman">صغار الصيادين</option>
+        </select>
+      </div>
+      <div class="field" data-sector="productive">
+        <label for="capital">رأس المال المسجل في الطلب (ريال)</label>
+        <input type="number" id="capital" name="capital" inputmode="decimal" min="0" step="1000" value="30000">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="grains">دخن وذرة وقمح وشعير (كجم)</label>
+        <input type="number" id="grains" name="grains" inputmode="decimal" min="0" step="10" value="2000">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="sesame">سمسم (كجم)</label>
+        <input type="number" id="sesame" name="sesame" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="watermelon">حبحب بعلي (كجم)</label>
+        <input type="number" id="watermelon" name="watermelon" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field" data-sector="lemon" hidden>
+        <label for="lemonKg">إنتاج الليمون (كجم)</label>
+        <input type="number" id="lemonKg" name="lemonKg" inputmode="decimal" min="0" step="10" value="1000">
+      </div>
+      <div class="field" data-sector="lemon" hidden>
+        <label for="lemonTrees">أشجار الليمون الجديدة أو المنتجة</label>
+        <input type="number" id="lemonTrees" name="lemonTrees" inputmode="decimal" min="0" step="1" value="100">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="sheep">ضأن وماعز (رأس)</label>
+        <input type="number" id="sheep" name="sheep" inputmode="decimal" min="0" step="1" value="100">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="camels">إبل (رأس)</label>
+        <input type="number" id="camels" name="camels" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="cows">أبقار (رأس)</label>
+        <input type="number" id="cows" name="cows" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>موعد صرف دعم ريف</h2>
+<p>أعلنت وزارة البيئة والمياه والزراعة أن الدعم يُصرف «من اليوم الأول وحتى العاشر» من كل شهر ميلادي لكل القطاعات، وأن تكرار الصرف يختلف بحسب القطاع، وقد يتأخر الإيداع من بنك لآخر. فلا يوم ثابت؛ والقول إنه يوم 1 أو يوم 10 غير دقيق.</p>
+
+<h2>كم الدعم؟</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">القطاع</th><th scope="col">الدعم</th><th scope="col">السند</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الأسر المنتجة</th><td>10% من رأس المال شهرياً بحد 4,500، ولا يتجاوز المجموع رأس المال</td><td>عاجل 2021، والمدينة 2025</td></tr>
+    <tr><th scope="row">المحاصيل البعلية</th><td>2 للكيلوغرام من الحبوب، و4 للسمسم، و0.5 للحبحب</td><td>ريف (2022)</td></tr>
+    <tr><th scope="row">الليمون</th><td>0.55 للكيلوغرام، و3.5 لكل شجرة</td><td>ريف (2023)</td></tr>
+    <tr><th scope="row">الماشية (50–500 رأس)</th><td>8 للضأن والماعز، و40 للإبل، و60 للأبقار للرأس</td><td>الوزارة (2022)</td></tr>
+    <tr><th scope="row">صغار الصيادين</th><td>حتى 54,000 للصياد</td><td>الوزارة (2024)</td></tr>
+    <tr><th scope="row">كل البرامج</th><td>سقف 54,000 سنوياً، وحتى 3 برامج</td><td>عاجل والمدينة</td></tr>
+  </tbody>
+</table>
+</div>
+<p>أسعار المحاصيل والماشية من إعلانات 2022 و2023، وقد تكون تغيرت. ولم نجد أسعاراً رسمية لقطاعات النحل والبن والورد، فلم نضفها. ومدة الدعم وقيمته مرتبطتان بسقف كل قطاع.</p>
+
+<h2>الشروط</h2>
+<ul>
+  <li>سعودي أو حامل بطاقة تنقل، عمره 21 سنة فأكثر (18 للصيادين).</li>
+  <li>بلا وظيفة في القطاع العام أو الخاص، ويمارس النشاط بنفسه ويقيم في المنطقة الإدارية للمشروع.</li>
+  <li>دخله الشهري لا يتجاوز 6,000 ريال، و9,000 للراتب التقاعدي بحسب ما نُقل في 2021.</li>
+  <li>حساب بنكي نشط باسمه، وإثبات أهلية المهنة، والاشتراطات الصحية والفنية، ووثيقة العمل الحر للأسر المنتجة.</li>
+</ul>
+<p>وقرر مجلس الوزراء في 20 أكتوبر 2026 استمرار البرنامج حتى نهاية 2032، وتجاوز المستفيدون 90 ألفاً، منهم نحو 65 ألف امرأة.</p>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+أسرة منتجة برأس مال 30,000: 3,000 ريال شهرياً مدة 10 أشهر.<br>
+أسرة برأس مال 60,000: 4,500 شهرياً (الحد الأعلى)، و54,000 في السنة الأولى.<br>
+مزارع بعلي أنتج 2,000 كجم قمح و3,000 كجم حبحب: 4,000 + 1,500 = <strong>5,500 ريال</strong> بأسعار 2022.</p>
+</div>
+</div>

@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaReefSupport,
+  ksaReefWindow,
   ksaUniversityStipend,
   ksaNextPayDates as ksaNextPayDatesForStipend,
   uaePayDate,
@@ -1997,4 +1999,19 @@ test("المكافأة الجامعية ومواعيدها (الدفعة 36)", (
   assert.equal(ksaUniversityStipend({ category: "tvtcCollege" }).deduction, 0);
   const d = ksaNextPayDatesForStipend({ item: "stipend", today: new Date("2026-11-03"), count: 5 }).map((p) => p.date);
   assert.deepEqual(d, ["2026-11-26", "2026-12-27", "2027-01-27", "2027-02-28", "2027-03-28"]);
+});
+
+test("دعم ريف (الدفعة 36)", () => {
+  assert.equal(ksaReefWindow({ today: new Date("2026-11-03") }).inWindow, true);
+  assert.equal(ksaReefWindow({ today: new Date("2026-11-15") }).start, "2026-12-01");
+  assert.equal(ksaReefWindow({ today: new Date("2026-12-20") }).start, "2027-01-01");
+  const p1 = ksaReefSupport({ sector: "productive", capital: 30000 });
+  assert.equal(p1.monthly, 3000);
+  assert.equal(p1.months, 10);
+  const p2 = ksaReefSupport({ sector: "productive", capital: 60000 });
+  assert.equal(p2.monthly, 4500);
+  assert.equal(p2.yearly, 54000);
+  assert.equal(ksaReefSupport({ sector: "rainfed", grains: 2000, watermelon: 3000 }).amount, 5500);
+  assert.equal(ksaReefSupport({ sector: "lemon", lemonKg: 1000, lemonTrees: 100 }).amount, 900);
+  assert.equal(ksaReefSupport({ sector: "livestock", sheep: 100, camels: 10 }).amount, 1200);
 });

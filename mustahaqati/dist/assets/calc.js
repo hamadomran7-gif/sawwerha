@@ -3981,6 +3981,43 @@ export function ksaUniversityStipend({ category = "science", excellence = false 
   const exc = excellence && (category === "science" || category === "humanities") ? U.excellence : 0;
   return { category, gross, deduction, net, excellence: exc, annual: net * 12 + exc, tvtc, graduate: category === "graduate" ? { books: gross, thesis: U.thesis } : null };
 }
+/** دعم ريف: نافذة الصرف (1–10 من كل شهر)، وتقدير الدعم حسب القطاع بأسعار منشورة (2022–2023) وسقف 54,000 سنوياً. */
+export function ksaReefWindow({ today = new Date() } = {}) {
+  const R = rules.sa.reef;
+  const t = utcDay(today);
+  const y = t.getUTCFullYear(), m = t.getUTCMonth(), d = t.getUTCDate();
+  const inWindow = d >= R.window[0] && d <= R.window[1];
+  const startY = inWindow ? y : m === 11 ? y + 1 : y;
+  const startM = inWindow ? m : (m + 1) % 12;
+  const start = isoUTC(new Date(Date.UTC(startY, startM, R.window[0])));
+  const end = isoUTC(new Date(Date.UTC(startY, startM, R.window[1])));
+  return { inWindow, start, end, days: inWindow ? 0 : dayDiff(t, utcDay(start)), daysToEnd: dayDiff(t, utcDay(end)) };
+}
+export function ksaReefSupport({ sector = "productive", capital = 0, grains = 0, sesame = 0, watermelon = 0, lemonKg = 0, lemonTrees = 0, sheep = 0, camels = 0, cows = 0 } = {}) {
+  const R = rules.sa.reef;
+  const n = (x) => Math.max(0, Number(x) || 0);
+  if (sector === "productive") {
+    const cap = n(capital);
+    const monthly = r2(Math.min(cap * R.productive.pct, R.productive.monthlyCap));
+    const months = monthly > 0 ? Math.ceil(cap / monthly - 1e-9) : 0;
+    return { sector, monthly, months, total: r2(Math.min(cap, monthly * months)), yearly: r2(Math.min(monthly * 12, R.annualCap, cap)), capped: cap * R.productive.pct > R.productive.monthlyCap };
+  }
+  if (sector === "rainfed") {
+    const amount = r2(n(grains) * R.rainfed.grains + n(sesame) * R.rainfed.sesame + n(watermelon) * R.rainfed.watermelon);
+    return { sector, amount: Math.min(amount, R.annualCap), capped: amount > R.annualCap, raw: amount };
+  }
+  if (sector === "lemon") {
+    const amount = r2(n(lemonKg) * R.lemon.kg + n(lemonTrees) * R.lemon.tree);
+    return { sector, amount: Math.min(amount, R.annualCap), capped: amount > R.annualCap, raw: amount };
+  }
+  if (sector === "livestock") {
+    const heads = n(sheep) + n(camels) + n(cows);
+    const amount = r2(n(sheep) * R.livestock.sheep + n(camels) * R.livestock.camel + n(cows) * R.livestock.cow);
+    return { sector, amount, heads, inRange: heads >= R.livestock.minHerd && heads <= R.livestock.maxHerd };
+  }
+  if (sector === "fisherman") return { sector, amount: R.fishermanCap };
+  return null;
+}
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;

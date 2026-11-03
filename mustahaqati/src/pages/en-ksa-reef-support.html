@@ -1,0 +1,130 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-reef-support",
+  "alternate": "ksa-reef-support",
+  "title": "Saudi Reef Support 2026 — Payment Window (1st to 10th) and Amount by Sector",
+  "h1": "Reef Support: Payment Window and Calculator",
+  "description": "When Saudi Reef rural support is paid and how much: a payment window from the 1st to the 10th of each Gregorian month, productive families 10% of capital a month up to SAR 4,500, rain-fed crops, lemons and livestock at their announced rates, a SAR 54,000 yearly cap, and the program's extension to 2032.",
+  "short": "Paid between the 1st and 10th of each month, up to SAR 4,500 a month for productive families, capped at 54,000 a year",
+  "lead": "See how long until the next payment window, and choose your sector to estimate your support at the announced rates.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-reef-support.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-payment-calendar", "en-ksa-citizen-account-date", "en-ksa-social-security", "en-ksa-salary-date", "en-ksa-university-stipend", "en-ksa-500-riyal-allowance"],
+  "faq": [
+    {"q": "When is Reef support paid?", "a": "During the first ten days of each Gregorian month (the 1st to the 10th) according to the Ministry of Environment, Water and Agriculture; how often you are paid depends on your sector, and deposit times can vary by bank. No fixed day has been published."},
+    {"q": "How much Reef support do productive families get?", "a": "10% of the capital registered in the application each month, up to SAR 4,500, with the total not exceeding the capital, and a SAR 54,000 yearly cap across up to 3 direct-support programs."},
+    {"q": "Has the Reef program stopped?", "a": "No. On 20 October 2026 the Council of Ministers decided to continue the Sustainable Agricultural Rural Development Program until the end of 2032."},
+    {"q": "What are the Reef eligibility conditions?", "a": "Saudi, aged 21 or older (18 for fishermen), not employed in the public or private sector, practising the activity personally and living in the area, with monthly income no more than SAR 6,000 (9,000 for retirement pensions, as reported), up to 3 programs, and a bank account in their name."},
+    {"q": "How much Reef support do livestock breeders get?", "a": "SAR 8 per head of sheep or goats, 40 per camel and 60 per cow, for herds of 50 to 500, as announced by the ministry in 2022, multiplied by an unpublished eligibility percentage based on income bracket."},
+    {"q": "How much Reef support is there for rain-fed crops and lemons?", "a": "SAR 2 per kg of millet, sorghum, wheat and barley, 4 for sesame and 0.5 for watermelon (2022), and for lemons 0.55 per kg and 3.5 per new or productive tree (2023), all within the SAR 54,000 yearly cap."}
+  ],
+  "sources": [
+    {"t": "Ministry of Environment, Water and Agriculture — Reef payment dates (1st to 10th)", "u": "https://www.mewa.gov.sa/ar/MediaCenter/News/Pages/News2082020.aspx"},
+    {"t": "Ministry of Environment, Water and Agriculture — direct support for fishermen (2024)", "u": "https://www.mewa.gov.sa/ar/MediaCenter/News/Pages/News9912020.aspx"},
+    {"t": "Al-Madina — Reef extended to the end of 2032 (20/10/2026)", "u": "https://www.al-madina.com/ampArticle/1010042"},
+    {"t": "Al-Madina — up to SAR 4,500 a month and a 54,000 cap (19/1/2025)", "u": "https://www.al-madina.com/ampArticle/920204"},
+    {"t": "Okaz — support for small livestock breeders (24/6/2022)", "u": "https://www.okaz.com.sa/ampArticle/2108603"},
+    {"t": "Ajel — rain-fed crop support rates (2/10/2022)", "u": "https://ajel.sa/thehour/m7xgh7m371"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">When is Reef paid and how much?</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">Your sector</label>
+        <select id="sector" name="sector">
+          <option value="productive" selected>Productive families (value added)</option>
+          <option value="rainfed">Rain-fed crops</option>
+          <option value="lemon">Lemons</option>
+          <option value="livestock">Small livestock breeders</option>
+          <option value="fisherman">Small-scale fishermen</option>
+        </select>
+      </div>
+      <div class="field" data-sector="productive">
+        <label for="capital">Registered capital in the application (SAR)</label>
+        <input type="number" id="capital" name="capital" inputmode="decimal" min="0" step="1000" value="30000">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="grains">Millet, sorghum, wheat and barley (kg)</label>
+        <input type="number" id="grains" name="grains" inputmode="decimal" min="0" step="10" value="2000">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="sesame">Sesame (kg)</label>
+        <input type="number" id="sesame" name="sesame" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field" data-sector="rainfed" hidden>
+        <label for="watermelon">Rain-fed watermelon (kg)</label>
+        <input type="number" id="watermelon" name="watermelon" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field" data-sector="lemon" hidden>
+        <label for="lemonKg">Lemon production (kg)</label>
+        <input type="number" id="lemonKg" name="lemonKg" inputmode="decimal" min="0" step="10" value="1000">
+      </div>
+      <div class="field" data-sector="lemon" hidden>
+        <label for="lemonTrees">New or productive lemon trees</label>
+        <input type="number" id="lemonTrees" name="lemonTrees" inputmode="decimal" min="0" step="1" value="100">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="sheep">Sheep and goats (head)</label>
+        <input type="number" id="sheep" name="sheep" inputmode="decimal" min="0" step="1" value="100">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="camels">Camels (head)</label>
+        <input type="number" id="camels" name="camels" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-sector="livestock" hidden>
+        <label for="cows">Cows (head)</label>
+        <input type="number" id="cows" name="cows" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Reef payment dates</h2>
+<p>The Ministry of Environment, Water and Agriculture announced that support is paid "from the first day until the tenth" of each Gregorian month for all sectors, that payment frequency differs by sector, and that deposits may arrive at different times depending on the bank. There is no fixed day; saying it is the 1st or the 10th is inaccurate.</p>
+
+<h2>How much is the support?</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Sector</th><th scope="col">Support</th><th scope="col">Basis</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Productive families</th><td>10% of capital a month up to 4,500, with the total not above the capital</td><td>Ajel 2021, Al-Madina 2025</td></tr>
+    <tr><th scope="row">Rain-fed crops</th><td>2 per kg of grain, 4 for sesame, 0.5 for watermelon</td><td>Reef (2022)</td></tr>
+    <tr><th scope="row">Lemons</th><td>0.55 per kg and 3.5 per tree</td><td>Reef (2023)</td></tr>
+    <tr><th scope="row">Livestock (50–500 head)</th><td>8 per sheep or goat, 40 per camel, 60 per cow</td><td>Ministry (2022)</td></tr>
+    <tr><th scope="row">Small-scale fishermen</th><td>Up to 54,000 per fisherman</td><td>Ministry (2024)</td></tr>
+    <tr><th scope="row">All programs</th><td>54,000 a year cap, up to 3 programs</td><td>Ajel and Al-Madina</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Crop and livestock rates come from 2022 and 2023 announcements and may have changed. We found no official rates for beekeeping, coffee or roses, so they are left out. The duration and value of support depend on each sector's cap.</p>
+
+<h2>Conditions</h2>
+<ul>
+  <li>Saudi or a holder of a movement card, aged 21 or older (18 for fishermen).</li>
+  <li>Not employed in the public or private sector, practising the activity personally and living in the project's administrative region.</li>
+  <li>Monthly income no more than SAR 6,000, or 9,000 for retirement pensions as reported in 2021.</li>
+  <li>An active bank account in their name, proof of the occupation, health and technical requirements, and a freelance document for productive families.</li>
+</ul>
+<p>On 20 October 2026 the Council of Ministers extended the program to the end of 2032; beneficiaries exceed 90,000, about 65,000 of them women.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A productive family with capital of 30,000: SAR 3,000 a month for 10 months.<br>
+A family with capital of 60,000: 4,500 a month (the maximum), 54,000 in the first year.<br>
+A rain-fed farmer producing 2,000 kg of wheat and 3,000 kg of watermelon: 4,000 + 1,500 = <strong>SAR 5,500</strong> at 2022 rates.</p>
+</div>
+</div>

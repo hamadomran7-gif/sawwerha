@@ -4273,6 +4273,42 @@
         "phd": 4000
       },
       "minGpa": 2
+    },
+    "reef": {
+      "law": "برنامج التنمية الريفية الزراعية المستدامة «ريف» (وزارة البيئة والمياه والزراعة)؛ نافذة الصرف من 1 إلى 10 (الوزارة 23/7/1442هـ)؛ الاستمرار حتى نهاية 2032 (مجلس الوزراء 20/10/2026)",
+      "lastReview": "2026-11-03",
+      "window": [
+        1,
+        10
+      ],
+      "annualCap": 54000,
+      "maxPrograms": 3,
+      "productive": {
+        "pct": 0.1,
+        "monthlyCap": 4500
+      },
+      "rainfed": {
+        "grains": 2,
+        "sesame": 4,
+        "watermelon": 0.5
+      },
+      "lemon": {
+        "kg": 0.55,
+        "tree": 3.5
+      },
+      "livestock": {
+        "sheep": 8,
+        "camel": 40,
+        "cow": 60,
+        "minHerd": 50,
+        "maxHerd": 500
+      },
+      "fishermanCap": 54000,
+      "incomeCap": 6000,
+      "retireeIncomeCap": 9000,
+      "minAge": 21,
+      "fishermenMinAge": 18,
+      "until": "2032-12-31"
     }
   },
   "gcc": {
