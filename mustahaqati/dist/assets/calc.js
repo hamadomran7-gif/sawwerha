@@ -785,6 +785,50 @@ export function ksaMaternityPay({ contribMonths = 0, insuredWage = 0, wage = 0, 
   return { payer: "employer", days, daily: r2(w / 30), total: r2((w / 30) * days), shortBy: G.minContribMonths - (Number(contribMonths) || 0) };
 }
 
+/** إجازة الوضع في قطر والكويت وعُمان والبحرين: التواريخ والأجر والتمديد بلا أجر وساعات الرضاعة وإجازة الأب. */
+export function gccMaternityPlan({ country, due, start, wage = 0, serviceMonths = 12, extra = false } = {}) {
+  const M = rules[country]?.maternity;
+  if (!M || !due) return null;
+  const earliest = addDaysUTC(due, -M.prenatalMax);
+  let s = toUTC(start || due);
+  const late = s > toUTC(due);
+  if (late) s = toUTC(due);
+  const tooEarly = s < earliest;
+  if (tooEarly) s = earliest;
+  const preDays = daysBetween(s, due);
+  const postDays = M.days - preDays;
+  const lastDay = addDaysUTC(s, M.days - 1);
+  const back = addDaysUTC(s, M.days);
+  const eligible = (Number(serviceMonths) || 0) >= M.serviceMinMonths;
+  const daily = (Number(wage) || 0) / 30;
+  const out = { country, start: isoOf(s), earliest: isoOf(earliest), tooEarly, late, preDays, postDays, days: M.days, lastDay: isoOf(lastDay), back: isoOf(back), eligible, daily: r2(daily), pay: eligible ? r2(daily * M.days) : 0, payer: M.payer };
+  if (M.postnatalMin && postDays < M.postnatalMin) out.shortPost = M.postnatalMin - postDays;
+  let backFinal = back;
+  if (extra && M.extra) {
+    const E = M.extra;
+    const extraEnd = E.months ? addDaysUTC(addMonthsUTC(back, E.months), -1) : addDaysUTC(back, E.days - 1);
+    backFinal = addDaysUTC(extraEnd, 1);
+    out.extra = { type: E.type, days: E.days || null, months: E.months || null, from: isoOf(back), to: isoOf(extraEnd) };
+  }
+  if (M.postnatalBanDays) {
+    const banEnd = addDaysUTC(due, M.postnatalBanDays - 1);
+    out.banUntil = isoOf(banEnd);
+    if (banEnd >= backFinal) {
+      out.banUnpaidDays = daysBetween(backFinal, addDaysUTC(banEnd, 1));
+      backFinal = addDaysUTC(banEnd, 1);
+    }
+  }
+  out.returnDate = isoOf(backFinal);
+  if (out.extra) out.extra.back = out.returnDate;
+  out.nursing = M.nursing.map((n) => {
+    if (n.from === "birth") return { hours: n.hours, to: isoOf(addDaysUTC(addMonthsUTC(due, n.toChildMonths), -1)) };
+    return { hours: n.hours, to: n.months ? isoOf(addDaysUTC(addMonthsUTC(backFinal, n.months), -1)) : null };
+  });
+  out.nursing.forEach((n, i) => { n.from = i === 0 ? out.returnDate : isoOf(addDaysUTC(toUTC(out.nursing[i - 1].to), 1)); });
+  out.paternity = M.paternityDays ? { days: M.paternityDays, until: M.paternityWindowDays ? isoOf(addDaysUTC(due, M.paternityWindowDays - 1)) : null } : null;
+  return out;
+}
+
 export function ksaMaternityPlan({ due, start, wage = 0 }) {
   const m = rules.sa.maternity;
   const totalDays = m.weeks * 7;

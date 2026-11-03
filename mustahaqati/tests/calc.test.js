@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  gccMaternityPlan,
   ksaMaternityPay,
   hijriMonthGrid,
   hijriEventCountdown,
@@ -1505,4 +1506,20 @@ test("تعويض الأمومة من التأمينات السعودية", () =>
   assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 9000, insuredWage: 7000 }).total, 21000);
   assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 60000 }).monthly, 45000);
   assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 6000, sickChild: true }).months, 4);
+});
+
+test("إجازة الوضع في قطر والكويت وعُمان والبحرين — أمثلة البحث 26", () => {
+  const due = "2026-12-10";
+  const qa = gccMaternityPlan({ country: "qa", due, start: due, wage: 6000, serviceMonths: 12 });
+  assert.equal(qa.lastDay, "2027-01-28"); assert.equal(qa.back, "2027-01-29"); assert.equal(qa.pay, 10000); assert.equal(qa.nursing[0].to, "2028-01-28");
+  assert.equal(gccMaternityPlan({ country: "qa", due, wage: 6000, serviceMonths: 8 }).pay, 0);
+  const qaEarly = gccMaternityPlan({ country: "qa", due, start: "2026-11-01" });
+  assert.equal(qaEarly.start, "2026-11-25"); assert.equal(qaEarly.lastDay, "2027-01-13"); assert.equal(qaEarly.postDays, 35);
+  const kw = gccMaternityPlan({ country: "kw", due, start: due, wage: 6000, extra: true });
+  assert.equal(kw.lastDay, "2027-02-17"); assert.equal(kw.pay, 14000); assert.equal(kw.extra.back, "2027-06-18");
+  const om = gccMaternityPlan({ country: "om", due, start: due, wage: 6000, extra: true });
+  assert.equal(om.lastDay, "2027-03-17"); assert.equal(om.pay, 19600); assert.equal(om.paternity.until, "2027-03-17"); assert.equal(om.extra.to, "2027-06-23");
+  const bh = gccMaternityPlan({ country: "bh", due, start: due, wage: 6000, extra: true });
+  assert.equal(bh.lastDay, "2027-02-07"); assert.equal(bh.pay, 12000); assert.equal(bh.banUntil, "2027-01-18"); assert.equal(bh.extra.back, "2027-02-23");
+  assert.equal(bh.nursing[0].hours, 2); assert.equal(bh.nursing[1].hours, 1);
 });

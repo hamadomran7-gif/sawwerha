@@ -1,0 +1,122 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-maternity-leave-calculator",
+  "alternate": "bahrain-maternity-leave",
+  "title": "Bahrain Maternity Leave Calculator 2026 — 60 Paid Days, 15 Unpaid Days and Nursing Hours",
+  "h1": "Bahrain Maternity Leave Calculator",
+  "description": "Work out maternity leave dates in Bahrain's private sector: 60 paid days covering before and after the birth, 15 more unpaid days as of right, a ban on work for 40 days after the birth, two nursing hours a day until 6 months then one hour until the first birthday, and one day for fathers, under Articles 32–35 and 63 of Labour Law 36/2012.",
+  "short": "60 paid days and 15 unpaid, a 40-day ban on work after the birth, and two nursing hours",
+  "lead": "Enter the expected delivery date, the leave start date and your wage to see the dates, pay, the ban period and nursing hours.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-maternity.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-leave",
+    "en-bahrain-end-of-service",
+    "en-bahrain-unemployment",
+    "en-gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "How long is maternity leave in Bahrain's private sector?",
+      "a": "60 paid days covering before and after the birth, with a medical certificate of the expected date, and the worker may add 15 unpaid days (Article 32 of Labour Law 36/2012). There is no service condition."
+    },
+    {
+      "q": "Has 70-day maternity leave been approved in Bahrain?",
+      "a": "No. Parliament approved a 70-day proposal for the private sector in 2025, but the government rejected it in October 2025 and no amendment has been issued, so 60 days still applies."
+    },
+    {
+      "q": "How long are nursing breaks in Bahrain?",
+      "a": "After the leave and until the child is 6 months old: two breaks of at least an hour each; then until the first birthday: two breaks of half an hour each, which may be combined and count as working time with no pay cut (Article 35)."
+    },
+    {
+      "q": "How long is paternity leave in Bahrain?",
+      "a": "One paid day (Article 63(b)); a proposal to raise it to 3 days has not been approved for the private sector."
+    },
+    {
+      "q": "Can a woman work right after giving birth in Bahrain?",
+      "a": "She may not be employed during the 40 days after the birth (Article 32(b)), so starting leave more than 20 days before the birth pushes part of that ban past the paid days."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Legislation and Legal Opinion Commission — Labour Law 36/2012 (Articles 32–35 and 63, Arabic)",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    },
+    {
+      "t": "Legislation and Legal Opinion Commission — amendments to Law 36/2012",
+      "u": "https://lloc.gov.bh/Legislation/Amendments/K3612"
+    },
+    {
+      "t": "Daily Tribune — government rejects extending private-sector maternity leave (19 Oct 2025)",
+      "u": "https://www.newsofbahrain.com/bahrain/120582.html"
+    },
+    {
+      "t": "LMRA blog — nursing hours (14 Dec 2016)",
+      "u": "https://blog.lmra.gov.bh/en/?p=3333"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your maternity leave dates</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="due">Expected delivery date</label>
+        <input type="date" id="due" name="due" value="2026-12-10" required>
+        <span class="hint">As on the medical certificate.</span>
+      </div>
+      <div class="field">
+        <label for="start">Leave start date</label>
+        <input type="date" id="start" name="start" value="2026-12-10">
+      </div>
+      <div class="field">
+        <label for="wage">Total monthly wage (optional)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="600">
+      </div>
+      <div class="field">
+        <label for="extra">Add 15 unpaid days (your right)</label>
+        <select id="extra" name="extra">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Maternity leave rules in Bahrain's private sector</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th><th scope="col">Basis</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Length and pay</th><td>60 paid days covering before and after the birth</td><td>Article 32(a)</td></tr>
+    <tr><th scope="row">Unpaid</th><td>15 more days as of right</td><td>Article 32(a)</td></tr>
+    <tr><th scope="row">Ban on work</th><td>40 days after the birth</td><td>Article 32(b)</td></tr>
+    <tr><th scope="row">Nursing</th><td>Two hours a day until 6 months, then one hour until the first birthday</td><td>Article 35</td></tr>
+    <tr><th scope="row">Childcare</th><td>Unpaid up to 6 months at a time, 3 times, for a child under 6</td><td>Article 34</td></tr>
+    <tr><th scope="row">Protection</th><td>No dismissal because of marriage or during maternity leave</td><td>Article 33</td></tr>
+    <tr><th scope="row">Paternity leave</th><td>One paid day</td><td>Article 63(b)</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> expected date 10 December 2026, total wage BHD 600.<br>
+Starting on the birth date: leave until 7 February 2027, back on 8 February. Pay 60 × 20 = <strong>BHD 1,200</strong>.<br>
+With the 15 unpaid days it ends on 22 February, back on 23 February. The ban on work runs until 18 January 2027.<br>
+Nursing: two hours a day from the return until 9 June 2027, then one hour until 9 December 2027.</p>
+</div>
+<p>There is no service condition, and Bahrain has no insurance branch that reimburses employers for maternity pay. The law defines the wage as basic plus allowances, so leave pay is most likely the total wage. The employer sets the timing of the nursing breaks according to the worker's circumstances and the needs of the work.</p>
+<p>Government sector: 60 days on full salary including allowances, which may start 15 days before the birth, and two nursing hours until the child turns two. For other leave use the <a href="{{root}}en/bahrain-leave-calculator/{{ix}}">Bahrain leave calculator</a>.</p>
+</div>

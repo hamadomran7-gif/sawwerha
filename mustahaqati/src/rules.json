@@ -2459,6 +2459,27 @@
         "weekendOverlapCompDay": -1
       },
       "employerSetDays": 3
+    },
+    "maternity": {
+      "law": "قانون العمل 14/2004 المواد 96–98",
+      "lastReview": "2026-11-03",
+      "days": 50,
+      "prenatalMax": 15,
+      "postnatalMin": 35,
+      "serviceMinMonths": 12,
+      "extra": {
+        "type": "medical",
+        "days": 60
+      },
+      "nursing": [
+        {
+          "from": "leaveEnd",
+          "months": 12,
+          "hours": 1
+        }
+      ],
+      "paternityDays": 0,
+      "payer": "employer"
     }
   },
   "kw": {
@@ -2991,6 +3012,27 @@
       "bonusThreshold": 1250,
       "bonusDeduction": 50,
       "payDay": 25
+    },
+    "maternity": {
+      "law": "قانون العمل في القطاع الأهلي 6/2010 المادتان 24 و25",
+      "lastReview": "2026-11-03",
+      "days": 70,
+      "prenatalMax": 69,
+      "postnatalMin": 1,
+      "serviceMinMonths": 0,
+      "extra": {
+        "type": "approval",
+        "months": 4
+      },
+      "nursing": [
+        {
+          "from": "leaveEnd",
+          "months": null,
+          "hours": 2
+        }
+      ],
+      "paternityDays": 0,
+      "payer": "employer"
     }
   },
   "om": {
@@ -3275,6 +3317,31 @@
       "contribEmployee": 0.005,
       "contribEmployer": 0.005,
       "from": "2026-02-01"
+    },
+    "maternity": {
+      "law": "قانون العمل 53/2023 (المواد 76 و83 و84) وقانون الحماية الاجتماعية 52/2023 (المواد 129–134)",
+      "lastReview": "2026-11-03",
+      "days": 98,
+      "prenatalMax": 14,
+      "postnatalMin": 84,
+      "serviceMinMonths": 0,
+      "extra": {
+        "type": "childcare",
+        "days": 98,
+        "withinMonths": 12
+      },
+      "nursing": [
+        {
+          "from": "leaveEnd",
+          "months": 12,
+          "hours": 1
+        }
+      ],
+      "paternityDays": 7,
+      "paternityWindowDays": 98,
+      "payer": "fund",
+      "employerContribution": 0.01,
+      "fundFrom": "2024-07-19"
     }
   },
   "bh": {
@@ -3544,6 +3611,38 @@
       "contribEmployee": 0.01,
       "contribGovernment": 0.01,
       "contribEmployerPaidByLabourFund": 0.01
+    },
+    "maternity": {
+      "law": "قانون العمل في القطاع الأهلي 36/2012 المواد 32–35 و63",
+      "lastReview": "2026-11-03",
+      "days": 60,
+      "prenatalMax": 59,
+      "postnatalBanDays": 40,
+      "serviceMinMonths": 0,
+      "extra": {
+        "type": "right",
+        "days": 15
+      },
+      "nursing": [
+        {
+          "from": "birth",
+          "toChildMonths": 6,
+          "hours": 2
+        },
+        {
+          "from": "birth",
+          "toChildMonths": 12,
+          "hours": 1
+        }
+      ],
+      "paternityDays": 1,
+      "childcare": {
+        "months": 6,
+        "times": 3,
+        "childMaxAgeYears": 6
+      },
+      "payer": "employer",
+      "prenatalAdvised": 20
     }
   },
   "zakat": {

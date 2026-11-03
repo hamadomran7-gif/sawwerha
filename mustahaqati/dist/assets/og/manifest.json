@@ -268,5 +268,13 @@
  "en-hijri-date-today": "410bd1344003cd97",
  "hijri-date-today": "2481cf42659363b3",
  "en-gcc-public-holidays": "90f5aca299345a31",
- "gcc-public-holidays": "f97b40c3cd255818"
+ "gcc-public-holidays": "f97b40c3cd255818",
+ "bahrain-maternity-leave": "39704d0f34cc8897",
+ "en-bahrain-maternity-leave": "f4767e030731f5d7",
+ "en-kuwait-maternity-leave": "3388dd7d1db1e051",
+ "en-oman-maternity-leave": "60a26ab317275da1",
+ "en-qatar-maternity-leave": "ce850294c6bc5e13",
+ "kuwait-maternity-leave": "e1b85f4367d9d38a",
+ "oman-maternity-leave": "9413da10a3a48d2d",
+ "qatar-maternity-leave": "ca688c4943a052b4"
 }
