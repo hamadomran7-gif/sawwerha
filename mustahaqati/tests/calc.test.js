@@ -39,6 +39,7 @@ import {
   omanIncomeTax,
   gccOvertime,
   gccNotice,
+  uaeResidencyCheck,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1212,4 +1213,36 @@ test("الخليج — مهلة الإخطار وبدلها", () => {
   assert.equal(gccNotice({ country: "om", wage: 8000, servedDays: 10 }).inLieu, 5333.333);
   assert.equal(gccNotice({ country: "om", wage: 8000, monthlyPaid: false }).days, 15);
   assert.equal(gccNotice({ country: "bh", wage: 6000 }).inLieu, 6000);
+});
+
+test("الإمارات — أهلية الإقامة الذهبية والخضراء والمتقاعدين", () => {
+  const st = (r, id) => r.results.find((x) => x.id === id).status;
+  // مهندس: مستوى 1، بكالوريوس، أساسي 32,000 → ذهبية مهني، وخضراء
+  const a = uaeResidencyCheck({ emirate: "dubai", employed: true, skill: 1, degree: "bachelor", basic: 32000, total: 40000 });
+  assert.equal(st(a, "g-skilled"), "yes");
+  assert.equal(st(a, "gr-skilled"), "yes");
+  // أساسي 20,000 وإجمالي 32,000 → ذهبية محتملة
+  assert.equal(st(uaeResidencyCheck({ employed: true, skill: 1, degree: "bachelor", basic: 20000, total: 32000 }), "g-skilled"), "maybe");
+  // محاسبة: مستوى 2، 18,000 → ليست ذهبية، خضراء
+  const b = uaeResidencyCheck({ employed: true, skill: 2, degree: "bachelor", basic: 18000, total: 18000 });
+  assert.equal(st(b, "g-skilled"), "no");
+  assert.equal(st(b, "gr-skilled"), "yes");
+  // مستقل بدخل 300,000 في كل سنة → محتمل (مجموع السنتين ≥ 360,000)، و150,000 → لا
+  assert.equal(st(uaeResidencyCheck({ freelance: true, degree: "bachelor", freelanceIncome1: 300000, freelanceIncome2: 300000 }), "gr-freelance"), "maybe");
+  assert.equal(st(uaeResidencyCheck({ freelance: true, degree: "diploma", freelanceIncome1: 400000, freelanceIncome2: 380000 }), "gr-freelance"), "yes");
+  // متقاعد 56 بعقار 1.2 مليون في دبي دون 15 سنة خدمة → محتمل، وفي غير دبي → مؤهل
+  assert.equal(st(uaeResidencyCheck({ emirate: "dubai", age: 56, propertyValue: 1200000 }), "retirement"), "maybe");
+  assert.equal(st(uaeResidencyCheck({ emirate: "other", age: 56, propertyValue: 1200000 }), "retirement"), "yes");
+  assert.equal(st(uaeResidencyCheck({ emirate: "dubai", age: 56, serviceYears: 20, propertyValue: 1200000 }), "retirement"), "yes");
+  // فيلا 3 ملايين برهن 1.5 مليون: أبوظبي لا، دبي محتمل
+  assert.equal(st(uaeResidencyCheck({ emirate: "abudhabi", propertyValue: 3000000, mortgage: 1500000 }), "g-property"), "no");
+  assert.equal(st(uaeResidencyCheck({ emirate: "dubai", propertyValue: 3000000, mortgage: 1500000 }), "g-property"), "maybe");
+  assert.equal(st(uaeResidencyCheck({ emirate: "abudhabi", propertyValue: 3000000, mortgage: 500000 }), "g-property"), "yes");
+  // خريجة جامعة ضمن أفضل 100 بمعدل 3.6 قبل سنة → ذهبية
+  assert.equal(st(uaeResidencyCheck({ student: "intl-top", score: 3.6, yearsSinceGrad: 1 }), "g-student"), "yes");
+  assert.equal(st(uaeResidencyCheck({ student: "school", score: 94 }), "g-student"), "no");
+  // وديعة 2 مليون → ذهبية مستثمر، وخضراء مستثمر
+  const c = uaeResidencyCheck({ investment: 2000000 });
+  assert.equal(st(c, "g-investment"), "yes");
+  assert.equal(st(c, "gr-investor"), "yes");
 });

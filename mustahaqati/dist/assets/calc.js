@@ -2283,6 +2283,72 @@ export function gccNotice({ country, wage, years = 0, monthlyPaid = true, served
   return { country, basis: N.basis, days, months: Math.round((days / N.daysPerMonth) * 100) / 100, daily: r3(daily), served, unserved, inLieu: r3(daily * unserved), full: r3(daily * days) };
 }
 
+/**
+ * الإمارات — أهلية الإقامة الذهبية (10 سنوات) والخضراء (5) وإقامة المتقاعدين (5)، بحسب اللائحة 65/2022 وصفحات ICP وGDRFA وADDED.
+ * status: yes | maybe (تعارض بين المصادر أو قاعدة محلية) | no. emirate: dubai | abudhabi | other.
+ */
+export function uaeResidencyCheck(input = {}) {
+  const R = rules.ae.residency, G = R.golden, Gr = R.green, Rt = R.retirement;
+  const n = (x) => Math.max(0, Number(x) || 0);
+  const emirate = input.emirate || "dubai";
+  const employed = !!input.employed;
+  const skill = Number(input.skill) || 0;
+  const degree = input.degree || "none";
+  const basic = n(input.basic), total = Math.max(n(input.total), basic);
+  const value = n(input.propertyValue), mortgage = Math.min(n(input.mortgage), value), equity = value - mortgage;
+  const investment = n(input.investment), tax = n(input.annualTax), revenue = n(input.revenue);
+  const inc1 = n(input.freelanceIncome1), inc2 = n(input.freelanceIncome2);
+  const age = n(input.age), service = n(input.serviceYears), deposit = n(input.deposit), income = n(input.annualIncome);
+  const out = [];
+  const push = (id, visa, status, gap = 0) => out.push({ id, visa, status, gap });
+  // الذهبية — المهني الماهر
+  if (employed && skill >= 1 && skill <= G.skilledMaxLevel && degree === "bachelor") {
+    if (basic >= G.skilledSalary) push("g-skilled", "golden", "yes");
+    else if (total >= G.skilledSalary) push("g-skilled", "golden", "maybe");
+    else push("g-skilled", "golden", "no", G.skilledSalary - total);
+  } else push("g-skilled", "golden", "no");
+  // الذهبية — العقار
+  if (value >= G.property) {
+    if (equity >= G.property) push("g-property", "golden", "yes");
+    else push("g-property", "golden", emirate === "abudhabi" ? "no" : "maybe", G.property - equity);
+  } else push("g-property", "golden", "no", value ? G.property - value : 0);
+  // الذهبية — الاستثمار والضرائب وريادة الأعمال
+  push("g-investment", "golden", investment >= G.investment || tax >= G.annualTax ? "yes" : "no", investment ? Math.max(0, G.investment - investment) : 0);
+  push("g-entrepreneur", "golden", revenue >= G.entrepreneurRevenue ? "yes" : "no", revenue ? Math.max(0, G.entrepreneurRevenue - revenue) : 0);
+  // الذهبية — الطلاب والخريجون (لمرة واحدة)
+  const st = input.student || "none", score = Number(input.score) || 0, yrs = Number(input.yearsSinceGrad) || 0;
+  let stStatus = "no";
+  if (st === "school") stStatus = score >= G.highSchool ? "yes" : "no";
+  else if (st === "uae-a") stStatus = score >= G.uaeUniA && yrs <= G.gradYears ? "yes" : "no";
+  else if (st === "uae-b") stStatus = score >= G.uaeUniB && yrs <= G.gradYears ? "yes" : "no";
+  else if (st === "intl-top") stStatus = score >= G.intlGpa && yrs <= G.gradYears ? "yes" : "no";
+  if (st !== "none") push("g-student", "golden", stStatus);
+  // الخضراء — الموظف الماهر
+  if (employed && skill >= 1 && skill <= Gr.skilledMaxLevel && degree === "bachelor") {
+    if (basic >= Gr.skilledSalary) push("gr-skilled", "green", "yes");
+    else if (total >= Gr.skilledSalary) push("gr-skilled", "green", "maybe");
+    else push("gr-skilled", "green", "no", Gr.skilledSalary - total);
+  } else push("gr-skilled", "green", "no");
+  // الخضراء — العمل الحر (360,000 لكل سنة بالقراءة الحرفية، أو مجموع السنتين)
+  if (input.freelance && (degree === "bachelor" || degree === "diploma")) {
+    if (inc1 >= Gr.freelanceIncome && inc2 >= Gr.freelanceIncome) push("gr-freelance", "green", "yes");
+    else if (inc1 + inc2 >= Gr.freelanceIncome) push("gr-freelance", "green", "maybe");
+    else push("gr-freelance", "green", "no", Gr.freelanceIncome - (inc1 + inc2));
+  } else push("gr-freelance", "green", "no");
+  // الخضراء — المستثمر أو الشريك
+  push("gr-investor", "green", investment >= Gr.investor ? (emirate === "abudhabi" ? "maybe" : "yes") : "no", investment ? Math.max(0, Gr.investor - investment) : 0);
+  // المتقاعد: 55 أو 15 سنة خدمة (دبي: الاثنان)، وعقار أو وديعة مليون أو دخل 240,000
+  const ageOk = age >= Rt.age, serviceOk = service >= Rt.serviceYears;
+  const finOk = equity >= Rt.property || deposit >= Rt.deposit || income >= Rt.income;
+  const dubaiLoose = income >= Rt.dubaiIncomeReported || (deposit >= Rt.dubaiComboReported && equity >= Rt.dubaiComboReported);
+  let ret = "no";
+  if (finOk && (emirate === "dubai" ? ageOk && serviceOk : ageOk || serviceOk)) ret = "yes";
+  else if (finOk && (ageOk || serviceOk)) ret = "maybe";
+  else if (emirate === "dubai" && ageOk && dubaiLoose) ret = "maybe";
+  push("retirement", "retirement", ret);
+  return { results: out, equity, eligible: out.filter((r) => r.status === "yes"), possible: out.filter((r) => r.status === "maybe") };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

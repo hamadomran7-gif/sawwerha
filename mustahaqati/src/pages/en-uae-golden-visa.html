@@ -1,0 +1,238 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-golden-visa-eligibility-checker",
+  "alternate": "uae-golden-visa",
+  "title": "UAE Golden Visa Eligibility Checker 2026 — Golden, Green and Retirement Visas",
+  "h1": "Do You Qualify for a UAE Golden Visa?",
+  "description": "Check whether you qualify for the UAE Golden Visa (10 years), Green Visa (5 years) or retirement visa under Executive Regulations 65/2022: AED 30,000 salary and skill level 1 or 2 for professionals, AED 2 million in property or investment, AED 15,000 or AED 360,000 freelance income for the Green Visa, and age 55 with AED 1 million or AED 240,000 income for retirees — with approximate fees.",
+  "short": "Golden, Green and retirement visas: salary, property, investment, freelancing and students",
+  "lead": "Answer the questions that apply to you and leave the rest at zero to see which residence visas you are likely to qualify for, what you are missing for the others, and the main fees.",
+  "country": "ae",
+  "category": "fees",
+  "tool": true,
+  "script": "en-uae-golden-visa.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-dubai-mortgage-fees",
+    "en-uae-gratuity",
+    "en-uae-emiratisation",
+    "en-dubai-rent-increase"
+  ],
+  "faq": [
+    {
+      "q": "What are the Golden Visa requirements for employees in the UAE?",
+      "a": "A valid employment contract, skill level 1 or 2 under the Ministry of Human Resources classification, a bachelor's degree or equivalent, and a monthly salary of at least AED 30,000, with bank statements for the last 6 months. According to consultancies, Dubai requires the basic salary alone to reach AED 30,000."
+    },
+    {
+      "q": "What property value do I need for a Golden Visa?",
+      "a": "At least AED 2 million, and several properties can be combined, including mortgaged property with a local bank and off-plan units from approved developers. Abu Dhabi requires AED 2 million to be paid up, and the Dubai Land Department's page asks for a bank letter showing AED 2 million paid, while press reports say Dubai has dropped that condition."
+    },
+    {
+      "q": "What is the difference between the Golden and Green Visas?",
+      "a": "The Golden Visa lasts 10 years, exempts the holder from the 180-day absence rule and covers children of any age. The Green Visa lasts 5 years without a sponsor, for skilled employees earning AED 15,000 at skill levels 1 to 3, freelancers earning AED 360,000, or investors with AED 1 million; it covers sons up to 25 and unmarried daughters."
+    },
+    {
+      "q": "What are the requirements for the UAE retirement visa?",
+      "a": "Age 55 or 15 years of service under the regulations (Dubai's residency page requires both), plus one of: property worth AED 1 million (paid up to AED 1 million if mortgaged), a AED 1 million deposit, or a fixed annual income of at least AED 240,000. It lasts 5 years and is renewable."
+    },
+    {
+      "q": "How much does a UAE Golden Visa cost?",
+      "a": "The federal authority's fee is AED 1,100 for the residence (AED 100 application and AED 1,000 issuance), and with services and a 10-year Emirates ID about AED 2,200 for applicants inside the country, before the medical test and insurance. In Dubai, the Land Department's package for the property Golden Visa is AED 9,884.75 all-in."
+    },
+    {
+      "q": "Can students get a UAE Golden Visa?",
+      "a": "Yes, once: high-school graduates with 95% or more, graduates of UAE universities with a GPA of 3.5 (category A) or 3.8 (category B), or graduates of a top-100 university worldwide with a GPA of 3.5, within two years of graduating."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Cabinet Resolution 65/2022 — Executive Regulations of the Law on Entry and Residence of Foreigners (in force 3 October 2022)",
+      "u": "https://uaelegislation.gov.ae/en/legislations/1601/download"
+    },
+    {
+      "t": "Federal Authority for Identity and Citizenship — UAE Golden Residency (September 2026)",
+      "u": "https://icp.gov.ae/en/services/uae-golden-residency/"
+    },
+    {
+      "t": "Federal Authority for Identity and Citizenship — UAE Green Residency (September 2026)",
+      "u": "https://icp.gov.ae/en/uae-green-residency"
+    },
+    {
+      "t": "GDRFA Dubai — Golden Residency for investors",
+      "u": "https://gdrfad.gov.ae/en/node/13914"
+    },
+    {
+      "t": "Dubai Land Department — Golden Visa request for property investors (October 2026)",
+      "u": "https://backoffice.dubailand.gov.ae/en/eservices/request-for-golden-visa-investor"
+    },
+    {
+      "t": "Abu Dhabi Department of Economic Development — Golden Visa for skilled professionals (October 2026)",
+      "u": "https://added.gov.ae/en/live/long-term-residency/abu-dhabi-golden-visa/for-specialists/for-skilled-professionals"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Check your eligibility</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="emirate">Emirate</label>
+        <select id="emirate" name="emirate">
+          <option value="dubai" selected>Dubai</option>
+          <option value="abudhabi">Abu Dhabi</option>
+          <option value="other">Another emirate</option>
+        </select>
+      </div>
+      <p class="field full"><strong>Work and salary</strong></p>
+      <div class="field">
+        <label for="employed">Do you have a valid UAE employment contract?</label>
+        <select id="employed" name="employed">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="skill">Skill level of your job</label>
+        <select id="skill" name="skill">
+          <option value="1">Level 1: managers and executives</option>
+          <option value="2" selected>Level 2: professionals (engineer, doctor, teacher, lawyer…)</option>
+          <option value="3">Level 3: technicians and associates</option>
+          <option value="0">Level 4 or below, or not sure</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="degree">Highest qualification</label>
+        <select id="degree" name="degree">
+          <option value="bachelor" selected>Bachelor's or higher</option>
+          <option value="diploma">Specialised diploma</option>
+          <option value="none">Secondary school or less</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="100" value="32000">
+      </div>
+      <div class="field">
+        <label for="total">Monthly gross salary (AED)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="100" value="40000">
+      </div>
+      <p class="field full"><strong>Property and investment</strong></p>
+      <div class="field">
+        <label for="propertyValue">Value of your UAE property (AED)</label>
+        <input type="number" id="propertyValue" name="propertyValue" inputmode="decimal" min="0" step="10000" value="0">
+      </div>
+      <div class="field">
+        <label for="mortgage">Mortgage still outstanding on it</label>
+        <input type="number" id="mortgage" name="mortgage" inputmode="decimal" min="0" step="10000" value="0">
+      </div>
+      <div class="field">
+        <label for="investment">Deposit, fund or company capital (AED)</label>
+        <input type="number" id="investment" name="investment" inputmode="decimal" min="0" step="10000" value="0">
+      </div>
+      <div class="field">
+        <label for="revenue">Your business's annual revenue (entrepreneurs)</label>
+        <input type="number" id="revenue" name="revenue" inputmode="decimal" min="0" step="10000" value="0">
+      </div>
+      <div class="field">
+        <label for="annualTax">Federal taxes you pay each year</label>
+        <input type="number" id="annualTax" name="annualTax" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <p class="field full"><strong>Freelancing</strong></p>
+      <div class="field">
+        <label for="freelance">Do you hold a MoHRE freelance permit?</label>
+        <select id="freelance" name="freelance">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="freelanceIncome1">Freelance income last year</label>
+        <input type="number" id="freelanceIncome1" name="freelanceIncome1" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <div class="field">
+        <label for="freelanceIncome2">and the year before</label>
+        <input type="number" id="freelanceIncome2" name="freelanceIncome2" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <p class="field full"><strong>Retirement</strong></p>
+      <div class="field">
+        <label for="age">Your age</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="0" max="100" step="1" value="35">
+      </div>
+      <div class="field">
+        <label for="serviceYears">Years of service (in the UAE or abroad)</label>
+        <input type="number" id="serviceYears" name="serviceYears" inputmode="decimal" min="0" max="60" step="1" value="10">
+      </div>
+      <div class="field">
+        <label for="deposit">Savings or deposit (AED)</label>
+        <input type="number" id="deposit" name="deposit" inputmode="decimal" min="0" step="10000" value="0">
+      </div>
+      <div class="field">
+        <label for="annualIncome">Fixed annual income in retirement (AED)</label>
+        <input type="number" id="annualIncome" name="annualIncome" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <p class="field full"><strong>Students and graduates</strong></p>
+      <div class="field">
+        <label for="student">Latest qualification</label>
+        <select id="student" name="student">
+          <option value="none" selected>Not a student or recent graduate</option>
+          <option value="school">High school</option>
+          <option value="uae-a">UAE university (category A)</option>
+          <option value="uae-b">UAE university (category B)</option>
+          <option value="intl-top">Top-100 university worldwide</option>
+        </select>
+      </div>
+      <div class="field" data-student>
+        <label for="score">Percentage (%) or GPA (out of 4)</label>
+        <input type="number" id="score" name="score" inputmode="decimal" min="0" max="100" step="0.01" value="0">
+      </div>
+      <div class="field" data-student>
+        <label for="yearsSinceGrad">Years since graduating</label>
+        <input type="number" id="yearsSinceGrad" name="yearsSinceGrad" inputmode="decimal" min="0" max="20" step="0.5" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Check</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Main thresholds</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Visa and category</th><th scope="col">Requirement</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Golden — skilled professional</th><td>Skill level 1 or 2, a bachelor's degree, AED 30,000 a month and a valid contract</td></tr>
+    <tr><th scope="row">Golden — property investor</th><td>One or more properties worth AED 2 million (AED 2 million paid up in Abu Dhabi)</td></tr>
+    <tr><th scope="row">Golden — investor</th><td>A deposit, fund or company capital of AED 2 million, or AED 250,000 in taxes a year</td></tr>
+    <tr><th scope="row">Golden — entrepreneur</th><td>Annual revenue of AED 1 million, a previous project sold for AED 7 million, or approval from an accredited incubator</td></tr>
+    <tr><th scope="row">Golden — students and graduates</th><td>High school 95%, a UAE university GPA of 3.5 (A) or 3.8 (B), or a top-100 university with 3.5, within two years of graduating</td></tr>
+    <tr><th scope="row">Golden — by nomination</th><td>Scientists, talents in the arts, sport and technology, inventors, humanitarian workers and frontline heroes</td></tr>
+    <tr><th scope="row">Green — skilled employee</th><td>Skill level 1 to 3, a bachelor's degree and AED 15,000 a month</td></tr>
+    <tr><th scope="row">Green — freelancer</th><td>A freelance permit, a bachelor's or specialised diploma, and AED 360,000 income over the previous two years</td></tr>
+    <tr><th scope="row">Green — investor or partner</th><td>A contribution of at least AED 1 million</td></tr>
+    <tr><th scope="row">Retirees (5 years)</th><td>Age 55 or 15 years of service, with AED 1 million in property or deposits, or AED 240,000 a year in income</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Family, absence and grace period</h2>
+<ul>
+  <li><strong>Golden:</strong> sponsor your spouse, children "regardless of age" and parents, and domestic workers according to your means; you are exempt from the 180-day absence rule, and your family can stay after your death until their permits expire.</li>
+  <li><strong>Green:</strong> spouse, sons up to 25, unmarried daughters, children of determination and first-degree relatives, with a 180-day grace period after cancellation.</li>
+  <li><strong>Retirees:</strong> 5 years, renewable, with health insurance; Dubai's grace period is 60 days.</li>
+</ul>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+An engineer at skill level 1 with a bachelor's and a basic salary of AED 32,000: <strong>Golden Visa as a skilled professional</strong>, and the Green Visa too. With a basic of 20,000 and a gross of 32,000, the Golden Visa is possible but needs checking, because Dubai reportedly uses the basic salary.<br>
+An accountant at skill level 2 earning AED 18,000: <strong>Green Visa as a skilled employee</strong>, not Golden.<br>
+A 56-year-old retiree with a paid-off property worth AED 1.2 million: <strong>retirement visa</strong> under the regulations; Dubai's page also asks for 15 years of service.</p>
+</div>
+<p>This is an estimate: the official portal's Golden Visa pages still show old rules (5 years for property, AED 50,000 for managers), so we rely on the regulations and the 2026 pages of the federal authority, Dubai and Abu Dhabi. The decision rests with the authority when you apply. For the cost of buying property in Dubai, see the <a href="{{root}}en/dubai-mortgage-calculator/{{ix}}">Dubai mortgage and purchase fees calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-golden-visa/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

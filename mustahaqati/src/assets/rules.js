@@ -393,6 +393,49 @@ export default {
         300000,
         500000
       ]
+    },
+    "residency": {
+      "law": "قرار مجلس الوزراء 65/2022 (اللائحة التنفيذية لقانون دخول الأجانب وإقامتهم) وقرار 88/2022 للرسوم",
+      "golden": {
+        "years": 10,
+        "property": 2000000,
+        "investment": 2000000,
+        "annualTax": 250000,
+        "entrepreneurRevenue": 1000000,
+        "skilledSalary": 30000,
+        "skilledMaxLevel": 2,
+        "highSchool": 95,
+        "uaeUniA": 3.5,
+        "uaeUniB": 3.8,
+        "intlRank": 100,
+        "intlGpa": 3.5,
+        "gradYears": 2
+      },
+      "green": {
+        "years": 5,
+        "skilledSalary": 15000,
+        "skilledMaxLevel": 3,
+        "freelanceIncome": 360000,
+        "investor": 1000000
+      },
+      "retirement": {
+        "years": 5,
+        "age": 55,
+        "serviceYears": 15,
+        "property": 1000000,
+        "deposit": 1000000,
+        "income": 240000,
+        "dubaiIncomeReported": 180000,
+        "dubaiComboReported": 500000
+      },
+      "fees": {
+        "goldenIcpEstimate": 2200,
+        "greenIcpEstimate": 1200,
+        "gdrfaGolden": 1640,
+        "gdrfaGreen": 740,
+        "dldGoldenPackage": 9884.75,
+        "dldFamilyMember": 5774.5
+      }
     }
   },
   "sa": {
