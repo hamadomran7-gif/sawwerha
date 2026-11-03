@@ -296,5 +296,13 @@
  "kuwait-family-residence-fees": "8414e6c382ca5549",
  "oman-family-visa-cost": "f91803ae9152c713",
  "qatar-family-residence-cost": "01e65f2370f904b8",
- "uae-family-visa-cost": "6f255b2f248cee14"
+ "uae-family-visa-cost": "6f255b2f248cee14",
+ "en-ksa-citizen-account-date": "e7380b460d0e1acc",
+ "en-ksa-payment-calendar": "834939a83597e6d5",
+ "en-ksa-salary-date": "717da6f72a5f8697",
+ "en-ksa-social-security-date": "78cf36b7445e5db0",
+ "ksa-citizen-account-date": "b3daffa22c5265ad",
+ "ksa-payment-calendar": "a435a370b8a9b937",
+ "ksa-salary-date": "485456eeb6b461a0",
+ "ksa-social-security-date": "ec6c10d0c74511a6"
 }

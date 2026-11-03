@@ -1,0 +1,103 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-salary-date",
+  "alternate": "ksa-salary-date",
+  "title": "Saudi Salary Date 2026–2027 — How Many Days Until Government Payday",
+  "h1": "Saudi salary date countdown",
+  "description": "Count the days until Saudi government salaries: paid on the 27th of each Gregorian month, moved to Thursday the 26th when it falls on a Friday and to Sunday the 28th when it falls on a Saturday. With the dates from November 2026 to December 2027 in Hijri, plus the Citizen's Account, social security and Hafiz.",
+  "short": "Days until the 27th with the Friday and Saturday rule, and the dates to December 2027",
+  "lead": "Shows the days and hours until the next payday and the following months' dates in Gregorian and Hijri. You can also pick the Citizen's Account, social security or Hafiz.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-payment-calendar",
+    "en-ksa-citizen-account-date",
+    "en-ksa-social-security-date",
+    "en-ksa-civil-salary-scale",
+    "en-ksa-teachers-salary-scale",
+    "en-ksa-public-holidays"
+  ],
+  "faq": [
+    {
+      "q": "When is the November 2026 salary in Saudi Arabia?",
+      "a": "Thursday 26 November 2026 (16 Jumada al-Akhirah 1448), because the 27th is a Friday so payment moves to Thursday."
+    },
+    {
+      "q": "When is the December 2026 salary?",
+      "a": "Sunday 27 December 2026 (18 Rajab 1448), on time, as it is a working day."
+    },
+    {
+      "q": "Is the salary paid on the 27th Hijri or Gregorian?",
+      "a": "Gregorian. A royal directive in January 2018 unified payment on the 27th of each Gregorian month for all state employees; some sites still wrongly say the 27th Hijri."
+    },
+    {
+      "q": "What if the 27th falls on a weekend?",
+      "a": "On a Friday salaries are paid on Thursday the 26th, and on a Saturday on Sunday the 28th, according to the Ministry of Finance. So February, March and November 2027 salaries come on the 28th."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Okaz citing SPA — salaries unified on the 27th Gregorian (6 Jan 2018, Arabic)",
+      "u": "https://www.okaz.com.sa/local/na/1603796"
+    },
+    {
+      "t": "Aleqt — Finance Ministry: Friday moves to Thursday, Saturday to Sunday (8 Jan 2018, Arabic)",
+      "u": "https://www.aleqt.com/2018/01/08/article_1311341.html"
+    },
+    {
+      "t": "Okaz — May 2026 salaries brought forward to Sunday 24th (22 Apr 2026, Arabic)",
+      "u": "https://www.okaz.com.sa/economy/na/2245325"
+    },
+    {
+      "t": "Argaam — salaries paid by the zodiac calendar (16 Oct 2016, Arabic)",
+      "u": "https://www.argaam.com/ar/article/articledetail/id/449299"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="salary" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary" selected>Government salaries</option>
+          <option value="citizen">Citizen's Account</option>
+          <option value="social">Developed social security</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="pension">GOSI pensions (estimate)</option>
+          <option value="saned">SANED (estimate)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Salary dates from November 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=salary from=2026-11 count=14 lang=en}}
+<p>Dates follow the Ministry of Finance rule, with Hijri dates by the Umm al-Qura calendar. The ministry has not published its 2027 calendar yet, so an early payment before Eid could change a date.</p>
+<h2>How the payday is set</h2>
+<ul>
+<li><strong>The 27th of each Gregorian month</strong> for all state employees, civil and military, under a royal directive of January 2018. Before that, from October 2016, salaries followed the zodiac (Burj) calendar.</li>
+<li><strong>Friday:</strong> payment moves to Thursday the 26th.</li>
+<li><strong>Saturday:</strong> payment moves to Sunday the 28th.</li>
+<li><strong>Eid and occasions:</strong> no fixed rule; the ministry announces early payment case by case. March 2025 salaries were paid on Tuesday the 25th late in Ramadan, and May 2026 salaries on Sunday the 24th because the 27th was the first day of Eid al-Adha.</li>
+</ul>
+<p>The rule covers state employees; in the private sector the employment contract sets payday, and GOSI pensions have their own date in the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>. For the salary amount see the <a href="{{root}}en/saudi-civil-service-salary-scale/{{ix}}">civil service salary scale</a>.</p>
+</div>

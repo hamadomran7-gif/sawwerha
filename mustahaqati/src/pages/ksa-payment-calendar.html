@@ -1,0 +1,103 @@
+---json
+{
+  "title": "تقويم صرف الرواتب والدعم في السعودية 2026–2027 — الراتب وحساب المواطن والضمان وحافز والتقاعد",
+  "h1": "تقويم الصرف الشهري في السعودية",
+  "description": "كل مواعيد الصرف الشهرية في السعودية في جدول واحد مع عدّاد الأيام: رواتب الدولة يوم 27، وحساب المواطن يوم 10، والضمان المطور يوم 1، وحافز يوم 5، ومعاشات التأمينات نحو 25 وساند نحو 5 تقديراً، بقواعد الجمعة والسبت والعيد، من نوفمبر 2026 إلى ديسمبر 2027.",
+  "short": "الرواتب 27، وحساب المواطن 10، والضمان 1، وحافز 5، والتقاعد وساند تقديراً، في جدول واحد",
+  "lead": "يظهر أقرب موعد لكل دفعة والأيام المتبقية عليه، وكل مواعيد الشهرين القادمين مرتبة.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-salary-date",
+    "ksa-citizen-account-date",
+    "ksa-social-security-date",
+    "ksa-hafiz",
+    "ksa-saned",
+    "ksa-retirement-pension"
+  ],
+  "faq": [
+    {
+      "q": "ما مواعيد الصرف الشهرية في السعودية؟",
+      "a": "رواتب موظفي الدولة يوم 27، وحساب المواطن يوم 10، والضمان الاجتماعي المطور يوم 1، وحافز يوم 5، كلها بالتقويم الميلادي. ومعاشات التأمينات المتداول أنها يوم 25 وساند نحو يوم 5، وهما تقديران لم تنشرهما التأمينات."
+    },
+    {
+      "q": "هل تتأخر المواعيد إن وافقت السبت؟",
+      "a": "الرواتب وحساب المواطن تُؤخَّر من السبت إلى الأحد، وتُقدَّم من الجمعة إلى الخميس. أما الضمان فتعلن الوزارة موعداً آخر، ولا تذكر هدف قاعدة لحافز."
+    },
+    {
+      "q": "متى معاش التقاعد من التأمينات؟",
+      "a": "لم نجد يوماً رسمياً منشوراً بعد دمج مؤسسة التقاعد في التأمينات؛ المتداول يوم 25 ويُقدَّم إلى آخر يوم عمل قبله، فتحقق من تطبيق «تأميناتي»."
+    }
+  ],
+  "sources": [
+    {
+      "t": "عكاظ عن واس — توحيد صرف الرواتب يوم 27 ميلادي (6/1/2018)",
+      "u": "https://www.okaz.com.sa/local/na/1603796"
+    },
+    {
+      "t": "الاقتصادية — المالية: الجمعة تُقدَّم إلى الخميس والسبت تُؤخَّر إلى الأحد (8/1/2018)",
+      "u": "https://www.aleqt.com/2018/01/08/article_1311341.html"
+    },
+    {
+      "t": "عكاظ — تقديم رواتب مايو 2026 إلى الأحد 24 (22/4/2026)",
+      "u": "https://www.okaz.com.sa/economy/na/2245325"
+    },
+    {
+      "t": "عاجل — دليل حساب المواطن: موعد الصرف (2026)",
+      "u": "https://ajel.sa/guide/citizen-account/payout-date"
+    },
+    {
+      "t": "عاجل عن وزارة الموارد البشرية — صرف الضمان يوم 1 من كل شهر ميلادي (1/11/2022)",
+      "u": "https://ajel.sa/thehour/bk3vgcdh42"
+    },
+    {
+      "t": "وزارة الموارد البشرية — دليل الأسئلة الشائعة لنظام الضمان الاجتماعي المطور (2023)",
+      "u": "https://www.hrsd.gov.sa/sites/default/files/2023-03/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A6%D9%84%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9%20%D9%84%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%20%D8%A7%D9%84%D9%85%D8%B7%D9%88%D8%B1_0.pdf"
+    },
+    {
+      "t": "صندوق تنمية الموارد البشرية (هدف) — دعم البحث عن عمل (حافز)",
+      "u": "https://www.hrdf.org.sa/products-and-services/programs/individuals/other/job-search-subsidy/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">مواعيد الصرف القادمة</h2>
+  <form id="calc" data-mode="all" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد الصرف</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدفعة</th><th scope="col">اليوم</th><th scope="col">إن وافق عطلة</th><th scope="col">الثقة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}ksa-salary-date/{{ix}}">رواتب موظفي الدولة</a></th><td>27 ميلادي</td><td>الجمعة ← الخميس، والسبت ← الأحد، والعيد بإعلان</td><td>عالية</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-citizen-account-date/{{ix}}">حساب المواطن</a></th><td>10 ميلادي</td><td>الجمعة ← الخميس، والسبت ← الأحد</td><td>عالية</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-social-security-date/{{ix}}">الضمان الاجتماعي المطور</a></th><td>1 ميلادي</td><td>تعلن الوزارة موعداً آخر</td><td>متوسطة</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-hafiz/{{ix}}">حافز</a></th><td>5 ميلادي (النتائج 2–4)</td><td>غير منشور</td><td>عالية للقاعدة</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-retirement-pension/{{ix}}">معاشات التأمينات</a></th><td>نحو 25</td><td>آخر يوم عمل قبله (تقديري)</td><td>منخفضة</td></tr>
+    <tr><th scope="row"><a href="{{root}}ksa-saned/{{ix}}">ساند</a></th><td>نحو 5</td><td>تقديري</td><td>منخفضة</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>جدول المواعيد من نوفمبر 2026 إلى ديسمبر 2027</h2>
+{{table:ksa-pay-calendar from=2026-11 count=14}}
+<p>النجمة (*) تعني أن الموعد يوافق عطلة أسبوعية بلا قاعدة منشورة أو عطلة رسمية، فقد يُعلن موعد آخر. ومعاشات التأمينات تقديرية. وتبكير العيد قرار ظرفي تعلنه الجهة في حينه.</p>
+</div>

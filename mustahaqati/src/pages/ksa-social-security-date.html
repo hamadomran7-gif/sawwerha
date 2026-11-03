@@ -1,0 +1,84 @@
+---json
+{
+  "title": "موعد نزول الضمان الاجتماعي المطور — كم باقي على الضمان؟ 2026–2027",
+  "h1": "كم باقي على الضمان الاجتماعي؟",
+  "description": "عدّاد الأيام المتبقية على إيداع الضمان الاجتماعي المطور: يُودَع المعاش يوم 1 من كل شهر ميلادي، وإن وافق عطلة تحدد الوزارة موعداً آخر وتعلنه، ونتائج الأهلية بين 25 و27 من الشهر السابق. مع مواعيد ديسمبر 2026 إلى ديسمبر 2027 والأشهر التي يوافق فيها الأول عطلة.",
+  "short": "الإيداع يوم 1 من كل شهر، والنتائج بين 25 و27، والأشهر التي يوافق فيها عطلة",
+  "lead": "يظهر عدد الأيام والساعات حتى إيداع الضمان القادم، ومواعيد الأشهر التالية بالميلادي والهجري مع تنبيه للأيام التي توافق عطلة.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-social-security",
+    "ksa-payment-calendar",
+    "ksa-citizen-account-date",
+    "ksa-salary-date"
+  ],
+  "faq": [
+    {
+      "q": "متى ينزل الضمان الاجتماعي لشهر ديسمبر 2026؟",
+      "a": "الثلاثاء 1 ديسمبر 2026 (21 جمادى الآخرة 1448)، وهو يوم عمل."
+    },
+    {
+      "q": "متى تظهر نتائج أهلية الضمان؟",
+      "a": "بين 25 و27 من كل شهر ميلادي بحسب دليل الوزارة، ويُصرف المعاش من الشهر التالي لقرار القبول."
+    },
+    {
+      "q": "ماذا لو وافق يوم 1 الجمعة أو السبت؟",
+      "a": "تقول الوزارة إنه يُحدَّد موعد آخر ويُعلن، فلا اتجاه ثابتاً. وفي 2027 يقع ذلك في 1 يناير (جمعة) و1 مايو (سبت) و1 أكتوبر (جمعة)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "عاجل عن وزارة الموارد البشرية — صرف الضمان يوم 1 من كل شهر ميلادي (1/11/2022)",
+      "u": "https://ajel.sa/thehour/bk3vgcdh42"
+    },
+    {
+      "t": "وزارة الموارد البشرية — دليل الأسئلة الشائعة لنظام الضمان الاجتماعي المطور (2023)",
+      "u": "https://www.hrsd.gov.sa/sites/default/files/2023-03/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A6%D9%84%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9%20%D9%84%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%20%D8%A7%D9%84%D9%85%D8%B7%D9%88%D8%B1_0.pdf"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الصرف؟</h2>
+  <form id="calc" data-item="social" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">الدفعة</label>
+        <select id="item" name="item">
+          <option value="salary">رواتب موظفي الدولة</option>
+          <option value="citizen">حساب المواطن</option>
+          <option value="social" selected>الضمان الاجتماعي المطور</option>
+          <option value="hafiz">حافز</option>
+          <option value="pension">معاشات التأمينات (تقديري)</option>
+          <option value="saned">ساند (تقديري)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مواعيد إيداع الضمان من ديسمبر 2026 إلى ديسمبر 2027</h2>
+{{table:ksa-pay-dates item=social from=2026-12 count=13}}
+<h2>قاعدة الإيداع</h2>
+<ul>
+<li><strong>يوم 1 من كل شهر ميلادي</strong> في الحساب البنكي للعائل.</li>
+<li><strong>إن وافق عطلة أسبوعية أو رسمية:</strong> "يتم تحديد موعد آخر والإعلان عنه"، بحسب الوزارة، فاعرض الموعد الاسمي وراقب الإعلان.</li>
+<li><strong>نتائج الأهلية:</strong> تُدرس شهرياً وتظهر بين 25 و27 من الشهر الميلادي.</li>
+</ul>
+<p>لتقدير مبلغ المعاش استخدم <a href="{{root}}ksa-social-security/{{ix}}">حاسبة الضمان الاجتماعي المطور</a>، ولبقية المواعيد <a href="{{root}}ksa-payment-calendar/{{ix}}">تقويم الصرف الشهري</a>.</p>
+</div>

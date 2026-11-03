@@ -1,0 +1,102 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-payment-calendar",
+  "alternate": "ksa-payment-calendar",
+  "title": "Saudi Payment Calendar 2026–2027 — Salaries, Citizen's Account, Social Security, Hafiz and Pensions",
+  "h1": "Saudi monthly payment calendar",
+  "description": "Every monthly payment date in Saudi Arabia in one table with a countdown: government salaries on the 27th, the Citizen's Account on the 10th, developed social security on the 1st, Hafiz on the 5th, and GOSI pensions around the 25th and SANED around the 5th as estimates, with the Friday, Saturday and Eid rules, from November 2026 to December 2027.",
+  "short": "Salaries 27th, Citizen's Account 10th, social security 1st, Hafiz 5th, pensions and SANED estimated",
+  "lead": "Shows the next date of each payment with the days left, and every date in the next two months in order.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-salary-date",
+    "en-ksa-citizen-account-date",
+    "en-ksa-social-security-date",
+    "en-ksa-hafiz",
+    "en-ksa-saned",
+    "en-ksa-retirement-pension"
+  ],
+  "faq": [
+    {
+      "q": "What are the monthly payment dates in Saudi Arabia?",
+      "a": "Government salaries on the 27th, the Citizen's Account on the 10th, developed social security on the 1st and Hafiz on the 5th, all Gregorian. GOSI pensions are commonly cited on the 25th and SANED around the 5th, both estimates GOSI has not published."
+    },
+    {
+      "q": "Do dates move when they fall on a Saturday?",
+      "a": "Salaries and the Citizen's Account move from Saturday to Sunday and from Friday to Thursday. For social security the ministry announces another date, and HRDF states no rule for Hafiz."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Okaz citing SPA — salaries unified on the 27th Gregorian (6 Jan 2018, Arabic)",
+      "u": "https://www.okaz.com.sa/local/na/1603796"
+    },
+    {
+      "t": "Aleqt — Finance Ministry: Friday moves to Thursday, Saturday to Sunday (8 Jan 2018, Arabic)",
+      "u": "https://www.aleqt.com/2018/01/08/article_1311341.html"
+    },
+    {
+      "t": "Okaz — May 2026 salaries brought forward to Sunday 24th (22 Apr 2026, Arabic)",
+      "u": "https://www.okaz.com.sa/economy/na/2245325"
+    },
+    {
+      "t": "Ajel — Citizen's Account guide: payment date (2026, Arabic)",
+      "u": "https://ajel.sa/guide/citizen-account/payout-date"
+    },
+    {
+      "t": "Ajel citing the HR ministry — social security paid on the 1st (1 Nov 2022, Arabic)",
+      "u": "https://ajel.sa/thehour/bk3vgcdh42"
+    },
+    {
+      "t": "HR ministry — developed social security FAQ guide (2023, Arabic)",
+      "u": "https://www.hrsd.gov.sa/sites/default/files/2023-03/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A6%D9%84%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9%20%D9%84%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%20%D8%A7%D9%84%D9%85%D8%B7%D9%88%D8%B1_0.pdf"
+    },
+    {
+      "t": "HRDF — job search subsidy (Hafiz)",
+      "u": "https://www.hrdf.org.sa/products-and-services/programs/individuals/other/job-search-subsidy/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Upcoming payment dates</h2>
+  <form id="calc" data-mode="all" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Payment rules</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Payment</th><th scope="col">Day</th><th scope="col">On a holiday</th><th scope="col">Confidence</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}en/saudi-salary-date/{{ix}}">Government salaries</a></th><td>27th Gregorian</td><td>Friday → Thursday, Saturday → Sunday, Eid by announcement</td><td>High</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/citizens-account-payment-date/{{ix}}">Citizen's Account</a></th><td>10th Gregorian</td><td>Friday → Thursday, Saturday → Sunday</td><td>High</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-social-security-payment-date/{{ix}}">Developed social security</a></th><td>1st Gregorian</td><td>Ministry announces another date</td><td>Medium</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-hafiz-calculator/{{ix}}">Hafiz</a></th><td>5th Gregorian (results 2nd–4th)</td><td>Not published</td><td>High for the rule</td></tr>
+    <tr><th scope="row">GOSI pensions</th><td>Around the 25th</td><td>Last working day before (estimate)</td><td>Low</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saned-calculator/{{ix}}">SANED</a></th><td>Around the 5th</td><td>Estimate</td><td>Low</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>Dates from November 2026 to December 2027</h2>
+{{table:ksa-pay-calendar from=2026-11 count=14 lang=en}}
+<p>An asterisk (*) marks a date on a weekend with no published rule or on a public holiday, so another date may be announced. GOSI pensions are estimates. Early payment before Eid is a one-off decision announced at the time.</p>
+</div>

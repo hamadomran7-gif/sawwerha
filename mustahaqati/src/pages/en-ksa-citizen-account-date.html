@@ -1,0 +1,89 @@
+---json
+{
+  "lang": "en",
+  "path": "en/citizens-account-payment-date",
+  "alternate": "ksa-citizen-account-date",
+  "title": "Citizen's Account Payment Date — Days Until the Next Deposit (Nov 2026 to Dec 2027)",
+  "h1": "Citizen's Account payment date",
+  "description": "Count the days until the Saudi Citizen's Account deposit: paid on the 10th of each Gregorian month, moved to Thursday the 9th when it falls on a Friday and to Sunday the 11th when it falls on a Saturday. With the deposit dates from November 2026 to December 2027 in Hijri, including March 2027 during Eid al-Fitr.",
+  "short": "Deposit on the 10th with the Friday and Saturday rule, and the dates to December 2027",
+  "lead": "Shows the days and hours until the next Citizen's Account deposit and the following dates in Gregorian and Hijri.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-payment-calendar",
+    "en-ksa-salary-date",
+    "en-ksa-social-security-date",
+    "en-ksa-social-security",
+    "en-ksa-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "When is the November 2026 Citizen's Account payment?",
+      "a": "Tuesday 10 November 2026 (30 Jumada al-Ula 1448), on time."
+    },
+    {
+      "q": "What if the 10th falls on a Friday or Saturday?",
+      "a": "On a Friday the deposit comes on Thursday the 9th, and on a Saturday on Sunday the 11th, according to the programme's FAQs. In 2027 the April and July deposits come on the 11th, and September and December on the 9th."
+    },
+    {
+      "q": "When is the March 2027 deposit, during Eid?",
+      "a": "Nominally Wednesday 10 March 2027, which is 2 Shawwal 1448 (Eid al-Fitr) by Umm al-Qura. The programme states no rule for public holidays, so watch for the official announcement."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ajel — Citizen's Account guide: payment date (2026, Arabic)",
+      "u": "https://ajel.sa/guide/citizen-account/payout-date"
+    },
+    {
+      "t": "Ajel — Citizen's Account guide (Arabic)",
+      "u": "https://ajel.sa/guide/citizen-account"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="citizen" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary">Government salaries</option>
+          <option value="citizen" selected>Citizen's Account</option>
+          <option value="social">Developed social security</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="pension">GOSI pensions (estimate)</option>
+          <option value="saned">SANED (estimate)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Citizen's Account deposit dates from November 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=citizen from=2026-11 count=14 lang=en}}
+<h2>The deposit rule</h2>
+<ul>
+<li><strong>The 10th of each Gregorian month</strong>, the same rule since 2017.</li>
+<li><strong>Friday:</strong> the deposit moves to Thursday the 9th.</li>
+<li><strong>Saturday:</strong> the deposit moves to Sunday the 11th.</li>
+<li><strong>Public holidays:</strong> the programme states no rule; the first case ahead is March 2027 during Eid al-Fitr.</li>
+</ul>
+<p>The extra support has been extended to 31 December 2026 and amounts may change in 2027; the deposit day is not affected. For salaries, social security and Hafiz see the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>
+</div>

@@ -1,0 +1,90 @@
+---json
+{
+  "title": "موعد نزول حساب المواطن — كم باقي على حساب المواطن؟ دفعات نوفمبر 2026 إلى ديسمبر 2027",
+  "h1": "كم باقي على حساب المواطن؟",
+  "description": "عدّاد الأيام المتبقية على إيداع حساب المواطن: يُودَع الدعم يوم 10 من كل شهر ميلادي، وإن وافق الجمعة يُقدَّم إلى الخميس 9، وإن وافق السبت يُؤخَّر إلى الأحد 11. مع مواعيد الدفعات من نوفمبر 2026 إلى ديسمبر 2027 بالهجري، ودفعة مارس 2027 التي توافق عيد الفطر.",
+  "short": "الإيداع يوم 10 من كل شهر مع إزاحة الجمعة والسبت، ومواعيد الدفعات حتى ديسمبر 2027",
+  "lead": "يظهر عدد الأيام والساعات حتى دفعة حساب المواطن القادمة، ومواعيد الدفعات التالية بالميلادي والهجري.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-payment-calendar",
+    "ksa-salary-date",
+    "ksa-social-security-date",
+    "ksa-social-security",
+    "ksa-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "متى ينزل حساب المواطن لشهر نوفمبر 2026؟",
+      "a": "الثلاثاء 10 نوفمبر 2026 (30 جمادى الأولى 1448) في موعده."
+    },
+    {
+      "q": "متى دفعة ديسمبر 2026؟",
+      "a": "الخميس 10 ديسمبر 2026 (1 رجب 1448)."
+    },
+    {
+      "q": "ماذا لو وافق يوم 10 الجمعة أو السبت؟",
+      "a": "إن وافق الجمعة يُودَع الخميس 9، وإن وافق السبت يُودَع الأحد 11، بحسب الأسئلة الشائعة للبرنامج. ففي 2027 تُودَع دفعتا أبريل ويوليو يوم 11، ودفعتا سبتمبر وديسمبر يوم 9."
+    },
+    {
+      "q": "متى دفعة مارس 2027 وهي في العيد؟",
+      "a": "الاسمي الأربعاء 10 مارس 2027، ويوافق 2 شوال 1448 (عيد الفطر) بتقويم أم القرى. ولا يذكر البرنامج قاعدة للعطل الرسمية، فراقب الإعلان الرسمي."
+    }
+  ],
+  "sources": [
+    {
+      "t": "عاجل — دليل حساب المواطن: موعد الصرف (2026)",
+      "u": "https://ajel.sa/guide/citizen-account/payout-date"
+    },
+    {
+      "t": "عاجل — دليل حساب المواطن",
+      "u": "https://ajel.sa/guide/citizen-account"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الصرف؟</h2>
+  <form id="calc" data-item="citizen" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">الدفعة</label>
+        <select id="item" name="item">
+          <option value="salary">رواتب موظفي الدولة</option>
+          <option value="citizen" selected>حساب المواطن</option>
+          <option value="social">الضمان الاجتماعي المطور</option>
+          <option value="hafiz">حافز</option>
+          <option value="pension">معاشات التأمينات (تقديري)</option>
+          <option value="saned">ساند (تقديري)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مواعيد دفعات حساب المواطن من نوفمبر 2026 إلى ديسمبر 2027</h2>
+{{table:ksa-pay-dates item=citizen from=2026-11 count=14}}
+<h2>قاعدة الإيداع</h2>
+<ul>
+<li><strong>يوم 10 من كل شهر ميلادي</strong>، والقاعدة نفسها منذ 2017.</li>
+<li><strong>الجمعة:</strong> يُقدَّم الإيداع إلى الخميس 9.</li>
+<li><strong>السبت:</strong> يُؤخَّر الإيداع إلى الأحد 11.</li>
+<li><strong>العطل الرسمية:</strong> لا ينص البرنامج على قاعدة لها، وأول حالة قادمة دفعة مارس 2027 في عيد الفطر.</li>
+</ul>
+<p>الدعم الإضافي ممدد حتى 31 ديسمبر 2026، وقد تتغير المبالغ في 2027؛ أما يوم الإيداع فلا علاقة له بذلك. ولمواعيد الرواتب والضمان وحافز انظر <a href="{{root}}ksa-payment-calendar/{{ix}}">تقويم الصرف الشهري</a>.</p>
+</div>

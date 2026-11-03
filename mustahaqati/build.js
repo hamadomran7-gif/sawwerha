@@ -512,6 +512,50 @@ const TABLES = {
     });
     return tableWrap(a.caption || "", en ? ["Hijri month", "First day", "Last day", "Length"] : ["الشهر الهجري", "أوله", "آخره", "عدد أيامه"], rows);
   },
+  "ksa-pay-dates"(a) {
+    const en = a.lang === "en";
+    const [fy, fm] = String(a.from || "2026-11").split("-").map(Number);
+    const count = Number(a.count || 14);
+    const HM = en ? ["Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani", "Jumada al-Ula", "Jumada al-Akhirah", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qa'dah", "Dhu al-Hijjah"] : calc.HIJRI_MONTHS;
+    const loc = en ? "en-GB" : "ar-u-nu-latn";
+    const mf = new Intl.DateTimeFormat(loc, { month: "long", year: "numeric", timeZone: "UTC" });
+    const df = new Intl.DateTimeFormat(loc, { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+    const wf = new Intl.DateTimeFormat(loc, { weekday: "long", timeZone: "UTC" });
+    const D = (iso) => new Date(`${iso}T00:00:00Z`);
+    const rows = [];
+    for (let i = 0; i < count; i++) {
+      const y = fy + Math.floor((fm - 1 + i) / 12), m = ((fm - 1 + i) % 12) + 1;
+      const p = calc.ksaPayDate({ item: a.item || "salary", year: y, month: m });
+      const h = p.hijri;
+      let why = "";
+      if (p.announced) why = en ? "Date announced by the authority" : "موعد أعلنته الجهة";
+      else if (p.shifted) why = en ? `${wf.format(D(p.nominal))} ${p.nominal.slice(8)} is a weekend day, so it moves to the ${p.date < p.nominal ? "day before" : "day after"}` : `يوم ${Number(p.nominal.slice(8))} يوافق ${wf.format(D(p.nominal))}، ${p.date < p.nominal ? "فيُقدَّم" : "فيُؤخَّر"} إلى ${wf.format(D(p.date))}`;
+      else if (p.unsure) why = en ? `Falls on a ${wf.format(D(p.date))}; another date is announced` : `يوافق ${wf.format(D(p.date))}، ويُعلن موعد آخر`;
+      if (p.holiday) why += (why ? (en ? "; " : "، و") : "") + (en ? `falls in the ${p.holiday.en} holiday` : `يوافق عطلة ${p.holiday.ar}`);
+      rows.push([mf.format(D(`${y}-${String(m).padStart(2, "0")}-01`)), `<strong>${df.format(D(p.date))}</strong>`, h ? `${h.day} ${HM[h.month - 1]} ${h.year}` : "", why || "—"]);
+    }
+    return tableWrap(a.caption || "", en ? ["Month", "Payment date", "Hijri (Umm al-Qura)", "Note"] : ["الشهر", "موعد الصرف", "بالهجري (أم القرى)", "ملاحظة"], rows);
+  },
+  "ksa-pay-calendar"(a) {
+    const en = a.lang === "en";
+    const [fy, fm] = String(a.from || "2026-11").split("-").map(Number);
+    const count = Number(a.count || 14);
+    const items = String(a.items || "salary,citizen,social,hafiz,pension").split(",");
+    const NAME = en ? { salary: "Government salaries", citizen: "Citizen's Account", social: "Social security", hafiz: "Hafiz", pension: "GOSI pensions (estimate)", saned: "SANED (estimate)" } : { salary: "رواتب الدولة", citizen: "حساب المواطن", social: "الضمان المطور", hafiz: "حافز", pension: "معاشات التأمينات (تقديري)", saned: "ساند (تقديري)" };
+    const loc = en ? "en-GB" : "ar-u-nu-latn";
+    const mf = new Intl.DateTimeFormat(loc, { month: "long", year: "numeric", timeZone: "UTC" });
+    const df = new Intl.DateTimeFormat(loc, { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+    const D = (iso) => new Date(`${iso}T00:00:00Z`);
+    const rows = [];
+    for (let i = 0; i < count; i++) {
+      const y = fy + Math.floor((fm - 1 + i) / 12), m = ((fm - 1 + i) % 12) + 1;
+      rows.push([mf.format(D(`${y}-${String(m).padStart(2, "0")}-01`)), ...items.map((it) => {
+        const p = calc.ksaPayDate({ item: it, year: y, month: m });
+        return df.format(D(p.date)) + (p.unsure || p.holiday ? " *" : "");
+      })]);
+    }
+    return tableWrap(a.caption || "", [en ? "Month" : "الشهر", ...items.map((it) => NAME[it])], rows);
+  },
   "ksa-art87-compare"(a) {
     const en = a.lang === "en";
     const wage = Number(a.wage || 8000);

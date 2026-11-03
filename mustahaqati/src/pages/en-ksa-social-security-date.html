@@ -1,0 +1,87 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-social-security-payment-date",
+  "alternate": "ksa-social-security-date",
+  "title": "Saudi Social Security Payment Date 2026–2027 — Days Until the Next Deposit",
+  "h1": "Social security payment date",
+  "description": "Count the days until the developed social security deposit in Saudi Arabia: paid on the 1st of each Gregorian month, with another date set and announced by the ministry when that is a holiday, and eligibility results between the 25th and 27th of the month before. With the dates from December 2026 to December 2027.",
+  "short": "Deposit on the 1st, results on the 25th–27th, and the months when the 1st is a holiday",
+  "lead": "Shows the days and hours until the next social security deposit and the following dates, flagging those that fall on a weekend.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-social-security",
+    "en-ksa-payment-calendar",
+    "en-ksa-citizen-account-date",
+    "en-ksa-salary-date"
+  ],
+  "faq": [
+    {
+      "q": "When is the December 2026 social security payment?",
+      "a": "Tuesday 1 December 2026 (21 Jumada al-Akhirah 1448), a working day."
+    },
+    {
+      "q": "When do eligibility results appear?",
+      "a": "Between the 25th and 27th of each Gregorian month according to the ministry's guide; payment starts the month after approval."
+    },
+    {
+      "q": "What if the 1st falls on a Friday or Saturday?",
+      "a": "The ministry says another date is set and announced, so there is no fixed direction. In 2027 this happens on 1 January (Friday), 1 May (Saturday) and 1 October (Friday)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ajel citing the HR ministry — social security paid on the 1st (1 Nov 2022, Arabic)",
+      "u": "https://ajel.sa/thehour/bk3vgcdh42"
+    },
+    {
+      "t": "HR ministry — developed social security FAQ guide (2023, Arabic)",
+      "u": "https://www.hrsd.gov.sa/sites/default/files/2023-03/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A6%D9%84%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9%20%D9%84%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%20%D8%A7%D9%84%D9%85%D8%B7%D9%88%D8%B1_0.pdf"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="social" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary">Government salaries</option>
+          <option value="citizen">Citizen's Account</option>
+          <option value="social" selected>Developed social security</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="pension">GOSI pensions (estimate)</option>
+          <option value="saned">SANED (estimate)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Social security deposit dates from December 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=social from=2026-12 count=13 lang=en}}
+<h2>The deposit rule</h2>
+<ul>
+<li><strong>The 1st of each Gregorian month</strong> into the breadwinner's bank account.</li>
+<li><strong>On a weekend or public holiday:</strong> another date is set and announced, according to the ministry.</li>
+<li><strong>Eligibility results:</strong> reviewed monthly and published between the 25th and 27th.</li>
+</ul>
+<p>To estimate the amount use the <a href="{{root}}en/saudi-social-security-calculator/{{ix}}">social security calculator</a>, and for other dates the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>
+</div>

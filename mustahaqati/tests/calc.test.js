@@ -17,6 +17,9 @@ import {
   ramadanHours,
   gccUnemployment,
   familyResidenceCost,
+  ksaPayDate,
+  ksaNextPayDates,
+  ksaPayCountdown,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
@@ -1589,4 +1592,25 @@ test("GCC family residence cost (batch25 worked examples)", () => {
   assert.equal(familyResidenceCost({ country: "ae-dubai", spouse: 1, children: 0, salary: 3500 }).eligible, false);
   assert.equal(familyResidenceCost({ country: "ae-dubai", spouse: 1, children: 0, salary: 3500, housing: true }).eligible, true);
   assert.equal(familyResidenceCost({ country: "qa", spouse: 1, salary: 8000, housing: true }).eligible, true);
+});
+
+test("Saudi payment dates (batch27 rules)", () => {
+  const sal = ksaNextPayDates({ item: "salary", today: "2026-11-03", count: 14 }).map((p) => p.date);
+  assert.deepEqual(sal, ["2026-11-26", "2026-12-27", "2027-01-27", "2027-02-28", "2027-03-28", "2027-04-27", "2027-05-27", "2027-06-27", "2027-07-27", "2027-08-26", "2027-09-27", "2027-10-27", "2027-11-28", "2027-12-27"]);
+  const cit = ksaNextPayDates({ item: "citizen", today: "2026-11-03", count: 14 });
+  assert.deepEqual(cit.map((p) => p.date), ["2026-11-10", "2026-12-10", "2027-01-10", "2027-02-10", "2027-03-10", "2027-04-11", "2027-05-10", "2027-06-10", "2027-07-11", "2027-08-10", "2027-09-09", "2027-10-10", "2027-11-10", "2027-12-09"]);
+  assert.equal(cit[4].holiday.id, "eidAlFitr");
+  const pen = ksaNextPayDates({ item: "pension", today: "2026-11-03", count: 14 }).map((p) => p.date);
+  assert.equal(pen[10], "2027-09-22");
+  assert.equal(pen[13], "2027-12-23");
+  assert.equal(ksaPayDate({ item: "salary", year: 2026, month: 5 }).date, "2026-05-24");
+  assert.equal(ksaPayDate({ item: "social", year: 2027, month: 1 }).unsure, true);
+  const soc = ksaNextPayDates({ item: "social", today: "2026-12-02", count: 1 })[0];
+  assert.equal(soc.date, "2027-01-01");
+  assert.equal(soc.days, 30);
+  assert.equal(ksaNextPayDates({ item: "salary", today: "2026-11-26", count: 1 })[0].days, 0);
+  assert.equal(ksaNextPayDates({ item: "salary", today: "2026-11-27", count: 1 })[0].date, "2026-12-27");
+  const c = ksaPayCountdown({ today: "2026-11-03" });
+  assert.equal(c[0].item, "hafiz");
+  assert.equal(c.find((p) => p.item === "salary").days, 23);
 });

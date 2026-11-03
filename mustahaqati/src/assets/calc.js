@@ -3241,6 +3241,77 @@ export function familyResidenceCost({ country = "ae-dubai", spouse = 1, children
 }
 
 /* ------------------------------------------------------------------ */
+/* السعودية — مواعيد صرف الرواتب والدعم وعدّاد الأيام                  */
+/* ------------------------------------------------------------------ */
+
+export const KSA_PAY_ITEMS = ["salary", "citizen", "social", "hafiz", "pension", "saned"];
+
+function saHolidayOn(iso) {
+  const H = rules.sa.holidays;
+  if (!H) return null;
+  for (const it of H.items) for (const list of [it.d2026, it.d2027]) if ((list || []).includes(iso)) return { id: it.id, ar: it.ar, en: it.en };
+  return null;
+}
+
+/**
+ * موعد صرف شهر استحقاق واحد (month: 1–12). القواعد في rules.sa.payDates:
+ * fixed: إزاحة الجمعة والسبت بحسب shift، والعطلة الرسمية تُعلَّم فقط لأن تبكير العيد قرار ظرفي.
+ * announced: لا قاعدة للعطلة؛ يبقى التاريخ الاسمي مع unsure. estimate: الإزاحة تتخطى العطل الرسمية أيضاً.
+ * exceptions: مواعيد أعلنتها الجهة فعلاً لشهر بعينه ("YYYY-MM").
+ */
+export function ksaPayDate({ item = "salary", year, month }) {
+  const PD = rules.sa.payDates;
+  const P = PD && PD.items[item];
+  const y = Number(year), m = Number(month);
+  if (!P || !y || !m) return null;
+  const key = `${y}-${String(m).padStart(2, "0")}`;
+  const nominal = isoUTC(new Date(Date.UTC(y, m - 1, P.day)));
+  const out = { item, month: key, nominal, date: nominal, shifted: false, reason: null, unsure: false, announced: false, status: P.status, holiday: null };
+  const ex = P.exceptions && P.exceptions[key];
+  if (ex) {
+    Object.assign(out, { date: ex, shifted: ex !== nominal, reason: "announced", announced: true });
+  } else {
+    const wd = utcDay(nominal).getUTCDay();
+    if (PD.weekend.includes(wd)) {
+      const step = P.shift ? P.shift[wd] : null;
+      if (step) {
+        let d = plusDays(utcDay(nominal), step);
+        if (P.status === "estimate") {
+          const dir = Math.sign(step);
+          while (PD.weekend.includes(d.getUTCDay()) || saHolidayOn(isoUTC(d))) d = plusDays(d, dir);
+        }
+        Object.assign(out, { date: isoUTC(d), shifted: true, reason: wd === 5 ? "friday" : "saturday" });
+      } else out.unsure = true;
+    }
+  }
+  out.holiday = saHolidayOn(out.date);
+  out.weekday = utcDay(out.date).getUTCDay();
+  out.hijri = hijriParts(out.date);
+  return out;
+}
+
+/** المواعيد القادمة لبند واحد من تاريخ اليوم (موعد اليوم يُحسب)، بحساب كل شهر استحقاق؛ والإزاحة قد تنقل موعد شهر إلى آخر الشهر السابق. */
+export function ksaNextPayDates({ item = "salary", today, count = 12 } = {}) {
+  const t = utcDay(today || new Date());
+  if (!t || !rules.sa.payDates.items[item]) return [];
+  const tIso = isoUTC(t);
+  const y0 = t.getUTCFullYear(), m0 = t.getUTCMonth();
+  const out = [];
+  for (let i = 0; out.length < count && i < count + 3; i++) {
+    const yy = y0 + Math.floor((m0 + i) / 12), mm = ((m0 + i) % 12) + 1;
+    const p = ksaPayDate({ item, year: yy, month: mm });
+    if (p && p.date >= tIso) out.push({ ...p, days: dayDiff(t, utcDay(p.date)) });
+  }
+  return out;
+}
+
+/** أقرب موعد لكل بند، مرتبة من الأقرب. */
+export function ksaPayCountdown({ today, items = KSA_PAY_ITEMS } = {}) {
+  const t = utcDay(today || new Date());
+  return items.map((item) => ksaNextPayDates({ item, today: t, count: 1 })[0]).filter(Boolean).sort((a, b) => a.date.localeCompare(b.date) || items.indexOf(a.item) - items.indexOf(b.item));
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

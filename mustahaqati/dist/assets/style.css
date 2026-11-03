@@ -251,3 +251,9 @@ body.embed main.wrap { padding-top: 10px; padding-bottom: 10px; }
 .cal td small { display: block; font-size: .72rem; color: var(--muted); }
 .cal td.today { outline: 2px solid var(--result); background: var(--result-soft); }
 
+
+/* عدّاد تنازلي حي (مواعيد الصرف) */
+.ticker { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin: .25rem 0 1rem; }
+.ticker span { display: flex; flex-direction: column; align-items: center; min-width: 4rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.ticker b { font-size: 1.5rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.ticker small { font-size: .75rem; color: var(--muted); }

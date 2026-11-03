@@ -2254,6 +2254,75 @@ export default {
       "familyCapMax": 22800,
       "graduateWindowMonths": 24,
       "waitAfterJobMonths": 24
+    },
+    "payDates": {
+      "law": "رواتب الدولة: توجيه ملكي (يناير 2018) بالصرف يوم 27 ميلادي، ووزارة المالية: الجمعة تُقدَّم إلى الخميس والسبت تُؤخَّر إلى الأحد؛ حساب المواطن يوم 10 بالقاعدة نفسها؛ الضمان المطور يوم 1 وفي العطلة يُعلن موعد آخر؛ حافز يوم 5 (هدف)؛ معاشات التأمينات وساند تقديرية",
+      "lastReview": "2026-11-03",
+      "weekend": [
+        5,
+        6
+      ],
+      "items": {
+        "salary": {
+          "day": 27,
+          "shift": {
+            "5": -1,
+            "6": 1
+          },
+          "status": "fixed",
+          "exceptions": {
+            "2025-03": "2025-03-25",
+            "2026-05": "2026-05-24"
+          }
+        },
+        "citizen": {
+          "day": 10,
+          "shift": {
+            "5": -1,
+            "6": 1
+          },
+          "status": "fixed",
+          "exceptions": {}
+        },
+        "social": {
+          "day": 1,
+          "shift": null,
+          "status": "announced",
+          "results": [
+            25,
+            27
+          ],
+          "exceptions": {}
+        },
+        "hafiz": {
+          "day": 5,
+          "shift": null,
+          "status": "announced",
+          "results": [
+            2,
+            4
+          ],
+          "exceptions": {}
+        },
+        "pension": {
+          "day": 25,
+          "shift": {
+            "5": -1,
+            "6": -2
+          },
+          "status": "estimate",
+          "exceptions": {}
+        },
+        "saned": {
+          "day": 5,
+          "shift": {
+            "5": -1,
+            "6": 1
+          },
+          "status": "estimate",
+          "exceptions": {}
+        }
+      }
     }
   },
   "gcc": {
