@@ -1,0 +1,96 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-school-holidays-2026-2027",
+  "alternate": "uae-school-holidays",
+  "title": "UAE School Holidays 2026–2027 — Days Until the Winter Break",
+  "h1": "UAE school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in the UAE for 2026–2027: the National Day break on 2–4 December, the winter break from 14 December with return on 4 January, Eid al-Fitr, the spring break on 5–11 April and the last school day on 2 July 2027, for MOE schools and Dubai and Sharjah private schools.",
+  "short": "National Day 2–4 Dec, winter break 14 Dec – 3 Jan, spring break 5–11 Apr",
+  "lead": "Choose your school type to see the days and hours until the next break, the school days left, and every holiday this year with return dates.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-uae-public-holidays",
+    "en-uae-national-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-uae-annual-leave"
+  ],
+  "faq": [
+    {
+      "q": "When is the winter break 2026 in the UAE?",
+      "a": "From Monday 14 December 2026 for students, with return on Monday 4 January 2027, under the ministry's unified calendar; staff start their break on 21 December."
+    },
+    {
+      "q": "When is the spring break 2027?",
+      "a": "From 5 to 11 April 2027 including the weekend, back on 12 April; Sharjah private schools break on 5–8 April."
+    },
+    {
+      "q": "When does the 2026–2027 school year end?",
+      "a": "The last day for students is Friday 2 July 2027 in MOE and Dubai schools and Thursday 1 July in Sharjah private schools; the next year starts on 30 August 2027."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ministry of Education — Academic Calendar 2026–2027 (PDF)",
+      "u": "https://www.moe.gov.ae/en/guides/Documents/Academic-Calender-2026-2027/Academic-Calender-2026-2027-En.pdf"
+    },
+    {
+      "t": "Khaleej Times — UAE public and private school calendar for the next three years (23 Feb 2026)",
+      "u": "https://www.khaleejtimes.com/uae/education/uae-announces-public-private-school-academic-calendar-for-next-three-years"
+    },
+    {
+      "t": "Gulf News — Dubai private schools revise October mid-term dates (4 Sep 2026)",
+      "u": "https://gulfnews.com/uae/education/dubai-schools-october-mid-term-break-dates-2026-27-1.500663256"
+    },
+    {
+      "t": "Gulf News — Sharjah private school calendar 2026–2027 (3 Aug 2026)",
+      "u": "https://gulfnews.com/uae/education/sharjah-announces-private-school-calendar-for-2026-2027-academic-year-1.500629313"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="variant">Region or school type</label>
+        <select id="variant" name="variant">
+          <option value="moe" selected>MOE schools (public and MOE-curriculum private)</option>
+          <option value="dubai-private">Dubai private schools</option>
+          <option value="sharjah-private">Sharjah private schools</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>MOE school holidays 2026–2027</h2>
+{{table:school-calendar country=ae variant=moe lang=en}}
+<h2>Dubai and Sharjah private schools</h2>
+<p>KHDA required Dubai private schools to follow the unified calendar, so the October break moved to 12–16 October. Sharjah private schools have their own calendar: winter break 14 December – 3 January, spring break 5–8 April and the year ending on 1 July.</p>
+{{table:school-calendar country=ae variant=sharjah-private lang=en}}
+<p>The year has 185 school days in three terms, and the last week of each term is for final assessments with attendance required. Public holidays are on <a href="{{root}}en/uae-public-holidays/{{ix}}">UAE public holidays</a>.</p>
+</div>

@@ -1,0 +1,69 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-school-holidays-2026-2027",
+  "alternate": "qatar-school-holidays",
+  "title": "Qatar School Holidays 2026–2027 — Days Until the Winter Break",
+  "h1": "Qatar school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in Qatar for 2026–2027: the mid-year break from 20 December to 3 January with return on 4 January, both Eids, the long weekend on 31 March – 1 April, end-of-year exams to 17 June and staff leave from 27 June to 19 August 2027.",
+  "short": "Mid-year 20 Dec – 3 Jan, long weekend 31 Mar, staff leave from 27 Jun",
+  "lead": "Shows the days and hours until the next break for students or staff, the school days left, and every holiday this year with return dates.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-public-holidays",
+    "en-qatar-national-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-qatar-leave"
+  ],
+  "faq": [
+    {
+      "q": "When is the mid-year break in Qatar 2026?",
+      "a": "From Sunday 20 December 2026 to Sunday 3 January 2027, with the second term starting on Monday 4 January, under the annual calendar reported in the press."
+    }
+  ],
+  "sources": [
+    {
+      "t": "QNA — MOEHE approves academic calendar 2025–2028 (8 Jul 2025)",
+      "u": "https://qna.org.qa/en/News-Area/News/2025-7/8/moehe-approves-new-academic-calendar-for-20252028"
+    },
+    {
+      "t": "Qatar Living — students return to school on 30 August 2026 (20 Aug 2026)",
+      "u": "https://www.qatarliving.com/en/article/students-return-to-school-on-august-30-for-2026-2027-academic-year"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Qatar school calendar 2026–2027</h2>
+{{table:school-calendar country=qa lang=en}}
+<p>The calendar comes from Al Raya and Qatar Living, which match, with the framework from QNA. The sources do not give the Eid breaks or the students' last day, so the countdown adds both Eids from the <a href="{{root}}en/qatar-public-holidays/{{ix}}">expected official holidays</a>.</p>
+</div>

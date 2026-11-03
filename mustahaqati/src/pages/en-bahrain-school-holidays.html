@@ -1,0 +1,69 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-school-holidays-2026-2027",
+  "alternate": "bahrain-school-holidays",
+  "title": "Bahrain School Holidays 2026–2027 — Days Until the Mid-Year Break",
+  "h1": "Bahrain school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in Bahrain for 2026–2027: National Day on 16–17 December, the mid-year break from 17 to 28 January 2027 with return on 31 January, Eid al-Fitr, and the end of the second term on 30 June with the summer holiday from 1 July 2027.",
+  "short": "National Day 16–17 Dec, mid-year 17–28 Jan, summer from 1 Jul",
+  "lead": "Shows the days and hours until the next break, the school days left, and every holiday this year with return dates.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-public-holidays",
+    "en-bahrain-national-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-bahrain-leave"
+  ],
+  "faq": [
+    {
+      "q": "When is the 2027 mid-year break in Bahrain?",
+      "a": "From Sunday 17 January to Thursday 28 January 2027 (12 days), back on Sunday 31 January, as Akhbar Al Khaleej reported from the ministry."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Akhbar Al Khaleej — ministry approves the academic calendar (10 Jun 2026, Arabic)",
+      "u": "https://akhbar-alkhaleej.com/news/article/1440584"
+    },
+    {
+      "t": "GDN — pupils return to classrooms (4 Sep 2026)",
+      "u": "https://www.gdnonline.com/Details/1405293/Laughter-and-excitement-as-pupils-return-to-classrooms"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Bahrain school calendar 2026–2027</h2>
+{{table:school-calendar country=bh lang=en}}
+<p>Students returned to classrooms on 3 September 2026 after about seven months of remote learning, so emergency decisions can override any calendar. The countdown also adds the <a href="{{root}}en/bahrain-public-holidays/{{ix}}">expected official holidays</a> such as National Day and Eid al-Adha.</p>
+</div>

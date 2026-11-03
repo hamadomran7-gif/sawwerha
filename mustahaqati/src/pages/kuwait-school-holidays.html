@@ -1,0 +1,74 @@
+---json
+{
+  "title": "كم باقي على إجازة منتصف العام في الكويت؟ رزنامة وزارة التربية 2026–2027",
+  "h1": "كم باقي على الإجازة في مدارس الكويت؟",
+  "description": "عدّاد الأيام المتبقية على العطلة القادمة في مدارس الكويت للعام 2026–2027: إجازة منتصف العام 24 يناير – 4 فبراير 2027 والعودة 7 فبراير، والعيد الوطني وعيد التحرير، والإجازة الخاصة آخر رمضان 1–8 مارس، ونهاية دوام العاملين 1 يوليو، والعطلة الصيفية للمعلمين حتى 4 سبتمبر 2027.",
+  "short": "منتصف العام 24 يناير – 4 فبراير، وإجازة آخر رمضان 1–8 مارس، وصيفية المعلمين حتى 4 سبتمبر",
+  "lead": "يظهر عدد الأيام والساعات حتى العطلة القادمة للطلبة أو للمعلمين، وأيام الدراسة المتبقية، وكل عطل العام مع مواعيد العودة.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-public-holidays",
+    "kuwait-national-day-countdown",
+    "eid-al-fitr-countdown",
+    "kuwait-leave"
+  ],
+  "faq": [
+    {
+      "q": "متى إجازة منتصف العام 2027 في الكويت؟",
+      "a": "من الأحد 24 يناير إلى الخميس 4 فبراير 2027 (12 يوماً، و16 مع عطلتي نهاية الأسبوع)، وبدء الفصل الثاني الأحد 7 فبراير، بحسب رزنامة وزارة التربية."
+    },
+    {
+      "q": "هل في آخر رمضان إجازة للمدارس في الكويت؟",
+      "a": "نعم، إجازة خاصة لجميع العاملين من 1 إلى 8 مارس 2027 بحسب الرزنامة، وتليها عطلة عيد الفطر."
+    },
+    {
+      "q": "متى العطلة الصيفية للمعلمين في الكويت 2027؟",
+      "a": "تبدأ للهيئتين التعليمية والإدارية في 1 يوليو 2027 (عدا المكلفين بامتحانات الثانوية)، ويعود العاملون في 5 سبتمبر 2027."
+    }
+  ],
+  "sources": [
+    {
+      "t": "وزارة التربية — الرزنامة للعام الدراسي 2026/2027",
+      "u": "https://www.moe.edu.kw/pages/calendar"
+    },
+    {
+      "t": "Arab Times — المعلمون والإداريون يبدؤون العام الدراسي 2026/2027 (6/9/2026)",
+      "u": "https://www.arabtimesonline.com/news/teachers-admin-staff-join-schools-for-new-ay-2627/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الإجازة؟</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">أنا</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>طالب أو ولي أمر</option>
+          <option value="teachers">معلم أو إداري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>رزنامة مدارس الكويت 2026–2027</h2>
+{{table:school-calendar country=kw}}
+<p>الرزنامة الرسمية لا تشمل العيد الوطني وعيد التحرير والإسراء والمعراج وعيدي الفطر والأضحى، فهي تُعلن بقرار مجلس الوزراء؛ وأضفناها إلى العدّاد من <a href="{{root}}kuwait-public-holidays/{{ix}}">العطل الرسمية المتوقعة</a>. وللمعلمين عطلة صيفية من 1 يوليو حتى 4 سبتمبر 2027.</p>
+</div>

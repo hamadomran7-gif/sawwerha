@@ -21,6 +21,7 @@ import {
   ksaNextPayDates,
   ksaPayCountdown,
   gccFinalSettlement,
+  schoolCountdown,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
@@ -1636,4 +1637,26 @@ test("GCC final settlement (Qatar, Kuwait, Oman, Bahrain)", () => {
   assert.equal(b.total, 3400);
   assert.equal(b.sio, 1600);
   assert.equal(b.fromEmployer, 1800);
+});
+
+test("GCC school holiday countdown (batch29)", () => {
+  const sa = schoolCountdown({ country: "sa", today: "2026-11-03" });
+  assert.equal(sa.next.offStart, "2026-11-20");
+  assert.equal(sa.next.returnDate, "2026-11-30");
+  assert.equal(sa.next.days, 10);
+  assert.equal(sa.daysToNext, 17);
+  assert.equal(sa.lastDay, "2027-06-24");
+  const mk = schoolCountdown({ country: "sa", variant: "makkah-madinah-jeddah-taif", today: "2026-11-03" });
+  assert.equal(mk.next.returnDate, "2026-11-29");
+  assert.equal(mk.lastDay, "2027-07-01");
+  const on = schoolCountdown({ country: "sa", today: "2026-11-22" });
+  assert.equal(on.ongoing.returnDate, "2026-11-30");
+  assert.equal(on.daysToReturn, 8);
+  const ae = schoolCountdown({ country: "ae", variant: "moe", today: "2026-11-03" });
+  assert.equal(ae.next.offStart, "2026-12-02");
+  assert.equal(ae.upcoming[1].returnDate, "2027-01-04");
+  assert.equal(schoolCountdown({ country: "kw", today: "2027-01-10" }).next.offStart, "2027-01-22");
+  assert.equal(schoolCountdown({ country: "qa", today: "2026-11-03" }).next.returnDate, "2027-01-04");
+  assert.equal(schoolCountdown({ country: "bh", today: "2027-01-01" }).next.returnDate, "2027-01-31");
+  assert.equal(schoolCountdown({ country: "kw", today: "2027-06-20", audience: "teachers" }).next.returnDate, "2027-09-05");
 });

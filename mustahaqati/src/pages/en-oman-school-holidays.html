@@ -1,0 +1,69 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-school-holidays-2026-2027",
+  "alternate": "oman-school-holidays",
+  "title": "Oman School Holidays 2026–2027 — Days Until the Next Break",
+  "h1": "Oman school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in Oman for 2026–2027: the National Day holiday on 25–26 November, the break between terms, the second term from 31 January 2027, both Eids, and the end of the year on 13 July 2027 under Ministerial Decision 190/2026.",
+  "short": "National Day 25–26 Nov, second term 31 Jan, year end 13 Jul",
+  "lead": "Shows the days and hours until the next break, the school days left, and every holiday this year with return dates.",
+  "country": "om",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-oman-public-holidays",
+    "en-oman-national-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-oman-leave"
+  ],
+  "faq": [
+    {
+      "q": "When does the second term start in Oman in 2027?",
+      "a": "On Sunday 31 January 2027 for staff and students, after first-term exams end on 21 January."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Atheer — annual school calendar, Ministerial Decision 190/2026 (15 Jul 2026, Arabic)",
+      "u": "https://www.atheer.om/2026/07/15/032245/"
+    },
+    {
+      "t": "Oman Observer — new school year begins on Sunday (5 Sep 2026)",
+      "u": "https://www.omanobserver.om/article/1195622/oman/education/new-school-academic-year-begins-on-sunday"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Oman school calendar 2026–2027</h2>
+{{table:school-calendar country=om lang=en}}
+<p>Students started a week later, on 6 September, to support the Khareef season, and the calendar ends on 13 July 2027. It lists no holidays, so the countdown adds the <a href="{{root}}en/oman-public-holidays/{{ix}}">expected official holidays</a>, and the break between terms is inferred from the exam and term dates.</p>
+</div>

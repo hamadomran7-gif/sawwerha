@@ -1,0 +1,74 @@
+---json
+{
+  "title": "كم باقي على إجازة منتصف العام في البحرين؟ التقويم الدراسي 2026–2027",
+  "h1": "كم باقي على الإجازة في مدارس البحرين؟",
+  "description": "عدّاد الأيام المتبقية على العطلة القادمة في مدارس البحرين للعام 2026–2027: العيد الوطني 16–17 ديسمبر، وإجازة منتصف العام 17–28 يناير 2027 والعودة 31 يناير، وعيد الفطر، ونهاية الفصل الثاني 30 يونيو وبداية الإجازة الصيفية 1 يوليو 2027.",
+  "short": "العيد الوطني 16–17 ديسمبر، ومنتصف العام 17–28 يناير، والصيفية من 1 يوليو",
+  "lead": "يظهر عدد الأيام والساعات حتى العطلة القادمة، وأيام الدراسة المتبقية، وكل عطل العام مع مواعيد العودة.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "bahrain-public-holidays",
+    "bahrain-national-day-countdown",
+    "eid-al-fitr-countdown",
+    "bahrain-leave"
+  ],
+  "faq": [
+    {
+      "q": "متى إجازة منتصف العام في البحرين 2027؟",
+      "a": "من الأحد 17 يناير إلى الخميس 28 يناير 2027 (12 يوماً)، والعودة الأحد 31 يناير، بحسب ما نشرته أخبار الخليج عن الوزارة."
+    },
+    {
+      "q": "متى بداية الإجازة الصيفية للطلبة في البحرين؟",
+      "a": "الخميس 1 يوليو 2027 بعد نهاية الفصل الثاني في 30 يونيو."
+    }
+  ],
+  "sources": [
+    {
+      "t": "أخبار الخليج — وزارة التربية تعتمد التقويم الأكاديمي (10/6/2026)",
+      "u": "https://akhbar-alkhaleej.com/news/article/1440584"
+    },
+    {
+      "t": "أخبار الخليج — الاستعداد لاستقبال الهيئات والطلبة حضورياً (13/8/2026)",
+      "u": "https://akhbar-alkhaleej.com/news/article/1447150"
+    },
+    {
+      "t": "GDN — عودة الطلبة إلى الفصول (4/9/2026)",
+      "u": "https://www.gdnonline.com/Details/1405293/Laughter-and-excitement-as-pupils-return-to-classrooms"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الإجازة؟</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">أنا</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>طالب أو ولي أمر</option>
+          <option value="teachers">معلم أو إداري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تقويم مدارس البحرين 2026–2027</h2>
+{{table:school-calendar country=bh}}
+<p>عاد الطلبة إلى المدارس حضورياً في 3 سبتمبر 2026 بعد نحو سبعة أشهر من التعليم عن بُعد، فقرارات الطوارئ قد تعلو على أي تقويم. وأضفنا إلى العدّاد <a href="{{root}}bahrain-public-holidays/{{ix}}">العطل الرسمية المتوقعة</a> كالعيد الوطني وعيد الأضحى.</p>
+</div>

@@ -1,0 +1,92 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-school-holidays-2026-2027",
+  "alternate": "ksa-school-holidays",
+  "title": "Saudi School Holidays 2026–2027 (1448) — Days Until the Autumn Break",
+  "h1": "Saudi school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in Saudi Arabia for the 1448 AH school year (2026–2027): the autumn break from Friday 20 November with return on Monday 30 November, mid-year 7–16 January, Founding Day, both Eids, and the last school day on Thursday 24 June 2027, with the differences for Makkah, Madinah, Jeddah and Taif.",
+  "short": "Autumn break from 20 November, back 30 November, and every 1448 holiday",
+  "lead": "Choose your region to see the days and hours until the next holiday, the school days left, and every holiday this year with return dates.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-public-holidays",
+    "en-ksa-salary-date",
+    "en-ksa-founding-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-ksa-teachers-salary-scale"
+  ],
+  "faq": [
+    {
+      "q": "When is the autumn break in 1448?",
+      "a": "From Friday 20 November 2026 after school on Thursday 19 November, plus an extra day off on Sunday 29 November in most regions, so students return on Monday 30 November (10 days). In Makkah, Madinah, Jeddah and Taif they return on Sunday 29 November."
+    },
+    {
+      "q": "When does the 1448 school year end?",
+      "a": "The last school day is Thursday 24 June 2027 (19 Muharram 1449), and Thursday 1 July 2027 in Makkah, Madinah, Jeddah and Taif."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ministry of Education — Cabinet approves two semesters (5 Aug 2025, Arabic)",
+      "u": "https://www.moe.gov.sa/ar/mediacenter/MOEnews/Pages/news1_05082025.aspx"
+    },
+    {
+      "t": "SPA — Riyadh students return on 10 Rabi al-Awwal 1448 (22 Aug 2026, Arabic)",
+      "u": "https://www.spa.gov.sa/N2659346"
+    },
+    {
+      "t": "Okaz — the 1448 school calendar (13 Jul 2026, Arabic)",
+      "u": "https://www.okaz.com.sa/local/na/2256793"
+    },
+    {
+      "t": "Ajel — first extra break for Saudi students and teachers (24 Oct 2026)",
+      "u": "https://english.ajel.sa/news/zhvxjosh6"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="sa" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="variant">Region or school type</label>
+        <select id="variant" name="variant">
+          <option value="most-regions" selected>Most regions</option>
+          <option value="makkah-madinah-jeddah-taif">Makkah, Madinah, Jeddah and Taif</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>1448 school holidays — most regions</h2>
+{{table:school-calendar country=sa variant=most-regions lang=en}}
+<h2>Makkah, Madinah, Jeddah and Taif</h2>
+<p>School started on Sunday 30 August 2026 and ends on Thursday 1 July 2027, a week after the other regions, with one extra day off (25 October) and an earlier Eid al-Adha break from 23 Dhu al-Qa'dah.</p>
+{{table:school-calendar country=sa variant=makkah-madinah-jeddah-taif lang=en}}
+<p>Administrators returned on Tuesday 11 August 2026 and teachers on Sunday 16 August; no separate end date for teachers has been published. For payday see the <a href="{{root}}en/saudi-salary-date/{{ix}}">Saudi salary date</a>.</p>
+</div>

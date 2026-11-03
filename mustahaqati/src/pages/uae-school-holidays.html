@@ -1,0 +1,97 @@
+---json
+{
+  "title": "كم باقي على إجازة المدارس في الإمارات؟ التقويم الدراسي 2026–2027 والعطلة الشتوية",
+  "h1": "كم باقي على إجازة المدارس في الإمارات؟",
+  "description": "عدّاد الأيام المتبقية على عطلة المدارس القادمة في الإمارات للعام 2026–2027: عطلة اليوم الوطني 2–4 ديسمبر، والعطلة الشتوية من 14 ديسمبر والعودة 4 يناير، وعيد الفطر، والربيعية 5–11 أبريل، وآخر يوم دراسي 2 يوليو 2027، لمدارس الوزارة ومدارس دبي والشارقة الخاصة.",
+  "short": "عيد الاتحاد 2–4 ديسمبر، والشتوية 14 ديسمبر – 3 يناير، والربيعية 5–11 أبريل",
+  "lead": "اختر نوع مدرستك، ويظهر عدد الأيام والساعات حتى العطلة القادمة، وأيام الدراسة المتبقية، وكل عطل العام مع مواعيد العودة.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "uae-public-holidays",
+    "uae-national-day-countdown",
+    "eid-al-fitr-countdown",
+    "uae-annual-leave"
+  ],
+  "faq": [
+    {
+      "q": "متى العطلة الشتوية 2026 في الإمارات؟",
+      "a": "من الاثنين 14 ديسمبر 2026 للطلبة، والعودة الاثنين 4 يناير 2027، بحسب التقويم الموحّد للوزارة؛ ويبدأ الكادر عطلته في 21 ديسمبر."
+    },
+    {
+      "q": "متى العطلة الربيعية 2027؟",
+      "a": "من 5 إلى 11 أبريل 2027 مع عطلة نهاية الأسبوع، والعودة 12 أبريل؛ وفي مدارس الشارقة الخاصة 5–8 أبريل."
+    },
+    {
+      "q": "متى نهاية العام الدراسي 2027 في الإمارات؟",
+      "a": "آخر يوم للطلبة الجمعة 2 يوليو 2027 في مدارس الوزارة ودبي، والخميس 1 يوليو في مدارس الشارقة الخاصة، ويبدأ العام التالي 30 أغسطس 2027."
+    },
+    {
+      "q": "هل يشمل التقويم المدارس الهندية والباكستانية؟",
+      "a": "لا، المدارس الخاصة ذات المناهج الهندية والبنغالية والباكستانية خارج التقويم الموحّد، ولكل منها تقويمها."
+    }
+  ],
+  "sources": [
+    {
+      "t": "وزارة التربية والتعليم — التقويم الأكاديمي 2026–2027 (PDF)",
+      "u": "https://www.moe.gov.ae/en/guides/Documents/Academic-Calender-2026-2027/Academic-Calender-2026-2027-En.pdf"
+    },
+    {
+      "t": "الإمارات اليوم — التقويم المعتمد للأعوام الثلاثة القادمة (23/2/2026)",
+      "u": "https://www.emaratalyoum.com/local-section/education/2026-02-23-1.2018538"
+    },
+    {
+      "t": "Gulf News — مدارس دبي الخاصة تعدّل عطلة أكتوبر ورد هيئة المعرفة (4/9/2026)",
+      "u": "https://gulfnews.com/uae/education/dubai-schools-october-mid-term-break-dates-2026-27-1.500663256"
+    },
+    {
+      "t": "Gulf News — تقويم مدارس الشارقة الخاصة 2026–2027 (3/8/2026)",
+      "u": "https://gulfnews.com/uae/education/sharjah-announces-private-school-calendar-for-2026-2027-academic-year-1.500629313"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الإجازة؟</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="variant">المنطقة أو نوع المدرسة</label>
+        <select id="variant" name="variant">
+          <option value="moe" selected>مدارس الوزارة (الحكومية والخاصة بمنهاجها)</option>
+          <option value="dubai-private">مدارس دبي الخاصة</option>
+          <option value="sharjah-private">مدارس الشارقة الخاصة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="audience">أنا</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>طالب أو ولي أمر</option>
+          <option value="teachers">معلم أو إداري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>عطل مدارس الوزارة 2026–2027</h2>
+{{table:school-calendar country=ae variant=moe}}
+<h2>مدارس دبي والشارقة الخاصة</h2>
+<p>ألزمت هيئة المعرفة والتنمية البشرية مدارس دبي الخاصة بمواعيد التقويم الموحّد، فعُدّلت عطلة أكتوبر إلى 12–16 أكتوبر. ولمدارس الشارقة الخاصة تقويمها: الشتوية 14 ديسمبر – 3 يناير، والربيعية 5–8 أبريل، ونهاية العام 1 يوليو.</p>
+{{table:school-calendar country=ae variant=sharjah-private}}
+<p>العام الدراسي 185 يوماً في ثلاثة فصول، والأسبوع الأخير من كل فصل للتقييمات الختامية والحضور فيه إلزامي. والعطل الرسمية العامة في <a href="{{root}}uae-public-holidays/{{ix}}">العطل الرسمية في الإمارات</a>.</p>
+</div>

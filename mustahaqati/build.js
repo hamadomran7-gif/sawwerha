@@ -512,6 +512,24 @@ const TABLES = {
     });
     return tableWrap(a.caption || "", en ? ["Hijri month", "First day", "Last day", "Length"] : ["الشهر الهجري", "أوله", "آخره", "عدد أيامه"], rows);
   },
+  "school-calendar"(a) {
+    const en = a.lang === "en";
+    const S = calc.schoolEvents({ country: a.country || "sa", variant: a.variant });
+    const df = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+    const D = (iso) => df.format(new Date(`${iso}T00:00:00Z`));
+    const cnt = (n) => (en ? `${n} ${n === 1 ? "day" : "days"}` : n === 1 ? "يوم واحد" : n === 2 ? "يومان" : n <= 10 ? `${n} أيام` : `${n} يوماً`);
+    const aud = a.audience || "students";
+    const rows = S.events
+      .filter((e) => !e.official && e.type !== "exams" && (aud === "teachers" ? e.audience !== "students" : e.audience !== "teachers"))
+      .map((e) => {
+        const days = Math.round((new Date(`${e.end}T00:00:00Z`) - new Date(`${e.start}T00:00:00Z`)) / 86400000) + 1;
+        const when = e.start === e.end ? D(e.start) : `${D(e.start)} – ${D(e.end)}`;
+        const len = e.type === "break" || e.type === "holiday" ? cnt(days) : "—";
+        const back = e.returnDate ? (en ? `Back ${D(e.returnDate)}` : `العودة ${D(e.returnDate)}`) : "";
+        return [en ? e.nameEn || e.nameAr : e.nameAr, when, len, back || "—"];
+      });
+    return tableWrap(a.caption || "", en ? ["Event", "Dates", "Length", "Return"] : ["الحدث", "التاريخ", "المدة", "العودة"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

@@ -1,0 +1,74 @@
+---json
+{
+  "title": "كم باقي على الإجازة الشتوية في قطر؟ التقويم المدرسي 2026–2027",
+  "h1": "كم باقي على الإجازة في مدارس قطر؟",
+  "description": "عدّاد الأيام المتبقية على العطلة القادمة في مدارس قطر للعام 2026–2027: عطلة منتصف العام 20 ديسمبر – 3 يناير والعودة 4 يناير، وعطلتا العيدين، والعطلة المطولة 31 مارس – 1 أبريل، واختبارات نهاية العام حتى 17 يونيو، وإجازة الموظفين 27 يونيو – 19 أغسطس 2027.",
+  "short": "منتصف العام 20 ديسمبر – 3 يناير، والعطلة المطولة 31 مارس، وإجازة الموظفين من 27 يونيو",
+  "lead": "يظهر عدد الأيام والساعات حتى العطلة القادمة للطلبة أو للموظفين، وأيام الدراسة المتبقية، وكل عطل العام مع مواعيد العودة.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-public-holidays",
+    "qatar-national-day-countdown",
+    "eid-al-fitr-countdown",
+    "qatar-leave"
+  ],
+  "faq": [
+    {
+      "q": "متى إجازة منتصف العام في قطر 2026؟",
+      "a": "من الأحد 20 ديسمبر 2026 إلى الأحد 3 يناير 2027، وبدء الفصل الثاني للطلبة الاثنين 4 يناير، بحسب التقويم السنوي المنشور في الصحافة."
+    },
+    {
+      "q": "متى إجازة نهاية العام للموظفين في المدارس؟",
+      "a": "من 27 يونيو إلى 19 أغسطس 2027، والعودة 22 أغسطس."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قنا — اعتماد التقويم الأكاديمي 2025–2028 (8/7/2025)",
+      "u": "https://qna.org.qa/en/News-Area/News/2025-7/8/moehe-approves-new-academic-calendar-for-20252028"
+    },
+    {
+      "t": "الراية — التربية تنشر التقويم السنوي للمدارس 2026–2027 (24/8/2026)",
+      "u": "https://www.raya.com/2026/08/24/التربية-تنشر-التقويم-السنوي-للمدارس-2026-2027/amp"
+    },
+    {
+      "t": "Qatar Living — بدء العام الدراسي 30 أغسطس 2026 (20/8/2026)",
+      "u": "https://www.qatarliving.com/en/article/students-return-to-school-on-august-30-for-2026-2027-academic-year"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الإجازة؟</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">أنا</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>طالب أو ولي أمر</option>
+          <option value="teachers">معلم أو إداري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تقويم مدارس قطر 2026–2027</h2>
+{{table:school-calendar country=qa}}
+<p>التقويم من الراية وQatar Living متطابقين، والإطار العام من وكالة الأنباء القطرية. ولا تذكر المصادر عطلتي العيدين للمدارس ولا آخر يوم للطلبة، فأضفنا العيدين من <a href="{{root}}qatar-public-holidays/{{ix}}">العطل الرسمية المتوقعة</a>.</p>
+</div>

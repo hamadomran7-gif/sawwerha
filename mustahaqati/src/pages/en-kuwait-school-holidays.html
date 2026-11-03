@@ -1,0 +1,69 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-school-holidays-2026-2027",
+  "alternate": "kuwait-school-holidays",
+  "title": "Kuwait School Holidays 2026–2027 — Days Until the Mid-Year Break",
+  "h1": "Kuwait school holidays 2026–2027",
+  "description": "Count the days to the next school holiday in Kuwait for 2026–2027: the mid-year break from 24 January to 4 February 2027 with return on 7 February, National and Liberation Days, the special late-Ramadan leave on 1–8 March, the end of staff work on 1 July and the teachers' summer holiday to 4 September 2027.",
+  "short": "Mid-year 24 Jan – 4 Feb, late-Ramadan leave 1–8 Mar, teachers' summer to 4 Sep",
+  "lead": "Shows the days and hours until the next break for students or teachers, the school days left, and every holiday this year with return dates.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "en-school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-public-holidays",
+    "en-kuwait-national-day-countdown",
+    "en-eid-al-fitr-countdown",
+    "en-kuwait-leave"
+  ],
+  "faq": [
+    {
+      "q": "When is the 2027 mid-year break in Kuwait?",
+      "a": "From Sunday 24 January to Thursday 4 February 2027 (12 days, 16 with the weekends), with the second term starting on Sunday 7 February, under the Education Ministry's calendar."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ministry of Education — calendar for 2026/2027 (Arabic)",
+      "u": "https://www.moe.edu.kw/pages/calendar"
+    },
+    {
+      "t": "Arab Times — teachers and admin staff join schools for AY 2026/27 (6 Sep 2026)",
+      "u": "https://www.arabtimesonline.com/news/teachers-admin-staff-join-schools-for-new-ay-2627/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days to the holiday?</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">I am</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>A student or parent</option>
+          <option value="teachers">A teacher or staff member</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Kuwait school calendar 2026–2027</h2>
+{{table:school-calendar country=kw lang=en}}
+<p>The official calendar leaves out National Day, Liberation Day, Isra and Mi'raj and both Eids, which the Cabinet announces; the countdown adds them from the <a href="{{root}}en/kuwait-public-holidays/{{ix}}">expected official holidays</a>. Teachers' summer holiday runs from 1 July to 4 September 2027.</p>
+</div>

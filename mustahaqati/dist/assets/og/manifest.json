@@ -336,5 +336,17 @@
  "en-ksa-pension-date": "97ee9dd439b34373",
  "ksa-disability-allowance-date": "da5b51000507ed41",
  "ksa-housing-support-date": "ca8f973f29b5bb1e",
- "ksa-pension-date": "a0300f8f6ff51437"
+ "ksa-pension-date": "a0300f8f6ff51437",
+ "bahrain-school-holidays": "4f59ca01cd8d9d52",
+ "en-bahrain-school-holidays": "870cf471e3effc19",
+ "en-ksa-school-holidays": "3e00e40655f78cb2",
+ "en-kuwait-school-holidays": "f41dd3cd8b332c3b",
+ "en-oman-school-holidays": "1802583c10a80bf1",
+ "en-qatar-school-holidays": "15c036cc9a0a6702",
+ "en-uae-school-holidays": "f817781ec1533a1e",
+ "ksa-school-holidays": "12929c5ed448b2a3",
+ "kuwait-school-holidays": "d038155f44eec34b",
+ "oman-school-holidays": "8cdb910611c12f99",
+ "qatar-school-holidays": "13d0ca23c14ad397",
+ "uae-school-holidays": "e15488a51b9bccd8"
 }

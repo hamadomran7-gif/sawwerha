@@ -2453,6 +2453,1096 @@
         "insurance": 0,
         "maxYears": 3
       }
+    },
+    "school": {
+      "asOf": "2026-11-03",
+      "SA": {
+        "year": "1448",
+        "yearGregorian": "2026-2027",
+        "semesters": 2,
+        "semestersSource": "SA-1;SA-14;SA-16",
+        "defaultVariant": "most-regions",
+        "events": [
+          {
+            "id": "sa-admin-return",
+            "nameAr": "عودة الإداريين والمشرفين التربويين",
+            "nameEn": "Administrators and supervisors return",
+            "type": "teachers",
+            "start": "2026-08-11",
+            "end": "2026-08-11",
+            "audience": "teachers",
+            "source": "SA-5;SA-8"
+          },
+          {
+            "id": "sa-teachers-return",
+            "nameAr": "عودة المعلمين والمعلمات",
+            "nameEn": "Teachers return",
+            "type": "teachers",
+            "start": "2026-08-16",
+            "end": "2026-08-16",
+            "hijriStart": "3/3/1448",
+            "audience": "teachers",
+            "source": "SA-4;SA-5;SA-9"
+          },
+          {
+            "id": "sa-term1",
+            "nameAr": "الفصل الدراسي الأول",
+            "nameEn": "Semester 1",
+            "type": "term",
+            "start": "2026-08-23",
+            "end": "2027-01-07",
+            "hijriStart": "10/3/1448",
+            "hijriEnd": "29/7/1448",
+            "audience": "students",
+            "source": "SA-2;SA-3;SA-4"
+          },
+          {
+            "id": "sa-national-day",
+            "nameAr": "إجازة اليوم الوطني",
+            "nameEn": "National Day holiday",
+            "type": "holiday",
+            "start": "2026-09-23",
+            "end": "2026-09-24",
+            "hijriStart": "11/4/1448 (عكاظ) أو 12/4/1448 (المدينة)",
+            "audience": "all",
+            "note": "مع الجمعة والسبت 23-26 سبتمبر",
+            "source": "SA-4;SA-5;SA-13"
+          },
+          {
+            "id": "sa-extra-1",
+            "nameAr": "إجازة إضافية (إدارات التعليم)",
+            "nameEn": "Extra day off (education departments)",
+            "type": "holiday",
+            "start": "2026-10-25",
+            "end": "2026-10-25",
+            "hijriStart": "14/5/1448",
+            "audience": "all",
+            "source": "SA-10;SA-11;SA-12"
+          },
+          {
+            "id": "sa-autumn",
+            "nameAr": "إجازة الخريف",
+            "nameEn": "Autumn break",
+            "type": "break",
+            "start": "2026-11-20",
+            "end": "2026-11-28",
+            "hijriStart": "10/6/1448",
+            "hijriEnd": "18/6/1448",
+            "returnDate": "2026-11-30",
+            "audience": "all",
+            "note": "آخر يوم دراسي الخميس 2026-11-19 (9/6/1448)؛ العودة الاثنين بسبب sa-extra-2",
+            "source": "SA-4;SA-5;SA-12;SA-13"
+          },
+          {
+            "id": "sa-extra-2",
+            "nameAr": "إجازة إضافية ملاصقة لإجازة الخريف",
+            "nameEn": "Extra day off after autumn break",
+            "type": "holiday",
+            "start": "2026-11-29",
+            "end": "2026-11-29",
+            "hijriStart": "19/6/1448",
+            "audience": "all",
+            "source": "SA-10;SA-12"
+          },
+          {
+            "id": "sa-extra-3",
+            "nameAr": "إجازة إضافية (آخر يوم في الفصل الأول)",
+            "nameEn": "Extra day off (last day of semester 1)",
+            "type": "holiday",
+            "start": "2027-01-07",
+            "end": "2027-01-07",
+            "hijriStart": "29/7/1448",
+            "audience": "all",
+            "source": "SA-10"
+          },
+          {
+            "id": "sa-midyear",
+            "nameAr": "إجازة منتصف العام الدراسي",
+            "nameEn": "Mid-year break",
+            "type": "break",
+            "start": "2027-01-08",
+            "end": "2027-01-16",
+            "hijriStart": "30/7/1448",
+            "hijriEnd": "8/8/1448",
+            "returnDate": "2027-01-17",
+            "audience": "all",
+            "source": "SA-4;SA-5"
+          },
+          {
+            "id": "sa-term2",
+            "nameAr": "الفصل الدراسي الثاني",
+            "nameEn": "Semester 2",
+            "type": "term",
+            "start": "2027-01-17",
+            "end": "2027-06-24",
+            "hijriStart": "9/8/1448",
+            "hijriEnd": "19/1/1449",
+            "audience": "students",
+            "source": "SA-4;SA-5"
+          },
+          {
+            "id": "sa-founding-day",
+            "nameAr": "إجازة يوم التأسيس",
+            "nameEn": "Founding Day holiday",
+            "type": "holiday",
+            "start": "2027-02-21",
+            "end": "2027-02-22",
+            "hijriStart": "14/9/1448",
+            "hijriEnd": "15/9/1448",
+            "returnDate": "2027-02-23",
+            "audience": "all",
+            "note": "مع الجمعة والسبت 19-22 فبراير",
+            "source": "SA-4;SA-5"
+          },
+          {
+            "id": "sa-eid-fitr",
+            "nameAr": "إجازة عيد الفطر",
+            "nameEn": "Eid al-Fitr break",
+            "type": "break",
+            "start": "2027-02-26",
+            "end": "2027-03-13",
+            "hijriStart": "19/9/1448",
+            "hijriEnd": "5/10/1448",
+            "returnDate": "2027-03-14",
+            "audience": "all",
+            "note": "المدة ثابتة بالهجري؛ يوم العيد بحسب الرؤية",
+            "source": "SA-4;SA-5"
+          },
+          {
+            "id": "sa-extra-4",
+            "nameAr": "إجازة إضافية",
+            "nameEn": "Extra day off",
+            "type": "holiday",
+            "start": "2027-04-11",
+            "end": "2027-04-11",
+            "hijriStart": "4/11/1448",
+            "audience": "all",
+            "source": "SA-10"
+          },
+          {
+            "id": "sa-eid-adha",
+            "nameAr": "إجازة عيد الأضحى",
+            "nameEn": "Eid al-Adha break",
+            "type": "break",
+            "start": "2027-05-07",
+            "end": "2027-05-22",
+            "hijriStart": "1/12/1448",
+            "hijriEnd": "16/12/1448",
+            "returnDate": "2027-05-23",
+            "audience": "all",
+            "note": "returnDate استنتاج",
+            "source": "SA-4;SA-5;SA-8"
+          },
+          {
+            "id": "sa-year-end",
+            "nameAr": "إجازة نهاية العام الدراسي",
+            "nameEn": "End-of-year (summer) break",
+            "type": "break",
+            "start": "2027-06-25",
+            "end": "2027-08-21",
+            "hijriStart": "20/1/1449",
+            "audience": "students",
+            "note": "آخر يوم دراسي الخميس 2027-06-24 (19/1/1449)؛ end وhijriStart استنتاج من موعد عودة 1449",
+            "source": "SA-4;SA-5"
+          },
+          {
+            "id": "sa-1449-start",
+            "nameAr": "بداية العام الدراسي 1449 للطلاب",
+            "nameEn": "Start of 1449 school year (students)",
+            "type": "term",
+            "start": "2027-08-22",
+            "end": "2027-08-22",
+            "hijriStart": "20/3/1449",
+            "audience": "students",
+            "note": "مصدر وحيد من 2025",
+            "source": "SA-5"
+          }
+        ],
+        "variants": [
+          {
+            "id": "most-regions",
+            "nameAr": "عموم المناطق",
+            "nameEn": "Most regions",
+            "events": []
+          },
+          {
+            "id": "makkah-madinah-jeddah-taif",
+            "nameAr": "إدارات تعليم مكة المكرمة والمدينة المنورة وجدة والطائف",
+            "removeIds": [
+              "sa-extra-2",
+              "sa-extra-3",
+              "sa-extra-4"
+            ],
+            "events": [
+              {
+                "id": "sa-teachers-return",
+                "nameAr": "عودة المعلمين",
+                "nameEn": "Teachers return",
+                "type": "teachers",
+                "start": "2026-08-23",
+                "end": "2026-08-23",
+                "hijriStart": "10/3/1448",
+                "audience": "teachers",
+                "note": "الميلادي استنتاج",
+                "source": "SA-8;SA-9"
+              },
+              {
+                "id": "sa-term1",
+                "nameAr": "الفصل الدراسي الأول",
+                "nameEn": "Semester 1",
+                "type": "term",
+                "start": "2026-08-30",
+                "end": "2027-01-07",
+                "hijriStart": "17/3/1448",
+                "hijriEnd": "29/7/1448",
+                "audience": "students",
+                "source": "SA-6;SA-8;SA-9"
+              },
+              {
+                "id": "sa-autumn",
+                "nameAr": "إجازة الخريف",
+                "nameEn": "Autumn break",
+                "type": "break",
+                "start": "2026-11-20",
+                "end": "2026-11-28",
+                "hijriStart": "10/6/1448",
+                "hijriEnd": "18/6/1448",
+                "returnDate": "2026-11-29",
+                "audience": "all",
+                "source": "SA-4;SA-5"
+              },
+              {
+                "id": "sa-eid-adha",
+                "nameAr": "إجازة عيد الأضحى",
+                "nameEn": "Eid al-Adha break",
+                "type": "break",
+                "start": "2027-04-30",
+                "end": "2027-05-22",
+                "hijriStart": "23/11/1448",
+                "hijriEnd": "16/12/1448",
+                "returnDate": "2027-05-23",
+                "audience": "all",
+                "note": "التحويل الميلادي استنتاج",
+                "source": "SA-8"
+              },
+              {
+                "id": "sa-term2",
+                "nameAr": "الفصل الدراسي الثاني",
+                "nameEn": "Semester 2",
+                "type": "term",
+                "start": "2027-01-17",
+                "end": "2027-07-01",
+                "hijriStart": "9/8/1448",
+                "hijriEnd": "26/1/1449",
+                "audience": "students",
+                "source": "SA-4;SA-6"
+              },
+              {
+                "id": "sa-year-end",
+                "nameAr": "إجازة نهاية العام الدراسي",
+                "nameEn": "End-of-year (summer) break",
+                "type": "break",
+                "start": "2027-07-02",
+                "end": "2027-08-21",
+                "audience": "students",
+                "note": "آخر يوم دراسي 2027-07-01 (26/1/1449)؛ موعد عودة 1449 للمدن الأربع غير منشور",
+                "source": "SA-6"
+              }
+            ],
+            "nameEn": "Makkah, Madinah, Jeddah and Taif"
+          }
+        ],
+        "weekend": [
+          5,
+          6
+        ],
+        "nextYearStart": "2027-08-22"
+      },
+      "AE": {
+        "year": "2026-2027",
+        "semesters": 3,
+        "defaultVariant": "moe",
+        "events": [],
+        "variants": [
+          {
+            "id": "moe",
+            "nameAr": "مدارس الوزارة (الحكومية والخاصة بمنهاجها)",
+            "events": [
+              {
+                "id": "ae-staff-start",
+                "nameAr": "بدء دوام الكادر الإداري والتدريسي",
+                "nameEn": "Staff start",
+                "type": "teachers",
+                "start": "2026-08-24",
+                "end": "2026-08-24",
+                "audience": "teachers",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-prophet-birthday",
+                "nameAr": "المولد النبوي",
+                "nameEn": "Prophet's Birthday",
+                "type": "holiday",
+                "start": "2026-08-28",
+                "end": "2026-08-28",
+                "audience": "all",
+                "source": "AE-1;AE-8"
+              },
+              {
+                "id": "ae-term1",
+                "nameAr": "الفصل الدراسي الأول",
+                "nameEn": "Term 1",
+                "type": "term",
+                "start": "2026-08-31",
+                "end": "2026-12-11",
+                "audience": "students",
+                "note": "end استنتاج",
+                "source": "AE-1;AE-2"
+              },
+              {
+                "id": "ae-midterm",
+                "nameAr": "عطلة منتصف الفصل الأول",
+                "nameEn": "Mid-term break",
+                "type": "break",
+                "start": "2026-10-12",
+                "end": "2026-10-16",
+                "returnDate": "2026-10-19",
+                "audience": "students",
+                "source": "AE-1;AE-2"
+              },
+              {
+                "id": "ae-midterm-staff",
+                "nameAr": "عطلة منتصف الفصل للكادر",
+                "nameEn": "Mid-term break (staff)",
+                "type": "teachers",
+                "start": "2026-10-15",
+                "end": "2026-10-16",
+                "audience": "teachers",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-term1-exams",
+                "nameAr": "اختبارات نهاية الفصل الأول",
+                "nameEn": "Term 1 end-of-term exams",
+                "type": "exams",
+                "start": "2026-11-25",
+                "end": "2026-12-11",
+                "audience": "students",
+                "note": "25-27/11 و7-11/12",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-national-day",
+                "nameAr": "عطلة اليوم الوطني (عيد الاتحاد)",
+                "nameEn": "National Day holiday",
+                "type": "holiday",
+                "start": "2026-12-02",
+                "end": "2026-12-04",
+                "audience": "all",
+                "note": "العطلة العامة 2-3 ديسمبر",
+                "source": "AE-1;AE-8"
+              },
+              {
+                "id": "ae-winter",
+                "nameAr": "العطلة الشتوية",
+                "nameEn": "Winter break",
+                "type": "break",
+                "start": "2026-12-14",
+                "end": "2027-01-01",
+                "returnDate": "2027-01-04",
+                "audience": "students",
+                "source": "AE-1;AE-2"
+              },
+              {
+                "id": "ae-winter-staff",
+                "nameAr": "العطلة الشتوية للكادر",
+                "nameEn": "Winter break (staff)",
+                "type": "teachers",
+                "start": "2026-12-21",
+                "end": "2027-01-01",
+                "audience": "teachers",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-term2",
+                "nameAr": "الفصل الدراسي الثاني",
+                "nameEn": "Term 2",
+                "type": "term",
+                "start": "2027-01-04",
+                "end": "2027-04-02",
+                "audience": "all",
+                "note": "end استنتاج",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-eid-fitr",
+                "nameAr": "عطلة عيد الفطر",
+                "nameEn": "Eid al-Fitr holiday",
+                "type": "holiday",
+                "start": "2027-03-08",
+                "end": "2027-03-12",
+                "audience": "all",
+                "note": "مرتبطة برؤية الهلال",
+                "source": "AE-1;AE-8"
+              },
+              {
+                "id": "ae-spring",
+                "nameAr": "العطلة الربيعية",
+                "nameEn": "Spring break",
+                "type": "break",
+                "start": "2027-04-05",
+                "end": "2027-04-09",
+                "returnDate": "2027-04-12",
+                "audience": "all",
+                "source": "AE-1;AE-2"
+              },
+              {
+                "id": "ae-term3",
+                "nameAr": "الفصل الدراسي الثالث",
+                "nameEn": "Term 3",
+                "type": "term",
+                "start": "2027-04-12",
+                "end": "2027-07-02",
+                "audience": "students",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-eid-adha",
+                "nameAr": "عطلة عيد الأضحى",
+                "nameEn": "Eid al-Adha holiday",
+                "type": "holiday",
+                "start": "2027-05-15",
+                "end": "2027-05-18",
+                "audience": "all",
+                "note": "مرتبطة برؤية الهلال",
+                "source": "AE-1;AE-8"
+              },
+              {
+                "id": "ae-hijri-new-year",
+                "nameAr": "رأس السنة الهجرية",
+                "nameEn": "Hijri New Year",
+                "type": "holiday",
+                "start": "2027-06-06",
+                "end": "2027-06-06",
+                "audience": "all",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-term3-exams",
+                "nameAr": "اختبارات نهاية الفصل الثالث",
+                "nameEn": "Term 3 end-of-term exams",
+                "type": "exams",
+                "start": "2027-06-16",
+                "end": "2027-06-25",
+                "audience": "students",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-last-day",
+                "nameAr": "آخر يوم دراسي للطلبة",
+                "nameEn": "Last day for students",
+                "type": "term",
+                "start": "2027-07-02",
+                "end": "2027-07-02",
+                "audience": "students",
+                "source": "AE-1;AE-2"
+              },
+              {
+                "id": "ae-resits",
+                "nameAr": "اختبارات الإعادة",
+                "nameEn": "Make-up and resit exams",
+                "type": "exams",
+                "start": "2027-07-05",
+                "end": "2027-07-08",
+                "audience": "students",
+                "source": "AE-1"
+              },
+              {
+                "id": "ae-staff-summer",
+                "nameAr": "بداية العطلة الصيفية للكادر",
+                "nameEn": "Staff summer break starts",
+                "type": "teachers",
+                "start": "2027-07-12",
+                "end": "2027-07-12",
+                "audience": "teachers",
+                "source": "AE-1"
+              }
+            ],
+            "nameEn": "MOE schools (public and MOE-curriculum private)"
+          },
+          {
+            "id": "dubai-private",
+            "nameAr": "مدارس دبي الخاصة",
+            "events": [
+              {
+                "id": "dxb-start",
+                "nameAr": "بدء الدراسة",
+                "nameEn": "First day",
+                "type": "term",
+                "start": "2026-08-31",
+                "end": "2026-08-31",
+                "audience": "students",
+                "source": "AE-6"
+              },
+              {
+                "id": "dxb-midterm",
+                "nameAr": "عطلة منتصف الفصل الأول (معدّلة)",
+                "nameEn": "October half-term (revised)",
+                "type": "break",
+                "start": "2026-10-12",
+                "end": "2026-10-16",
+                "returnDate": "2026-10-19",
+                "audience": "students",
+                "source": "AE-5"
+              },
+              {
+                "id": "dxb-winter",
+                "nameAr": "العطلة الشتوية",
+                "nameEn": "Winter break",
+                "type": "break",
+                "start": "2026-12-14",
+                "end": "2027-01-03",
+                "returnDate": "2027-01-04",
+                "audience": "students",
+                "source": "AE-6;AE-9"
+              },
+              {
+                "id": "dxb-spring",
+                "nameAr": "العطلة الربيعية",
+                "nameEn": "Spring break",
+                "type": "break",
+                "start": "2027-04-05",
+                "end": "2027-04-11",
+                "returnDate": "2027-04-12",
+                "audience": "students",
+                "source": "AE-6;AE-9"
+              },
+              {
+                "id": "dxb-last-day",
+                "nameAr": "آخر يوم دراسي",
+                "nameEn": "Last day",
+                "type": "term",
+                "start": "2027-07-02",
+                "end": "2027-07-02",
+                "audience": "students",
+                "source": "AE-6;AE-9"
+              }
+            ],
+            "nameEn": "Dubai private schools",
+            "inherit": "moe",
+            "inheritTypes": [
+              "holiday"
+            ]
+          },
+          {
+            "id": "sharjah-private",
+            "nameAr": "مدارس الشارقة الخاصة",
+            "events": [
+              {
+                "id": "shj-start",
+                "nameAr": "بدء الدراسة",
+                "nameEn": "First day",
+                "type": "term",
+                "start": "2026-08-31",
+                "end": "2026-08-31",
+                "audience": "students",
+                "source": "AE-7"
+              },
+              {
+                "id": "shj-winter",
+                "nameAr": "العطلة الشتوية",
+                "nameEn": "Winter break",
+                "type": "break",
+                "start": "2026-12-14",
+                "end": "2027-01-03",
+                "returnDate": "2027-01-04",
+                "audience": "students",
+                "note": "end استنتاج من موعد العودة",
+                "source": "AE-7"
+              },
+              {
+                "id": "shj-spring",
+                "nameAr": "العطلة الربيعية",
+                "nameEn": "Spring break",
+                "type": "break",
+                "start": "2027-04-05",
+                "end": "2027-04-08",
+                "returnDate": "2027-04-12",
+                "audience": "students",
+                "source": "AE-7"
+              },
+              {
+                "id": "shj-last-day",
+                "nameAr": "نهاية العام الدراسي",
+                "nameEn": "Last day",
+                "type": "term",
+                "start": "2027-07-01",
+                "end": "2027-07-01",
+                "audience": "students",
+                "source": "AE-7"
+              }
+            ],
+            "weekend": [
+              5,
+              6,
+              0
+            ],
+            "nameEn": "Sharjah private schools",
+            "inherit": "moe",
+            "inheritTypes": [
+              "holiday"
+            ]
+          }
+        ],
+        "weekend": [
+          6,
+          0
+        ],
+        "nextYearStart": "2027-08-30"
+      },
+      "KW": {
+        "year": "2026-2027",
+        "semesters": 2,
+        "events": [
+          {
+            "id": "kw-staff-start",
+            "nameAr": "بدء دوام جميع العاملين",
+            "nameEn": "All staff start",
+            "type": "teachers",
+            "start": "2026-09-06",
+            "end": "2026-09-06",
+            "audience": "teachers",
+            "source": "KW-1;KW-2"
+          },
+          {
+            "id": "kw-grade1-start",
+            "nameAr": "بدء دوام الصف الأول الابتدائي",
+            "nameEn": "Grade 1 starts",
+            "type": "term",
+            "start": "2026-09-13",
+            "end": "2026-09-13",
+            "audience": "students",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-term1",
+            "nameAr": "الفصل الدراسي الأول (باقي الصفوف)",
+            "nameEn": "Semester 1 (other grades)",
+            "type": "term",
+            "start": "2026-09-14",
+            "end": "2027-01-21",
+            "audience": "students",
+            "note": "end = آخر يوم دوام للعاملين؛ ينتهي الطلبة بحسب الصف والاختبارات",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-kg-start",
+            "nameAr": "بدء دوام رياض الأطفال",
+            "nameEn": "Kindergarten starts",
+            "type": "term",
+            "start": "2026-09-16",
+            "end": "2026-09-16",
+            "audience": "students",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-term1-exams",
+            "nameAr": "اختبارات نهاية الفصل الأول",
+            "nameEn": "Semester 1 final exams",
+            "type": "exams",
+            "start": "2026-12-20",
+            "end": "2027-01-21",
+            "audience": "students",
+            "note": "4-5 والمتوسط 20-28/12؛ 10-11 حتى 31/12؛ 12 من 10/1 إلى 21/1",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-midyear",
+            "nameAr": "إجازة منتصف العام الدراسي",
+            "nameEn": "Mid-year break",
+            "type": "break",
+            "start": "2027-01-24",
+            "end": "2027-02-04",
+            "returnDate": "2027-02-07",
+            "audience": "all",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-term2",
+            "nameAr": "الفصل الدراسي الثاني",
+            "nameEn": "Semester 2",
+            "type": "term",
+            "start": "2027-02-07",
+            "end": "2027-07-01",
+            "audience": "all",
+            "note": "end = آخر يوم دوام للعاملين",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-ramadan-leave",
+            "nameAr": "إجازة خاصة (آخر شهر رمضان)",
+            "nameEn": "Special leave (end of Ramadan)",
+            "type": "break",
+            "start": "2027-03-01",
+            "end": "2027-03-08",
+            "audience": "all",
+            "note": "النص لجميع العاملين؛ عطلة الطلبة استنتاج؛ عطلة عيد الفطر الرسمية تُعلن لاحقاً",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-term2-exams",
+            "nameAr": "اختبارات نهاية الفصل الثاني",
+            "nameEn": "Semester 2 final exams",
+            "type": "exams",
+            "start": "2027-05-23",
+            "end": "2027-06-21",
+            "audience": "students",
+            "note": "4-5 والمتوسط 23-31/5؛ 10-11 حتى 3/6؛ 12 من 31/5 إلى 21/6",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-kg-end",
+            "nameAr": "نهاية دوام رياض الأطفال",
+            "nameEn": "Kindergarten last day",
+            "type": "term",
+            "start": "2027-05-27",
+            "end": "2027-05-27",
+            "audience": "students",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-kg-staff-summer",
+            "nameAr": "بدء العطلة الصيفية لهيئة رياض الأطفال",
+            "nameEn": "KG staff summer break starts",
+            "type": "teachers",
+            "start": "2027-06-17",
+            "end": "2027-06-17",
+            "audience": "teachers",
+            "source": "KW-1"
+          },
+          {
+            "id": "kw-staff-summer",
+            "nameAr": "العطلة الصيفية للهيئتين التعليمية والإدارية",
+            "nameEn": "Teaching/admin staff summer break",
+            "type": "teachers",
+            "start": "2027-07-01",
+            "end": "2027-09-04",
+            "audience": "teachers",
+            "note": "عدا المكلفين بامتحانات الثانوية؛ end استنتاج من بدء دوام 2027/2028 في 2027-09-05؛ الموجهون من 2027-07-05",
+            "source": "KW-1"
+          }
+        ],
+        "weekend": [
+          5,
+          6
+        ]
+      },
+      "QA": {
+        "year": "2026-2027",
+        "semesters": 2,
+        "events": [
+          {
+            "id": "qa-staff-start",
+            "nameAr": "بدء دوام الموظفين",
+            "nameEn": "Staff start",
+            "type": "teachers",
+            "start": "2026-08-23",
+            "end": "2026-08-23",
+            "audience": "teachers",
+            "source": "QA-2;QA-3"
+          },
+          {
+            "id": "qa-term1",
+            "nameAr": "الفصل الدراسي الأول",
+            "nameEn": "Semester 1",
+            "type": "term",
+            "start": "2026-08-30",
+            "end": "2026-12-17",
+            "audience": "students",
+            "note": "end استنتاج (الخميس قبل بدء العطلة 20/12)",
+            "source": "QA-2;QA-3;QA-4"
+          },
+          {
+            "id": "qa-midterm-exams-1",
+            "nameAr": "اختبارات منتصف الفصل الأول",
+            "nameEn": "Semester 1 mid-term exams",
+            "type": "exams",
+            "start": "2026-10-13",
+            "end": "2026-10-22",
+            "audience": "students",
+            "source": "QA-2"
+          },
+          {
+            "id": "qa-midterm-break",
+            "nameAr": "عطلة منتصف الفصل الأول",
+            "nameEn": "Semester 1 mid-term break",
+            "type": "break",
+            "start": "2026-10-25",
+            "end": "2026-10-29",
+            "returnDate": "2026-11-01",
+            "audience": "all",
+            "source": "QA-2;QA-3"
+          },
+          {
+            "id": "qa-term1-exams",
+            "nameAr": "اختبارات نهاية الفصل الأول",
+            "nameEn": "Semester 1 final exams",
+            "type": "exams",
+            "start": "2026-12-06",
+            "end": "2026-12-15",
+            "audience": "students",
+            "source": "QA-2;QA-3"
+          },
+          {
+            "id": "qa-winter",
+            "nameAr": "عطلة منتصف العام",
+            "nameEn": "Mid-year (winter) break",
+            "type": "break",
+            "start": "2026-12-20",
+            "end": "2027-01-03",
+            "returnDate": "2027-01-04",
+            "audience": "students",
+            "note": "الموظفون يعودون 2027-01-03",
+            "source": "QA-1;QA-2;QA-3"
+          },
+          {
+            "id": "qa-term2",
+            "nameAr": "الفصل الدراسي الثاني",
+            "nameEn": "Semester 2",
+            "type": "term",
+            "start": "2027-01-04",
+            "end": "2027-06-17",
+            "audience": "students",
+            "note": "end = آخر اختبار منشور؛ آخر يوم دوام للطلبة غير منشور",
+            "source": "QA-2;QA-3"
+          },
+          {
+            "id": "qa-midterm-exams-2",
+            "nameAr": "اختبارات منتصف الفصل الثاني",
+            "nameEn": "Semester 2 mid-term exams",
+            "type": "exams",
+            "start": "2027-03-21",
+            "end": "2027-03-30",
+            "audience": "students",
+            "source": "QA-2"
+          },
+          {
+            "id": "qa-long-weekend",
+            "nameAr": "عطلة نهاية أسبوع مطولة",
+            "nameEn": "Extended weekend",
+            "type": "holiday",
+            "start": "2027-03-31",
+            "end": "2027-04-01",
+            "returnDate": "2027-04-04",
+            "audience": "all",
+            "source": "QA-1;QA-2;QA-3"
+          },
+          {
+            "id": "qa-term2-exams",
+            "nameAr": "اختبارات نهاية الفصل الثاني",
+            "nameEn": "Semester 2 final exams",
+            "type": "exams",
+            "start": "2027-06-01",
+            "end": "2027-06-17",
+            "audience": "students",
+            "source": "QA-2;QA-3"
+          },
+          {
+            "id": "qa-staff-leave",
+            "nameAr": "إجازة نهاية العام للموظفين",
+            "nameEn": "Staff end-of-year leave",
+            "type": "teachers",
+            "start": "2027-06-27",
+            "end": "2027-08-19",
+            "returnDate": "2027-08-22",
+            "audience": "teachers",
+            "source": "QA-2"
+          }
+        ],
+        "weekend": [
+          5,
+          6
+        ]
+      },
+      "OM": {
+        "year": "2026-2027",
+        "semesters": 2,
+        "events": [
+          {
+            "id": "om-staff-start",
+            "nameAr": "بدء دوام الهيئة التعليمية",
+            "nameEn": "Teaching staff start",
+            "type": "teachers",
+            "start": "2026-08-30",
+            "end": "2026-08-30",
+            "audience": "teachers",
+            "source": "OM-1"
+          },
+          {
+            "id": "om-term1",
+            "nameAr": "الفصل الدراسي الأول",
+            "nameEn": "Semester 1",
+            "type": "term",
+            "start": "2026-09-06",
+            "end": "2026-12-30",
+            "audience": "students",
+            "note": "ينتهي 2026-12-17 للصفوف 5-12 و2026-12-30 للصفوف 1-4",
+            "source": "OM-1;OM-2;OM-3"
+          },
+          {
+            "id": "om-national-day",
+            "nameAr": "عطلة العيد الوطني",
+            "nameEn": "National Day holiday",
+            "type": "holiday",
+            "start": "2026-11-25",
+            "end": "2026-11-26",
+            "audience": "all",
+            "note": "عطلة رسمية عامة؛ انطباقها على المدارس استنتاج",
+            "source": "OM-4"
+          },
+          {
+            "id": "om-term1-exams",
+            "nameAr": "امتحانات نهاية الفصل الأول (5-11)",
+            "nameEn": "Semester 1 final exams (grades 5-11)",
+            "type": "exams",
+            "start": "2026-12-20",
+            "end": "2027-01-21",
+            "audience": "students",
+            "source": "OM-1"
+          },
+          {
+            "id": "om-midyear",
+            "nameAr": "عطلة ما بين الفصلين (تقديرية)",
+            "nameEn": "Break between terms (estimated)",
+            "type": "break",
+            "start": "2027-01-22",
+            "end": "2027-01-30",
+            "returnDate": "2027-01-31",
+            "audience": "all",
+            "note": "مستنتجة من انتهاء امتحانات الفصل الأول وبدء الفصل الثاني",
+            "source": "OM-1"
+          },
+          {
+            "id": "om-term2",
+            "nameAr": "الفصل الدراسي الثاني",
+            "nameEn": "Semester 2",
+            "type": "term",
+            "start": "2027-01-31",
+            "end": "2027-07-13",
+            "audience": "all",
+            "source": "OM-1"
+          },
+          {
+            "id": "om-term2-exams",
+            "nameAr": "امتحانات الفصل الثاني ودبلوم التعليم العام",
+            "nameEn": "Semester 2 and diploma exams",
+            "type": "exams",
+            "start": "2027-06-01",
+            "end": "2027-07-13",
+            "audience": "students",
+            "source": "OM-1"
+          }
+        ],
+        "weekend": [
+          5,
+          6
+        ]
+      },
+      "BH": {
+        "year": "2026-2027",
+        "semesters": 2,
+        "events": [
+          {
+            "id": "bh-staff-start",
+            "nameAr": "عودة الهيئات التعليمية والإدارية",
+            "nameEn": "Staff return",
+            "type": "teachers",
+            "start": "2026-09-01",
+            "end": "2026-09-01",
+            "audience": "teachers",
+            "source": "BH-2"
+          },
+          {
+            "id": "bh-term1",
+            "nameAr": "الفصل الدراسي الأول",
+            "nameEn": "Semester 1",
+            "type": "term",
+            "start": "2026-09-03",
+            "end": "2027-01-14",
+            "audience": "students",
+            "note": "تهيئة 2-3/9؛ نهاية الامتحانات 12 أو 14 يناير (تعارض)",
+            "source": "BH-1;BH-2;BH-3"
+          },
+          {
+            "id": "bh-term1-exams",
+            "nameAr": "امتحانات الفصل الأول",
+            "nameEn": "Semester 1 exams",
+            "type": "exams",
+            "start": "2026-12-21",
+            "end": "2027-01-12",
+            "audience": "students",
+            "note": "مقال يونيو: حتى 2027-01-14",
+            "source": "BH-1;BH-2"
+          },
+          {
+            "id": "bh-midyear",
+            "nameAr": "إجازة منتصف العام الدراسي",
+            "nameEn": "Mid-year break",
+            "type": "break",
+            "start": "2027-01-17",
+            "end": "2027-01-28",
+            "returnDate": "2027-01-31",
+            "audience": "all",
+            "source": "BH-1;BH-5"
+          },
+          {
+            "id": "bh-term2",
+            "nameAr": "الفصل الدراسي الثاني",
+            "nameEn": "Semester 2",
+            "type": "term",
+            "start": "2027-01-31",
+            "end": "2027-06-30",
+            "audience": "students",
+            "source": "BH-1;BH-2"
+          },
+          {
+            "id": "bh-eid-fitr",
+            "nameAr": "عطلة عيد الفطر (متوقعة)",
+            "nameEn": "Eid al-Fitr (expected)",
+            "type": "holiday",
+            "start": "2027-03-09",
+            "end": "2027-03-11",
+            "audience": "all",
+            "note": "مرتبطة برؤية الهلال",
+            "source": "BH-2"
+          },
+          {
+            "id": "bh-term2-exams",
+            "nameAr": "امتحانات الفصل الثاني",
+            "nameEn": "Semester 2 exams",
+            "type": "exams",
+            "start": "2027-05-03",
+            "end": "2027-05-27",
+            "audience": "students",
+            "source": "BH-1;BH-2"
+          },
+          {
+            "id": "bh-summer",
+            "nameAr": "بداية الإجازة الصيفية للطلبة",
+            "nameEn": "Student summer break starts",
+            "type": "break",
+            "start": "2027-07-01",
+            "end": "2027-07-01",
+            "audience": "students",
+            "note": "تاريخ النهاية غير منشور",
+            "source": "BH-1"
+          }
+        ],
+        "weekend": [
+          5,
+          6
+        ]
+      }
     }
   },
   "qa": {

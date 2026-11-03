@@ -1,0 +1,74 @@
+---json
+{
+  "title": "كم باقي على الإجازة في مدارس عُمان؟ التقويم الدراسي 2026–2027",
+  "h1": "كم باقي على الإجازة في مدارس عُمان؟",
+  "description": "عدّاد الأيام المتبقية على العطلة القادمة في مدارس عُمان للعام 2026–2027: عطلة العيد الوطني 25–26 نوفمبر، وعطلة ما بين الفصلين، وبدء الفصل الثاني 31 يناير 2027، وعيدا الفطر والأضحى، ونهاية العام 13 يوليو 2027 بحسب القرار الوزاري 190/2026.",
+  "short": "العيد الوطني 25–26 نوفمبر، والفصل الثاني 31 يناير، ونهاية العام 13 يوليو",
+  "lead": "يظهر عدد الأيام والساعات حتى العطلة القادمة، وأيام الدراسة المتبقية، وكل عطل العام مع مواعيد العودة.",
+  "country": "om",
+  "category": "leave",
+  "tool": true,
+  "script": "school-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-public-holidays",
+    "oman-national-day-countdown",
+    "eid-al-fitr-countdown",
+    "oman-leave"
+  ],
+  "faq": [
+    {
+      "q": "متى بداية الفصل الثاني في عُمان 2027؟",
+      "a": "الأحد 31 يناير 2027 للهيئة والطلبة، بعد امتحانات الفصل الأول التي تنتهي 21 يناير."
+    },
+    {
+      "q": "متى نهاية العام الدراسي في عُمان؟",
+      "a": "13 يوليو 2027 بنهاية امتحانات الفصل الثاني ودبلوم التعليم العام، بحسب القرار الوزاري 190/2026."
+    }
+  ],
+  "sources": [
+    {
+      "t": "أثير — التقويم السنوي للعام الدراسي (القرار الوزاري 190/2026) (15/7/2026)",
+      "u": "https://www.atheer.om/2026/07/15/032245/"
+    },
+    {
+      "t": "Oman Observer — بدء العام الدراسي الأحد 6 سبتمبر (5/9/2026)",
+      "u": "https://www.omanobserver.om/article/1195622/oman/education/new-school-academic-year-begins-on-sunday"
+    },
+    {
+      "t": "أثير عن العمانية — مواعيد الإجازات الرسمية 2026 (28/12/2025)",
+      "u": "https://www.atheer.om/2025/12/28/013414/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الإجازة؟</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="audience">أنا</label>
+        <select id="audience" name="audience">
+          <option value="students" selected>طالب أو ولي أمر</option>
+          <option value="teachers">معلم أو إداري</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>تقويم مدارس عُمان 2026–2027</h2>
+{{table:school-calendar country=om}}
+<p>أُخّر دوام الطلبة أسبوعاً إلى 6 سبتمبر دعماً لموسم الخريف، والتقويم ينتهي 13 يوليو 2027. ولا يذكر التقويم العطل، فأضفنا <a href="{{root}}oman-public-holidays/{{ix}}">العطل الرسمية المتوقعة</a>، وعطلة ما بين الفصلين مستنتجة من نهاية الامتحانات وبدء الفصل الثاني.</p>
+</div>

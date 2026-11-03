@@ -3347,6 +3347,134 @@ export function ksaPayCountdown({ today, items = KSA_PAY_ITEMS } = {}) {
 }
 
 /* ------------------------------------------------------------------ */
+/* تقاويم المدارس 2026–2027 وعدّاد «كم باقي على الإجازة»                */
+/* ------------------------------------------------------------------ */
+
+const BREAK_WORD = /عطلة|إجازة/;
+
+/** أحداث تقويم مدارس دولة (مع متغيّرها) مضافاً إليها العطل الرسمية من rules[country].holidays. */
+export function schoolEvents({ country = "sa", variant } = {}) {
+  const S = rules.gcc && rules.gcc.school;
+  const C = S && S[String(country).toUpperCase()];
+  if (!C) return null;
+  const vid = variant || C.defaultVariant || (C.variants && C.variants[0] && C.variants[0].id) || null;
+  const V = (C.variants || []).find((v) => v.id === vid) || null;
+  let ev = (C.events || []).slice();
+  if (V) {
+    const drop = new Set([...(V.removeIds || []), ...(V.events || []).map((e) => e.id)]);
+    ev = ev.filter((e) => !drop.has(e.id)).concat(V.events || []);
+    const P = V.inherit && (C.variants || []).find((v) => v.id === V.inherit);
+    if (P) ev = ev.concat((P.events || []).filter((e) => (V.inheritTypes || []).includes(e.type)));
+  }
+  const H = rules[String(country).toLowerCase()] && rules[String(country).toLowerCase()].holidays;
+  if (H) {
+    for (const it of H.items) {
+      for (const list of [it.d2026, it.d2027]) {
+        for (const run of dateRuns(list || [])) ev.push({ id: `pub-${it.id}-${run.start}`, nameAr: it.ar, nameEn: it.en, type: "holiday", start: run.start, end: run.end, audience: "all", official: true });
+      }
+    }
+  }
+  ev.sort((a, b) => a.start.localeCompare(b.start) || (a.official ? 1 : 0) - (b.official ? 1 : 0));
+  return { country: String(country).toLowerCase(), variant: V ? V.id : vid, variantName: V ? V.nameAr : null, variantNameEn: V ? V.nameEn : null, variants: (C.variants || []).map((v) => ({ id: v.id, nameAr: v.nameAr, nameEn: v.nameEn })), year: C.year, semesters: C.semesters, weekend: (V && V.weekend) || C.weekend || [5, 6], events: ev, asOf: S.asOf };
+}
+
+/**
+ * العطلة القادمة (أو الجارية) والأيام المتبقية عليها، وأيام الدراسة المتبقية، وآخر يوم دراسي.
+ * تُدمج العطل المتلاصقة أو التي لا يفصلها إلا عطلة نهاية الأسبوع، وتُمدّ بعطلة نهاية الأسبوع الملاصقة.
+ * audience: students | teachers.
+ */
+export function schoolCountdown({ country = "sa", variant, today, audience = "students" } = {}) {
+  const S = schoolEvents({ country, variant });
+  if (!S) return null;
+  const t = isoUTC(utcDay(today || new Date()));
+  const W = S.weekend;
+  const wk = (iso) => W.includes(utcDay(iso).getUTCDay());
+  const add = (iso, n) => isoUTC(plusDays(utcDay(iso), n));
+  const forAud = (e) => !e.audience || e.audience === "all" || e.audience === audience;
+  const isOff = (e) => forAud(e) && (e.type === "break" || e.type === "holiday" || (e.type === "teachers" && audience === "teachers" && BREAK_WORD.test(e.nameAr || "")));
+  const offs = S.events.filter((e) => isOff(e) && !(audience === "teachers" && /-kg-/.test(e.id || "")));
+  const runs = [];
+  for (const e of offs) {
+    const last = runs[runs.length - 1];
+    let joinable = false;
+    if (last) {
+      if (e.start <= add(last.end, 1)) joinable = true;
+      else {
+        joinable = true;
+        for (let d = add(last.end, 1); d < e.start; d = add(d, 1)) if (!wk(d)) { joinable = false; break; }
+      }
+    }
+    if (joinable) {
+      if (e.end > last.end) last.end = e.end;
+      last.items.push(e);
+    } else runs.push({ start: e.start, end: e.end, items: [e] });
+  }
+  for (const r of runs) {
+    let a = r.start, b = r.end;
+    while (wk(add(a, -1))) a = add(a, -1);
+    while (wk(add(b, 1))) b = add(b, 1);
+    r.offStart = a;
+    r.offEnd = b;
+    r.days = dayDiff(utcDay(a), utcDay(b)) + 1;
+    const rets = r.items.map((x) => x.returnDate).filter(Boolean).sort();
+    const ret = rets.length ? rets[rets.length - 1] : null;
+    r.returnDate = ret && ret > b ? ret : add(b, 1);
+    const len = (x) => dayDiff(utcDay(x.start), utcDay(x.end));
+    const pool = r.items.filter((x) => !x.official);
+    const main = (pool.length ? pool : r.items.slice()).sort((x, y) => ((y.type === "break") - (x.type === "break")) || (len(y) - len(x)))[0];
+    r.nameAr = main.nameAr;
+    r.nameEn = main.nameEn;
+    r.official = r.items.every((x) => x.official);
+    r.note = main.note || null;
+    if (/summer|year-end|staff-leave/.test(main.id || "") || /الصيفية|نهاية العام/.test(main.nameAr || "")) {
+      r.summer = true;
+      if (r.days < 14) Object.assign(r, { offEnd: null, days: null, returnDate: null, nameAr: audience === "teachers" ? "العطلة الصيفية للمعلمين" : "العطلة الصيفية", nameEn: audience === "teachers" ? "Teachers' summer holiday" : "Summer holiday" });
+    }
+  }
+  const termEvents = S.events.filter((e) => e.type === "term" && (!e.audience || e.audience === "all" || e.audience === "students") && (e.end > e.start || /last-day|end/.test(e.id)));
+  const lastDay = termEvents.length ? termEvents.map((e) => e.end).sort().pop() : null;
+  // عطل تقع كلها في عطلة نهاية الأسبوع لا تضيف يوماً، والعطل بعد نهاية العام تُستبدل بالعطلة الصيفية
+  for (let i = runs.length - 1; i >= 0; i--) {
+    const r = runs[i];
+    let weekday = false;
+    for (let d = r.start; d <= r.end; d = add(d, 1)) if (!wk(d)) { weekday = true; break; }
+    if (!weekday || (lastDay && r.offStart > add(lastDay, audience === "teachers" ? 75 : 3))) runs.splice(i, 1);
+  }
+  if (lastDay && audience === "students") {
+    const sStart = add(lastDay, 1);
+    const ex = runs.find((r) => r.offStart >= sStart && r.offStart <= add(sStart, 3));
+    const C = rules.gcc.school[String(country).toUpperCase()];
+    const nys = C && C.nextYearStart;
+    if (ex) {
+      ex.summer = true;
+      if (ex.days < 14) Object.assign(ex, { offEnd: nys ? add(nys, -1) : null, days: nys ? dayDiff(utcDay(ex.offStart), utcDay(nys)) : null, returnDate: nys || null, nameAr: "العطلة الصيفية", nameEn: "Summer holiday" });
+    } else runs.push({ start: sStart, end: nys ? add(nys, -1) : null, offStart: sStart, offEnd: nys ? add(nys, -1) : null, days: nys ? dayDiff(utcDay(sStart), utcDay(nys)) : null, returnDate: nys || null, items: [], nameAr: "العطلة الصيفية", nameEn: "Summer holiday", official: false, summer: true });
+  }
+  const ongoing = runs.find((r) => r.offStart <= t && (r.offEnd === null || r.offEnd >= t)) || null;
+  const next = runs.find((r) => r.offStart > t) || null;
+  const offDay = (d) => wk(d) || runs.some((r) => r.offStart <= d && (r.offEnd === null || r.offEnd >= d));
+  let schoolDays = null;
+  if (next) {
+    schoolDays = 0;
+    for (let d = ongoing ? add(ongoing.offEnd, 1) : t; d < next.offStart; d = add(d, 1)) if (!offDay(d)) schoolDays++;
+  }
+  return {
+    ...S,
+    today: t,
+    audience,
+    runs,
+    upcoming: runs.filter((r) => r.offEnd === null || r.offEnd >= t),
+    ongoing,
+    next,
+    daysToNext: next ? dayDiff(utcDay(t), utcDay(next.offStart)) : null,
+    daysToReturn: ongoing && ongoing.returnDate ? dayDiff(utcDay(t), utcDay(ongoing.returnDate)) : null,
+    schoolDays,
+    lastDay,
+    daysToLastDay: lastDay && lastDay >= t ? dayDiff(utcDay(t), utcDay(lastDay)) : null,
+  };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 
