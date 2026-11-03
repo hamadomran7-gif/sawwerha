@@ -1,0 +1,76 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saned-calculator",
+  "alternate": "ksa-saned",
+  "title": "SANED Calculator 2026 — Saudi Unemployment Insurance Benefit",
+  "h1": "SANED Unemployment Benefit Calculator",
+  "description": "Calculate your SANED unemployment insurance benefit in Saudi Arabia: 60% of your average wage over the last 24 months for the first three months, up to SAR 9,000, then 50% up to SAR 7,500, for at most 12 months — with the eligibility conditions and why resignation is not covered.",
+  "short": "60% then 50% of the average wage, up to 12 months; not paid after resignation",
+  "lead": "Enter your average contributory wage and the expected months without work to see the monthly benefit and the total.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-saned.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-gosi", "en-ksa-net-salary", "en-ksa-end-of-service", "en-uae-iloe"],
+  "faq": [
+    {"q": "How much is the SANED benefit?", "a": "60% of the average contributory wage over the last 24 months for each of the first three months, up to SAR 9,000, then 50% for each later month, up to SAR 7,500, for a maximum of 12 months, consecutive or not."},
+    {"q": "Is SANED paid after resignation?", "a": "No. The benefit requires that you did not leave because you no longer wanted the job, and that you were not dismissed for a reason attributable to you."},
+    {"q": "How long must I have contributed?", "a": "For a first claim: at least 12 months of contributions within the last 36 months. Later claims need more: 18, then 24 months within 36, then 36 within 48."},
+    {"q": "When must I apply?", "a": "Within 90 days of leaving work, while registering with the competent authority and actively looking for work. Payment stops if you earn income from work, refuse training, or leave the Kingdom for more than 60 days."},
+    {"q": "How much is deducted for SANED from my salary?", "a": "0.75% from the employee and 0.75% from the employer, on the contributory wage (basic plus housing)."}
+  ],
+  "sources": [
+    {"t": "GOSI — SANED updates", "u": "https://gosi.gov.sa/GOSIOnline/saned_2023"},
+    {"t": "GOSI — SANED awareness", "u": "https://gosi.gov.sa/GOSIOnline/saned-Awareness1"},
+    {"t": "Umm Al-Qura — the new Social Insurance Law, Articles 43–48 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25239"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your SANED benefit</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="avg">Average contributory wage over the last 24 months (SAR)</label>
+        <input type="number" id="avg" name="avg" inputmode="decimal" min="0" step="1" value="8000" required>
+        <span class="hint">Basic plus housing.</span>
+      </div>
+      <div class="field">
+        <label for="months">Expected months without work</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="12" step="1" value="12">
+      </div>
+      <div class="field full">
+        <label for="reason">Why did the job end?</label>
+        <select id="reason" name="reason">
+          <option value="employer">Terminated by the employer, contract ended, or business closed</option>
+          <option value="resigned">I resigned or left by choice</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>SANED at a glance</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Months</th><th scope="col">Benefit</th><th scope="col">Monthly cap</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1–3</th><td>60% of the average wage</td><td>SAR 9,000</td></tr>
+    <tr><th scope="row">4–12</th><td>50% of the average wage</td><td>SAR 7,500</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> average wage SAR 8,000 and 12 months without work. Months 1–3: SAR 4,800 a month; months 4–12: SAR 4,000 a month. <strong>Total SAR 50,400</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-saned/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

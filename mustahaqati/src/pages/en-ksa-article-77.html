@@ -1,0 +1,82 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-article-77-compensation-calculator",
+  "alternate": "ksa-article-77-compensation",
+  "title": "Saudi Article 77 Compensation Calculator 2026 — Termination Without a Valid Reason",
+  "h1": "Saudi Article 77 Compensation Calculator",
+  "description": "Calculate compensation for termination without a valid reason under Article 77 of the Saudi Labour Law: 15 days' wage per year of service for open-ended contracts, or the wage for the rest of a fixed-term contract, with a minimum of two months' wage, on the last actual wage.",
+  "short": "15 days per year or the rest of the contract, minimum two months' wage",
+  "lead": "Enter your last actual wage, the contract type and dates to see the compensation and how it is calculated.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-ksa-article-77.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-end-of-service", "en-ksa-notice-period", "en-ksa-final-settlement"],
+  "faq": [
+    {"q": "How much is compensation for unfair dismissal in Saudi Arabia?", "a": "Unless the contract sets compensation for this case: 15 days' wage for each year of service under an open-ended contract, or the wage for the remaining period of a fixed-term contract. In both cases it may not be less than two months' wage."},
+    {"q": "Is it paid on top of the end-of-service award?", "a": "The end-of-service award (Article 84) is a separate right, and legal sources treat Article 77 compensation as due in addition to it."},
+    {"q": "Did Article 77 change in the 2025 amendments?", "a": "No. Article 77 is not among the articles amended by Royal Decree M/44 in force since 19 February 2025; its current text dates from the 1436H amendment."},
+    {"q": "Can the employer claim compensation if I leave without a valid reason?", "a": "The text gives compensation to \"the party harmed\" by the termination, so an employer may claim it if the employee ends the contract without a valid reason."},
+    {"q": "Are part years counted?", "a": "The text does not mention them, unlike Article 84. Calculators and law firms pro-rate them, and the two-month minimum settles most cases with under four years of service."},
+    {"q": "What wage is it based on?", "a": "The last actual wage — basic salary plus fixed allowances — because \"wage\" in the Labour Law means the actual wage."}
+  ],
+  "sources": [
+    {"t": "HRDF — Saudi Labour Law, Articles 2 and 77 (English)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"},
+    {"t": "Umm Al-Qura — Labour Law amendments by Royal Decree M/44, which do not include Article 77 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "Ministry of Human Resources — guide to the rights and duties of employers and workers, 2025 (Arabic)", "u": "https://prod.hrsd.gov.sa/sites/default/files/2025-12/awareness-guide-on-the-rights-and-duties-of-employers-and-workers---1-.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate Article 77 compensation</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last actual monthly wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="10000" required>
+        <span class="hint">Basic salary plus fixed allowances.</span>
+      </div>
+      <div class="field">
+        <label for="type">Contract type</label>
+        <select id="type" name="type">
+          <option value="indefinite">Open-ended (unlimited)</option>
+          <option value="fixed">Fixed-term</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2023-04-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Termination date</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field" data-fixed hidden>
+        <label for="contractEnd">Fixed-term contract end date</label>
+        <input type="date" id="contractEnd" name="contractEnd" value="2027-05-31">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How Article 77 compensation works</h2>
+<ul>
+  <li><strong>Open-ended contract:</strong> 15 days of the last actual wage for each year of service.</li>
+  <li><strong>Fixed-term contract:</strong> the wage for the period left until the contract's end.</li>
+  <li><strong>Minimum:</strong> never less than two months' wage.</li>
+  <li><strong>Contract terms:</strong> if your contract sets a specific compensation for termination without a valid reason, that applies instead.</li>
+</ul>
+<div class="example">
+<p><strong>Example:</strong> actual wage SAR 10,000, open-ended contract, 3 years and 7 months of service. 3.58 years × 15 days × SAR 333.33 ≈ SAR 17,917 — below two months' wage, so <strong>the compensation is SAR 20,000</strong>.</p>
+</div>
+<p>Add your end-of-service award and unused leave in the <a href="{{root}}en/saudi-final-settlement-calculator/{{ix}}">final settlement calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-article-77-compensation/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
