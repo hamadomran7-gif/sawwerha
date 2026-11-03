@@ -1,0 +1,126 @@
+---json
+{
+  "lang": "en",
+  "path": "en/zakat-calculator",
+  "alternate": "zakat-calculator",
+  "title": "Zakat Calculator 2026 — Zakat on Money, Gold and Savings with the Correct Nisab",
+  "h1": "Zakat Calculator for Money and Gold",
+  "description": "Calculate zakat on your cash, savings, gold, silver and trade goods: one fortieth (2.5%) once your wealth reaches the nisab and a lunar year has passed. The nisab is worked out from gold (24 or 21 carat), silver, or the lower of the two at today's prices, and gold of any carat is converted to pure gold.",
+  "short": "2.5% of zakatable wealth, with the nisab by gold or silver and carat conversion",
+  "lead": "Enter today's price of a gram of 24-carat gold and of silver, then your zakatable wealth, to see the zakat due and how it is calculated.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-zakat.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-hijri-gregorian-converter", "en-vat"],
+  "faq": [
+    {"q": "What is the nisab for zakat on money?", "a": "The gold nisab is 85 grams of pure (24-carat) gold, and the silver nisab is 595 grams. Many scholars — including the simplified individual zakat guide of Saudi Arabia's Zakat, Tax and Customs Authority — hold that the nisab for money is the lower of the two, usually silver. Egypt's Dar al-Iftaa uses the value of 85 grams of 21-carat gold."},
+    {"q": "How much is zakat?", "a": "One fortieth, or 2.5% of all zakatable wealth — the same as dividing it by 40. If you hold 100,000 that has reached the nisab for a full lunar year, the zakat is 2,500."},
+    {"q": "When is zakat due?", "a": "When your wealth reaches the nisab and a full lunar year passes while you own it. Many jurists treat profits and growth as following the original wealth's year, and income such as salary is added when the year completes, according to the accepted method you follow."},
+    {"q": "How do I calculate zakat on 21 or 18 carat gold?", "a": "Convert it to pure gold: grams × carat ÷ 24. So 97.14 grams of 21-carat gold equal 85 grams of pure gold, which is the nisab. The calculator converts carats automatically."},
+    {"q": "Is there zakat on jewellery that is worn?", "a": "Jurists differ on a woman's jewellery kept for permissible wear: the Hanafis and some contemporary scholars require zakat on it, while the majority do not. Gold kept as savings or investment is zakatable by agreement. Enter what is zakatable according to the view you follow."},
+    {"q": "Are my debts deducted?", "a": "Jurists differ. Those who deduct debts due now subtract them from wealth before checking the nisab, and the calculator offers this as a separate option."}
+  ],
+  "sources": [
+    {"t": "Zakat, Tax and Customs Authority — simplified guide to individual zakat (Arabic)", "u": "https://zatca.gov.sa/ar/HelpCenter/guidelines/Documents/Simplified-Zakat-Individual.pdf"},
+    {"t": "Dar al-Iftaa al-Misriyyah — nisab of zakat on money (Arabic)", "u": "https://www.dar-alifta.org/ar/Fatwa/Details/18349/نصاب-زكاة-المال-والمقدار-الواجب-في-إخراجها"},
+    {"t": "IslamQA — zakat on 21-carat gold (Arabic)", "u": "https://islamqa.info/ar/answers/396499"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your zakat</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cur">Currency</label>
+        <select id="cur" name="cur">
+          <option value="AED">UAE dirham (AED)</option>
+          <option value="SAR">Saudi riyal (SAR)</option>
+          <option value="QAR">Qatari riyal (QAR)</option>
+          <option value="KWD">Kuwaiti dinar (KWD)</option>
+          <option value="OMR">Omani rial (OMR)</option>
+          <option value="BHD">Bahraini dinar (BHD)</option>
+          <option value="USD">US dollar (USD)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basis">Nisab method</label>
+        <select id="basis" name="basis">
+          <option value="lower">Lower of gold and silver (best for the poor)</option>
+          <option value="gold24">85 grams of 24-carat gold</option>
+          <option value="gold21">85 grams of 21-carat gold (Dar al-Iftaa, Egypt)</option>
+          <option value="silver">595 grams of silver</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="price24">Price of a gram of 24-carat gold today</label>
+        <input type="number" id="price24" name="price24" inputmode="decimal" min="0" step="0.01" value="" placeholder="From a jeweller or a price site">
+      </div>
+      <div class="field">
+        <label for="priceSilver">Price of a gram of silver today</label>
+        <input type="number" id="priceSilver" name="priceSilver" inputmode="decimal" min="0" step="0.01" value="">
+      </div>
+      <div class="field full">
+        <label for="cash">Cash, bank balances and savings</label>
+        <input type="number" id="cash" name="cash" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="g24">24-carat gold (grams)</label>
+        <input type="number" id="g24" name="g24" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g22">22-carat gold (grams)</label>
+        <input type="number" id="g22" name="g22" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g21">21-carat gold (grams)</label>
+        <input type="number" id="g21" name="g21" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="g18">18-carat gold (grams)</label>
+        <input type="number" id="g18" name="g18" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="silver">Silver (grams)</label>
+        <input type="number" id="silver" name="silver" inputmode="decimal" min="0" step="0.01" value="0">
+      </div>
+      <div class="field">
+        <label for="trade">Trade goods and shares held for trading (market value)</label>
+        <input type="number" id="trade" name="trade" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="receivables">Money owed to you that you expect to collect</label>
+        <input type="number" id="receivables" name="receivables" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="debts">Debts you owe that are due now</label>
+        <input type="number" id="debts" name="debts" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="deductDebts" name="deductDebts">
+        <label for="deductDebts">Deduct debts due now (per the view that deducts them)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How zakat on wealth is calculated</h2>
+<ol>
+  <li>Add up your zakatable wealth: cash, savings, gold and silver at today's value, trade goods and money you expect to collect.</li>
+  <li>Compare it with the nisab: 85 grams of pure gold or 595 grams of silver at today's prices.</li>
+  <li>If it reaches the nisab and a lunar year has passed, pay 2.5% (one fortieth) of the whole amount.</li>
+</ol>
+<div class="example">
+<p><strong>Example:</strong> savings of 60,000 and 50 grams of 21-carat gold, with 24-carat gold at 400 a gram. Pure gold = 50 × 21 ÷ 24 = 43.75 g, worth 17,500. Total 77,500, above the gold nisab of 34,000 (85 × 400). <strong>Zakat = 77,500 ÷ 40 = 1,937.50</strong>.</p>
+</div>
+<p>Prefer Arabic? Use the <a href="{{root}}zakat-calculator/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

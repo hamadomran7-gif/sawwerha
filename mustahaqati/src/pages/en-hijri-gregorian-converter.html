@@ -1,0 +1,89 @@
+---json
+{
+  "lang": "en",
+  "path": "en/hijri-gregorian-date-converter",
+  "alternate": "hijri-gregorian-converter",
+  "title": "Hijri to Gregorian Date Converter (Umm al-Qura) — and Gregorian to Hijri",
+  "h1": "Hijri to Gregorian Date Converter",
+  "description": "Convert any date from Hijri to Gregorian or from Gregorian to Hijri using the Umm al-Qura calendar adopted in Saudi Arabia, with the weekday and the number of days in the Hijri month, for the years 1300 to 1600 AH — handy for iqama, visa and contract dates.",
+  "short": "Hijri → Gregorian and Gregorian → Hijri, with the weekday and month length",
+  "lead": "Choose the direction and enter the date; the result appears instantly with the weekday.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-hijri-gregorian-converter.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-dependents-fee", "en-ksa-exit-reentry", "en-zakat"],
+  "faq": [
+    {"q": "What is the Umm al-Qura calendar?", "a": "An arithmetical Hijri calendar adopted by Saudi Arabia for official dealings. It fixes the start of each month in advance using astronomical calculations, and this tool uses it in both directions."},
+    {"q": "Why is a date sometimes one day off the official announcement?", "a": "The start of Ramadan, Shawwal and Dhu al-Hijjah is announced by moon sighting, which can differ from Umm al-Qura by a day. For religious dates follow the official announcement; for transactions and contracts use the calendar."},
+    {"q": "How many days are in a Hijri month?", "a": "29 or 30. The tool shows the length of the month you entered according to Umm al-Qura, and warns you if you enter day 30 in a 29-day month."},
+    {"q": "How does a Hijri year compare with a Gregorian year?", "a": "A Hijri year has about 354 or 355 days, roughly 11 days shorter than a Gregorian year, so every 33 Gregorian years are close to 34 Hijri years."},
+    {"q": "Can I use it for iqama and contract dates?", "a": "Yes, for converting between the two calendars. If an official document shows both dates, the date written on it is the one that counts."}
+  ],
+  "sources": [
+    {"t": "Umm al-Qura calendar — Umm al-Qura University", "u": "https://www.ummulqura.org.sa"},
+    {"t": "Unicode CLDR — the islamic-umalqura calendar used by browsers", "u": "https://cldr.unicode.org/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Convert a date</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="mode">Direction</label>
+        <select id="mode" name="mode">
+          <option value="g2h">Gregorian to Hijri</option>
+          <option value="h2g">Hijri to Gregorian</option>
+        </select>
+      </div>
+      <div class="field" data-g>
+        <label for="g">Gregorian date</label>
+        <input type="date" id="g" name="g" value="2026-11-03">
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hd">Hijri day</label>
+        <input type="number" id="hd" name="hd" inputmode="decimal" min="1" max="30" step="1" value="1">
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hm">Hijri month</label>
+        <select id="hm" name="hm" inputmode="decimal">
+          <option value="1">Muharram (1)</option>
+          <option value="2">Safar (2)</option>
+          <option value="3">Rabi al-Awwal (3)</option>
+          <option value="4">Rabi al-Thani (4)</option>
+          <option value="5">Jumada al-Ula (5)</option>
+          <option value="6">Jumada al-Akhirah (6)</option>
+          <option value="7">Rajab (7)</option>
+          <option value="8">Shaban (8)</option>
+          <option value="9" selected>Ramadan (9)</option>
+          <option value="10">Shawwal (10)</option>
+          <option value="11">Dhu al-Qadah (11)</option>
+          <option value="12">Dhu al-Hijjah (12)</option>
+        </select>
+      </div>
+      <div class="field" data-h hidden>
+        <label for="hy">Hijri year</label>
+        <input type="number" id="hy" name="hy" inputmode="decimal" min="1300" max="1600" step="1" value="1448">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Convert</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>When you need Hijri dates in the Gulf</h2>
+<ul>
+  <li><strong>Saudi iqama and visas:</strong> expiry dates and fee periods are often shown in Hijri.</li>
+  <li><strong>Government retirement:</strong> the Saudi civil service retirement age is 60 Hijri years, about 58 Gregorian years and 2.5 months.</li>
+  <li><strong>Contracts and leases:</strong> some still carry Hijri dates alongside Gregorian ones.</li>
+  <li><strong>Ramadan working hours:</strong> reduced hours follow the Hijri month.</li>
+</ul>
+<p>Paying Saudi dependent fees? See the <a href="{{root}}en/saudi-dependent-fee-calculator/{{ix}}">dependent fee and iqama renewal calculator</a>. Prefer Arabic? Use the <a href="{{root}}hijri-gregorian-converter/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
