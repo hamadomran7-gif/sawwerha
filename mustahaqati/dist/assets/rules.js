@@ -3565,6 +3565,32 @@ export default {
           "transport": 700
         }
       }
+    },
+    "citizenAccount": {
+      "law": "ضوابط برنامج حساب المواطن ومحدداته (أم القرى 8/10/2023)، والتمديد حتى نهاية 2026 (أم القرى 2/12/2025)",
+      "lastReview": "2026-11-03",
+      "fullPerWeight": 720,
+      "weights": {
+        "head": 1,
+        "adult": 0.5,
+        "child": 0.3
+      },
+      "capWeight": 2.9,
+      "capAmount": 2088,
+      "incomeCutoffMax": 20000,
+      "additionalSupportUntil": "2026-12-31",
+      "assetsCap": {
+        "family6": 4000000,
+        "independent": 1371200
+      },
+      "avgFamilyOct2026": 1469,
+      "shareSupportedOct2026": 0.72,
+      "confidence": {
+        "fullPerWeight": "medium",
+        "weights": "medium",
+        "capRule": "high",
+        "incomeCutoffMax": "high"
+      }
     }
   },
   "gcc": {

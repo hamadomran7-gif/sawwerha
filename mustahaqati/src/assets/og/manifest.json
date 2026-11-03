@@ -362,5 +362,7 @@
  "ksa-health-salary-scale": "91fe1c7060d35d80",
  "ksa-military-salary-scale": "a7e3184d3bedeab2",
  "en-gcc-domestic-worker-cost-comparison": "d80057d58d0236ff",
- "gcc-domestic-worker-cost-comparison": "689fc772a27e90f8"
+ "gcc-domestic-worker-cost-comparison": "689fc772a27e90f8",
+ "en-ksa-citizen-account-calculator": "a3f653ad652df515",
+ "ksa-citizen-account-calculator": "5445806fdedbe00c"
 }

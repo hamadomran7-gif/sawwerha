@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaCitizenAccountMax,
   ksaHealthSalary,
   ksaMilitarySalary,
   ksaAllowance2027,
@@ -1770,4 +1771,18 @@ test("سلم الوظائف الصحية وسلم الأفراد: أمثلة ا�
   assert.equal(ksaMilitarySalary({ rank: "jundi", step: 1 }).net, 3430.2);
   assert.equal(ksaAllowance2027(new Date("2026-12-31T00:00:00Z")), 0);
   assert.equal(ksaAllowance2027(new Date("2027-01-01T00:00:00Z")), 500);
+});
+
+test("حساب المواطن: الحد الأعلى بالأوزان وسقف أسرة الأساس (الدفعة 33)", () => {
+  assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 6000 }).upper, 2088);
+  assert.equal(ksaCitizenAccountMax({ adults: 1, children: 4, income: 6000 }).upper, 1944);
+  assert.equal(ksaCitizenAccountMax({ type: "independent", adults: 3, income: 3000 }).upper, 720);
+  const big = ksaCitizenAccountMax({ adults: 1, children: 6, income: 4000 });
+  assert.equal(big.uncapped, 2376);
+  assert.equal(big.upper, 2088);
+  assert.equal(big.capped, true);
+  assert.equal(ksaCitizenAccountMax({ adults: 0, children: 5, income: 9000 }).upper, 1800);
+  assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 20500 }).result, 0);
+  assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 20000 }).result, 2088);
+  assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 5000, assets: "yes" }).result, 0);
 });

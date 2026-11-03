@@ -3625,6 +3625,33 @@ export function schoolCountdown({ country = "sa", variant, today, audience = "st
   };
 }
 
+/**
+ * حساب المواطن — الحد الأعلى للدعم الشهري (الاستحقاق الكامل): 720 لرب الأسرة أو المستقل، و360 لكل تابع 18 فأكثر، و216 لكل تابع دون 18،
+ * بسقف دعم أسرة الأساس (رب أسرة + تابعان 18 فأكثر + 3 دون 18 = 2,088) منذ دفعة أكتوبر 2023. لا دعم إذا تجاوز دخل الأسرة 20,000
+ * (الحد الأقصى للحد المانع). المبلغ الفعلي يقل فوق حد الإعفاء الخاص بكل أسرة، وهو غير منشور، فلا تحسبه الدالة.
+ */
+export function ksaCitizenAccountMax({ type = "head", adults = 0, children = 0, income = 0, assets = "no" } = {}) {
+  const C = rules.sa.citizenAccount;
+  const ind = type === "independent";
+  const ad = ind ? 0 : Math.max(0, Math.floor(Number(adults) || 0));
+  const ch = ind ? 0 : Math.max(0, Math.floor(Number(children) || 0));
+  const head = C.fullPerWeight;
+  const perAdult = Math.round(C.fullPerWeight * C.weights.adult);
+  const perChild = Math.round(C.fullPerWeight * C.weights.child);
+  const uncapped = head + perAdult * ad + perChild * ch;
+  const upper = Math.min(uncapped, C.capAmount);
+  const w = Math.round((C.weights.head + C.weights.adult * ad + C.weights.child * ch) * 100) / 100;
+  const inc = Math.max(0, Number(income) || 0);
+  const overIncome = inc > C.incomeCutoffMax;
+  const assetsOver = assets === "yes";
+  return {
+    type: ind ? "independent" : "head", adults: ad, children: ch, members: 1 + ad + ch, w, capWeight: C.capWeight,
+    head, perAdult, perChild, uncapped, upper, capped: uncapped > C.capAmount, cap: C.capAmount,
+    income: inc, overIncome, assetsOver, maybeEligible: !overIncome && !assetsOver, result: overIncome || assetsOver ? 0 : upper,
+    additionalSupportUntil: C.additionalSupportUntil, avgFamily: C.avgFamilyOct2026,
+  };
+}
+
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;
