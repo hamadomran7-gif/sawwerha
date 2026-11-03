@@ -1,0 +1,181 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-nafis-calculator",
+  "alternate": "uae-nafis",
+  "title": "Nafis Calculator 2026 — Emirati Salary Support and Child Allowance After the September Update",
+  "h1": "Nafis Salary Support Calculator for Emiratis in the Private Sector",
+  "description": "Calculate Nafis support after the 1 September 2026 update: salary support of AED 6,000 for a bachelor's degree, 5,000 for a diploma and 4,000 for high school on a gross salary of 6,000–20,000, AED 600 per child with no limit on the number of children, pension contribution cover, and the AED 500 every six months step-down for existing beneficiaries.",
+  "short": "Salary support of AED 6,000, 5,000 or 4,000, AED 600 per child, and the step-down for existing beneficiaries",
+  "lead": "Choose your category and qualification and enter your gross salary to see your salary support, child allowance and pension cover, plus the step-down schedule if you registered before 14 August 2026.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-nafis.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-nafis-job-loss", "en-uae-emiratisation", "en-uae-pension", "en-uae-iloe"],
+  "faq": [
+    {"q": "How much is Nafis salary support for a bachelor's degree in 2026?", "a": "For new beneficiaries from 1 September 2026: AED 6,000 a month with a bachelor's degree, 5,000 with a diploma, 4,000 with high school, and below high school 4,000 if married or with children or 3,000 otherwise, provided the gross salary is between AED 6,000 and 20,000. The official announcement describes the table as the maximum support by qualification."},
+    {"q": "Does Nafis support stop if my salary is above AED 20,000?", "a": "For new beneficiaries, yes: no salary support and no pension cover above 20,000, while the child allowance continues up to 50,000. Existing beneficiaries registered by 14 August 2026 with a salary above 20,000 lose AED 500 every six months from September 2026 until the support reaches zero, so a bachelor's holder on 3,500 reaches zero in September 2029."},
+    {"q": "How much is the Nafis child allowance?", "a": "AED 600 a month for each eligible child, with no limit on the number of children from September 2026, for salaries of AED 6,000 to 50,000. Sons qualify until 21 or until they start work, daughters until they marry or start work. It is not paid if your spouse works for a government entity, and a mother qualifies if her husband has died or she is the court-recognised provider."},
+    {"q": "What happens to Nafis support if my salary is below AED 6,000?", "a": "From September 2026 support stops if the gross salary is below 6,000 at an employer covered by the Emirati minimum wage decision (private sector under the ministry, and banking) until the salary is corrected. Outside that umbrella, such as free zones, the current support is paid in full for six months, then 70% for six months, then 30% for three months, and then stops."},
+    {"q": "Does Nafis pay the pension contribution for Emiratis?", "a": "The Eshtirak programme covers the Emirati employee's share of the pension contribution when the gross salary is between AED 6,000 and 20,000, and the employer pays its own share in full from September 2026. The employee share is 11% for those registered with GPSSA from 31 October 2023 and 5% for those registered earlier."}
+  ],
+  "sources": [
+    {"t": "Nafis Knowledge Centre — Emirati Salary Support Scheme (20 Aug 2026)", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/Emirati_User/Employee_Benefits/Emirati_Salary_Support_Scheme"},
+    {"t": "Nafis Knowledge Centre — Child Allowance Scheme (14 Aug 2026)", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/Emirati_User/Employee_Benefits/Child_Allowance_Scheme"},
+    {"t": "Nafis Knowledge Centre — Pension Program (Eshtirak) (20 Aug 2026)", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/Emirati_User/Employee_Benefits/Pension_Program"},
+    {"t": "Al Bayan — WAM text: Emirati Talent Competitiveness Council announces Nafis updates (14 Apr 2026, Arabic)", "u": "https://www.albayan.ae/news/uae/1195999"},
+    {"t": "Gulf News — 3 key Nafis updates from September (19 Aug 2026)", "u": "https://gulfnews.com/uae/3-key-nafis-updates-for-emiratis-working-in-private-sector-from-september-1.500645863"},
+    {"t": "Khaleej Times — Nafis salary rules change in September (19 Aug 2026)", "u": "https://www.khaleejtimes.com/uae/nafis-salary-rules-change-september-employees-need-know"},
+    {"t": "Gulf Today — support for Emiratis earning over Dhs20,000 until 2029 (24 Aug 2026)", "u": "https://www.gulftoday.ae/news/2026/08/24/nafis-programme-to-support-emiratis-earning-over-dhs20000-in-private-sector-until-2029"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your support</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">Your category</label>
+        <select id="category" name="category">
+          <option value="emirati" selected>UAE national</option>
+          <option value="motherChild">Child of an Emirati mother (non-national)</option>
+          <option value="wife">Wife of an Emirati man (non-national)</option>
+        </select>
+      </div>
+      <div class="field" data-emirati>
+        <label for="status">Your Nafis registration</label>
+        <select id="status" name="status">
+          <option value="new" selected>New beneficiary (after 14 August 2026)</option>
+          <option value="existing">Existing beneficiary (registered by 14 August 2026)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="education">Qualification</label>
+        <select id="education" name="education">
+          <option value="bachelor" selected>Bachelor's degree or higher</option>
+          <option value="diploma">Diploma</option>
+          <option value="highSchool">High school</option>
+          <option value="below">Below high school</option>
+        </select>
+      </div>
+      <div class="field" data-below hidden>
+        <label for="family">Family status</label>
+        <select id="family" name="family">
+          <option value="yes" selected>Married or with children</option>
+          <option value="no">Single with no children</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">Gross monthly salary (AED)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="12000" required>
+      </div>
+      <div class="field" data-existing hidden>
+        <label for="current">Salary support you receive now (AED)</label>
+        <input type="number" id="current" name="current" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-existing hidden>
+        <label for="mohre">Employer</label>
+        <select id="mohre" name="mohre">
+          <option value="yes" selected>Private sector under the ministry, or banking</option>
+          <option value="no">Free zone or another employer outside that umbrella</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of eligible children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="2">
+      </div>
+      <div class="field" data-emirati>
+        <label for="claimant">Who claims the child allowance</label>
+        <select id="claimant" name="claimant">
+          <option value="father" selected>The father</option>
+          <option value="motherProvider">The mother, if widowed or the court-recognised provider</option>
+          <option value="motherOther">The mother, in other cases</option>
+        </select>
+      </div>
+      <div class="field" data-emirati>
+        <label for="spouseGov">Does your spouse work for a government entity?</label>
+        <select id="spouseGov" name="spouseGov">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div class="field" data-emirati>
+        <label for="pensionShare">Your pension contribution share</label>
+        <select id="pensionShare" name="pensionShare">
+          <option value="new" selected>11% (registered from 31 October 2023)</option>
+          <option value="old">5% (registered earlier)</option>
+        </select>
+      </div>
+      <div class="field" data-wife hidden>
+        <label for="marriageYears">Years of marriage</label>
+        <input type="number" id="marriageYears" name="marriageYears" inputmode="decimal" min="0" max="60" step="1" value="5">
+      </div>
+      <div class="field" data-wife hidden>
+        <label for="exempt">Are you medical or teaching staff, or a PhD holder?</label>
+        <select id="exempt" name="exempt">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Salary support amounts from 1 September 2026</h2>
+<p>On 14 April 2026 the Emirati Talent Competitiveness Council extended Nafis to 2040 and updated its amounts, with the changes applied from 1 September 2026. New beneficiaries receive salary support when their gross monthly salary is between AED 6,000 and 20,000, and the amount depends on qualification:</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Qualification</th><th scope="col">New beneficiary</th><th scope="col">Before the update: salary up to 20,000</th><th scope="col">Before the update: 20,000–30,000</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Bachelor's or higher</th><td>6,000</td><td>7,000</td><td>3,500</td></tr>
+    <tr><th scope="row">Diploma</th><td>5,000</td><td>6,000</td><td>3,000</td></tr>
+    <tr><th scope="row">High school</th><td>4,000</td><td>5,000</td><td>2,500</td></tr>
+    <tr><th scope="row">Below high school</th><td>4,000 if married or with children, otherwise 3,000</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The "before the update" columns are the November 2022 rules that existing beneficiaries step down from. The WAM text calls the new table the "maximum support by qualification", while the Nafis Knowledge Centre says the amount depends on salary and qualification, so actual support may be lower than shown.</p>
+<p>Eligibility: a UAE national working for a covered employer with a valid work permit and an approved contract, paid through the Wage Protection System, holding no share in the business, not combining a government and a private job, and registered with GPSSA or the local pension fund. If salary or contributions stop, there is a two-month grace period in which payment is suspended and then paid retroactively if the situation is regularised. With two jobs, support is based on the higher-paid one.</p>
+
+<h2>The step-down for existing beneficiaries</h2>
+<p>If you registered with Nafis by 14 August 2026 and your support is above the new amount, it falls by AED 500 every six months from September 2026, down to the new amount for your qualification if your salary is 20,000 or less, and down to zero if it is higher. The change is automatic, with no exceptions or extensions.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">From</th><th scope="col">Bachelor's above 20,000 (was 3,500)</th><th scope="col">Bachelor's up to 20,000 (was 7,000)</th><th scope="col">Diploma up to 20,000 (was 6,000)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">September 2026</th><td>3,000</td><td>6,500</td><td>5,500</td></tr>
+    <tr><th scope="row">March 2027</th><td>2,500</td><td>6,000</td><td>5,000</td></tr>
+    <tr><th scope="row">September 2027</th><td>2,000</td><td>6,000</td><td>5,000</td></tr>
+    <tr><th scope="row">March 2028</th><td>1,500</td><td>6,000</td><td>5,000</td></tr>
+    <tr><th scope="row">September 2028</th><td>1,000</td><td>6,000</td><td>5,000</td></tr>
+    <tr><th scope="row">March 2029</th><td>500</td><td>6,000</td><td>5,000</td></tr>
+    <tr><th scope="row">September 2029</th><td>0</td><td>6,000</td><td>5,000</td></tr>
+  </tbody>
+</table>
+</div>
+<p>So a bachelor's holder earning above 20,000 receives AED 63,000 in total from September 2026 to August 2029. On the same logic, a diploma above 20,000 (was 3,000) reaches zero in March 2029, and high school (was 2,500) in September 2028.</p>
+
+<h2>Salaries below 6,000 and free zones</h2>
+<p>The minimum for all Nafis programmes is now AED 6,000 a month, in line with the Emirati minimum wage in the private sector (for new and renewed permits from 1 January 2026, with existing salaries adjusted by 30 June 2026). From September 2026, support stops if the gross salary is below 6,000 at an employer covered by that decision, and the employer faces penalties.</p>
+<p>At employers outside the ministry and Central Bank umbrella, including free zones, current support is paid in full from September 2026 to February 2027, then 70% from March to August 2027, then 30% from September to November 2027, and then stops. Some newspapers read the schedule as applying once the salary is corrected to 6,000; the more likely reading is that it is a grace period for those still below the minimum, and that a raised salary moves you to the normal rules.</p>
+
+<h2>Child allowance</h2>
+<p>AED 600 a month for each eligible child with no limit on the number of children from September 2026 (previously up to four), for salaries of AED 6,000 to 50,000. Sons qualify until 21 or until they start work, daughters until they marry or start work. You need an active pension fund account with the last two months' contributions paid, and must not receive the allowance from another source.</p>
+<p>It is not paid to anyone receiving a government salary or pension (except an inherited pension), or whose spouse works for a federal or local government entity. An Emirati mother qualifies if her husband has died, or if she is the legal provider by court ruling with proof that her husband cannot earn or is out of work. Only one spouse applies.</p>
+
+<h2>Eshtirak: your pension share</h2>
+<p>The Eshtirak programme covers the Emirati employee's share of the pension contribution when the gross salary is between AED 6,000 and 20,000, and the employer pays its own share in full from September 2026. The share is 11% for those registered with GPSSA from 31 October 2023 and 5% for those registered earlier, so on a salary of 12,000 Nafis pays about AED 1,320 a month for you. The calculator assumes your contribution salary equals your gross salary; for precise figures use the <a href="{{root}}en/uae-pension-calculator/{{ix}}">UAE pension calculator</a>.</p>
+
+<h2>The two new categories</h2>
+<p>The 2026 update added support "of up to AED 3,000" for two groups of non-nationals in the private sector, both requiring a bachelor's degree accredited by the Ministry of Higher Education: children of Emirati mothers earning 6,000–20,000, and wives of Emirati men earning 6,000–15,000 with at least two children or five years of marriage. Medical and teaching staff and PhD holders are exempt from the children and marriage-length conditions after two years of marriage. Divorced or widowed non-national women and husbands of Emirati women are not covered.</p>
+<p>Emiratis who lose their job have separate temporary support of up to AED 7,000 a month plus family additions; see the <a href="{{root}}en/uae-nafis-unemployment-support-calculator/{{ix}}">Nafis job loss support calculator</a>. For employer obligations see the <a href="{{root}}en/uae-emiratisation-calculator/{{ix}}">Emiratisation target calculator</a>.</p>
+</div>

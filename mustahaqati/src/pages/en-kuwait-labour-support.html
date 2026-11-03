@@ -1,0 +1,127 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-national-labour-support-calculator",
+  "alternate": "kuwait-labour-support",
+  "title": "Kuwait National Labour Support Calculator 2026 — Amounts by Qualification and Marital Status",
+  "h1": "Kuwait National Labour Support Calculator",
+  "description": "Calculate national labour support for Kuwaitis working in the private sector: KWD 456 to 790 for a single person and 534 to 898 for a married person depending on qualification, KWD 50 per child up to the seventh, 75 for a master's and 150 for a PhD, and a KWD 50 deduction if the salary exceeds 1,250, based on the PAM table in circulation.",
+  "short": "KWD 456–790 single and 534–898 married, 50 per child up to 7, and a 50 deduction above a 1,250 salary",
+  "lead": "Choose your qualification and marital status and enter your number of children and your salary to see your monthly labour support and its components.",
+  "country": "kw",
+  "category": "salary",
+  "tool": true,
+  "script": "en-kuwait-labour-support.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-pension", "en-kuwait-end-of-service", "en-kuwait-leave", "en-kuwait-public-holidays"],
+  "faq": [
+    {"q": "How much is labour support for a university graduate in Kuwait?", "a": "According to the table in circulation: KWD 690 single and 798 married for other university majors, 740 and 848 for law, accounting, finance and similar majors, and 790 and 898 for medicine, pharmacy and engineering. KWD 50 is added per child up to the seventh, plus 75 for a master's or 150 for a PhD."},
+    {"q": "Is labour support reduced if my salary is higher?", "a": "KWD 50 is deducted from the support if the employee's salary exceeds KWD 1,250; this is the 50-dinar bonus inside the fixed increase of 220. We found no decision that removes the support entirely above a certain salary: in 2021 the government studied stopping it for salaries of 3,000 or more, but as far as we found this was not adopted."},
+    {"q": "When is labour support paid?", "a": "On the 25th of each month, brought forward if that falls on a holiday. Entitlement starts from the date of application with no back pay, and the first payment usually takes 45 to 60 days, according to secondary sources."},
+    {"q": "When does labour support stop?", "a": "It stops when you leave work at the non-government employer (Decision 95/2022), except for military or reserve service, employer-sponsored study or training, and treatment abroad or accompanying a patient (Decision 1196/2023). The support cannot be combined with a government job."}
+  ],
+  "sources": [
+    {"t": "Law 19 of 2000 on supporting national labour, and Law 32 of 2003 (text via mesferlaw, Arabic)", "u": "https://mesferlaw.com/%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%B1%D9%82%D9%85-%DB%B1%DB%B9-%D9%84%D8%B3%D9%86%D8%A9-%DB%B2%DB%B0%DB%B0%DB%B0-%D9%81%D9%8A-%D8%B4%D8%A3%D9%86-%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%B9%D9%85%D8%A7/"},
+    {"t": "Cabinet Decision 95 of 2022 stopping payment on leaving work (text via mesferlaw, Arabic)", "u": "https://mesferlaw.com/%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D9%88%D8%B2%D8%B1%D8%A7%D8%A1-%D9%82%D8%B1%D8%A7%D8%B1-%D8%B1%D9%82%D9%85-95-%D9%84%D8%B3%D9%86%D8%A9-2022-%D8%A8%D8%AA%D8%B9%D8%AF%D9%8A%D9%84-%D8%A8%D8%B9%D8%B6/"},
+    {"t": "Public Authority for Manpower — table of social allowance categories (PDF)", "u": "https://www.manpower.gov.kw/media/CategoriesOfSocialAllowances.pdf"},
+    {"t": "Al-Anba — Decision 1196/2023: course and work-in-Kuwait conditions (12 Nov 2023, Arabic)", "u": "https://www.alanba.com.kw/1209870"},
+    {"t": "Wiki Kuwait — labour support table and the KWD 50 deduction above 1,250 (17 Feb 2025, Arabic)", "u": "https://wikikuwait.com/%D9%83%D9%85-%D8%B1%D8%A7%D8%AA%D8%A8-%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D9%84%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA/"},
+    {"t": "Kuwait Times — private sector allowance will not stop (4 Aug 2022)", "u": "https://kuwaittimes.com/kuwaitis-private-sector-allowance-will-not-stop"},
+    {"t": "Arab Times — PAM sets rules for disbursement of financial support (8 Jul 2020)", "u": "https://arabtimesonline.com/news/pam-sets-rules-for-disbursement-of-financial-support-for-kuwaitis"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate labour support</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">Qualification</label>
+        <select id="category" name="category">
+          <option value="uniMed">University: medicine, pharmacy or engineering</option>
+          <option value="uniPro">University: law, accounting, finance, IT and similar</option>
+          <option value="uniOther" selected>University: other majors</option>
+          <option value="diploma">Diploma, or secondary plus a 2-year course</option>
+          <option value="secondaryCourse">Secondary plus a 1-year course, or intermediate plus a 3-year course</option>
+          <option value="secondary">Secondary school</option>
+          <option value="intermediateCourse">Intermediate plus a 1-year course</option>
+          <option value="intermediate">Intermediate school</option>
+          <option value="belowIntermediate">Below intermediate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="married">Marital status</label>
+        <select id="married" name="married">
+          <option value="no" selected>Single</option>
+          <option value="yes">Married</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="degree">Postgraduate degree</label>
+        <select id="degree" name="degree">
+          <option value="none" selected>None</option>
+          <option value="masters">Master's</option>
+          <option value="phd">PhD</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="disability">Disability</label>
+        <select id="disability" name="disability">
+          <option value="none" selected>None</option>
+          <option value="mild">Mild</option>
+          <option value="severe">Moderate or severe</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">Monthly salary from your employer (KWD)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="900" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>National labour support table (KWD a month)</h2>
+<p>Labour support is paid to Kuwaitis working for non-government employers under Law 19 of 2000 and Cabinet Decision 391 of 2001 as amended, and is administered by the Public Authority for Manpower (PAM). Each table amount has four parts: the social allowance by qualification and marital status, a fixed increase of KWD 220 (a 50 increase, a 50 bonus and 120 cost of living), a qualification increase, and a 25% difference on the social allowance with a minimum of 50.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Qualification</th><th scope="col">Social allowance (single / married)</th><th scope="col">Qualification increase</th><th scope="col">Single</th><th scope="col">Married</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">University: medicine, pharmacy, engineering</th><td>190 / 278</td><td>330</td><td>790</td><td>898</td></tr>
+    <tr><th scope="row">University: law, accounting, finance and similar</th><td>190 / 278</td><td>280</td><td>740</td><td>848</td></tr>
+    <tr><th scope="row">University: other majors</th><td>190 / 278</td><td>230</td><td>690</td><td>798</td></tr>
+    <tr><th scope="row">Diploma, or secondary plus a 2-year course</th><td>169 / 250</td><td>190</td><td>629</td><td>723</td></tr>
+    <tr><th scope="row">Secondary plus a 1-year course, or intermediate plus a 3-year course</th><td>161 / 242</td><td>140</td><td>571</td><td>663</td></tr>
+    <tr><th scope="row">Secondary school</th><td>147 / 222</td><td>140</td><td>557</td><td>638</td></tr>
+    <tr><th scope="row">Intermediate plus a 1-year course</th><td>147 / 222</td><td>100</td><td>517</td><td>598</td></tr>
+    <tr><th scope="row">Intermediate school</th><td>141 / 216</td><td>100</td><td>511</td><td>590</td></tr>
+    <tr><th scope="row">Below intermediate</th><td>136 / 211</td><td>50</td><td>456</td><td>534</td></tr>
+  </tbody>
+</table>
+</div>
+<p>We could not read the official table on PAM's website; the figures above match across four recent secondary sources and fit the formula exactly in every row. Some sources give 531 and 623 for "intermediate plus a course" and 481 and 573 for "below intermediate plus a 2-year course", so the official table may have more than nine rows.</p>
+
+<h2>Additions and the deduction</h2>
+<ul>
+  <li><strong>Children's allowance:</strong> KWD 50 per child up to the seventh (Article 3 as amended by Law 32/2003). The mother receives it if the father has died, is disabled or unable to earn, or if she supports the children without maintenance.</li>
+  <li><strong>Postgraduate degrees:</strong> KWD 75 a month for a master's and 150 for a PhD.</li>
+  <li><strong>Disability:</strong> KWD 50 for mild and 100 for moderate or severe.</li>
+  <li><strong>Deduction:</strong> KWD 50 if the employee's salary exceeds KWD 1,250, being the 50-dinar bonus. It is not settled whether this means the basic salary or the total registered with social security, nor how a salary of exactly 1,250 is treated; the calculator makes no deduction at exactly 1,250.</li>
+</ul>
+<p>Example: a married accounting graduate with two children earning KWD 900 receives 848 + 2 × 50 = KWD 948 a month. A married engineer with a PhD, four children and a salary of 2,200 receives 898 − 50 + 150 + 4 × 50 = KWD 1,198.</p>
+
+<h2>Conditions and payment</h2>
+<p>The beneficiary must be a Kuwaiti actually working for a registered non-government employer with active social security contributions, must not combine the support with a government job, and must be registered with PAM (Decision 613/2015). The workplace must be inside Kuwait, except for university or diploma holders working in the Divided Zone, for international and regional organisations, or for companies in which the state holds shares. Holders of the intermediate certificate need a one-year course and those below it a two-year course, or registered experience of the same length (Decision 1196/2023).</p>
+<p>Support is paid on the 25th of each month and starts from the application date with no back pay. It stops when you leave work, except for military or reserve service, employer-sponsored study or training, and treatment abroad or accompanying a patient. In August 2025 PAM submitted a study on raising the amounts; we found no decision approving it as of November 2026.</p>
+<p>For your pension see the <a href="{{root}}en/kuwait-pension-calculator/{{ix}}">Kuwait pension calculator</a>, and for your end-of-service indemnity the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">Kuwait indemnity calculator</a>.</p>
+</div>

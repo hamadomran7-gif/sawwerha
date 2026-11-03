@@ -4,6 +4,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   serviceDuration,
+  uaeNafis,
+  uaeNafisJobLoss,
+  kuwaitLabourSupport,
   uaeGratuity,
   ksaEndOfService,
   gosiContribution,
@@ -1408,4 +1411,47 @@ test("إعانات الباحثين عن عمل: حافز والأمان الو�
   assert.equal(bahrainUnemployment({ reason: "firstJob", graduate: false }).total, 1350);
   assert.equal(bahrainUnemployment({ avgWage: 500, bahraini: false }).monthly, 300);
   assert.equal(bahrainUnemployment({ avgWage: 500, reason: "resignation" }).kind, "none");
+});
+
+test("نافس ودعم العمالة الكويتية — أمثلة البحث 22", () => {
+  const today = "2026-11-03";
+  const m1 = uaeNafis({ education: "bachelor", salary: 12000, children: 3, today });
+  assert.equal(m1.support.amount, 6000); assert.equal(m1.child.amount, 1800); assert.equal(m1.pension.amount, 1320); assert.equal(m1.total, 7800);
+  const m2 = uaeNafis({ education: "bachelor", salary: 22000, children: 3, today });
+  assert.equal(m2.support.amount, 0); assert.equal(m2.pension.amount, 0); assert.equal(m2.child.amount, 1800);
+  const m3 = uaeNafis({ status: "existing", education: "bachelor", salary: 25000, current: 3500, today }).support;
+  assert.equal(m3.amount, 3000); assert.equal(m3.remaining, 63000); assert.equal(m3.endsOn, "2029-09-01"); assert.equal(m3.rows.length, 7);
+  const m4 = uaeNafis({ status: "existing", education: "diploma", salary: 15000, current: 6000, today: "2027-04-01" }).support;
+  assert.equal(m4.amount, 5000); assert.equal(m4.rows[0].amount, 5500);
+  const m5 = uaeNafis({ status: "existing", education: "bachelor", salary: 5000, current: 7000, mohre: false, today: "2027-05-01" }).support;
+  assert.equal(m5.amount, 4900); assert.equal(m5.remaining, 77700); assert.equal(m5.endsOn, "2027-12-01");
+  assert.equal(uaeNafis({ status: "existing", education: "bachelor", salary: 5000, current: 7000, today }).support.reason, "suspended");
+  assert.equal(uaeNafis({ status: "existing", education: "bachelor", salary: 18000, today }).support.start, 7000);
+  assert.equal(uaeNafis({ status: "existing", education: "highSchool", salary: 24000, today }).support.start, 2500);
+  assert.equal(uaeNafis({ education: "below", family: true, salary: 7000, today }).support.amount, 4000);
+  assert.equal(uaeNafis({ education: "below", salary: 7000, today }).support.amount, 3000);
+  assert.equal(uaeNafis({ education: "bachelor", salary: 12000, children: 2, spouseGov: true, today }).child.amount, 0);
+  assert.equal(uaeNafis({ education: "bachelor", salary: 12000, children: 2, claimant: "motherOther", today }).child.amount, 0);
+  assert.equal(uaeNafis({ education: "bachelor", salary: 50000, children: 5, today }).child.amount, 3000);
+  assert.equal(uaeNafis({ education: "bachelor", salary: 12000, pensionShare: "old", today }).pension.amount, 600);
+  assert.equal(uaeNafis({ category: "wife", education: "bachelor", salary: 10000, children: 1, marriageYears: 6, today }).support.amount, 3000);
+  assert.equal(uaeNafis({ category: "wife", education: "bachelor", salary: 10000, children: 1, marriageYears: 3, today }).support.amount, 0);
+  assert.equal(uaeNafis({ category: "wife", education: "bachelor", salary: 10000, marriageYears: 3, exempt: true, today }).support.amount, 3000);
+  assert.equal(uaeNafis({ category: "wife", education: "bachelor", salary: 16000, children: 2, today }).support.reason, "aboveMax");
+  assert.equal(uaeNafis({ category: "motherChild", education: "bachelor", salary: 18000, today }).support.amount, 3000);
+  assert.equal(uaeNafis({ category: "motherChild", education: "diploma", salary: 18000, today }).support.reason, "degree");
+  const j = uaeNafisJobLoss({ children: 3 });
+  assert.equal(j.monthly, 17900); assert.equal(j.totalConsecutive, 107400);
+  assert.equal(uaeNafisJobLoss({ children: 3, otherIncome: 3000 }).monthly, 14900);
+  assert.equal(uaeNafisJobLoss({ spouse: false, children: 5 }).monthly, 13400);
+  assert.equal(uaeNafisJobLoss({ reason: "resignation" }).eligible, false);
+  assert.equal(uaeNafisJobLoss({ age: 61 }).why, "age");
+  assert.equal(kuwaitLabourSupport({ category: "uniPro", married: true, children: 2, salary: 900 }).total, 948);
+  assert.equal(kuwaitLabourSupport({ category: "uniOther", salary: 1500 }).total, 640);
+  assert.equal(kuwaitLabourSupport({ category: "uniMed", married: true, children: 4, degree: "phd", salary: 2200 }).total, 1198);
+  assert.equal(kuwaitLabourSupport({ category: "secondary", married: true, children: 9, salary: 500 }).total, 988);
+  assert.equal(kuwaitLabourSupport({ category: "diploma", salary: 1250 }).total, 629);
+  assert.equal(kuwaitLabourSupport({ category: "intermediateCourse", salary: 600 }).alt, 531);
+  for (const c of ["uniMed", "uniPro", "uniOther", "diploma", "secondaryCourse", "secondary", "intermediateCourse", "intermediate", "belowIntermediate"])
+    for (const married of [false, true]) assert.ok(kuwaitLabourSupport({ category: c, married }).formulaOk, c + married);
 });

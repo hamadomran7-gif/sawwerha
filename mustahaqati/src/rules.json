@@ -627,6 +627,91 @@
         "mohreGuideTotalMultiplier": 2.5,
         "weekendOverlapCompDay": 0
       }
+    },
+    "nafis": {
+      "law": "قرارات مجلس تنافسية الكوادر الإماراتية المعلنة في 14 أبريل 2026 والنافذة من 1 سبتمبر 2026",
+      "lastReview": "2026-11-03",
+      "newFrom": "2026-09-01",
+      "existingCutoff": "2026-08-14",
+      "programTo": 2040,
+      "minSalary": 6000,
+      "maxSalary": 20000,
+      "amounts": {
+        "bachelor": 6000,
+        "diploma": 5000,
+        "highSchool": 4000,
+        "belowFamily": 4000,
+        "below": 3000
+      },
+      "legacy": {
+        "lowMax": 20000,
+        "highMax": 30000,
+        "low": {
+          "bachelor": 7000,
+          "diploma": 6000,
+          "highSchool": 5000
+        },
+        "high": {
+          "bachelor": 3500,
+          "diploma": 3000,
+          "highSchool": 2500
+        }
+      },
+      "step": 500,
+      "stepMonths": 6,
+      "firstStep": "2026-09-01",
+      "outside": [
+        {
+          "from": "2026-09-01",
+          "to": "2027-02-28",
+          "pct": 1
+        },
+        {
+          "from": "2027-03-01",
+          "to": "2027-08-31",
+          "pct": 0.7
+        },
+        {
+          "from": "2027-09-01",
+          "to": "2027-11-30",
+          "pct": 0.3
+        }
+      ],
+      "special": {
+        "motherChild": {
+          "max": 3000,
+          "maxSalary": 20000
+        },
+        "wife": {
+          "max": 3000,
+          "maxSalary": 15000,
+          "minChildren": 2,
+          "minYears": 5,
+          "exemptYears": 2
+        }
+      },
+      "child": {
+        "perChild": 600,
+        "maxSalary": 50000
+      },
+      "pension": {
+        "maxSalary": 20000,
+        "shareNew": 0.11,
+        "shareOld": 0.05
+      },
+      "jobLoss": {
+        "self": 7000,
+        "spouse": 4500,
+        "children": [
+          2400,
+          2400,
+          1600
+        ],
+        "maxMonths": 12,
+        "maxConsecutive": 6,
+        "minAge": 18,
+        "maxAge": 60
+      }
     }
   },
   "sa": {
@@ -2762,6 +2847,140 @@
         "dailyDivisorAlt": 30,
         "weekendOverlapCompDay": -1
       }
+    },
+    "labourSupport": {
+      "law": "القانون 19/2000 المعدل بالقانون 32/2003 وقرار مجلس الوزراء 391/2001 وتعديلاته",
+      "lastReview": "2026-11-03",
+      "fixed": 220,
+      "diffPct": 0.25,
+      "diffMin": 50,
+      "categories": [
+        {
+          "id": "uniMed",
+          "social": [
+            190,
+            278
+          ],
+          "qual": 330,
+          "total": [
+            790,
+            898
+          ]
+        },
+        {
+          "id": "uniPro",
+          "social": [
+            190,
+            278
+          ],
+          "qual": 280,
+          "total": [
+            740,
+            848
+          ]
+        },
+        {
+          "id": "uniOther",
+          "social": [
+            190,
+            278
+          ],
+          "qual": 230,
+          "total": [
+            690,
+            798
+          ]
+        },
+        {
+          "id": "diploma",
+          "social": [
+            169,
+            250
+          ],
+          "qual": 190,
+          "total": [
+            629,
+            723
+          ]
+        },
+        {
+          "id": "secondaryCourse",
+          "social": [
+            161,
+            242
+          ],
+          "qual": 140,
+          "total": [
+            571,
+            663
+          ]
+        },
+        {
+          "id": "secondary",
+          "social": [
+            147,
+            222
+          ],
+          "qual": 140,
+          "total": [
+            557,
+            638
+          ]
+        },
+        {
+          "id": "intermediateCourse",
+          "social": [
+            147,
+            222
+          ],
+          "qual": 100,
+          "total": [
+            517,
+            598
+          ],
+          "disputed": [
+            531,
+            623
+          ]
+        },
+        {
+          "id": "intermediate",
+          "social": [
+            141,
+            216
+          ],
+          "qual": 100,
+          "total": [
+            511,
+            590
+          ]
+        },
+        {
+          "id": "belowIntermediate",
+          "social": [
+            136,
+            211
+          ],
+          "qual": 50,
+          "total": [
+            456,
+            534
+          ],
+          "disputed": [
+            481,
+            573
+          ]
+        }
+      ],
+      "perChild": 50,
+      "maxChildren": 7,
+      "masters": 75,
+      "phd": 150,
+      "disabilityMild": 50,
+      "disabilitySevere": 100,
+      "bonusThreshold": 1250,
+      "bonusDeduction": 50,
+      "payDay": 25
     }
   },
   "om": {

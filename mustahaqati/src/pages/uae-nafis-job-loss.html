@@ -1,0 +1,90 @@
+---json
+{
+  "title": "حاسبة دعم نافس لمن فقد عمله 2026 — 7,000 درهم + 4,500 للزوج + 2,400 للأبناء",
+  "h1": "حاسبة الدعم المالي المؤقت من نافس لمن فقد عمله",
+  "description": "احسب الدعم المالي المؤقت من نافس للمواطن الذي فقد عمله في القطاع الخاص لظروف خارجة عن إرادته: 7,000 درهم شهرياً، و4,500 للزوج أو الزوجة غير العامل، و2,400 للابن الأول والثاني و1,600 للثالث، ناقصاً الدخل الآخر، لمدة 6 أشهر متتالية و12 شهراً إجمالاً.",
+  "short": "7,000 درهم + 4,500 للزوج غير العامل + 2,400 و2,400 و1,600 للأبناء، 6 أشهر متتالية",
+  "lead": "أدخل سبب فقد العمل وعمرك وأسرتك ودخلك الآخر، ويظهر الدعم الشهري ومجموعه للمدة القصوى.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "uae-nafis-job-loss.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["uae-nafis", "uae-iloe", "uae-gratuity", "uae-final-settlement"],
+  "faq": [
+    {"q": "كم دعم نافس لمن فقد عمله؟", "a": "7,000 درهم شهرياً للمواطن الذي فقد عمله، و4,500 للزوج أو الزوجة إن لم يكن يعمل، و2,400 للابن الأول ومثلها للثاني و1,600 للثالث، بحد أقصى ثلاثة أبناء. فالأسرة بزوجة لا تعمل وثلاثة أبناء تستحق 17,900 درهم شهرياً قبل خصم أي دخل آخر."},
+    {"q": "كم مدة الدعم المالي المؤقت من نافس؟", "a": "12 شهراً كحد أقصى للبرنامج، على ألا تتجاوز مدة الاستفادة 6 أشهر متتالية، بحسب صفحة البرنامج في مركز معرفة نافس."},
+    {"q": "من يستحق الدعم المالي المؤقت؟", "a": "المواطن من 18 إلى 60 سنة الذي فقد عمله في منشأة خاصة مشمولة أو مرخصة من المصرف المركزي لأسباب خارجة عن إرادته، وهو قادر على العمل وليس له مصدر دخل. ويُستبعد الطلاب ومستحقو التقاعد والمسجلون في الخدمة الوطنية ومن فُصل لأسباب أخلاقية أو مخالفة قانونية، ويسقط الحق برفض عرض عمل."},
+    {"q": "هل يُجمع دعم نافس مع التأمين ضد التعطل؟", "a": "هما منظومتان منفصلتان: التأمين ضد التعطل يصرف 60% من متوسط الأجر الأساسي لثلاثة أشهر في كل مطالبة. ولم تحسم المصادر هل يُخصم تعويضه من دعم نافس بوصفه دخلاً؛ وأي دخل من رخص تجارية أو عقارات يُخصم من الدعم."}
+  ],
+  "sources": [
+    {"t": "مركز معرفة نافس — الدعم المالي المؤقت لمن فقد عمله (Unemployment Benefit، 20/8/2026)", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/Emirati_User/Job_seekers/Unemployment_Benefit"},
+    {"t": "مركز معرفة نافس — الأسئلة الشائعة عن المزايا المالية", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/General_Inquiries/FAQs_for_Emarati_Users/Financial_benefits"},
+    {"t": "Gulf News — توسعة نافس في نوفمبر 2022: دعم الأسرة و12 شهراً (24/11/2022)", "u": "https://gulfnews.com/uae/uae-new-salary-support-scheme-for-emiratis-in-private-sector-1.1669228286690"},
+    {"t": "Gulf News — التأمين ضد التعطل: التعويض والشروط (12/8/2025)", "u": "https://gulfnews.com/uae/uae-unemployment-insurance-scheme-payouts-rules-and-how-to-apply-1.500231146"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب الدعم</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="reason">سبب فقد العمل</label>
+        <select id="reason" name="reason">
+          <option value="termination" selected>إنهاء خارج عن إرادتي</option>
+          <option value="resignation">استقالة باختياري</option>
+          <option value="misconduct">فصل لأسباب أخلاقية أو مخالفة قانونية</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="age">العمر (سنة)</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="15" max="80" step="1" value="32" required>
+      </div>
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="yes" selected>متزوج وزوجي لا يعمل</option>
+          <option value="no">أعزب أو زوجي يعمل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء المستحقين</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="otherIncome">دخل شهري آخر (إيجار أو رخصة تجارية أو مساعدة)</label>
+        <input type="number" id="otherIncome" name="otherIncome" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مبالغ الدعم المالي المؤقت</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المستفيد</th><th scope="col">شهرياً (درهم)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المواطن الذي فقد عمله</th><td>7,000</td></tr>
+    <tr><th scope="row">الزوج أو الزوجة إن لم يكن يعمل</th><td>4,500</td></tr>
+    <tr><th scope="row">الابن الأول</th><td>2,400</td></tr>
+    <tr><th scope="row">الابن الثاني</th><td>2,400</td></tr>
+    <tr><th scope="row">الابن الثالث</th><td>1,600</td></tr>
+    <tr><th scope="row">أقصى مجموع (زوج لا يعمل وثلاثة أبناء)</th><td>17,900</td></tr>
+  </tbody>
+</table>
+</div>
+<p>الابن الذكر حتى 21 سنة أو بدء العمل، والأنثى حتى الزواج أو العمل، وثلاثة أبناء كحد أقصى. ومدة البرنامج 12 شهراً كحد أقصى، على ألا تتجاوز 6 أشهر متتالية. فأقصى ما تصرفه الأسرة الكاملة في ستة أشهر متتالية 107,400 درهم، وفي 12 شهراً 214,800.</p>
+
+<h2>الشروط والخصومات</h2>
+<p>يُصرف للمواطن من 18 إلى 60 سنة الذي فقد عمله في منشأة خاصة مشمولة أو مرخصة من المصرف المركزي لأسباب خارجة عن إرادته، ويقرر المجلس ما يُعدّ كذلك. ويُشترط أن يكون قادراً على العمل وليس له مصدر دخل. وأي دخل من رخص تجارية أو عقارات يُخصم من الدعم، وكذلك المساعدة الاجتماعية التي يتلقاها هو أو زوجه أو ابنه إن كانت أقل.</p>
+<p>يُستبعد الطلاب، ومن يستحق التقاعد، والمسجلون في الخدمة الوطنية، ومن فُصل لأسباب أخلاقية أو مخالفة قانونية. ومن يرفض عرض عمل مناسباً يسقط حقه. وذكرت بعض المواقع أن المدة «12 شهراً خلال خمس سنوات»، ولا يرد ذلك في الصفحة الرسمية.</p>
+<p>التأمين ضد التعطل منظومة اتحادية منفصلة تصرف 60% من متوسط الأجر الأساسي لآخر 6 أشهر لمدة 3 أشهر في كل مطالبة؛ احسبه في <a href="{{root}}uae-iloe/{{ix}}">حاسبة التأمين ضد التعطل</a>. ولمستحقاتك من جهة العمل استخدم <a href="{{root}}uae-final-settlement/{{ix}}">حاسبة التسوية النهائية</a>، ولدعم الراتب بعد عودتك إلى العمل <a href="{{root}}uae-nafis/{{ix}}">حاسبة دعم نافس</a>.</p>
+</div>

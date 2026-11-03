@@ -1,0 +1,93 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-nafis-unemployment-support-calculator",
+  "alternate": "uae-nafis-job-loss",
+  "title": "Nafis Job Loss Support Calculator 2026 — AED 7,000 + 4,500 for a Spouse + 2,400 per Child",
+  "h1": "Nafis Temporary Financial Support Calculator for Emiratis Who Lost Their Job",
+  "description": "Calculate Nafis temporary financial support for an Emirati who lost a private sector job for reasons beyond their control: AED 7,000 a month, 4,500 for a non-working spouse, 2,400 each for the first and second child and 1,600 for the third, minus other income, for up to 6 consecutive months and 12 months in total.",
+  "short": "AED 7,000 + 4,500 for a non-working spouse + 2,400, 2,400 and 1,600 for children, for 6 consecutive months",
+  "lead": "Enter why you lost your job, your age, your family and any other income to see your monthly support and the total over the maximum period.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-nafis-job-loss.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-nafis", "en-uae-iloe", "en-uae-gratuity", "en-uae-final-settlement"],
+  "faq": [
+    {"q": "How much is Nafis support for Emiratis who lost their job?", "a": "AED 7,000 a month for the Emirati who lost their job, 4,500 for a husband or wife who does not work, 2,400 for the first child, the same for the second and 1,600 for the third, with a maximum of three children. A family with a non-working spouse and three children receives AED 17,900 a month before any other income is deducted."},
+    {"q": "How long does Nafis temporary financial support last?", "a": "Up to 12 months under the programme, provided the support does not run for more than 6 consecutive months, according to the programme page in the Nafis Knowledge Centre."},
+    {"q": "Who is eligible for Nafis temporary support?", "a": "An Emirati aged 18 to 60 who lost a job at a covered private employer or a Central Bank-licensed institution for reasons beyond their control, who is able to work and has no source of income. Students, those entitled to retirement, national service conscripts and people dismissed for moral reasons or legal violations are excluded, and refusing a job offer ends the right."},
+    {"q": "Can Nafis support be combined with unemployment insurance?", "a": "They are separate schemes: unemployment insurance (ILOE) pays 60% of the average basic salary for up to three months per claim. Sources do not settle whether ILOE compensation is deducted from Nafis support as income; income from trade licences or property is deducted."}
+  ],
+  "sources": [
+    {"t": "Nafis Knowledge Centre — Unemployment Benefit (temporary financial support) (20 Aug 2026)", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/Emirati_User/Job_seekers/Unemployment_Benefit"},
+    {"t": "Nafis Knowledge Centre — Financial benefits FAQ", "u": "https://nafis-en-prod.au1prod.expert.nicecxone.com/General_Inquiries/FAQs_for_Emarati_Users/Financial_benefits"},
+    {"t": "Gulf News — Nafis expansion with family support and 12 months (24 Nov 2022)", "u": "https://gulfnews.com/uae/uae-new-salary-support-scheme-for-emiratis-in-private-sector-1.1669228286690"},
+    {"t": "Gulf News — UAE unemployment insurance payouts and rules (12 Aug 2025)", "u": "https://gulfnews.com/uae/uae-unemployment-insurance-scheme-payouts-rules-and-how-to-apply-1.500231146"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your support</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="reason">Why you lost your job</label>
+        <select id="reason" name="reason">
+          <option value="termination" selected>Ended for reasons beyond my control</option>
+          <option value="resignation">I resigned</option>
+          <option value="misconduct">Dismissed for moral reasons or a legal violation</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="age">Age (years)</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="15" max="80" step="1" value="32" required>
+      </div>
+      <div class="field">
+        <label for="spouse">Husband or wife</label>
+        <select id="spouse" name="spouse">
+          <option value="yes" selected>Married, and my spouse does not work</option>
+          <option value="no">Single, or my spouse works</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of eligible children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="otherIncome">Other monthly income (rent, trade licence or assistance)</label>
+        <input type="number" id="otherIncome" name="otherIncome" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Temporary financial support amounts</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Beneficiary</th><th scope="col">Monthly (AED)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">The Emirati who lost their job</th><td>7,000</td></tr>
+    <tr><th scope="row">Husband or wife, if not working</th><td>4,500</td></tr>
+    <tr><th scope="row">First child</th><td>2,400</td></tr>
+    <tr><th scope="row">Second child</th><td>2,400</td></tr>
+    <tr><th scope="row">Third child</th><td>1,600</td></tr>
+    <tr><th scope="row">Maximum total (non-working spouse and three children)</th><td>17,900</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Sons qualify until 21 or until they start work, daughters until they marry or start work, up to three children. The programme pays for up to 12 months, but no more than 6 consecutive months. So the most a full family receives over six consecutive months is AED 107,400, and AED 214,800 over 12 months.</p>
+
+<h2>Conditions and deductions</h2>
+<p>The support is for Emiratis aged 18 to 60 who lost a job at a covered private employer or a Central Bank-licensed institution for reasons beyond their control, as the Council determines. You must be able to work and have no source of income. Any income from trade licences or property is deducted, as is any smaller social assistance received by you, your spouse or your child.</p>
+<p>Students, those entitled to retirement, national service conscripts and people dismissed for moral reasons or legal violations are excluded, and refusing a suitable job offer ends the right. Some websites mention "12 months within five years", which does not appear on the official page.</p>
+<p>Unemployment insurance is a separate federal scheme that pays 60% of the average basic salary of the last 6 months for up to 3 months per claim; see the <a href="{{root}}en/uae-iloe-calculator/{{ix}}">ILOE calculator</a>. For what your employer owes you, use the <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement calculator</a>, and for salary support once you are back at work, the <a href="{{root}}en/uae-nafis-calculator/{{ix}}">Nafis calculator</a>.</p>
+</div>

@@ -2761,6 +2761,142 @@ export function bahrainUnemployment({ avgWage = 0, contribMonths = 12, reason = 
 }
 
 /* ------------------------------------------------------------------ */
+/* الإمارات — نافس (قواعد 1 سبتمبر 2026) والكويت — دعم العمالة الوطنية  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * دعم الرواتب وعلاوة الأبناء و«اشتراك» من نافس.
+ * المستفيد الجديد: المبلغ بحسب المؤهل إن كان الإجمالي 6,000–20,000. المستفيد الحالي (مسجل حتى 14/8/2026):
+ * ينقص 500 كل 6 أشهر من 1/9/2026 حتى المبلغ الجديد (الراتب حتى 20,000) أو الصفر (فوقه). وتحت 6,000:
+ * يتوقف تحت مظلة الوزارة والمصرف المركزي، ويُصرف خارجها 100% ثم 70% ثم 30% حتى نوفمبر 2027.
+ */
+export function uaeNafis({ category = "emirati", status = "new", education = "bachelor", family = false, salary = 0, current = 0, mohre = true, children = 0, claimant = "father", spouseGov = false, pensionShare = "new", marriageYears = 0, exempt = false, today } = {}) {
+  const N = rules.ae.nafis;
+  const s = Math.max(0, Number(salary) || 0);
+  const kids = Math.max(0, Math.floor(Number(children) || 0));
+  const t = utcDay(today || new Date());
+  const out = { category, status, salary: s, support: { amount: 0, rows: [], reason: null }, child: { eligible: false, amount: 0, reason: null }, pension: { eligible: false, amount: 0, pct: 0 }, total: 0 };
+
+  if (category !== "emirati") {
+    const S = category === "wife" ? N.special.wife : N.special.motherChild;
+    let reason = null;
+    if (education !== "bachelor") reason = "degree";
+    else if (s < N.minSalary) reason = "belowMin";
+    else if (s > S.maxSalary) reason = "aboveMax";
+    else if (category === "wife") {
+      const y = Number(marriageYears) || 0;
+      const ok = kids >= S.minChildren || y >= S.minYears || (exempt && y >= S.exemptYears);
+      if (!ok) reason = exempt ? "exemptYears" : "family";
+    }
+    out.support = { amount: reason ? 0 : S.max, upTo: true, rows: [], reason, maxSalary: S.maxSalary };
+    out.child.reason = "notEmirati";
+    out.total = out.support.amount;
+    return out;
+  }
+
+  const newAmount = education === "below" ? (family ? N.amounts.belowFamily : N.amounts.below) : N.amounts[education];
+  const first = utcDay(N.firstStep);
+  if (status === "new") {
+    let reason = null;
+    if (s < N.minSalary) reason = "belowMin";
+    else if (s > N.maxSalary) reason = "aboveMax";
+    out.support = { amount: reason ? 0 : newAmount, newAmount, rows: [], reason };
+  } else {
+    let start = Math.max(0, Number(current) || 0);
+    let assumed = null;
+    if (!start) {
+      if (education === "below") { start = newAmount; assumed = "noLegacy"; }
+      else if (s <= N.legacy.lowMax) { start = N.legacy.low[education]; assumed = "low"; }
+      else if (s <= N.legacy.highMax) { start = N.legacy.high[education]; assumed = "high"; }
+      else assumed = "aboveOld";
+    }
+    const rows = [];
+    let reason = null;
+    let target = s > N.maxSalary ? 0 : newAmount;
+    if (!start) { reason = "aboveOld"; }
+    else if (s < N.minSalary && mohre) {
+      reason = "suspended";
+      rows.push({ from: N.firstStep, to: null, amount: 0 });
+      target = 0;
+    } else if (s < N.minSalary) {
+      reason = "outside";
+      for (const p of N.outside) rows.push({ from: p.from, to: p.to, amount: r2(start * p.pct), pct: p.pct, months: monthsBetween(utcDay(p.from), plusDays(utcDay(p.to), 1)) });
+      rows.push({ from: isoUTC(plusDays(utcDay(N.outside[N.outside.length - 1].to), 1)), to: null, amount: 0 });
+      target = 0;
+    } else if (start <= target) {
+      reason = "noCut";
+      rows.push({ from: N.firstStep, to: null, amount: start });
+    } else {
+      let amt = start, k = 0;
+      while (amt > target) {
+        amt = Math.max(target, amt - N.step);
+        const from = plusMonths(first, k * N.stepMonths);
+        rows.push({ from: isoUTC(from), to: amt > target ? isoUTC(plusDays(plusMonths(first, (k + 1) * N.stepMonths), -1)) : null, amount: amt, months: amt > target ? N.stepMonths : null });
+        k++;
+      }
+    }
+    let amount = start;
+    if (t >= first) for (const r of rows) if (t >= utcDay(r.from)) amount = r.amount;
+    const finite = rows.length && rows[rows.length - 1].amount === 0;
+    const remaining = finite ? rows.filter((r) => r.to).reduce((a, r) => a + r.amount * (r.months || 0), 0) : null;
+    const endsOn = finite ? rows[rows.length - 1].from : null;
+    out.support = { amount: reason === "aboveOld" ? 0 : amount, start, assumed, target, newAmount, rows, reason, remaining, endsOn, before: t < first };
+  }
+
+  // علاوة الأبناء
+  let cr = null;
+  if (claimant === "motherOther") cr = "claimant";
+  else if (spouseGov) cr = "spouseGov";
+  else if (s < N.minSalary) cr = "belowMin";
+  else if (s > N.child.maxSalary) cr = "aboveMax";
+  else if (!kids) cr = "noKids";
+  out.child = { eligible: !cr, amount: cr ? 0 : kids * N.child.perChild, reason: cr, kids };
+
+  // «اشتراك»: حصة المؤمن عليه
+  const pct = pensionShare === "old" ? N.pension.shareOld : N.pension.shareNew;
+  const pe = s >= N.minSalary && s <= N.pension.maxSalary;
+  out.pension = { eligible: pe, amount: pe ? r2(s * pct) : 0, pct };
+  out.total = r2(out.support.amount + out.child.amount);
+  return out;
+}
+
+/** نافس — الدعم المالي المؤقت لمن فقد عمله: 7,000 + 4,500 للزوج غير العامل + 2,400/2,400/1,600 للأبناء، ناقصاً الدخل الآخر، 6 أشهر متتالية و12 إجمالاً. */
+export function uaeNafisJobLoss({ reason = "termination", age = 30, spouse = true, children = 0, otherIncome = 0 } = {}) {
+  const J = rules.ae.nafis.jobLoss;
+  const a = Number(age) || 0;
+  if (reason !== "termination") return { eligible: false, why: reason };
+  if (a < J.minAge || a > J.maxAge) return { eligible: false, why: "age" };
+  const kids = Math.max(0, Math.floor(Number(children) || 0));
+  const rows = [{ k: "self", amount: J.self }];
+  if (spouse) rows.push({ k: "spouse", amount: J.spouse });
+  J.children.slice(0, kids).forEach((amount, i) => rows.push({ k: "child", n: i + 1, amount }));
+  const gross = rows.reduce((x, r) => x + r.amount, 0);
+  const deduction = Math.min(gross, Math.max(0, Number(otherIncome) || 0));
+  const monthly = gross - deduction;
+  return { eligible: true, rows, gross, deduction, monthly, kidsCounted: Math.min(kids, J.children.length), kidsExtra: Math.max(0, kids - J.children.length), consecutive: J.maxConsecutive, maxMonths: J.maxMonths, totalConsecutive: monthly * J.maxConsecutive, totalMax: monthly * J.maxMonths };
+}
+
+/** الكويت — دعم العمالة الوطنية: جدول الفئة (العلاوة الاجتماعية + 220 + زيادة المؤهل + فرق 25%) − 50 فوق 1,250 + 50 لكل ولد حتى 7 + الدراسات العليا والإعاقة. */
+export function kuwaitLabourSupport({ category = "uniOther", married = false, children = 0, degree = "none", disability = "none", salary = 0 } = {}) {
+  const L = rules.kw.labourSupport;
+  const C = L.categories.find((c) => c.id === category) || L.categories[2];
+  const i = married ? 1 : 0;
+  const social = C.social[i];
+  const diff = Math.max(L.diffMin, Math.round(social * L.diffPct));
+  const base = C.total[i];
+  const s = Math.max(0, Number(salary) || 0);
+  const deduction = s > L.bonusThreshold ? L.bonusDeduction : 0;
+  const kids = Math.max(0, Math.floor(Number(children) || 0));
+  const kidsCounted = Math.min(kids, L.maxChildren);
+  const childAmt = kidsCounted * L.perChild;
+  const degreeAmt = degree === "phd" ? L.phd : degree === "masters" ? L.masters : 0;
+  const disabilityAmt = disability === "severe" ? L.disabilitySevere : disability === "mild" ? L.disabilityMild : 0;
+  const total = base - deduction + childAmt + degreeAmt + disabilityAmt;
+  const alt = C.disputed ? C.disputed[i] - deduction + childAmt + degreeAmt + disabilityAmt : null;
+  return { category: C.id, social, fixed: L.fixed, qual: C.qual, diff, base, deduction, kids, kidsCounted, childAmt, degreeAmt, disabilityAmt, total, alt, disputedBase: C.disputed ? C.disputed[i] : null, formulaOk: social + L.fixed + C.qual + diff === base };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 
