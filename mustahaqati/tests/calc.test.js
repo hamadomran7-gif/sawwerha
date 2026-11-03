@@ -6,6 +6,7 @@ import {
   abuDhabiDarbCost,
   uaeSalikCost,
   ksaFuelCost,
+  gccFuelCost,
   uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
@@ -2222,4 +2223,32 @@ test("كلفة درب أبوظبي بلا حد شهري", () => {
   assert.equal(r.daily, 16);
   assert.equal(r.weekly, 80);
   assert.equal(r.monthly, 346.4);
+});
+
+test("gccFuelCost: قطر شهري مع مقارنة الشهر السابق", () => {
+  const r = gccFuelCost({ country: "qa", fuel: "premium91", tank: 60, km: 2000, per100: 8, month: "2026-10" });
+  assert.equal(r.price, 1.95);
+  assert.equal(r.prev, 2);
+  assert.equal(r.change, -0.05);
+  assert.equal(r.tankCost, 117);
+  assert.equal(r.tankPrev, 120);
+  assert.equal(r.litres, 160);
+  assert.equal(r.monthly, 312);
+  assert.equal(r.yearly, 3744);
+  assert.equal(r.all.super95.tank, 126);
+  assert.equal(gccFuelCost({ country: "qa", fuel: "diesel", month: "2026-09" }).prev, null);
+  assert.equal(gccFuelCost({ country: "qa", fuel: "premium91" }).month, "2026-11");
+});
+
+test("gccFuelCost: عُمان أسعار ثابتة بثلاث خانات", () => {
+  const r = gccFuelCost({ country: "om", fuel: "m95", tank: 55, km: 1500, per100: 9 });
+  assert.equal(r.price, 0.239);
+  assert.equal(r.month, null);
+  assert.equal(r.prev, null);
+  assert.equal(r.tankCost, 13.145);
+  assert.equal(r.litres, 135);
+  assert.equal(r.monthly, 32.265);
+  assert.equal(r.all.diesel.tank, 14.19);
+  assert.equal(gccFuelCost({ country: "om", fuel: "g98" }), null);
+  assert.equal(gccFuelCost({ country: "xx" }), null);
 });

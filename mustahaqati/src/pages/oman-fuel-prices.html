@@ -1,0 +1,112 @@
+---json
+{
+  "title": "سعر البنزين في عُمان 2026 — حاسبة تكلفة تعبئة الخزان والوقود الشهري (M91 وM95 والديزل)",
+  "h1": "أسعار الوقود في سلطنة عُمان وحاسبة تكلفة التعبئة",
+  "description": "أسعار الوقود في سلطنة عُمان: بنزين M91 بـ229 بيسة للتر، وM95 بـ239 بيسة، والديزل بـ258 بيسة، ثابتة عند سقف أكتوبر 2021 وشاملة ضريبة القيمة المضافة 5%، مع حاسبة كلفة تعبئة الخزان والوقود الشهري والسنوي.",
+  "short": "سعر اللتر بالبيسة، وكلفة تعبئة الخزان والوقود الشهري والسنوي",
+  "lead": "اختر نوع الوقود وسعة خزانك ومسافتك الشهرية، فتظهر كلفة التعبئة والوقود الشهري بالريال العُماني.",
+  "country": "om",
+  "category": "tools",
+  "tool": true,
+  "script": "oman-fuel.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-net-salary",
+    "oman-family-visa-cost",
+    "qatar-fuel-prices",
+    "uae-fuel-prices",
+    "ksa-fuel-prices"
+  ],
+  "faq": [
+    {
+      "q": "كم سعر البنزين في عُمان 2026؟",
+      "a": "بنزين M91 بـ229 بيسة للتر (0.229 ريال عُماني)، وM95 بـ239 بيسة، والديزل بـ258 بيسة، وهي أسعار أكتوبر 2021 التي ثُبّتت حداً أعلى."
+    },
+    {
+      "q": "لماذا لا تتغير أسعار الوقود في عُمان؟",
+      "a": "صدرت توجيهات سامية في 9 نوفمبر 2021 بتثبيت الأسعار عند مستويات أكتوبر 2021 حداً أعلى، على أن تتحمل الحكومة الفرق. ولم تتغير الأسعار منذ ذلك الحين بحسب آخر ما نُشر في 2026."
+    },
+    {
+      "q": "كم تكلفة تعبئة خزان 60 لتراً في عُمان؟",
+      "a": "13.740 ريالاً عُمانياً بـM91، و14.340 بـM95، و15.480 بالديزل."
+    },
+    {
+      "q": "هل تشمل أسعار الوقود في عُمان الضريبة؟",
+      "a": "نعم، تشمل ضريبة القيمة المضافة 5% المطبقة منذ أبريل 2021."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Oman Observer — Ceiling on fuel prices welcomed (9/11/2021)",
+      "u": "https://www.omanobserver.om/article/1109468/oman/ceiling-on-fuel-prices-welcomed"
+    },
+    {
+      "t": "الطاقة — أسعار البنزين في الخليج (1/7/2026)",
+      "u": "https://attaqa.net/2026/07/01/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d8%a7%d9%84%d8%a8%d9%86%d8%b2%d9%8a%d9%86-%d9%81%d9%8a-%d8%a7%d9%84%d8%ae%d9%84%d9%8a%d8%ac-3-%d8%af%d9%88%d9%84-%d8%aa%d8%b3%d8%ac%d9%84-%d8%aa%d8%ad%d8%b1%d9%83/"
+    },
+    {
+      "t": "Oman Observer — VAT: fuel prices to cost more in Oman (16/4/2021)",
+      "u": "https://www.omanobserver.om/article/610/Main/vat-fuel-prices-to-cost-more-in-oman"
+    },
+    {
+      "t": "YallaMotor — Fuel prices in Oman, October 2026 (14/10/2026)",
+      "u": "https://www.yallamotor.com/news/fuel-prices-oman-october-2026-en-55765"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب كلفة الوقود</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="fuel">نوع الوقود</label>
+        <select id="fuel" name="fuel">
+          <option value="m91" selected>بنزين M91</option>
+          <option value="m95">بنزين M95</option>
+          <option value="diesel">ديزل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">سعة الخزان (لتر)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+        <span class="hint">سيارة صغيرة 40–50، وسيدان 60–70، ودفع رباعي 80–100.</span>
+      </div>
+      <div class="field">
+        <label for="km">المسافة الشهرية (كم)</label>
+        <input type="number" id="km" name="km" inputmode="decimal" min="0" step="50" value="2000">
+      </div>
+      <div class="field">
+        <label for="per100">الاستهلاك (لتر لكل 100 كم)</label>
+        <input type="number" id="per100" name="per100" inputmode="decimal" min="0" max="40" step="0.1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>أسعار الوقود في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المنتج</th><th scope="col">بيسة للتر</th><th scope="col">ريال عُماني للتر</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">بنزين M91</th><td>229</td><td>0.229</td></tr>
+    <tr><th scope="row">بنزين M95</th><td>239</td><td>0.239</td></tr>
+    <tr><th scope="row">ديزل</th><td>258</td><td>0.258</td></tr>
+  </tbody>
+</table>
+</div>
+<p>هذه أسعار أكتوبر 2021 التي ثبّتتها التوجيهات السامية في 9 نوفمبر 2021 حداً أعلى، وهي شاملة ضريبة القيمة المضافة 5%. وعند تطبيق الضريبة في أبريل 2021 ارتفع M95 من 216 إلى 227 بيسة، أي بنسبة 5% بالضبط. وراجعنا الأسعار في 3 نوفمبر 2026، وإن أُعلن تغيير نحدّث الصفحة.</p>
+
+<h2>كيف تحسب كلفة الوقود؟</h2>
+<p>كلفة التعبئة = سعة الخزان × سعر اللتر. والكلفة الشهرية = (المسافة الشهرية × الاستهلاك لكل 100 كم ÷ 100) × سعر اللتر. فسيارة تقطع 2,000 كم شهرياً وتستهلك 8 لترات لكل 100 كم تحتاج 160 لتراً، أي 36.640 ريالاً عُمانياً بـM91، و439.680 ريالاً في السنة.</p>
+
+<h2>المقارنة مع الجيران</h2>
+<p>لتر 95 في عُمان 239 بيسة، وفي قطر 2.10 ريال قطري (<a href="{{root}}qatar-fuel-prices/{{ix}}">أسعار قطر</a>)، وفي الإمارات 4.04 درهم في نوفمبر 2026 (<a href="{{root}}uae-fuel-prices/{{ix}}">أسعار الإمارات</a>)، وفي السعودية 2.33 ريال سعودي (<a href="{{root}}ksa-fuel-prices/{{ix}}">أسعار السعودية</a>).</p>
+</div>

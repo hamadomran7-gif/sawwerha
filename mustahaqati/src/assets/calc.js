@@ -981,6 +981,31 @@ export function ksaFuelCost({ fuel = "g91", tank = 60, km = 0, per100 = 8 } = {}
   return { price, tankCost: r2(t * price), litres: r2(litres), monthly: r2(litres * price), yearly: r2(litres * price * 12), all: Object.fromEntries(["g91", "g95", "diesel"].map((k) => [k, { price: F.prices[k], tank: r2(t * F.prices[k]) }])) };
 }
 
+/** كلفة الوقود بأسعار دولة خليجية من rules.<cc>.fuel: شهرية (months وcurrent) أو ثابتة (prices)، مع تعبئة الخزان والكلفة الشهرية والسنوية ومقارنة الأنواع. */
+export function gccFuelCost({ country = "qa", fuel = null, tank = 60, km = 0, per100 = 8, month = null } = {}) {
+  const F = rules[country] && rules[country].fuel;
+  if (!F) return null;
+  const rd = F.decimals === 3 ? (x) => Math.round(x * 1000) / 1000 : r2;
+  const keys = F.months ? Object.keys(F.months).sort() : [];
+  const m = F.months ? (month && F.months[month] ? month : F.current) : null;
+  const i = keys.indexOf(m);
+  const prevKey = i > 0 ? keys[i - 1] : null;
+  const P = F.months ? F.months[m] : F.prices;
+  const Q = prevKey ? F.months[prevKey] : null;
+  const f = fuel || F.keys[0];
+  const price = P[f];
+  if (price === undefined) return null;
+  const prev = Q ? Q[f] : null;
+  const t = Math.max(0, Number(tank) || 0), d = Math.max(0, Number(km) || 0), c = Math.max(0, Number(per100) || 0);
+  const litres = (d * c) / 100;
+  return {
+    country, fuel: f, month: m, prevMonth: prevKey, price, prev, change: prev === null ? null : rd(price - prev), changePct: prev ? r2(((price - prev) / prev) * 100) : null,
+    tankCost: rd(t * price), tankPrev: prev === null ? null : rd(t * prev), litres: r2(litres), monthly: rd(litres * price), yearly: rd(litres * price * 12),
+    all: Object.fromEntries(F.keys.map((k) => [k, { price: P[k], prev: Q ? Q[k] : null, tank: rd(t * P[k]) }])),
+    history: keys.map((k) => ({ month: k, ...F.months[k] })),
+  };
+}
+
 /** كلفة سالك الشهرية بالتعرفة المتغيرة: الذروة 6 دراهم والذروة المنخفضة 4 والأحد 4 والليل مجاناً، مع ضريبة 5% منذ 1 يونيو 2026. */
 export function uaeSalikCost({ peakPerDay = 0, lowPerDay = 0, workdays = 5, sundayPerWeek = 0, asOf = new Date() } = {}) {
   const S = rules.ae.salik;

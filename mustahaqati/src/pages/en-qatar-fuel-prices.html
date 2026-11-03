@@ -1,0 +1,106 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-petrol-prices",
+  "alternate": "qatar-fuel-prices",
+  "title": "Qatar Petrol Prices November 2026 — Full Tank and Monthly Fuel Cost Calculator (QatarEnergy)",
+  "h1": "Qatar Fuel Prices and Fuel Cost Calculator",
+  "description": "QatarEnergy fuel prices for November 2026: Premium 91 at QAR 1.95 a litre, Super 95 at 2.10 and diesel at 2.05, unchanged from October, with a calculator for the cost of a full tank and your monthly and yearly fuel bill, plus the monthly price table.",
+  "short": "QatarEnergy's monthly price per litre, full-tank cost and monthly fuel cost",
+  "lead": "Pick your fuel, tank size and monthly distance to see the cost of a full tank and your monthly fuel bill at this month's prices.",
+  "country": "qa",
+  "category": "tools",
+  "tool": true,
+  "script": "en-qatar-fuel.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-net-salary",
+    "en-qatar-family-residence-cost",
+    "en-oman-fuel-prices",
+    "en-uae-fuel-prices",
+    "en-ksa-fuel-prices"
+  ],
+  "faq": [
+    {
+      "q": "What are petrol prices in Qatar for November 2026?",
+      "a": "Premium 91 is QAR 1.95 a litre, Super 95 QAR 2.10 and diesel QAR 2.05, the same as October."
+    },
+    {
+      "q": "When are Qatar fuel prices announced?",
+      "a": "QatarEnergy announces them on the last day of each month and they apply from the 1st of the next month; Qatar News Agency (QNA) publishes them."
+    },
+    {
+      "q": "How much does a 60-litre tank cost in Qatar?",
+      "a": "QAR 117 with Premium 91, QAR 126 with Super 95 and QAR 123 with diesel at November 2026 prices."
+    },
+    {
+      "q": "Is there VAT on petrol in Qatar?",
+      "a": "Qatar has not introduced VAT, so the announced price is what you pay at the pump."
+    }
+  ],
+  "sources": [
+    {
+      "t": "QNA via Fana News — QatarEnergy sets fuel prices for November 2026 (31 Oct 2026)",
+      "u": "https://www.fananews.com/language/en/qatarenergy-sets-fuel-prices-for-november-2026/"
+    },
+    {
+      "t": "QNA — QatarEnergy sets fuel prices for October (30 Sep 2026)",
+      "u": "https://qna.org.qa/en/News-Area/News/2026-9/30/qatarenergy-sets-fuel-prices-for-october"
+    },
+    {
+      "t": "Time Out Doha — Qatar fuel prices for November 2026 revealed (1 Nov 2026)",
+      "u": "https://www.timeoutdoha.com/news/qatar-fuel-prices-november-2026-revealed"
+    },
+    {
+      "t": "Attaqa — Qatar fuel prices for September 2026 (31 Aug 2026)",
+      "u": "https://attaqa.net/2026/08/31/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d8%a7%d9%84%d9%88%d9%82%d9%88%d8%af-%d9%81%d9%8a-%d9%82%d8%b7%d8%b1-%d9%84%d8%b4%d9%87%d8%b1-%d8%b3%d8%a8%d8%aa%d9%85%d8%a8%d8%b1-2026/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your fuel cost</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="fuel">Fuel</label>
+        <select id="fuel" name="fuel">
+          <option value="premium91" selected>Premium 91</option>
+          <option value="super95">Super 95</option>
+          <option value="diesel">Diesel</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tank">Tank size (litres)</label>
+        <input type="number" id="tank" name="tank" inputmode="decimal" min="0" max="200" step="1" value="60">
+        <span class="hint">Small car 40–50, saloon 60–70, 4x4 80–100.</span>
+      </div>
+      <div class="field">
+        <label for="km">Distance a month (km)</label>
+        <input type="number" id="km" name="km" inputmode="decimal" min="0" step="50" value="2000">
+      </div>
+      <div class="field">
+        <label for="per100">Consumption (litres per 100 km)</label>
+        <input type="number" id="per100" name="per100" inputmode="decimal" min="0" max="40" step="0.1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Fuel prices in Qatar (QAR a litre)</h2>
+{{table:fuel-history country=qa lang=en caption="QatarEnergy monthly prices; the current month in bold"}}
+<p>QatarEnergy cut Premium 91 from QAR 2.00 to 1.95 in October 2026 and kept every grade unchanged for November. Super 95 stayed at 2.10 and diesel at 2.05 in all three months. We update the table with each monthly announcement.</p>
+
+<h2>How to work out your fuel cost</h2>
+<p>Full tank = tank size × price a litre. Monthly cost = (distance a month × litres per 100 km ÷ 100) × price a litre. A car that covers 2,000 km a month at 8 litres per 100 km needs 160 litres, which is QAR 312 with Premium 91 in November 2026, or QAR 3,744 a year.</p>
+
+<h2>How Qatar compares</h2>
+<p>A litre of 95 costs QAR 2.10 in Qatar, AED 4.04 in the UAE in November 2026 (<a href="{{root}}en/uae-petrol-prices/{{ix}}">UAE prices</a>), SAR 2.33 in Saudi Arabia (<a href="{{root}}en/saudi-petrol-prices/{{ix}}">Saudi prices</a>) and 239 baisa in Oman (<a href="{{root}}en/oman-petrol-prices/{{ix}}">Oman prices</a>).</p>
+</div>

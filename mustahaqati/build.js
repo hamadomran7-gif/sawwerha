@@ -815,6 +815,19 @@ const TABLES = {
     }
     return tableWrap(a.caption || "", en ? ["Month", "Payment date", "Note"] : ["الشهر", "موعد الصرف", "ملاحظة"], rows);
   },
+  "fuel-history"(a) {
+    const en = a.lang === "en";
+    const F = calc.rules[a.country].fuel;
+    const N = { premium91: ["ممتاز 91", "Premium 91"], super95: ["سوبر 95", "Super 95"], diesel: ["ديزل", "Diesel"], m91: ["M91", "M91"], m95: ["M95", "M95"] };
+    const mf = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { month: "long", year: "numeric", timeZone: "UTC" });
+    const keys = Object.keys(F.months).sort().reverse();
+    const fx = (n) => n.toFixed(F.decimals || 2);
+    const rows = keys.map((k) => {
+      const label = mf.format(new Date(`${k}-01T00:00:00Z`));
+      return [k === F.current ? `<strong>${label}</strong>` : label, ...F.keys.map((g) => fx(F.months[k][g]))];
+    });
+    return tableWrap(a.caption || "", [en ? "Month" : "الشهر", ...F.keys.map((g) => N[g][en ? 1 : 0])], rows);
+  },
   "uae-fuel-history"(a) {
     const en = a.lang === "en";
     const F = calc.rules.ae.fuel;
