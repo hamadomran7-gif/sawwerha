@@ -1,0 +1,132 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-special-leave-calculator",
+  "alternate": "ksa-special-leave",
+  "title": "Saudi Special Leave Calculator 2026 — Marriage, Bereavement, Paternity, Hajj and Iddah",
+  "h1": "Saudi Special Leave Calculator (Marriage, Bereavement, Hajj)",
+  "description": "Work out your paid special leave in Saudi Arabia and your return date: marriage 5 days, death of a spouse, parent or child 5 days, death of a brother or sister 3 days, a newborn 3 days within 7 days, Hajj 10 to 15 days, and the widow's iddah of 4 months and 10 days.",
+  "short": "Marriage, bereavement, newborn, Hajj, iddah and exam leave, with your return date",
+  "lead": "Choose the occasion and its date to see the length of the leave, its last day and the day you return to work.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-ksa-special-leave.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-annual-leave", "en-ksa-maternity-leave", "en-ksa-sick-leave", "en-hijri-gregorian-converter"],
+  "faq": [
+    {"q": "How much marriage leave is there under the Saudi Labour Law?", "a": "5 days on full pay, counted from the date of the marriage, under Article 113. The employer may ask for proof of the event."},
+    {"q": "How much bereavement leave is there in Saudi Arabia?", "a": "5 days on full pay for the death of a spouse, a parent or grandparent, or a child or grandchild, and 3 days for the death of a brother or sister since the amendments that took effect on 19 February 2025. The leave runs from the date of death."},
+    {"q": "How much paternity leave does a father get in Saudi Arabia?", "a": "3 days on full pay, taken within 7 days of the birth. It was one day before the 2025 amendments."},
+    {"q": "How long is Hajj leave in the private sector?", "a": "10 to 15 days on full pay, including the Eid al-Adha holiday, once during your service if you have not performed Hajj before, after at least two consecutive years with the employer. The employer may limit how many employees take it each year."},
+    {"q": "How long is iddah leave for a widow?", "a": "A Muslim employee whose husband dies gets at least 4 months and 10 days on full pay from the date of death, extended without pay until delivery if she is pregnant. A non-Muslim employee gets 15 days on full pay."},
+    {"q": "Do I get leave for exams?", "a": "If your employer approved your enrolment: paid leave for the actual exam days in a year you are not repeating, and unpaid leave for a repeated year. Without approval, the days come out of your annual leave, or are unpaid if you have none. Apply at least 15 days before."},
+    {"q": "Can I take unpaid leave?", "a": "Yes, if the employer agrees, for whatever period you agree. The contract is treated as suspended for any part beyond 20 days unless you agree otherwise."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — working conditions, Articles 113–116 (Arabic)", "u": "https://www.hrsd.gov.sa/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D9%88%D8%B8%D8%B1%D9%88%D9%81%D9%87"},
+    {"t": "Umm Al-Qura — Labour Law amendment by Royal Decree M/44, Article 113 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"},
+    {"t": "Ministry of Human Resources — employment of women, Article 160 (Arabic)", "u": "https://www.hrsd.gov.sa/%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A7%D9%84%D9%86%D8%B3%D8%A7%D8%A1"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your special leave</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">Occasion</label>
+        <select id="type" name="type">
+          <option value="marriage" selected>Your marriage (5 days)</option>
+          <option value="death">Death of a spouse, parent, child, grandparent or grandchild (5 days)</option>
+          <option value="sibling">Death of a brother or sister (3 days)</option>
+          <option value="paternity">Birth of your child (3 days)</option>
+          <option value="hajj">Performing Hajj (10–15 days)</option>
+          <option value="iddah">Iddah for a Muslim widow (4 months and 10 days)</option>
+          <option value="iddahNonMuslim">Iddah for a non-Muslim widow (15 days)</option>
+          <option value="exam">Exams</option>
+          <option value="unpaid">Unpaid leave by agreement</option>
+        </select>
+      </div>
+      <div class="field" data-for="marriage death sibling paternity hajj iddah iddahNonMuslim">
+        <label for="date" data-label>Date of the event</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="field" data-for="paternity">
+        <label for="start">Paternity leave start</label>
+        <input type="date" id="start" name="start">
+        <span class="hint">Within 7 days of the birth. Leave empty to start on the birth date.</span>
+      </div>
+      <div class="field" data-for="hajj">
+        <label for="hajjDays">Length of Hajj leave (days)</label>
+        <input type="number" id="hajjDays" name="hajjDays" inputmode="decimal" min="10" max="15" step="1" value="15">
+      </div>
+      <div class="field" data-for="hajj">
+        <label for="years">Your continuous years of service</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.5" value="3">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="examDays">Actual exam days</label>
+        <input type="number" id="examDays" name="examDays" inputmode="decimal" min="1" max="60" step="1" value="5">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="examStart">Date of the first exam</label>
+        <input type="date" id="examStart" name="examStart">
+      </div>
+      <div class="field" data-for="exam">
+        <label for="approved">Did your employer approve your enrolment?</label>
+        <select id="approved" name="approved">
+          <option value="yes" selected>Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="field" data-for="exam">
+        <label for="repeated">Are you repeating the academic year?</label>
+        <select id="repeated" name="repeated">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div class="field" data-for="unpaid">
+        <label for="unpaidDays">Length of unpaid leave (days)</label>
+        <input type="number" id="unpaidDays" name="unpaidDays" inputmode="decimal" min="1" step="1" value="30">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Special leave under the Saudi Labour Law</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Occasion</th><th scope="col">Length</th><th scope="col">Pay</th><th scope="col">Article</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Your marriage</th><td>5 days</td><td>Full</td><td>113</td></tr>
+    <tr><th scope="row">Death of a spouse, parent or grandparent, child or grandchild</th><td>5 days</td><td>Full</td><td>113</td></tr>
+    <tr><th scope="row">Death of a brother or sister</th><td>3 days</td><td>Full</td><td>113 (since 2025)</td></tr>
+    <tr><th scope="row">Birth of a child (father)</th><td>3 days within 7 days of the birth</td><td>Full</td><td>113 (since 2025)</td></tr>
+    <tr><th scope="row">Hajj (once)</th><td>10 to 15 days including Eid al-Adha, after 2 continuous years</td><td>Full</td><td>114</td></tr>
+    <tr><th scope="row">Exams</th><td>The actual exam days</td><td>Full for a year not repeated, unpaid for a repeated year</td><td>115</td></tr>
+    <tr><th scope="row">Unpaid leave</th><td>By agreement</td><td>Unpaid; the contract is suspended beyond 20 days</td><td>116</td></tr>
+    <tr><th scope="row">Iddah, Muslim widow</th><td>At least 4 months and 10 days</td><td>Full</td><td>160</td></tr>
+    <tr><th scope="row">Iddah, non-Muslim widow</th><td>15 days</td><td>Full</td><td>160</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Article 113 leave runs from the date of the event itself in calendar days, and the employer may ask for supporting documents. A mother's 12-week maternity leave is worked out in the <a href="{{root}}en/saudi-maternity-leave-calculator/{{ix}}">maternity leave calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+An employee's father dies on 1 November: the leave is 5 days, 1 to 5 November, and he returns on <strong>6 November</strong>.<br>
+A child is born on 1 November and the father starts his leave on 5 November: it ends on 7 November, the last day of the 7-day window.</p>
+</div>
+
+<h2>How is a widow's iddah counted?</h2>
+<p>The law sets the period at four months and ten days from the date of death without naming the calendar. In Islamic law the iddah is counted in lunar months, which gives about 126 to 130 days; in Gregorian months it is about 130 to 133 days. The calculator shows both dates, so follow the one your employer applies. Prefer Arabic? Use the <a href="{{root}}ksa-special-leave/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
