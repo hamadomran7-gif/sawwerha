@@ -43,6 +43,10 @@ import {
   ksaLumpSum,
   ksaWorkInjury,
   uaeWorkInjury,
+  overstayFine,
+  ksaResidencyFine,
+  ksaGovLeaveComp,
+  ksaGovContractorAward,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1300,4 +1304,51 @@ test("الإمارات — تعويض إصابة العمل", () => {
   assert.equal(t.fullDays, 180);
   assert.equal(t.halfDays, 120);
   assert.equal(t.treatmentPay, 180 * 300 + 120 * 150);
+});
+
+test("غرامات تجاوز الإقامة: الإمارات والكويت وقطر والسعودية", () => {
+  const f = (o) => overstayFine(o);
+  // الإمارات: آخر يوم مسموح = الإلغاء + السماح، ويُحتسب يوم المغادرة
+  assert.equal(f({ country: "ae", type: "res30", event: "2026-08-01", exit: "2026-10-15" }).total, 2250);
+  assert.equal(f({ country: "ae", type: "res60", event: "2026-08-01", exit: "2026-10-15" }).total, 750);
+  assert.equal(f({ country: "ae", type: "res90", event: "2026-08-01", exit: "2026-10-15" }).total, 0);
+  assert.equal(f({ country: "ae", type: "visit", event: "2026-09-10", exit: "2026-09-20" }).total, 500);
+  const id = f({ country: "ae", type: "eid", event: "2026-07-01", exit: "2026-10-15" });
+  assert.equal(id.days, 76); assert.equal(id.total, 1000); assert.ok(id.capped);
+  const nb = f({ country: "ae", type: "newborn", event: "2026-03-01", exit: "2026-10-15" });
+  assert.equal(nb.total, 5400); assert.equal(nb.totalAlt, 10800); assert.equal(nb.waiverDays, undefined);
+  const st = f({ country: "ae", type: "visit", event: "2026-03-01", exit: "2026-07-20" });
+  assert.equal(st.totalAfterWaiver, 550);
+  // الكويت: 2 في الشهر الأول ثم 4، والسقف 1,200
+  assert.equal(f({ country: "kw", type: "residence", event: "2026-08-01", exit: "2026-10-15" }).total, 240);
+  assert.equal(f({ country: "kw", type: "domestic", event: "2026-08-01", exit: "2026-10-15" }).total, 150);
+  assert.equal(f({ country: "kw", type: "visit", event: "2026-08-01", exit: "2026-10-15" }).total, 750);
+  const cap = f({ country: "kw", type: "residence", event: "2026-08-01", exit: "2027-07-15" });
+  assert.equal(cap.total, 1200); assert.equal(cap.capDay, 315);
+  assert.equal(f({ country: "kw", type: "newborn", event: "2026-01-10", exit: "2026-10-15" }).total, 572);
+  // قطر
+  assert.equal(f({ country: "qa", type: "cancelled", event: "2026-08-01", exit: "2026-10-15" }).total, 610);
+  assert.equal(f({ country: "qa", type: "visit", event: "2026-08-01", exit: "2026-10-15" }).totalCapReported, 12000);
+  // السعودية: بالمخالفة
+  assert.equal(ksaResidencyFine({ type: "iqama", offence: 1 }).fine, 500);
+  assert.equal(ksaResidencyFine({ type: "iqama", offence: 2 }).fine, 1000);
+  assert.ok(ksaResidencyFine({ type: "iqama", offence: 3 }).deportation);
+  assert.equal(ksaResidencyFine({ type: "finalExit" }).fine, 1000);
+});
+
+test("موظفو الدولة في السعودية: تعويض الإجازات ومكافأة المتعاقد", () => {
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 150, reason: "retirement" }).amount, 28800);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 50, oldDays: 100, reason: "resignation" }).amount, 60000);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 150, reason: "death" }).amount, 60000);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 60, oldDays: 160, reason: "retirement" }).amount, 72000);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 250, reason: "disability" }).amount, 100000);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 40, reason: "dismissal" }).amount, 16000);
+  assert.equal(ksaGovLeaveComp({ basic: 12000, newDays: 150, reason: "retirement" }).lostDays, 78);
+  assert.equal(ksaGovContractorAward({ salary: 10000, years: 7, reason: "resign" }).award, 35000);
+  const c = ksaGovContractorAward({ salary: 12000, years: 12, reason: "end" });
+  assert.equal(c.award, 50000); assert.ok(c.capped);
+  assert.equal(ksaGovContractorAward({ salary: 10000, years: 2, months: 11, reason: "resign" }).award, 0);
+  assert.equal(ksaGovContractorAward({ salary: 10000, years: 5, months: 8, reason: "end" }).award, 25000);
+  assert.equal(ksaGovContractorAward({ salary: 10000, years: 9, reason: "disciplinary" }).award, 0);
+  assert.equal(ksaGovContractorAward({ salary: 10000, years: 4, reason: "abolished", remainingMonths: 8 }).compensation, 20000);
 });

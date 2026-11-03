@@ -223,5 +223,17 @@
  "en-ksa-civil-salary-scale": "92736b369b91f77f",
  "en-ksa-eos-marriage-childbirth": "831ceb1e1b9d32fe",
  "en-ksa-teachers-salary-scale": "465d150176783c31",
- "en-ksa-civil-retirement": "4fd8d32115d4d97f"
+ "en-ksa-civil-retirement": "4fd8d32115d4d97f",
+ "en-ksa-gov-contractor-eos": "78e0eeb85747d5b1",
+ "en-ksa-gov-leave-compensation": "c2102a1336c4b649",
+ "en-ksa-residency-fines": "4ea46e5ef8dabb82",
+ "en-kuwait-residency-fine": "243f1096c8eb58ae",
+ "en-qatar-overstay-fine": "4b2652e2c89366dc",
+ "en-uae-overstay-fine": "2ccf3e7f2f7e2ff6",
+ "ksa-gov-contractor-eos": "7da53b3dbdf4c42c",
+ "ksa-gov-leave-compensation": "03e59d5aebfe5f8b",
+ "ksa-residency-fines": "0db52d23b1e6d5f3",
+ "kuwait-residency-fine": "c3a53a935d6dbc7c",
+ "qatar-overstay-fine": "ccf7ed0e5ad06c99",
+ "uae-overstay-fine": "722f216ba5bc093f"
 }

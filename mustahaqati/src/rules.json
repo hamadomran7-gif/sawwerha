@@ -446,6 +446,55 @@
       "deathMax": 200000,
       "gpssaPartialBase": 75000,
       "gpssaLegacyDeathLump": 75000
+    },
+    "overstay": {
+      "law": "المرسوم بقانون اتحادي 29/2021 (م11) ولائحته التنفيذية 65/2022 (م64)، وصفحتا ICP لتجديد الإقامة ودفع الغرامات (محدّثتان 11/12/2024)",
+      "lastReview": "2026-11-03",
+      "perDay": 50,
+      "types": {
+        "res180": {
+          "grace": 180
+        },
+        "res90": {
+          "grace": 90
+        },
+        "res60": {
+          "grace": 60
+        },
+        "res30": {
+          "grace": 30
+        },
+        "visit": {
+          "grace": 0
+        },
+        "permit": {
+          "grace": 7
+        },
+        "newborn": {
+          "grace": 120,
+          "perDayAlt": 100
+        },
+        "eid": {
+          "grace": 30,
+          "perDay": 20,
+          "cap": 1000
+        }
+      },
+      "departurePermit": 200,
+      "smartFee": 100,
+      "statusChangeInside": 500,
+      "waiver": {
+        "from": "2026-02-28",
+        "to": "2026-07-09",
+        "types": [
+          "res180",
+          "res90",
+          "res60",
+          "res30",
+          "visit",
+          "permit"
+        ]
+      }
     }
   },
   "sa": {
@@ -1786,6 +1835,45 @@
       ],
       "deathGrantMonthsLegacy": 3,
       "deathGrantCapLegacy": 10000
+    },
+    "residencyFines": {
+      "law": "نظام الإقامة ولائحته، وبيان المديرية العامة للجوازات (واس 17/2/2020)، وبيانات الداخلية 2026",
+      "lastReview": "2026-11-03",
+      "iqamaLate": [
+        500,
+        1000
+      ],
+      "renewBeforeDays": 3,
+      "finalExitUnused": 1000,
+      "finalExitValidityDays": 60,
+      "firstIqamaDays": 90,
+      "firstIqamaLateFine": 500,
+      "visitorFineMax": 50000,
+      "visitorJailMonthsMax": 6,
+      "exitReentryBanYears": 3,
+      "exitReentryBanLifted": "2024-01-16"
+    },
+    "govLeave": {
+      "law": "اللائحة التنفيذية للموارد البشرية في الخدمة المدنية (القرار الوزاري 1550، 9/6/1440هـ) م1 وم130–م136؛ قرار مجلس الوزراء 350 (3/7/1439هـ)",
+      "lastReview": "2026-11-03",
+      "daysPerYear": 36,
+      "newCap": 72,
+      "totalCap": 180,
+      "legacyCutoff": "2018-03-20",
+      "divisor": 30,
+      "useWithinYears": 3,
+      "maxTakenPerYear": 108,
+      "maxTakenSenior": 144
+    },
+    "govContractor": {
+      "law": "نموذج عقد توظيف غير السعوديين على وظيفة بدوام كامل (أطر العمل التنظيمية للائحة الموارد البشرية 1440هـ) م8–م11 وم18–م19",
+      "lastReview": "2026-11-03",
+      "monthsPerYear": 0.5,
+      "minYears": 3,
+      "cap": 50000,
+      "abolishedMonths": 2,
+      "leaveDaysPerYear": 36,
+      "ticketPersons": 4
     }
   },
   "gcc": {
@@ -1924,6 +2012,29 @@
       "thresholdYears": 2,
       "basis": "basic",
       "daysPerMonth": 30
+    },
+    "overstay": {
+      "law": "القانون 21/2015 بشأن دخول وخروج الوافدين وإقامتهم (م10 وم40 وم42)، وتصريح إدارة جوازات المطار (16/6/2026)",
+      "lastReview": "2026-11-03",
+      "types": {
+        "cancelled": {
+          "grace": 14,
+          "graceBefore": 30,
+          "perDay": 10,
+          "cap": 0
+        },
+        "visit": {
+          "grace": 0,
+          "perDay": 200,
+          "cap": 0,
+          "capReported": 12000
+        },
+        "notCompleted": {
+          "grace": 30,
+          "perDay": 10,
+          "cap": 6000
+        }
+      }
     }
   },
   "kw": {
@@ -2094,6 +2205,76 @@
       "basis": "total",
       "daysPerMonth": 30,
       "jobSearchDaysWeek": 1
+    },
+    "overstay": {
+      "law": "المرسوم بقانون 114/2024 في شأن إقامة الأجانب (نافذ 5/1/2025) ولائحته التنفيذية (نافذة 23/12/2025)",
+      "lastReview": "2026-11-03",
+      "types": {
+        "residence": {
+          "grace": 0,
+          "tiers": [
+            {
+              "upTo": 30,
+              "perDay": 2
+            },
+            {
+              "upTo": 0,
+              "perDay": 4
+            }
+          ],
+          "cap": 1200
+        },
+        "domestic": {
+          "grace": 0,
+          "tiers": [
+            {
+              "upTo": 0,
+              "perDay": 2
+            }
+          ],
+          "cap": 600
+        },
+        "visit": {
+          "grace": 0,
+          "tiers": [
+            {
+              "upTo": 0,
+              "perDay": 10
+            }
+          ],
+          "cap": 2000
+        },
+        "temporary": {
+          "grace": 0,
+          "tiers": [
+            {
+              "upTo": 30,
+              "perDay": 2
+            },
+            {
+              "upTo": 0,
+              "perDay": 4
+            }
+          ],
+          "cap": 1200
+        },
+        "newborn": {
+          "graceMonths": 4,
+          "tiers": [
+            {
+              "upTo": 30,
+              "perDay": 2
+            },
+            {
+              "upTo": 0,
+              "perDay": 4
+            }
+          ],
+          "cap": 2000
+        }
+      },
+      "departureNoticePerMonth": 10,
+      "measuresFrom": "2026-02-28"
     }
   },
   "om": {

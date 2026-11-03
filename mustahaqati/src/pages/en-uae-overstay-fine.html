@@ -1,0 +1,112 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-overstay-fine-calculator",
+  "alternate": "uae-overstay-fine",
+  "title": "UAE Overstay Fine Calculator 2026 — Grace Period After Visa Cancellation and AED 50 a Day",
+  "h1": "UAE Overstay Fine Calculator",
+  "description": "Calculate the fine for staying in the UAE after your residence visa expires or is cancelled, or after a visit visa ends: a grace period of 30, 60, 90 or 180 days depending on your category, then AED 50 a day with no published cap, plus the Emirates ID late renewal fine (AED 20 a day up to AED 1,000), newborn residence and departure permit fees.",
+  "short": "A 30 to 180-day grace period by category, then AED 50 a day; Emirates ID AED 20 a day up to 1,000",
+  "lead": "Choose your situation and enter the cancellation or expiry date and your exit date to see the grace period, overstay days and the fine.",
+  "country": "ae",
+  "category": "fees",
+  "tool": true,
+  "script": "en-uae-overstay-fine.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-golden-visa", "en-uae-final-settlement", "en-uae-iloe", "en-uae-gratuity"],
+  "faq": [
+    {"q": "How much is the overstay fine in the UAE?", "a": "AED 50 for each day after the grace period ends, the same amount for residence, visit and tourist visas since fines were unified, according to the ICP page updated in December 2024. No cap on the daily fine is published."},
+    {"q": "How long is the grace period after a UAE visa is cancelled?", "a": "180 days for Golden, Green and Blue residence holders and their families, widows and divorcees of residents, and students after finishing their studies; 90 days for skilled workers at levels 1 to 3 and property owners; 60 days for residence permits issued with a guarantor or host; and 30 days for all other categories."},
+    {"q": "Is there a grace period for visit visas?", "a": "No. The 10-day grace period was abolished, so the AED 50 fine starts the day after the visit visa expires."},
+    {"q": "What is the fine for renewing an Emirates ID late?", "a": "AED 20 for each day of delay, up to AED 1,000, after the permitted renewal period ends (30 days after expiry according to press reports citing ICP), plus the renewal fee of AED 100 for each year."},
+    {"q": "How much is a departure permit for overstayers?", "a": "AED 200 for the application and AED 100 in smart service fees. You must leave within 7 days of issue; otherwise a fine of AED 50 a day applies from the eighth day."},
+    {"q": "Is the airspace-closure fine waiver still in place?", "a": "No. People stranded by the airspace closure were exempted from overstay fines from 28 February 2026, and a final grace period ended on 9 July 2026. We found no general amnesty active in November 2026."}
+  ],
+  "sources": [
+    {"t": "ICP — residence renewal: grace periods and fine (updated 11/12/2024)", "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e66"},
+    {"t": "ICP — payment of visa or residence violation fines", "u": "https://icp.gov.ae/en/services-details/?serviceid=68e73faf5ae59b00117389f1"},
+    {"t": "ICP — issue departure permit", "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e7e"},
+    {"t": "ICP — identity card renewal", "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e5d"},
+    {"t": "Federal Decree-Law 29/2021 on the Entry and Residence of Foreigners (GDRFA Dubai English text)", "u": "https://www.gdrfad.gov.ae/themes/gdrfad/content/pdf/Law-of-Movement-and-Residence-of-Aliens-en.pdf"},
+    {"t": "UAE Government portal — newborn residence within 120 days", "u": "https://u.ae/en/information-and-services/social-affairs/having-a-baby/birth-certificate-and-residence-visa-for-newborn-expatriates"},
+    {"t": "Gulf News — 30-day final grace for those hit by flight disruptions (June 2026)", "u": "https://gulfnews.com/uae/government/uae-30-day-grace-for-those-hit-by-flight-disruptions-1.500579291"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the fine</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">Your situation</label>
+        <select id="type" name="type">
+          <option value="res60" selected>Work, family or domestic worker residence cancelled or expired (60 days)</option>
+          <option value="res90">Skilled worker at levels 1 to 3, or property owner (90 days)</option>
+          <option value="res180">Golden, Green or Blue residence and family, widow or divorcee of a resident, graduating student (180 days)</option>
+          <option value="res30">Retiree, remote work, investor or partner, and other categories (30 days)</option>
+          <option value="visit">Visit or tourist visa (no grace period)</option>
+          <option value="permit">Departure permit not used within 7 days</option>
+          <option value="newborn">Newborn residence not issued within 120 days of birth</option>
+          <option value="eid">Late Emirates ID renewal</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="event">Cancellation or residence expiry date</label>
+        <input type="date" id="event" name="event" value="2026-08-01" required>
+      </div>
+      <div class="field">
+        <label for="exit">Exit or status change date</label>
+        <input type="date" id="exit" name="exit" value="2026-10-15" required>
+      </div>
+      <div class="field full inline" data-permit>
+        <input type="checkbox" id="permitFee" name="permitFee">
+        <label for="permitFee">Add the departure permit fees (AED 200 + 100)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Grace period after a residence visa expires or is cancelled</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Category</th><th scope="col">Grace period</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Golden, Green and Blue residence holders and their families, widows and divorcees of residents, students after finishing their studies, and relatives of UAE nationals with foreign passports</th><td>180 days</td></tr>
+    <tr><th scope="row">Skilled workers at levels 1 to 3, and property owners</th><td>90 days</td></tr>
+    <tr><th scope="row">Residence permits issued with a guarantor or host (employees, families and domestic workers according to press reports)</th><td>60 days</td></tr>
+    <tr><th scope="row">All other categories (including retirees, remote workers, investors and partners)</th><td>30 days</td></tr>
+    <tr><th scope="row">Visit or tourist visa</th><td>None</td></tr>
+  </tbody>
+</table>
+</div>
+<p>After the grace period, a fine of <strong>AED 50 a day</strong> applies "starting from the day following the end of the grace period", the same for residence and visit visas across all emirates since fines were unified. We found no published cap. GDRFA Dubai gives retirees 60 days, the only known difference between emirates in grace periods.</p>
+
+<h2>Other fines and fees</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Amount</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Late Emirates ID renewal</th><td>AED 20 a day up to AED 1,000, plus the renewal fee of AED 100 a year + 100</td></tr>
+    <tr><th scope="row">Newborn residence after 120 days from birth</th><td>AED 50 a day (the government portal says 100); the baby cannot leave without residence</td></tr>
+    <tr><th scope="row">Departure permit for violators</th><td>AED 200 + 100 smart services, leaving within 7 days</td></tr>
+    <tr><th scope="row">Status change inside the country instead of leaving</th><td>AED 500</td></tr>
+    <tr><th scope="row">Work permit not renewed by the employer within 60 days</th><td>AED 200 a month up to 2,000 (payable by the company)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Work residence cancelled on 1 August 2026, leaving on 15 October: last fine-free day 30 September, then 15 days × 50 = <strong>AED 750</strong>.<br>
+The same case for a retiree (30 days): last day 31 August, then 45 days × 50 = <strong>AED 2,250</strong>.<br>
+Visit visa expired on 10 September, leaving on 20 September: 10 days × 50 = <strong>AED 500</strong>.</p>
+</div>
+<p>Results are estimates and may differ by one day depending on how days are counted. A long overstay or unpaid fines can lead to referral and deportation, and a deported person can only return with permission. You can apply for a full or partial waiver of the fine. If you are leaving your job, calculate your <a href="{{root}}en/uae-final-settlement-calculator/{{ix}}">final settlement</a> before the visa is cancelled.</p>
+</div>

@@ -2462,6 +2462,142 @@ export function uaeWorkInjury({ basic = 0, total = 0, treatmentDays = 0, degree 
 }
 
 /* ------------------------------------------------------------------ */
+/* غرامات تجاوز الإقامة والتأشيرات (الإمارات والكويت وقطر) والسعودية     */
+/* ------------------------------------------------------------------ */
+
+/** غرامة بشرائح يومية: tiers = [{ upTo: آخر يوم في الشريحة (0 = بلا حد), perDay }]، وcap = 0 بلا سقف. */
+function tieredDailyFine(days, tiers, cap = 0) {
+  const rows = [];
+  let remaining = Math.max(0, days), prev = 0, gross = 0;
+  for (const t of tiers) {
+    if (!remaining) break;
+    const span = t.upTo ? Math.min(remaining, Math.max(0, t.upTo - prev)) : remaining;
+    if (span > 0) {
+      rows.push({ from: prev + 1, days: span, perDay: t.perDay, amount: span * t.perDay });
+      gross += span * t.perDay;
+      remaining -= span;
+    }
+    if (t.upTo) prev = t.upTo;
+  }
+  const capped = cap > 0 && gross > cap;
+  // اليوم الذي يبلغ فيه المجموع السقف
+  let capDay = null;
+  if (cap > 0) {
+    let acc = 0, d = 0, prev2 = 0;
+    for (const t of tiers) {
+      const len = t.upTo ? t.upTo - prev2 : Infinity;
+      const need = cap - acc;
+      if (need <= t.perDay * len) { capDay = d + Math.ceil(need / t.perDay); break; }
+      acc += t.perDay * len; d += len; prev2 = t.upTo;
+    }
+  }
+  return { rows, gross, total: capped ? cap : gross, capped, capDay };
+}
+
+/**
+ * غرامة التجاوز: آخر يوم مسموح = تاريخ الانتهاء أو الإلغاء (أو الولادة أو الإصدار) + مهلة السماح،
+ * وأيام الغرامة = تاريخ المغادرة أو التسوية − آخر يوم مسموح (يُحتسب يوم المغادرة). country: ae | kw | qa.
+ */
+// تواريخ UTC صريحة لنصوص "YYYY-MM-DD" حتى لا تنزاح يوماً في المناطق الزمنية السالبة
+const utcDay = (x) => {
+  if (x instanceof Date) return new Date(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()));
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(x || ""));
+  return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
+};
+const plusDays = (d, n) => new Date(d.getTime() + n * 86400000);
+const plusMonths = (d, n) => {
+  const y = d.getUTCFullYear(), mo = d.getUTCMonth() + n;
+  const last = new Date(Date.UTC(y, mo + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(y, mo, Math.min(d.getUTCDate(), last)));
+};
+const dayDiff = (a, b) => Math.round((b - a) / 86400000);
+const isoUTC = (d) => d.toISOString().slice(0, 10);
+
+export function overstayFine({ country = "ae", type, event, exit }) {
+  const R = rules[country] && rules[country].overstay;
+  const T = R && R.types[type];
+  const ev = utcDay(event), ex = utcDay(exit);
+  if (!T || !ev || !ex) return null;
+  const lastAllowed = T.graceMonths ? plusMonths(ev, T.graceMonths) : plusDays(ev, T.grace || 0);
+  const days = Math.max(0, dayDiff(lastAllowed, ex));
+  const perDay = T.perDay ?? R.perDay;
+  const tiers = T.tiers || [{ upTo: 0, perDay }];
+  const f = tieredDailyFine(days, tiers, T.cap || 0);
+  const out = {
+    country, type, grace: T.grace ?? null, graceMonths: T.graceMonths || 0,
+    lastAllowed: isoUTC(lastAllowed), days, firstFineDay: days ? isoUTC(plusDays(lastAllowed, 1)) : null,
+    rows: f.rows, gross: f.gross, total: f.total, capped: f.capped, cap: T.cap || 0, capDay: f.capDay,
+  };
+  if (T.perDayAlt) out.totalAlt = days * T.perDayAlt;
+  if (T.capReported) out.totalCapReported = Math.min(f.gross, T.capReported);
+  // إعفاء الإمارات لمن علقوا بإغلاق الأجواء (28/2 إلى 9/7/2026)
+  if (country === "ae" && R.waiver && days && (!R.waiver.types || R.waiver.types.includes(type))) {
+    const w0 = utcDay(R.waiver.from), w1 = utcDay(R.waiver.to);
+    const f0 = plusDays(lastAllowed, 1);
+    const a = f0 > w0 ? f0 : w0, b = ex < w1 ? ex : w1;
+    const overlap = b >= a ? dayDiff(a, b) + 1 : 0;
+    if (overlap) {
+      out.waiverDays = overlap;
+      out.totalAfterWaiver = tieredDailyFine(days - overlap, tiers, T.cap || 0).total;
+    }
+  }
+  return out;
+}
+
+/** السعودية — غرامات الإقامة والتأشيرات بالمخالفة لا باليوم. */
+export function ksaResidencyFine({ type = "iqama", offence = 1 }) {
+  const F = rules.sa.residencyFines;
+  const n = Math.max(1, Math.floor(Number(offence) || 1));
+  if (type === "iqama") return n >= 3 ? { type, offence: n, fine: null, deportation: true } : { type, offence: n, fine: F.iqamaLate[n - 1], deportation: false };
+  if (type === "finalExit") return { type, fine: F.finalExitUnused, validityDays: F.finalExitValidityDays };
+  if (type === "firstIqama") return { type, fine: F.firstIqamaLateFine, days: F.firstIqamaDays };
+  if (type === "visitor") return { type, fine: null, fineMax: F.visitorFineMax, jailMonthsMax: F.visitorJailMonthsMax, deportation: true };
+  if (type === "exitReentry") return { type, fine: 0, banLifted: F.exitReentryBanLifted, previousBanYears: F.exitReentryBanYears };
+  return null;
+}
+
+/* ------------------------------------------------------------------ */
+/* السعودية — موظفو الدولة: تعويض رصيد الإجازات ومكافأة المتعاقد غير السعودي */
+/* ------------------------------------------------------------------ */
+
+/**
+ * م133: آخر راتب أساسي ÷ 30 × الأيام. الوفاة والعجز الصحي: كامل الرصيد.
+ * غيرهما: min(180، الرصيد القديم قبل 20/3/2018 + min(الرصيد الجديد، 72)).
+ */
+export function ksaGovLeaveComp({ basic = 0, newDays = 0, oldDays = 0, reason = "retirement" }) {
+  const L = rules.sa.govLeave;
+  const b = Math.max(0, Number(basic) || 0);
+  const nd = Math.max(0, Math.floor(Number(newDays) || 0));
+  const od = Math.max(0, Math.floor(Number(oldDays) || 0));
+  const daily = b / L.divisor;
+  const full = reason === "death" || reason === "disability";
+  const days = full ? nd + od : Math.min(L.totalCap, od + Math.min(nd, L.newCap));
+  return { daily: r2(daily), balance: nd + od, days, lostDays: nd + od - days, amount: r2(days * daily), full, newCounted: full ? nd : Math.min(nd, L.newCap, Math.max(0, L.totalCap - od)), oldCounted: full ? od : Math.min(od, L.totalCap) };
+}
+
+/**
+ * م18 من نموذج العقد: نصف راتب شهر عن كل سنة كاملة بشرط 3 سنوات متصلة، بحد 50,000.
+ * الاستقالة لا تنقصها، والفصل التأديبي يسقطها (م19)، وإلغاء الوظيفة: راتب شهرين أو باقي العقد أيهما أقل.
+ */
+export function ksaGovContractorAward({ salary = 0, years = 0, months = 0, reason = "end", remainingMonths = 0 }) {
+  const C = rules.sa.govContractor;
+  const s = Math.max(0, Number(salary) || 0);
+  const totalMonths = Math.max(0, Math.floor(Number(years) || 0) * 12 + Math.floor(Number(months) || 0));
+  const fullYears = Math.floor(totalMonths / 12);
+  const eligible = fullYears >= C.minYears;
+  const raw = eligible ? C.monthsPerYear * s * fullYears : 0;
+  const award = Math.min(C.cap, raw);
+  const out = { fullYears, eligible, raw: r2(raw), capped: raw > C.cap, award: r2(award), reason };
+  if (reason === "disciplinary") return { ...out, award: 0, forfeited: true };
+  if (reason === "abolished") {
+    const comp = Math.min(C.abolishedMonths, Math.max(0, Number(remainingMonths) || 0)) * s;
+    return { ...out, compensation: r2(comp) };
+  }
+  if (reason === "workInjury") return { ...out, award: 0, treatedAsSaudi: true };
+  return out;
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

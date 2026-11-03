@@ -1,0 +1,92 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-overstay-fine-calculator",
+  "alternate": "kuwait-residency-fine",
+  "title": "Kuwait Overstay Fine Calculator 2026 — Residency Law 114/2024: KD 2 Then 4 a Day up to KD 1,200",
+  "h1": "Kuwait Residency and Visit Visa Fine Calculator",
+  "description": "Calculate residency violation fines in Kuwait under Decree-Law 114/2024 and its executive regulations: KD 2 a day in the first month then KD 4, up to KD 1,200, for an expired residence; KD 2 a day up to KD 600 for domestic workers; KD 10 a day up to KD 2,000 for overstaying a visit visa; and the fine for registering a newborn after 4 months.",
+  "short": "KD 2 a day in the first month then 4, up to 1,200; visit visas KD 10 a day up to 2,000",
+  "lead": "Choose the violation and enter the residence or visit expiry date and your exit or settlement date to see the fine by tier.",
+  "country": "kw",
+  "category": "fees",
+  "tool": true,
+  "script": "en-kuwait-residency-fine.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-end-of-service", "en-kuwait-leave", "en-kuwait-notice-period", "en-uae-overstay-fine"],
+  "faq": [
+    {"q": "What is the fine for an expired residence in Kuwait?", "a": "KD 2 for each day in the first month, then KD 4, up to KD 1,200, under Article 13 of Decree-Law 114/2024, in force since 5 January 2025. The fine is a settlement: paying it ends the violation."},
+    {"q": "What is the fine for overstaying a visit visa in Kuwait?", "a": "KD 10 for each day up to KD 2,000 (Article 11), with no grace period after the visit ends."},
+    {"q": "What is the residence fine for domestic workers?", "a": "KD 2 for each day up to KD 600, without the increase to KD 4 after the first month."},
+    {"q": "When must a newborn be registered?", "a": "Within 4 months of birth. After that, KD 2 a day in the first month then KD 4, up to KD 2,000, according to press reports citing the Ministry of Interior; one source reported KD 2 a day without tiers."},
+    {"q": "What happens if the fine is not paid?", "a": "The fines are settlements. If the violator does not settle by paying, the case is referred and the person may be deported by order of the Minister of Interior, with deportation costs borne by the sponsor or employer."},
+    {"q": "Did the new executive regulations change the fines?", "a": "The executive regulations of the residency law took effect on 23 December 2025, and the settlement amounts did not change from the list announced in January 2025."}
+  ],
+  "sources": [
+    {"t": "Al Jarida — Ministry of Interior statement on violations and fines (4/1/2025, Arabic)", "u": "https://www.aljarida.com/article/86226"},
+    {"t": "Al Rai — executive regulations of the new residency law (23/11/2025, Arabic)", "u": "https://www.alraimedia.com/article/1747701/"},
+    {"t": "Arab Times — residency fines under the expats residence law (30/12/2025)", "u": "https://www.arabtimesonline.com/news/new-residency-fines-under-expats-residence-law"},
+    {"t": "Khaleej Times — Kuwait overhauls residency system (24/11/2025)", "u": "https://www.khaleejtimes.com/world/gulf/kuwait-overhauls-residency-system-with-higher-fees-and-stricter-rules"},
+    {"t": "Deloitte — updates on penalties and residency law violations in Kuwait (19/1/2025)", "u": "https://www.deloitte.com/middle-east/en/services/tax/perspectives/deloitte-immigration-news-kuwait-important-updates-on-penalties-and-residency-law-violations.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the fine</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">Violation</label>
+        <select id="type" name="type">
+          <option value="residence" selected>Residence expired or renewal refused, and not leaving</option>
+          <option value="domestic">Domestic worker's residence expired</option>
+          <option value="visit">Overstaying a visit or entry visa</option>
+          <option value="temporary">Overstaying a temporary residence or departure notice</option>
+          <option value="newborn">Newborn not registered within 4 months</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="event">Residence expiry date</label>
+        <input type="date" id="event" name="event" value="2026-08-01" required>
+      </div>
+      <div class="field">
+        <label for="exit">Exit or settlement date</label>
+        <input type="date" id="exit" name="exit" value="2026-10-15" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Fines under Kuwait's Residency Law 114/2024</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Violation</th><th scope="col">Article</th><th scope="col">Daily fine</th><th scope="col">Maximum</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Residence expired or renewal refused, and not leaving</th><td>13</td><td>2 in the first month, then 4</td><td>1,200</td></tr>
+    <tr><th scope="row">Domestic workers</th><td>13</td><td>2</td><td>600</td></tr>
+    <tr><th scope="row">Residence not obtained after entry</th><td>9</td><td>2 then 4 (domestic 2)</td><td>1,200 (domestic 600)</td></tr>
+    <tr><th scope="row">Temporary residence or departure notice exceeded</th><td>12</td><td>2 then 4</td><td>1,200</td></tr>
+    <tr><th scope="row">Visit or entry visa exceeded</th><td>11</td><td>10</td><td>2,000</td></tr>
+    <tr><th scope="row">Leaving a job, then a new residence granted</th><td>17, 18 and 20</td><td>2 then 4</td><td>1,200</td></tr>
+    <tr><th scope="row">Newborn registered after 4 months</th><td>6</td><td>2 in the first month, then 4</td><td>2,000</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Amounts are in Kuwaiti dinars and are settlement fines paid to close the violation. The decree-law took effect on 5 January 2025 and its executive regulations on 23 December 2025, with no change to the amounts. Related fees: temporary residence KD 10 a month (KD 5 for domestic workers) and a departure notice KD 10 a month.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Residence expired on 1 August 2026, leaving on 15 October (75 days): 30 × 2 + 45 × 4 = <strong>KD 240</strong>.<br>
+A domestic worker in the same case: 75 × 2 = <strong>KD 150</strong>.<br>
+Visit visa expired on 1 August, leaving on 15 October: 75 × 10 = <strong>KD 750</strong>.<br>
+The residence fine reaches its KD 1,200 cap on day 315, and the visit fine its KD 2,000 cap on day 200.</p>
+</div>
+<p>We assume the "first month" is 30 days starting the day after the residence expires, and no grace period is published. If the violator does not settle by paying, the case is referred and deportation is possible. To work out what you are owed when leaving a job, use the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">Kuwait indemnity calculator</a>.</p>
+</div>

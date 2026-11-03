@@ -1,0 +1,109 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-government-contractor-end-of-service",
+  "alternate": "ksa-gov-contractor-eos",
+  "title": "Saudi Government Contract End of Service 2026 — Half a Month per Year up to SAR 50,000",
+  "h1": "End-of-Service Award for Non-Saudi Contractors in Saudi Government",
+  "description": "Calculate the end-of-service award for a non-Saudi employee contracted by a Saudi government body under the civil service system: half a month's salary for each full year after at least 3 consecutive years, up to SAR 50,000, not reduced on resignation, with two months' compensation if the job is abolished, plus the leave and tickets in the standard contract.",
+  "short": "Half a month's salary per full year after 3 consecutive years, up to SAR 50,000; not reduced on resignation",
+  "lead": "Enter your monthly salary, continuous contract service and why it ended to see your award.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-ksa-gov-contractor-eos.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-end-of-service", "en-ksa-gov-leave-compensation", "en-ksa-final-settlement", "en-ksa-residency-fines"],
+  "faq": [
+    {"q": "How much is the end-of-service award for a non-Saudi contractor in Saudi government?", "a": "Half a month's salary for each full year of service, provided the service under the contract is at least 3 consecutive years, up to SAR 50,000 (Article 18 of the standard employment contract for non-Saudis)."},
+    {"q": "Is the award reduced if I resign?", "a": "No. Resignation, contract expiry and death from non-work causes all earn the same award, unlike the Labour Law, which reduces the award on resignation."},
+    {"q": "Are part years counted?", "a": "The text says \"for each full year\", so the calculator does not count part years: 5 years and 8 months counts as 5 years."},
+    {"q": "When is the award forfeited?", "a": "On disciplinary dismissal, or termination in the cases in Article 19 of the contract, such as not returning within 15 days after leave without a valid reason, a material breach of the contract, dishonourable conduct, or a conviction for a dishonourable crime or a prison sentence of more than a year."},
+    {"q": "What do I get if my job is abolished?", "a": "Compensation equal to two months' salary or the salary for the remaining contract period, whichever is less (Article 18(b)). The contract does not say whether the half-month award is added to it."},
+    {"q": "How much leave and how many tickets does a contractor get?", "a": "36 days on full pay for each full year, pro rata for part years, and economy tickets for the employee and family up to 4 people at the start and end of the contract and one return trip a year, or half their value if not travelling."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — Regulatory Frameworks for the HR Implementing Regulation: contract for non-Saudis (official translation)", "u": "https://www.hrsd.gov.sa/sites/default/files/2023-02/The%20Regulatory%20Frameworks%20for%20the%20Implementing%20Regulations%20for%20Human%20Resources.pdf"},
+    {"t": "Ministry of Human Resources — Implementing Regulation for Human Resources in the Civil Service (official translation)", "u": "https://www.hrsd.gov.sa/sites/default/files/2023-04/Implementing%20Regulation%20for%20Human.pdf"},
+    {"t": "Ministry of Human Resources — Regulations for Non-Saudis Employment, 1398H (repealed, for comparison)", "u": "https://hrsd.gov.sa/sites/default/files/2023-03/Regulations%20for%20Non-Saudis%20Employment.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your award</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="salary">Monthly contract salary (SAR)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="10000" required>
+        <span class="hint">Without the housing and transport allowances.</span>
+      </div>
+      <div class="field">
+        <label for="reason">Why did the contract end?</label>
+        <select id="reason" name="reason">
+          <option value="end" selected>Contract period ended</option>
+          <option value="resign">Resignation</option>
+          <option value="deathNonWork">Death from non-work causes</option>
+          <option value="abolished">Job abolished or dismissal in the public interest</option>
+          <option value="disciplinary">Disciplinary dismissal or termination under Article 19</option>
+          <option value="workInjury">Death or permanent disability caused by work</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="years">Continuous service: years</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="7" required>
+      </div>
+      <div class="field">
+        <label for="months">and months</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field" data-abolished hidden>
+        <label for="remainingMonths">Months left on the contract</label>
+        <input type="number" id="remainingMonths" name="remainingMonths" inputmode="decimal" min="0" max="36" step="1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The award in the standard contract for non-Saudis</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Situation</th><th scope="col">Entitlement</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Contract end, resignation or death from non-work causes</th><td>Half a month's salary for each full year, after 3 consecutive years, up to SAR 50,000</td></tr>
+    <tr><th scope="row">Job abolished or dismissal in the public interest</th><td>Two months' salary or the remaining contract, whichever is less</td></tr>
+    <tr><th scope="row">Death or permanent disability caused by work</th><td>Treated as a Saudi employee</td></tr>
+    <tr><th scope="row">Disciplinary dismissal and Article 19 cases</th><td>No award or compensation</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Leave, tickets and allowances in the contract</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Annual leave</th><td>36 days on full pay for each year, pro rata for part years, paid in advance</td></tr>
+    <tr><th scope="row">Tickets</th><td>Economy for the employee and family up to 4 people: at the start and end, and one return trip a year, or half their value</td></tr>
+    <tr><th scope="row">Housing</th><td>3 months' salary a year in advance, at least SAR 8,000, unless housing is provided</td></tr>
+    <tr><th scope="row">Transport</th><td>SAR 300, 350 or 400 depending on salary</td></tr>
+    <tr><th scope="row">Sick leave</th><td>One month on full pay and two on half pay for each contract year</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples with a salary of SAR 10,000:</strong><br>
+Resignation after 7 full continuous years: 0.5 × 10,000 × 7 = <strong>SAR 35,000</strong> (under the Labour Law it would be reduced for resignation to 30,000).<br>
+Contract end after 5 years and 8 months: 5 full years = <strong>SAR 25,000</strong>.<br>
+Resignation after 2 years and 11 months: under 3 continuous years = <strong>no award</strong>.</p>
+</div>
+<p>These are the terms of the standard contract attached to the Civil Service HR Implementing Regulation (1440H). Universities and bodies with their own regulations use their own contracts, and anyone employed by a government body under the Labour Law should use the <a href="{{root}}en/saudi-end-of-service-calculator/{{ix}}">private-sector end-of-service calculator</a>. It is not settled whether the cost-of-living allowance counts as salary, or whether unused leave is paid at the end of the contract.</p>
+</div>

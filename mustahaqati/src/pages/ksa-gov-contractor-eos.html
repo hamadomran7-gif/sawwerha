@@ -1,0 +1,106 @@
+---json
+{
+  "title": "مكافأة نهاية الخدمة للمتعاقد غير السعودي في الجهات الحكومية 2026 — نصف راتب عن كل سنة بحد 50,000",
+  "h1": "حاسبة مكافأة المتعاقد غير السعودي في الجهات الحكومية السعودية",
+  "description": "احسب مكافأة نهاية الخدمة لغير السعودي المتعاقد مع جهة حكومية على نظام الخدمة المدنية: نصف راتب شهر عن كل سنة كاملة بشرط 3 سنوات متصلة وبحد أقصى 50,000 ريال، والاستقالة لا تنقصها، وتعويض شهرين عند إلغاء الوظيفة، مع الإجازة والتذاكر في نموذج العقد.",
+  "short": "نصف راتب شهر عن كل سنة كاملة بعد 3 سنوات متصلة، بحد 50,000، والاستقالة لا تنقصها",
+  "lead": "أدخل راتبك الشهري ومدة عقدك المتصلة وسبب انتهائه، وتظهر مكافأتك.",
+  "country": "sa",
+  "category": "eos",
+  "tool": true,
+  "script": "ksa-gov-contractor-eos.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["ksa-end-of-service", "ksa-gov-leave-compensation", "ksa-final-settlement", "ksa-residency-fines"],
+  "faq": [
+    {"q": "كم مكافأة نهاية الخدمة للمتعاقد غير السعودي في الحكومة؟", "a": "نصف راتب شهر عن كل سنة كاملة من الخدمة، بشرط ألا تقل الخدمة على العقد عن 3 سنوات متصلة، وبحد أقصى 50,000 ريال (المادة 18 من نموذج عقد توظيف غير السعوديين)."},
+    {"q": "هل تنقص المكافأة إذا استقلت؟", "a": "لا. الاستقالة وانتهاء العقد والوفاة لسبب غير العمل تستحق المكافأة نفسها، خلافاً لنظام العمل الذي يخفّض مكافأة المستقيل."},
+    {"q": "هل يُحسب كسر السنة؟", "a": "النص يقول «عن كل سنة كاملة»، فالحاسبة لا تحتسب كسر السنة: 5 سنوات و8 أشهر تُحسب 5 سنوات."},
+    {"q": "متى تسقط المكافأة؟", "a": "عند الفصل التأديبي، أو الإنهاء في حالات المادة 19 من النموذج مثل عدم العودة بعد الإجازة 15 يوماً دون عذر، والإخلال الجوهري بالعقد، والسلوك المخل بالشرف، والحكم في جريمة مخلة أو بالسجن أكثر من سنة."},
+    {"q": "ماذا أستحق عند إلغاء الوظيفة؟", "a": "تعويضاً يعادل راتب شهرين أو راتب المدة الباقية من العقد أيهما أقل (المادة 18/ب). ولم ينص النموذج على إضافة مكافأة نصف الشهر إليه."},
+    {"q": "كم إجازة المتعاقد وتذاكره؟", "a": "36 يوماً براتب كامل عن كل سنة كاملة وبالنسبة لجزء السنة، وتذاكر بالدرجة السياحية له ولأسرته بحد 4 أشخاص عند البدء والانتهاء وذهاباً وعودة مرة في السنة، أو نصف قيمتها إن لم يسافر."}
+  ],
+  "sources": [
+    {"t": "وزارة الموارد البشرية — أطر العمل التنظيمية للائحة الموارد البشرية: نموذج عقد غير السعوديين (الترجمة الرسمية)", "u": "https://www.hrsd.gov.sa/sites/default/files/2023-02/The%20Regulatory%20Frameworks%20for%20the%20Implementing%20Regulations%20for%20Human%20Resources.pdf"},
+    {"t": "وزارة الموارد البشرية — اللائحة التنفيذية للموارد البشرية في الخدمة المدنية (الترجمة الرسمية)", "u": "https://www.hrsd.gov.sa/sites/default/files/2023-04/Implementing%20Regulation%20for%20Human.pdf"},
+    {"t": "وزارة الموارد البشرية — لائحة توظيف غير السعوديين 1398هـ (ملغاة، للمقارنة)", "u": "https://hrsd.gov.sa/sites/default/files/2023-03/Regulations%20for%20Non-Saudis%20Employment.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مكافأتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="salary">الراتب الشهري في العقد (ريال)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="10000" required>
+        <span class="hint">دون بدلي السكن والنقل.</span>
+      </div>
+      <div class="field">
+        <label for="reason">سبب انتهاء العقد</label>
+        <select id="reason" name="reason">
+          <option value="end" selected>انتهاء مدة العقد</option>
+          <option value="resign">الاستقالة</option>
+          <option value="deathNonWork">الوفاة لسبب غير العمل</option>
+          <option value="abolished">إلغاء الوظيفة أو الفصل للمصلحة العامة</option>
+          <option value="disciplinary">فصل تأديبي أو إنهاء بموجب المادة 19</option>
+          <option value="workInjury">وفاة أو عجز دائم بسبب العمل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="years">مدة الخدمة المتصلة: سنوات</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="7" required>
+      </div>
+      <div class="field">
+        <label for="months">وأشهر</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field" data-abolished hidden>
+        <label for="remainingMonths">الأشهر الباقية من العقد</label>
+        <input type="number" id="remainingMonths" name="remainingMonths" inputmode="decimal" min="0" max="36" step="1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>المكافأة في نموذج عقد غير السعوديين</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحالة</th><th scope="col">الاستحقاق</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">انتهاء العقد أو الاستقالة أو الوفاة لسبب غير العمل</th><td>نصف راتب شهر عن كل سنة كاملة، بعد 3 سنوات متصلة، بحد 50,000 ريال</td></tr>
+    <tr><th scope="row">إلغاء الوظيفة أو الفصل للمصلحة العامة</th><td>راتب شهرين أو باقي العقد أيهما أقل</td></tr>
+    <tr><th scope="row">الوفاة أو العجز الدائم بسبب العمل</th><td>يُعامل معاملة الموظف السعودي</td></tr>
+    <tr><th scope="row">الفصل التأديبي وحالات المادة 19</th><td>لا مكافأة ولا تعويض</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>الإجازة والتذاكر والبدلات في العقد</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">القاعدة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الإجازة السنوية</th><td>36 يوماً براتب كامل عن كل سنة، وبالنسبة لجزء السنة، تُصرف مقدماً</td></tr>
+    <tr><th scope="row">التذاكر</th><td>سياحية له ولأسرته بحد 4 أشخاص: عند البدء والانتهاء، وذهاباً وعودة سنوياً، أو نصف قيمتها</td></tr>
+    <tr><th scope="row">السكن</th><td>3 رواتب سنوياً مقدماً بحد أدنى 8,000، ما لم يُؤمَّن سكن</td></tr>
+    <tr><th scope="row">النقل</th><td>300 أو 350 أو 400 ريال بحسب الراتب</td></tr>
+    <tr><th scope="row">الإجازة المرضية</th><td>شهر براتب كامل وشهران بنصفه لكل سنة عقد</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة براتب 10,000:</strong><br>
+استقالة بعد 7 سنوات كاملة متصلة: 0.5 × 10,000 × 7 = <strong>35,000 ريال</strong> (وبنظام العمل كانت ستُخفض للاستقالة إلى 30,000).<br>
+انتهاء العقد بعد 5 سنوات و8 أشهر: 5 سنوات كاملة = <strong>25,000</strong>.<br>
+استقالة بعد سنتين و11 شهراً: دون 3 سنوات متصلة = <strong>لا مكافأة</strong>.</p>
+</div>
+<p>هذه أحكام نموذج العقد المصاحب للائحة الموارد البشرية في الخدمة المدنية (1440هـ). الجامعات والجهات ذات اللوائح الخاصة لها نماذجها، ومن يعمل في جهة حكومية على نظام العمل يتبع <a href="{{root}}ksa-end-of-service/{{ix}}">حاسبة نهاية الخدمة في القطاع الخاص</a>. ولم يُحسم هل يدخل بدل غلاء المعيشة في الراتب، ولا هل يُعوَّض رصيد الإجازة المتبقي عند نهاية العقد.</p>
+</div>

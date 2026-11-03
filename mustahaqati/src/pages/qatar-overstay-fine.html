@@ -1,0 +1,76 @@
+---json
+{
+  "title": "حاسبة غرامة تأخير الإقامة في قطر 2026 — مهلة 14 يوماً بعد الإلغاء ثم 10 ريالات يومياً",
+  "h1": "حاسبة غرامة تجاوز الإقامة والزيارة في قطر",
+  "description": "احسب غرامة البقاء في قطر بعد إلغاء الإقامة أو انتهاء الزيارة: مهلة 14 يوماً بعد الإلغاء (كانت 30) ثم 10 ريالات عن كل يوم، و200 ريال يومياً لتجاوز الزيارة، و10 ريالات يومياً بحد 6,000 لعدم إتمام الإقامة خلال 30 يوماً من الدخول.",
+  "short": "مهلة 14 يوماً بعد الإلغاء ثم 10 ريالات يومياً، والزيارة 200 يومياً",
+  "lead": "اختر حالتك وأدخل تاريخ الإلغاء أو الانتهاء أو الدخول وتاريخ المغادرة، وتظهر المهلة والغرامة.",
+  "country": "qa",
+  "category": "fees",
+  "tool": true,
+  "script": "qatar-overstay-fine.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["qatar-end-of-service", "qatar-leave", "qatar-notice-period", "uae-overstay-fine"],
+  "faq": [
+    {"q": "كم مهلة المغادرة بعد إلغاء الإقامة في قطر؟", "a": "14 يوماً من تاريخ إلغاء الإقامة بحسب تصريح إدارة جوازات المطار في يونيو 2026، بعد أن كانت 30 يوماً. وبعدها غرامة 10 ريالات عن كل يوم."},
+    {"q": "كم غرامة تجاوز تأشيرة الزيارة في قطر؟", "a": "200 ريال عن كل يوم بحسب التصريح نفسه. وتذكر مصادر سقفاً قدره 12,000 ريال لم نتحقق منه في مصدر رسمي."},
+    {"q": "كم غرامة التأخر في إصدار الإقامة بعد الدخول؟", "a": "يجب إتمام إجراءات الإقامة خلال 30 يوماً من الدخول (المادة 10 من القانون 21/2015)، وإلا يجوز التصالح بـ10 ريالات عن كل يوم تأخير بحد أقصى 6,000 ريال، والغرامة القضائية قد تصل إلى 10,000."},
+    {"q": "هل لغرامة 10 ريالات اليومية بعد الإلغاء حد أقصى؟", "a": "لم نجد سقفاً منشوراً لها، فالحاسبة تجمع الأيام دون حد."}
+  ],
+  "sources": [
+    {"t": "Gulf Times — مغادرة البلاد خلال 14 يوماً من إلغاء الإقامة (16/6/2026)", "u": "https://www.gulf-times.com/article/727575/qatar/if-residence-permit-cancelled-people-have-to-leave-the-country-within-14-days/amp"},
+    {"t": "KPMG — تقليص المهلة من 30 إلى 14 يوماً (7/7/2026)", "u": "https://kpmg.com/xx/en/our-insights/gms-flash-alert/2026/flash-alert-2026-167.html"},
+    {"t": "Gulf Times — غرامة عدم إتمام الإقامة خلال 30 يوماً (8/7/2024)", "u": "https://gulf-times.com/article/686255/qatar/failure-to-complete-residence-permit-procedures-within-30-days-may-draw-fine-moi"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب الغرامة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="type">حالتك</label>
+        <select id="type" name="type">
+          <option value="cancelled" selected>إقامة أُلغيت (مهلة 14 يوماً)</option>
+          <option value="visit">تأشيرة زيارة انتهت</option>
+          <option value="notCompleted">لم تُتم إجراءات الإقامة خلال 30 يوماً من الدخول</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="event">تاريخ إلغاء الإقامة</label>
+        <input type="date" id="event" name="event" value="2026-08-01" required>
+      </div>
+      <div class="field">
+        <label for="exit">تاريخ المغادرة أو التسوية</label>
+        <input type="date" id="exit" name="exit" value="2026-10-15" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>غرامات الإقامة والزيارة في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحالة</th><th scope="col">المهلة</th><th scope="col">الغرامة اليومية</th><th scope="col">الحد الأقصى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">إقامة أُلغيت</th><td>14 يوماً (كانت 30)</td><td>10 ريالات</td><td>غير منشور</td></tr>
+    <tr><th scope="row">تأشيرة زيارة انتهت</th><td>لا مهلة</td><td>200 ريال</td><td>12,000 بحسب مصادر غير رسمية</td></tr>
+    <tr><th scope="row">عدم إتمام الإقامة بعد الدخول (م10)</th><td>30 يوماً من الدخول</td><td>10 ريالات تصالحاً</td><td>6,000 تصالحاً</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+إقامة أُلغيت في 1 أغسطس 2026 والمغادرة في 15 أكتوبر: المهلة حتى 15 أغسطس، ثم 61 يوماً × 10 = <strong>610 ريالات</strong>.<br>
+زيارة انتهت في 1 أغسطس والمغادرة في 15 أكتوبر: 75 يوماً × 200 = 15,000 ريال، أو <strong>12,000</strong> إن صح السقف المتداول.</p>
+</div>
+<p>الأرقام من تصريحات وزارة الداخلية كما نقلتها الصحف، ولم نجد جدولاً رسمياً منشوراً؛ ولم يتضح هل تسري مهلة 14 يوماً على انتهاء الإقامة أيضاً. الحساب تقديري. ولحساب مستحقاتك عند ترك العمل استخدم <a href="{{root}}qatar-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة في قطر</a>.</p>
+</div>
