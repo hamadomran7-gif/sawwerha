@@ -1,0 +1,116 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-electricity-bill-calculator",
+  "alternate": "ksa-electricity-bill",
+  "title": "Saudi Electricity Bill Calculator 2027 — New Tariff of 21 Halalas and Fixed Fees",
+  "h1": "Saudi Electricity Bill Calculator (New 2027 Tariff)",
+  "description": "Calculate your monthly electricity bill in Saudi Arabia under the new tariff from 1 January 2027: 21 halalas per kWh up to 6,000 kWh and 33 halalas above for homes, fixed fees of SAR 70 to 100 by breaker capacity, plus 15% VAT — and compare it with the current tariff (18 and 30 halalas).",
+  "short": "21 and 33 halalas for homes from 2027, SAR 70–100 fixed fees, and the comparison",
+  "lead": "Enter your monthly consumption in kWh and your breaker capacity to see your bill under the new tariff and the difference from the current one.",
+  "country": "sa",
+  "category": "tools",
+  "tool": true,
+  "script": "en-ksa-electricity-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-net-salary", "en-vat", "en-ksa-gosi"],
+  "faq": [
+    {"q": "What is the new residential electricity price in Saudi Arabia?", "a": "From 1 January 2027: 21 halalas per kWh for the first 6,000 kWh a month and 33 halalas above that, up from 18 and 30 halalas since January 2018. Fixed fees and VAT are added."},
+    {"q": "What are the new fixed fees?", "a": "A monthly fee for homes by breaker capacity: SAR 70 for 20 to under 100 amps, SAR 80 for 100 to under 200, SAR 90 for 200 to under 300, and SAR 100 for 300 amps and above. It replaces the meter reading, maintenance and billing fee, and is charged by the number of days in the billing period."},
+    {"q": "Do the announced prices include VAT?", "a": "No. Prices and fixed fees are before VAT; 15% VAT is added to the bill."},
+    {"q": "How do I find my breaker capacity?", "a": "On your monthly bill or in the Saudi Energy Company app. Ordinary homes are usually in the first band (under 100 amps)."},
+    {"q": "What about other sectors?", "a": "Commercial, private health and private education: 25 halalas up to 6,000 kWh and 35 above. Agricultural: 19 and 23 halalas. Industrial: 23 halalas. Government: 35 halalas. Their fixed fees depend on capacity and activity and have not been published in full, so enter them manually."},
+    {"q": "What is the SAR 500 monthly support?", "a": "A royal directive provides SAR 500 a month to limit the impact of the electricity and water tariff changes, for eligible civil and military state employees, retirees, families of deceased subscribers and retirees, and social security families, subject to eligibility rules."},
+    {"q": "How is consumption before 1 January 2027 billed?", "a": "Consumption before the start date is billed at the old tariff and consumption after it at the new one, so a bill spanning the date combines both."}
+  ],
+  "sources": [
+    {"t": "Al Watan — details of the new electricity tariff (October 2026), Arabic", "u": "https://www.alwatan.com.sa/article/1187881"},
+    {"t": "Ajel — the fixed tariff replaces meter reading fees (25 October 2026), Arabic", "u": "https://ajel.sa/economy/akkj28rot"},
+    {"t": "Alshaamal — sector prices, fixed fees and VAT (25 October 2026), Arabic", "u": "https://www.alshaamal.com/320601/"},
+    {"t": "Asia News Agency citing SPA — SAR 500 support and water tariff (25 October 2026), Arabic", "u": "https://asianewslb.com/?id=216292&page=article"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your bill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sector">Account type</label>
+        <select id="sector" name="sector">
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial (incl. private health and education)</option>
+          <option value="agricultural">Agricultural</option>
+          <option value="industrial">Industrial</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="kwh">Monthly consumption (kWh)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500" required>
+        <span class="hint">From your bill: the difference between the two readings.</span>
+      </div>
+      <div class="field" data-res>
+        <label for="amps">Breaker capacity</label>
+        <select id="amps" name="amps">
+          <option value="60">20 to under 100 amps (SAR 70)</option>
+          <option value="150">100 to under 200 amps (SAR 80)</option>
+          <option value="250">200 to under 300 amps (SAR 90)</option>
+          <option value="300">300 amps and above (SAR 100)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="days">Days in the billing period</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="62" step="1" value="30">
+      </div>
+      <div class="field" data-res>
+        <label for="oldFee">Meter fee on your current bill (optional)</label>
+        <input type="number" id="oldFee" name="oldFee" inputmode="decimal" min="0" step="1" value="">
+        <span class="hint">The "meter reading, maintenance and billing" fee, for an exact comparison.</span>
+      </div>
+      <div class="field" data-other hidden>
+        <label for="fixedOther">Your account's monthly fixed fee (optional)</label>
+        <input type="number" id="fixedOther" name="fixedOther" inputmode="decimal" min="0" step="1" value="">
+        <span class="hint">Depends on capacity and type of activity.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The new electricity tariff from 1 January 2027</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Sector</th><th scope="col">Up to 6,000 kWh a month</th><th scope="col">Above 6,000 kWh</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Residential</th><td>21 halalas (was 18)</td><td>33 halalas (was 30)</td></tr>
+    <tr><th scope="row">Commercial, private health and education</th><td>25 halalas</td><td>35 halalas</td></tr>
+    <tr><th scope="row">Agricultural</th><td>19 halalas</td><td>23 halalas</td></tr>
+    <tr><th scope="row">Industrial</th><td colspan="2">23 halalas</td></tr>
+    <tr><th scope="row">Government</th><td colspan="2">35 halalas</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>Residential fixed fees</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Breaker capacity</th><th scope="col">Monthly fee</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">20 to under 100 amps</th><td>SAR 70</td></tr>
+    <tr><th scope="row">100 to under 200 amps</th><td>SAR 80</td></tr>
+    <tr><th scope="row">200 to under 300 amps</th><td>SAR 90</td></tr>
+    <tr><th scope="row">300 amps and above</th><td>SAR 100</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example from the announcement:</strong> a home using 1,000 kWh a month on a breaker under 100 amps: consumption 1,000 × 0.21 = SAR 210 + fixed fee SAR 70 = <strong>SAR 280 before VAT</strong>, or SAR 322 with 15% VAT. Under the current tariff, the consumption charge was SAR 180.</p>
+</div>
+<p>Prices are from the Saudi Energy Company announcement as reported in the press on 25 October 2026; your official bill is the reference, and it may differ depending on how tiers are pro-rated over the billing days. Prefer Arabic? Use the <a href="{{root}}ksa-electricity-bill/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

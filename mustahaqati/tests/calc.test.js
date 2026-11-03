@@ -826,3 +826,24 @@ test("زيادة الإيجار في دبي (المرسوم 43/2013)", () => {
   near(dubaiRentIncrease({ rent: 55000, average: 100000 }).maxRent, 66000);
   near(dubaiRentIncrease({ rent: 110000, average: 100000 }).pct, 0);
 });
+
+import { ksaElectricityBill } from "../src/assets/calc.js";
+
+test("فاتورة الكهرباء السعودية بتعرفة 2027", () => {
+  const a = ksaElectricityBill({ kwh: 1000, amps: 60 });
+  near(a.consumption, 210);
+  near(a.fixed, 70);
+  near(a.subtotal, 280);
+  near(a.total, 322);
+  const b = ksaElectricityBill({ kwh: 7000, amps: 150 });
+  near(b.consumption, 1590);
+  near(b.fixed, 80);
+  near(b.total, 1920.5);
+  near(ksaElectricityBill({ kwh: 1000, amps: 300 }).fixed, 100);
+  near(ksaElectricityBill({ kwh: 1000, amps: 60, days: 15 }).fixed, 35);
+  const old = ksaElectricityBill({ kwh: 1000, tariff: "old" });
+  near(old.consumption, 180);
+  near(old.fixed, 0);
+  near(ksaElectricityBill({ kwh: 7000, sector: "commercial", fixedOverride: 0 }).consumption, 1850);
+  near(ksaElectricityBill({ kwh: 1000, sector: "government" }).consumption, 350);
+});

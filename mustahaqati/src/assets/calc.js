@@ -1661,3 +1661,32 @@ export function dubaiRentIncrease({ rent, average }) {
   const maxRent = cur * (1 + pct);
   return { gapPct: Math.round(gapPct * 100) / 100, pct, increase: r2(cur * pct), maxRent: r2(maxRent), monthlyIncrease: r2((cur * pct) / 12) };
 }
+
+/* ------------------------------------------------------------------ */
+/* السعودية — فاتورة الكهرباء (تعرفة 1 يناير 2027)                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * فاتورة الكهرباء الشهرية: شريحتان (حتى 6,000 ك.و.س وما فوقها) + رسوم ثابتة بحسب سعة القاطع للسكني (تُحتسب بعدد أيام الفاتورة) + ضريبة 15%.
+ * tariff: new (من 2027) | old (الحالية: 18 و30 هللة للسكني). fixedOverride: رسوم ثابتة يدخلها المستخدم (لغير السكني أو للتعرفة الحالية).
+ */
+export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, days = 30, tariff = "new", fixedOverride = null }) {
+  const E = rules.sa.electricity;
+  const S = E.sectors[sector] || E.sectors.residential;
+  const prices = S[tariff] || S.new;
+  const k = Math.max(0, Number(kwh) || 0);
+  const t1 = Math.min(k, E.tierKwh), t2 = Math.max(0, k - E.tierKwh);
+  const consumption = t1 * prices[0] + t2 * prices[1];
+  const d = Math.max(1, Number(days) || E.daysPerMonth);
+  let fixedMonthly = 0;
+  if (fixedOverride !== null && fixedOverride !== undefined && fixedOverride !== "") fixedMonthly = Math.max(0, Number(fixedOverride) || 0);
+  else if (sector === "residential" && tariff === "new") {
+    const a = Math.max(0, Number(amps) || 0);
+    const band = E.residentialFixed.find(([lo, hi]) => a >= lo && a < hi) || E.residentialFixed[0];
+    fixedMonthly = band[2];
+  }
+  const fixed = (fixedMonthly * d) / E.daysPerMonth;
+  const subtotal = consumption + fixed;
+  const vat = subtotal * E.vat;
+  return { t1, t2, p1: prices[0], p2: prices[1], consumption: r2(consumption), fixedMonthly, fixed: r2(fixed), subtotal: r2(subtotal), vat: r2(vat), total: r2(subtotal + vat) };
+}

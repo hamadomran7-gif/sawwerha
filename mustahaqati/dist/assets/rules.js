@@ -738,6 +738,72 @@ export default {
       "minCombinedMonths": 240,
       "minMilitaryWithinCombined": 96,
       "pensionAtAge": 55
+    },
+    "electricity": {
+      "law": "إعلان الشركة السعودية للطاقة بتعديل تعرفة الخدمة الكهربائية (25 أكتوبر 2026)، نافذ من 1 يناير 2027؛ والتعرفة السابقة نافذة منذ يناير 2018",
+      "effective": "2027-01-01",
+      "vat": 0.15,
+      "tierKwh": 6000,
+      "daysPerMonth": 30,
+      "sectors": {
+        "residential": {
+          "old": [
+            0.18,
+            0.3
+          ],
+          "new": [
+            0.21,
+            0.33
+          ]
+        },
+        "commercial": {
+          "new": [
+            0.25,
+            0.35
+          ]
+        },
+        "agricultural": {
+          "new": [
+            0.19,
+            0.23
+          ]
+        },
+        "industrial": {
+          "new": [
+            0.23,
+            0.23
+          ]
+        },
+        "government": {
+          "new": [
+            0.35,
+            0.35
+          ]
+        }
+      },
+      "residentialFixed": [
+        [
+          20,
+          100,
+          70
+        ],
+        [
+          100,
+          200,
+          80
+        ],
+        [
+          200,
+          300,
+          90
+        ],
+        [
+          300,
+          100000,
+          100
+        ]
+      ],
+      "supportMonthly": 500
     }
   },
   "gcc": {
