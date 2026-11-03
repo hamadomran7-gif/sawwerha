@@ -1,0 +1,140 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-civil-service-salary-scale",
+  "alternate": "kuwait-civil-salary-scale",
+  "title": "Kuwait Civil Service Salary Scale 2026 — Kuwaiti Government Salary Calculator by Grade",
+  "h1": "Kuwaiti Government Salary Scale Calculator",
+  "description": "Calculate a Kuwaiti government employee's salary from the general salary table: basic pay for each grade (8 up to A, leadership, technical auxiliary and auxiliary) and step, the social allowance for single and married staff, the KWD 50 children's allowance per child up to 7, the KWD 120 cost-of-living allowance, and social insurance deductions.",
+  "short": "22 grades, social allowance by status, KWD 50 per child, 120 cost of living, 10% insurance",
+  "lead": "Choose your grade, step, marital status and number of children to see your gross and net salary after social insurance, and your basic after the next increment.",
+  "country": "kw",
+  "category": "salary",
+  "tool": true,
+  "script": "en-kuwait-civil-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-net-salary", "en-kuwait-pension", "en-kuwait-end-of-service", "en-kuwait-labour-support", "en-kuwait-leave", "en-ksa-civil-salary-scale", "en-qatar-civil-salary-scale", "en-bahrain-civil-salary-scale", "en-oman-civil-salary-scale", "en-uae-federal-salary-scale"],
+  "faq": [
+    {"q": "What is a Kuwaiti employee's salary at grade 6?", "a": "Grade 6 starts at KWD 165, the social allowance is 161 single and 242 married, and the cost-of-living allowance is 120, so a single employee without children gets KWD 446 gross and about 413.400 net after the 10% deduction on basic and social allowance. KWD 50 is added per child up to 7."},
+    {"q": "How much is the social allowance for Kuwaiti employees?", "a": "It varies by grade and status: from 141 single and 216 married at grade 8, to 268 and 368 at grade A, and 400 to 448 for leadership grades. Each amount equals a fixed band base plus 25% of the grade's starting basic, under the 1992 law."},
+    {"q": "How much is the children's allowance in Kuwait?", "a": "KWD 50 a month per child up to 7 children, and 100 for a child with a severe or moderate disability, for Kuwaitis only. A 2023 proposal to raise it to 100 per child was not enacted as far as we found."},
+    {"q": "When is the annual increment paid to Kuwaiti employees?", "a": "On 1 January or 1 July after a year from appointment or the last increment; it moves the employee one step within the grade, with no increment after the top of the grade until promotion."},
+    {"q": "How much social insurance is deducted from a Kuwaiti employee?", "a": "10% of basic pay, social allowance and children's allowance up to KWD 1,500 (5% basic, 2.5% pension increase and 2.5% financial reward), plus 5% supplementary between 1,500 and 2,750. The 120 cost-of-living allowance is outside the base."},
+    {"q": "Has Kuwait issued a new salary scale?", "a": "We found no new table and no general raise in force up to November 2026. In June 2025 the finance ministry and Civil Service Commission were reported to be studying a salary restructuring, with no decision or date."}
+  ],
+  "sources": [
+    {"t": "PAAET — guide for new employees (2024): groups, children's allowance and increment timing", "u": "https://www.paaet.edu.kw/media/estbhfax/newempolyee2024.pdf"},
+    {"t": "Al Anba — table of the special bonus for Kuwaiti employees (14/5/2012)", "u": "https://pdf.alanba.com.kw/pdf/2012/05/14-05-2012/11.pdf"},
+    {"t": "Gulf News — Kuwaitis receive KWD 120 increase (22/2/2008)", "u": "https://gulfnews.com/world/gulf/kuwait/kuwaitis-receive-pay-increase-to-combat-soaring-inflation-1.85929"},
+    {"t": "Arab Times — review of public-sector salary structure (30/6/2025)", "u": "https://www.arabtimesonline.com/news/kuwait-to-review-public-sector-salary-structure-in-reform-drive"},
+    {"t": "Almaal — Kuwait civil service salary scale (full table source, updated 18/10/2026)", "u": "https://almaal.org/?p=102101"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your salary from the table</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">Grade</label>
+        <select id="grade" name="grade">
+          <optgroup label="Leadership">
+            <option value="mumtaz">Excellent (top leadership)</option>
+            <option value="wakil">Undersecretary</option>
+            <option value="wakilMusaid">Assistant Undersecretary</option>
+          </optgroup>
+          <optgroup label="General group">
+            <option value="A">Grade A</option>
+            <option value="B">Grade B</option>
+            <option value="1">Grade 1</option>
+            <option value="2">Grade 2</option>
+            <option value="3">Grade 3</option>
+            <option value="4">Grade 4</option>
+            <option value="5">Grade 5</option>
+            <option value="6" selected>Grade 6</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+          </optgroup>
+          <optgroup label="Technical auxiliary">
+            <option value="T1">Technical-aux 1</option>
+            <option value="T2">Technical-aux 2</option>
+            <option value="T3">Technical-aux 3</option>
+            <option value="T4">Technical-aux 4</option>
+            <option value="T5">Technical-aux 5</option>
+            <option value="T6">Technical-aux 6</option>
+          </optgroup>
+          <optgroup label="Auxiliary">
+            <option value="X1">Auxiliary 1</option>
+            <option value="X2">Auxiliary 2</option>
+            <option value="X3">Auxiliary 3</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step in the grade</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+        </select>
+        <span class="hint">Step 1 is the starting salary; each annual increment adds a step.</span>
+      </div>
+      <div class="field">
+        <label for="married">Social allowance</label>
+        <select id="married" name="married">
+          <option value="no" selected>Single</option>
+          <option value="yes">Married</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="0">
+        <span class="hint">KWD 50 per child, up to 7.</span>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="special" name="special">
+        <label for="special">Add the special bonus (25% of the starting salary, since 2012; continuation unconfirmed)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Kuwait's general salary table for Kuwaiti employees</h2>
+{{table:kw-civil-scale lang=en}}
+<p>The general group runs from grade 8 up to grade 1, then B and A, and requires an intermediate certificate or higher. Above it are the leadership grades (assistant undersecretary, undersecretary and Excellent). Beside it are the auxiliary group for those without an intermediate certificate and the technical auxiliary group based on experience. Each grade has a starting salary, a fixed increment and 6 or 11 steps.</p>
+<p>The full table is published on a specialist site, not an official source we could open, so our confidence is medium. But the starting salary of ten grades matches the special-bonus table Al Anba published in 2012 (25% of the starting salary), its extremes of 90 and 790 match the cost-of-living percentages reported from the Commission in 2008, and every grade is a regular arithmetic series.</p>
+
+<h2>Fixed allowances</h2>
+<ul>
+  <li><strong>Social allowance:</strong> for Kuwaitis, single or married rate, varying by grade as in the table.</li>
+  <li><strong>Children's allowance:</strong> KWD 50 per child up to 7, and 100 for a child with a severe or moderate disability.</li>
+  <li><strong>Cost of living:</strong> KWD 120 for every Kuwaiti since 2008, not merged into basic pay and outside the insurance base. Proposals to raise it to 240 or 250 were not enacted as far as we found.</li>
+  <li><strong>Special bonus:</strong> 25% of the grade's starting salary, at least 50, since April 2012; we found nothing confirming or ending it, so it is optional in the calculator.</li>
+</ul>
+<p>Supervision allowances, special cadres and job-nature allowances are outside the calculator.</p>
+
+<h2>Annual increment and deductions</h2>
+<p>The increment is paid on 1 January or 1 July after a year from appointment or the last increment, moving the employee one step up to the top of the grade. Social insurance takes 10% of basic, social allowance and children's allowance up to KWD 1,500, and 5% supplementary above that up to 2,750; government employees pay no unemployment contribution. For any salary, use the <a href="{{root}}en/kuwait-net-salary-calculator/{{ix}}">Kuwait net salary calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Grade 6, step 1, single: 165 + 161 + 120 = 446, deduction 10% × 326 = 32.600, net <strong>KWD 413.400</strong>, or 463.400 with the special bonus.<br>
+Grade 3, step 4, married with two children, with the special bonus: 340 + 291 + 100 + 120 + 78 = 929, deduction 73.100, net <strong>KWD 855.900</strong>.<br>
+Undersecretary, step 6, married with 7 children: total 1,850, deduction 154.125 as the base exceeds 1,500, net <strong>KWD 1,695.875</strong>.</p>
+</div>
+</div>

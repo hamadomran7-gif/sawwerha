@@ -368,5 +368,11 @@
  "en-oman-civil-salary-scale": "e0dc0a3f87ce41ad",
  "en-uae-federal-salary-scale": "1a698d8ce742aefb",
  "oman-civil-salary-scale": "0a7608342382b880",
- "uae-federal-salary-scale": "38efc8e97cf884a6"
+ "uae-federal-salary-scale": "38efc8e97cf884a6",
+ "bahrain-civil-salary-scale": "2f6c81d32da7ebe7",
+ "en-bahrain-civil-salary-scale": "6865af1cc6ce4df1",
+ "en-kuwait-civil-salary-scale": "92ec2701d08a5b6b",
+ "en-qatar-civil-salary-scale": "67af558beb2c548f",
+ "kuwait-civil-salary-scale": "79f718aaad391ed7",
+ "qatar-civil-salary-scale": "fa40a6788ee13a03"
 }

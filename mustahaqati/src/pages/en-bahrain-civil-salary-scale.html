@@ -1,0 +1,147 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-government-salary-scale",
+  "alternate": "bahrain-civil-salary-scale",
+  "title": "Bahrain Government Salary Scale 2026 — Civil Service Salary Calculator by Grade and Rank",
+  "h1": "Bahrain Civil Service Salary Scale Calculator",
+  "description": "Calculate a Bahraini government employee's salary from the Civil Service Bureau tables: basic pay for every grade and rank in the general, shift, executive and educational scales, the BHD 20 transport allowance, the 85 or 100 living-standard allowance, the 7% pension and 1% unemployment deductions, and the 1 January annual increment.",
+  "short": "4 official tables, 16 ranks per grade, BHD 20 transport and 85 or 100 living allowance",
+  "lead": "Choose your table, grade and rank, add the allowances you know, and see your gross and net salary and your basic after the annual increment.",
+  "country": "bh",
+  "category": "salary",
+  "tool": true,
+  "script": "en-bahrain-civil-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-bahrain-net-salary", "en-bahrain-pension", "en-bahrain-end-of-service", "en-bahrain-leave", "en-kuwait-civil-salary-scale", "en-qatar-civil-salary-scale", "en-oman-civil-salary-scale", "en-uae-federal-salary-scale"],
+  "faq": [
+    {"q": "What is a Bahraini government employee's salary?", "a": "In the general jobs table (36 hours a week) basic pay runs from BHD 322 at grade 2 to 1,083 at the top of grade 10, the executive table from 847 to 3,901, and the educational table from 328 to 1,931. Add BHD 20 transport, the 85 or 100 living-standard allowance for some employees, and the social allowance."},
+    {"q": "How much is the annual increment for Bahraini government employees?", "a": "One rank in the same grade, added on 1 January after a year from appointment or the last increment, subject to at least satisfactory performance and six months' actual service in the year. It ranges from BHD 5 at general grade 2 to 86 at executive grade 7, and stops at the top of the grade (rank 15)."},
+    {"q": "How much is the living-standard improvement allowance in Bahrain?", "a": "BHD 85 or 100 a month for some employees under Prime Minister's Decision 45/2023, in force from June 2023, replacing 50 and 60. It is not paid to senior posts, and who gets which amount is set in an annex to the regulation."},
+    {"q": "How much pension is deducted from a Bahraini government salary?", "a": "7% of basic salary only since 2023 (Law 13/2022), with the government paying 20%, plus 1% for unemployment insurance. Allowances are outside the contribution base."},
+    {"q": "What is the minimum government salary in Bahrain?", "a": "The Civil Service Bureau said in February 2026 that minimum monthly pay in the public sector is BHD 402, covering basic pay, the social allowance and the living-standard allowance. The lowest basic in the general table is BHD 322."},
+    {"q": "How much are the transport and car allowances in Bahrain?", "a": "The transport allowance is BHD 20 a month, not combined with the car allowance and not paid if the employer provides transport. The car allowance for general grade 5 and above is 60 in full or 30 reduced, up to 80, and 300 for an undersecretary, 250 for an assistant undersecretary and 80 for a director."}
+  ],
+  "sources": [
+    {"t": "Civil Service Bureau — basic salary tables (open data)", "u": "https://www.csb.gov.bh/dataStatistics/Data/Payroll-Basic"},
+    {"t": "Civil Service Bureau — table 1, general jobs (English PDF)", "u": "https://www.csb.gov.bh/MediaManager/Media/Documents/SalaryScales/01-G_R_Table_EN.pdf"},
+    {"t": "Civil Service Bureau — table 6, executive jobs (PDF)", "u": "https://www.csb.gov.bh/MediaManager/Media/Documents/SalaryScales/06-E_Table_AR.pdf"},
+    {"t": "Civil Service Bureau — table 7, educational jobs (PDF)", "u": "https://www.csb.gov.bh/MediaManager/Media/Documents/SalaryScales/07-A_Table_AR.pdf"},
+    {"t": "Legislation and Legal Opinion Commission — salaries regulation 77/2013", "u": "https://www.lloc.gov.bh/Legislation/HTM/RCAB7713"},
+    {"t": "Legislation and Legal Opinion Commission — Decision 45/2023 (living allowance)", "u": "https://www.lloc.gov.bh/PDF/RCAB4523.pdf"},
+    {"t": "Legislation and Legal Opinion Commission — Law 13/2022 (government pension contributions)", "u": "https://lloc.gov.bh/Legislation/HTM/K1322"},
+    {"t": "Daily Tribune — BHD 402 public-sector minimum pay (14/2/2026)", "u": "https://www.newsofbahrain.com/bahrain/126869.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your salary from the table</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="scale">Table</label>
+        <select id="scale" name="scale">
+          <option value="generalRegular" selected>General jobs (36 hours)</option>
+          <option value="generalShift">General jobs, shift work</option>
+          <option value="executive">Executive jobs</option>
+          <option value="educational">Educational jobs</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="grade">Grade</label>
+        <select id="grade" name="grade">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6" selected>6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="index">Rank (annual increments received)</label>
+        <select id="index" name="index">
+          <option value="0" selected>Minimum (rank 0)</option>
+          <option value="1">Rank 1</option>
+          <option value="2">Rank 2</option>
+          <option value="3">Rank 3</option>
+          <option value="4">Rank 4</option>
+          <option value="5">Rank 5</option>
+          <option value="6">Rank 6</option>
+          <option value="7">Rank 7</option>
+          <option value="8">Rank 8</option>
+          <option value="9">Rank 9</option>
+          <option value="10">Rank 10</option>
+          <option value="11">Rank 11</option>
+          <option value="12">Rank 12</option>
+          <option value="13">Rank 13</option>
+          <option value="14">Rank 14</option>
+          <option value="15">Rank 15</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="living">Living-standard improvement allowance</label>
+        <select id="living" name="living">
+          <option value="0" selected>Not sure or not paid to me</option>
+          <option value="85">BHD 85</option>
+          <option value="100">BHD 100</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="social">Social allowance from your payslip (optional)</label>
+        <input type="number" id="social" name="social" inputmode="decimal" min="0" step="1" placeholder="0">
+        <span class="hint">Two rates: single, and married or supporting children; the amounts are in an annex to the regulation.</span>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="transport" name="transport" checked>
+        <label for="transport">BHD 20 transport allowance (not paid with the car allowance or if your employer provides transport)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Bahrain government salary tables</h2>
+<p>Each grade has a minimum (rank 0) followed by 15 ranks with a fixed increment, so basic pay = minimum + rank × increment. The tables are published in the Civil Service Bureau's open data with no effective date, and we found no decision amending them up to November 2026.</p>
+<h3>General jobs (36 hours a week)</h3>
+{{table:bh-civil-scale scale=generalRegular lang=en caption="BHD per month — table 1: general jobs"}}
+<p>Grade 1 is empty in the published table, and grades 2 and 3 show only 8 and 13 values, most likely the upper ranks after removing anything below BHD 322. The values are correct; only their rank numbers are uncertain.</p>
+<h3>General jobs, shift work</h3>
+{{table:bh-civil-scale scale=generalShift lang=en caption="BHD per month — table 2: general jobs, shift work"}}
+<h3>Executive jobs</h3>
+{{table:bh-civil-scale scale=executive lang=en caption="BHD per month — table 6: executive jobs"}}
+<h3>Educational jobs</h3>
+{{table:bh-civil-scale scale=educational lang=en caption="BHD per month — table 7: educational jobs"}}
+<p>We have not included the specialist, judges', diplomatic or higher-education tables.</p>
+
+<h2>Allowances</h2>
+<ul>
+  <li><strong>Transport:</strong> BHD 20 a month, not combined with the car allowance.</li>
+  <li><strong>Living-standard improvement:</strong> BHD 85 or 100 for some employees since June 2023 (Decision 45/2023), replacing 50 and 60, and not paid to senior posts. We have not read the annex that sets who gets which, so choose the amount on your payslip.</li>
+  <li><strong>Social allowance:</strong> two rates, for single staff and for married, divorced or widowed staff supporting children (Decision 3/2018). The amounts are in an annex whose text we could not find, so enter yours from your payslip.</li>
+  <li><strong>Car allowance:</strong> for general grade 5 and above, BHD 60 in full or 30 reduced, up to 80 with extra kilometres, and 300 for an undersecretary, 250 for an assistant undersecretary and 80 for a director.</li>
+</ul>
+
+<h2>Annual increment</h2>
+<p>One rank in the same grade is added on 1 January after a year from appointment or the last increment, subject to at least satisfactory performance and six months' actual service in the year, without passing the top of the grade. It is withheld after unpaid leave or suspension of more than six months in the year.</p>
+
+<h2>Deductions</h2>
+<p>7% of basic salary only is deducted for the pension since 2023 (Law 13/2022), the government pays 20%, and 1% goes to unemployment insurance. Allowances are outside the base. Estimate your pension with the <a href="{{root}}en/bahrain-pension-calculator/{{ix}}">Bahrain pension calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+General, grade 6, minimum: 420 + 20 transport = 440, pension 29.400 and unemployment 4.200, so the known part nets <strong>BHD 406.400</strong> before the living and social allowances. After the annual increment the basic becomes 430.<br>
+Executive, grade 3, rank 4: 1,300 + 4 × 43 = <strong>1,472</strong>, pension 103.040.<br>
+Educational, grade 1, minimum: <strong>328</strong>, pension 22.960.</p>
+</div>
+</div>

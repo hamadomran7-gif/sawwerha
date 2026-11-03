@@ -1,0 +1,139 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-government-salary-scale",
+  "alternate": "qatar-civil-salary-scale",
+  "title": "Qatar Government Salary Scale 2026 — Qatari Employee Salary Calculator by Grade and Allowances",
+  "h1": "Qatar Civil Human Resources Law Salary Scale Calculator",
+  "description": "Calculate a Qatari government employee's salary from the Civil Human Resources Law 15/2016 table: basic pay for each grade from 12 to Excellent, the social and housing allowances for married and single staff under the 2025 decision, the 7% pension deduction, and the 1 January increment at 150% to 0% by performance rating.",
+  "short": "14 grades, social 6,400 or 4,000, housing up to 6,000, and performance-based increments",
+  "lead": "Choose your grade and step or enter your actual basic, and your marital status, to see your gross and net salary and your basic after the 1 January increment by rating.",
+  "country": "qa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-qatar-civil-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-qatar-net-salary", "en-qatar-pension", "en-qatar-end-of-service", "en-qatar-family-residence-cost", "en-qatar-leave", "en-ksa-civil-salary-scale", "en-kuwait-civil-salary-scale", "en-bahrain-civil-salary-scale", "en-oman-civil-salary-scale"],
+  "faq": [
+    {"q": "What is a Qatari employee's salary at grade 7?", "a": "Grade 7 starts at QAR 9,600 with a 600 increment up to 14,400. A single employee adds a 4,000 social allowance and 2,500 housing, for 16,100 gross and 14,973 net after the 7% deduction, before transport. A married employee gets 6,400 social and 4,000 housing."},
+    {"q": "How much are the social and housing allowances for Qatari employees?", "a": "Under Cabinet Decision 34/2025: social allowance 6,400 married and 4,000 single at grade 7 and above, and 4,000 and 2,560 below. Housing 6,000 and 3,500 for grade 1 and above, 4,000 and 2,500 for grades 2 to 7, and 3,000 and 1,500 for the rest. Since 2025 both Qatari spouses get the married social rate."},
+    {"q": "How is the annual increment calculated in Qatar after the 2025 amendment?", "a": "It is paid on 1 January after a year, as a share of the grade's increment by performance: 150% exceptional, 125% exceeds expectations, 100% meets expectations, 75% below expectations, and none for weak performance. At the top of the grade a monthly bonus is paid at the same rates."},
+    {"q": "How much pension is deducted from a Qatari employee's salary?", "a": "7% of basic, social allowance and housing allowance capped at 6,000, with the employer paying 14% and a QAR 100,000 monthly cap, under Social Insurance Law 1/2022. The transport allowance is outside the base."},
+    {"q": "What are the undersecretary's and assistant undersecretary's salaries in Qatar?", "a": "QAR 65,000 basic for an undersecretary and 55,000 for an assistant undersecretary, fixed in the table, plus the social and housing allowances most likely at the top rates."},
+    {"q": "Did Qatar's salary table change in 2025?", "a": "No. Law 25/2025 and Cabinet Decision 34/2025 (7 October 2025) changed increments, incentives and allowances and refer to the same table 1; we found no new basic salary table."}
+  ],
+  "sources": [
+    {"t": "Qatar University — Law 25/2025 amending the HR law (Al Meezan copy)", "u": "https://www.qu.edu.qa/en-us/Colleges/health/clinical-operations-and-engagement/Documents/Law_2025_25.pdf"},
+    {"t": "Qatar University — Cabinet Decision 34/2025 on allowances (Al Meezan copy)", "u": "https://www.qu.edu.qa/en-us/Colleges/health/clinical-operations-and-engagement/Documents/Cabinet%20Decision_2025_34.pdf"},
+    {"t": "Mada — unofficial English translation of Law 15/2016 (table 1 source)", "u": "https://mada.org.qa/wp-content/uploads/2020/01/Human-Resources-Law-No-15-of-2016-Unofficial-English-Translation.pdf"},
+    {"t": "Doha News — new HR law boosts pay for Qataris (2016)", "u": "https://dohanews.co/new-hr-law-boosts-pay-qataris-public-sector-jobs/"},
+    {"t": "Gulf News — QAR 12,000 marriage allowance and 150% performance raise (7/10/2025)", "u": "https://gulfnews.com/world/gulf/qatar/qatar-introduces-qar-12000-annual-marriage-allowance-150-performance-raise-under-new-civil-service-law-1.500298339"},
+    {"t": "Gulf Times — new HR law sets salary structure and allowances (30/11/2016)", "u": "https://www.gulf-times.com/story/522985/New-HR-law-sets-salary-structure-allowances-for-govt-employees"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your salary from the table</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">Grade</label>
+        <select id="grade" name="grade">
+          <option value="undersecretary">Undersecretary</option>
+          <option value="assistantUndersecretary">Assistant undersecretary</option>
+          <option value="excellent">Excellent</option>
+          <option value="special">Special</option>
+          <option value="1">Grade 1</option>
+          <option value="2">Grade 2</option>
+          <option value="3">Grade 3</option>
+          <option value="4">Grade 4</option>
+          <option value="5">Grade 5</option>
+          <option value="6">Grade 6</option>
+          <option value="7" selected>Grade 7</option>
+          <option value="8">Grade 8</option>
+          <option value="9">Grade 9</option>
+          <option value="10">Grade 10</option>
+          <option value="11">Grade 11</option>
+          <option value="12">Grade 12</option>
+        </select>
+      </div>
+      <div class="field" data-steps>
+        <label for="step">Step (increments received + 1)</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+        </select>
+      </div>
+      <div class="field" data-steps>
+        <label for="basic">Or your actual basic (optional)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="10" placeholder="Empty = by step">
+        <span class="hint">Since 2025 basic pay can fall between table steps because of performance rates.</span>
+      </div>
+      <div class="field">
+        <label for="married">Status</label>
+        <select id="married" name="married">
+          <option value="no" selected>Single</option>
+          <option value="yes">Married or supporting children</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="transport">Transport allowance (optional)</label>
+        <input type="number" id="transport" name="transport" inputmode="decimal" min="0" step="100" value="0">
+        <span class="hint">QAR 1,000 to 2,000 by grade; enter the amount on your payslip.</span>
+      </div>
+      <div class="field" data-steps>
+        <label for="rating">Performance rating for the next increment</label>
+        <select id="rating" name="rating">
+          <option value="exceptional">Exceptional (150%)</option>
+          <option value="exceeds">Exceeds expectations (125%)</option>
+          <option value="meets" selected>Meets expectations (100%)</option>
+          <option value="below">Below expectations (75%)</option>
+          <option value="weak">Weak (no increment)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Salary table for Qatari employees</h2>
+{{table:qa-civil-scale lang=en}}
+<p>Table 1 of Civil Human Resources Law 15/2016 has 14 grades from 12 to 1, then Special and Excellent, with fixed salaries for the undersecretary and assistant undersecretary. The figures come from an unofficial English translation of the law, three of whose cells are confirmed by the press; we could not open the official Al Meezan copy, so our confidence is medium. The social and housing allowances come from the text of Decision 34/2025.</p>
+
+<h2>Performance-based annual increment</h2>
+<p>Since 7 October 2025 (Law 25/2025) the increment is paid on 1 January after a year, as a share of the grade's increment: 150% for exceptional performance, 125% for exceeding expectations, 100% for meeting them, 75% below them, and nothing for weak performance. It stops at the top of the grade, with any excess paid as a bonus, and a monthly bonus at the same rates once the top is reached. The first rating under the new system covers 2026, so the first full increment at these rates is on 1 January 2027.</p>
+
+<h2>Other allowances and 2025 benefits</h2>
+<ul>
+  <li><strong>Transport:</strong> QAR 1,000 to 2,000 by grade, stopped if the employer provides permanent transport.</li>
+  <li><strong>Marriage incentive:</strong> QAR 12,000 a year for each Qatari spouse, under conditions whose details we have not seen published.</li>
+  <li><strong>Performance incentives:</strong> two months' basic pay for exceptional performance and one month for exceeding expectations.</li>
+</ul>
+
+<h2>Deductions</h2>
+<p>7% is deducted from basic, social allowance and housing capped at 6,000, and the employer pays 14%. For any salary, use the <a href="{{root}}en/qatar-net-salary-calculator/{{ix}}">Qatar net salary calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Grade 7, start, single: 9,600 + 4,000 + 2,500 = 16,100, deduction 1,127, net <strong>QAR 14,973</strong> before transport.<br>
+Grade 4, step 5, married: 19,200 + 6,400 + 4,000 = 29,600, net <strong>QAR 27,528</strong>. Next increment: 20,400 exceptional, 20,000 meets expectations, 19,800 below.<br>
+Grade 8, start, single: 8,800 + 2,560 + 1,500 = 12,860, net <strong>QAR 11,959.80</strong>.</p>
+</div>
+</div>

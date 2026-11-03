@@ -3701,6 +3701,71 @@ export function uaeFederalSalary({ grade = 7, married = true, children = 0, sche
   return { grade: Math.floor(Number(grade)), increments: n, basic, housing, costOfLiving: G.costOfLiving, social: G.social, transport: G.transport, children: kids, qualification: qual, annual: G.annual, total, pensionBase: base, rate, contribution, employer: r2(base * F.pension.employer), net: r2(total - contribution) };
 }
 
+/**
+ * راتب الموظف الكويتي في الحكومة (جدول المرتبات العام المتداول): الأساسي = أول المربوط + (الخطوة − 1) × العلاوة، والعلاوة الاجتماعية
+ * حسب الدرجة والحالة، وعلاوة الأولاد 50 لكل ولد حتى 7، وغلاء المعيشة 120 خارج وعاء التأمينات، والمكافأة الخاصة اختيارية.
+ */
+export function kuwaitCivilSalary({ grade = "6", step = 1, married = false, children = 0, special = false } = {}) {
+  const S = rules.kw.civilScale;
+  const G = S.grades.find((g) => g.id === String(grade));
+  if (!G) return null;
+  const st = Math.min(G.steps, Math.max(1, Math.floor(Number(step) || 1)));
+  const basic = G.start + (st - 1) * G.increment;
+  const social = married ? G.socialMarried : G.socialSingle;
+  const kids = Math.min(S.childMax, Math.max(0, Math.floor(Number(children) || 0))) * S.childPerMonth;
+  const bonus = special ? G.specialBonus : 0;
+  const gross = basic + social + kids + S.costOfLiving + bonus;
+  const ins = kuwaitNetSalary({ national: true, sector: "government", salary: basic + social + kids });
+  return { grade: G.id, nameAr: G.nameAr, nameEn: G.nameEn, group: G.group, step: st, maxStep: G.steps, basic, social, children: kids, costOfLiving: S.costOfLiving, special: bonus, specialBonus: G.specialBonus, gross, base: ins.base, deduction: ins.employee, net: Math.round((gross - ins.employee) * 1000) / 1000, nextBasic: st < G.steps ? basic + G.increment : null, increment: G.increment };
+}
+
+/**
+ * راتب الموظف القطري (جدول القانون 15/2016): الأساسي من خطوات الدرجة أو الأساسي الفعلي، والعلاوة الاجتماعية وبدل السكن حسب الدرجة والحالة
+ * (القرار 34/2025)، والتنقل يدخله المستخدم. الاستقطاع 7% على الأساسي والاجتماعية والسكن بحد 6,000. والعلاوة القادمة في 1 يناير بنسبة الأداء بسقف نهاية المربوط.
+ */
+export function qatarCivilSalary({ grade = "7", step = 1, basic = null, married = false, transport = 0, rating = "meets" } = {}) {
+  const S = rules.qa.civilScale;
+  const fixed = S.fixed[grade];
+  let G = S.grades.find((g) => g.id === String(grade));
+  if (!G && !fixed) return null;
+  let b;
+  if (fixed) {
+    b = fixed;
+    G = { id: grade, socialMarried: 6400, socialSingle: 4000, housingMarried: 6000, housingSingle: 3500, increment: 0, max: fixed };
+  } else {
+    const custom = basic !== null && basic !== "" && Number(basic) > 0;
+    const st = Math.min(G.steps.length, Math.max(1, Math.floor(Number(step) || 1)));
+    b = custom ? Math.min(Number(basic), G.max) : G.steps[st - 1];
+  }
+  const social = married ? G.socialMarried : G.socialSingle;
+  const housing = married ? G.housingMarried : G.housingSingle;
+  const tr = Math.max(0, Number(transport) || 0);
+  const net = qatarNetSalary({ national: true, basic: b, social, housing, other: tr });
+  const pct = S.incrementPct[rating] ?? 1;
+  const raise = Math.round(G.increment * pct);
+  const next = Math.min(G.max, b + raise);
+  return { grade: String(grade), basic: b, social, housing, transport: tr, gross: net.gross, base: net.base, deduction: net.employee, net: net.net, increment: G.increment, pct, raise, nextBasic: fixed ? null : next, atMax: !fixed && b >= G.max, overflowBonus: fixed ? 0 : Math.max(0, b + raise - G.max), max: G.max };
+}
+
+/**
+ * راتب الموظف البحريني (جداول جهاز الخدمة المدنية): الأساسي من الجدول والدرجة والرتبة، وعلاوة تحسين المستوى المعيشي (85 أو 100) والانتقال 20
+ * والعلاوة الاجتماعية يدخلها المستخدم. الاستقطاع 7% تقاعد و1% تعطل على الأساسي وحده.
+ */
+export function bahrainCivilSalary({ scale = "generalRegular", grade = "6", index = 0, living = 0, transport = true, social = 0 } = {}) {
+  const S = rules.bh.civilScale;
+  const T = S.scales[scale];
+  if (!T) return null;
+  const G = T.grades[String(grade)];
+  if (!G) return null;
+  const i = Math.min(G.values.length - 1, Math.max(0, Math.floor(Number(index) || 0)));
+  const basic = G.values[i];
+  const allowances = (Number(living) || 0) + (transport ? S.transport : 0) + Math.max(0, Number(social) || 0);
+  const ins = bahrainNetSalary({ national: true, sector: "government", basic, allowances });
+  const pension = ins.rows.find((r) => r.id === "pension").employee;
+  const unemployment = ins.rows.find((r) => r.id === "unemployment").employee;
+  return { scale, grade: String(grade), index: i, ranked: G.ranked, rank: G.ranked ? i : null, basic, increment: G.increment, living: Number(living) || 0, transport: transport ? S.transport : 0, social: Math.max(0, Number(social) || 0), gross: ins.gross, pension, unemployment, deduction: ins.employee, net: ins.net, nextBasic: i + 1 < G.values.length ? G.values[i + 1] : null, max: G.values[G.values.length - 1] };
+}
+
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;

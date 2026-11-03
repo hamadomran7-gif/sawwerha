@@ -5236,6 +5236,359 @@ export default {
         "housing": 500,
         "food": 300
       }
+    },
+    "civilScale": {
+      "law": "قانون الموارد البشرية المدنية 15/2016 (الجدول 1، ترجمة غير رسمية)، والقانون 25/2025 وقرار مجلس الوزراء 34/2025 (البدلات والعلاوة)",
+      "lastReview": "2026-11-03",
+      "label": "جدول القانون 15/2016 — ثقة متوسطة",
+      "grades": [
+        {
+          "id": "excellent",
+          "nameAr": "الممتازة",
+          "nameEn": "Excellent",
+          "start": 43000,
+          "increment": 1000,
+          "max": 50000,
+          "steps": [
+            43000,
+            44000,
+            45000,
+            46000,
+            47000,
+            48000,
+            49000,
+            50000
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 6000,
+          "housingSingle": 3500
+        },
+        {
+          "id": "special",
+          "nameAr": "الخاصة",
+          "nameEn": "Special",
+          "start": 35000,
+          "increment": 1000,
+          "max": 45000,
+          "steps": [
+            35000,
+            36000,
+            37000,
+            38000,
+            39000,
+            40000,
+            41000,
+            42000,
+            43000,
+            44000,
+            45000
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 6000,
+          "housingSingle": 3500
+        },
+        {
+          "id": "1",
+          "nameAr": "الأولى",
+          "nameEn": "Grade 1",
+          "start": 27200,
+          "increment": 1000,
+          "max": 37000,
+          "steps": [
+            27200,
+            28200,
+            29200,
+            30200,
+            31200,
+            32200,
+            33200,
+            34200,
+            35200,
+            36200,
+            37000
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 6000,
+          "housingSingle": 3500
+        },
+        {
+          "id": "2",
+          "nameAr": "الثانية",
+          "nameEn": "Grade 2",
+          "start": 21600,
+          "increment": 800,
+          "max": 30400,
+          "steps": [
+            21600,
+            22400,
+            23200,
+            24000,
+            24800,
+            25600,
+            26400,
+            27200,
+            28000,
+            28800,
+            29600,
+            30400
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "3",
+          "nameAr": "الثالثة",
+          "nameEn": "Grade 3",
+          "start": 19200,
+          "increment": 800,
+          "max": 27200,
+          "steps": [
+            19200,
+            20000,
+            20800,
+            21600,
+            22400,
+            23200,
+            24000,
+            24800,
+            25600,
+            26400,
+            27200
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "4",
+          "nameAr": "الرابعة",
+          "nameEn": "Grade 4",
+          "start": 16000,
+          "increment": 800,
+          "max": 22400,
+          "steps": [
+            16000,
+            16800,
+            17600,
+            18400,
+            19200,
+            20000,
+            20800,
+            21600,
+            22400
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "5",
+          "nameAr": "الخامسة",
+          "nameEn": "Grade 5",
+          "start": 14400,
+          "increment": 600,
+          "max": 19500,
+          "steps": [
+            14400,
+            15000,
+            15600,
+            16200,
+            16800,
+            17400,
+            18000,
+            18600,
+            19200,
+            19500
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "6",
+          "nameAr": "السادسة",
+          "nameEn": "Grade 6",
+          "start": 12800,
+          "increment": 600,
+          "max": 17600,
+          "steps": [
+            12800,
+            13400,
+            14000,
+            14600,
+            15200,
+            15800,
+            16400,
+            17000,
+            17600
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "7",
+          "nameAr": "السابعة",
+          "nameEn": "Grade 7",
+          "start": 9600,
+          "increment": 600,
+          "max": 14400,
+          "steps": [
+            9600,
+            10200,
+            10800,
+            11400,
+            12000,
+            12600,
+            13200,
+            13800,
+            14400
+          ],
+          "socialMarried": 6400,
+          "socialSingle": 4000,
+          "housingMarried": 4000,
+          "housingSingle": 2500
+        },
+        {
+          "id": "8",
+          "nameAr": "الثامنة",
+          "nameEn": "Grade 8",
+          "start": 8800,
+          "increment": 400,
+          "max": 12000,
+          "steps": [
+            8800,
+            9200,
+            9600,
+            10000,
+            10400,
+            10800,
+            11200,
+            11600,
+            12000
+          ],
+          "socialMarried": 4000,
+          "socialSingle": 2560,
+          "housingMarried": 3000,
+          "housingSingle": 1500
+        },
+        {
+          "id": "9",
+          "nameAr": "التاسعة",
+          "nameEn": "Grade 9",
+          "start": 7200,
+          "increment": 400,
+          "max": 10400,
+          "steps": [
+            7200,
+            7600,
+            8000,
+            8400,
+            8800,
+            9200,
+            9600,
+            10000,
+            10400
+          ],
+          "socialMarried": 4000,
+          "socialSingle": 2560,
+          "housingMarried": 3000,
+          "housingSingle": 1500
+        },
+        {
+          "id": "10",
+          "nameAr": "العاشرة",
+          "nameEn": "Grade 10",
+          "start": 5600,
+          "increment": 400,
+          "max": 8800,
+          "steps": [
+            5600,
+            6000,
+            6400,
+            6800,
+            7200,
+            7600,
+            8000,
+            8400,
+            8800
+          ],
+          "socialMarried": 4000,
+          "socialSingle": 2560,
+          "housingMarried": 3000,
+          "housingSingle": 1500
+        },
+        {
+          "id": "11",
+          "nameAr": "الحادية عشرة",
+          "nameEn": "Grade 11",
+          "start": 4800,
+          "increment": 200,
+          "max": 7200,
+          "steps": [
+            4800,
+            5000,
+            5200,
+            5400,
+            5600,
+            5800,
+            6000,
+            6200,
+            6400,
+            6600,
+            6800,
+            7000,
+            7200
+          ],
+          "socialMarried": 4000,
+          "socialSingle": 2560,
+          "housingMarried": 3000,
+          "housingSingle": 1500
+        },
+        {
+          "id": "12",
+          "nameAr": "الثانية عشرة",
+          "nameEn": "Grade 12",
+          "start": 4160,
+          "increment": 200,
+          "max": 5600,
+          "steps": [
+            4160,
+            4360,
+            4560,
+            4760,
+            4960,
+            5160,
+            5360,
+            5560,
+            5600
+          ],
+          "socialMarried": 4000,
+          "socialSingle": 2560,
+          "housingMarried": 3000,
+          "housingSingle": 1500
+        }
+      ],
+      "fixed": {
+        "undersecretary": 65000,
+        "assistantUndersecretary": 55000
+      },
+      "incrementPct": {
+        "exceptional": 1.5,
+        "exceeds": 1.25,
+        "meets": 1,
+        "below": 0.75,
+        "weak": 0
+      }
     }
   },
   "kw": {
@@ -5860,6 +6213,281 @@ export default {
           ]
         }
       }
+    },
+    "civilScale": {
+      "law": "جدول المرتبات العام لموظفي الدولة الكويتيين (متداول؛ أول المربوط مؤكد جزئياً بجدول المكافأة الخاصة 2012)، وقانون 1992 للعلاوة الاجتماعية وعلاوة الأولاد، وغلاء المعيشة 2008",
+      "lastReview": "2026-11-03",
+      "label": "جدول متداول — ثقة متوسطة",
+      "grades": [
+        {
+          "id": "mumtaz",
+          "group": "leadership",
+          "nameAr": "ممتاز",
+          "nameEn": "Excellent (top leadership)",
+          "start": 790,
+          "increment": 0,
+          "steps": 1,
+          "socialSingle": 448,
+          "socialMarried": 448,
+          "specialBonus": 198
+        },
+        {
+          "id": "wakil",
+          "group": "leadership",
+          "nameAr": "وكيل وزارة",
+          "nameEn": "Undersecretary",
+          "start": 700,
+          "increment": 16,
+          "steps": 6,
+          "socialSingle": 425,
+          "socialMarried": 425,
+          "specialBonus": 175
+        },
+        {
+          "id": "wakilMusaid",
+          "group": "leadership",
+          "nameAr": "وكيل وزارة مساعد",
+          "nameEn": "Assistant Undersecretary",
+          "start": 600,
+          "increment": 16,
+          "steps": 6,
+          "socialSingle": 400,
+          "socialMarried": 400,
+          "specialBonus": 150
+        },
+        {
+          "id": "A",
+          "group": "general",
+          "nameAr": "أ",
+          "nameEn": "Grade A",
+          "start": 520,
+          "increment": 12,
+          "steps": 6,
+          "socialSingle": 268,
+          "socialMarried": 368,
+          "specialBonus": 130
+        },
+        {
+          "id": "B",
+          "group": "general",
+          "nameAr": "ب",
+          "nameEn": "Grade B",
+          "start": 460,
+          "increment": 12,
+          "steps": 6,
+          "socialSingle": 253,
+          "socialMarried": 353,
+          "specialBonus": 115
+        },
+        {
+          "id": "1",
+          "group": "general",
+          "nameAr": "الأولى",
+          "nameEn": "Grade 1",
+          "start": 410,
+          "increment": 10,
+          "steps": 6,
+          "socialSingle": 235,
+          "socialMarried": 328,
+          "specialBonus": 103
+        },
+        {
+          "id": "2",
+          "group": "general",
+          "nameAr": "الثانية",
+          "nameEn": "Grade 2",
+          "start": 360,
+          "increment": 10,
+          "steps": 6,
+          "socialSingle": 222,
+          "socialMarried": 315,
+          "specialBonus": 90
+        },
+        {
+          "id": "3",
+          "group": "general",
+          "nameAr": "الثالثة",
+          "nameEn": "Grade 3",
+          "start": 310,
+          "increment": 10,
+          "steps": 6,
+          "socialSingle": 203,
+          "socialMarried": 291,
+          "specialBonus": 78
+        },
+        {
+          "id": "4",
+          "group": "general",
+          "nameAr": "الرابعة",
+          "nameEn": "Grade 4",
+          "start": 260,
+          "increment": 10,
+          "steps": 6,
+          "socialSingle": 190,
+          "socialMarried": 278,
+          "specialBonus": 65
+        },
+        {
+          "id": "5",
+          "group": "general",
+          "nameAr": "الخامسة",
+          "nameEn": "Grade 5",
+          "start": 200,
+          "increment": 8,
+          "steps": 6,
+          "socialSingle": 169,
+          "socialMarried": 250,
+          "specialBonus": 50
+        },
+        {
+          "id": "6",
+          "group": "general",
+          "nameAr": "السادسة",
+          "nameEn": "Grade 6",
+          "start": 165,
+          "increment": 7,
+          "steps": 6,
+          "socialSingle": 161,
+          "socialMarried": 242,
+          "specialBonus": 50
+        },
+        {
+          "id": "7",
+          "group": "general",
+          "nameAr": "السابعة",
+          "nameEn": "Grade 7",
+          "start": 135,
+          "increment": 6,
+          "steps": 6,
+          "socialSingle": 147,
+          "socialMarried": 222,
+          "specialBonus": 50
+        },
+        {
+          "id": "8",
+          "group": "general",
+          "nameAr": "الثامنة",
+          "nameEn": "Grade 8",
+          "start": 110,
+          "increment": 5,
+          "steps": 6,
+          "socialSingle": 141,
+          "socialMarried": 216,
+          "specialBonus": 50
+        },
+        {
+          "id": "T1",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — الأولى",
+          "nameEn": "Technical-aux 1",
+          "start": 225,
+          "increment": 7,
+          "steps": 11,
+          "socialSingle": 189,
+          "socialMarried": 282,
+          "specialBonus": 57
+        },
+        {
+          "id": "T2",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — الثانية",
+          "nameEn": "Technical-aux 2",
+          "start": 165,
+          "increment": 6,
+          "steps": 11,
+          "socialSingle": 167,
+          "socialMarried": 255,
+          "specialBonus": 50
+        },
+        {
+          "id": "T3",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — الثالثة",
+          "nameEn": "Technical-aux 3",
+          "start": 140,
+          "increment": 5,
+          "steps": 6,
+          "socialSingle": 154,
+          "socialMarried": 235,
+          "specialBonus": 50
+        },
+        {
+          "id": "T4",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — الرابعة",
+          "nameEn": "Technical-aux 4",
+          "start": 120,
+          "increment": 4,
+          "steps": 6,
+          "socialSingle": 149,
+          "socialMarried": 230,
+          "specialBonus": 50
+        },
+        {
+          "id": "T5",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — الخامسة",
+          "nameEn": "Technical-aux 5",
+          "start": 105,
+          "increment": 3,
+          "steps": 6,
+          "socialSingle": 140,
+          "socialMarried": 215,
+          "specialBonus": 50
+        },
+        {
+          "id": "T6",
+          "group": "technicalAux",
+          "nameAr": "الفنية المساعدة — السادسة",
+          "nameEn": "Technical-aux 6",
+          "start": 90,
+          "increment": 3,
+          "steps": 6,
+          "socialSingle": 136,
+          "socialMarried": 211,
+          "specialBonus": 50
+        },
+        {
+          "id": "X1",
+          "group": "aux",
+          "nameAr": "المعاونة — الأولى",
+          "nameEn": "Auxiliary 1",
+          "start": 160,
+          "increment": 5,
+          "steps": 11,
+          "socialSingle": 165,
+          "socialMarried": 253,
+          "specialBonus": 50
+        },
+        {
+          "id": "X2",
+          "group": "aux",
+          "nameAr": "المعاونة — الثانية",
+          "nameEn": "Auxiliary 2",
+          "start": 120,
+          "increment": 4,
+          "steps": 11,
+          "socialSingle": 149,
+          "socialMarried": 230,
+          "specialBonus": 50
+        },
+        {
+          "id": "X3",
+          "group": "aux",
+          "nameAr": "المعاونة — الثالثة",
+          "nameEn": "Auxiliary 3",
+          "start": 90,
+          "increment": 3,
+          "steps": 11,
+          "socialSingle": 136,
+          "socialMarried": 211,
+          "specialBonus": 50
+        }
+      ],
+      "childPerMonth": 50,
+      "childMax": 7,
+      "disabledChild": 100,
+      "costOfLiving": 120
     }
   },
   "om": {
@@ -6719,6 +7347,789 @@ export default {
         "eosAfter3": 0.084,
         "unempEmployee": 0.01
       }
+    },
+    "civilScale": {
+      "law": "لائحة تحديد الرواتب والمزايا الوظيفية (قرار رئيس مجلس الوزراء 77/2013) وتعديلاتها حتى القرار 45/2023، وجداول جهاز الخدمة المدنية",
+      "lastReview": "2026-11-03",
+      "scales": {
+        "generalRegular": {
+          "tableNo": 1,
+          "nameAr": "الوظائف العمومية (الاعتيادية)",
+          "grades": {
+            "2": {
+              "values": [
+                322,
+                327,
+                332,
+                337,
+                342,
+                347,
+                352,
+                357
+              ],
+              "increment": 5,
+              "ranked": false
+            },
+            "3": {
+              "values": [
+                327,
+                333,
+                339,
+                345,
+                351,
+                357,
+                363,
+                369,
+                375,
+                381,
+                387,
+                393,
+                399
+              ],
+              "increment": 6,
+              "ranked": false
+            },
+            "4": {
+              "values": [
+                348,
+                354,
+                360,
+                366,
+                372,
+                378,
+                384,
+                390,
+                396,
+                402,
+                408,
+                414,
+                420,
+                426,
+                432,
+                438
+              ],
+              "increment": 6,
+              "ranked": true
+            },
+            "5": {
+              "values": [
+                377,
+                386,
+                395,
+                404,
+                413,
+                422,
+                431,
+                440,
+                449,
+                458,
+                467,
+                476,
+                485,
+                494,
+                503,
+                512
+              ],
+              "increment": 9,
+              "ranked": true
+            },
+            "6": {
+              "values": [
+                420,
+                430,
+                440,
+                450,
+                460,
+                470,
+                480,
+                490,
+                500,
+                510,
+                520,
+                530,
+                540,
+                550,
+                560,
+                570
+              ],
+              "increment": 10,
+              "ranked": true
+            },
+            "7": {
+              "values": [
+                467,
+                479,
+                491,
+                503,
+                515,
+                527,
+                539,
+                551,
+                563,
+                575,
+                587,
+                599,
+                611,
+                623,
+                635,
+                647
+              ],
+              "increment": 12,
+              "ranked": true
+            },
+            "8": {
+              "values": [
+                526,
+                540,
+                554,
+                568,
+                582,
+                596,
+                610,
+                624,
+                638,
+                652,
+                666,
+                680,
+                694,
+                708,
+                722,
+                736
+              ],
+              "increment": 14,
+              "ranked": true
+            },
+            "9": {
+              "values": [
+                616,
+                633,
+                650,
+                667,
+                684,
+                701,
+                718,
+                735,
+                752,
+                769,
+                786,
+                803,
+                820,
+                837,
+                854,
+                871
+              ],
+              "increment": 17,
+              "ranked": true
+            },
+            "10": {
+              "values": [
+                768,
+                789,
+                810,
+                831,
+                852,
+                873,
+                894,
+                915,
+                936,
+                957,
+                978,
+                999,
+                1020,
+                1041,
+                1062,
+                1083
+              ],
+              "increment": 21,
+              "ranked": true
+            }
+          }
+        },
+        "generalShift": {
+          "tableNo": 2,
+          "nameAr": "الوظائف العمومية — نظام النوبات",
+          "grades": {
+            "2": {
+              "values": [
+                346,
+                351,
+                356,
+                361,
+                366,
+                371,
+                376,
+                381
+              ],
+              "increment": 5,
+              "ranked": false
+            },
+            "3": {
+              "values": [
+                358,
+                364,
+                370,
+                376,
+                382,
+                388,
+                394,
+                400,
+                406,
+                412,
+                418,
+                424,
+                430
+              ],
+              "increment": 6,
+              "ranked": false
+            },
+            "4": {
+              "values": [
+                377,
+                384,
+                391,
+                398,
+                405,
+                412,
+                419,
+                426,
+                433,
+                440,
+                447,
+                454,
+                461,
+                468,
+                475,
+                482
+              ],
+              "increment": 7,
+              "ranked": true
+            },
+            "5": {
+              "values": [
+                409,
+                419,
+                429,
+                439,
+                449,
+                459,
+                469,
+                479,
+                489,
+                499,
+                509,
+                519,
+                529,
+                539,
+                549,
+                559
+              ],
+              "increment": 10,
+              "ranked": true
+            },
+            "6": {
+              "values": [
+                460,
+                471,
+                482,
+                493,
+                504,
+                515,
+                526,
+                537,
+                548,
+                559,
+                570,
+                581,
+                592,
+                603,
+                614,
+                625
+              ],
+              "increment": 11,
+              "ranked": true
+            },
+            "7": {
+              "values": [
+                518,
+                531,
+                544,
+                557,
+                570,
+                583,
+                596,
+                609,
+                622,
+                635,
+                648,
+                661,
+                674,
+                687,
+                700,
+                713
+              ],
+              "increment": 13,
+              "ranked": true
+            },
+            "8": {
+              "values": [
+                584,
+                599,
+                614,
+                629,
+                644,
+                659,
+                674,
+                689,
+                704,
+                719,
+                734,
+                749,
+                764,
+                779,
+                794,
+                809
+              ],
+              "increment": 15,
+              "ranked": true
+            },
+            "9": {
+              "values": [
+                680,
+                699,
+                718,
+                737,
+                756,
+                775,
+                794,
+                813,
+                832,
+                851,
+                870,
+                889,
+                908,
+                927,
+                946,
+                965
+              ],
+              "increment": 19,
+              "ranked": true
+            },
+            "10": {
+              "values": [
+                853,
+                876,
+                899,
+                922,
+                945,
+                968,
+                991,
+                1014,
+                1037,
+                1060,
+                1083,
+                1106,
+                1129,
+                1152,
+                1175,
+                1198
+              ],
+              "increment": 23,
+              "ranked": true
+            }
+          }
+        },
+        "executive": {
+          "tableNo": 6,
+          "nameAr": "الوظائف التنفيذية",
+          "grades": {
+            "1": {
+              "values": [
+                847,
+                875,
+                903,
+                931,
+                959,
+                987,
+                1015,
+                1043,
+                1071,
+                1099,
+                1127,
+                1155,
+                1183,
+                1211,
+                1239,
+                1267
+              ],
+              "increment": 28,
+              "ranked": true
+            },
+            "2": {
+              "values": [
+                1039,
+                1073,
+                1107,
+                1141,
+                1175,
+                1209,
+                1243,
+                1277,
+                1311,
+                1345,
+                1379,
+                1413,
+                1447,
+                1481,
+                1515,
+                1549
+              ],
+              "increment": 34,
+              "ranked": true
+            },
+            "3": {
+              "values": [
+                1300,
+                1343,
+                1386,
+                1429,
+                1472,
+                1515,
+                1558,
+                1601,
+                1644,
+                1687,
+                1730,
+                1773,
+                1816,
+                1859,
+                1902,
+                1945
+              ],
+              "increment": 43,
+              "ranked": true
+            },
+            "4": {
+              "values": [
+                1569,
+                1620,
+                1671,
+                1722,
+                1773,
+                1824,
+                1875,
+                1926,
+                1977,
+                2028,
+                2079,
+                2130,
+                2181,
+                2232,
+                2283,
+                2334
+              ],
+              "increment": 51,
+              "ranked": true
+            },
+            "5": {
+              "values": [
+                1830,
+                1890,
+                1950,
+                2010,
+                2070,
+                2130,
+                2190,
+                2250,
+                2310,
+                2370,
+                2430,
+                2490,
+                2550,
+                2610,
+                2670,
+                2730
+              ],
+              "increment": 60,
+              "ranked": true
+            },
+            "6": {
+              "values": [
+                2139,
+                2210,
+                2281,
+                2352,
+                2423,
+                2494,
+                2565,
+                2636,
+                2707,
+                2778,
+                2849,
+                2920,
+                2991,
+                3062,
+                3133,
+                3204
+              ],
+              "increment": 71,
+              "ranked": true
+            },
+            "7": {
+              "values": [
+                2611,
+                2697,
+                2783,
+                2869,
+                2955,
+                3041,
+                3127,
+                3213,
+                3299,
+                3385,
+                3471,
+                3557,
+                3643,
+                3729,
+                3815,
+                3901
+              ],
+              "increment": 86,
+              "ranked": true
+            }
+          }
+        },
+        "educational": {
+          "tableNo": 7,
+          "nameAr": "الوظائف التعليمية",
+          "grades": {
+            "1": {
+              "values": [
+                328,
+                337,
+                346,
+                355,
+                364,
+                373,
+                382,
+                391,
+                400,
+                409,
+                418,
+                427,
+                436,
+                445,
+                454,
+                463
+              ],
+              "increment": 9,
+              "ranked": true
+            },
+            "2": {
+              "values": [
+                404,
+                415,
+                426,
+                437,
+                448,
+                459,
+                470,
+                481,
+                492,
+                503,
+                514,
+                525,
+                536,
+                547,
+                558,
+                569
+              ],
+              "increment": 11,
+              "ranked": true
+            },
+            "3": {
+              "values": [
+                488,
+                502,
+                516,
+                530,
+                544,
+                558,
+                572,
+                586,
+                600,
+                614,
+                628,
+                642,
+                656,
+                670,
+                684,
+                698
+              ],
+              "increment": 14,
+              "ranked": true
+            },
+            "4": {
+              "values": [
+                581,
+                598,
+                615,
+                632,
+                649,
+                666,
+                683,
+                700,
+                717,
+                734,
+                751,
+                768,
+                785,
+                802,
+                819,
+                836
+              ],
+              "increment": 17,
+              "ranked": true
+            },
+            "5": {
+              "values": [
+                688,
+                708,
+                728,
+                748,
+                768,
+                788,
+                808,
+                828,
+                848,
+                868,
+                888,
+                908,
+                928,
+                948,
+                968,
+                988
+              ],
+              "increment": 20,
+              "ranked": true
+            },
+            "6": {
+              "values": [
+                803,
+                826,
+                849,
+                872,
+                895,
+                918,
+                941,
+                964,
+                987,
+                1010,
+                1033,
+                1056,
+                1079,
+                1102,
+                1125,
+                1148
+              ],
+              "increment": 23,
+              "ranked": true
+            },
+            "7": {
+              "values": [
+                926,
+                953,
+                980,
+                1007,
+                1034,
+                1061,
+                1088,
+                1115,
+                1142,
+                1169,
+                1196,
+                1223,
+                1250,
+                1277,
+                1304,
+                1331
+              ],
+              "increment": 27,
+              "ranked": true
+            },
+            "8": {
+              "values": [
+                1055,
+                1085,
+                1115,
+                1145,
+                1175,
+                1205,
+                1235,
+                1265,
+                1295,
+                1325,
+                1355,
+                1385,
+                1415,
+                1445,
+                1475,
+                1505
+              ],
+              "increment": 30,
+              "ranked": true
+            },
+            "9": {
+              "values": [
+                1185,
+                1219,
+                1253,
+                1287,
+                1321,
+                1355,
+                1389,
+                1423,
+                1457,
+                1491,
+                1525,
+                1559,
+                1593,
+                1627,
+                1661,
+                1695
+              ],
+              "increment": 34,
+              "ranked": true
+            },
+            "10": {
+              "values": [
+                1361,
+                1399,
+                1437,
+                1475,
+                1513,
+                1551,
+                1589,
+                1627,
+                1665,
+                1703,
+                1741,
+                1779,
+                1817,
+                1855,
+                1893,
+                1931
+              ],
+              "increment": 38,
+              "ranked": true
+            }
+          }
+        }
+      },
+      "living": [
+        85,
+        100
+      ],
+      "transport": 20
     }
   },
   "zakat": {

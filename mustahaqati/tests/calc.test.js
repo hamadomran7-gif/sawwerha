@@ -3,6 +3,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  kuwaitCivilSalary,
+  qatarCivilSalary,
+  bahrainCivilSalary,
   omanCivilSalary,
   uaeFederalSalary,
   ksaCitizenAccountMax,
@@ -1813,4 +1816,58 @@ test("جدول رواتب عُمان والسلم الاتحادي الإمار�
   assert.equal(uaeFederalSalary({ grade: 1, married: true, children: 3 }).net, 26502);
   assert.equal(uaeFederalSalary({ grade: 11, married: false }).total, 7205);
   assert.equal(uaeFederalSalary({ grade: 13, married: false }).total, 5907);
+});
+
+test("جداول رواتب الكويت وقطر والبحرين (الدفعة 32أ)", () => {
+  const k1 = kuwaitCivilSalary({ grade: "6", step: 1, special: true });
+  assert.equal(k1.gross, 496);
+  assert.equal(k1.deduction, 32.6);
+  assert.equal(k1.net, 463.4);
+  assert.equal(kuwaitCivilSalary({ grade: "6", step: 1 }).net, 413.4);
+  const k2 = kuwaitCivilSalary({ grade: "3", step: 4, married: true, children: 2, special: true });
+  assert.equal(k2.basic, 340);
+  assert.equal(k2.gross, 929);
+  assert.equal(k2.net, 855.9);
+  assert.equal(k2.nextBasic, 350);
+  const k3 = kuwaitCivilSalary({ grade: "wakil", step: 6, married: true, children: 9, special: true });
+  assert.equal(k3.gross, 1850);
+  assert.equal(k3.deduction, 154.125);
+  assert.equal(k3.net, 1695.875);
+  const k4 = kuwaitCivilSalary({ grade: "8", step: 6 });
+  assert.equal(k4.basic, 135);
+  assert.equal(k4.nextBasic, null);
+  const q1 = qatarCivilSalary({ grade: "7", step: 1 });
+  assert.equal(q1.gross, 16100);
+  assert.equal(q1.deduction, 1127);
+  assert.equal(q1.net, 14973);
+  const q2 = qatarCivilSalary({ grade: "4", step: 5, married: true });
+  assert.equal(q2.basic, 19200);
+  assert.equal(q2.net, 27528);
+  assert.equal(qatarCivilSalary({ grade: "4", step: 5, married: true, rating: "exceptional" }).nextBasic, 20400);
+  assert.equal(qatarCivilSalary({ grade: "4", step: 5, married: true, rating: "exceeds" }).nextBasic, 20200);
+  assert.equal(q2.nextBasic, 20000);
+  assert.equal(qatarCivilSalary({ grade: "4", step: 5, married: true, rating: "below" }).nextBasic, 19800);
+  assert.equal(qatarCivilSalary({ grade: "4", step: 5, married: true, rating: "weak" }).nextBasic, 19200);
+  const q4 = qatarCivilSalary({ grade: "12", basic: 5560 });
+  assert.equal(q4.nextBasic, 5600);
+  assert.equal(q4.overflowBonus, 160);
+  const q5 = qatarCivilSalary({ grade: "8", step: 1 });
+  assert.equal(q5.gross, 12860);
+  assert.equal(q5.net, 11959.8);
+  const qu = qatarCivilSalary({ grade: "undersecretary", married: true });
+  assert.equal(qu.basic, 65000);
+  assert.equal(qu.nextBasic, null);
+  const b1 = bahrainCivilSalary({ scale: "generalRegular", grade: "6", index: 0, transport: true });
+  assert.equal(b1.basic, 420);
+  assert.equal(b1.pension, 29.4);
+  assert.equal(b1.unemployment, 4.2);
+  assert.equal(b1.net, 406.4);
+  assert.equal(b1.nextBasic, 430);
+  const b3 = bahrainCivilSalary({ scale: "executive", grade: "3", index: 4 });
+  assert.equal(b3.basic, 1472);
+  assert.equal(b3.pension, 103.04);
+  assert.equal(bahrainCivilSalary({ scale: "educational", grade: "1", index: 0 }).pension, 22.96);
+  assert.equal(bahrainCivilSalary({ scale: "generalShift", grade: "10", index: 15 }).nextBasic, null);
+  assert.equal(bahrainCivilSalary({ scale: "generalRegular", grade: "2", index: 7 }).basic, 357);
+  assert.equal(bahrainCivilSalary({ scale: "executive", grade: "9" }), null);
 });

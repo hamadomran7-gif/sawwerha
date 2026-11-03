@@ -681,6 +681,37 @@ const TABLES = {
       rows
     );
   },
+  "kw-civil-scale"(a) {
+    const en = a.lang === "en";
+    const S = calc.rules.kw.civilScale;
+    const GN = en ? { leadership: "Leadership", general: "General", technicalAux: "Technical auxiliary", aux: "Auxiliary" } : { leadership: "القيادية", general: "العامة", technicalAux: "الفنية المساعدة", aux: "المعاونة" };
+    const rows = S.grades.map((g) => [`${en ? g.nameEn : g.nameAr}`, GN[g.group] || g.group, fmt0.format(g.start), g.increment ? fmt0.format(g.increment) : "—", fmt0.format(g.start + (g.steps - 1) * g.increment), fmt0.format(g.steps), `${fmt0.format(g.socialSingle)} / ${fmt0.format(g.socialMarried)}`]);
+    return tableWrap(
+      a.caption || (en ? "KWD per month. Circulated general salary table (medium confidence); social allowance single / married" : "بالدينار شهرياً. جدول المرتبات العام المتداول (ثقة متوسطة)، والعلاوة الاجتماعية أعزب / متزوج"),
+      en ? ["Grade", "Group", "Starting basic", "Increment", "Top of grade", "Steps", "Social allowance"] : ["الدرجة", "المجموعة", "أول المربوط", "العلاوة", "آخر المربوط", "الخطوات", "العلاوة الاجتماعية"],
+      rows
+    );
+  },
+  "qa-civil-scale"(a) {
+    const en = a.lang === "en";
+    const S = calc.rules.qa.civilScale;
+    const rows = S.grades.map((g) => [en ? g.nameEn : g.nameAr, fmt0.format(g.start), fmt0.format(g.increment), fmt0.format(g.max), `${fmt0.format(g.socialMarried)} / ${fmt0.format(g.socialSingle)}`, `${fmt0.format(g.housingMarried)} / ${fmt0.format(g.housingSingle)}`]);
+    rows.unshift([en ? "Undersecretary" : "وكيل وزارة", fmt0.format(S.fixed.undersecretary), "—", "—", "6,400 / 4,000", "6,000 / 3,500"], [en ? "Assistant undersecretary" : "وكيل وزارة مساعد", fmt0.format(S.fixed.assistantUndersecretary), "—", "—", "6,400 / 4,000", "6,000 / 3,500"]);
+    return tableWrap(
+      a.caption || (en ? "QAR per month for Qatari employees (Law 15/2016, table 1; allowances under Cabinet Decision 34/2025): married / single" : "بالريال القطري شهرياً للموظف القطري (القانون 15/2016، الجدول 1؛ البدلات بقرار مجلس الوزراء 34/2025): متزوج / أعزب"),
+      en ? ["Grade", "Start", "Annual increment", "Top of grade", "Social allowance", "Housing allowance"] : ["الدرجة", "البداية", "العلاوة الدورية", "نهاية المربوط", "العلاوة الاجتماعية", "بدل السكن"],
+      rows
+    );
+  },
+  "bh-civil-scale"(a) {
+    const en = a.lang === "en";
+    const T = calc.rules.bh.civilScale.scales[a.scale || "generalRegular"];
+    const rows = Object.keys(T.grades).sort((x, y) => x - y).map((g) => {
+      const v = T.grades[g];
+      return [en ? `Grade ${g}` : `الدرجة ${g}`, fmt0.format(v.values[0]), fmt0.format(v.increment), fmt0.format(v.values[v.values.length - 1]), v.ranked ? fmt0.format(v.values.length) : `${fmt0.format(v.values.length)}${en ? " (published values)" : " (القيم المنشورة)"}`];
+    });
+    return tableWrap(a.caption || (en ? `BHD per month — table ${T.tableNo}` : `بالدينار شهرياً — الجدول ${T.tableNo}: ${T.nameAr}`), en ? ["Grade", "Minimum", "Increment", "Maximum (rank 15)", "Values"] : ["الدرجة", "الحد الأدنى", "العلاوة", "الحد الأعلى (الرتبة 15)", "عدد القيم"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];
