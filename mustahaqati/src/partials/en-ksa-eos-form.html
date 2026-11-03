@@ -1,0 +1,41 @@
+<!--defaults {"heading":"Calculate your end-of-service award","wage":"9000","start":"2019-01-01","end":"2026-11-30","reason":"contract_end"}-->
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">{{heading}}</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last monthly wage (SAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="{{wage}}" required>
+        <span class="hint">Basic salary plus fixed allowances (housing, transport…): the "actual wage" in the law.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="{{start}}" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="{{end}}" required>
+      </div>
+      <div class="field full">
+        <label for="reason">Why did the contract end?</label>
+        <select id="reason" name="reason">
+          <option value="contract_end"{{reason=contract_end}}>Contract expired or was ended by the employer</option>
+          <option value="resignation"{{reason=resignation}}>Resignation from a fixed-term contract (Article 79 bis)</option>
+          <option value="worker_notice"{{reason=worker_notice}}>Employee ended an open-ended contract with notice (Article 75)</option>
+          <option value="mutual"{{reason=mutual}}>Mutual written agreement to end the contract</option>
+          <option value="article_81"{{reason=article_81}}>Employee left under Article 81 (employer breach, etc.)</option>
+          <option value="resignation_marriage"{{reason=resignation_marriage}}>Female employee resigned within 6 months of marriage</option>
+          <option value="resignation_childbirth"{{reason=resignation_childbirth}}>Female employee resigned within 3 months of childbirth</option>
+          <option value="force_majeure"{{reason=force_majeure}}>Left due to force majeure</option>
+          <option value="article_80"{{reason=article_80}}>Dismissed by the employer under Article 80</option>
+          <option value="probation"{{reason=probation}}>Contract ended during probation</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
