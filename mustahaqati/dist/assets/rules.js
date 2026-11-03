@@ -804,7 +804,17 @@ export default {
       "deathFamilyDays": 5,
       "deathSiblingDays": 3,
       "paternityDays": 3,
-      "paternityWithinDays": 7
+      "paternityWithinDays": 7,
+      "gosi": {
+        "law": "نظام التأمينات الاجتماعية م41–42 (تعويض الأمومة)، مطبّق منذ 1 يوليو 2025",
+        "from": "2025-07-01",
+        "months": 3,
+        "sickChildExtraMonths": 1,
+        "rate": 1,
+        "minContribMonths": 12,
+        "withinMonths": 36,
+        "wageCap": 45000
+      }
     },
     "notice": {
       "law": "نظام العمل السعودي المادة 75 (معدلة 2025) والمادة 76",

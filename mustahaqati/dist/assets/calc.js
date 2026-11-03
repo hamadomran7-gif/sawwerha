@@ -771,6 +771,20 @@ const addMonthsUTC = (x, n) => {
 const daysBetween = (a, b) => Math.round((toUTC(b) - toUTC(a)) / 86400000);
 
 /** السعودية — المادة 151: 12 أسبوعاً بأجر كامل، تبدأ قبل الموعد المرجح بأربعة أسابيع على الأكثر، و6 أسابيع بعد الوضع إلزامية. */
+/** السعودية — تعويض الأمومة من التأمينات (م41–42): 3 أشهر بـ100% من متوسط الأجر الخاضع للاشتراك لمن لها 12 شهر اشتراك خلال 36، وإلا يدفع صاحب العمل 12 أسبوعاً. */
+export function ksaMaternityPay({ contribMonths = 0, insuredWage = 0, wage = 0, sickChild = false } = {}) {
+  const M = rules.sa.maternity, G = M.gosi;
+  const w = Math.max(0, Number(wage) || 0);
+  const iw = Math.min(G.wageCap, Math.max(0, Number(insuredWage) || w));
+  const gosi = (Number(contribMonths) || 0) >= G.minContribMonths;
+  if (gosi) {
+    const months = G.months + (sickChild ? G.sickChildExtraMonths : 0);
+    return { payer: "gosi", months, monthly: r2(iw * G.rate), total: r2(iw * G.rate * months), insuredWage: iw, capped: (Number(insuredWage) || w) > G.wageCap };
+  }
+  const days = M.weeks * 7 + (sickChild ? 30 : 0);
+  return { payer: "employer", days, daily: r2(w / 30), total: r2((w / 30) * days), shortBy: G.minContribMonths - (Number(contribMonths) || 0) };
+}
+
 export function ksaMaternityPlan({ due, start, wage = 0 }) {
   const m = rules.sa.maternity;
   const totalDays = m.weeks * 7;

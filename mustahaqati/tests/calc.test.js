@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  ksaMaternityPay,
   hijriMonthGrid,
   hijriEventCountdown,
   ramadanHours,
@@ -1495,4 +1496,13 @@ test("شبكة الشهر الهجري بتقويم أم القرى", () => {
   let total = 0; for (let k = 1; k <= 12; k++) total += hijriMonthGrid({ year: 1448, month: k }).length;
   assert.equal(total, 355);
   assert.equal(hijriMonthGrid({ year: 1700, month: 1 }), null);
+});
+
+test("تعويض الأمومة من التأمينات السعودية", () => {
+  assert.equal(ksaMaternityPay({ contribMonths: 8, wage: 6000 }).total, 16800);
+  assert.equal(ksaMaternityPay({ contribMonths: 8, wage: 6000 }).payer, "employer");
+  assert.equal(ksaMaternityPay({ contribMonths: 12, wage: 6000 }).total, 18000);
+  assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 9000, insuredWage: 7000 }).total, 21000);
+  assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 60000 }).monthly, 45000);
+  assert.equal(ksaMaternityPay({ contribMonths: 24, wage: 6000, sickChild: true }).months, 4);
 });
