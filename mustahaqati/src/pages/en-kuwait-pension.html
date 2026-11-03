@@ -1,0 +1,124 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-pension-calculator",
+  "alternate": "kuwait-pension",
+  "title": "Kuwait Pension Calculator 2026 — PIFSS Retirement Pension, Early Retirement and Lump Sums",
+  "h1": "Kuwait Pension Calculator (PIFSS)",
+  "description": "Calculate your Kuwaiti retirement pension from the Public Institution for Social Security (PIFSS): 65% of the pension salary for 15 years plus 2% a year up to 95%, early retirement reductions, the minimum pension (KD 1,010 to 1,615), the retirement remuneration and the lump sum for those without a pension.",
+  "short": "65% for 15 years plus 2% a year up to 95%, early retirement and the minimum pension",
+  "lead": "Enter your gender, age at retirement, service and pension salary to see your basic pension, any early retirement reduction, the minimum pension and the one-off remuneration.",
+  "country": "kw",
+  "category": "salary",
+  "tool": true,
+  "script": "en-kuwait-pension.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-kuwait-end-of-service", "en-kuwait-leave", "en-ksa-retirement-pension", "en-uae-pension", "en-bahrain-pension", "en-gcc-pension-comparison"],
+  "faq": [
+    {"q": "When is a Kuwaiti entitled to a retirement pension?", "a": "With at least 15 years of service and age 55 for men or 50 for women, whatever their marital status. Early retirement is allowed up to five years earlier with a reduced pension. In 2024 PIFSS denied reports of any change to these ages."},
+    {"q": "How is the Kuwaiti pension calculated?", "a": "65% of the pension salary for the first 15 years, then 2% for each extra year (and a share for each month), up to 95% at 30 years. The pension salary is capped at KD 1,500: the best salary of the last 5 years in government, or the average of the last 5 years in the private sector. A supplementary pension is added for pay above KD 1,500."},
+    {"q": "How much is the early retirement reduction in Kuwait?", "a": "For men with under 30 years of service and women with under 25: a permanent reduction of 25%, then 20, 15, 10 and 5% as age approaches the normal age. For men with 30 years or women with 25: a temporary reduction of 10% down to 2% that stops at 65 for men and 60 for women. No reduction for men with 35 years or women with 30."},
+    {"q": "What is the minimum pension in Kuwait?", "a": "Since Minister of Finance Decision 6/2023: KD 1,010 for a single person or a woman, KD 1,126 for a married man without children, then KD 1,196 for one child up to KD 1,615 for seven or more children, applied to the basic plus supplementary pension."},
+    {"q": "What is the retirement remuneration?", "a": "One month's pension salary for each year of service, up to 18 years, rising to 19, 20 and 21 for those retiring at 56, 57 and 58 or older (51, 52 and 53 for women), provided a pension is due and there are 24 months of contributions after 1 January 2015, under Law 110/2014."},
+    {"q": "Does the pension increase every year?", "a": "Yes. It rises by KD 20 a month every 1 August since 2023 under a 2022 law, and PIFSS confirmed the increase in 2024 and 2025."}
+  ],
+  "sources": [
+    {"t": "PIFSS — brief guide to social insurance (2023, Arabic)", "u": "https://www.pifss.gov.kw/Lists/BriefLegislationGuideList/Attachments/1/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%AA%D8%A7%D9%94%D9%85%D9%8A%D9%86%D8%A7%D8%AA-%20%D8%B9%D8%B1%D8%A8%D9%8A%2010.pdf"},
+    {"t": "Al Rai — Minister of Finance Decision 6/2023 on the minimum pension (Arabic)", "u": "https://www.alraimedia.com/article/1668911/"},
+    {"t": "Arab Times — KD 20 pension increase from August 2025", "u": "https://www.arabtimesonline.com/news/kuwaits-social-security-to-disburse-kd-20-pension-increase-starting-august-1"},
+    {"t": "Kuwait Times — PIFSS denies raising the retirement age (August 2024)", "u": "https://kuwaittimes.com/article/18119/kuwait/other-news/pifss-denies-newspapers-and-social-media-reports/"},
+    {"t": "Al Anba — text of Law 110/2014 on the retirement remuneration (Arabic)", "u": "https://pdf.alanba.com.kw/pdf/2015/02/13-02-2015/20.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your pension</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="m" selected>Man</option>
+          <option value="f">Woman</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="age">Age at retirement (full years)</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="30" max="80" step="1" value="55" required>
+      </div>
+      <div class="field">
+        <label for="serviceYears">Service: years</label>
+        <input type="number" id="serviceYears" name="serviceYears" inputmode="decimal" min="0" max="50" step="1" value="25" required>
+      </div>
+      <div class="field">
+        <label for="serviceMonths">and months</label>
+        <input type="number" id="serviceMonths" name="serviceMonths" inputmode="decimal" min="0" max="11" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="base">Pension salary (KD)</label>
+        <input type="number" id="base" name="base" inputmode="decimal" min="0" step="1" value="1500" required>
+        <span class="hint">Best salary of the last 5 years (government) or their average (private sector). Capped at KD 1,500.</span>
+      </div>
+      <div class="field">
+        <label for="supplementary">Supplementary pension (optional, KD)</label>
+        <input type="number" id="supplementary" name="supplementary" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">From your PIFSS statement, for pay above KD 1,500.</span>
+      </div>
+      <div class="field">
+        <label for="married">Family status (for the minimum)</label>
+        <select id="married" name="married">
+          <option value="no" selected>Single, or a woman</option>
+          <option value="yes">Married, or a woman supporting her children</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Dependent children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="contribSince2015" name="contribSince2015" checked>
+        <label for="contribSince2015">I have at least 24 months of contributions after 1 January 2015 (for the remuneration)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Pension rate by length of service</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service</th><th scope="col">15 years</th><th scope="col">20 years</th><th scope="col">25 years</th><th scope="col">30 years or more</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Pension as a share of the pension salary</th><td>65%</td><td>75%</td><td>85%</td><td>95%</td></tr>
+    <tr><th scope="row">On a pension salary of KD 1,500</th><td>975</td><td>1,125</td><td>1,275</td><td>1,425</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Early retirement reductions</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Age (man / woman)</th><th scope="col">50 / 45</th><th scope="col">51 / 46</th><th scope="col">52 / 47</th><th scope="col">53 / 48</th><th scope="col">54 / 49</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Permanent (service under 30 / 25)</th><td>25%</td><td>20%</td><td>15%</td><td>10%</td><td>5%</td></tr>
+    <tr><th scope="row">Temporary until 65 / 60 (service of 30 / 25 or more)</th><td>10%</td><td>8%</td><td>6%</td><td>4%</td><td>2%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The reduction applies to the basic pension only, and there is none for men with 35 years of service or women with 30. Service beyond 30 years is paid as a lump sum using the retirement lump-sum bands.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A man aged 55 with 25 years of service and a salary of KD 2,000 (KD 1,500 counts): 85% = <strong>KD 1,275</strong>, plus a remuneration of 18 × 1,500 = KD 27,000.<br>
+A man aged 52 with 26 years 6 months of service and a pension salary of KD 1,400: 88% = KD 1,232, and after a 15% permanent reduction <strong>KD 1,047.20</strong>, raised to KD 1,126 for a married man if the minimum applies to the reduced pension.</p>
+</div>
+
+<h2>If you do not qualify for a pension</h2>
+<p>Anyone whose service ends before 15 years receives a retirement lump sum: pension salary × 12 × 10% for each of the first 5 years, then 12% for the next five, then 15%, then 20% for the rest. Twelve years on a pension salary of KD 1,200 gives KD 20,160. For expatriates in Kuwait's private sector, see the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">end-of-service indemnity calculator</a>.</p>
+</div>
