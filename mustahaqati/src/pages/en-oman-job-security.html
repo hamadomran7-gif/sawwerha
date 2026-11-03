@@ -1,0 +1,72 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-job-security-allowance-calculator",
+  "alternate": "oman-job-security",
+  "title": "Oman Job Security Allowance Calculator 2026 — 60%, Then 50%, Then 40% for a Year",
+  "h1": "Oman Job Security Allowance Calculator",
+  "description": "Calculate the job security allowance for an Omani whose employment ended for reasons beyond their control: 60% of the average wage of the last two years for six months, then 50% for three months, then 40% for three, with a minimum of OMR 115 and no ceiling, under the Social Protection Law and the directives announced in January 2026.",
+  "short": "60% for six months, then 50% for three, then 40% for three, of the two-year average wage; minimum OMR 115",
+  "lead": "Enter your average monthly wage over the last two years and why your employment ended to see the allowance month by month and in total.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-oman-job-security.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-end-of-service", "en-oman-pension", "en-oman-notice-period", "en-oman-public-holidays"],
+  "faq": [
+    {"q": "How much is Oman's job security allowance?", "a": "60% of the average wage of the last two years for the first six months, then 50% for three months, then 40% for three months, with a minimum of OMR 115 or the wage if lower, and no ceiling, since February 2026 according to the Royal directives announced by the Social Protection Fund. The original text of the law gives six months at 60%."},
+    {"q": "Who is entitled to the job security allowance?", "a": "Omanis working in the Sultanate whose employment ended for reasons beyond their control, who are registered as job seekers and actively looking for work. It does not cover voluntary resignation, disciplinary dismissal, expatriates, the self-employed or part-time workers."},
+    {"q": "How much is the job security contribution?", "a": "0.5% of the wage from the employee and 0.5% from the employer each month, with no wage cap (Article 116 of the Social Protection Law). The 1% + 1% rates belonged to the repealed 2020 system."},
+    {"q": "Does the allowance period count towards the pension?", "a": "Yes. The period during which the allowance is paid counts as actual service, and the branch pays pension contributions on the amount paid (Article 119)."}
+  ],
+  "sources": [
+    {"t": "Social Protection Law (Royal Decree 52/2023) — Articles 115 to 120 (decree.om translation)", "u": "https://decree.om/2023/rd20230052/"},
+    {"t": "Oman Daily — job security allowance extended to a year (11/1/2026, Arabic)", "u": "https://www.omandaily.om/ampArticle/1194376"},
+    {"t": "Atheer — allowance rates and payment from February 2026 (11/1/2026, Arabic)", "u": "https://www.atheer.om/2026/01/11/021200/"},
+    {"t": "CMS — the new Oman Social Protection Fund law: 0.5% contributions (5/9/2023)", "u": "https://cms.law/en/omn/legal-updates/the-new-oman-social-protection-fund-law-key-changes"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the allowance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="avgWage">Average monthly wage over the last two years (OMR)</label>
+        <input type="number" id="avgWage" name="avgWage" inputmode="decimal" min="0" step="1" value="800" required>
+      </div>
+      <div class="field">
+        <label for="reason">Why did employment end?</label>
+        <select id="reason" name="reason">
+          <option value="termination" selected>Ended for reasons beyond my control</option>
+          <option value="resignation">Voluntary resignation</option>
+          <option value="disciplinary">Disciplinary dismissal</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The allowance month by month (from February 2026)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Months</th><th scope="col">Share of average wage</th><th scope="col">On an average of OMR 800</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1–6</th><td>60%</td><td>480 × 6 = 2,880</td></tr>
+    <tr><th scope="row">7–9</th><td>50%</td><td>400 × 3 = 1,200</td></tr>
+    <tr><th scope="row">10–12</th><td>40%</td><td>320 × 3 = 960</td></tr>
+    <tr><th scope="row">Total</th><td>12 months</td><td>5,040</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The minimum is OMR 115 a month, or the wage if lower, and there is no ceiling on the allowance or on the wage subject to contributions in this branch. An average of OMR 180 gives 115 every month (1,380 a year), and an average of 2,500 gives 1,500, then 1,250, then 1,000 (15,750).</p>
+<p>The minimum contribution period is set in the executive regulation, which we could not read; under the 2020 system it was 12 consecutive months for a first claim. Employers must notify the Ministry of Labour before ending an insured person's employment (Article 120). For what you are owed when employment ends, use the <a href="{{root}}en/oman-end-of-service-calculator/{{ix}}">Oman end-of-service calculator</a>.</p>
+</div>

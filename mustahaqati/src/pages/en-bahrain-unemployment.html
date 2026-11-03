@@ -1,0 +1,101 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-unemployment-benefit-calculator",
+  "alternate": "bahrain-unemployment",
+  "title": "Bahrain Unemployment Benefit Calculator 2026 — 60% Between BHD 200 and 1,000, or a BHD 200/150 Allowance",
+  "h1": "Bahrain Unemployment Compensation and Allowance Calculator",
+  "description": "Calculate Bahrain's unemployment insurance compensation: 60% of the average wage of the last 12 months, at least BHD 200 and at most 1,000, for 9 months after 12 consecutive months of contributions, or the first-time job seeker allowance of BHD 200 for graduates and 150 for others for 9 months, under Decree-Law 78/2006 as amended by Law 4/2019.",
+  "short": "Compensation 60% between BHD 200 and 1,000 for 9 months; allowance BHD 200 for graduates, 150 for others",
+  "lead": "Choose your situation and enter your average wage and contribution period to see the compensation or allowance and the total.",
+  "country": "bh",
+  "category": "salary",
+  "tool": true,
+  "script": "en-bahrain-unemployment.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-bahrain-end-of-service", "en-bahrain-pension", "en-bahrain-leave", "en-bahrain-public-holidays"],
+  "faq": [
+    {"q": "How much is unemployment compensation in Bahrain?", "a": "60% of the insured person's average wage over the previous 12 months, at least BHD 200 (or the average wage if lower) and at most BHD 1,000 a month, for up to 9 months, continuous or not (Articles 11, 12 and 14 as amended in 2019)."},
+    {"q": "How much is the allowance for first-time job seekers in Bahrain?", "a": "BHD 200 a month for university graduates and 150 for others, for up to 9 months within 12 months, for Bahrainis aged 18 or over (Articles 17 and 18). Parliament approved raising it to 300 and 250 in 2025, but the amendment had not been issued by November 2026."},
+    {"q": "Do people who resign get unemployment compensation?", "a": "No. The worker must not have left the job voluntarily or been dismissed for disciplinary reasons (Article 10)."},
+    {"q": "Can expatriates get unemployment compensation in Bahrain?", "a": "Yes for compensation, if legally resident and meeting the other conditions; the allowance is for Bahrainis only."},
+    {"q": "How much is the unemployment insurance contribution?", "a": "1% of the wage from the insured person, 1% from the employer (paid by the Labour Fund for the private sector) and 1% from the government (Article 6)."},
+    {"q": "When does compensation start?", "a": "From the eighth day after employment ends if you register within 30 days, otherwise from the registration date; the right lapses if you do not register within 3 months (Articles 13 and 21)."}
+  ],
+  "sources": [
+    {"t": "Legislation and Legal Opinion Commission — Law 4/2019 amending the unemployment insurance law (Arabic)", "u": "https://www.lloc.gov.bh/Legislation/HTM/K0419"},
+    {"t": "Legislation and Legal Opinion Commission — Decree-Law 78/2006 on unemployment insurance (Arabic)", "u": "https://www.lloc.gov.bh/Legislation/HTM/L7806"},
+    {"t": "Legislation and Legal Opinion Commission — list of amendments (Arabic)", "u": "https://lloc.gov.bh/Legislation/Amendments/L7806"},
+    {"t": "Ministry of Labour — unemployment benefit service (updated 2/7/2025)", "u": "https://mol.gov.bh/home/subservices_sections/55?lang=en"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the compensation or allowance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="reason">Your situation</label>
+        <select id="reason" name="reason">
+          <option value="termination" selected>I lost my job for a reason other than resignation or disciplinary dismissal</option>
+          <option value="firstJob">I am looking for work for the first time</option>
+          <option value="resignation">I resigned voluntarily</option>
+          <option value="disciplinary">I was dismissed for disciplinary reasons</option>
+        </select>
+      </div>
+      <div class="field" data-comp>
+        <label for="avgWage">Average monthly wage over the last 12 months (BHD)</label>
+        <input type="number" id="avgWage" name="avgWage" inputmode="decimal" min="0" step="1" value="1200">
+      </div>
+      <div class="field" data-comp>
+        <label for="contribMonths">Consecutive months of contributions</label>
+        <input type="number" id="contribMonths" name="contribMonths" inputmode="decimal" min="0" step="1" value="24">
+      </div>
+      <div class="field">
+        <label for="graduate">Qualification (for the allowance)</label>
+        <select id="graduate" name="graduate">
+          <option value="yes" selected>University graduate</option>
+          <option value="no">Not a graduate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="bahraini">Nationality</label>
+        <select id="bahraini" name="bahraini">
+          <option value="yes" selected>Bahraini</option>
+          <option value="no">Expatriate legally resident</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Compensation and allowance after the 2019 amendment</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Compensation (insured unemployed)</th><th scope="col">Allowance (first-time job seeker)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Amount</th><td>60% of the 12-month average wage</td><td>200 for graduates, 150 for others</td></tr>
+    <tr><th scope="row">Limits</th><td>BHD 200 to 1,000</td><td>—</td></tr>
+    <tr><th scope="row">Duration</th><td>9 months, and 9 in every 24 months</td><td>9 months within 12 months</td></tr>
+    <tr><th scope="row">Contributions required</th><td>12 consecutive months for a first claim</td><td>None</td></tr>
+    <tr><th scope="row">Nationality</th><td>Bahrainis and legally resident expatriates</td><td>Bahrainis only</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Average BHD 1,200: 720 × 9 = <strong>BHD 6,480</strong>.<br>
+Average 2,500: 60% = 1,500, capped at 1,000: 1,000 × 9 = <strong>BHD 9,000</strong>.<br>
+Average 300: 60% = 180, raised to the minimum: 200 × 9 = <strong>BHD 1,800</strong>.<br>
+Someone dismissed after only 8 months of contributions gets no compensation, but the allowance if Bahraini.</p>
+</div>
+<p>A second claim needs 12 months of contributions within 18, a third 18 within 24, and later claims 36 within 48. The right lapses if a suitable job is refused twice without good reason. For your end-of-service award, use the <a href="{{root}}en/bahrain-end-of-service-calculator/{{ix}}">Bahrain end-of-service calculator</a>.</p>
+</div>

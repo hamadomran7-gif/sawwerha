@@ -50,6 +50,9 @@ import {
   upcomingHolidays,
   holidayWorkPay,
   dateRuns,
+  ksaHafiz,
+  omanJobSecurity,
+  bahrainUnemployment,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1377,4 +1380,32 @@ test("العطل الرسمية: المواعيد القادمة وأجر الع
   assert.equal(holidayWorkPay({ country: "om", basic: 6000, total: 8000, consent: false }).total, 600);
   const bh = holidayWorkPay({ country: "bh", total: 8000 });
   assert.equal(bh.total, 666.67); assert.equal(bh.totalMin, 400);
+});
+
+test("إعانات الباحثين عن عمل: حافز والأمان الوظيفي والتعطل في البحرين", () => {
+  const today = "2026-11-03";
+  const g = ksaHafiz({ birth: "2002-05-01", today, status: "graduate", eventDate: "2026-06-01" });
+  assert.ok(g.eligible); assert.equal(g.total, 20250); assert.equal(g.payments, 15);
+  assert.equal(ksaHafiz({ birth: "2000-01-01", today, income: 600 }).total, 11250);
+  const i800 = ksaHafiz({ birth: "2000-01-01", today, income: 800 });
+  assert.equal(i800.total, 8400); assert.equal(i800.stoppedBy, "income");
+  assert.equal(ksaHafiz({ birth: "2000-01-01", today, income: 950 }).rows[8].pay, 100);
+  const old = ksaHafiz({ birth: "1987-05-03", today }); // 39 سنة و6 أشهر
+  assert.equal(old.payments, 6); assert.equal(old.total, 11000); assert.equal(old.stoppedBy, "age");
+  assert.equal(ksaHafiz({ birth: "1990-01-01", today, familySize: 5 }).familyCap, 9600);
+  assert.ok(ksaHafiz({ birth: "1990-01-01", today, familySize: 5, familyIncome: 10000 }).reasons.includes("family"));
+  const w = ksaHafiz({ birth: "1994-01-01", today, status: "worked", eventDate: "2025-09-30" });
+  assert.ok(w.reasons.includes("wait")); assert.equal(w.waitUntil, "2027-09-30");
+  assert.equal(omanJobSecurity({ avgWage: 800 }).total, 5040);
+  assert.equal(omanJobSecurity({ avgWage: 180 }).total, 1380);
+  assert.equal(omanJobSecurity({ avgWage: 2500 }).total, 15750);
+  assert.equal(omanJobSecurity({ avgWage: 800, reason: "resignation" }).total, 0);
+  assert.equal(bahrainUnemployment({ avgWage: 1200 }).total, 6480);
+  assert.equal(bahrainUnemployment({ avgWage: 2500 }).total, 9000);
+  assert.equal(bahrainUnemployment({ avgWage: 300 }).total, 1800);
+  assert.equal(bahrainUnemployment({ avgWage: 180 }).total, 1620);
+  assert.equal(bahrainUnemployment({ avgWage: 900, contribMonths: 8 }).total, 1800);
+  assert.equal(bahrainUnemployment({ reason: "firstJob", graduate: false }).total, 1350);
+  assert.equal(bahrainUnemployment({ avgWage: 500, bahraini: false }).monthly, 300);
+  assert.equal(bahrainUnemployment({ avgWage: 500, reason: "resignation" }).kind, "none");
 });

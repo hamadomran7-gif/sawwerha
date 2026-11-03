@@ -247,5 +247,11 @@
  "kuwait-public-holidays": "8b628c00e6a3c376",
  "oman-public-holidays": "9ee26c72a5e5a6f7",
  "qatar-public-holidays": "17d9faf445969f10",
- "uae-public-holidays": "5fba62d16e51570b"
+ "uae-public-holidays": "5fba62d16e51570b",
+ "bahrain-unemployment": "45cbb73ce2309a89",
+ "en-bahrain-unemployment": "951319e6a05ea089",
+ "en-ksa-hafiz": "93f8d3ed736b519d",
+ "en-oman-job-security": "5a7390cb0b35eb20",
+ "ksa-hafiz": "b9cf078889a037ab",
+ "oman-job-security": "ae61484aae4b2042"
 }

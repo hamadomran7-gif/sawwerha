@@ -1,0 +1,98 @@
+---json
+{
+  "title": "حاسبة التأمين ضد التعطل في البحرين 2026 — تعويض 60% بين 200 و1,000 دينار وإعانة 200 أو 150",
+  "h1": "حاسبة تعويض التعطل وإعانته في البحرين",
+  "description": "احسب تعويض التأمين ضد التعطل في البحرين: 60% من متوسط أجر آخر 12 شهراً بحد أدنى 200 دينار وأقصى 1,000 لمدة 9 أشهر بعد 12 شهر اشتراك متصلة، أو إعانة الباحث عن عمل لأول مرة 200 دينار للجامعي و150 لغيره لمدة 9 أشهر، بحسب المرسوم بقانون 78/2006 المعدل بالقانون 4/2019.",
+  "short": "التعويض 60% بين 200 و1,000 دينار 9 أشهر، والإعانة 200 للجامعي و150 لغيره",
+  "lead": "اختر حالتك وأدخل متوسط أجرك ومدة اشتراكك، ويظهر التعويض أو الإعانة ومجموعها.",
+  "country": "bh",
+  "category": "salary",
+  "tool": true,
+  "script": "bahrain-unemployment.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["bahrain-end-of-service", "bahrain-pension", "bahrain-leave", "bahrain-public-holidays"],
+  "faq": [
+    {"q": "كم تعويض التعطل في البحرين؟", "a": "60% من متوسط أجر المؤمن عليه في الأشهر الاثني عشر السابقة، بحد أدنى 200 دينار (أو متوسط الأجر إن كان أقل) وحد أقصى 1,000 دينار شهرياً، لمدة أقصاها 9 أشهر متصلة أو متقطعة (المواد 11 و12 و14 بعد تعديل 2019)."},
+    {"q": "كم إعانة الباحث عن عمل لأول مرة في البحرين؟", "a": "200 دينار شهرياً للجامعي و150 لغيره، لمدة أقصاها 9 أشهر خلال 12 شهراً، للبحريني من 18 سنة فأكثر (المادتان 17 و18). وأقر النواب في 2025 رفعها إلى 300 و250، ولم يصدر التعديل حتى نوفمبر 2026."},
+    {"q": "هل يستحق المستقيل تعويض التعطل؟", "a": "لا؛ يُشترط ألا يكون قد ترك العمل بمحض إرادته، وألا يكون فُصل لأسباب تأديبية (المادة 10)."},
+    {"q": "هل يستحق الوافد تعويض التعطل في البحرين؟", "a": "نعم للتعويض إذا كان مقيماً إقامة مشروعة واستوفى بقية الشروط؛ أما الإعانة فللبحريني فقط."},
+    {"q": "كم اشتراك التأمين ضد التعطل؟", "a": "1% من الأجر على المؤمن عليه، و1% على صاحب العمل يتحملها صندوق العمل عن القطاع الأهلي، و1% على الحكومة (المادة 6)."},
+    {"q": "متى يبدأ صرف التعويض؟", "a": "من اليوم الثامن لانتهاء علاقة العمل إن سجّل خلال 30 يوماً، وإلا فمن تاريخ التسجيل، ويسقط الحق إن لم يسجل خلال 3 أشهر (المادتان 13 و21)."}
+  ],
+  "sources": [
+    {"t": "هيئة التشريع والرأي القانوني — القانون 4/2019 بتعديل قانون التأمين ضد التعطل", "u": "https://www.lloc.gov.bh/Legislation/HTM/K0419"},
+    {"t": "هيئة التشريع والرأي القانوني — المرسوم بقانون 78/2006 بشأن التأمين ضد التعطل", "u": "https://www.lloc.gov.bh/Legislation/HTM/L7806"},
+    {"t": "هيئة التشريع والرأي القانوني — قائمة تعديلات قانون التعطل", "u": "https://lloc.gov.bh/Legislation/Amendments/L7806"},
+    {"t": "وزارة العمل — خدمة بدل التعطل (حُدثت 2/7/2025)", "u": "https://mol.gov.bh/home/subservices_sections/55?lang=en"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب التعويض أو الإعانة</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="reason">حالتك</label>
+        <select id="reason" name="reason">
+          <option value="termination" selected>فقدت عملي لسبب غير الاستقالة أو الفصل التأديبي</option>
+          <option value="firstJob">أبحث عن عمل لأول مرة</option>
+          <option value="resignation">استقلت باختياري</option>
+          <option value="disciplinary">فُصلت لأسباب تأديبية</option>
+        </select>
+      </div>
+      <div class="field" data-comp>
+        <label for="avgWage">متوسط أجرك الشهري في آخر 12 شهراً (دينار)</label>
+        <input type="number" id="avgWage" name="avgWage" inputmode="decimal" min="0" step="1" value="1200">
+      </div>
+      <div class="field" data-comp>
+        <label for="contribMonths">أشهر الاشتراك المتصلة</label>
+        <input type="number" id="contribMonths" name="contribMonths" inputmode="decimal" min="0" step="1" value="24">
+      </div>
+      <div class="field">
+        <label for="graduate">المؤهل (للإعانة)</label>
+        <select id="graduate" name="graduate">
+          <option value="yes" selected>جامعي</option>
+          <option value="no">غير جامعي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="bahraini">الجنسية</label>
+        <select id="bahraini" name="bahraini">
+          <option value="yes" selected>بحريني</option>
+          <option value="no">وافد مقيم إقامة مشروعة</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>التعويض والإعانة بعد تعديل 2019</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">التعويض (المؤمن عليه المتعطل)</th><th scope="col">الإعانة (الباحث لأول مرة)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المبلغ</th><td>60% من متوسط أجر 12 شهراً</td><td>200 للجامعي، 150 لغيره</td></tr>
+    <tr><th scope="row">الحدود</th><td>200 إلى 1,000 دينار</td><td>—</td></tr>
+    <tr><th scope="row">المدة</th><td>9 أشهر، و9 خلال كل 24 شهراً</td><td>9 أشهر خلال 12 شهراً</td></tr>
+    <tr><th scope="row">الاشتراك المطلوب</th><td>12 شهراً متصلة في المرة الأولى</td><td>لا يُشترط</td></tr>
+    <tr><th scope="row">الجنسية</th><td>البحريني والوافد المقيم إقامة مشروعة</td><td>البحريني فقط</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+متوسط 1,200 دينار: 720 × 9 = <strong>6,480 ديناراً</strong>.<br>
+متوسط 2,500: 60% = 1,500 فيُقيَّد بالحد الأعلى: 1,000 × 9 = <strong>9,000</strong>.<br>
+متوسط 300: 60% = 180 فيُرفع إلى الحد الأدنى: 200 × 9 = <strong>1,800</strong>.<br>
+من فُصل بعد 8 أشهر اشتراك فقط لا يستحق التعويض، بل الإعانة إن كان بحرينياً.</p>
+</div>
+<p>المرة الثانية تتطلب 12 شهر اشتراك خلال 18 شهراً، والثالثة 18 خلال 24، وما بعدها 36 خلال 48. ويسقط الحق إذا رفض المتعطل عملاً مناسباً مرتين دون مبرر. ولمكافأتك عند انتهاء الخدمة استخدم <a href="{{root}}bahrain-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة في البحرين</a>.</p>
+</div>

@@ -2677,6 +2677,90 @@ export function holidayWorkPay({ country = "ae", basic = 0, total = 0, days = 1,
 }
 
 /* ------------------------------------------------------------------ */
+/* إعانات الباحثين عن عمل: حافز (السعودية)، الأمان الوظيفي (عُمان)، التعطل (البحرين) */
+/* ------------------------------------------------------------------ */
+
+const rnd3 = (x) => Math.round(x * 1000) / 1000;
+const monthsBetween = (a, b) => {
+  const x = utcDay(a), y = utcDay(b);
+  if (!x || !y) return null;
+  let mth = (y.getUTCFullYear() - x.getUTCFullYear()) * 12 + (y.getUTCMonth() - x.getUTCMonth());
+  if (y.getUTCDate() < x.getUTCDate()) mth--;
+  return mth;
+};
+
+/**
+ * حافز (إعانة البحث عن عمل): 2,000 × 4 ثم 1,500 × 4 ثم 1,000 × 4 ثم 750 × 3، يُخصم دخل الفرد الشهري وأدنى صرف 100،
+ * ويتوقف إن بلغ الدخل الإعانة أو ببلوغ 40. الأسرة: الحد = 3,600 + 1,200 × الأفراد (6,000–22,800) شرط أهلية لا خصم.
+ */
+export function ksaHafiz({ birth, today = new Date(), status = "graduate", eventDate = null, income = 0, priorPayments = 0, familySize = 2, familyIncome = 0 }) {
+  const H = rules.sa.hafiz;
+  const t = utcDay(today), b = utcDay(birth);
+  const ageMonths = b ? monthsBetween(b, t) : null;
+  const age = ageMonths === null ? null : Math.floor(ageMonths / 12);
+  const fs = Math.max(2, Math.floor(Number(familySize) || 2));
+  const familyCap = Math.min(H.familyCapMax, Math.max(H.familyCapMin, H.familyCapBase + H.familyCapPerMember * fs));
+  const reasons = [];
+  if (age !== null && age < H.minAge) reasons.push("young");
+  if (age !== null && age >= H.maxAge) reasons.push("old");
+  if ((Number(familyIncome) || 0) > familyCap) reasons.push("family");
+  let waitUntil = null;
+  if (status === "graduate" && eventDate) {
+    const since = monthsBetween(eventDate, t);
+    if (since !== null && since >= H.graduateWindowMonths) reasons.push("graduateWindow");
+  }
+  if (status === "worked" && eventDate) {
+    const since = monthsBetween(eventDate, t);
+    if (since !== null && since < H.waitAfterJobMonths) { reasons.push("wait"); waitUntil = isoUTC(plusMonths(utcDay(eventDate), H.waitAfterJobMonths)); }
+  }
+  // جدول الدفعات
+  const inc = Math.max(0, Number(income) || 0);
+  const flat = H.tiers.flatMap((x) => Array(x.months).fill(x.amount));
+  const start = Math.max(0, Math.min(flat.length, Math.floor(Number(priorPayments) || 0)));
+  const monthsTo40 = ageMonths === null ? Infinity : Math.max(0, H.maxAge * 12 - ageMonths);
+  const rows = [];
+  let total = 0, stoppedBy = null;
+  for (let i = start; i < flat.length; i++) {
+    const n = i - start;
+    if (n >= monthsTo40) { stoppedBy = "age"; break; }
+    const base = flat[i];
+    if (inc >= base) { stoppedBy = "income"; break; }
+    const pay = Math.max(H.minPayment, base - inc);
+    rows.push({ month: i + 1, base, pay });
+    total += pay;
+  }
+  return { age, familyCap, eligible: reasons.length === 0, reasons, waitUntil, rows, total, maxTotal: flat.reduce((a, x) => a + x, 0), stoppedBy, payments: rows.length };
+}
+
+/** عُمان — بدل الأمان الوظيفي (قاعدة فبراير 2026): 60% × 6 ثم 50% × 3 ثم 40% × 3 من متوسط أجر سنتين، بحد أدنى 115 أو الأجر، بلا سقف. */
+export function omanJobSecurity({ avgWage = 0, reason = "termination" }) {
+  const J = rules.om.jobSecurity;
+  const w = Math.max(0, Number(avgWage) || 0);
+  const eligible = reason === "termination";
+  const rows = J.schedule.map((s) => {
+    const monthly = Math.max(s.rate * w, Math.min(J.minimum, w));
+    return { months: s.months, rate: s.rate, monthly: rnd3(monthly), amount: rnd3(monthly * s.months), raisedToMin: s.rate * w < Math.min(J.minimum, w) };
+  });
+  const total = rows.reduce((a, x) => a + x.amount, 0);
+  return { eligible, rows, total: eligible ? rnd3(total) : 0, contribEmployee: rnd3(w * J.contribEmployee), contribEmployer: rnd3(w * J.contribEmployer), months: J.schedule.reduce((a, x) => a + x.months, 0) };
+}
+
+/** البحرين — التعويض 60% من متوسط أجر 12 شهراً (200–1,000) حتى 9 أشهر بعد 12 شهر اشتراك متصلة، والإعانة 200/150 للبحريني حتى 9 أشهر. */
+export function bahrainUnemployment({ avgWage = 0, contribMonths = 12, reason = "termination", bahraini = true, graduate = true }) {
+  const U = rules.bh.unemployment;
+  const w = Math.max(0, Number(avgWage) || 0);
+  if (reason === "resignation" || reason === "disciplinary") return { kind: "none", reason };
+  const allowance = graduate ? U.allowanceGraduate : U.allowanceOther;
+  if (reason === "firstJob" || (Number(contribMonths) || 0) < U.firstTimeMonths) {
+    if (!bahraini) return { kind: "none", reason: "foreignAllowance" };
+    return { kind: "allowance", monthly: allowance, months: U.allowanceMonths, total: allowance * U.allowanceMonths, short: reason !== "firstJob" };
+  }
+  const raw = U.compRate * w;
+  const monthly = Math.min(U.compMax, Math.max(raw, Math.min(U.compMin, w)));
+  return { kind: "comp", raw: rnd3(raw), monthly: rnd3(monthly), months: U.compMonths, total: rnd3(monthly * U.compMonths), capped: raw > U.compMax, raisedToMin: raw < Math.min(U.compMin, w), contribEmployee: rnd3(w * U.contribEmployee) };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

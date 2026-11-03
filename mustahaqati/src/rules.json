@@ -2087,6 +2087,37 @@
         "weekendOverlapCompDay": 1,
         "nationalOrFoundingDayInsideEidComp": 0
       }
+    },
+    "hafiz": {
+      "law": "تنظيم إعانة البحث عن عمل بقرار مجلس الوزراء 575 (22/9/1442هـ، نافذ 12/8/2021) ولائحته التنفيذية، وصفحة البرنامج لدى صندوق تنمية الموارد البشرية",
+      "lastReview": "2026-11-03",
+      "tiers": [
+        {
+          "months": 4,
+          "amount": 2000
+        },
+        {
+          "months": 4,
+          "amount": 1500
+        },
+        {
+          "months": 4,
+          "amount": 1000
+        },
+        {
+          "months": 3,
+          "amount": 750
+        }
+      ],
+      "minAge": 20,
+      "maxAge": 40,
+      "minPayment": 100,
+      "familyCapBase": 3600,
+      "familyCapPerMember": 1200,
+      "familyCapMin": 6000,
+      "familyCapMax": 22800,
+      "graduateWindowMonths": 24,
+      "waitAfterJobMonths": 24
     }
   },
   "gcc": {
@@ -2993,6 +3024,28 @@
         "wageBasis": 1,
         "weekendOverlapCompDay": 1
       }
+    },
+    "jobSecurity": {
+      "law": "قانون الحماية الاجتماعية (م.س 52/2023) م115–م120، والأوامر السامية المعلنة في 11/1/2026 (سنة بدلاً من 6 أشهر من فبراير 2026)",
+      "lastReview": "2026-11-03",
+      "schedule": [
+        {
+          "months": 6,
+          "rate": 0.6
+        },
+        {
+          "months": 3,
+          "rate": 0.5
+        },
+        {
+          "months": 3,
+          "rate": 0.4
+        }
+      ],
+      "minimum": 115,
+      "contribEmployee": 0.005,
+      "contribEmployer": 0.005,
+      "from": "2026-02-01"
     }
   },
   "bh": {
@@ -3247,6 +3300,21 @@
         "wageBasis": 2,
         "weekendOverlapCompDay": 1
       }
+    },
+    "unemployment": {
+      "law": "المرسوم بقانون 78/2006 بشأن التأمين ضد التعطل المعدل بالقانون 4/2019 (م10–م21)",
+      "lastReview": "2026-11-03",
+      "compRate": 0.6,
+      "compMin": 200,
+      "compMax": 1000,
+      "compMonths": 9,
+      "firstTimeMonths": 12,
+      "allowanceGraduate": 200,
+      "allowanceOther": 150,
+      "allowanceMonths": 9,
+      "contribEmployee": 0.01,
+      "contribGovernment": 0.01,
+      "contribEmployerPaidByLabourFund": 0.01
     }
   },
   "zakat": {

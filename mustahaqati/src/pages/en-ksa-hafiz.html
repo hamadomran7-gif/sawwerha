@@ -1,0 +1,113 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-hafiz-calculator",
+  "alternate": "ksa-hafiz",
+  "title": "Hafiz Calculator 2026 — Saudi Job Search Allowance: SAR 2,000, 1,500, 1,000 Then 750 for 15 Months",
+  "h1": "Hafiz Calculator (Saudi Job Search Allowance)",
+  "description": "Calculate Saudi Arabia's job search allowance (Hafiz) from the Human Resources Development Fund: SAR 2,000 for four months, then 1,500, then 1,000, then 750 for three months, SAR 20,250 in total, for Saudis aged 20 to 40, with your own income deducted, the household income limit and the 24-month wait after leaving a job.",
+  "short": "SAR 2,000, 1,500, 1,000 then 750 over 15 months for Saudis aged 20 to 40",
+  "lead": "Enter your date of birth, situation, income and household income to see your eligibility, payment schedule and total.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-hafiz.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-saned", "en-ksa-gosi", "en-ksa-net-salary", "en-ksa-retirement-age"],
+  "faq": [
+    {"q": "How much is Hafiz in 2026?", "a": "A declining allowance over 15 months: SAR 2,000 for four months, then 1,500 for four, then 1,000 for four, then 750 for three, a maximum of SAR 20,250, under the Job Search Allowance Regulation (Council of Ministers Decision 575). We found no change to the amounts in 2024–2026."},
+    {"q": "Who is eligible for Hafiz?", "a": "Saudis aged 20 to 40 who lived in the Kingdom at least 10 months of the previous year, are not working, receive no pension, social security or SANED benefit, are not students or trainees in a programme longer than 3 months, have no commercial registration or business, have household income below the limit, and are registered on Taqat."},
+    {"q": "Can someone who lost their job get Hafiz?", "a": "Not straight away: anyone who has worked before can only apply 24 months after their job ended, and SANED recipients cannot apply. Recently dismissed workers should look at SANED, while graduates apply within 24 months of graduating."},
+    {"q": "Is a father's or wife's income deducted from Hafiz?", "a": "No. Household income is only an eligibility test: SAR 6,000 for a household of two, plus 1,200 for each extra member, up to 22,800. Your own income is deducted from the allowance, with a minimum payment of SAR 100, and payment stops if your income reaches the allowance."},
+    {"q": "When is Hafiz paid?", "a": "On the 5th of each calendar month, with results shown between the 2nd and 4th, according to the HRDF programme page."},
+    {"q": "What happens at age 40?", "a": "Payment stops as soon as you turn 40, even if the 15 months are not complete."}
+  ],
+  "sources": [
+    {"t": "HRDF — job search allowance programme page (Arabic)", "u": "https://www.hrdf.org.sa/products-and-services/programs/individuals/other/job-search-subsidy/"},
+    {"t": "HRDF — text of the Job Search Allowance Regulation (Arabic)", "u": "https://www.hrdf.org.sa/media/u2nhb53z/939718be-fccb-446b-9fc1-c9d64af8764f.pdf"},
+    {"t": "HRDF — executive regulation (Arabic)", "u": "https://hrdf.org.sa/media/ug5h3hoe/3cca34ec-fca8-41a4-ae4d-0e3d8491f09b.pdf"},
+    {"t": "Umm Al-Qura — Council of Ministers Decision 575 (1442H, Arabic)", "u": "https://www.uqn.gov.sa/details?p=17612"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your allowance</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="birth">Date of birth</label>
+        <input type="date" id="birth" name="birth" value="2001-05-01" required>
+      </div>
+      <div class="field">
+        <label for="status">Your situation</label>
+        <select id="status" name="status">
+          <option value="graduate" selected>Graduate, or never worked</option>
+          <option value="worked">Worked before</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="eventDate">Graduation date</label>
+        <input type="date" id="eventDate" name="eventDate" value="2026-06-01">
+      </div>
+      <div class="field">
+        <label for="income">Your own monthly income (SAR)</label>
+        <input type="number" id="income" name="income" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Average of the last 12 months from any source.</span>
+      </div>
+      <div class="field">
+        <label for="familySize">Household members (including you)</label>
+        <input type="number" id="familySize" name="familySize" inputmode="decimal" min="2" max="30" step="1" value="5">
+        <span class="hint">Married: you, your spouse and children. Otherwise: your parents and siblings.</span>
+      </div>
+      <div class="field">
+        <label for="familyIncome">Household monthly income (SAR)</label>
+        <input type="number" id="familyIncome" name="familyIncome" inputmode="decimal" min="0" step="1" value="8000">
+      </div>
+      <div class="field">
+        <label for="priorPayments">Hafiz payments already received</label>
+        <input type="number" id="priorPayments" name="priorPayments" inputmode="decimal" min="0" max="15" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Hafiz (job search allowance) amounts</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Months</th><th scope="col">Monthly allowance</th><th scope="col">Tier total</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1–4</th><td>SAR 2,000</td><td>8,000</td></tr>
+    <tr><th scope="row">5–8</th><td>SAR 1,500</td><td>6,000</td></tr>
+    <tr><th scope="row">9–12</th><td>SAR 1,000</td><td>4,000</td></tr>
+    <tr><th scope="row">13–15</th><td>SAR 750</td><td>2,250</td></tr>
+    <tr><th scope="row">Total</th><td>15 months</td><td>20,250</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Your own monthly income is deducted from the allowance, with a minimum payment of SAR 100, and payment stops if your income reaches the allowance due. Household income is only an eligibility test.</p>
+
+<h2>Household income limit</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Household members</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th><th scope="col">6</th><th scope="col">8</th><th scope="col">10</th><th scope="col">16 or more</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Maximum household monthly income</th><td>6,000</td><td>7,200</td><td>8,400</td><td>9,600</td><td>10,800</td><td>13,200</td><td>15,600</td><td>22,800</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A graduate with no income: <strong>SAR 20,250</strong> over 15 months.<br>
+Own income of SAR 600: 1,400, then 900, then 400, then 150, for a total of <strong>SAR 11,250</strong>.<br>
+Own income of SAR 800: 1,200, then 700, then 200, then it stops in the last tier, for a total of <strong>SAR 8,400</strong>.</p>
+</div>
+<p>Anyone who has just lost a job should look at <a href="{{root}}en/saned-calculator/{{ix}}">SANED unemployment benefit</a>, because Hafiz only accepts people who worked before 24 months after their job ended. The allowance comes with obligations: logging in weekly, attending training and interviews, and accepting suitable work; refusing two suitable offers stops payment.</p>
+</div>
