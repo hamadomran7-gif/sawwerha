@@ -1,0 +1,89 @@
+---json
+{
+  "title": "موعد نزول الدعم السكني 2026–2027 — كم باقي على إيداع سكني؟",
+  "h1": "كم باقي على الدعم السكني؟",
+  "description": "عدّاد الأيام المتبقية على إيداع الدعم السكني (دعم أرباح التمويل) من صندوق التنمية العقارية: يوم 24 من كل شهر ميلادي، وحين وافق الجمعة أو السبت في 2026 أُعلن الإيداع يوم الأحد بعده، مع المواعيد حتى ديسمبر 2027.",
+  "short": "يوم 24 من كل شهر، والجمعة والسبت إلى الأحد بعده كما في 2026",
+  "lead": "يظهر عدد الأيام والساعات حتى إيداع الدعم السكني القادم، ومواعيد الأشهر التالية بالميلادي والهجري.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-mortgage",
+    "ksa-payment-calendar",
+    "ksa-salary-date",
+    "ksa-pension-date"
+  ],
+  "faq": [
+    {
+      "q": "متى ينزل الدعم السكني لشهر نوفمبر 2026؟",
+      "a": "الثلاثاء 24 نوفمبر 2026 (14 جمادى الآخرة 1448)."
+    },
+    {
+      "q": "ماذا لو وافق يوم 24 الجمعة أو السبت؟",
+      "a": "في الحالات الثلاث في 2026 (الجمعة 24 أبريل والجمعة 24 يوليو والسبت 24 أكتوبر) أُعلن الإيداع يوم الأحد بعده، ولا ينشر الصندوق قاعدة مكتوبة لذلك."
+    },
+    {
+      "q": "هل تغيّر موعد الدعم السكني بعد نقل المعاشات إلى يوم 1؟",
+      "a": "لا. أكد الصندوق في أبريل 2024 أن الإيداع يبقى يوم 24 من كل شهر ميلادي بقرار مجلس الإدارة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "عكاظ عن صندوق التنمية العقارية — الإيداع يوم 24 من كل شهر ميلادي (24/4/2024)",
+      "u": "https://www.okaz.com.sa/news/local/2160158"
+    },
+    {
+      "t": "واس — إيداع الدعم السكني لشهر أبريل 2026 يوم الأحد 26 أبريل",
+      "u": "https://www.spa.gov.sa/N2571308"
+    },
+    {
+      "t": "العين — إيداع دعم يوليو 2026 يوم الأحد 26 يوليو (26/7/2026)",
+      "u": "https://al-ain.com/article/saudi-real-estate-development-fund-july-support"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الصرف؟</h2>
+  <form id="calc" data-item="sakani" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">الدفعة</label>
+        <select id="item" name="item">
+          <option value="salary">رواتب موظفي الدولة</option>
+          <option value="citizen">حساب المواطن</option>
+          <option value="social">الضمان الاجتماعي المطور</option>
+          <option value="pension">معاشات التقاعد (التأمينات)</option>
+          <option value="saned">ساند</option>
+          <option value="hafiz">حافز</option>
+          <option value="disability">إعانة التأهيل الشامل</option>
+          <option value="sakani" selected>الدعم السكني</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مواعيد إيداع الدعم السكني من نوفمبر 2026 إلى ديسمبر 2027</h2>
+{{table:ksa-pay-dates item=sakani from=2026-11 count=14}}
+<h2>قاعدة الإيداع</h2>
+<ul>
+<li><strong>يوم 24 من كل شهر ميلادي</strong> بقرار مجلس إدارة صندوق التنمية العقارية، ولم يتغير بعد نقل المعاشات إلى يوم 1.</li>
+<li><strong>الجمعة والسبت:</strong> أُعلن الإيداع يوم الأحد بعده في الحالات الثلاث في 2026. وهذه ممارسة مستنتجة من تواريخ الإعلان، لا قاعدة منشورة.</li>
+</ul>
+<p>لحساب قسط التمويل نفسه استخدم <a href="{{root}}ksa-mortgage/{{ix}}">حاسبة التمويل العقاري</a>، ولبقية المواعيد <a href="{{root}}ksa-payment-calendar/{{ix}}">تقويم الصرف الشهري</a>.</p>
+</div>

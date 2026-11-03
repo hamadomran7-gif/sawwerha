@@ -1,0 +1,88 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-housing-support-payment-date",
+  "alternate": "ksa-housing-support-date",
+  "title": "Saudi Housing Support Payment Date 2026–2027 — Days Until the Sakani Deposit",
+  "h1": "Housing support payment date",
+  "description": "Count the days until the REDF housing support (subsidised profit) deposit: the 24th of each Gregorian month, and when the 24th fell on a Friday or Saturday in 2026 the deposit was announced the following Sunday, with the dates to December 2027.",
+  "short": "The 24th of each month, Friday or Saturday to the Sunday after as in 2026",
+  "lead": "Shows the days and hours until the next housing support deposit and the following dates in Gregorian and Hijri.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-mortgage",
+    "en-ksa-payment-calendar",
+    "en-ksa-salary-date",
+    "en-ksa-pension-date"
+  ],
+  "faq": [
+    {
+      "q": "When is the November 2026 housing support deposit?",
+      "a": "Tuesday 24 November 2026 (14 Jumada al-Akhirah 1448)."
+    },
+    {
+      "q": "What if the 24th is a Friday or Saturday?",
+      "a": "In all three 2026 cases (Friday 24 April, Friday 24 July and Saturday 24 October) the deposit was announced the following Sunday; REDF publishes no written rule for this."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Okaz citing REDF — deposit on the 24th of each month (24 Apr 2024, Arabic)",
+      "u": "https://www.okaz.com.sa/news/local/2160158"
+    },
+    {
+      "t": "SPA — April 2026 housing support deposited on Sunday 26 April (Arabic)",
+      "u": "https://www.spa.gov.sa/N2571308"
+    },
+    {
+      "t": "Al Ain — July 2026 support deposited on Sunday 26 July (Arabic)",
+      "u": "https://al-ain.com/article/saudi-real-estate-development-fund-july-support"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="sakani" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary">Government salaries</option>
+          <option value="citizen">Citizen's Account</option>
+          <option value="social">Developed social security</option>
+          <option value="pension">GOSI pensions</option>
+          <option value="saned">SANED</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="disability">Disability allowance</option>
+          <option value="sakani" selected>Housing support</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Housing support deposit dates from November 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=sakani from=2026-11 count=14 lang=en}}
+<h2>The deposit rule</h2>
+<ul>
+<li><strong>The 24th of each Gregorian month</strong> by REDF board decision, unchanged after pensions moved to the 1st.</li>
+<li><strong>Friday and Saturday:</strong> the deposit was announced the following Sunday in all three 2026 cases; this is inferred from announcement dates, not a published rule.</li>
+</ul>
+<p>To work out the financing instalment use the <a href="{{root}}en/saudi-mortgage-calculator/{{ix}}">mortgage calculator</a>, and for other dates the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>
+</div>

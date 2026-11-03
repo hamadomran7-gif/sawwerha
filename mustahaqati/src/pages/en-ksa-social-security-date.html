@@ -5,9 +5,9 @@
   "alternate": "ksa-social-security-date",
   "title": "Saudi Social Security Payment Date 2026–2027 — Days Until the Next Deposit",
   "h1": "Social security payment date",
-  "description": "Count the days until the developed social security deposit in Saudi Arabia: paid on the 1st of each Gregorian month, with another date set and announced by the ministry when that is a holiday, and eligibility results between the 25th and 27th of the month before. With the dates from December 2026 to December 2027.",
-  "short": "Deposit on the 1st, results on the 25th–27th, and the months when the 1st is a holiday",
-  "lead": "Shows the days and hours until the next social security deposit and the following dates, flagging those that fall on a weekend.",
+  "description": "Count the days until the developed social security deposit in Saudi Arabia: paid on the 1st of each Gregorian month, moved to the Thursday before when the 1st is a Friday or Saturday as in 2026, with early payment before Eid announced and eligibility results between the 25th and 27th of the month before. With the dates to December 2027.",
+  "short": "Deposit on the 1st, Friday or Saturday to the Thursday before, results on the 25th–27th",
+  "lead": "Shows the days and hours until the next social security deposit and the following dates in Gregorian and Hijri.",
   "country": "sa",
   "category": "salary",
   "tool": true,
@@ -18,12 +18,13 @@
     "en-ksa-social-security",
     "en-ksa-payment-calendar",
     "en-ksa-citizen-account-date",
+    "en-ksa-pension-date",
     "en-ksa-salary-date"
   ],
   "faq": [
     {
       "q": "When is the December 2026 social security payment?",
-      "a": "Tuesday 1 December 2026 (21 Jumada al-Akhirah 1448), a working day."
+      "a": "Tuesday 1 December 2026 (21 Jumada al-Akhirah 1448). The January 2027 payment then comes on Thursday 31 December 2026, because 1 January is a Friday."
     },
     {
       "q": "When do eligibility results appear?",
@@ -31,10 +32,18 @@
     },
     {
       "q": "What if the 1st falls on a Friday or Saturday?",
-      "a": "The ministry says another date is set and announced, so there is no fixed direction. In 2027 this happens on 1 January (Friday), 1 May (Saturday) and 1 October (Friday)."
+      "a": "In both 2026 cases (Friday 1 May and Saturday 1 August) the deposit came on the Thursday before. In 2027 the May payment is on Thursday 29 April and October's on Thursday 30 September."
     }
   ],
   "sources": [
+    {
+      "t": "Al Ain — social security paid Thursday 30 April 2026 instead of Friday 1 May (29 Apr 2026, Arabic)",
+      "u": "https://al-ain.com/article/social-security-payment-date-month-may-2026"
+    },
+    {
+      "t": "Ajel — cycle 54 brought forward before Eid al-Adha to 25 May 2026 (23 May 2026, Arabic)",
+      "u": "https://ajel.sa/thehour/qdqgcqw1bb"
+    },
     {
       "t": "Ajel citing the HR ministry — social security paid on the 1st (1 Nov 2022, Arabic)",
       "u": "https://ajel.sa/thehour/bk3vgcdh42"
@@ -56,9 +65,11 @@
           <option value="salary">Government salaries</option>
           <option value="citizen">Citizen's Account</option>
           <option value="social" selected>Developed social security</option>
+          <option value="pension">GOSI pensions</option>
+          <option value="saned">SANED</option>
           <option value="hafiz">Hafiz</option>
-          <option value="pension">GOSI pensions (estimate)</option>
-          <option value="saned">SANED (estimate)</option>
+          <option value="disability">Disability allowance</option>
+          <option value="sakani">Housing support</option>
         </select>
       </div>
       <div class="field">
@@ -80,7 +91,8 @@
 <h2>The deposit rule</h2>
 <ul>
 <li><strong>The 1st of each Gregorian month</strong> into the breadwinner's bank account.</li>
-<li><strong>On a weekend or public holiday:</strong> another date is set and announced, according to the ministry.</li>
+<li><strong>Friday and Saturday:</strong> in the 2026 cases the deposit came on the Thursday before, so some months have two payments (December 2026, April and September 2027).</li>
+<li><strong>Eid:</strong> the ministry announces early payment case by case.</li>
 <li><strong>Eligibility results:</strong> reviewed monthly and published between the 25th and 27th.</li>
 </ul>
 <p>To estimate the amount use the <a href="{{root}}en/saudi-social-security-calculator/{{ix}}">social security calculator</a>, and for other dates the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>

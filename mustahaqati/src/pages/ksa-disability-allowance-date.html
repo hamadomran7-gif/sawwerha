@@ -1,0 +1,81 @@
+---json
+{
+  "title": "موعد صرف إعانة التأهيل الشامل 2026–2027 — كم باقي على إعانة ذوي الإعاقة؟",
+  "h1": "كم باقي على إعانة التأهيل الشامل؟",
+  "description": "عدّاد الأيام المتبقية على صرف الإعانة المالية للأشخاص ذوي الإعاقة (التأهيل الشامل): يوم 26 من كل شهر ميلادي، وإن وافق عطلة نهاية الأسبوع تُصرف في أول يوم عمل بعده، مع المواعيد حتى ديسمبر 2027.",
+  "short": "يوم 26 من كل شهر، وعطلة نهاية الأسبوع إلى يوم العمل التالي",
+  "lead": "يظهر عدد الأيام والساعات حتى صرف الإعانة القادمة، ومواعيد الأشهر التالية بالميلادي والهجري.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-social-security-date",
+    "ksa-social-security",
+    "ksa-payment-calendar",
+    "ksa-citizen-account-date"
+  ],
+  "faq": [
+    {
+      "q": "متى تُصرف إعانة التأهيل الشامل لشهر ديسمبر 2026؟",
+      "a": "الأحد 27 ديسمبر 2026، لأن 26 ديسمبر سبت فتُصرف في يوم العمل التالي."
+    },
+    {
+      "q": "ماذا لو وافق يوم 26 الجمعة؟",
+      "a": "تُصرف في أول يوم عمل بعده، أي الأحد 28، كما في فبراير ومارس ونوفمبر 2027، بحسب ما نقلته الصحف عن الوزارة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "عاجل عن وزارة الموارد البشرية — صرف إعانة التأهيل الشامل يوم 26 من كل شهر (1/4/2024)",
+      "u": "https://ajel.sa/local/cz0batrkxu"
+    },
+    {
+      "t": "عاجل — إعانة التأهيل الشامل في يوم العمل التالي للعطلة (21/4/2024)",
+      "u": "https://ajel.sa/thehour/6eoq7rkytz"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">كم باقي على الصرف؟</h2>
+  <form id="calc" data-item="disability" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">الدفعة</label>
+        <select id="item" name="item">
+          <option value="salary">رواتب موظفي الدولة</option>
+          <option value="citizen">حساب المواطن</option>
+          <option value="social">الضمان الاجتماعي المطور</option>
+          <option value="pension">معاشات التقاعد (التأمينات)</option>
+          <option value="saned">ساند</option>
+          <option value="hafiz">حافز</option>
+          <option value="disability" selected>إعانة التأهيل الشامل</option>
+          <option value="sakani">الدعم السكني</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">ابتداءً من تاريخ (اختياري)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">اعرض</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مواعيد صرف الإعانة من نوفمبر 2026 إلى ديسمبر 2027</h2>
+{{table:ksa-pay-dates item=disability from=2026-11 count=14}}
+<h2>قاعدة الصرف</h2>
+<ul>
+<li><strong>يوم 26 من كل شهر ميلادي</strong> بحسب ما نقلته الصحف عن وزارة الموارد البشرية.</li>
+<li><strong>عطلة نهاية الأسبوع:</strong> تُصرف في اليوم الذي يليها، أي أول يوم عمل (الأحد).</li>
+</ul>
+<p>ولمواعيد الضمان وحساب المواطن انظر <a href="{{root}}ksa-payment-calendar/{{ix}}">تقويم الصرف الشهري</a>.</p>
+</div>

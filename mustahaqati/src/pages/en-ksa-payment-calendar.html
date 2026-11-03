@@ -3,10 +3,10 @@
   "lang": "en",
   "path": "en/saudi-payment-calendar",
   "alternate": "ksa-payment-calendar",
-  "title": "Saudi Payment Calendar 2026–2027 — Salaries, Citizen's Account, Social Security, Hafiz and Pensions",
+  "title": "Saudi Payment Calendar 2026–2027 — Salaries, Pensions, Citizen's Account, Social Security and Housing Support",
   "h1": "Saudi monthly payment calendar",
-  "description": "Every monthly payment date in Saudi Arabia in one table with a countdown: government salaries on the 27th, the Citizen's Account on the 10th, developed social security on the 1st, Hafiz on the 5th, and GOSI pensions around the 25th and SANED around the 5th as estimates, with the Friday, Saturday and Eid rules, from November 2026 to December 2027.",
-  "short": "Salaries 27th, Citizen's Account 10th, social security 1st, Hafiz 5th, pensions and SANED estimated",
+  "description": "Every monthly payment date in Saudi Arabia in one table with a countdown: government salaries on the 27th, pensions, SANED and social security on the 1st, Hafiz on the 5th, the Citizen's Account on the 10th, housing support on the 24th and the disability allowance on the 26th, with the Friday, Saturday and Eid rules, from November 2026 to December 2027.",
+  "short": "Salaries 27th; pensions, SANED and social security 1st; Hafiz 5th; Citizen's Account 10th; housing 24th",
   "lead": "Shows the next date of each payment with the days left, and every date in the next two months in order.",
   "country": "sa",
   "category": "salary",
@@ -16,20 +16,21 @@
   "updated": "2026-11-03",
   "related": [
     "en-ksa-salary-date",
+    "en-ksa-pension-date",
     "en-ksa-citizen-account-date",
     "en-ksa-social-security-date",
-    "en-ksa-hafiz",
-    "en-ksa-saned",
-    "en-ksa-retirement-pension"
+    "en-ksa-housing-support-date",
+    "en-ksa-disability-allowance-date",
+    "en-ksa-hafiz"
   ],
   "faq": [
     {
       "q": "What are the monthly payment dates in Saudi Arabia?",
-      "a": "Government salaries on the 27th, the Citizen's Account on the 10th, developed social security on the 1st and Hafiz on the 5th, all Gregorian. GOSI pensions are commonly cited on the 25th and SANED around the 5th, both estimates GOSI has not published."
+      "a": "Pensions, SANED and developed social security on the 1st, Hafiz on the 5th, the Citizen's Account on the 10th, housing support on the 24th, the disability allowance on the 26th and government salaries on the 27th, all Gregorian."
     },
     {
-      "q": "Do dates move when they fall on a Saturday?",
-      "a": "Salaries and the Citizen's Account move from Saturday to Sunday and from Friday to Thursday. For social security the ministry announces another date, and HRDF states no rule for Hafiz."
+      "q": "When are GOSI pensions paid?",
+      "a": "On the 1st of each Gregorian month since May 2024 for civil, military and GOSI pensioners, moved to the Thursday before when the 1st is a Friday or Saturday."
     }
   ],
   "sources": [
@@ -42,20 +43,20 @@
       "u": "https://www.aleqt.com/2018/01/08/article_1311341.html"
     },
     {
-      "t": "Okaz — May 2026 salaries brought forward to Sunday 24th (22 Apr 2026, Arabic)",
-      "u": "https://www.okaz.com.sa/economy/na/2245325"
+      "t": "SAMA — circular on paying GOSI beneficiaries on the 1st, Friday or Saturday to the Thursday before (9 May 2018)",
+      "u": "https://rulebook.sama.gov.sa/en/node/4679"
+    },
+    {
+      "t": "Saudi Gazette — GOSI unifies pension payment at the start of each month from 1 May 2024 (8 Apr 2024)",
+      "u": "https://www.saudigazette.com.sa/article/641906"
     },
     {
       "t": "Ajel — Citizen's Account guide: payment date (2026, Arabic)",
       "u": "https://ajel.sa/guide/citizen-account/payout-date"
     },
     {
-      "t": "Ajel citing the HR ministry — social security paid on the 1st (1 Nov 2022, Arabic)",
-      "u": "https://ajel.sa/thehour/bk3vgcdh42"
-    },
-    {
-      "t": "HR ministry — developed social security FAQ guide (2023, Arabic)",
-      "u": "https://www.hrsd.gov.sa/sites/default/files/2023-03/%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A3%D8%B3%D8%A6%D9%84%D8%A9%20%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9%20%D9%84%D9%86%D8%B8%D8%A7%D9%85%20%D8%A7%D9%84%D8%B6%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%D9%8A%20%D8%A7%D9%84%D9%85%D8%B7%D9%88%D8%B1_0.pdf"
+      "t": "Al Ain — social security paid Thursday 30 April 2026 instead of Friday 1 May (29 Apr 2026, Arabic)",
+      "u": "https://al-ain.com/article/social-security-payment-date-month-may-2026"
     },
     {
       "t": "HRDF — job search subsidy (Hafiz)",
@@ -87,16 +88,18 @@
 <table class="data">
   <thead><tr><th scope="col">Payment</th><th scope="col">Day</th><th scope="col">On a holiday</th><th scope="col">Confidence</th></tr></thead>
   <tbody>
-    <tr><th scope="row"><a href="{{root}}en/saudi-salary-date/{{ix}}">Government salaries</a></th><td>27th Gregorian</td><td>Friday → Thursday, Saturday → Sunday, Eid by announcement</td><td>High</td></tr>
-    <tr><th scope="row"><a href="{{root}}en/citizens-account-payment-date/{{ix}}">Citizen's Account</a></th><td>10th Gregorian</td><td>Friday → Thursday, Saturday → Sunday</td><td>High</td></tr>
-    <tr><th scope="row"><a href="{{root}}en/saudi-social-security-payment-date/{{ix}}">Developed social security</a></th><td>1st Gregorian</td><td>Ministry announces another date</td><td>Medium</td></tr>
-    <tr><th scope="row"><a href="{{root}}en/saudi-hafiz-calculator/{{ix}}">Hafiz</a></th><td>5th Gregorian (results 2nd–4th)</td><td>Not published</td><td>High for the rule</td></tr>
-    <tr><th scope="row">GOSI pensions</th><td>Around the 25th</td><td>Last working day before (estimate)</td><td>Low</td></tr>
-    <tr><th scope="row"><a href="{{root}}en/saned-calculator/{{ix}}">SANED</a></th><td>Around the 5th</td><td>Estimate</td><td>Low</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-pension-payment-date/{{ix}}">Pensions (civil, military and GOSI)</a></th><td>1st since May 2024</td><td>Friday and Saturday → Thursday before; public holiday → last working day before</td><td>High</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saned-calculator/{{ix}}">SANED</a></th><td>Start of the month with pensions</td><td>As pensions</td><td>High</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-social-security-payment-date/{{ix}}">Developed social security</a></th><td>1st</td><td>Friday and Saturday → Thursday before (2026); Eid by announcement</td><td>Medium to high</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-hafiz-calculator/{{ix}}">Hafiz</a></th><td>5th (results 2nd–4th)</td><td>Not published</td><td>High for the rule</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/citizens-account-payment-date/{{ix}}">Citizen's Account</a></th><td>10th</td><td>Friday → Thursday, Saturday → Sunday; Eid by announcement</td><td>High</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-housing-support-payment-date/{{ix}}">Housing support</a></th><td>24th</td><td>Friday and Saturday → Sunday after (2026)</td><td>Medium</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-disability-allowance-payment-date/{{ix}}">Disability allowance</a></th><td>26th</td><td>Weekend → next working day</td><td>Medium to high</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-salary-date/{{ix}}">Government salaries</a></th><td>27th</td><td>Friday → Thursday, Saturday → Sunday; Eid by announcement</td><td>High</td></tr>
   </tbody>
 </table>
 </div>
 <h2>Dates from November 2026 to December 2027</h2>
 {{table:ksa-pay-calendar from=2026-11 count=14 lang=en}}
-<p>An asterisk (*) marks a date on a weekend with no published rule or on a public holiday, so another date may be announced. GOSI pensions are estimates. Early payment before Eid is a one-off decision announced at the time.</p>
+<p>An asterisk (*) marks a date on a weekend with no published rule or on a public holiday, so another date may be announced. The "pensions, SANED and social security" column covers all three because they share one rule. Early payment before Eid is a one-off decision announced at the time.</p>
 </div>

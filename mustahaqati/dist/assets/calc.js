@@ -3273,7 +3273,7 @@ export function familyResidenceCost({ country = "ae-dubai", spouse = 1, children
 /* السعودية — مواعيد صرف الرواتب والدعم وعدّاد الأيام                  */
 /* ------------------------------------------------------------------ */
 
-export const KSA_PAY_ITEMS = ["salary", "citizen", "social", "hafiz", "pension", "saned"];
+export const KSA_PAY_ITEMS = ["salary", "citizen", "social", "pension", "saned", "hafiz", "disability", "sakani"];
 
 function saHolidayOn(iso) {
   const H = rules.sa.holidays;
@@ -3284,8 +3284,9 @@ function saHolidayOn(iso) {
 
 /**
  * موعد صرف شهر استحقاق واحد (month: 1–12). القواعد في rules.sa.payDates:
- * fixed: إزاحة الجمعة والسبت بحسب shift، والعطلة الرسمية تُعلَّم فقط لأن تبكير العيد قرار ظرفي.
- * announced: لا قاعدة للعطلة؛ يبقى التاريخ الاسمي مع unsure. estimate: الإزاحة تتخطى العطل الرسمية أيضاً.
+ * fixed/practice: إزاحة الجمعة والسبت بحسب shift؛ والعطلة الرسمية تُعلَّم فقط (تبكير العيد قرار ظرفي)
+ * إلا إذا حُدد holidayShift فيُنقل الموعد إلى أول يوم عمل في اتجاهه (معاشات التقاعد وساند: آخر يوم عمل قبلها).
+ * announced: لا قاعدة للعطلة؛ يبقى التاريخ الاسمي مع unsure.
  * exceptions: مواعيد أعلنتها الجهة فعلاً لشهر بعينه ("YYYY-MM").
  */
 export function ksaPayDate({ item = "salary", year, month }) {
@@ -3301,17 +3302,22 @@ export function ksaPayDate({ item = "salary", year, month }) {
     Object.assign(out, { date: ex, shifted: ex !== nominal, reason: "announced", announced: true });
   } else {
     const wd = utcDay(nominal).getUTCDay();
+    let d = utcDay(nominal);
     if (PD.weekend.includes(wd)) {
       const step = P.shift ? P.shift[wd] : null;
       if (step) {
-        let d = plusDays(utcDay(nominal), step);
-        if (P.status === "estimate") {
-          const dir = Math.sign(step);
-          while (PD.weekend.includes(d.getUTCDay()) || saHolidayOn(isoUTC(d))) d = plusDays(d, dir);
-        }
-        Object.assign(out, { date: isoUTC(d), shifted: true, reason: wd === 5 ? "friday" : "saturday" });
+        d = plusDays(d, step);
+        out.reason = wd === 5 ? "friday" : "saturday";
       } else out.unsure = true;
     }
+    if (P.holidayShift) {
+      for (let guard = 0; guard < 20 && (PD.weekend.includes(d.getUTCDay()) || saHolidayOn(isoUTC(d))); guard++) {
+        if (!out.reason) out.reason = "holiday";
+        d = plusDays(d, Math.sign(P.holidayShift));
+      }
+    }
+    out.date = isoUTC(d);
+    out.shifted = out.date !== nominal;
   }
   out.holiday = saHolidayOn(out.date);
   out.weekday = utcDay(out.date).getUTCDay();

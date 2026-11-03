@@ -546,6 +546,7 @@ const TABLES = {
       const h = p.hijri;
       let why = "";
       if (p.announced) why = en ? "Date announced by the authority" : "موعد أعلنته الجهة";
+      else if (p.reason === "holiday") why = en ? "Public holiday, so it moves to the last working day before" : "عطلة رسمية، فيُقدَّم إلى آخر يوم عمل قبلها";
       else if (p.shifted) why = en ? `${wf.format(D(p.nominal))} ${p.nominal.slice(8)} is a weekend day, so it moves to the ${p.date < p.nominal ? "day before" : "day after"}` : `يوم ${Number(p.nominal.slice(8))} يوافق ${wf.format(D(p.nominal))}، ${p.date < p.nominal ? "فيُقدَّم" : "فيُؤخَّر"} إلى ${wf.format(D(p.date))}`;
       else if (p.unsure) why = en ? `Falls on a ${wf.format(D(p.date))}; another date is announced` : `يوافق ${wf.format(D(p.date))}، ويُعلن موعد آخر`;
       if (p.holiday) why += (why ? (en ? "; " : "، و") : "") + (en ? `falls in the ${p.holiday.en} holiday` : `يوافق عطلة ${p.holiday.ar}`);
@@ -557,8 +558,8 @@ const TABLES = {
     const en = a.lang === "en";
     const [fy, fm] = String(a.from || "2026-11").split("-").map(Number);
     const count = Number(a.count || 14);
-    const items = String(a.items || "salary,citizen,social,hafiz,pension").split(",");
-    const NAME = en ? { salary: "Government salaries", citizen: "Citizen's Account", social: "Social security", hafiz: "Hafiz", pension: "GOSI pensions (estimate)", saned: "SANED (estimate)" } : { salary: "رواتب الدولة", citizen: "حساب المواطن", social: "الضمان المطور", hafiz: "حافز", pension: "معاشات التأمينات (تقديري)", saned: "ساند (تقديري)" };
+    const items = String(a.items || "salary,citizen,pension,hafiz,sakani,disability").split(",");
+    const NAME = en ? { salary: "Government salaries", citizen: "Citizen's Account", social: "Social security", hafiz: "Hafiz", pension: "Pensions, SANED and social security", saned: "SANED", disability: "Disability allowance", sakani: "Housing support" } : { salary: "رواتب الدولة", citizen: "حساب المواطن", social: "الضمان المطور", hafiz: "حافز", pension: "التقاعد وساند والضمان", saned: "ساند", disability: "التأهيل الشامل", sakani: "الدعم السكني" };
     const loc = en ? "en-GB" : "ar-u-nu-latn";
     const mf = new Intl.DateTimeFormat(loc, { month: "long", year: "numeric", timeZone: "UTC" });
     const df = new Intl.DateTimeFormat(loc, { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });

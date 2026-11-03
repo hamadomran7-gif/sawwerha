@@ -5,15 +5,17 @@ import { plural } from "./en-common.js";
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
 const MODE = form.dataset.mode || "item";
-const NAME = { salary: "Government salaries", citizen: "Citizen's Account", social: "Developed social security", hafiz: "Hafiz", pension: "GOSI pensions (estimate)", saned: "SANED (estimate)" };
-const ON = { salary: "payday", citizen: "the Citizen's Account deposit", social: "the social security deposit", hafiz: "the Hafiz deposit", pension: "the pension deposit", saned: "the SANED deposit" };
+const NAME = { salary: "Government salaries", citizen: "Citizen's Account", social: "Developed social security", pension: "GOSI pensions", saned: "SANED", hafiz: "Hafiz", disability: "Disability allowance (comprehensive rehabilitation)", sakani: "Housing support (Sakani)" };
+const ON = { salary: "payday", citizen: "the Citizen's Account deposit", social: "the social security deposit", pension: "the pension deposit", saned: "the SANED deposit", hafiz: "the Hafiz deposit", disability: "the disability allowance", sakani: "the housing support deposit" };
 const RULE = {
   salary: "Paid on the 27th of each Gregorian month; a Friday moves to the Thursday before and a Saturday to the Sunday after. The Ministry of Finance may pay early before Eid by a decision announced at the time.",
-  citizen: "Deposited on the 10th of each Gregorian month; a Friday moves to the Thursday before and a Saturday to the Sunday after.",
-  social: "Deposited on the 1st of each Gregorian month; if that is a holiday the ministry sets and announces another date. Eligibility results appear between the 25th and 27th of the month before.",
-  hafiz: "Deposited on the 5th of each Gregorian month, with eligibility results between the 2nd and 4th. HRDF does not say what happens when the 5th is a holiday.",
-  pension: "Estimate: GOSI publishes no fixed day; the commonly cited day is the 25th, moved to the last working day before a weekend. Check the Taminaty app.",
-  saned: "Estimate: the commonly cited day is around the 5th; GOSI does not state the payment day.",
+  citizen: "Deposited on the 10th of each Gregorian month; a Friday moves to the Thursday before and a Saturday to the Sunday after. In April 2024 the 10th was the first day of Eid and the deposit came a week early.",
+  social: "Deposited on the 1st of each Gregorian month; in 2026 a Friday or Saturday moved to the Thursday before, and early payment before Eid is announced. Eligibility results appear between the 25th and 27th of the month before.",
+  pension: "Civil, military and GOSI pensions are paid on the 1st of each Gregorian month since May 2024; a Friday or Saturday moves to the Thursday before, and a public holiday to the last working day before it.",
+  saned: "SANED is paid at the start of each Gregorian month with pensions, under the same rule: a Friday or Saturday moves to the Thursday before.",
+  hafiz: "Deposited on the 5th of each Gregorian month, with eligibility results between the 2nd and 4th. HRDF states no weekend rule; in 2019 the Eid payment came early.",
+  disability: "The comprehensive rehabilitation allowance is paid on the 26th of each Gregorian month; on a weekend it moves to the next working day (Sunday).",
+  sakani: "Housing support is deposited on the 24th of each Gregorian month by REDF decision; when the 24th fell on a Friday or Saturday in 2026, the deposit was announced the following Sunday.",
 };
 const HM = ["Muharram", "Safar", "Rabi al-Awwal", "Rabi al-Thani", "Jumada al-Ula", "Jumada al-Akhirah", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qa'dah", "Dhu al-Hijjah"];
 const wdf = new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: "UTC" });
@@ -26,6 +28,7 @@ const left = (n) => (n === 0 ? "today" : n >= 7 ? `${plural(n, "day")} (${plural
 function why(p) {
   const out = [];
   if (p.announced) out.push("date announced by the authority");
+  else if (p.reason === "holiday") out.push("falls on a public holiday, so it moves to the last working day before");
   else if (p.shifted) out.push(`the ${ord(Number(p.nominal.slice(8)))} is a ${wdf.format(D(p.nominal))}, so it moves to ${wdf.format(D(p.date))}`);
   else if (p.unsure) out.push(`falls on a ${wdf.format(D(p.date))}; the authority announces another date`);
   if (p.holiday) out.push(`falls in the ${p.holiday.en} holiday, so another date may be announced`);
@@ -64,7 +67,7 @@ bind(
       html += table(next.map((p) => [NAME[p.item], `${full(p.date)} · <strong>${left(p.days)}</strong><br><small>${hij(p.hijri)}${why(p) ? ` · ${why(p)}` : ""}</small>`]), "Next date of each payment");
       const soon = KSA_PAY_ITEMS.flatMap((item) => ksaNextPayDates({ item, today, count: 3 })).filter((p) => p.days <= 62).sort((a, b) => a.date.localeCompare(b.date) || KSA_PAY_ITEMS.indexOf(a.item) - KSA_PAY_ITEMS.indexOf(b.item));
       html += table(soon.map((p) => [full(p.date), `${NAME[p.item]} · ${left(p.days)}`]), "All payment dates in the next two months");
-      html += note("GOSI pensions and SANED are estimated dates the agencies have not published; the social security and Hafiz dates may change when they fall on a holiday.", "info");
+      html += note("The housing support date follows what happened in 2026, the Hafiz date may change when it falls on a holiday, and early payment before Eid is announced at the time.", "info");
       return html;
     }
     const item = KSA_PAY_ITEMS.includes(v.item) ? v.item : form.dataset.item || "salary";
@@ -75,7 +78,7 @@ bind(
     if (!v.from || v.from === localToday()) html += `<p class="ticker" data-to="${p.date}" aria-hidden="true"></p>`;
     if (why(p)) html += note(why(p).replace(/^./, (c) => c.toUpperCase()) + ".", p.holiday || p.unsure ? "warn" : "info");
     html += table(list.map((x) => [mf.format(D(x.month + "-01")), `${full(x.date)}<br><small>${hij(x.hijri)}${why(x) ? ` · ${why(x)}` : ""}</small>`]), `Upcoming dates: ${NAME[item]}`);
-    html += note(RULE[item], item === "pension" || item === "saned" ? "warn" : "info");
+    html += note(RULE[item], item === "sakani" ? "warn" : "info");
     setTimeout(startTicker, 0);
     return html;
   },

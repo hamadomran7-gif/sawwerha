@@ -1,0 +1,99 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-pension-payment-date",
+  "alternate": "ksa-pension-date",
+  "title": "Saudi Pension Payment Date 2026–2027 — Days Until the GOSI Pension",
+  "h1": "Saudi pension payment date",
+  "description": "Count the days until Saudi pensions are paid: civil, military and GOSI pensions on the 1st of each Gregorian month since May 2024, moved to the Thursday before when the 1st is a Friday or Saturday, with SANED paid alongside, and the dates to December 2027 including two payments in December 2026.",
+  "short": "The 1st of each month since May 2024, Friday or Saturday to Thursday, with SANED",
+  "lead": "Shows the days and hours until the next pension deposit and the following dates in Gregorian and Hijri.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-retirement-pension",
+    "en-ksa-civil-retirement",
+    "en-ksa-saned",
+    "en-ksa-payment-calendar",
+    "en-ksa-salary-date"
+  ],
+  "faq": [
+    {
+      "q": "When is the December 2026 pension paid?",
+      "a": "Tuesday 1 December 2026 (21 Jumada al-Akhirah 1448). The January 2027 pension then comes on Thursday 31 December 2026 because 1 January is a Friday, so pensioners get two payments in December."
+    },
+    {
+      "q": "Is the pension paid on the 25th or the 1st?",
+      "a": "On the 1st of each Gregorian month since 1 May 2024 for civil, military and GOSI pensioners, after the dates were unified following the merger of the Public Pension Agency into GOSI. The 25th was the old date for civil and military pensioners."
+    },
+    {
+      "q": "What if the 1st is a Friday or Saturday?",
+      "a": "Payment moves to the Thursday before, and on a public holiday to the last working day before it, under the central bank circular; the May 2026 pension was paid on Thursday 30 April."
+    }
+  ],
+  "sources": [
+    {
+      "t": "SAMA — circular on paying GOSI beneficiaries on the 1st, Friday or Saturday to the Thursday before (9 May 2018)",
+      "u": "https://rulebook.sama.gov.sa/en/node/4679"
+    },
+    {
+      "t": "Saudi Gazette — GOSI unifies pension payment at the start of each month from 1 May 2024 (8 Apr 2024)",
+      "u": "https://www.saudigazette.com.sa/article/641906"
+    },
+    {
+      "t": "Ajel citing GOSI — May 2026 pensions paid Thursday 30 April (25 Apr 2026, Arabic)",
+      "u": "https://ajel.sa/thehour/6x69na0d45"
+    },
+    {
+      "t": "GOSI — SANED FAQ: paid at the start of each Gregorian month",
+      "u": "https://www.gosi.gov.sa/GOSIOnline/FAQ_Unemployment_Insurance_(SANED)"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="pension" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary">Government salaries</option>
+          <option value="citizen">Citizen's Account</option>
+          <option value="social">Developed social security</option>
+          <option value="pension" selected>GOSI pensions</option>
+          <option value="saned">SANED</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="disability">Disability allowance</option>
+          <option value="sakani">Housing support</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Pension payment dates from December 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=pension from=2026-12 count=13 lang=en}}
+<h2>The payment rule</h2>
+<ul>
+<li><strong>The 1st of each Gregorian month</strong> since 1 May 2024 for the civil and military retirement systems and GOSI; civil and military pensions used to be paid on the 25th.</li>
+<li><strong>Friday and Saturday:</strong> payment moves to the Thursday before, giving two payments in December 2026 and in April and September 2027.</li>
+<li><strong>Public holidays:</strong> payment moves to the last working day before; it is not brought forward just because Eid is near (June 2026 was paid on time after Eid al-Adha).</li>
+<li><strong>SANED:</strong> paid with pensions under the same rule.</li>
+</ul>
+<p>To estimate the pension itself use the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a>, and for other dates the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>
+</div>

@@ -1,0 +1,80 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-disability-allowance-payment-date",
+  "alternate": "ksa-disability-allowance-date",
+  "title": "Saudi Disability Allowance Payment Date 2026–2027 — Days Until the Next Payment",
+  "h1": "Disability allowance payment date",
+  "description": "Count the days until the Saudi disability allowance (comprehensive rehabilitation) is paid: the 26th of each Gregorian month, moved to the next working day when it falls on a weekend, with the dates to December 2027.",
+  "short": "The 26th of each month, weekend to the next working day",
+  "lead": "Shows the days and hours until the next allowance payment and the following dates in Gregorian and Hijri.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-social-security-date",
+    "en-ksa-social-security",
+    "en-ksa-payment-calendar",
+    "en-ksa-citizen-account-date"
+  ],
+  "faq": [
+    {
+      "q": "When is the December 2026 allowance paid?",
+      "a": "Sunday 27 December 2026, because 26 December is a Saturday so it is paid on the next working day."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Ajel citing the HR ministry — the rehabilitation allowance is paid on the 26th (1 Apr 2024, Arabic)",
+      "u": "https://ajel.sa/local/cz0batrkxu"
+    },
+    {
+      "t": "Ajel — paid on the next working day after a weekend (21 Apr 2024, Arabic)",
+      "u": "https://ajel.sa/thehour/6eoq7rkytz"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-item="disability" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="salary">Government salaries</option>
+          <option value="citizen">Citizen's Account</option>
+          <option value="social">Developed social security</option>
+          <option value="pension">GOSI pensions</option>
+          <option value="saned">SANED</option>
+          <option value="hafiz">Hafiz</option>
+          <option value="disability" selected>Disability allowance</option>
+          <option value="sakani">Housing support</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Allowance payment dates from November 2026 to December 2027</h2>
+{{table:ksa-pay-dates item=disability from=2026-11 count=14 lang=en}}
+<h2>The payment rule</h2>
+<ul>
+<li><strong>The 26th of each Gregorian month</strong>, as reported from the HR ministry.</li>
+<li><strong>Weekends:</strong> paid on the next working day (Sunday).</li>
+</ul>
+<p>For social security and the Citizen's Account see the <a href="{{root}}en/saudi-payment-calendar/{{ix}}">monthly payment calendar</a>.</p>
+</div>
