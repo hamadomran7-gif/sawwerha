@@ -20,6 +20,7 @@ import {
   ksaPayDate,
   ksaNextPayDates,
   ksaPayCountdown,
+  gccFinalSettlement,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
@@ -1613,4 +1614,23 @@ test("Saudi payment dates (batch27 rules)", () => {
   const c = ksaPayCountdown({ today: "2026-11-03" });
   assert.equal(c[0].item, "hafiz");
   assert.equal(c.find((p) => p.item === "salary").days, 23);
+});
+
+test("GCC final settlement (Qatar, Kuwait, Oman, Bahrain)", () => {
+  const q = gccFinalSettlement({ country: "qa", basic: 6000, allowances: 3000, start: "2020-01-01", end: "2026-10-31", leaveDays: 15, noticeCase: "employer", servedDays: 30, salaryDays: 10 });
+  assert.equal(q.eosTotal, 28700);
+  assert.equal(q.notice, 6000);
+  assert.equal(q.total, 40700);
+  assert.equal(gccFinalSettlement({ country: "qa", basic: 6000, start: "2020-01-01", end: "2026-10-31", forfeited: true }).eosTotal, 0);
+  const k = gccFinalSettlement({ country: "kw", basic: 600, allowances: 200, start: "2020-01-01", end: "2026-10-31", endedBy: "worker", leaveDays: 10 });
+  assert.equal(k.eosTotal, 2516.24);
+  assert.equal(k.total, 2823.93);
+  const kn = gccFinalSettlement({ country: "kw", basic: 800, start: "2024-01-01", end: "2026-10-31", noticeCase: "worker", servedDays: 30 });
+  assert.equal(kn.notice, -1600);
+  const o = gccFinalSettlement({ country: "om", basic: 600, allowances: 200, start: "2020-01-01", end: "2026-10-31", leaveDays: 10 });
+  assert.equal(o.total, 3467.63);
+  const b = gccFinalSettlement({ country: "bh", basic: 500, social: 100, allowances: 100, start: "2020-01-01", end: "2026-10-31", leaveDays: 10 });
+  assert.equal(b.total, 3400);
+  assert.equal(b.sio, 1600);
+  assert.equal(b.fromEmployer, 1800);
 });

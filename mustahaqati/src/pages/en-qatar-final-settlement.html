@@ -1,0 +1,138 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-final-settlement-calculator",
+  "alternate": "qatar-final-settlement",
+  "title": "Qatar Final Settlement Calculator 2026 — Gratuity, Leave and Notice Pay",
+  "h1": "Qatar final settlement calculator",
+  "description": "Work out your final settlement in Qatar: the end-of-service gratuity of 21 days' basic wage per year (Article 54), pay for unused leave on the basic wage, notice pay (one month up to two years, then two) paid or deducted, and unpaid salary.",
+  "short": "Gratuity of 21 days per year, leave pay, notice and unpaid salary",
+  "lead": "Enter your wage, service, how the contract ended and your leave balance to see the gratuity, leave pay, notice and unpaid salary in one settlement.",
+  "country": "qa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-gcc-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-end-of-service",
+    "en-qatar-leave",
+    "en-qatar-notice-period",
+    "en-qatar-net-salary"
+  ],
+  "faq": [
+    {
+      "q": "How much is the end-of-service gratuity in Qatar?",
+      "a": "At least 21 days of the last basic wage for each year of service after one year, with no cut for resignation; it is forfeited on dismissal under Article 61."
+    }
+  ],
+  "sources": [
+    {
+      "t": "ILO — Law No. 18 of 2020 amending the Labour Law (Articles 54 and 61 unchanged)",
+      "u": "https://www.ilo.org/resource/law-no-18-2020-termination-employment"
+    },
+    {
+      "t": "Clyde & Co — a quick guide to staff demobilisation in Qatar (Articles 54, 61, 67)",
+      "u": "https://www.clydeco.com/en/insights/2023/01/a-quick-guide-to-staff-demobilisation-in-qatar"
+    },
+    {
+      "t": "Pinsent Masons — committee on end-of-service payouts for non-Qataris (no change to the calculation yet)",
+      "u": "https://www.pinsentmasons.com/out-law/news/qatar-overhaul-employees-end-of-service-payouts"
+    },
+    {
+      "t": "Al Tamimi — top 10 amendments to the Qatar Labour Law in 2026 (leave unchanged)",
+      "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"
+    },
+    {
+      "t": "Legal 500 / Clyde & Co — workplace leave in Qatar",
+      "u": "https://www.legal500.com/intelligence/qatar/employment-and-hr/all-work-and-no-play-workplace-leave-in-qatar"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your final settlement</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic wage (QAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="any" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">Other fixed allowances (QAR)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="any" value="3000">
+        <span class="hint">Housing, transport and similar.</span>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">Last working day</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field full">
+        <label for="endedBy">How the contract ended</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>Ended by the employer or contract expiry</option>
+          <option value="worker">Resignation</option>
+          <option value="art61">Dismissal under Article 61</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="leaveDays">Unused annual leave (days)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">Days worked in the last month not yet paid</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full">
+        <label for="noticeCase">Notice period</label>
+        <select id="noticeCase" name="noticeCase">
+          <option value="none" selected>Fully served or not applicable</option>
+          <option value="employer">The employer ended it without full notice</option>
+          <option value="worker">I left without full notice</option>
+        </select>
+      </div>
+      <div class="field" data-notice hidden>
+        <label for="servedDays">Notice days actually served</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="other">Other dues (QAR)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">Unpaid overtime, a contractual ticket...</span>
+      </div>
+      <div class="field">
+        <label for="deductions">Deductions (QAR)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">A proven work-related debt to the employer.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>What a final settlement in Qatar includes</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">How it is calculated</th><th scope="col">Article</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">End-of-service gratuity</th><td>21 days of the last basic wage per year after one year, no cut for resignation</td><td>54 and 61</td></tr>
+    <tr><th scope="row">Leave pay</th><td>Basic ÷ 30 × unused days</td><td>79–81</td></tr>
+    <tr><th scope="row">Notice</th><td>One month up to two years of service, then two, on the basic wage</td><td>49</td></tr>
+    <tr><th scope="row">Unpaid salary</th><td>Full wage ÷ 30 × unpaid days</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> Basic 6,000 and allowances 3,000, 6 years and 10 months ended by the employer with 30 of 60 notice days served, 15 leave days and 10 unpaid days: gratuity 28,700, leave 3,000, notice 6,000 and salary 3,000, a total of <strong>QAR 40,700</strong>.</p>
+</div>
+<p>Notice pay covers the unserved days: the employer pays it when ending the contract without full notice, and it is deducted from a worker who leaves without it. For detail use the <a href="{{root}}en/qatar-end-of-service-calculator/{{ix}}">end-of-service calculator</a> and the <a href="{{root}}en/qatar-leave-calculator/{{ix}}">leave calculator</a>.</p>
+</div>

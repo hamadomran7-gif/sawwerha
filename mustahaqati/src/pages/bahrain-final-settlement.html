@@ -1,0 +1,138 @@
+---json
+{
+  "title": "حاسبة المستحقات النهائية في البحرين 2026 — المكافأة والإجازة ومهلة الإخطار",
+  "h1": "حاسبة المستحقات النهائية في البحرين",
+  "description": "احسب مستحقاتك النهائية عند انتهاء عقدك في البحرين: مكافأة نهاية الخدمة نصف شهر عن كل سنة من أول 3 ثم شهر، وما تصرفه هيئة التأمين الاجتماعي عن الخدمة منذ 1 مارس 2024، وبدل الإجازة على الأساسي والعلاوة الاجتماعية، وبدل مهلة الإخطار (30 يوماً).",
+  "short": "المكافأة وحصة هيئة التأمين الاجتماعي، وبدل الإجازة، ومهلة الإخطار 30 يوماً",
+  "lead": "أدخل أجرك ومدة خدمتك وسبب انتهاء العقد ورصيد إجازتك، وتظهر المكافأة وبدل الإجازة ومهلة الإخطار والأجر المتبقي في مخالصة واحدة.",
+  "country": "bh",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "bahrain-end-of-service",
+    "bahrain-leave",
+    "bahrain-notice-period",
+    "bahrain-net-salary"
+  ],
+  "faq": [
+    {
+      "q": "من يدفع مكافأة نهاية الخدمة في البحرين؟",
+      "a": "منذ 1 مارس 2024 تصرف هيئة التأمين الاجتماعي المكافأة عن الخدمة اللاحقة لهذا التاريخ من اشتراكات صاحب العمل، ويدفع صاحب العمل ما قبلها."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قرار رئيس مجلس الوزراء رقم 109 لسنة 2023 بإصدار نظام مكافأة نهاية الخدمة لغير البحرينيين — هيئة التشريع والرأي القانوني",
+      "u": "https://www.lloc.gov.bh/Legislation/HTM/RCAB10923"
+    },
+    {
+      "t": "قانون العمل في القطاع الأهلي 36/2012 (الترجمة الرسمية) — هيئة تنظيم سوق العمل: المواد 47 و116",
+      "u": "https://lmra.gov.bh/files/cms/shared/file/labour%20law.pdf"
+    },
+    {
+      "t": "EY — نظام المكافأة الجديد في البحرين اعتباراً من 1 مارس 2024",
+      "u": "https://ey.com/en_gl/tax-alerts/bahrain-implements-new-end-of-service-benefit-system-from-1-marc"
+    },
+    {
+      "t": "هيئة التشريع والرأي القانوني — قانون العمل في القطاع الأهلي 36/2012",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    },
+    {
+      "t": "هيئة التشريع — قائمة تعديلات القانون 36/2012",
+      "u": "https://lloc.gov.bh/Legislation/Amendments/K3612"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مخالصتك النهائية</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الأجر الأساسي الشهري (دينار)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="any" value="500" required>
+      </div>
+      <div class="field">
+        <label for="social">العلاوة الاجتماعية (دينار)</label>
+        <input type="number" id="social" name="social" inputmode="decimal" min="0" step="any" value="100">
+      </div>
+      <div class="field">
+        <label for="allowances">البدلات الثابتة الأخرى (دينار)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="any" value="100">
+        <span class="hint">السكن والنقل وغيرها.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field full">
+        <label for="endedBy">سبب انتهاء العقد</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>إنهاء صاحب العمل أو انتهاء العقد</option>
+          <option value="worker">استقالة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="leaveDays">رصيد الإجازة غير المستخدم (أيام)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">أيام عمل في الشهر الأخير لم يُصرف أجرها</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full">
+        <label for="noticeCase">مهلة الإخطار</label>
+        <select id="noticeCase" name="noticeCase">
+          <option value="none" selected>رُوعيت كاملة أو لا تنطبق</option>
+          <option value="employer">أنهى صاحب العمل دون مهلة كاملة</option>
+          <option value="worker">أنهيت أنا دون مهلة كاملة</option>
+        </select>
+      </div>
+      <div class="field" data-notice hidden>
+        <label for="servedDays">أيام المهلة التي رُوعيت فعلاً</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="other">مستحقات أخرى (دينار)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">عمل إضافي غير مدفوع، تذكرة في العقد...</span>
+      </div>
+      <div class="field">
+        <label for="deductions">خصومات (دينار)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">دين ثابت لصاحب العمل بسبب العمل.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مكونات المخالصة النهائية في البحرين</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">طريقة الحساب</th><th scope="col">المادة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">مكافأة نهاية الخدمة</th><td>نصف شهر عن كل سنة من أول 3 ثم شهر، على الأساسي والعلاوة الاجتماعية؛ والخدمة منذ 1/3/2024 تصرفها الهيئة</td><td>116 والقرار 109/2023</td></tr>
+    <tr><th scope="row">بدل الإجازة</th><td>(الأساسي + العلاوة الاجتماعية) ÷ 30 × أيام الرصيد</td><td>58 و59</td></tr>
+    <tr><th scope="row">مهلة الإخطار</th><td>30 يوماً، على الأساسي والعلاوة الاجتماعية</td><td>99</td></tr>
+    <tr><th scope="row">الأجر المتبقي</th><td>الأجر الشامل ÷ 30 × الأيام غير المدفوعة</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> أساسي 500 وعلاوة اجتماعية 100 وبدلات 100، وخدمة 6 سنوات و10 أشهر، و10 أيام إجازة: المكافأة 3,200 (1,600 من صاحب العمل و1,600 من الهيئة)، وبدل الإجازة 200، فالمجموع <strong>3,400 دينار</strong>، منها 1,800 من صاحب العمل.</p>
+</div>
+<p>يُدفع بدل مهلة الإخطار للأيام غير المراعاة: يدفعه صاحب العمل إن أنهى العقد دون مهلة كاملة، ويُخصم من العامل إن ترك العمل دونها. وللتفصيل استخدم <a href="{{root}}bahrain-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة</a> و<a href="{{root}}bahrain-leave/{{ix}}">حاسبة الإجازات</a>.</p>
+</div>

@@ -1,0 +1,139 @@
+---json
+{
+  "title": "حاسبة المستحقات النهائية في قطر 2026 — المكافأة والإجازة ومهلة الإخطار",
+  "h1": "حاسبة المستحقات النهائية في قطر",
+  "description": "احسب مستحقاتك النهائية عند انتهاء عقدك في قطر: مكافأة نهاية الخدمة 21 يوماً من الأساسي عن كل سنة (المادة 54)، وبدل الإجازة غير المستخدمة على الأساسي، وبدل مهلة الإخطار (شهر حتى سنتين ثم شهران) أو خصمها، والأجر المتبقي.",
+  "short": "المكافأة 21 يوماً عن كل سنة، وبدل الإجازة، ومهلة الإخطار، والأجر المتبقي",
+  "lead": "أدخل أجرك ومدة خدمتك وسبب انتهاء العقد ورصيد إجازتك، وتظهر المكافأة وبدل الإجازة ومهلة الإخطار والأجر المتبقي في مخالصة واحدة.",
+  "country": "qa",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-end-of-service",
+    "qatar-leave",
+    "qatar-notice-period",
+    "qatar-net-salary"
+  ],
+  "faq": [
+    {
+      "q": "كم مكافأة نهاية الخدمة في قطر؟",
+      "a": "أجر 21 يوماً من الأجر الأساسي الأخير عن كل سنة خدمة كحد أدنى، بعد إتمام سنة، ولا تنقص عند الاستقالة، وتسقط عند الفصل وفق المادة 61."
+    },
+    {
+      "q": "هل يُصرف بدل الإجازة غير المستخدمة عند ترك العمل في قطر؟",
+      "a": "نعم، يُصرف بدل الأيام المتبقية على الأجر الأساسي عند انتهاء الخدمة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "ILO — القانون رقم 18 لسنة 2020 بتعديل قانون العمل (لم يمس المادتين 54 و61)",
+      "u": "https://www.ilo.org/resource/law-no-18-2020-termination-employment"
+    },
+    {
+      "t": "Clyde & Co — دليل إنهاء الخدمة في قطر: المواد 54 و61 و67",
+      "u": "https://www.clydeco.com/en/insights/2023/01/a-quick-guide-to-staff-demobilisation-in-qatar"
+    },
+    {
+      "t": "Pinsent Masons — لجنة لنظام مكافآت غير القطريين (2026): لا تغيير في طريقة الحساب بعد",
+      "u": "https://www.pinsentmasons.com/out-law/news/qatar-overhaul-employees-end-of-service-payouts"
+    },
+    {
+      "t": "قانون العمل القطري 14/2004 — النص العربي للمواد 8 و72 و79–82 (محاماة نت)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "التميمي — أهم تعديلات قانون العمل القطري 2026 (لم تمس الإجازات)",
+      "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مخالصتك النهائية</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الأجر الأساسي الشهري (ريال)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="any" value="6000" required>
+      </div>
+      <div class="field">
+        <label for="allowances">البدلات الثابتة الأخرى (ريال)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="any" value="3000">
+        <span class="hint">السكن والنقل وغيرها.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field full">
+        <label for="endedBy">سبب انتهاء العقد</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>إنهاء صاحب العمل أو انتهاء العقد</option>
+          <option value="worker">استقالة</option>
+          <option value="art61">فصل تأديبي وفق المادة 61</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="leaveDays">رصيد الإجازة غير المستخدم (أيام)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">أيام عمل في الشهر الأخير لم يُصرف أجرها</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full">
+        <label for="noticeCase">مهلة الإخطار</label>
+        <select id="noticeCase" name="noticeCase">
+          <option value="none" selected>رُوعيت كاملة أو لا تنطبق</option>
+          <option value="employer">أنهى صاحب العمل دون مهلة كاملة</option>
+          <option value="worker">أنهيت أنا دون مهلة كاملة</option>
+        </select>
+      </div>
+      <div class="field" data-notice hidden>
+        <label for="servedDays">أيام المهلة التي رُوعيت فعلاً</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="other">مستحقات أخرى (ريال)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">عمل إضافي غير مدفوع، تذكرة في العقد...</span>
+      </div>
+      <div class="field">
+        <label for="deductions">خصومات (ريال)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">دين ثابت لصاحب العمل بسبب العمل.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مكونات المخالصة النهائية في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">طريقة الحساب</th><th scope="col">المادة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">مكافأة نهاية الخدمة</th><td>أجر 21 يوماً من الأساسي الأخير عن كل سنة بعد إتمام سنة، بلا تخفيض للاستقالة</td><td>54 و61</td></tr>
+    <tr><th scope="row">بدل الإجازة</th><td>الأساسي ÷ 30 × أيام الرصيد</td><td>79–81</td></tr>
+    <tr><th scope="row">مهلة الإخطار</th><td>شهر حتى سنتين خدمة ثم شهران، على الأساسي</td><td>49</td></tr>
+    <tr><th scope="row">الأجر المتبقي</th><td>الأجر الشامل ÷ 30 × الأيام غير المدفوعة</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> أساسي 6,000 وبدلات 3,000، وخدمة 6 سنوات و10 أشهر أنهاها صاحب العمل بمهلة 30 يوماً من 60، و15 يوم إجازة، و10 أيام لم يُصرف أجرها: المكافأة 28,700، والإجازة 3,000، وبدل المهلة 6,000، والأجر 3,000، فالمجموع <strong>40,700 ريال</strong>.</p>
+</div>
+<p>يُدفع بدل مهلة الإخطار للأيام غير المراعاة: يدفعه صاحب العمل إن أنهى العقد دون مهلة كاملة، ويُخصم من العامل إن ترك العمل دونها. وللتفصيل استخدم <a href="{{root}}qatar-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة</a> و<a href="{{root}}qatar-leave/{{ix}}">حاسبة الإجازات</a>.</p>
+</div>

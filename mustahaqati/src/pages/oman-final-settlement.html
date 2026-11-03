@@ -1,0 +1,134 @@
+---json
+{
+  "title": "حاسبة المستحقات النهائية في عُمان 2026 — المكافأة والإجازة ومهلة الإخطار",
+  "h1": "حاسبة المستحقات النهائية في عُمان",
+  "description": "احسب مستحقاتك النهائية عند انتهاء عقدك في عُمان: مكافأة نهاية الخدمة لغير العُماني شهر أساسي عن كل سنة منذ 31 يوليو 2023 والقانون السابق قبله، وبدل الإجازة على الأجر الشامل، وبدل مهلة الإخطار (30 يوماً) أو خصمها، والأجر المتبقي.",
+  "short": "المكافأة بالقانونين، وبدل الإجازة على الشامل، ومهلة الإخطار 30 يوماً",
+  "lead": "أدخل أجرك ومدة خدمتك وسبب انتهاء العقد ورصيد إجازتك، وتظهر المكافأة وبدل الإجازة ومهلة الإخطار والأجر المتبقي في مخالصة واحدة.",
+  "country": "om",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-final-settlement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-end-of-service",
+    "oman-leave",
+    "oman-notice-period",
+    "oman-net-salary"
+  ],
+  "faq": [
+    {
+      "q": "كم مكافأة نهاية الخدمة في عُمان بعد القانون الجديد؟",
+      "a": "أجر شهر أساسي عن كل سنة خدمة منذ 31 يوليو 2023 لغير العُماني، والمدة قبلها تُحسب بالقانون السابق: 15 يوماً عن كل سنة من أول 3 سنوات ثم شهر، بحسب تطبيق وزارة العمل."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل — المرسوم السلطاني 53/2023 (المواد 40 و41 و61)",
+      "u": "https://qanoon.om/p/2023/rd2023053/"
+    },
+    {
+      "t": "قانون العمل السابق — المرسوم السلطاني 35/2003 (المادة 39)",
+      "u": "https://qanoon.om/p/2003/rd2003035/"
+    },
+    {
+      "t": "Oman Observer — وزارة العمل توضح احتساب مكافأة نهاية الخدمة (أغسطس 2026)",
+      "u": "https://www.omanobserver.om/article/1194067/oman/labour/labour-ministry-clarifies-end-of-service-gratuity"
+    },
+    {
+      "t": "Al Tamimi — تمديد مواعيد قانون الحماية الاجتماعية بالمرسوم 60/2025",
+      "u": "https://www.tamimi.com/law-update/general/articles/omani-social-protection-law-key-timeline-extensions-under-sultani-decree-60-2025"
+    },
+    {
+      "t": "قرار صندوق الحماية الاجتماعية ر/13/2026 — شمول غير العمانيين بتأمين الإجازات",
+      "u": "https://qanoon.om/p/2026/spf20269904/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مخالصتك النهائية</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الأجر الأساسي الشهري (ريال)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="any" value="600" required>
+      </div>
+      <div class="field">
+        <label for="allowances">البدلات الثابتة الأخرى (ريال)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="any" value="200">
+        <span class="hint">السكن والنقل وغيرها.</span>
+      </div>
+      <div class="field">
+        <label for="start">تاريخ المباشرة</label>
+        <input type="date" id="start" name="start" value="2020-01-01" required>
+      </div>
+      <div class="field">
+        <label for="end">آخر يوم عمل</label>
+        <input type="date" id="end" name="end" value="2026-10-31" required>
+      </div>
+      <div class="field full">
+        <label for="endedBy">سبب انتهاء العقد</label>
+        <select id="endedBy" name="endedBy">
+          <option value="employer" selected>إنهاء صاحب العمل أو انتهاء العقد</option>
+          <option value="worker">استقالة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="leaveDays">رصيد الإجازة غير المستخدم (أيام)</label>
+        <input type="number" id="leaveDays" name="leaveDays" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="salaryDays">أيام عمل في الشهر الأخير لم يُصرف أجرها</label>
+        <input type="number" id="salaryDays" name="salaryDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field full">
+        <label for="noticeCase">مهلة الإخطار</label>
+        <select id="noticeCase" name="noticeCase">
+          <option value="none" selected>رُوعيت كاملة أو لا تنطبق</option>
+          <option value="employer">أنهى صاحب العمل دون مهلة كاملة</option>
+          <option value="worker">أنهيت أنا دون مهلة كاملة</option>
+        </select>
+      </div>
+      <div class="field" data-notice hidden>
+        <label for="servedDays">أيام المهلة التي رُوعيت فعلاً</label>
+        <input type="number" id="servedDays" name="servedDays" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="other">مستحقات أخرى (ريال)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">عمل إضافي غير مدفوع، تذكرة في العقد...</span>
+      </div>
+      <div class="field">
+        <label for="deductions">خصومات (ريال)</label>
+        <input type="number" id="deductions" name="deductions" inputmode="decimal" min="0" step="any" value="0">
+        <span class="hint">دين ثابت لصاحب العمل بسبب العمل.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>مكونات المخالصة النهائية في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">طريقة الحساب</th><th scope="col">المادة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">مكافأة نهاية الخدمة</th><td>شهر أساسي عن كل سنة منذ 31/7/2023، وقبله 15 يوماً عن كل سنة من أول 3 ثم شهر</td><td>61 (والقانون السابق 39)</td></tr>
+    <tr><th scope="row">بدل الإجازة</th><td>الأجر الشامل ÷ 30 × أيام الرصيد عند انتهاء الخدمة</td><td>78–81</td></tr>
+    <tr><th scope="row">مهلة الإخطار</th><td>30 يوماً للأجر الشهري، على آخر أجر شامل</td><td>36–39</td></tr>
+    <tr><th scope="row">الأجر المتبقي</th><td>الأجر الشامل ÷ 30 × الأيام غير المدفوعة</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> أساسي 600 وبدلات 200، وخدمة 6 سنوات و10 أشهر، و10 أيام إجازة: المكافأة 3,200.960، وبدل الإجازة 266.667، فالمجموع <strong>3,467.627 ريالاً</strong>.</p>
+</div>
+<p>يُدفع بدل مهلة الإخطار للأيام غير المراعاة: يدفعه صاحب العمل إن أنهى العقد دون مهلة كاملة، ويُخصم من العامل إن ترك العمل دونها. وللتفصيل استخدم <a href="{{root}}oman-end-of-service/{{ix}}">حاسبة مكافأة نهاية الخدمة</a> و<a href="{{root}}oman-leave/{{ix}}">حاسبة الإجازات</a>.</p>
+</div>

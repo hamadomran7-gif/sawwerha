@@ -1527,6 +1527,35 @@ export function ksaFinalSettlement({ wage, start, end, reason = "contract_end", 
   return { duration: d, eos, leave, noticeInfo, notice: r2(notice), salary: r2(salary), other: r2(nz(other)), deductions: r2(nz(deductions)), total: r2(total) };
 }
 
+/**
+ * قطر والكويت وعُمان والبحرين — المستحقات النهائية: مكافأة نهاية الخدمة + بدل الإجازة غير المستخدمة + أجر الأيام غير المدفوعة
+ * ± بدل مهلة الإخطار غير المراعاة (noticeCase: employer يدفعه صاحب العمل، worker يُخصم من العامل) + مستحقات أخرى − خصومات.
+ * الأجر: basic (الأساسي)، allowances (البدلات الدورية)، social (العلاوة الاجتماعية في البحرين). endedBy: employer | worker (استقالة).
+ * البحرين: الجزء من المكافأة عن الخدمة منذ 1/3/2024 تصرفه هيئة التأمين الاجتماعي، فيُطرح من المطلوب من صاحب العمل.
+ */
+export function gccFinalSettlement({ country, basic = 0, allowances = 0, social = 0, start, end, endedBy = "employer", forfeited = false, leaveDays = 0, noticeCase = "none", servedDays = 0, monthlyPaid = true, salaryDays = 0, other = 0, deductions = 0 }) {
+  if (!["qa", "kw", "om", "bh"].includes(country)) return null;
+  const d = serviceDuration(start, end, 0);
+  if (!d) return null;
+  const b = nz(basic), a = nz(allowances), s = nz(social);
+  const gross = b + a + s;
+  let eos;
+  if (country === "qa") eos = qatarGratuity({ basicSalary: b, years: d.decimalYears, forfeited: !!forfeited });
+  else if (country === "kw") eos = kuwaitIndemnity({ wage: gross, years: d.decimalYears, reason: endedBy === "worker" ? "resignation" : "employer" });
+  else if (country === "om") eos = omanGratuity({ basicSalary: b, start, end });
+  else eos = bahrainGratuity({ wage: b + s, start, end });
+  if (!eos) return null;
+  const leave = gccLeaveEncash({ country, days: leaveDays, basic: b, allowances: a, social: s });
+  const noticeWage = country === "qa" ? b : country === "bh" ? b + s : gross;
+  const noticeInfo = gccNotice({ country, wage: noticeWage, years: d.decimalYears, monthlyPaid, servedDays });
+  const notice = noticeCase === "employer" ? noticeInfo.inLieu : noticeCase === "worker" ? -noticeInfo.inLieu : 0;
+  const salary = (gross / 30) * nz(salaryDays);
+  const eosTotal = Number(eos.total) || 0;
+  const sio = country === "bh" ? Number(eos.sioAmount) || 0 : 0;
+  const total = eosTotal + leave.amount + salary + notice + nz(other) - nz(deductions);
+  return { country, duration: d, gross: r2(gross), eos, eosTotal: r2(eosTotal), leave, noticeInfo, notice: r2(notice), salary: r2(salary), other: r2(nz(other)), deductions: r2(nz(deductions)), total: r2(total), sio: r2(sio), fromEmployer: r2(total - sio) };
+}
+
 /* ------------------------------------------------------------------ */
 /* العمالة المنزلية — السعودية والإمارات                                */
 /* ------------------------------------------------------------------ */
