@@ -5,6 +5,8 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  hijriEventCountdown,
+  ramadanHours,
   gccUnemployment,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
@@ -1468,4 +1470,18 @@ test("مقارنة أنظمة التعطل في الخليج", () => {
   assert.equal(gccUnemployment({ country: "bh", wage: 1200 }).best.total, 6480);
   assert.equal(gccUnemployment({ country: "bh", national: false, wage: 500, reason: "resignation" }).best, null);
   assert.equal(gccUnemployment({ country: "kw", wage: 1000 }).rows[0].why, "notCovered");
+});
+
+test("العد التنازلي لرمضان وساعات الدوام في رمضان", () => {
+  const r = hijriEventCountdown({ event: "ramadan", today: "2026-11-03" });
+  assert.equal(r.date, "2027-02-08"); assert.equal(r.days, 97); assert.equal(r.eid, "2027-03-09"); assert.equal(r.length, 29);
+  assert.equal(hijriEventCountdown({ event: "eidAdha", today: "2026-11-03" }).date, "2027-05-16");
+  assert.equal(hijriEventCountdown({ event: "hijriNewYear", today: "2026-11-03" }).date, "2027-06-06");
+  const during = hijriEventCountdown({ event: "ramadan", today: "2027-02-20" });
+  assert.equal(during.ongoing.day, 13); assert.equal(during.ongoing.daysToEid, 17); assert.equal(during.date, "2028-01-28");
+  assert.equal(ramadanHours({ country: "ae", normal: 8, days: 5 }).daily, 6);
+  assert.equal(ramadanHours({ country: "sa", normal: 8, days: 6, muslim: false }).daily, 8);
+  assert.equal(ramadanHours({ country: "kw", normal: 8, days: 5 }).daily, 7.2);
+  assert.equal(ramadanHours({ country: "om", normal: 8, days: 6 }).weekly, 30);
+  assert.equal(ramadanHours({ country: "qa", normal: 8, days: 6, muslim: false }).weekly, 36);
 });

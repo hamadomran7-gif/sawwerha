@@ -2929,6 +2929,53 @@ export function gccUnemployment({ country = "ae", national = true, wage = 0, rea
 }
 
 /* ------------------------------------------------------------------ */
+/* المناسبات الهجرية القادمة وساعات الدوام في رمضان (الدول الست)        */
+/* ------------------------------------------------------------------ */
+
+const HIJRI_EVENTS = { ramadan: [9, 1], eidFitr: [10, 1], arafat: [12, 9], eidAdha: [12, 10], hijriNewYear: [1, 1] };
+
+/** عدد الأيام حتى المناسبة الهجرية القادمة بتقويم أم القرى، مع حالة «رمضان الآن». */
+export function hijriEventCountdown({ event = "ramadan", today } = {}) {
+  const t = utcDay(today || new Date());
+  const h = hijriParts(t);
+  if (!h) return null;
+  const [mo, d] = HIJRI_EVENTS[event] || HIJRI_EVENTS.ramadan;
+  let y = h.year;
+  let iso = hijriToGregorian({ year: y, month: mo, day: d });
+  if (!iso || utcDay(iso) < t) { y += 1; iso = hijriToGregorian({ year: y, month: mo, day: d }); }
+  const days = dayDiff(t, utcDay(iso));
+  const out = { event, today: isoUTC(t), hijriToday: h, hijriYear: y, date: iso, days, weeks: Math.floor(days / 7), restDays: days % 7 };
+  if (event === "ramadan") {
+    out.length = hijriMonthLength(y, 9);
+    out.eid = hijriToGregorian({ year: y, month: 10, day: 1 });
+    if (h.month === 9) {
+      const eidNow = hijriToGregorian({ year: h.year, month: 10, day: 1 });
+      out.ongoing = { day: h.day, length: hijriMonthLength(h.year, 9), eid: eidNow, daysToEid: dayDiff(t, utcDay(eidNow)) };
+    }
+  }
+  return out;
+}
+
+/** ساعات الدوام في رمضان بحسب الدولة: الإمارات ساعتان أقل للجميع، والسعودية وعُمان والبحرين للمسلم، وقطر والكويت للجميع. */
+export function ramadanHours({ country = "sa", normal = 8, days = 5, muslim = true } = {}) {
+  const n = Math.max(0, Number(normal) || 0);
+  const dd = Math.max(1, Math.min(7, Math.round(Number(days) || 5)));
+  let cfg;
+  if (country === "ae") cfg = { minus: rules.ae.workHours.ramadanReductionPerDay, all: true };
+  else if (country === "sa") cfg = { daily: rules.sa.workHours.ramadanMuslimPerDay, weekly: rules.sa.workHours.ramadanMuslimPerWeek, all: false };
+  else {
+    const O = rules[country]?.overtime;
+    if (!O) return null;
+    cfg = { daily: O.ramadanDaily, weekly: O.ramadanWeekly, all: !!O.ramadanAll };
+  }
+  const applies = cfg.all || muslim;
+  let daily = n;
+  if (applies) daily = cfg.minus ? Math.max(0, n - cfg.minus) : Math.min(n, cfg.daily ?? Infinity, cfg.weekly ? cfg.weekly / dd : Infinity);
+  daily = r2(daily);
+  return { country, applies, all: cfg.all, normalDaily: n, normalWeekly: r2(n * dd), daily, weekly: r2(daily * dd), cut: r2(n - daily), capDaily: cfg.daily ?? null, capWeekly: cfg.weekly ?? null, minus: cfg.minus ?? null, days: dd };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 
