@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  pregnancyDueDate,
+  maternityLeaveFromDue,
   ksaInheritance,
   ksaEstateNet,
   ksaReefSupport,
@@ -2078,4 +2080,29 @@ test("المواريث وفق النظام السعودي (الدفعة 37)", ()
   assert.equal(e.bequest, 90000);
   assert.equal(e.overCap, true);
   assert.equal(e.net, 180000);
+});
+
+test("موعد الولادة وإجازة الوضع (ACOG 700 وقوانين العمل الست)", () => {
+  const p = pregnancyDueDate({ method: "lmp", date: "2026-08-01", today: new Date("2026-11-03T08:00:00") });
+  assert.equal(p.edd, "2027-05-08");
+  assert.equal(p.weeks, 13);
+  assert.equal(p.days, 3);
+  assert.equal(p.trimester, 1);
+  assert.equal(p.milestones.t1End, "2026-11-06");
+  assert.equal(p.milestones.postTerm, "2027-05-22");
+  assert.equal(pregnancyDueDate({ method: "lmp", date: "2026-08-01", cycle: 32 }).edd, "2027-05-12");
+  assert.equal(pregnancyDueDate({ method: "conception", date: "2026-08-15" }).edd, "2027-05-08");
+  assert.equal(pregnancyDueDate({ method: "ivf5", date: "2026-08-20" }).edd, "2027-05-08");
+  assert.equal(pregnancyDueDate({ method: "ivf3", date: "2026-08-20" }).edd, "2027-05-10");
+  assert.equal(pregnancyDueDate({ method: "due", date: "2027-05-08", today: new Date("2027-05-01T08:00:00") }).weeks, 39);
+  const due = "2027-05-08";
+  const sa = maternityLeaveFromDue({ country: "sa", due });
+  assert.deepEqual([sa.earliest, sa.backOnDue, sa.mandatoryUntil], ["2027-04-10", "2027-07-31", "2027-06-18"]);
+  const ae = maternityLeaveFromDue({ country: "ae", due });
+  assert.deepEqual([ae.earliest, ae.backEarliest, ae.backOnDue], ["2027-04-30", "2027-06-29", "2027-07-07"]);
+  assert.equal(maternityLeaveFromDue({ country: "qa", due }).earliest, "2027-04-23");
+  assert.equal(maternityLeaveFromDue({ country: "om", due }).backOnDue, "2027-08-14");
+  const bh = maternityLeaveFromDue({ country: "bh", due });
+  assert.equal(bh.backEarliest, "2027-06-17");
+  assert.equal(bh.backOnDue, "2027-07-07");
 });

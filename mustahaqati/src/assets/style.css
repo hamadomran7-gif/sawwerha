@@ -147,6 +147,7 @@ a.btn { text-decoration: none; display: inline-flex; align-items: center; justif
 .shares td { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .shares small { display: block; color: var(--muted); font-weight: 400; font-size: .82rem; white-space: normal; margin-top: 2px; }
 .shares tr.out th, .shares tr.out td { color: var(--muted); font-weight: 400; }
+.shares tr.sel th, .shares tr.sel td { background: var(--surface-2); }
 .note { border-radius: 10px; padding: 10px 14px; font-size: .95rem; margin: 10px 0; border: 1px solid var(--line); background: var(--surface-2); }
 .note-ok { background: var(--primary-soft); border-color: transparent; }
 .note-warn { background: var(--warn-soft); border-color: transparent; color: var(--warn); }

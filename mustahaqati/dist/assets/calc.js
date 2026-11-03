@@ -860,6 +860,54 @@ export function ksaMaternityPlan({ due, start, wage = 0 }) {
   };
 }
 
+/* موعد الولادة وعمر الحمل (ACOG 700) وتواريخ إجازة الوضع في الدول الست */
+const PREG_DAYS = { lmp: 280, conception: 266, ivf5: 261, ivf3: 263 };
+const isoUTC0 = (d) => d.toISOString().slice(0, 10);
+/**
+ * موعد الولادة المتوقع: آخر دورة + 280 يوماً معدّلاً بفرق طول الدورة عن 28، أو الإخصاب + 266،
+ * أو نقل أجنة اليوم الخامس + 261 واليوم الثالث + 263، أو موعد يحدده الطبيب. وعمر الحمل من «آخر دورة مكافئة» = الموعد − 280.
+ */
+export function pregnancyDueDate({ method = "lmp", date, cycle = 28, today = new Date() } = {}) {
+  const d = utcDay(date);
+  if (!d) return null;
+  const c = Math.min(45, Math.max(21, Math.round(Number(cycle) || 28)));
+  const edd = method === "due" ? d : plusDays(d, (PREG_DAYS[method] ?? 280) + (method === "lmp" ? c - 28 : 0));
+  const lmp = plusDays(edd, -280);
+  const t = utcDay(today instanceof Date ? today : String(today));
+  const ga = Math.round((t - lmp) / 86400000);
+  const at = (n) => isoUTC0(plusDays(lmp, n));
+  return {
+    edd: isoUTC0(edd), lmp: isoUTC0(lmp), cycle: c, gaDays: ga, weeks: Math.floor(ga / 7), days: ((ga % 7) + 7) % 7,
+    daysLeft: Math.round((edd - t) / 86400000),
+    trimester: ga < 0 ? 0 : ga < 98 ? 1 : ga < 196 ? 2 : 3,
+    stage: ga < 0 ? "before" : ga > 294 ? "after" : "during",
+    milestones: { t1End: at(97), t2End: at(195), earlyTerm: at(259), fullTerm: at(273), lateTerm: at(287), postTerm: at(294) },
+  };
+}
+export const MATERNITY_COUNTRIES = ["sa", "ae", "qa", "kw", "bh", "om"];
+/** أبكر بداية لإجازة الوضع، وتاريخ العودة إن بدأت في أبكر موعد أو يوم الموعد المتوقع، بحسب قانون كل دولة. */
+export function maternityLeaveFromDue({ country = "sa", due } = {}) {
+  const d = utcDay(due);
+  if (!d) return null;
+  if (country === "sa") {
+    const M = rules.sa.maternity;
+    const e = ksaMaternityPlan({ due, start: isoUTC0(plusDays(d, -M.maxPreWeeks * 7)) });
+    const o = ksaMaternityPlan({ due, start: due });
+    return { country, days: M.weeks * 7, preMax: M.maxPreWeeks * 7, earliest: e.start, backEarliest: e.back, backOnDue: o.back, mandatoryUntil: o.mandatoryUntil };
+  }
+  if (country === "ae") {
+    const M = rules.ae.maternity;
+    const days = M.fullPayDays + M.halfPayDays;
+    const earliest = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 0));
+    return { country, days, preMax: Math.round((d - earliest) / 86400000), earliest: isoUTC0(earliest), backEarliest: isoUTC0(plusDays(earliest, days)), backOnDue: isoUTC0(plusDays(d, days)) };
+  }
+  const M = rules[country]?.maternity;
+  if (!M) return null;
+  const e = gccMaternityPlan({ country, due, start: isoUTC0(plusDays(d, -M.prenatalMax)) });
+  const o = gccMaternityPlan({ country, due, start: due });
+  return { country, days: M.days, preMax: M.prenatalMax, earliest: e.start, backEarliest: e.returnDate, backOnDue: o.returnDate, serviceMinMonths: M.serviceMinMonths || 0, banUntil: o.banUntil || null };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));
