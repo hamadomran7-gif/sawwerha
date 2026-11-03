@@ -1,0 +1,110 @@
+---json
+{
+  "title": "حاسبة مهلة الإخطار في عُمان 2026 — 30 يوماً وبدل الإنذار في قانون العمل الجديد",
+  "h1": "حاسبة مهلة الإخطار في عُمان",
+  "description": "احسب مهلة الإخطار وبدلها في عُمان وفق المادة 38 من قانون العمل 53/2023: 30 يوماً لصاحب الأجر الشهري و15 لغيره، لسبب مشروع وبإخطار كتابي، والبدل على آخر أجر شامل، مع 10 ساعات أسبوعياً للبحث عن عمل.",
+  "short": "30 يوماً للأجر الشهري و15 لغيره، والبدل على آخر أجر شامل",
+  "lead": "أدخل أجرك ومن أنهى العقد وما رُوعي من المهلة، ويظهر طول المهلة والبدل المستحق عن الأيام غير المراعاة.",
+  "country": "om",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-end-of-service",
+    "oman-overtime",
+    "oman-leave",
+    "oman-income-tax"
+  ],
+  "faq": [
+    {
+      "q": "كم مهلة الإخطار في قانون العمل العماني الجديد؟",
+      "a": "30 يوماً لمن يتقاضى أجراً شهرياً و15 يوماً لغيره، للطرفين، ما لم ينص العقد على مدة أطول (المادة 38 من المرسوم 53/2023)."
+    },
+    {
+      "q": "على أي أجر يُحسب بدل الإنذار في عُمان؟",
+      "a": "على آخر أجر شامل كان يتقاضاه العامل."
+    },
+    {
+      "q": "هل لي وقت للبحث عن عمل خلال المهلة في عُمان؟",
+      "a": "نعم: حتى 10 ساعات مدفوعة الأجر في الأسبوع، في جميع الأحوال (المادة 39)."
+    },
+    {
+      "q": "هل يجوز ترك العمل دون إخطار في عُمان؟",
+      "a": "نعم في حالات المادة 41، ومنها غش صاحب العمل، وتأخر الأجر أكثر من شهرين، والخطر الجسيم، مع الاحتفاظ بكامل الحقوق بعد إخطاره."
+    },
+    {
+      "q": "كم مهلة الإخطار خلال فترة التجربة في عُمان؟",
+      "a": "7 أيام على الأقل، وفترة التجربة حتى 3 أشهر لصاحب الأجر الشهري وشهرين لغيره (المادة 37)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل العُماني (المرسوم السلطاني 53/2023) — النص الموحد، المواد 36 إلى 41",
+      "u": "https://qanoon.om/p/2023/l2023053/"
+    },
+    {
+      "t": "المرسوم السلطاني 53/2023 بإصدار قانون العمل (الجريدة الرسمية 1504)",
+      "u": "https://qanoon.om/p/2023/rd2023053/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مهلة الإخطار وبدلها</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">آخر أجر شهري شامل (ريال عُماني)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="8000" required>
+        <span class="hint">البدل على آخر أجر شامل (المادة 38).</span>
+      </div>
+      <div class="field" data-paybasis>
+        <label for="payBasis">طريقة دفع الأجر</label>
+        <select id="payBasis" name="payBasis">
+          <option value="monthly" selected>أجر شهري</option>
+          <option value="other">يومي أو أسبوعي أو بالساعة أو القطعة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">من أنهى العقد؟</label>
+        <select id="who" name="who">
+          <option value="employer" selected>صاحب العمل</option>
+          <option value="employee">العامل (استقالة)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">أيام المهلة التي رُوعيت (عمل فيها)</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد مهلة الإخطار في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المهلة</th><td>30 يوماً لمن يتقاضى أجراً شهرياً، و15 لغيره، ما لم ينص العقد على أكثر (المادة 38)</td></tr>
+    <tr><th scope="row">الشرط</th><td>إخطار كتابي، وسبب مشروع</td></tr>
+    <tr><th scope="row">البدل</th><td>آخر أجر شامل عن المهلة أو ما بقي منها</td></tr>
+    <tr><th scope="row">البحث عن عمل</th><td>حتى 10 ساعات مدفوعة أسبوعياً في جميع الأحوال (المادة 39)</td></tr>
+    <tr><th scope="row">عدم تجديد العقد محدد المدة</th><td>إخطار صاحب العمل لا يقل عن شهر</td></tr>
+    <tr><th scope="row">فترة التجربة</th><td>حتى 3 أشهر للأجر الشهري وشهرين لغيره، والإنهاء بإخطار 7 أيام (المادة 37)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر شامل 8,000 ريال شهرياً: المهلة 30 يوماً. إن أنهى صاحب العمل العقد فوراً فالبدل <strong>8,000 ريال</strong>، وإن ترك العامل بعد 10 أيام فعليه 20 × 8,000 ÷ 30 = 5,333.333 ريال.</p>
+</div>
+<p>البدل منفصل عن مكافأة نهاية الخدمة؛ احسبها في <a href="{{root}}oman-end-of-service/{{ix}}">حاسبة نهاية الخدمة في عُمان</a>، ولأجر الساعات الإضافية راجع <a href="{{root}}oman-overtime/{{ix}}">حاسبة العمل الإضافي</a>.</p>
+</div>

@@ -2225,6 +2225,64 @@ export function omanIncomeTax({
   };
 }
 
+/**
+ * قطر والكويت وعُمان والبحرين — أجر العمل الإضافي. المستحق فوق الراتب = أجر الساعة × الساعات × المعامل.
+ * أجر الساعة = الأجر (الأساسي في قطر وعُمان، والشامل في الكويت والبحرين) ÷ القاسم (240، والكويت 208).
+ * restCash: يوم الراحة/العطلة نقداً (false = يوم بديل أو إجازة تعويضية، فلا مبلغ). consent (عُمان): false = الجرد والطوارئ.
+ */
+export function gccOvertime({ country, wage, day = 0, night = 0, rest = 0, holiday = 0, restCash = true, consent = true, altDivisor = false }) {
+  const O = rules[country] && rules[country].overtime;
+  if (!O) return null;
+  const w = Math.max(0, Number(wage) || 0);
+  const divisor = altDivisor ? O.divisorAlt : O.divisor;
+  const hourly = w / divisor;
+  const om = country === "om" && !consent;
+  const mult = {
+    day: om ? O.noConsentDay : O.day,
+    night: O.night ? (om ? O.noConsentNight : O.night) : O.day,
+    rest: om ? O.noConsentRest : O.rest,
+    holiday: om ? O.noConsentHoliday : O.holiday,
+  };
+  const h = { day: Number(day) || 0, night: Number(night) || 0, rest: Number(rest) || 0, holiday: Number(holiday) || 0 };
+  // الكويت: يوم الراحة والعطلة نقداً دائماً ومعهما يوم بديل؛ قطر: العطلة تتبع المادة 74 (نقداً دائماً)
+  const cashFor = (k) => {
+    if (k === "day" || k === "night") return true;
+    if (country === "kw") return true;
+    if (country === "qa" && k === "holiday") return true;
+    return restCash;
+  };
+  const rows = ["day", "night", "rest", "holiday"].filter((k) => h[k] > 0).map((k) => {
+    const cash = cashFor(k);
+    return { type: k, hours: h[k], mult: mult[k], cash, exact: cash ? hourly * h[k] * mult[k] : 0 };
+  });
+  const total = rows.reduce((a, r) => a + r.exact, 0);
+  const r3 = (x) => Math.round(x * 1000) / 1000;
+  rows.forEach((r) => (r.amount = r3(r.exact)));
+  const substituteDays = country === "kw" ? (h.rest > 0 ? 1 : 0) + (h.holiday > 0 ? 1 : 0) : 0;
+  return { country, basis: O.basis, divisor, hourly: Math.round(hourly * 1000) / 1000, rows, total: r3(total), substituteDays, nightApplies: !!O.night };
+}
+
+/**
+ * قطر والكويت وعُمان والبحرين — مهلة الإخطار وبدلها.
+ * قطر: شهر حتى سنتين خدمة ثم شهران، والبدل على الأساسي. الكويت: 3 أشهر للأجر الشهري وشهر لغيره، والبدل على الأجر.
+ * عُمان: 30 يوماً للشهري و15 لغيره، والبدل على آخر أجر شامل. البحرين: 30 يوماً، والبدل على الأساسي + العلاوة الاجتماعية.
+ */
+export function gccNotice({ country, wage, years = 0, monthlyPaid = true, servedDays = 0 }) {
+  const N = rules[country] && rules[country].notice;
+  if (!N) return null;
+  const w = Math.max(0, Number(wage) || 0);
+  let days;
+  if (country === "qa") days = (Number(years) > N.thresholdYears ? N.monthsOver : N.monthsUpTo) * N.daysPerMonth;
+  else if (country === "kw") days = (monthlyPaid ? N.monthlyMonths : N.otherMonths) * N.daysPerMonth;
+  else if (country === "om") days = monthlyPaid ? N.monthlyDays : N.otherDays;
+  else days = N.days;
+  const daily = w / N.daysPerMonth;
+  const served = Math.min(days, Math.max(0, Math.floor(Number(servedDays) || 0)));
+  const unserved = days - served;
+  const r3 = (x) => Math.round(x * 1000) / 1000;
+  return { country, basis: N.basis, days, months: Math.round((days / N.daysPerMonth) * 100) / 100, daily: r3(daily), served, unserved, inLieu: r3(daily * unserved), full: r3(daily * days) };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

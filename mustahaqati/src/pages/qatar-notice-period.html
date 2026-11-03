@@ -1,0 +1,111 @@
+---json
+{
+  "title": "حاسبة مهلة الإخطار في قطر 2026 — شهر أو شهران وبدل الإنذار على الأساسي",
+  "h1": "حاسبة مهلة الإخطار في قطر",
+  "description": "احسب مهلة الإخطار وبدلها في قطر وفق المادة 49 من قانون العمل بعد تعديل 2020: شهر في أول سنتين من الخدمة وشهران بعدهما، للعامل وصاحب العمل، والبدل على الأجر الأساسي عن الأيام غير المراعاة، مع قواعد فترة التجربة.",
+  "short": "شهر حتى سنتين وشهران بعدهما، والبدل على الأساسي",
+  "lead": "أدخل أجرك ومن أنهى العقد وما رُوعي من المهلة، ويظهر طول المهلة والبدل المستحق عن الأيام غير المراعاة.",
+  "country": "qa",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-end-of-service",
+    "qatar-overtime",
+    "qatar-leave",
+    "probation-period"
+  ],
+  "faq": [
+    {
+      "q": "كم مهلة الإخطار في قطر؟",
+      "a": "شهر إن كانت الخدمة سنتين فأقل، وشهران إن زادت على سنتين، بحسب المادة 49 بعد تعديلها بالقانون 18 لسنة 2020، وهي واحدة للعامل وصاحب العمل."
+    },
+    {
+      "q": "هل بدل الإنذار في قطر على الأساسي أم الإجمالي؟",
+      "a": "على الأجر الأساسي عن المهلة أو ما بقي منها، بحسب نص 2020."
+    },
+    {
+      "q": "ماذا لو استقلت دون إخطار في قطر؟",
+      "a": "تدفع لصاحب العمل بدل المهلة غير المراعاة، وقد يُحرم الوافد من الحصول على تصريح عمل لمدة سنة إن لم يلتزم الشروط."
+    },
+    {
+      "q": "كم مهلة الإخطار خلال فترة التجربة في قطر؟",
+      "a": "صاحب العمل: إخطار شهر لعدم صلاحية العامل. والعامل المنتقل إلى صاحب عمل آخر في قطر: شهر، والمغادر لقطر: المدة المتفق عليها بحد شهرين."
+    },
+    {
+      "q": "هل غيّر قانون 2026 مهلة الإخطار في قطر؟",
+      "a": "لا. القانون 9 لسنة 2026 عدّل مواد عدم المنافسة والمنازعات والإضراب، ولم يمس مواد الإخطار."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل القطري 14/2004 — المادتان 49 و50 (نص منشور)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "القانون 18/2020 بتعديل قانون العمل القطري — ترجمة منظمة العمل الدولية (أغسطس 2020)",
+      "u": "https://gulfmigration.grc.net/wp-content/uploads/2022/12/wcms_754882.pdf"
+    },
+    {
+      "t": "Clyde & Co — إنهاء الخدمة في قطر (يناير 2023)",
+      "u": "https://www.clydeco.com/en/insights/2023/01/a-quick-guide-to-staff-demobilisation-in-qatar"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مهلة الإخطار وبدلها</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الراتب الأساسي الشهري (ريال قطري)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">البدل على الأساسي منذ تعديل 2020.</span>
+      </div>
+      <div class="field" data-years>
+        <label for="years">سنوات الخدمة</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.1" value="3">
+      </div>
+      <div class="field">
+        <label for="who">من أنهى العقد؟</label>
+        <select id="who" name="who">
+          <option value="employer" selected>صاحب العمل</option>
+          <option value="employee">العامل (استقالة)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">أيام المهلة التي رُوعيت (عمل فيها)</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد مهلة الإخطار في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المهلة</th><td>شهر في أول سنتين من الخدمة، وشهران بعدهما (المادة 49 بعد 2020)</td></tr>
+    <tr><th scope="row">من يلتزم بها</th><td>الطرفان، ولكل طرق دفع الأجر، ويجوز للعقد أن ينص على أطول</td></tr>
+    <tr><th scope="row">البدل</th><td>الأجر الأساسي عن المهلة أو ما بقي منها</td></tr>
+    <tr><th scope="row">أثناء المهلة</th><td>الأجر كاملاً لمن يعمل كالمعتاد، وللقطري تغيّب مناسب للبحث عن عمل (المادة 50)</td></tr>
+    <tr><th scope="row">فترة التجربة</th><td>حتى 6 أشهر: صاحب العمل بإخطار شهر، والعامل المنتقل إلى صاحب عمل آخر بإخطار شهر، والمغادر لقطر بالمدة المتفق عليها بحد شهرين</td></tr>
+    <tr><th scope="row">الترك دون إخطار</th><td>بدل المهلة، وقد يُحرم الوافد من تصريح عمل سنة، وتُصرف مستحقاته خلال 7 أيام</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> راتب أساسي 6,000 ريال وخدمة 3 سنوات: المهلة شهران. إن أنهى صاحب العمل العقد فوراً فالبدل <strong>12,000 ريال</strong>. وإن استقال العامل وغادر بعد شهر من الشهرين فعليه 6,000 ريال.</p>
+</div>
+<p>البدل منفصل عن مكافأة نهاية الخدمة؛ احسبها في <a href="{{root}}qatar-end-of-service/{{ix}}">حاسبة نهاية الخدمة في قطر</a>، ولأجر الساعات الإضافية راجع <a href="{{root}}qatar-overtime/{{ix}}">حاسبة العمل الإضافي</a>.</p>
+</div>

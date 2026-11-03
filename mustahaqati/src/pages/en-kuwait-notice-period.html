@@ -1,0 +1,113 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-notice-period-calculator",
+  "alternate": "kuwait-notice-period",
+  "title": "Kuwait Notice Period Calculator 2026 — Three Months and Pay in Lieu",
+  "h1": "Kuwait Notice Period Calculator",
+  "description": "Work out your notice period and pay in lieu in Kuwait under Article 44 of Labour Law 6/2010: three months for monthly-paid workers and one month for others, for both sides, with pay in lieu equal to the wage for the days not served, plus a weekly day to look for work.",
+  "short": "Three months for monthly pay, one month otherwise; pay in lieu equals the wage",
+  "lead": "Enter your wage, who ended the contract and how much notice was served to see the notice period and the pay in lieu for the days not served.",
+  "country": "kw",
+  "category": "eos",
+  "tool": true,
+  "script": "en-gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-end-of-service",
+    "en-kuwait-overtime",
+    "en-kuwait-leave",
+    "en-probation-period"
+  ],
+  "faq": [
+    {
+      "q": "What is the notice period in Kuwait?",
+      "a": "At least three months for monthly-paid workers and one month for others on open-ended contracts, the same for both sides (Article 44)."
+    },
+    {
+      "q": "How much is pay in lieu of notice in Kuwait?",
+      "a": "Equal to the worker's wage for the notice period or the part not served."
+    },
+    {
+      "q": "Do I get time to look for work during notice in Kuwait?",
+      "a": "Yes, if the employer gave notice: a full day a week or 8 hours during the week, on full pay."
+    },
+    {
+      "q": "Can the employer release me from work during notice?",
+      "a": "Yes, provided it pays you for the period, which still counts as service."
+    },
+    {
+      "q": "Is there notice during probation in Kuwait?",
+      "a": "No. Probation lasts up to 100 working days, and either side may end it without notice (Article 32)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Kuwait Labour Law 6/2010 — Articles 44 and 32 (Al-Anba, February 2010, Arabic)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "NATLEX — Kuwait Private Sector Labour Law 6/2010",
+      "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your notice and pay in lieu</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly wage (KWD)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="8000" required>
+        <span class="hint">Your pay including regular payments.</span>
+      </div>
+      <div class="field" data-paybasis>
+        <label for="payBasis">How you are paid</label>
+        <select id="payBasis" name="payBasis">
+          <option value="monthly" selected>Monthly</option>
+          <option value="other">Daily, weekly, hourly or piece rate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">Who ended the contract?</label>
+        <select id="who" name="who">
+          <option value="employer" selected>The employer</option>
+          <option value="employee">The worker (resignation)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">Notice days already served</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Notice rules in Kuwait</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Notice period</th><td>Three months for monthly-paid workers and one month for others, on open-ended contracts (Article 44)</td></tr>
+    <tr><th scope="row">Who must give it</th><td>Both sides; it does not vary with length of service</td></tr>
+    <tr><th scope="row">Pay in lieu</th><td>Equal to the worker's wage for the period not served</td></tr>
+    <tr><th scope="row">Job search</th><td>If the employer gives notice: a full day or 8 hours a week on full pay</td></tr>
+    <tr><th scope="row">Release from work</th><td>The employer may release the worker during notice on full pay, still counted as service</td></tr>
+    <tr><th scope="row">Probation</th><td>Up to 100 working days, ended without notice (Article 32)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> A monthly wage of KWD 8,000 and 3 years of service: three months' notice. If the employer ends the contract immediately, pay in lieu is <strong>KWD 24,000</strong>; a worker who walks out immediately owes the same.</p>
+</div>
+<p>Pay in lieu is separate from your end-of-service gratuity; work that out with the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">Kuwait end-of-service calculator</a>, and overtime with the <a href="{{root}}en/kuwait-overtime-calculator/{{ix}}">overtime calculator</a>. Prefer Arabic? Use the <a href="{{root}}kuwait-notice-period/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

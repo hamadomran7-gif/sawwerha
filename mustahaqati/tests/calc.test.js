@@ -37,6 +37,8 @@ import {
   uaeEmiratisation,
   ksaRetirementAge,
   omanIncomeTax,
+  gccOvertime,
+  gccNotice,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1177,4 +1179,37 @@ test("عُمان — ضريبة دخل الأفراد (من 2028)", () => {
   assert.equal(b.withholding, 1365);
   // وافد 8 أشهر بـ4,500 ومكافأة 25,000 → 950
   assert.equal(omanIncomeTax({ monthlySalary: 4500, months: 8, gratuity: 25000 }).tax, 950);
+});
+
+test("الخليج — العمل الإضافي في قطر والكويت وعُمان والبحرين", () => {
+  // قطر: أساسي 6,000 → 25 للساعة؛ 10 نهارية + 4 يوم راحة نقداً = 562.50، وباليوم البديل 312.50
+  const q = gccOvertime({ country: "qa", wage: 6000, day: 10, rest: 4 });
+  assert.equal(q.hourly, 25);
+  assert.equal(q.total, 562.5);
+  assert.equal(gccOvertime({ country: "qa", wage: 6000, day: 10, rest: 4, restCash: false }).total, 312.5);
+  assert.equal(gccOvertime({ country: "qa", wage: 6000, night: 6, holiday: 4 }).total, 350);
+  // الكويت: شامل 6,000 ÷ 208 = 28.8462؛ 10 إضافية + 4 راحة = 533.65 ويوم بديل؛ و8 ساعات عطلة = 461.54
+  const k = gccOvertime({ country: "kw", wage: 6000, day: 10, rest: 4 });
+  near(k.total, 533.654, 0.001);
+  assert.equal(k.substituteDays, 1);
+  near(gccOvertime({ country: "kw", wage: 6000, holiday: 8 }).total, 461.538, 0.001);
+  assert.equal(gccOvertime({ country: "kw", wage: 6000, day: 10, altDivisor: true }).total, 312.5);
+  // عُمان: 10 نهارية + 4 راحة = 512.50؛ ودون موافقة (جرد) 6 ليلية + 4 نهارية = 375
+  assert.equal(gccOvertime({ country: "om", wage: 6000, day: 10, rest: 4 }).total, 512.5);
+  assert.equal(gccOvertime({ country: "om", wage: 6000, night: 6, day: 4, consent: false }).total, 412.5);
+  // البحرين: 10 + 4 راحة = 562.50؛ 4 ليلية + 8 عطلة = 650
+  assert.equal(gccOvertime({ country: "bh", wage: 6000, day: 10, rest: 4 }).total, 562.5);
+  assert.equal(gccOvertime({ country: "bh", wage: 6000, night: 4, holiday: 8 }).total, 650);
+});
+
+test("الخليج — مهلة الإخطار وبدلها", () => {
+  assert.equal(gccNotice({ country: "qa", wage: 6000, years: 3 }).inLieu, 12000);
+  assert.equal(gccNotice({ country: "qa", wage: 6000, years: 2 }).days, 30);
+  assert.equal(gccNotice({ country: "qa", wage: 6000, years: 3, servedDays: 30 }).inLieu, 6000);
+  assert.equal(gccNotice({ country: "kw", wage: 8000 }).inLieu, 24000);
+  assert.equal(gccNotice({ country: "kw", wage: 8000, monthlyPaid: false }).days, 30);
+  assert.equal(gccNotice({ country: "om", wage: 8000 }).inLieu, 8000);
+  assert.equal(gccNotice({ country: "om", wage: 8000, servedDays: 10 }).inLieu, 5333.333);
+  assert.equal(gccNotice({ country: "om", wage: 8000, monthlyPaid: false }).days, 15);
+  assert.equal(gccNotice({ country: "bh", wage: 6000 }).inLieu, 6000);
 });

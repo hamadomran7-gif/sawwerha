@@ -1,0 +1,120 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-overtime-calculator",
+  "alternate": "kuwait-overtime",
+  "title": "Kuwait Overtime Calculator 2026 — Overtime, Rest Day and Public Holiday Pay",
+  "h1": "Kuwait Overtime Calculator",
+  "description": "Calculate overtime pay in Kuwait under Articles 66 to 68 of Labour Law 6/2010: normal pay + 25%, rest-day work + 50% with a substitute day, and double pay with a substitute day on public holidays, capped at 2 hours a day and 180 hours a year.",
+  "short": "Pay + 25%; rest day + 50% with a substitute day; holidays double pay with a substitute day",
+  "lead": "Enter your salary and your overtime hours by day, at night, on the rest day and on holidays to see what the law says you are owed.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-end-of-service",
+    "en-kuwait-leave",
+    "en-kuwait-notice-period",
+    "en-gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "How is overtime calculated in Kuwait?",
+      "a": "At the normal hourly wage plus 25% (Article 66); in practice the hourly wage is the monthly wage ÷ 26 ÷ 8. The law sets no night premium."
+    },
+    {
+      "q": "What is the overtime limit in Kuwait?",
+      "a": "2 hours a day, 3 days a week, and 90 days and 180 hours a year, on the employer's written order."
+    },
+    {
+      "q": "How much is rest-day work paid in Kuwait?",
+      "a": "Normal pay plus at least 50%, together with a substitute rest day (Article 67)."
+    },
+    {
+      "q": "How much is public-holiday work paid in Kuwait?",
+      "a": "Double pay plus a substitute rest day, for any of the 13 public holidays (Article 68)."
+    },
+    {
+      "q": "Do managers get overtime in Kuwait?",
+      "a": "Yes. The law does not exclude managers from the overtime rules; it excludes domestic workers and those covered by special laws."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Kuwait Labour Law 6/2010 — Articles 64 to 68 (Al-Anba, February 2010, Arabic)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "NATLEX — Kuwait Private Sector Labour Law 6/2010",
+      "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"
+    },
+    {
+      "t": "Arab Times — how overtime is calculated in Kuwait (January 2016)",
+      "u": "https://www.arabtimesonline.com/news/overtime-calculation"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your overtime pay</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly total wage (KWD)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">Basic plus regular payments (Article 55).</span>
+      </div>
+      <div class="field">
+        <label for="day">Daytime overtime hours</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="rest">Hours worked on the rest day</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">Hours worked on a public holiday</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="divisor">Hourly divisor</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 26 ÷ 8 (common practice)</option>
+          <option value="alt">÷ 30 ÷ 8</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Overtime rules in Kuwait</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Normal hours</th><td>8 a day and 48 a week (Article 64)</td></tr>
+    <tr><th scope="row">Ramadan</th><td>36 hours a week, not limited to Muslims</td></tr>
+    <tr><th scope="row">Overtime conditions</th><td>A written order and a genuine need; capped at 2 hours a day, 3 days a week, 90 days and 180 hours a year (Article 66)</td></tr>
+    <tr><th scope="row">Overtime</th><td>Normal pay + 25%; the law has no night premium</td></tr>
+    <tr><th scope="row">Rest day</th><td>Pay + 50% plus a substitute rest day (Article 67)</td></tr>
+    <tr><th scope="row">Public holidays (13 days)</th><td>Double pay plus a substitute day (Article 68)</td></tr>
+    <tr><th scope="row">Hourly wage</th><td>Total wage ÷ 26 ÷ 8 in common practice</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> Total wage KWD 6,000, so the hourly wage is 6,000 ÷ 26 ÷ 8 = KWD 28.846. Ten overtime hours: 10 × 28.846 × 1.25 = 360.577; four rest-day hours: 4 × 28.846 × 1.5 = 173.077. <strong>Total KWD 533.654 plus a substitute rest day</strong>.</p>
+</div>
+<p>The 26-day divisor comes from practice and Article 67, which works out the daily wage from actual working days; some employers divide by 30, so pick the alternative to see the difference.</p>
+<p>To work out what you are owed when your contract ends, see the <a href="{{root}}en/kuwait-indemnity-calculator/{{ix}}">Kuwait end-of-service calculator</a> and the <a href="{{root}}en/kuwait-notice-period-calculator/{{ix}}">notice period calculator</a>. Prefer Arabic? Use the <a href="{{root}}kuwait-overtime/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

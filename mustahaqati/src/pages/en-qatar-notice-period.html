@@ -1,0 +1,114 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-notice-period-calculator",
+  "alternate": "qatar-notice-period",
+  "title": "Qatar Notice Period Calculator 2026 — One or Two Months and Pay in Lieu on Basic",
+  "h1": "Qatar Notice Period Calculator",
+  "description": "Work out your notice period and pay in lieu in Qatar under Article 49 of the Labour Law as amended in 2020: one month in the first two years of service and two months after, for worker and employer alike, with pay in lieu on basic salary for any days not served, plus the probation rules.",
+  "short": "One month up to two years, two months after; pay in lieu on basic",
+  "lead": "Enter your wage, who ended the contract and how much notice was served to see the notice period and the pay in lieu for the days not served.",
+  "country": "qa",
+  "category": "eos",
+  "tool": true,
+  "script": "en-gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-end-of-service",
+    "en-qatar-overtime",
+    "en-qatar-leave",
+    "en-probation-period"
+  ],
+  "faq": [
+    {
+      "q": "What is the notice period in Qatar?",
+      "a": "One month if service is two years or less, and two months if it is longer, under Article 49 as amended by Law 18 of 2020; it is the same for worker and employer."
+    },
+    {
+      "q": "Is pay in lieu of notice in Qatar based on basic or gross salary?",
+      "a": "On basic salary for the notice period or the part not served, under the 2020 text."
+    },
+    {
+      "q": "What if I resign without notice in Qatar?",
+      "a": "You owe the employer pay in lieu for the notice not served, and an expatriate who does not comply may be barred from a work permit for a year."
+    },
+    {
+      "q": "What notice applies during probation in Qatar?",
+      "a": "The employer gives one month for unsuitability; a worker moving to another employer in Qatar gives one month, and a worker leaving Qatar the agreed period, up to two months."
+    },
+    {
+      "q": "Did the 2026 law change notice in Qatar?",
+      "a": "No. Law 9 of 2026 amended the non-compete, disputes and strike articles, not the notice articles."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Qatar Labour Law 14/2004 — Articles 49 and 50 (published text, Arabic)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "Law 18/2020 amending Qatar's Labour Law — ILO translation (August 2020)",
+      "u": "https://gulfmigration.grc.net/wp-content/uploads/2022/12/wcms_754882.pdf"
+    },
+    {
+      "t": "Clyde & Co — a quick guide to staff demobilisation in Qatar (January 2023)",
+      "u": "https://www.clydeco.com/en/insights/2023/01/a-quick-guide-to-staff-demobilisation-in-qatar"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your notice and pay in lieu</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly basic salary (QAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">Pay in lieu uses basic pay since the 2020 amendment.</span>
+      </div>
+      <div class="field" data-years>
+        <label for="years">Years of service</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.1" value="3">
+      </div>
+      <div class="field">
+        <label for="who">Who ended the contract?</label>
+        <select id="who" name="who">
+          <option value="employer" selected>The employer</option>
+          <option value="employee">The worker (resignation)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">Notice days already served</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Notice rules in Qatar</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Notice period</th><td>One month in the first two years of service, two months after (Article 49 since 2020)</td></tr>
+    <tr><th scope="row">Who must give it</th><td>Both sides, for every pay basis; the contract may set a longer period</td></tr>
+    <tr><th scope="row">Pay in lieu</th><td>Basic wage for the notice period or the part not served</td></tr>
+    <tr><th scope="row">During notice</th><td>Full pay for those who keep working; Qataris may take reasonable time off to look for work (Article 50)</td></tr>
+    <tr><th scope="row">Probation</th><td>Up to 6 months: employer one month's notice; a worker moving to another employer one month; a worker leaving Qatar the agreed period, up to two months</td></tr>
+    <tr><th scope="row">Leaving without notice</th><td>Pay in lieu; an expatriate may be barred from a work permit for a year; dues are paid within 7 days</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> Basic salary QAR 6,000 and 3 years of service: two months' notice. If the employer ends the contract immediately, pay in lieu is <strong>QAR 12,000</strong>. If the worker resigns and leaves after one of the two months, the worker owes QAR 6,000.</p>
+</div>
+<p>Pay in lieu is separate from your end-of-service gratuity; work that out with the <a href="{{root}}en/qatar-end-of-service-calculator/{{ix}}">Qatar end-of-service calculator</a>, and overtime with the <a href="{{root}}en/qatar-overtime-calculator/{{ix}}">overtime calculator</a>. Prefer Arabic? Use the <a href="{{root}}qatar-notice-period/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

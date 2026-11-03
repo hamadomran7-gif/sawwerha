@@ -1,0 +1,127 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-overtime-calculator",
+  "alternate": "bahrain-overtime",
+  "title": "Bahrain Overtime Calculator 2026 — Night, Rest Day and Public Holiday Overtime Pay",
+  "h1": "Bahrain Overtime Calculator",
+  "description": "Calculate overtime pay in Bahrain under Articles 54, 57 and 64 of Labour Law 36/2012: pay + 25% by day and + 50% at night (7 pm–7 am), and pay + 150% or a substitute day at the worker's choice for rest days and holidays, within the 10-hour daily limit.",
+  "short": "Pay + 25% by day and + 50% at night; rest days and holidays + 150% or a substitute day",
+  "lead": "Enter your salary and your overtime hours by day, at night, on the rest day and on holidays to see what the law says you are owed.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-end-of-service",
+    "en-bahrain-leave",
+    "en-bahrain-notice-period",
+    "en-bahrain-pension"
+  ],
+  "faq": [
+    {
+      "q": "How is overtime calculated in Bahrain?",
+      "a": "At the wage due plus 25% for daytime hours and 50% for night hours between 7 pm and 7 am (Article 54)."
+    },
+    {
+      "q": "How much is rest-day work paid in Bahrain?",
+      "a": "Pay plus 150%, or a substitute rest day, at the worker's choice (Article 57). No more than two consecutive rest days may be worked without written consent."
+    },
+    {
+      "q": "How much is public-holiday work paid in Bahrain?",
+      "a": "As for the rest day: pay + 150% or a substitute day, at the worker's choice (Article 64)."
+    },
+    {
+      "q": "What are the maximum working hours in Bahrain?",
+      "a": "48 hours a week, with actual working time including overtime capped at 10 hours a day and an 11-hour span from start to finish."
+    },
+    {
+      "q": "Can I get time off instead of overtime pay in Bahrain?",
+      "a": "No. Article 54 sets a cash rate for overtime; substitute days apply only to work on rest days and public holidays."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Bahrain Private Sector Labour Law 36/2012 — Legislation and Legal Opinion Commission: Articles 51 to 57 and 64 (Arabic)",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    },
+    {
+      "t": "Amendments register for Law 36/2012 — Legislation and Legal Opinion Commission",
+      "u": "https://lloc.gov.bh/Legislation/Amendments/K3612"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your overtime pay</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly wage (BHD)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">The wage due to you; we assume total pay, as the law defines wage as everything you receive for your work.</span>
+      </div>
+      <div class="field">
+        <label for="day">Daytime overtime hours</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="night">Night overtime hours</label>
+        <input type="number" id="night" name="night" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="rest">Hours worked on the rest day</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">Hours worked on a public holiday</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="restMode">For the rest day and holidays</label>
+        <select id="restMode" name="restMode">
+          <option value="cash" selected>Cash pay</option>
+          <option value="day">Substitute rest day</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="divisor">Hourly divisor</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 30 ÷ 8 (30-day month)</option>
+          <option value="alt">÷ 208 (48-hour week)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Overtime rules in Bahrain</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Normal hours</th><td>8 a day unless agreed otherwise, and 48 a week (Article 51)</td></tr>
+    <tr><th scope="row">Ramadan</th><td>6 a day or 36 a week for Muslim workers</td></tr>
+    <tr><th scope="row">Daily limit</th><td>10 actual hours including overtime, within an 11-hour span (Article 53)</td></tr>
+    <tr><th scope="row">Overtime</th><td>Pay + 25% by day, + 50% at night between 7 pm and 7 am (Article 54)</td></tr>
+    <tr><th scope="row">Rest day</th><td>Pay + 150% or a substitute day, at the worker's choice (Article 57)</td></tr>
+    <tr><th scope="row">Public holidays</th><td>As for the rest day: + 150% or a substitute day (Article 64)</td></tr>
+    <tr><th scope="row">Excluded</th><td>The employer's authorised agents, preparatory work, and guards and cleaners by decision (Article 56)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> A wage of BHD 6,000 with no allowances, so the hourly wage is 6,000 ÷ 30 ÷ 8 = BHD 25. Ten daytime hours: 10 × 25 × 1.25 = 312.500; four rest-day hours with the worker choosing pay: 4 × 25 × 2.5 = 250. <strong>Total BHD 562.500</strong>.</p>
+</div>
+<p>The law says "the wage due" without limiting it to basic pay, and defines wage as everything the worker receives for the work, so we assume total pay. End-of-service gratuity and pay in lieu of notice, by contrast, use basic pay plus the social allowance (Article 47).</p>
+<p>To work out what you are owed when your contract ends, see the <a href="{{root}}en/bahrain-end-of-service-calculator/{{ix}}">Bahrain end-of-service calculator</a> and the <a href="{{root}}en/bahrain-notice-period-calculator/{{ix}}">notice period calculator</a>. Prefer Arabic? Use the <a href="{{root}}bahrain-overtime/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

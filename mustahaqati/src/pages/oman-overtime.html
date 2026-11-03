@@ -1,0 +1,130 @@
+---json
+{
+  "title": "حاسبة العمل الإضافي في عُمان 2026 — الأوفر تايم في قانون العمل الجديد 53/2023",
+  "h1": "حاسبة أجر العمل الإضافي في عُمان",
+  "description": "احسب أجر العمل الإضافي في عُمان وفق المادتين 71 و72 من قانون العمل 53/2023: الأساسي + 25% نهاراً و+ 50% ليلاً (9 مساءً – 5 صباحاً)، ويوم الراحة أو العطلة 100% إضافية أو إجازة تعويضية، وفي الجرد والطوارئ دون موافقة + 50% و+ 75% و200%.",
+  "short": "الأساسي + 25% نهاراً و+ 50% ليلاً، والراحة 100% إضافية، ودون موافقة نسب أعلى",
+  "lead": "أدخل راتبك وعدد ساعاتك الإضافية في النهار والليل ويوم الراحة والعطلات، ويظهر أجرها بحسب القانون.",
+  "country": "om",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-end-of-service",
+    "oman-leave",
+    "oman-notice-period",
+    "oman-income-tax"
+  ],
+  "faq": [
+    {
+      "q": "كيف يُحسب العمل الإضافي في عُمان؟",
+      "a": "بالأجر الأساسي مضافاً إليه 25% على الأقل عن الساعات النهارية و50% عن الليلية بين 9 مساءً و5 صباحاً (المادة 71)، وبموافقة العامل، ولصاحب العمل منح إجازة بدل الأجر."
+    },
+    {
+      "q": "كم ساعات العمل في قانون العمل العماني الجديد؟",
+      "a": "8 ساعات يومياً و40 ساعة أسبوعياً، بعد أن كانت 9 و45 في القانون السابق، مع راحة أسبوعية لا تقل عن يومين متتاليين."
+    },
+    {
+      "q": "هل يجوز إلزامي بالعمل الإضافي دون موافقتي في عُمان؟",
+      "a": "فقط في الجرد وإعداد الميزانية وإقفال الحسابات بحد 15 يوماً في العام، وفي حالات منع الحوادث أو إصلاحها، وعندها يرتفع الأجر إلى + 50% نهاراً و+ 75% ليلاً (المادة 72)."
+    },
+    {
+      "q": "كم أجر العمل يوم الراحة في عُمان؟",
+      "a": "مبلغ يعادل 100% من الأجر الأساسي اليومي فوق أجر اليوم، أو إجازة تعويضية بدل الأيام التي عمل فيها، وفي حالات دون موافقة 200%."
+    },
+    {
+      "q": "كم ساعات العمل في رمضان في عُمان؟",
+      "a": "6 ساعات يومياً أو 30 أسبوعياً للعمال المسلمين (المادة 70)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل العُماني (المرسوم السلطاني 53/2023) — النص الموحد، المواد 70 إلى 73 و77",
+      "u": "https://qanoon.om/p/2023/l2023053/"
+    },
+    {
+      "t": "Oman Observer — قانون العمل الجديد (يوليو 2023)",
+      "u": "https://www.omanobserver.om/ampArticle/1140623"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب أجر العمل الإضافي</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الراتب الأساسي الشهري (ريال عُماني)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">الأساسي فقط: القانون يحسب الإضافي عليه.</span>
+      </div>
+      <div class="field">
+        <label for="day">ساعات إضافية نهارية</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="night">ساعات إضافية ليلية</label>
+        <input type="number" id="night" name="night" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="rest">ساعات العمل في يوم الراحة</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">ساعات العمل في العطلة الرسمية</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="restMode">عن يوم الراحة والعطلة</label>
+        <select id="restMode" name="restMode">
+          <option value="cash" selected>أجر نقدي</option>
+          <option value="day">إجازة تعويضية</option>
+        </select>
+      </div>
+      <div class="field" data-om>
+        <label for="consent">الإضافي</label>
+        <select id="consent" name="consent">
+          <option value="yes" selected>بموافقتي</option>
+          <option value="no">دون موافقة (جرد أو طوارئ)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="divisor">قاسم أجر الساعة</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 30 ÷ 8 (الشهر 30 يوماً)</option>
+          <option value="alt">÷ 173.33 (40 ساعة أسبوعياً)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد العمل الإضافي في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الساعات العادية</th><td>8 يومياً و40 أسبوعياً، وراحة أسبوعية يومان متتاليان (المادتان 70 و77)</td></tr>
+    <tr><th scope="row">رمضان</th><td>6 يومياً أو 30 أسبوعياً للعمال المسلمين</td></tr>
+    <tr><th scope="row">الحد اليومي</th><td>12 ساعة مع الإضافي، وبموافقة العامل (المادة 71)</td></tr>
+    <tr><th scope="row">الإضافي بموافقة</th><td>الأساسي + 25% نهاراً، و+ 50% ليلاً (9 مساءً – 5 صباحاً)</td></tr>
+    <tr><th scope="row">يوم الراحة أو العطلة</th><td>100% من الأساسي اليومي فوق أجر اليوم، أو إجازة تعويضية</td></tr>
+    <tr><th scope="row">دون موافقة (جرد حتى 15 يوماً، وطوارئ)</th><td>+ 50% نهاراً، و+ 75% ليلاً، و200% في الراحة أو العطلة (المادة 72)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> راتب أساسي 6,000 ريال، فأجر الساعة 6,000 ÷ 30 ÷ 8 = 25 ريالاً. عشر ساعات نهارية: 10 × 25 × 1.25 = 312.500، وأربع ساعات يوم الراحة نقداً: 4 × 25 × 2 = 200. <strong>المجموع 512.500 ريال</strong>.</p>
+</div>
+<p>القانون لا يحدد قاسم أجر الساعة؛ ÷ 30 ÷ 8 يتسق مع «الأجر الأساسي اليومي»، والبديل الأسبوعي (40 ساعة) يقسم على 173.33 فيرفع أجر الساعة نحو 38%. ومقابل يوم الراحة يحتمل قراءات أخرى (الزيادة وحدها أو مبلغاً يومياً مقطوعاً)، فعدّه تقديرياً.</p>
+<p>ولحساب مستحقاتك عند انتهاء العقد راجع <a href="{{root}}oman-end-of-service/{{ix}}">حاسبة نهاية الخدمة في عُمان</a> و<a href="{{root}}oman-notice-period/{{ix}}">حاسبة مهلة الإخطار</a>.</p>
+</div>

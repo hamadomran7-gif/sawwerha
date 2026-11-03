@@ -1,0 +1,117 @@
+---json
+{
+  "title": "حاسبة العمل الإضافي في الكويت 2026 — أجر الأوفر تايم ويوم الراحة والعطل الرسمية",
+  "h1": "حاسبة أجر العمل الإضافي في الكويت",
+  "description": "احسب أجر العمل الإضافي في الكويت وفق المواد 66 إلى 68 من قانون العمل 6/2010: الأجر العادي + 25%، ويوم الراحة + 50% مع يوم بديل، والعطلة الرسمية أجر مضاعف مع يوم بديل، بحد ساعتين يومياً و180 ساعة سنوياً.",
+  "short": "الأجر + 25%، والراحة + 50% مع يوم بديل، والعطلة أجر مضاعف مع يوم بديل",
+  "lead": "أدخل راتبك وعدد ساعاتك الإضافية في النهار والليل ويوم الراحة والعطلات، ويظهر أجرها بحسب القانون.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-end-of-service",
+    "kuwait-leave",
+    "kuwait-notice-period",
+    "gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "كيف يُحسب العمل الإضافي في الكويت؟",
+      "a": "بأجر الساعة العادي مضافاً إليه 25% (المادة 66)، وأجر الساعة في الممارسة = الأجر الشهري ÷ 26 ÷ 8. ولا ينص القانون على علاوة ليلية."
+    },
+    {
+      "q": "كم الحد الأقصى للعمل الإضافي في الكويت؟",
+      "a": "ساعتان في اليوم، و3 أيام في الأسبوع، و90 يوماً و180 ساعة في السنة، وبأمر كتابي من صاحب العمل."
+    },
+    {
+      "q": "كم أجر العمل يوم الراحة في الكويت؟",
+      "a": "الأجر الأصلي مضافاً إليه 50% على الأقل، ومعه يوم راحة بديل (المادة 67)."
+    },
+    {
+      "q": "كم أجر العمل في العطلة الرسمية في الكويت؟",
+      "a": "أجر مضاعف ومعه يوم راحة بديل، عن أي من أيام العطل الثلاثة عشر (المادة 68)."
+    },
+    {
+      "q": "هل يستحق المدير أجراً إضافياً في الكويت؟",
+      "a": "نعم، فالقانون لا يستثني المديرين من أحكام الإضافي، ويستثني العمالة المنزلية ومن تنظمهم قوانين خاصة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل الكويتي 6/2010 — المواد 64 إلى 68 (الأنباء، فبراير 2010)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "NATLEX — قانون العمل في القطاع الأهلي الكويتي 6/2010",
+      "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"
+    },
+    {
+      "t": "Arab Times — طريقة حساب العمل الإضافي في الكويت (يناير 2016)",
+      "u": "https://www.arabtimesonline.com/news/overtime-calculation"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب أجر العمل الإضافي</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الأجر الشهري الشامل (دينار كويتي)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">الأساسي مع ما تتقاضاه بصفة دورية (المادة 55).</span>
+      </div>
+      <div class="field">
+        <label for="day">ساعات إضافية نهارية</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="rest">ساعات العمل في يوم الراحة</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">ساعات العمل في العطلة الرسمية</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="divisor">قاسم أجر الساعة</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 26 ÷ 8 (الممارسة الشائعة)</option>
+          <option value="alt">÷ 30 ÷ 8</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد العمل الإضافي في الكويت</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الساعات العادية</th><td>8 يومياً و48 أسبوعياً (المادة 64)</td></tr>
+    <tr><th scope="row">رمضان</th><td>36 ساعة أسبوعياً، دون قصرها على المسلمين</td></tr>
+    <tr><th scope="row">شروط الإضافي</th><td>أمر كتابي وضرورة، بحد ساعتين يومياً و3 أيام أسبوعياً و90 يوماً و180 ساعة سنوياً (المادة 66)</td></tr>
+    <tr><th scope="row">الإضافي</th><td>الأجر العادي + 25%، ولا علاوة ليلية في القانون</td></tr>
+    <tr><th scope="row">يوم الراحة</th><td>الأجر + 50% ومعه يوم راحة بديل (المادة 67)</td></tr>
+    <tr><th scope="row">العطلات الرسمية (13 يوماً)</th><td>أجر مضاعف ومعه يوم بديل (المادة 68)</td></tr>
+    <tr><th scope="row">أجر الساعة</th><td>الأجر الشامل ÷ 26 ÷ 8 في الممارسة الشائعة</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر شامل 6,000 دينار، فأجر الساعة 6,000 ÷ 26 ÷ 8 = 28.846 ديناراً. عشر ساعات إضافية: 10 × 28.846 × 1.25 = 360.577، وأربع ساعات يوم الراحة: 4 × 28.846 × 1.5 = 173.077. <strong>المجموع 533.654 ديناراً ويوم راحة بديل</strong>.</p>
+</div>
+<p>القاسم 26 يوماً مصدره الممارسة وحساب المادة 67 للأجر اليومي بأيام العمل الفعلية، وبعض أصحاب العمل يقسمون على 30، فاختر البديل لترى الفرق.</p>
+<p>ولحساب مستحقاتك عند انتهاء العقد راجع <a href="{{root}}kuwait-end-of-service/{{ix}}">حاسبة نهاية الخدمة في الكويت</a> و<a href="{{root}}kuwait-notice-period/{{ix}}">حاسبة مهلة الإخطار</a>.</p>
+</div>

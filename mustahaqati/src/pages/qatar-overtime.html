@@ -1,0 +1,125 @@
+---json
+{
+  "title": "حاسبة العمل الإضافي في قطر 2026 — أجر الأوفر تايم ليلاً ويوم الجمعة والعطلات",
+  "h1": "حاسبة أجر العمل الإضافي في قطر",
+  "description": "احسب أجر العمل الإضافي في قطر وفق المادتين 74 و75 من قانون العمل: الأجر الأساسي + 25% نهاراً، و+ 50% بين 9 مساءً و3 صباحاً، ويوم الراحة يوم بديل أو الأساسي + 150%، مع حد 10 ساعات عمل فعلية يومياً وساعات رمضان.",
+  "short": "الأساسي + 25% نهاراً و+ 50% ليلاً، ويوم الراحة + 150% أو يوم بديل",
+  "lead": "أدخل راتبك وعدد ساعاتك الإضافية في النهار والليل ويوم الراحة والعطلات، ويظهر أجرها بحسب القانون.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-end-of-service",
+    "qatar-leave",
+    "qatar-notice-period",
+    "gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "كيف يُحسب العمل الإضافي في قطر؟",
+      "a": "بأجر الساعة الأساسي مضافاً إليه 25% على الأقل عن الساعات النهارية، و50% عن الساعات بين 9 مساءً و3 صباحاً (المادة 74). وأجر الساعة = الأساسي ÷ 30 ÷ 8 في الغالب، لأن القانون يعد الشهر 30 يوماً."
+    },
+    {
+      "q": "هل يُحسب الإضافي على الراتب الأساسي أم الإجمالي في قطر؟",
+      "a": "على الأساسي، بنص المادتين 74 و75. ويجوز للعقد أن يمنح أكثر."
+    },
+    {
+      "q": "كم أجر العمل يوم الجمعة في قطر؟",
+      "a": "يمنح العامل يوم راحة بديلاً، أو أجره الأساسي مضافاً إليه 150% على الأقل عن ساعات ذلك اليوم (المادة 75)."
+    },
+    {
+      "q": "ما الحد الأقصى لساعات العمل الإضافي في قطر؟",
+      "a": "لا تزيد ساعات العمل الفعلية مع الإضافي على 10 ساعات في اليوم، إلا لمنع خسارة جسيمة أو حادث خطير."
+    },
+    {
+      "q": "كم ساعات العمل في رمضان في قطر؟",
+      "a": "36 ساعة في الأسبوع و6 ساعات يومياً، والنص لا يقصرها على المسلمين."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل القطري 14/2004 — المواد 73 إلى 78 (نص منشور)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "التميمي — أهم تعديلات قانون العمل القطري 2026 (يوليو 2026)",
+      "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب أجر العمل الإضافي</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الراتب الأساسي الشهري (ريال قطري)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">الأساسي فقط: القانون يحسب الإضافي عليه.</span>
+      </div>
+      <div class="field">
+        <label for="day">ساعات إضافية نهارية</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="night">ساعات إضافية ليلية</label>
+        <input type="number" id="night" name="night" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="rest">ساعات العمل في يوم الراحة</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">ساعات العمل في العطلة الرسمية</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="restMode">عن يوم الراحة</label>
+        <select id="restMode" name="restMode">
+          <option value="cash" selected>أجر نقدي</option>
+          <option value="day">يوم راحة بديل</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="divisor">قاسم أجر الساعة</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 30 ÷ 8 (الشهر 30 يوماً)</option>
+          <option value="alt">÷ 208 (48 ساعة أسبوعياً)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد العمل الإضافي في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الساعات العادية</th><td>8 يومياً و48 أسبوعياً (المادة 73)</td></tr>
+    <tr><th scope="row">رمضان</th><td>6 يومياً و36 أسبوعياً، دون قصرها على المسلمين</td></tr>
+    <tr><th scope="row">الحد اليومي</th><td>10 ساعات عمل فعلية مع الإضافي (المادة 74)</td></tr>
+    <tr><th scope="row">الإضافي النهاري</th><td>الأساسي + 25% على الأقل</td></tr>
+    <tr><th scope="row">الإضافي الليلي</th><td>+ 50% بين 9 مساءً و3 صباحاً، عدا عمال المناوبة</td></tr>
+    <tr><th scope="row">يوم الراحة (الجمعة أصلاً)</th><td>يوم راحة بديل، أو الأساسي + 150% على الأقل (المادة 75)</td></tr>
+    <tr><th scope="row">العطلات الرسمية</th><td>تطبق عليها المادة 74: + 25% أو + 50% ليلاً</td></tr>
+    <tr><th scope="row">المستثنون</th><td>شاغلو الوظائف الرئيسية بسلطات صاحب العمل (المادة 76)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> راتب أساسي 6,000 ريال، فأجر الساعة 6,000 ÷ 30 ÷ 8 = 25 ريالاً. عشر ساعات إضافية نهارية: 10 × 25 × 1.25 = 312.50، وأربع ساعات يوم الجمعة دون يوم بديل: 4 × 25 × 2.5 = 250. <strong>المجموع 562.50 ريالاً</strong>، ومع يوم بديل 312.50 ويوم راحة.</p>
+</div>
+<p>ونافذة الليل في النص العربي للمادة 74 من 9 مساءً إلى 3 صباحاً، وبعض الأدلة الإنجليزية تمدها إلى 6 صباحاً. والقانون 9 لسنة 2026 لم يغيّر مواد ساعات العمل والإضافي.</p>
+<p>ولحساب مستحقاتك عند انتهاء العقد راجع <a href="{{root}}qatar-end-of-service/{{ix}}">حاسبة نهاية الخدمة في قطر</a> و<a href="{{root}}qatar-notice-period/{{ix}}">حاسبة مهلة الإخطار</a>.</p>
+</div>

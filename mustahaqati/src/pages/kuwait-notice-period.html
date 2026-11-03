@@ -1,0 +1,110 @@
+---json
+{
+  "title": "حاسبة مهلة الإخطار في الكويت 2026 — 3 أشهر وبدل الإنذار",
+  "h1": "حاسبة مهلة الإخطار في الكويت",
+  "description": "احسب مهلة الإخطار وبدلها في الكويت وفق المادة 44 من قانون العمل 6/2010: 3 أشهر لصاحب الأجر الشهري وشهر لغيره، للطرفين، وبدل يساوي أجر المدة غير المراعاة، مع يوم أسبوعي للبحث عن عمل.",
+  "short": "3 أشهر للأجر الشهري وشهر لغيره، وبدل يساوي الأجر",
+  "lead": "أدخل أجرك ومن أنهى العقد وما رُوعي من المهلة، ويظهر طول المهلة والبدل المستحق عن الأيام غير المراعاة.",
+  "country": "kw",
+  "category": "eos",
+  "tool": true,
+  "script": "gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-end-of-service",
+    "kuwait-overtime",
+    "kuwait-leave",
+    "probation-period"
+  ],
+  "faq": [
+    {
+      "q": "كم مهلة الإخطار في الكويت؟",
+      "a": "3 أشهر على الأقل لمن يتقاضى أجراً شهرياً، وشهر لغيرهم، في العقد غير محدد المدة، وهي واحدة للطرفين (المادة 44)."
+    },
+    {
+      "q": "كم بدل الإنذار في الكويت؟",
+      "a": "مساوٍ لأجر العامل عن مدة المهلة أو ما لم يُراعَ منها."
+    },
+    {
+      "q": "هل يحق لي وقت للبحث عن عمل خلال المهلة في الكويت؟",
+      "a": "نعم إن كان الإخطار من صاحب العمل: يوم كامل في الأسبوع أو 8 ساعات خلاله، بأجر كامل."
+    },
+    {
+      "q": "هل يجوز لصاحب العمل إعفائي من العمل خلال المهلة؟",
+      "a": "نعم، مع دفع أجرك عنها، وتُحسب المهلة ضمن مدة خدمتك."
+    },
+    {
+      "q": "هل توجد مهلة إخطار خلال فترة التجربة في الكويت؟",
+      "a": "لا. فترة التجربة حتى 100 يوم عمل، ولكل طرف الإنهاء خلالها دون إخطار (المادة 32)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون العمل الكويتي 6/2010 — المادتان 44 و32 (الأنباء، فبراير 2010)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "NATLEX — قانون العمل في القطاع الأهلي الكويتي 6/2010",
+      "u": "https://natlex.ilo.org/dyn/natlex2/r/natlex/fe/details?p3_isn=83616"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب مهلة الإخطار وبدلها</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">الأجر الشهري (دينار كويتي)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="8000" required>
+        <span class="hint">الأجر الذي تتقاضاه مع ما يُدفع لك بصفة دورية.</span>
+      </div>
+      <div class="field" data-paybasis>
+        <label for="payBasis">طريقة دفع الأجر</label>
+        <select id="payBasis" name="payBasis">
+          <option value="monthly" selected>أجر شهري</option>
+          <option value="other">يومي أو أسبوعي أو بالساعة أو القطعة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">من أنهى العقد؟</label>
+        <select id="who" name="who">
+          <option value="employer" selected>صاحب العمل</option>
+          <option value="employee">العامل (استقالة)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">أيام المهلة التي رُوعيت (عمل فيها)</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>قواعد مهلة الإخطار في الكويت</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">الحكم</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">المهلة</th><td>3 أشهر لمن يتقاضى أجراً شهرياً، وشهر لغيره، في العقد غير محدد المدة (المادة 44)</td></tr>
+    <tr><th scope="row">من يلتزم بها</th><td>الطرفان، ولا تختلف بمدة الخدمة</td></tr>
+    <tr><th scope="row">البدل</th><td>مساوٍ لأجر العامل عن المدة غير المراعاة</td></tr>
+    <tr><th scope="row">البحث عن عمل</th><td>إن أخطر صاحب العمل: يوم كامل أو 8 ساعات أسبوعياً بأجر</td></tr>
+    <tr><th scope="row">الإعفاء من العمل</th><td>لصاحب العمل إعفاء العامل خلال المهلة بأجره، وتُحسب في الخدمة</td></tr>
+    <tr><th scope="row">فترة التجربة</th><td>حتى 100 يوم عمل، والإنهاء فيها دون إخطار (المادة 32)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>مثال:</strong> أجر شهري 8,000 دينار وخدمة 3 سنوات: المهلة 3 أشهر. إن أنهى صاحب العمل العقد فوراً فالبدل <strong>24,000 دينار</strong>، وإن ترك العامل العمل فوراً فعليه المبلغ نفسه.</p>
+</div>
+<p>البدل منفصل عن مكافأة نهاية الخدمة؛ احسبها في <a href="{{root}}kuwait-end-of-service/{{ix}}">حاسبة نهاية الخدمة في الكويت</a>، ولأجر الساعات الإضافية راجع <a href="{{root}}kuwait-overtime/{{ix}}">حاسبة العمل الإضافي</a>.</p>
+</div>

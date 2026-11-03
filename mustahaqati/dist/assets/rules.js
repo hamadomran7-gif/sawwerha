@@ -1771,6 +1771,34 @@ export default {
           25
         ]
       ]
+    },
+    "overtime": {
+      "law": "قانون العمل القطري 14/2004 المواد 73–78",
+      "basis": "basic",
+      "divisor": 240,
+      "divisorAlt": 208,
+      "day": 1.25,
+      "night": 1.5,
+      "nightFrom": 21,
+      "nightTo": 3,
+      "rest": 2.5,
+      "restSwap": true,
+      "holiday": 1.25,
+      "holidayNight": 1.5,
+      "hoursPerDay": 8,
+      "hoursPerWeek": 48,
+      "maxTotalDaily": 10,
+      "ramadanDaily": 6,
+      "ramadanWeekly": 36,
+      "ramadanAll": true
+    },
+    "notice": {
+      "law": "قانون العمل القطري 14/2004 المادة 49 (معدلة بالقانون 18/2020) والمادة 50",
+      "monthsUpTo": 1,
+      "monthsOver": 2,
+      "thresholdYears": 2,
+      "basis": "basic",
+      "daysPerMonth": 30
     }
   },
   "kw": {
@@ -1913,6 +1941,34 @@ export default {
         21
       ],
       "remunerationMinContribMonths": 24
+    },
+    "overtime": {
+      "law": "قانون العمل الكويتي 6/2010 المواد 64–68 و55",
+      "basis": "total",
+      "divisor": 208,
+      "divisorAlt": 240,
+      "day": 1.25,
+      "night": null,
+      "rest": 1.5,
+      "restSubstitute": true,
+      "holiday": 2,
+      "holidaySubstitute": true,
+      "hoursPerDay": 8,
+      "hoursPerWeek": 48,
+      "maxOtDaily": 2,
+      "maxOtDaysWeek": 3,
+      "maxOtDaysYear": 90,
+      "maxOtHoursYear": 180,
+      "ramadanWeekly": 36,
+      "ramadanAll": true
+    },
+    "notice": {
+      "law": "قانون العمل الكويتي 6/2010 المادة 44",
+      "monthlyMonths": 3,
+      "otherMonths": 1,
+      "basis": "total",
+      "daysPerMonth": 30,
+      "jobSearchDaysWeek": 1
     }
   },
   "om": {
@@ -2004,6 +2060,38 @@ export default {
       "entityWhtThreshold": 20000,
       "entityWhtShareResident": 0.2,
       "lateMonthlyPct": 0.01
+    },
+    "overtime": {
+      "law": "قانون العمل العُماني 53/2023 المواد 70–73 و77 و1",
+      "basis": "basic",
+      "divisor": 240,
+      "divisorAlt": 173.33,
+      "day": 1.25,
+      "night": 1.5,
+      "nightFrom": 21,
+      "nightTo": 5,
+      "rest": 2,
+      "holiday": 2,
+      "noConsentDay": 1.5,
+      "noConsentNight": 1.75,
+      "noConsentRest": 3,
+      "noConsentHoliday": 3,
+      "noConsentInventoryDays": 15,
+      "hoursPerDay": 8,
+      "hoursPerWeek": 40,
+      "maxTotalDaily": 12,
+      "weeklyRestDays": 2,
+      "ramadanDaily": 6,
+      "ramadanWeekly": 30,
+      "ramadanAll": false
+    },
+    "notice": {
+      "law": "قانون العمل العُماني 53/2023 المواد 36–39",
+      "monthlyDays": 30,
+      "otherDays": 15,
+      "basis": "total",
+      "jobSearchHoursWeek": 10,
+      "daysPerMonth": 30
     }
   },
   "bh": {
@@ -2092,6 +2180,32 @@ export default {
           0.17
         ]
       ]
+    },
+    "overtime": {
+      "law": "قانون العمل البحريني 36/2012 المواد 51–57 و64 و1",
+      "basis": "total",
+      "divisor": 240,
+      "divisorAlt": 208,
+      "day": 1.25,
+      "night": 1.5,
+      "nightFrom": 19,
+      "nightTo": 7,
+      "rest": 2.5,
+      "holiday": 2.5,
+      "substituteByWorker": true,
+      "hoursPerDay": 8,
+      "hoursPerWeek": 48,
+      "maxTotalDaily": 10,
+      "ramadanDaily": 6,
+      "ramadanWeekly": 36,
+      "ramadanAll": false
+    },
+    "notice": {
+      "law": "قانون العمل البحريني 36/2012 المادتان 99 و47",
+      "days": 30,
+      "basis": "basicSocial",
+      "jobSearchDaysWeek": 1,
+      "daysPerMonth": 30
     }
   },
   "zakat": {

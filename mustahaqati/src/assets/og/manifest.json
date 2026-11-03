@@ -194,5 +194,21 @@
  "en-ksa-retirement-age": "fe52283c8cb06ed6",
  "ksa-retirement-age": "a58f577d2f45462c",
  "en-oman-income-tax": "9dc83e14282e1e98",
- "oman-income-tax": "1f734d7b93d94381"
+ "oman-income-tax": "1f734d7b93d94381",
+ "bahrain-notice-period": "afb23d35e9f6ce53",
+ "bahrain-overtime": "003a8ecbfb7c0b14",
+ "en-bahrain-notice-period": "f586bdbc7c44ac55",
+ "en-bahrain-overtime": "4611068b50536589",
+ "en-kuwait-notice-period": "85457adeb7f25d88",
+ "en-kuwait-overtime": "40adb4b8135ee129",
+ "en-oman-notice-period": "35b8e33236a0f19f",
+ "en-oman-overtime": "1841e0e33ff395ba",
+ "en-qatar-notice-period": "51cdf47870c41e05",
+ "en-qatar-overtime": "42031e777c3cd87b",
+ "kuwait-notice-period": "bb8f534a85a23086",
+ "kuwait-overtime": "8788081d486669da",
+ "oman-notice-period": "143a2ae2fa5adebe",
+ "oman-overtime": "c71b5ee5a02dc57e",
+ "qatar-notice-period": "ac4b2a28885735ca",
+ "qatar-overtime": "26234d5688bb10ef"
 }

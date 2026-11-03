@@ -1,0 +1,113 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-notice-period-calculator",
+  "alternate": "oman-notice-period",
+  "title": "Oman Notice Period Calculator 2026 — 30 Days and Pay in Lieu Under the New Labour Law",
+  "h1": "Oman Notice Period Calculator",
+  "description": "Work out your notice period and pay in lieu in Oman under Article 38 of Labour Law 53/2023: 30 days for monthly-paid workers and 15 for others, with written notice and a legitimate reason, pay in lieu on the last total wage, and 10 paid hours a week to look for work.",
+  "short": "30 days for monthly pay, 15 otherwise; pay in lieu on the last total wage",
+  "lead": "Enter your wage, who ended the contract and how much notice was served to see the notice period and the pay in lieu for the days not served.",
+  "country": "om",
+  "category": "eos",
+  "tool": true,
+  "script": "en-gcc-notice.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-oman-end-of-service",
+    "en-oman-overtime",
+    "en-oman-leave",
+    "en-oman-income-tax"
+  ],
+  "faq": [
+    {
+      "q": "What is the notice period under Oman's new Labour Law?",
+      "a": "30 days for monthly-paid workers and 15 days for others, for both sides, unless the contract sets a longer period (Article 38 of Royal Decree 53/2023)."
+    },
+    {
+      "q": "What wage is pay in lieu of notice based on in Oman?",
+      "a": "The last total wage the worker received."
+    },
+    {
+      "q": "Do I get time to look for work during notice in Oman?",
+      "a": "Yes: up to 10 paid hours a week, in all cases (Article 39)."
+    },
+    {
+      "q": "Can I leave without notice in Oman?",
+      "a": "Yes, in the Article 41 cases, including fraud by the employer, wages unpaid for more than two months and serious danger, keeping all your rights after informing the employer."
+    },
+    {
+      "q": "What notice applies during probation in Oman?",
+      "a": "At least 7 days; probation lasts up to 3 months for monthly-paid workers and 2 months for others (Article 37)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Oman Labour Law (Royal Decree 53/2023) — consolidated text, Articles 36 to 41 (Arabic)",
+      "u": "https://qanoon.om/p/2023/l2023053/"
+    },
+    {
+      "t": "Royal Decree 53/2023 issuing the Labour Law (Official Gazette 1504, Arabic)",
+      "u": "https://qanoon.om/p/2023/rd2023053/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your notice and pay in lieu</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Last monthly total wage (OMR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="8000" required>
+        <span class="hint">Pay in lieu uses the last total wage (Article 38).</span>
+      </div>
+      <div class="field" data-paybasis>
+        <label for="payBasis">How you are paid</label>
+        <select id="payBasis" name="payBasis">
+          <option value="monthly" selected>Monthly</option>
+          <option value="other">Daily, weekly, hourly or piece rate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="who">Who ended the contract?</label>
+        <select id="who" name="who">
+          <option value="employer" selected>The employer</option>
+          <option value="employee">The worker (resignation)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="served">Notice days already served</label>
+        <input type="number" id="served" name="served" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Notice rules in Oman</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Notice period</th><td>30 days for monthly-paid workers and 15 for others, unless the contract sets more (Article 38)</td></tr>
+    <tr><th scope="row">Condition</th><td>Written notice and a legitimate reason</td></tr>
+    <tr><th scope="row">Pay in lieu</th><td>The last total wage for the period or the part not served</td></tr>
+    <tr><th scope="row">Job search</th><td>Up to 10 paid hours a week in all cases (Article 39)</td></tr>
+    <tr><th scope="row">Non-renewal of a fixed-term contract</th><td>The employer must give at least one month's notice</td></tr>
+    <tr><th scope="row">Probation</th><td>Up to 3 months for monthly pay and 2 for others, ended with 7 days' notice (Article 37)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> A total wage of OMR 8,000 a month: 30 days' notice. If the employer ends the contract immediately, pay in lieu is <strong>OMR 8,000</strong>; a worker who leaves after 10 days owes 20 × 8,000 ÷ 30 = OMR 5,333.333.</p>
+</div>
+<p>Pay in lieu is separate from your end-of-service gratuity; work that out with the <a href="{{root}}en/oman-end-of-service-calculator/{{ix}}">Oman end-of-service calculator</a>, and overtime with the <a href="{{root}}en/oman-overtime-calculator/{{ix}}">overtime calculator</a>. Prefer Arabic? Use the <a href="{{root}}oman-notice-period/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

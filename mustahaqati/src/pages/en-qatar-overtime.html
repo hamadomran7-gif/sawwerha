@@ -1,0 +1,128 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-overtime-calculator",
+  "alternate": "qatar-overtime",
+  "title": "Qatar Overtime Calculator 2026 — Night, Friday and Public Holiday Overtime Pay",
+  "h1": "Qatar Overtime Calculator",
+  "description": "Calculate overtime pay in Qatar under Articles 74 and 75 of the Labour Law: basic pay + 25% by day and + 50% between 9 pm and 3 am, and a substitute day or basic pay + 150% for the rest day, with the 10-hour daily limit and Ramadan hours.",
+  "short": "Basic + 25% by day and + 50% at night; rest day + 150% or a substitute day",
+  "lead": "Enter your salary and your overtime hours by day, at night, on the rest day and on holidays to see what the law says you are owed.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-overtime.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-end-of-service",
+    "en-qatar-leave",
+    "en-qatar-notice-period",
+    "en-gcc-leave-comparison"
+  ],
+  "faq": [
+    {
+      "q": "How is overtime calculated in Qatar?",
+      "a": "At the basic hourly wage plus at least 25% for daytime hours and 50% for hours between 9 pm and 3 am (Article 74). The hourly wage is usually basic ÷ 30 ÷ 8, because the law counts a month as 30 days."
+    },
+    {
+      "q": "Is overtime in Qatar based on basic or gross salary?",
+      "a": "On basic salary, under Articles 74 and 75. Your contract may give more."
+    },
+    {
+      "q": "How much is Friday work paid in Qatar?",
+      "a": "The worker gets a substitute rest day, or basic pay plus at least 150% for the hours worked that day (Article 75)."
+    },
+    {
+      "q": "What is the overtime limit in Qatar?",
+      "a": "Actual working hours including overtime may not exceed 10 a day, except to prevent serious loss or a dangerous accident."
+    },
+    {
+      "q": "What are Ramadan working hours in Qatar?",
+      "a": "36 hours a week and 6 a day, and the text does not limit this to Muslims."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Qatar Labour Law 14/2004 — Articles 73 to 78 (published text, Arabic)",
+      "u": "https://www.mohamah.net/law/%D9%86%D8%B5%D9%88%D8%B5-%D9%88-%D9%85%D9%88%D8%A7%D8%AF-%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%82%D8%B7%D8%B1%D9%8A/"
+    },
+    {
+      "t": "Al Tamimi — top 10 2026 amendments to Qatar's Labour Law (July 2026)",
+      "u": "https://www.tamimi.com/news/top-10-2026-amendments-to-qatar-labour-law/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your overtime pay</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly basic salary (QAR)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="any" value="6000" required>
+        <span class="hint">Basic only: the law calculates overtime on it.</span>
+      </div>
+      <div class="field">
+        <label for="day">Daytime overtime hours</label>
+        <input type="number" id="day" name="day" inputmode="decimal" min="0" step="0.5" value="10">
+      </div>
+      <div class="field">
+        <label for="night">Night overtime hours</label>
+        <input type="number" id="night" name="night" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="rest">Hours worked on the rest day</label>
+        <input type="number" id="rest" name="rest" inputmode="decimal" min="0" step="0.5" value="4">
+      </div>
+      <div class="field">
+        <label for="holiday">Hours worked on a public holiday</label>
+        <input type="number" id="holiday" name="holiday" inputmode="decimal" min="0" step="0.5" value="0">
+      </div>
+      <div class="field">
+        <label for="restMode">For the rest day</label>
+        <select id="restMode" name="restMode">
+          <option value="cash" selected>Cash pay</option>
+          <option value="day">Substitute rest day</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="divisor">Hourly divisor</label>
+        <select id="divisor" name="divisor">
+          <option value="std" selected>÷ 30 ÷ 8 (30-day month)</option>
+          <option value="alt">÷ 208 (48-hour week)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Overtime rules in Qatar</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Rule</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Normal hours</th><td>8 a day and 48 a week (Article 73)</td></tr>
+    <tr><th scope="row">Ramadan</th><td>6 a day and 36 a week, not limited to Muslims</td></tr>
+    <tr><th scope="row">Daily limit</th><td>10 actual hours including overtime (Article 74)</td></tr>
+    <tr><th scope="row">Daytime overtime</th><td>Basic pay + at least 25%</td></tr>
+    <tr><th scope="row">Night overtime</th><td>+ 50% between 9 pm and 3 am, except shift workers</td></tr>
+    <tr><th scope="row">Rest day (normally Friday)</th><td>A substitute rest day, or basic pay + at least 150% (Article 75)</td></tr>
+    <tr><th scope="row">Public holidays</th><td>Article 74 applies: + 25%, or + 50% at night</td></tr>
+    <tr><th scope="row">Excluded</th><td>Senior posts holding the employer's authority (Article 76)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="example">
+<p><strong>Example:</strong> Basic salary QAR 6,000, so the hourly wage is 6,000 ÷ 30 ÷ 8 = QAR 25. Ten daytime overtime hours: 10 × 25 × 1.25 = 312.50; four hours on Friday without a substitute day: 4 × 25 × 2.5 = 250. <strong>Total QAR 562.50</strong>; with a substitute day, 312.50 plus a day off.</p>
+</div>
+<p>The night window in the Arabic text of Article 74 is 9 pm to 3 am; some English guides extend it to 6 am. Law 9 of 2026 did not change the working-hours and overtime articles.</p>
+<p>To work out what you are owed when your contract ends, see the <a href="{{root}}en/qatar-end-of-service-calculator/{{ix}}">Qatar end-of-service calculator</a> and the <a href="{{root}}en/qatar-notice-period-calculator/{{ix}}">notice period calculator</a>. Prefer Arabic? Use the <a href="{{root}}qatar-overtime/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
