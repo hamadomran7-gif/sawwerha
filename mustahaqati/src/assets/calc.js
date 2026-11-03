@@ -908,6 +908,49 @@ export function maternityLeaveFromDue({ country = "sa", due } = {}) {
   return { country, days: M.days, preMax: M.prenatalMax, earliest: e.start, backEarliest: e.returnDate, backOnDue: o.returnDate, serviceMinMonths: M.serviceMinMonths || 0, banUntil: o.banUntil || null };
 }
 
+/** شرائح تصاعدية: كل جزء من الاستهلاك بسعر شريحته. tiers: [[حد أعلى أو null, سعر], ...] */
+function tierCost(q, tiers) {
+  let left = Math.max(0, Number(q) || 0), prev = 0, cost = 0;
+  const rows = [];
+  for (const [cap, price] of tiers) {
+    const top = cap === null ? Infinity : cap;
+    const take = Math.min(left, top - prev);
+    if (take > 0) { rows.push({ from: prev, to: cap, qty: r2(take), price, cost: r2(take * price) }); cost += take * price; left -= take; }
+    prev = top;
+    if (left <= 0) break;
+  }
+  return { cost, rows };
+}
+/**
+ * فاتورة هيئة كهرباء ومياه دبي الشهرية: شرائح الكهرباء والمياه (بالمتر المكعب)، ورسم الوقود الشهري، ورسوم العدادات،
+ * وضريبة 5% على بنود الهيئة، ثم الصرف الصحي لبلدية دبي بالفلس للغالون، ورسم السكن 5% من الإيجار السنوي ÷ 12 (يُعفى المواطن).
+ * category: residential | national | commercial | industrial
+ */
+export function uaeDewaBill({ category = "residential", kwh = 0, m3 = 0, annualRent = 0, elecMeter = "1", waterMeter = "1", fuelElec = null, fuelWater = null, asOf = new Date() } = {}) {
+  const D = rules.ae.dewa;
+  const national = category === "national";
+  const e = tierCost(kwh, D.electricity[category] || D.electricity.residential);
+  const w = tierCost(m3, D.water[category] || D.water.residential);
+  const fe = national && D.fuel.nationalExempt ? 0 : fuelElec === null || fuelElec === undefined || fuelElec === "" ? D.fuel.electricity : Number(fuelElec);
+  const fw = national && D.fuel.nationalExempt ? 0 : fuelWater === null || fuelWater === undefined || fuelWater === "" ? D.fuel.water : Number(fuelWater);
+  const fuelE = (Number(kwh) || 0) * fe, fuelW = (Number(m3) || 0) * fw;
+  const meterE = kwh > 0 ? D.meters.electricity[String(elecMeter)] ?? D.meters.electricity["1"] : 0;
+  const meterW = m3 > 0 ? D.meters.water[String(waterMeter)] ?? D.meters.water["1"] : 0;
+  const dewa = e.cost + w.cost + fuelE + fuelW + meterE + meterW;
+  const vat = dewa * D.vat;
+  const day = isoUTC0(utcDay(asOf instanceof Date ? asOf : String(asOf)));
+  let fils = 0;
+  for (const [from, f] of D.sewerage.filsPerGallon) if (day >= from) fils = f;
+  const sewer = (Number(m3) || 0) * D.sewerage.gallonsPerM3 * (fils / 100);
+  const housing = national || category === "commercial" || category === "industrial" ? 0 : ((Number(annualRent) || 0) * D.housingFee.rate) / 12;
+  const total = dewa + vat + sewer + housing;
+  return {
+    electricity: r2(e.cost), elecRows: e.rows, water: r2(w.cost), waterRows: w.rows, fuelElec: r2(fuelE), fuelWater: r2(fuelW), fuelRates: { electricity: fe, water: fw },
+    meterElec: meterE, meterWater: meterW, dewa: r2(dewa), vat: r2(vat), sewerFils: fils, sewerPerM3: r2(D.sewerage.gallonsPerM3 * fils / 100), sewer: r2(sewer), housing: r2(housing), total: r2(total),
+    perKwh: kwh > 0 ? r2((e.cost + fuelE) / kwh * 100) / 100 : null,
+  };
+}
+
 /** يزيح تاريخ ISO بعدد من الأيام ويعيده ISO. */
 export function shiftDate(iso, days) {
   return isoOf(addDaysUTC(iso, days));

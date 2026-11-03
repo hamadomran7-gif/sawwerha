@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  uaeDewaBill,
   inheritanceWithWajiba,
   gccInheritance,
   INHERITANCE_PROFILES,
@@ -2161,4 +2162,27 @@ test("الوصية الواجبة بالطريقة المصرية (حد الثل
   const d = inheritanceWithWajiba({ daughters: 1 }, Z, { deadSons: 1 });
   assert.equal(d.wajiba, null);
   assert.equal(d.sonBranchesInherit, true);
+});
+
+test("فاتورة ديوا (شرائح الكهرباء والمياه ورسم الوقود والصرف الصحي ورسم السكن)", () => {
+  const a = uaeDewaBill({ category: "residential", kwh: 1500, m3: 20, annualRent: 120000, asOf: new Date("2026-11-03T08:00:00") });
+  assert.equal(a.electricity, 345);
+  assert.equal(a.fuelElec, 90);
+  assert.equal(a.water, 154);
+  assert.equal(a.fuelWater, 22);
+  assert.equal(a.dewa, 621);
+  assert.equal(a.vat, 31.05);
+  assert.equal(a.sewer, 87.99);
+  assert.equal(a.housing, 500);
+  assert.equal(a.total, 1240.04);
+  const b = uaeDewaBill({ category: "residential", kwh: 4500, m3: 60, asOf: new Date("2027-01-15T08:00:00") });
+  assert.equal(b.electricity, 1180);
+  assert.equal(b.water, 506.22);
+  assert.equal(b.sewerFils, 2.8);
+  const n = uaeDewaBill({ category: "national", kwh: 5000, m3: 50, annualRent: 100000, asOf: new Date("2026-11-03T08:00:00") });
+  assert.equal(n.electricity, 435);
+  assert.equal(n.fuelElec, 0);
+  assert.equal(n.water, 1.5);
+  assert.equal(n.housing, 0);
+  assert.equal(uaeDewaBill({ category: "industrial", kwh: 12000, m3: 0 }).electricity, 3060);
 });

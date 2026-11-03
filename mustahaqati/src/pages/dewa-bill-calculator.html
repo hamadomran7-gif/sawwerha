@@ -1,0 +1,133 @@
+---json
+{
+  "title": "حاسبة فاتورة ديوا 2026 — الكهرباء والمياه ورسم السكن والصرف الصحي في دبي",
+  "h1": "حاسبة فاتورة ديوا (كهرباء ومياه دبي)",
+  "description": "احسب فاتورة هيئة كهرباء ومياه دبي الشهرية من استهلاكك: شرائح الكهرباء 23 و28 و32 و38 فلساً، والمياه 7.70 و8.80 و10.12 درهماً للمتر المكعب، ورسم الوقود، والعدادات، والضريبة 5%، ورسم الصرف الصحي لبلدية دبي (2 فلس للغالون في 2026 و2.8 من 2027)، ورسم السكن 5% من الإيجار.",
+  "short": "الكهرباء والمياه بالشرائح ورسم الوقود والضريبة والصرف الصحي ورسم السكن 5%",
+  "lead": "أدخل استهلاك الكهرباء والمياه من فاتورتك والإيجار السنوي، فتظهر الفاتورة المتوقعة بنداً بنداً.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "dewa-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["dubai-rent-increase", "dubai-mortgage-fees", "uae-family-visa-cost", "uae-net-salary", "vat"],
+  "faq": [
+    {"q": "كيف تُحسب فاتورة ديوا؟", "a": "الكهرباء بالشرائح الشهرية تصاعدياً، والمياه بالمتر المكعب، ثم رسم الوقود على كل كيلوواط ساعة ومتر مكعب، ورسوم العدادات، والضريبة 5% على هذه البنود. وتجمع الهيئة معها رسم الصرف الصحي ورسم السكن لبلدية دبي."},
+    {"q": "كم سعر الكيلوواط ساعة في دبي؟", "a": "للسكني والتجاري: 23 فلساً حتى 2,000 كيلوواط ساعة، و28 حتى 4,000، و32 حتى 6,000، و38 فلساً لما فوقها، ويضاف رسم وقود 6 فلوس لكل كيلوواط ساعة في نوفمبر 2026 والضريبة 5%."},
+    {"q": "كم سعر المياه في دبي بالمتر المكعب؟", "a": "للسكني 7.70 درهم للمتر المكعب حتى 27، و8.80 حتى 54، و10.12 لما فوقها، ويضاف رسم وقود 1.10 درهم للمتر المكعب في نوفمبر 2026. وتُحسب المياه بالمتر المكعب منذ مارس 2025 بدل الغالون."},
+    {"q": "ما رسم السكن في فاتورة ديوا؟", "a": "رسم بلدية دبي: 5% من الإيجار السنوي يُقسم على 12 شهراً ويُضاف إلى الفاتورة، وللمالك المقيم 5% من القيمة الإيجارية التقديرية. والمواطنون معفون منه."},
+    {"q": "كم رسم الصرف الصحي في دبي؟", "a": "رفعته بلدية دبي على مراحل: 1.5 فلس للغالون في 2025، و2 فلس في 2026 (نحو 4.40 درهم للمتر المكعب)، و2.8 فلس من يناير 2027 (نحو 6.16 درهم للمتر المكعب)، ويُحسب على استهلاك المياه."},
+    {"q": "هل تختلف تعرفة المواطنين؟", "a": "نعم في القرار التنفيذي 16 لسنة 2011: الكهرباء 7.5 و9 و10.5 و12.5 فلس للشرائح نفسها، والمياه مجانية حتى 10,000 غالون (نحو 45 متراً مكعباً) ثم 1.5 فلس للغالون، ولا يُفرض رسم الوقود على مساكن المواطنين."}
+  ],
+  "sources": [
+    {"t": "هيئة كهرباء ومياه دبي — تعرفة الشرائح ورسم الوقود (نوفمبر 2026)", "u": "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff"},
+    {"t": "قرار المجلس التنفيذي 16 لسنة 2011 بتعرفة الكهرباء والمياه في دبي", "u": "https://dlp.dubai.gov.ae/Legislation%20Reference/2011/Executive%20Council%20Resolution%20No.%20(16)%20of%202011.html"},
+    {"t": "The National — رسوم الصرف الصحي الجديدة في دبي 2025–2027 (5/11/2024)", "u": "https://www.thenationalnews.com/news/uae/2024/11/05/new-sewerage-fees-announced-for-dubai/"},
+    {"t": "Gulf News — رفع رسوم الصرف الصحي في دبي على مراحل (5/11/2024)", "u": "https://gulfnews.com/uae/sewerage-charges-to-go-up-in-dubai-from-2025-1.104581444"},
+    {"t": "Bayut — رسم السكن لبلدية دبي (حُدّث 15/9/2026)", "u": "https://bayut.com/mybayut/dubai-municipality-housing-fee"},
+    {"t": "Property Finder — حاسبة ديوا وتحويل المياه إلى المتر المكعب (20/2/2026)", "u": "https://www.propertyfinder.ae/blog/dewa-calculator/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب فاتورتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">نوع الحساب</label>
+        <select id="category" name="category">
+          <option value="residential" selected>سكني (مقيم)</option>
+          <option value="national">سكن مواطن</option>
+          <option value="commercial">تجاري</option>
+          <option value="industrial">صناعي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="kwh">استهلاك الكهرباء الشهري (كيلوواط ساعة)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="1" value="1500">
+      </div>
+      <div class="field">
+        <label for="m3">استهلاك المياه الشهري (متر مكعب)</label>
+        <input type="number" id="m3" name="m3" inputmode="decimal" min="0" step="0.1" value="20">
+        <span class="hint">كما في الفاتورة منذ مارس 2025؛ المتر المكعب نحو 220 غالوناً.</span>
+      </div>
+      <div class="field" data-housing>
+        <label for="annualRent">الإيجار السنوي (درهم) لرسم السكن</label>
+        <input type="number" id="annualRent" name="annualRent" inputmode="decimal" min="0" step="1000" value="80000">
+        <span class="hint">للمستأجر الإيجار في عقد إيجاري، وللمالك المقيم القيمة الإيجارية التقديرية. يُعفى المواطن.</span>
+      </div>
+      <details class="more">
+        <summary>العدادات ورسم الوقود الشهري</summary>
+        <div class="fields">
+          <div class="field">
+            <label for="elecMeter">نوع عداد الكهرباء</label>
+            <select id="elecMeter" name="elecMeter">
+              <option value="1" selected>النوع 1 (5 دراهم)</option>
+              <option value="2">النوع 2 (6 دراهم)</option>
+              <option value="3">النوع 3 (35 درهماً)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="waterMeter">نوع عداد المياه</label>
+            <select id="waterMeter" name="waterMeter">
+              <option value="1" selected>النوع 1 (5 دراهم)</option>
+              <option value="2">النوع 2 (7 دراهم)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fuelElec">رسم الوقود للكهرباء (درهم/كيلوواط ساعة)</label>
+            <input type="number" id="fuelElec" name="fuelElec" inputmode="decimal" min="0" step="0.001" value="0.06">
+            <span class="hint">سعر نوفمبر 2026، ويتغير شهرياً.</span>
+          </div>
+          <div class="field">
+            <label for="fuelWater">رسم الوقود للمياه (درهم/متر مكعب)</label>
+            <input type="number" id="fuelWater" name="fuelWater" inputmode="decimal" min="0" step="0.01" value="1.1">
+          </div>
+        </div>
+      </details>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>شرائح تعرفة ديوا</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الكهرباء (كيلوواط ساعة شهرياً)</th><th scope="col">سكني وتجاري</th><th scope="col">سكن المواطن</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">حتى 2,000</th><td>23 فلساً</td><td>7.5 فلس</td></tr>
+    <tr><th scope="row">2,001–4,000</th><td>28 فلساً</td><td>9 فلوس</td></tr>
+    <tr><th scope="row">4,001–6,000</th><td>32 فلساً</td><td>10.5 فلس</td></tr>
+    <tr><th scope="row">فوق 6,000</th><td>38 فلساً</td><td>12.5 فلس</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المياه (متر مكعب شهرياً)</th><th scope="col">سكني</th><th scope="col">تجاري وصناعي</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الشريحة الأولى</th><td>حتى 27: 7.70 درهم</td><td>حتى 45: 7.70 درهم</td></tr>
+    <tr><th scope="row">الشريحة الثانية</th><td>27–54: 8.80 درهم</td><td>45–91: 8.80 درهم</td></tr>
+    <tr><th scope="row">الشريحة الثالثة</th><td>فوق 54: 10.12 درهم</td><td>فوق 91: 10.12 درهم</td></tr>
+  </tbody>
+</table>
+</div>
+<p>والصناعي في الكهرباء 23 فلساً حتى 10,000 كيلوواط ساعة ثم 38 فلساً. ويُضاف رسم الوقود الشهري (نوفمبر 2026: 6 فلوس للكيلوواط ساعة و1.10 درهم للمتر المكعب)، ورسوم العدادات من 5 إلى 35 درهماً، والضريبة 5%.</p>
+
+<h2>رسوم بلدية دبي في الفاتورة</h2>
+<ul>
+  <li><strong>رسم السكن:</strong> 5% من الإيجار السنوي ÷ 12 شهرياً، وللمالك المقيم 5% من القيمة الإيجارية التقديرية، والمواطنون معفون.</li>
+  <li><strong>رسم الصرف الصحي:</strong> 2 فلس لكل غالون مياه في 2026، ويرتفع إلى 2.8 فلس من يناير 2027.</li>
+</ul>
+
+<div class="example">
+<p><strong>مثال:</strong> شقة يستهلك سكانها 1,500 كيلوواط ساعة و20 متراً مكعباً، بإيجار سنوي 120,000 درهم، في نوفمبر 2026: الكهرباء 345 + رسم الوقود 90، والمياه 154 + رسم الوقود 22، والعدادات 10، فبنود الهيئة 621 والضريبة 31.05، والصرف الصحي 87.99، ورسم السكن 500. المجموع نحو 1,240 درهماً.</p>
+</div>
+<p>الحاسبة تقديرية؛ والفاتورة الفعلية تتبع قراءة العداد وعدد أيام دورة الفوترة ورسم الوقود المعلن لذلك الشهر.</p>
+</div>
