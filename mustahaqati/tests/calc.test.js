@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaAllowance500,
   ksaEngineeringSalary,
   ksaOfficerSalary,
   bahrainCostOfLiving,
@@ -1946,4 +1947,20 @@ test("علاوة الغلاء في البحرين ومنافع الحماية ا
   assert.equal(el("1970-07-20", 0).start, "2030-07-01");
   assert.equal(el("1970-07-20", 0).eligibleNow, false);
   assert.equal(omanElderlyBenefit({ birth: "1960-01-01", income: 1300, asOf: new Date("2026-02-01") }).paid, 115);
+});
+
+test("بدل 500 ريال ومقارنة فواتير 2027", () => {
+  const a = ksaAllowance500({ category: "civil", income: 9000, kwh: 2000, m3: 30 });
+  assert.equal(a.amount, 500);
+  assert.equal(a.newIncome, 9500);
+  assert.equal(a.electricity.diff, 149.5);
+  assert.equal(a.water.diff, 83.67);
+  assert.equal(a.billIncrease, 233.17);
+  assert.equal(a.net, 266.83);
+  const sv = ksaAllowance500({ category: "survivors", survivors: 3 });
+  assert.equal(sv.amount, 166.67);
+  assert.equal(sv.annual, 2000);
+  assert.equal(ksaAllowance500({ category: "saned" }).amount, 0);
+  assert.equal(ksaAllowance500({ category: "private" }).eligible, false);
+  assert.equal(ksaAllowance500({ category: "retiree", kwh: 6000, m3: 60 }).net, 51.21);
 });

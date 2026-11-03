@@ -3885,6 +3885,28 @@ export function omanElderlyBenefit({ birth = "", income = 0, disabled = false, a
     paidAs: disability > elderly ? "disability" : "elderly", annual: paid * 12, ageRaiseRisk: start >= new Date(`${E.ageRaiseEarliest}T00:00:00Z`),
   };
 }
+/** حاسبة بدل 500 ريال (الأمر الملكي 25/10/2026): الاستحقاق حسب الفئة، والدخل الجديد، ومقارنة زيادة فاتورتي الكهرباء والمياه في 2027. */
+export function ksaAllowance500({ category = "civil", income = 0, survivors = 1, kwh = 0, amps = 60, m3 = 0, meter = 20, sewer = true } = {}) {
+  const A = rules.sa.allowance2027;
+  const ok = A.categories[category] === 1;
+  const n = Math.max(1, Math.floor(Number(survivors) || 1));
+  const raw = ok ? (category === "survivors" ? A.amount / n : A.amount) : 0;
+  const amount = r2(raw);
+  const inc = Math.max(0, Number(income) || 0);
+  const k = Math.max(0, Number(kwh) || 0);
+  const w = Math.max(0, Number(m3) || 0);
+  const eOld = k ? ksaElectricityBill({ kwh: k, tariff: "old" }).total : 0;
+  const eNew = k ? ksaElectricityBill({ kwh: k, amps, tariff: "new" }).total : 0;
+  const wOld = w ? ksaWaterBill({ m3: w, meter, sewer, tariff: "current" }).total : 0;
+  const wNew = w ? ksaWaterBill({ m3: w, meter, sewer, tariff: "new" }).total : 0;
+  const billIncrease = r2(eNew - eOld + (wNew - wOld));
+  return {
+    category, eligible: ok, amount, annual: r2(raw * 12), income: inc, newIncome: r2(inc + amount), pct: inc ? r2((amount / inc) * 100) : null,
+    from: category === "socialSecurity" ? A.socialSecurityFrom : A.from, addedToBasic: A.addedToBasic,
+    electricity: { old: eOld, new: eNew, diff: r2(eNew - eOld) }, water: { old: wOld, new: wNew, diff: r2(wNew - wOld) },
+    billIncrease, net: r2(amount - billIncrease), hasBills: Boolean(k || w),
+  };
+}
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;
