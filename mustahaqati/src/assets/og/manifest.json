@@ -171,5 +171,9 @@
  "ksa-water-bill-table": "b3c46c5ccacf7ff7",
  "uae-pension-table": "809d19e7fde21f41",
  "en-ksa-eos-table": "cde1079b401e2980",
- "ksa-eos-table": "2b1cb50d394f63c9"
+ "ksa-eos-table": "2b1cb50d394f63c9",
+ "en-kuwait-eos-table": "95fd0c578592d7dd",
+ "en-qatar-eos-table": "40622866afa985fb",
+ "kuwait-eos-table": "155a6ec04c72505c",
+ "qatar-eos-table": "aa6d3110214f1225"
 }

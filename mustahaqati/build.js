@@ -420,6 +420,33 @@ const TABLES = {
       rows
     );
   },
+  /** الكويت: مكافأة نهاية الخدمة (المادة 51) حسب الأجر وسنوات الخدمة، أو الاستقالة (المادة 53) */
+  "kw-eos-grid"(a) {
+    const en = a.lang === "en";
+    const reason = a.reason || "employer";
+    const wages = listNums(a.wages, [300, 500, 800, 1000, 1500, 2000, 3000]);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20, 25]);
+    const yl = (y) => (en ? `${fmt0.format(y)} ${y === 1 ? "year" : "years"}` : yearsLabel(y));
+    const rows = years.map((y) => [yl(y), ...wages.map((w) => fmt0.format(calc.kuwaitIndemnity({ wage: w, years: y, reason }).total))]);
+    return tableWrap(
+      a.caption || (en ? "Indemnity in KWD (rounded), daily wage = monthly ÷ 26" : "المكافأة بالدينار (مقرّبة)، الأجر اليومي = الشهري ÷ 26"),
+      [en ? "Service" : "مدة الخدمة", ...wages.map((w) => (en ? `Wage ${fmt0.format(w)}` : `أجر ${fmt0.format(w)}`))],
+      rows
+    );
+  },
+  /** قطر: مكافأة نهاية الخدمة (المادة 54) حسب الأجر الأساسي وسنوات الخدمة */
+  "qa-eos-grid"(a) {
+    const en = a.lang === "en";
+    const salaries = listNums(a.salaries, [1000, 2000, 3000, 5000, 8000, 10000, 15000, 20000]);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20, 25]);
+    const yl = (y) => (en ? `${fmt0.format(y)} ${y === 1 ? "year" : "years"}` : yearsLabel(y));
+    const rows = years.map((y) => [yl(y), ...salaries.map((sv) => fmt0.format(calc.qatarGratuity({ basicSalary: sv, years: y }).total))]);
+    return tableWrap(
+      a.caption || (en ? "Gratuity in QAR (rounded): 21 days of basic salary per year" : "المكافأة بالريال القطري (مقرّبة): 21 يوماً من الأجر الأساسي عن كل سنة"),
+      [en ? "Service" : "مدة الخدمة", ...salaries.map((sv) => (en ? `Basic ${fmt0.format(sv)}` : `أساسي ${fmt0.format(sv)}`))],
+      rows
+    );
+  },
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);
