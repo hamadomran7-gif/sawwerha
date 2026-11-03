@@ -712,6 +712,86 @@ const TABLES = {
     });
     return tableWrap(a.caption || (en ? `BHD per month — table ${T.tableNo}` : `بالدينار شهرياً — الجدول ${T.tableNo}: ${T.nameAr}`), en ? ["Grade", "Minimum", "Increment", "Maximum (rank 15)", "Values"] : ["الدرجة", "الحد الأدنى", "العلاوة", "الحد الأعلى (الرتبة 15)", "عدد القيم"], rows);
   },
+  "ksa-engineering-scale"(a) {
+    const en = a.lang === "en";
+    const E = calc.rules.sa.engineeringScale;
+    const C = E.cats[a.cat || "engineer"];
+    const rows = Object.keys(C.levels).map((k) => {
+      const L = C.levels[k];
+      return [en ? `Level ${k}` : `المستوى ${k}`, ...L.steps.map((v) => fmt0.format(v)), fmt0.format(L.increment), fmt0.format(L.civilRank)];
+    });
+    return tableWrap(
+      a.caption || (en ? `SAR per month — ${C.nameEn} (transport ${fmt0.format(C.transport)})` : `بالريال شهرياً — فئة ${C.nameAr} (بدل النقل ${fmt0.format(C.transport)})`),
+      en ? ["Level", "Step 1", "Step 2", "Step 3", "Step 4", "Increment", "Equivalent civil rank"] : ["المستوى", "الدرجة 1", "الدرجة 2", "الدرجة 3", "الدرجة 4", "العلاوة", "المرتبة المعادلة"],
+      rows
+    );
+  },
+  "ksa-officers-scale"(a) {
+    const en = a.lang === "en";
+    const O = calc.rules.sa.militaryScale.officers;
+    if (a.view === "full") {
+      const max = Math.max(...O.order.map((k) => O.ranks[k].steps.length));
+      const rows = [];
+      for (let i = 0; i < max; i++) rows.push([en ? `Step ${i + 1}` : `الدرجة ${i + 1}`, ...O.order.map((k) => (O.ranks[k].steps[i] ? fmt0.format(O.ranks[k].steps[i]) : "—"))]);
+      return tableWrap(a.caption || (en ? "Estimated basic salary, SAR per month" : "الراتب الأساسي التقديري بالريال شهرياً"), [en ? "Step" : "الدرجة", ...O.order.map((k) => (en ? O.ranks[k].nameEn : O.ranks[k].nameAr))], rows);
+    }
+    const rows = O.order.map((k) => {
+      const R = O.ranks[k];
+      const st = R.steps;
+      const inc = k === "naqib" ? (en ? "495 then 265 from step 8" : "495 ثم 265 من الدرجة 8") : fmt0.format(st[1] - st[0]);
+      const tr = R.transport === null ? (en ? "As civil rank 15 (car or 2,000)" : "كالمرتبة 15 (سيارة أو 2,000)") : fmt0.format(R.transport);
+      return [en ? R.nameEn : R.nameAr, fmt0.format(st[0]), inc, fmt0.format(st[st.length - 1]), fmt0.format(st.length), tr];
+    });
+    return tableWrap(a.caption || (en ? "SAR per month (estimate)" : "بالريال شهرياً (تقديري)"), en ? ["Rank", "Step 1", "Annual increment", "Last step", "Steps", "Transport allowance"] : ["الرتبة", "الدرجة 1", "العلاوة السنوية", "آخر درجة", "عدد الدرجات", "بدل النقل"], rows);
+  },
+  "bh-col-brackets"(a) {
+    const en = a.lang === "en";
+    const C = calc.rules.bh.costOfLiving;
+    let lo = 0;
+    const rows = C.brackets.map((b, i) => {
+      const label = i === 0 ? (en ? `Up to ${fmt0.format(b.max)}` : `حتى ${fmt0.format(b.max)}`) : (en ? `${fmt0.format(lo + 1)} – ${fmt0.format(b.max)}` : `${fmt0.format(lo + 1)} – ${fmt0.format(b.max)}`);
+      lo = b.max;
+      return [label, fmt0.format(b.amount), fmt0.format(b.amount * 12), fmt0.format(b.prev), fmt0.format(b.old), fmt0.format(C.beneficiariesMar2026[i])];
+    });
+    rows.push([en ? `Above ${fmt0.format(C.ceiling)}` : `أكثر من ${fmt0.format(C.ceiling)}`, "0", "0", "0", "0", "—"]);
+    return tableWrap(
+      a.caption || (en ? "BHD by the head of household's monthly income" : "بالدينار حسب دخل رب الأسرة الشهري"),
+      en ? ["Head of household's income", "Monthly from Jan 2026", "Yearly", "2022–2025", "Before 2022", "Beneficiaries (Mar 2026)"] : ["دخل رب الأسرة", "الشهري من يناير 2026", "السنوي", "2022–2025", "قبل 2022", "المستفيدون (مارس 2026)"],
+      rows
+    );
+  },
+  "om-fis-targets"(a) {
+    const en = a.lang === "en";
+    const F = calc.rules.om.socialProtection.fis;
+    const f3 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+    const rows = [];
+    for (let n = 1; n <= Number(a.max || 10); n++) rows.push([fmt0.format(n), f3.format(Math.round(F.base * Math.sqrt(n) * 100) / 100), fmt0.format(n === 1 ? F.minOne : F.minTwoPlus)]);
+    return tableWrap(a.caption || (en ? "OMR per month: support = target − household income" : "بالريال العماني شهرياً: المنفعة = القيمة المستهدفة − دخل الأسرة"), en ? ["Household members", "Target value", "Minimum payment"] : ["عدد الأفراد", "القيمة المستهدفة", "الحد الأدنى للمنفعة"], rows);
+  },
+  "om-benefits"(a) {
+    const en = a.lang === "en";
+    const S = calc.rules.om.socialProtection;
+    const rows = en
+      ? [
+          ["Elderly (60+)", fmt0.format(S.elderly.amount), `Full up to income ${fmt0.format(S.elderly.fullMax)}, none from ${fmt0.format(S.elderly.zeroFrom)} (from April 2026)`],
+          ["Child (under 18)", fmt0.format(S.child.amount), `${fmt0.format(S.child.student)} for school students in families on income support (from February 2026)`],
+          ["Persons with disabilities", fmt0.format(S.disability), "Disability card and set criteria; the higher one with the child or elderly benefit"],
+          ["Widow", fmt0.format(S.orphanWidow.widow), "Below 60; tops up any survivor pension; stops on remarriage"],
+          ["Orphan of both parents", fmt0.format(S.orphanWidow.orphanBoth), `Under 18; tops up any pension, minimum ${fmt0.format(S.orphanWidow.min)}`],
+          ["Orphan of one parent", fmt0.format(S.orphanWidow.orphanOne), "Under 18; tops up any pension"],
+          ["Family income support", en ? `${fmt0.format(S.fis.base)} × √members − income` : "", `Minimum ${fmt0.format(S.fis.minTwoPlus)} (or ${fmt0.format(S.fis.minOne)} for one person)`],
+        ]
+      : [
+          ["كبار السن (60 فأكثر)", fmt0.format(S.elderly.amount), `كاملة حتى دخل ${fmt0.format(S.elderly.fullMax)}، ولا شيء من ${fmt0.format(S.elderly.zeroFrom)} (من أبريل 2026)`],
+          ["الطفولة (دون 18)", fmt0.format(S.child.amount), `${fmt0.format(S.child.student)} لطلاب المدارس من أسر دعم الدخل (من فبراير 2026)`],
+          ["الأشخاص ذوو الإعاقة", fmt0.format(S.disability), "بطاقة إعاقة ومعايير محددة، ويُصرف الأعلى مع الطفولة أو كبار السن"],
+          ["الأرملة", fmt0.format(S.orphanWidow.widow), "دون 60، وتُكمل معاش الوفاة إن وُجد، وتقف بالزواج"],
+          ["يتيم الأبوين", fmt0.format(S.orphanWidow.orphanBoth), `دون 18، وتُكمل المعاش إن وُجد، بحد أدنى ${fmt0.format(S.orphanWidow.min)}`],
+          ["يتيم أحد الأبوين", fmt0.format(S.orphanWidow.orphanOne), "دون 18، وتُكمل المعاش إن وُجد"],
+          ["دعم دخل الأسر", `${fmt0.format(S.fis.base)} × √عدد الأفراد − الدخل`, `بحد أدنى ${fmt0.format(S.fis.minTwoPlus)} (أو ${fmt0.format(S.fis.minOne)} للفرد)`],
+        ];
+    return tableWrap(a.caption || (en ? "OMR per month" : "بالريال العماني شهرياً"), en ? ["Benefit", "Amount", "Conditions"] : ["المنفعة", "المبلغ", "الشروط"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

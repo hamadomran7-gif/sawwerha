@@ -1,0 +1,107 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-family-income-support-calculator",
+  "alternate": "oman-family-income-support",
+  "title": "Oman Family Income Support Calculator 2026 — Benefit Amount and Child Benefit",
+  "h1": "Oman Family Income Support Calculator",
+  "description": "Calculate Oman's family income support from the Social Protection Fund: a target of OMR 115 × the square root of household size minus household income, with a minimum of OMR 25, plus the OMR 10 child benefit per child and 20 for school students from February 2026.",
+  "short": "115 × √members − income, minimum 25, and the 10 or 20 child benefit",
+  "lead": "Enter your household size, monthly income and children to see the income support, the child benefit and your family's total.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-oman-family-income-support.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-elderly-benefit", "en-oman-job-security", "en-oman-pension", "en-oman-net-salary", "en-oman-civil-salary-scale", "en-oman-school-holidays"],
+  "faq": [
+    {"q": "How is family income support calculated?", "a": "The target is OMR 115 for a one-person household, multiplied by the square root of the number of members: 162.63 for two, 230 for four and 281.69 for six. The Fund pays the difference between the target and household income, with a minimum of OMR 25 (or 15 for one person)."},
+    {"q": "What income counts for family income support?", "a": "Wages, asset income, pensions, allowances and other regular payments. The child benefit, the disability benefit and the elderly benefit of one person in a household of two or more are not counted, and since 2026 child maintenance is not counted as a widow's or divorcee's income."},
+    {"q": "What is imputed income?", "a": "The Fund counts OMR 115 a month for a man able to work even if he does not, except elderly or disabled men, those unable to work and non-working sons up to 26. Women have other rules and exemptions, and the OMR 35 imputed income was abolished for four groups of women from February 2026."},
+    {"q": "Who counts as a household member?", "a": "Spouses, non-working sons up to 26 and non-working unmarried daughters under 40. Divorced women without children and unmarried women aged 40 or more, widows and divorced women with children are treated as separate households. A person caring for an elderly or disabled person who needs care counts as two."},
+    {"q": "How much is the child benefit in Oman?", "a": "OMR 10 a month for each Omani child under 18. From February 2026 it becomes OMR 20 for school students in families receiving income support during the school year, without applying."},
+    {"q": "When are social protection benefits paid?", "a": "Monthly, no later than the end of the month they are due for; no fixed day has been announced. Income support is due from the application date, and the Fund decides within 30 days."}
+  ],
+  "sources": [
+    {"t": "Social Protection Law, Royal Decree 52/2023 (Articles 40 and 41)", "u": "https://qanoon.om/p/2023/rd2023052/"},
+    {"t": "Executive Regulation R/7/2023 (Articles 45, 57 and 58)", "u": "https://qanoon.om/p/2023/spf20239901/"},
+    {"t": "Social Protection Fund — child benefit", "u": "https://www.spf.gov.om/en/protection_programs/child-benefit/"},
+    {"t": "Oman Observer — royal directives on social protection (11/1/2026)", "u": "https://www.omanobserver.om/ampArticle/1182547"},
+    {"t": "Times of Oman — royal directives to support vulnerable groups (11/1/2026)", "u": "https://timesofoman.com/article/167091-royal-directives-aim-to-support-vulnerable-groups"},
+    {"t": "Oman Daily — worked example of family income support (18/9/2024)", "u": "https://www.omandaily.om/ampArticle/1164485"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your family income support</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="members">Household members</label>
+        <input type="number" id="members" name="members" inputmode="decimal" min="1" max="30" step="1" value="5">
+        <span class="hint">Spouses, non-working sons up to 26 and unmarried daughters under 40.</span>
+      </div>
+      <div class="field">
+        <label for="income">Household monthly income (OMR)</label>
+        <input type="number" id="income" name="income" inputmode="decimal" min="0" step="1" value="200">
+        <span class="hint">Wages, pensions and asset income, excluding the child and disability benefits.</span>
+      </div>
+      <div class="field">
+        <label for="children">Of whom Omani children under 18</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="30" step="1" value="3">
+      </div>
+      <div class="field">
+        <label for="students">Of whom school students</label>
+        <input type="number" id="students" name="students" inputmode="decimal" min="0" max="30" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="caregivers">Carers of an elderly or disabled person</label>
+        <input type="number" id="caregivers" name="caregivers" inputmode="decimal" min="0" max="10" step="1" value="0">
+        <span class="hint">Each counts as two members.</span>
+      </div>
+      <div class="field">
+        <label for="idleMen">Men able to work but not working</label>
+        <input type="number" id="idleMen" name="idleMen" inputmode="decimal" min="0" max="10" step="1" value="0">
+        <span class="hint">OMR 115 imputed income each (not elderly, disabled or sons under 26).</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Target value by household size</h2>
+{{table:om-fis-targets lang=en}}
+<p>Article 40 of the Social Protection Law sets the target at OMR 115 for a one-person household, multiplied by the square root of the number of members, with the Fund paying the difference between the target and household income. The regulation says the benefit, once calculated and confirmed, must not be less than OMR 25, or 15 for a one-person household, which we read as raising the amount to that minimum.</p>
+
+<h2>Counted income and imputed income</h2>
+<ul>
+  <li><strong>Counted:</strong> wages, asset income at no less than an imputed return, pensions, allowances and regular payments, and the orphan and widow benefit (except one orphan's benefit in a household with two or more orphans).</li>
+  <li><strong>Not counted:</strong> the child benefit, the disability benefit, the elderly benefit of one person in a household of two or more, and child maintenance for widows and divorcees since 2026.</li>
+  <li><strong>Imputed income for men:</strong> OMR 115 for a man able to work but not working, except elderly or disabled men, those unable to work and non-working sons up to 26.</li>
+  <li><strong>Imputed income for women:</strong> OMR 115 with exemptions including elderly and disabled women, widows, divorced mothers with custody and wives of elderly or disabled men, and 35 for unmarried, widowed or divorced women without children; the latter was abolished for four groups from February 2026, raising their maximum from 80 to 115.</li>
+</ul>
+
+<h2>Child benefit</h2>
+<p>OMR 10 a month for each Omani child under 18 from the month of birth, paid into a bank account in the child's name. From February 2026 it doubles to OMR 20 for school students in families receiving income support during the school year, without applying. A child entitled to the disability benefit (130) gets the higher amount.</p>
+
+<h2>Conditions and procedure</h2>
+<ul>
+  <li>At least one member must be Omani, the household must live in Oman, and its income must be below the target.</li>
+  <li>Asset limits: two residential properties worth 30,000 or more for households of up to two, four worth 60,000 or more for larger households, or more than two domestic workers other than a carer.</li>
+  <li>The Fund decides within 30 days; the benefit is due from the application date and paid to the head of household's account, and you can reapply after a change in circumstances or 6 months after a refusal.</li>
+</ul>
+<p>Work out the elderly benefit with the <a href="{{root}}en/oman-elderly-benefit-calculator/{{ix}}">Oman elderly benefit calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A household of 8 with income of 200: target 325.27, so the benefit is <strong>OMR 125.27</strong>, the example published by Oman Daily.<br>
+A household of 6 with a father earning 200 and 4 children, 3 of them students: income support 281.69 − 200 = 81.69, child benefit 3 × 20 + 10 = 70, total <strong>OMR 151.69</strong> in the school year.<br>
+A household of 5 with income of 250: the gap of 7.15 is raised to the <strong>OMR 25</strong> minimum.</p>
+</div>
+</div>

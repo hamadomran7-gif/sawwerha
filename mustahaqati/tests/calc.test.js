@@ -3,6 +3,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaEngineeringSalary,
+  ksaOfficerSalary,
+  bahrainCostOfLiving,
+  bahrainColPayDates,
+  omanFamilyIncomeSupport,
+  omanElderlyBenefit,
   kuwaitCivilSalary,
   qatarCivilSalary,
   bahrainCivilSalary,
@@ -1870,4 +1876,74 @@ test("جداول رواتب الكويت وقطر والبحرين (الدفعة
   assert.equal(bahrainCivilSalary({ scale: "generalShift", grade: "10", index: 15 }).nextBasic, null);
   assert.equal(bahrainCivilSalary({ scale: "generalRegular", grade: "2", index: 7 }).basic, 357);
   assert.equal(bahrainCivilSalary({ scale: "executive", grade: "9" }), null);
+});
+
+test("سلم المهندسين والضباط في السعودية (الدفعة 34)", () => {
+  const e1 = ksaEngineeringSalary({ cat: "engineer", level: 1, step: 1, system: "gosiNew", asOf: new Date("2026-11-03") });
+  assert.equal(e1.gross, 9350);
+  assert.equal(e1.deduction, 865);
+  assert.equal(e1.net, 8485);
+  assert.equal(e1.nextBasic, 9050);
+  assert.equal(ksaEngineeringSalary({ cat: "engineer", level: 1, step: 3 }).basic, 9450);
+  assert.equal(ksaEngineeringSalary({ cat: "engineer", level: 2, step: 2 }).basic, 10750);
+  const e3 = ksaEngineeringSalary({ cat: "associate", level: 3, step: 2, project: true });
+  assert.equal(e3.gross, 20100);
+  assert.equal(e3.deduction, 1476);
+  assert.equal(e3.net, 18624);
+  const e4 = ksaEngineeringSalary({ cat: "engineer", level: 1, step: 4 });
+  assert.equal(e4.nextLevelFirst, 10300);
+  const top = ksaEngineeringSalary({ cat: "consultant", level: 3, step: 4 });
+  assert.equal(top.basic, 33900);
+  assert.equal(top.gross, 35100);
+  assert.equal(top.topOfCategory, true);
+  assert.equal(ksaEngineeringSalary({ cat: "consultant", level: 4, step: 1 }), null);
+  const o7 = ksaOfficerSalary({ rank: "mulazim", step: 1 });
+  assert.equal(o7.gross, 8290);
+  assert.equal(o7.deduction, 683.1);
+  assert.equal(o7.net, 7606.9);
+  const o8 = ksaOfficerSalary({ rank: "naqib", step: 9 });
+  assert.equal(o8.basic, 14100);
+  assert.equal(o8.net, 13531);
+  assert.equal(ksaOfficerSalary({ rank: "naqib", step: 7 }).increment, 265);
+  assert.equal(ksaOfficerSalary({ rank: "naqib", step: 6 }).increment, 495);
+  assert.deepEqual(ksaOfficerSalary({ rank: "naqib", step: 15 }).promotion, { rank: "raid", step: 10, basic: 15900, raise: 210 });
+  const liwa = ksaOfficerSalary({ rank: "liwa", step: 3 });
+  assert.equal(liwa.basic, 22850);
+  assert.equal(liwa.car, true);
+  assert.equal(ksaOfficerSalary({ rank: "aqid", step: 3 }).basic, 17700);
+  assert.equal(ksaOfficerSalary({ rank: "muqaddam", step: 15 }), null);
+});
+
+test("علاوة الغلاء في البحرين ومنافع الحماية الاجتماعية في عُمان (الدفعة 35)", () => {
+  assert.equal(bahrainCostOfLiving({ income: 280 }).amount, 130);
+  assert.equal(bahrainCostOfLiving({ income: 300 }).amount, 130);
+  assert.equal(bahrainCostOfLiving({ income: 300 }).boundary, true);
+  assert.equal(bahrainCostOfLiving({ income: 650, category: "couple" }).annual, 1164);
+  assert.equal(bahrainCostOfLiving({ income: 950, category: "divorced" }).amount, 75);
+  assert.equal(bahrainCostOfLiving({ income: 1050 }).reason, "income");
+  assert.equal(bahrainCostOfLiving({ income: 200, category: "single" }).amount, 0);
+  assert.deepEqual(bahrainColPayDates({ from: new Date("2026-11-16"), count: 2 }), ["2026-12-15", "2027-01-15"]);
+  assert.deepEqual(bahrainColPayDates({ from: new Date("2026-11-15"), count: 1 }), ["2026-11-15"]);
+  const f8 = omanFamilyIncomeSupport({ members: 6, income: 200, children: 4, students: 3, asOf: new Date("2026-11-03") });
+  assert.equal(f8.target, 281.69);
+  assert.equal(f8.fis, 81.69);
+  assert.equal(f8.childSchool, 70);
+  assert.equal(f8.totalSchool, 151.69);
+  assert.equal(omanFamilyIncomeSupport({ members: 8, income: 200 }).fis, 125.27);
+  const f12 = omanFamilyIncomeSupport({ members: 5, income: 250 });
+  assert.equal(f12.fis, 25);
+  assert.equal(f12.raisedToMin, true);
+  assert.equal(omanFamilyIncomeSupport({ members: 1, income: 110 }).fis, 15);
+  assert.equal(omanFamilyIncomeSupport({ members: 3, caregivers: 1, income: 100 }).target, 230);
+  assert.equal(omanFamilyIncomeSupport({ members: 4, income: 230 }).fis, 0);
+  assert.equal(omanFamilyIncomeSupport({ members: 4, income: 100, children: 2, students: 2, asOf: new Date("2026-01-15") }).childSchool, 20);
+  const el = (birth, income, disabled = false) => omanElderlyBenefit({ birth, income, disabled, asOf: new Date("2026-11-03") });
+  assert.equal(el("1963-05-10", 600).paid, 115);
+  assert.equal(el("1960-01-01", 1100).paid, 75);
+  assert.equal(el("1960-01-01", 1100).band, "taper");
+  assert.equal(el("1964-02-02", 1300).paid, 0);
+  assert.equal(el("1960-01-01", 1300, true).paid, 130);
+  assert.equal(el("1970-07-20", 0).start, "2030-07-01");
+  assert.equal(el("1970-07-20", 0).eligibleNow, false);
+  assert.equal(omanElderlyBenefit({ birth: "1960-01-01", income: 1300, asOf: new Date("2026-02-01") }).paid, 115);
 });

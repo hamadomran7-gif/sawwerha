@@ -1,0 +1,109 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-officers-salary-scale",
+  "alternate": "ksa-officers-salary-scale",
+  "title": "Saudi Officers Salary Scale 2026 — Officer Salary Calculator from Lieutenant to Major General",
+  "h1": "Saudi Military Officers Salary Scale Calculator",
+  "description": "Calculate a Saudi military officer's estimated salary from Second Lieutenant to Major General: basic pay for each rank and step, the annual increment, the SAR 700, 900 or 1,200 transport allowance, the 9% pension deduction, your pay on promotion and the SAR 500 allowance from January 2027.",
+  "short": "8 ranks from SAR 7,590 to 28,690, transport 700 to 1,200",
+  "lead": "Choose your rank and step to see your gross and net pay, your next increment and your pay if promoted. The table is an estimate because it is not officially published.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-officers-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-military-salary-scale", "en-ksa-civil-salary-scale", "en-ksa-engineering-salary-scale", "en-ksa-civil-retirement", "en-ksa-retirement-pension", "en-ksa-salary-date"],
+  "faq": [
+    {"q": "What is a Second Lieutenant's salary in Saudi Arabia?", "a": "A Second Lieutenant starts at an estimated SAR 7,590 basic plus a 700 transport allowance, for 8,290 gross and about 7,607 net after the 9% pension. The annual increment is 380, up to 12,910 at step 15."},
+    {"q": "What do Captains and Majors earn?", "a": "A Captain starts at 10,600 with a 495 increment to step 7, then 265 up to 15,690; a Major starts at 13,515 with a 265 increment up to 17,225. Transport is 700 for a Captain and 900 for a Major. This shape is inherited from the 1431H salary annex itself."},
+    {"q": "How much is the officers' transport allowance?", "a": "SAR 700 for Second Lieutenants, First Lieutenants and Captains, 900 for Majors, Lieutenant Colonels and Colonels, and 1,200 for Brigadier Generals. A Major General is treated as civil rank 15: a government car or SAR 2,000 a month until one is provided. The basis is Article 59 as amended by Royal Decree M/32 of 1434H."},
+    {"q": "How is an officer's pay set on promotion?", "a": "The officer gets the first step of the new rank, or, if his pay already equals or exceeds it, the first step above his pay (Article 53). So a Captain at step 15 (15,690) promoted to Major goes to step 10 (15,900)."},
+    {"q": "When is the officers' annual increment paid?", "a": "The increment moves the officer to the next step in his rank. The old text sets it on 1 Muharram, while in practice it has followed the January fiscal year since 2018."},
+    {"q": "Is the officers' salary table official?", "a": "The officers' scale is not officially published. This table circulates online and matches the 1431H annex (Royal Decree M/60) multiplied by 1.15 after the 1432H cost-of-living merger, within SAR 55, so treat it as an estimate and check your payslip."}
+  ],
+  "sources": [
+    {"t": "Nezams — Officers Service Law and salary annex (Royal Decree M/60, 1431H)", "u": "https://nezams.com/%d9%86%d8%b8%d8%a7%d9%85-%d8%ae%d8%af%d9%85%d8%a9-%d8%a7%d9%84%d8%b6%d8%a8%d8%a7%d8%b7/"},
+    {"t": "Okaz — SAR 700 transport for Lieutenants (9/4/2013)", "u": "https://www.okaz.com.sa/article/559513"},
+    {"t": "Okaz — rights and benefits regulation: transport and travel (1/6/2011)", "u": "https://www.okaz.com.sa/article/402781"},
+    {"t": "Defaiya — wage hike for Saudi army staff (1/9/2010)", "u": "https://www.defaiya.com/news/Regional%20News/KSA/2010/09/01/wage-hike-for-saudi-army-staff"},
+    {"t": "SPA — new salary scales after the cost-of-living merger (29/5/2011)", "u": "https://www.spa.gov.sa/897663"},
+    {"t": "SPA — SAR 500 monthly allowance for civilian and military staff (25/10/2026)", "u": "https://www.spa.gov.sa/N2709796"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate an officer's salary</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="rank">Rank</label>
+        <select id="rank" name="rank">
+          <option value="mulazim" selected>Second Lieutenant</option>
+          <option value="mulazimAwwal">First Lieutenant</option>
+          <option value="naqib">Captain</option>
+          <option value="raid">Major</option>
+          <option value="muqaddam">Lieutenant Colonel</option>
+          <option value="aqid">Colonel</option>
+          <option value="amid">Brigadier General</option>
+          <option value="liwa">Major General</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Officers' salary scale (estimate)</h2>
+{{table:ksa-officers-scale lang=en}}
+<p>Military authorities do not publish the officers' scale. This table circulates on two specialist sites and matches the officers' salary annex approved by Royal Decree M/60 of 21/9/1431H multiplied by 1.15, the cost-of-living rate merged into basic pay in 1432H, within SAR 55 at every step. We corrected copying errors on those sites against the annex, such as Major General step 3 (22,850) and Colonel step 3 (17,700).</p>
+<h3>Full table</h3>
+{{table:ksa-officers-scale view=full lang=en}}
+
+<h2>Increments and promotion</h2>
+<ul>
+  <li><strong>Annual increment:</strong> moves the officer to the next step in his rank, in January in practice since 2018, with none after the last step.</li>
+  <li><strong>Captain and Major increments:</strong> a Captain gets 495 to step 7 and then 265, and a Major 265, a shape inherited from the annex itself (430 then 230, and 230).</li>
+  <li><strong>Promotion:</strong> onto the first step of the new rank, or the first step above current pay if that is higher.</li>
+  <li><strong>Lieutenant General and General:</strong> have no table and are treated like the Excellent rank and the minister's rank.</li>
+</ul>
+
+<h2>Transport and other allowances</h2>
+<p>Transport under Article 59 as amended by Royal Decree M/32 (5/6/1434H): 700 for Second Lieutenants, First Lieutenants and Captains, 900 for Majors, Lieutenant Colonels and Colonels, 1,200 for Brigadier Generals, and civil rank 15 treatment for Major Generals (a government car or SAR 2,000 until one is provided). The SAR 500 monthly allowance for civilian and military staff is added from January 2027 and is not part of basic pay. Duty, hazard, regional and other allowances vary by unit and job and are not included.</p>
+
+<h2>Deductions</h2>
+<p>9% of basic is deducted for military retirement, and the state pays 13%. Estimate your pension with the <a href="{{root}}en/saudi-civil-military-retirement-calculator/{{ix}}">civil and military retirement calculator</a>, and see enlisted pay in the <a href="{{root}}en/saudi-military-salary-scale/{{ix}}">military salary scale</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Second Lieutenant, step 1: 7,590 + 700 = 8,290, deduction 683.10, net <strong>SAR 7,606.90</strong>, plus 500 from January 2027.<br>
+Captain, step 9: 13,570 + 2 × 265 = 14,100, 14,800 with transport, net <strong>SAR 13,531</strong>.<br>
+A Captain at step 15 (15,690) promoted to Major: the first step above his pay is step 10 (<strong>15,900</strong>), a raise of only 210.</p>
+</div>
+</div>

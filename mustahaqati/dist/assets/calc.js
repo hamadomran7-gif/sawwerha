@@ -3766,6 +3766,125 @@ export function bahrainCivilSalary({ scale = "generalRegular", grade = "6", inde
   return { scale, grade: String(grade), index: i, ranked: G.ranked, rank: G.ranked ? i : null, basic, increment: G.increment, living: Number(living) || 0, transport: transport ? S.transport : 0, social: Math.max(0, Number(social) || 0), gross: ins.gross, pension, unemployment, deduction: ins.employee, net: ins.net, nextBasic: i + 1 < G.values.length ? G.values[i + 1] : null, max: G.values[G.values.length - 1] };
 }
 
+/** سلم الوظائف الهندسية (نفاذ 31/12/2024): 4 فئات، ومستويات بأربع درجات، وبدل نقل حسب الفئة، وبدل إدارة المشاريع 3,000 اختيارياً. */
+export function ksaEngineeringSalary({ cat = "engineer", level = 1, step = 1, system = "civil", project = false, asOf = new Date() } = {}) {
+  const E = rules.sa.engineeringScale;
+  const C = E.cats[cat];
+  if (!C) return null;
+  const lv = Math.floor(Number(level) || 1);
+  const L = C.levels[String(lv)];
+  if (!L) return null;
+  const s = Math.floor(Number(step) || 1);
+  if (s < 1 || s > L.steps.length) return null;
+  const basic = L.steps[s - 1];
+  const pm = project ? E.projectAllowance : 0;
+  const rate = system === "gosiNew" ? gosiNewEntrantPensionRate(asOf) : E.retirementRate;
+  const deduction = r2(basic * rate);
+  const gross = basic + C.transport + pm;
+  const lastStep = s === L.steps.length;
+  const nextLevel = C.levels[String(lv + 1)];
+  return {
+    cat, level: lv, step: s, basic, transport: C.transport, project: pm, gross, rate, deduction, net: r2(gross - deduction),
+    increment: L.increment, civilRank: L.civilRank, nextBasic: lastStep ? null : L.steps[s], lastStep,
+    nextLevelFirst: lastStep && nextLevel ? nextLevel.steps[0] : null, topOfCategory: lastStep && !nextLevel,
+    levels: Object.keys(C.levels).length, allowance2027: rules.sa.allowance2027.amount,
+  };
+}
+/** سلم رواتب الضباط (تقديري): الأساسي حسب الرتبة والدرجة، وبدل النقل م59، والتقاعد 9%، وراتب الترقية للرتبة التالية (م53). */
+export function ksaOfficerSalary({ rank = "mulazim", step = 1 } = {}) {
+  const O = rules.sa.militaryScale.officers;
+  const R = O.ranks[rank];
+  if (!R) return null;
+  const s = Math.floor(Number(step) || 1);
+  if (s < 1 || s > R.steps.length) return null;
+  const basic = R.steps[s - 1];
+  const car = R.transport === null;
+  const transport = car ? 0 : R.transport;
+  const deduction = r2(basic * O.retirementRate);
+  const gross = basic + transport;
+  const nextBasic = s < R.steps.length ? R.steps[s] : null;
+  const i = O.order.indexOf(rank);
+  const nr = O.order[i + 1];
+  let promotion = null;
+  if (nr) {
+    const N = O.ranks[nr];
+    const idx = N.steps[0] > basic ? 0 : N.steps.findIndex((v) => v > basic);
+    promotion = idx >= 0 ? { rank: nr, step: idx + 1, basic: N.steps[idx], raise: N.steps[idx] - basic } : { rank: nr, step: N.steps.length, basic: N.steps[N.steps.length - 1], raise: N.steps[N.steps.length - 1] - basic };
+  }
+  return {
+    rank, step: s, maxStep: R.steps.length, basic, transport, car, gross, rate: O.retirementRate, deduction, net: r2(gross - deduction),
+    state: r2(basic * O.stateRate), nextBasic, increment: nextBasic ? nextBasic - basic : null, promotion, allowance2027: rules.sa.allowance2027.amount,
+  };
+}
+/** علاوة الغلاء في البحرين (من يناير 2026): 130 أو 97 أو 75 ديناراً حسب دخل رب الأسرة، ولا شيء فوق 1,000. */
+export function bahrainCostOfLiving({ income = 0, category = "couple" } = {}) {
+  const C = rules.bh.costOfLiving;
+  const inc = Math.max(0, Number(income) || 0);
+  const cat = Object.prototype.hasOwnProperty.call(C.categories, category) ? category : "couple";
+  const idx = C.brackets.findIndex((b) => inc <= b.max);
+  const okCat = C.categories[cat];
+  const amount = okCat && idx >= 0 ? C.brackets[idx].amount : 0;
+  return {
+    income: inc, category: cat, bracket: idx >= 0 ? idx + 1 : null, amount, annual: amount * 12,
+    prev: okCat && idx >= 0 ? C.brackets[idx].prev : 0, reason: !okCat ? "category" : idx < 0 ? "income" : null,
+    boundary: C.brackets.some((b) => Math.abs(inc - b.max) < 0.0005),
+  };
+}
+/** مواعيد صرف علاوة الغلاء البحرينية: يوم 15 من كل شهر (الإعلان الرسمي 2020). */
+export function bahrainColPayDates({ from = new Date(), count = 6 } = {}) {
+  const d = toUTC(from);
+  let m = d.getUTCFullYear() * 12 + d.getUTCMonth() + (d.getUTCDate() > rules.bh.costOfLiving.payDay ? 1 : 0);
+  const out = [];
+  for (let i = 0; i < count; i++, m++) out.push(`${Math.floor(m / 12)}-${String((m % 12) + 1).padStart(2, "0")}-${String(rules.bh.costOfLiving.payDay).padStart(2, "0")}`);
+  return out;
+}
+/** منفعة دعم دخل الأسر في عُمان: 115 × جذر عدد الأفراد (ومن يرعى مسناً أو معاقاً بفردين) ناقص الدخل، بحد أدنى 25 أو 15، مع منفعة الطفولة. */
+export function omanFamilyIncomeSupport({ members = 4, caregivers = 0, income = 0, idleMen = 0, children = 0, students = 0, asOf = new Date() } = {}) {
+  const S = rules.om.socialProtection;
+  const m = Math.max(1, Math.floor(Number(members) || 1));
+  const cg = Math.min(m, Math.max(0, Math.floor(Number(caregivers) || 0)));
+  const n = m + cg;
+  const target = r2(S.fis.base * Math.sqrt(n));
+  const imputed = Math.min(m, Math.max(0, Math.floor(Number(idleMen) || 0))) * S.fis.imputedMale;
+  const actual = Math.max(0, Number(income) || 0);
+  const counted = r2(actual + imputed);
+  const gap = r2(target - counted);
+  const min = m === 1 ? S.fis.minOne : S.fis.minTwoPlus;
+  const fis = gap > 0 ? r2(Math.max(gap, min)) : 0;
+  const kids = Math.min(m, Math.max(0, Math.floor(Number(children) || 0)));
+  const stu = Math.min(kids, Math.max(0, Math.floor(Number(students) || 0)));
+  const studentRate = fis > 0 && toUTC(asOf) >= new Date(`${S.child.studentFrom}-01T00:00:00Z`) ? S.child.student : S.child.amount;
+  const childSchool = (kids - stu) * S.child.amount + stu * studentRate;
+  const childSummer = kids * S.child.amount;
+  return {
+    members: m, caregivers: cg, n, target, actual, imputed, counted, gap, min, fis, eligible: gap > 0, raisedToMin: gap > 0 && gap < min,
+    children: kids, students: stu, studentRate, childSchool, childSummer, totalSchool: r2(fis + childSchool), totalSummer: r2(fis + childSummer),
+  };
+}
+/** منفعة كبار السن في عُمان: 115 من شهر بلوغ 60، واختبار الدخل من أبريل 2026 (كاملة حتى 1,020 ولا شيء من 1,250، والتخفيض بينهما تقديري)، والأعلى مع منفعة الإعاقة. */
+export function omanElderlyBenefit({ birth = "", income = 0, disabled = false, asOf = new Date() } = {}) {
+  const S = rules.om.socialProtection;
+  const E = S.elderly;
+  const b = birth ? new Date(`${String(birth).slice(0, 10)}T00:00:00Z`) : null;
+  if (!b || isNaN(b)) return null;
+  const now = toUTC(asOf);
+  const start = new Date(Date.UTC(b.getUTCFullYear() + E.age, b.getUTCMonth(), 1));
+  const eligibleNow = now >= start;
+  const monthsToStart = eligibleNow ? 0 : (start.getUTCFullYear() - now.getUTCFullYear()) * 12 + start.getUTCMonth() - now.getUTCMonth();
+  const testFrom = new Date(`${E.incomeTestFrom}-01T00:00:00Z`);
+  const testActive = (eligibleNow ? now : start) >= testFrom;
+  const inc = Math.max(0, Number(income) || 0);
+  let elderly = E.amount;
+  let band = "full";
+  if (testActive && inc >= E.zeroFrom) { elderly = 0; band = "none"; }
+  else if (testActive && inc > E.fullMax) { elderly = r2(Math.max(0, E.amount - E.taperRate * (inc - E.fullMax))); band = "taper"; }
+  const disability = disabled ? S.disability : 0;
+  const paid = Math.max(elderly, disability);
+  return {
+    start: start.toISOString().slice(0, 10), eligibleNow, monthsToStart, testActive, income: inc, band, elderly, disability, paid,
+    paidAs: disability > elderly ? "disability" : "elderly", annual: paid * 12, ageRaiseRisk: start >= new Date(`${E.ageRaiseEarliest}T00:00:00Z`),
+  };
+}
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;

@@ -374,5 +374,15 @@
  "en-kuwait-civil-salary-scale": "92ec2701d08a5b6b",
  "en-qatar-civil-salary-scale": "67af558beb2c548f",
  "kuwait-civil-salary-scale": "79f718aaad391ed7",
- "qatar-civil-salary-scale": "fa40a6788ee13a03"
+ "qatar-civil-salary-scale": "fa40a6788ee13a03",
+ "bahrain-cost-of-living-allowance": "f0c34ce6c3253748",
+ "en-bahrain-cost-of-living-allowance": "f2e006a9e48e1202",
+ "en-ksa-engineering-salary-scale": "a5eac9c36784c6fa",
+ "en-ksa-officers-salary-scale": "cf0e41de830d3d76",
+ "en-oman-elderly-benefit": "1e4b1ed7b56853ff",
+ "en-oman-family-income-support": "d4ce2fabbe8cd163",
+ "ksa-engineering-salary-scale": "f011d4c9e656fa40",
+ "ksa-officers-salary-scale": "5aee9b5cb7105488",
+ "oman-elderly-benefit": "dc19ac62d0172d54",
+ "oman-family-income-support": "8a0e854dbced8dfc"
 }

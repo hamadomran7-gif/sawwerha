@@ -1,0 +1,87 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-elderly-benefit-calculator",
+  "alternate": "oman-elderly-benefit",
+  "title": "Oman Elderly Benefit 2026 — Eligibility and Income Test Calculator",
+  "h1": "Oman Elderly Benefit Calculator",
+  "description": "Calculate Oman's elderly benefit from the Social Protection Fund: OMR 115 a month from the month you turn 60, the income test from April 2026 (full up to 1,020 and none from 1,250), and the higher of it and the OMR 130 disability benefit, with a table of child, orphan and widow benefits.",
+  "short": "OMR 115 from age 60, stopping at income of 1,250 from April 2026",
+  "lead": "Enter your date of birth and monthly income to see when your benefit starts and how much you get after the income test.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-oman-elderly-benefit.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-family-income-support", "en-oman-pension", "en-oman-job-security", "en-oman-net-salary", "en-oman-end-of-service", "en-oman-public-holidays"],
+  "faq": [
+    {"q": "How much is the elderly benefit in Oman?", "a": "OMR 115 a month for every Omani resident aged 60 or over, paid from the month of turning 60, and it can be combined with pensions and other benefits except the disability benefit."},
+    {"q": "Does income stop the elderly benefit?", "a": "Yes, since April 2026 under royal directives: the full benefit is paid when monthly income is OMR 1,020 or less, it is reduced gradually between 1,020 and 1,250, and nothing is paid from 1,250. The reduction formula has not been published, so the calculator estimates it on a straight line."},
+    {"q": "Will the elderly benefit age rise?", "a": "Yes. The law raises the age by one year every 7 years from 2024 up to 65, then reviews it every 5 years, so the first rise should come no earlier than 2031 on our reading."},
+    {"q": "Can the elderly benefit be combined with the disability or widow benefit?", "a": "With the disability benefit the higher is paid, i.e. OMR 130. With the widow benefit, the elderly benefit is paid instead. It can be combined with pensions and other benefits."},
+    {"q": "What are Oman's other social protection benefits?", "a": "Child benefit of OMR 10 per child under 18 (20 for students in income-support families), disability 130, widows and orphans of both parents 80, orphans of one parent 40, and family income support topping income up to a target."},
+    {"q": "Is the elderly benefit counted as income for family income support?", "a": "The elderly benefit of one person in a household of two or more is not counted; otherwise it is."}
+  ],
+  "sources": [
+    {"t": "Social Protection Law, Royal Decree 52/2023 (Articles 6, 29 and 30)", "u": "https://qanoon.om/p/2023/rd2023052/"},
+    {"t": "Social Protection Fund — old-age benefit", "u": "https://www.spf.gov.om/en/protection_programs/old-age-benefit/"},
+    {"t": "Oman Observer — royal directives on social protection (11/1/2026)", "u": "https://www.omanobserver.om/ampArticle/1182547"},
+    {"t": "Times of Oman — royal directives to support vulnerable groups (11/1/2026)", "u": "https://timesofoman.com/article/167091-royal-directives-aim-to-support-vulnerable-groups"},
+    {"t": "Atheer — royal directives and the elderly income test (11/1/2026)", "u": "https://www.atheer.om/2026/01/11/021200/"},
+    {"t": "Executive Regulation R/7/2023 (orphans, widows and payment)", "u": "https://qanoon.om/p/2023/spf20239901/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the elderly benefit</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="birth">Date of birth</label>
+        <input type="date" id="birth" name="birth" value="1965-03-15">
+      </div>
+      <div class="field">
+        <label for="income">Your monthly income (OMR)</label>
+        <input type="number" id="income" name="income" inputmode="decimal" min="0" step="1" value="600">
+        <span class="hint">Pension, salary and other income. The official definition of income has not been published.</span>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="disabled" name="disabled">
+        <label for="disabled">I qualify for the disability benefit (disability card)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Social protection benefits in Oman</h2>
+{{table:om-benefits lang=en}}
+<p>Amounts come from the Social Protection Law (Royal Decree 52/2023, in force since 1 January 2024) and its regulation, and the January 2026 changes from royal directives as reported in the press; we could not find the legal instrument's text.</p>
+
+<h2>Elderly benefit and the income test</h2>
+<p>The elderly benefit is OMR 115 a month for Omani residents from the month they turn 60. From April 2026 it depends on income: full when monthly income is OMR 1,020 or less, reduced gradually between 1,020 and 1,250, and not paid from 1,250. Neither the reduction formula nor the definition of income has been announced, so the calculator estimates the reduction on a straight line (115 minus half of the income above 1,020), which reaches zero exactly at 1,250.</p>
+
+<h2>Age and combining</h2>
+<ul>
+  <li><strong>Age:</strong> 60, rising one year every 7 years from 2024 up to 65 and then reviewed every 5 years, so the first rise should come no earlier than 2031 on our reading.</li>
+  <li><strong>With the disability benefit:</strong> the higher is paid (130).</li>
+  <li><strong>With the widow benefit:</strong> the elderly benefit is paid instead, since the widow benefit is for women below the elderly age.</li>
+  <li><strong>With pensions:</strong> combined, subject to the income test from April 2026.</li>
+</ul>
+
+<h2>Payment and registration</h2>
+<p>Benefits are paid monthly no later than the end of the month they are due for, with no fixed day announced, for the full month whatever the entitlement date, and up to 3 months retroactively. Register by confirming your details in your personal account on the Fund's platform or with approved service providers. Work out household support with the <a href="{{root}}en/oman-family-income-support-calculator/{{ix}}">family income support calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+An Omani aged 63 with a pension of 600: the full <strong>OMR 115</strong>, for total income of 715.<br>
+An Omani with income of 1,100 after April 2026: between the thresholds, a straight-line estimate of <strong>OMR 75</strong> (unofficial).<br>
+An Omani with income of 1,300: no elderly benefit, but a person with a disability gets the <strong>OMR 130</strong> disability benefit.</p>
+</div>
+</div>

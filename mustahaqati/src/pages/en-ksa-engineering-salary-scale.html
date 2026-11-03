@@ -1,0 +1,128 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-engineering-salary-scale",
+  "alternate": "ksa-engineering-salary-scale",
+  "title": "Saudi Engineering Jobs Salary Scale 2026 — Government Engineer Salary Calculator",
+  "h1": "Saudi Engineering Jobs Salary Scale Calculator",
+  "description": "Calculate a Saudi government engineer's salary from the engineering jobs scale in force since 31 December 2024: basic pay for each category (Engineer, Associate, Professional, Consultant), level and step, the SAR 700 to 1,200 transport allowance, the 3,000 project management allowance, the pension deduction and the SAR 500 allowance from January 2027.",
+  "short": "4 categories and 18 levels from SAR 8,650 to 33,900, transport up to 1,200",
+  "lead": "Choose your category, level and step as on your payslip, and your pension scheme, to see your gross and net salary and your next increment.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-engineering-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-civil-salary-scale", "en-ksa-health-salary-scale", "en-ksa-teachers-salary-scale", "en-ksa-military-salary-scale", "en-ksa-civil-retirement", "en-ksa-salary-date"],
+  "faq": [
+    {"q": "What is a government engineer's salary in Saudi Arabia?", "a": "On the engineering jobs scale a bachelor's holder starts at SAR 8,650 basic (level 1, step 1) plus a 700 transport allowance, for 9,350 in total. A master's holder starts at 9,450 and a PhD at 10,750, and the scale tops out at 33,900 for a consultant engineer."},
+    {"q": "What are the engineering scale's categories and conditions?", "a": "Four categories: Engineer (6 levels), Associate Engineer with 6 years' experience (5 levels), Professional Engineer with 12 years (4 levels) and Consultant Engineer with 20 years (3 levels). Each needs the matching Saudi Council of Engineers classification, and the higher categories also need a 'very good' rating or better in the last two years and the employer's need."},
+    {"q": "How much is the transport allowance for government engineers?", "a": "SAR 700 for Engineers and Associate Engineers, 900 for Professionals and 1,200 for Consultants. A SAR 3,000 monthly project management allowance goes to engineers assigned to manage engineering projects by the minister's decision, for up to 30% of an entity's engineers."},
+    {"q": "How does an engineer move to the next level?", "a": "After using up the four steps of the level and spending at least one fiscal year on the last step, with a 'very good' rating or better in the last two years. The first step of the next level equals the last step plus the new level's increment."},
+    {"q": "When did the engineering salary scale take effect?", "a": "The Council of Ministers approved it on 17 December 2024 (Decision 407), it was published in Umm Al-Qura on 27 December 2024, and it took effect on 31 December 2024 for Saudis in engineering jobs."},
+    {"q": "Does the SAR 500 allowance cover engineers?", "a": "The SAR 500 monthly allowance from 1 January 2027 covers employees on civil service scales, which include the engineering scale, so it most likely applies. It is not added to basic pay, so no pension is deducted from it."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources — Engineering Jobs Regulation", "u": "https://www.hrsd.gov.sa/ar/knowledge-centre/decisions-and-regulations/regulation-and-procedures/%D9%84%D8%A7%D8%A6%D8%AD%D8%A9-%D8%A7%D9%84%D9%88%D8%B8%D8%A7%D8%A6%D9%81-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9"},
+    {"t": "Saudi Electronic University — copy of the Engineering Jobs Regulation (PDF)", "u": "https://seu.edu.sa/media/1116342/%D9%84%D8%A7%D8%A6%D8%AD%D8%A9-%D8%A7%D9%84%D9%88%D8%B8%D8%A7%D8%A6%D9%81-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9.pdf"},
+    {"t": "Alweeam — engineering salary scale table from Umm Al-Qura (27/12/2024)", "u": "https://www.alweeam.com.sa/1114891/2024/%D8%A8%D8%B9%D8%AF-%D9%85%D9%88%D8%A7%D9%81%D9%82%D8%A9-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D9%88%D8%B2%D8%B1%D8%A7%D8%A1-%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84-%D8%B3%D9%84%D9%85-%D8%B1%D9%88%D8%A7/"},
+    {"t": "Al Eqtisadiah — engineering category salaries (27/12/2024)", "u": "https://www.aleqt.com/2024/12/27/article_2754777.html"},
+    {"t": "Saudi Gazette — new salary scale for engineering jobs (17/12/2024)", "u": "https://saudigazette.com.sa/article/647926"},
+    {"t": "SPA — SAR 500 monthly allowance for civilian and military staff (25/10/2026)", "u": "https://www.spa.gov.sa/N2709796"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your engineering scale salary</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="cat">Category</label>
+        <select id="cat" name="cat">
+          <option value="engineer" selected>Engineer</option>
+          <option value="associate">Associate Engineer</option>
+          <option value="professional">Professional Engineer</option>
+          <option value="consultant">Consultant Engineer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="level">Level</label>
+        <select id="level" name="level">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">Step</label>
+        <select id="step" name="step">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="system">Pension scheme</label>
+        <select id="system" name="system">
+          <option value="civil" selected>Civil retirement (appointed before 3 July 2024): 9%</option>
+          <option value="gosiNew">New GOSI system (appointed from 3 July 2024)</option>
+        </select>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="project" name="project">
+        <label for="project">Assigned to manage engineering projects (SAR 3,000 allowance)</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Engineering jobs salary scale</h2>
+<p>Each category has levels of four steps with their own increment, and the first step of the next level equals the last step plus the new level's increment. The equivalent civil rank comes from the table in Article 11 and drives other allowances such as business travel.</p>
+<h3>Engineer</h3>
+{{table:ksa-engineering-scale cat=engineer lang=en}}
+<h3>Associate Engineer</h3>
+{{table:ksa-engineering-scale cat=associate lang=en}}
+<h3>Professional Engineer</h3>
+{{table:ksa-engineering-scale cat=professional lang=en}}
+<h3>Consultant Engineer</h3>
+{{table:ksa-engineering-scale cat=consultant lang=en}}
+<p>The figures come from a table that Alweeam published as text from Umm Al-Qura (issue 5062). Al Eqtisadiah confirms the first step of each category, the structure (four steps per level, and 6, 5, 4 and 3 levels) matches the regulation's text, and every cell is arithmetically consistent. We have not seen the official annex itself, so check your payslip. The article's text mentions a maximum of 34,550, but the table ends at 33,900.</p>
+
+<h2>Appointment, increments and moving up</h2>
+<ul>
+  <li><strong>Appointment:</strong> a bachelor's holder on level 1 step 1 (8,650), a master's on step 3 (9,450) and a PhD on level 2 step 2 (10,750). Probation is one year.</li>
+  <li><strong>Annual increment:</strong> one step each 1 January under civil service rules, with no increment after step 4 until moving to the next level.</li>
+  <li><strong>Next level:</strong> at least one fiscal year on the last step and a 'very good' rating or better in the last two years.</li>
+  <li><strong>Promotion to a higher category:</strong> by experience and Council classification, onto the first step of the new category that gives a raise of at least the previous level's increment, in our reading of an unclear text.</li>
+</ul>
+<p>We found no published rule for placing engineers moved from the general scale on 31 December 2024, so do not convert from your old rank; use the category, level and step on your payslip.</p>
+
+<h2>Allowances</h2>
+<ul>
+  <li><strong>Transport:</strong> 700 for Engineers and Associate Engineers, 900 for Professionals and 1,200 for Consultants.</li>
+  <li><strong>Project management:</strong> SAR 3,000 a month by the minister's decision, for up to 30% of an entity's engineers, not combined with another allowance for the same purpose.</li>
+  <li><strong>SAR 500 from January 2027:</strong> for employees on civil service scales, not added to basic pay.</li>
+  <li><strong>Other allowances:</strong> under the civil service system and the equivalent rank; the regulation has no scarcity or excellence allowance for engineers.</li>
+</ul>
+
+<h2>Deductions</h2>
+<p>9% of basic is deducted for those appointed before 3 July 2024 under civil retirement. Those appointed later under the new GOSI system start at 9%, rising half a point each July to 11% in 2028, so 10% from July 2026. Allowances are not deducted. Estimate your pension with the <a href="{{root}}en/saudi-civil-military-retirement-calculator/{{ix}}">civil retirement calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+New engineer (bachelor's) on the new system: 8,650 + 700 = 9,350, 10% deduction 865, net <strong>SAR 8,485</strong>. In January 2027 with the increment and the 500 allowance: 9,050 + 700 + 500 = 10,250.<br>
+Associate Engineer, level 3 step 2, managing a project, civil retirement: 16,400 + 700 + 3,000 = 20,100, deduction 1,476, net <strong>SAR 18,624</strong>.<br>
+Top of the scale: Consultant, level 3 step 4 = <strong>33,900</strong>, or 35,100 with transport.</p>
+</div>
+</div>

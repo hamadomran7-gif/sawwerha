@@ -3724,6 +3724,194 @@ export default {
           "increment": 360,
           "transport": 700
         }
+      },
+      "officers": {
+        "law": "نظام خدمة الضباط: م52 وم53، وم59 المعدلة بالمرسوم م/32 (5/6/1434هـ)؛ ملحق سلم الرواتب بالمرسوم م/60 (21/9/1431هـ) بعد ضم غلاء المعيشة 15%",
+        "label": "تقديري — جدول متداول غير منشور رسمياً، قد يختلف بضع عشرات من الريالات",
+        "confidence": "medium-low",
+        "lastReview": "2026-11-03",
+        "retirementRate": 0.09,
+        "stateRate": 0.13,
+        "maxDeviation": 55,
+        "liwaCarAllowance": 2000,
+        "order": [
+          "mulazim",
+          "mulazimAwwal",
+          "naqib",
+          "raid",
+          "muqaddam",
+          "aqid",
+          "amid",
+          "liwa"
+        ],
+        "ranks": {
+          "mulazim": {
+            "nameAr": "ملازم",
+            "nameEn": "Second Lieutenant",
+            "steps": [
+              7590,
+              7970,
+              8350,
+              8730,
+              9110,
+              9490,
+              9870,
+              10250,
+              10630,
+              11010,
+              11390,
+              11770,
+              12150,
+              12530,
+              12910
+            ],
+            "transport": 700
+          },
+          "mulazimAwwal": {
+            "nameAr": "ملازم أول",
+            "nameEn": "First Lieutenant",
+            "steps": [
+              8835,
+              9275,
+              9715,
+              10155,
+              10595,
+              11035,
+              11475,
+              11915,
+              12355,
+              12795,
+              13235,
+              13675,
+              14115,
+              14555,
+              14995
+            ],
+            "transport": 700
+          },
+          "naqib": {
+            "nameAr": "نقيب",
+            "nameEn": "Captain",
+            "steps": [
+              10600,
+              11095,
+              11590,
+              12085,
+              12580,
+              13075,
+              13570,
+              13835,
+              14100,
+              14365,
+              14630,
+              14895,
+              15160,
+              15425,
+              15690
+            ],
+            "transport": 700
+          },
+          "raid": {
+            "nameAr": "رائد",
+            "nameEn": "Major",
+            "steps": [
+              13515,
+              13780,
+              14045,
+              14310,
+              14575,
+              14840,
+              15105,
+              15370,
+              15635,
+              15900,
+              16165,
+              16430,
+              16695,
+              16960,
+              17225
+            ],
+            "transport": 900
+          },
+          "muqaddam": {
+            "nameAr": "مقدم",
+            "nameEn": "Lieutenant Colonel",
+            "steps": [
+              14645,
+              15115,
+              15585,
+              16055,
+              16525,
+              16995,
+              17465,
+              17935,
+              18405,
+              18875,
+              19345,
+              19815,
+              20285,
+              20755
+            ],
+            "transport": 900
+          },
+          "aqid": {
+            "nameAr": "عقيد",
+            "nameEn": "Colonel",
+            "steps": [
+              16520,
+              17110,
+              17700,
+              18290,
+              18880,
+              19470,
+              20060,
+              20650,
+              21240,
+              21830,
+              22420,
+              23010,
+              23600
+            ],
+            "transport": 900
+          },
+          "amid": {
+            "nameAr": "عميد",
+            "nameEn": "Brigadier General",
+            "steps": [
+              18805,
+              19455,
+              20105,
+              20755,
+              21405,
+              22055,
+              22705,
+              23355,
+              24005,
+              24655,
+              25305,
+              25955
+            ],
+            "transport": 1200
+          },
+          "liwa": {
+            "nameAr": "لواء",
+            "nameEn": "Major General",
+            "steps": [
+              21390,
+              22120,
+              22850,
+              23580,
+              24310,
+              25040,
+              25770,
+              26500,
+              27230,
+              27960,
+              28690
+            ],
+            "transport": null
+          }
+        }
       }
     },
     "citizenAccount": {
@@ -3750,6 +3938,254 @@ export default {
         "weights": "medium",
         "capRule": "high",
         "incomeCutoffMax": "high"
+      }
+    },
+    "engineeringScale": {
+      "law": "لائحة الوظائف الهندسية (القرار الوزاري 43695 في 29/3/1446هـ) وسلم رواتبها بقرار مجلس الوزراء 407 (أم القرى 5062 في 27/12/2024؛ النفاذ 31/12/2024)",
+      "label": "منقول عن أم القرى عبر الصحافة ومتسق مع اللائحة — ثقة متوسطة إلى عالية",
+      "lastReview": "2026-11-03",
+      "effective": "2024-12-31",
+      "retirementRate": 0.09,
+      "projectAllowance": 3000,
+      "projectMaxShare": 0.3,
+      "entry": {
+        "bachelor": [
+          "engineer",
+          1,
+          1
+        ],
+        "masters": [
+          "engineer",
+          1,
+          3
+        ],
+        "phd": [
+          "engineer",
+          2,
+          2
+        ]
+      },
+      "order": [
+        "engineer",
+        "associate",
+        "professional",
+        "consultant"
+      ],
+      "cats": {
+        "engineer": {
+          "nameAr": "مهندس",
+          "nameEn": "Engineer",
+          "transport": 700,
+          "levels": {
+            "1": {
+              "steps": [
+                8650,
+                9050,
+                9450,
+                9850
+              ],
+              "increment": 400,
+              "civilRank": 7
+            },
+            "2": {
+              "steps": [
+                10300,
+                10750,
+                11200,
+                11650
+              ],
+              "increment": 450,
+              "civilRank": 7
+            },
+            "3": {
+              "steps": [
+                12150,
+                12650,
+                13150,
+                13650
+              ],
+              "increment": 500,
+              "civilRank": 8
+            },
+            "4": {
+              "steps": [
+                14200,
+                14750,
+                15300,
+                15850
+              ],
+              "increment": 550,
+              "civilRank": 8
+            },
+            "5": {
+              "steps": [
+                16400,
+                16950,
+                17500,
+                18050
+              ],
+              "increment": 550,
+              "civilRank": 8
+            },
+            "6": {
+              "steps": [
+                18600,
+                19150,
+                19700,
+                20250
+              ],
+              "increment": 550,
+              "civilRank": 8
+            }
+          }
+        },
+        "associate": {
+          "nameAr": "مهندس مشارك",
+          "nameEn": "Associate Engineer",
+          "transport": 700,
+          "levels": {
+            "1": {
+              "steps": [
+                10700,
+                11300,
+                11900,
+                12500
+              ],
+              "increment": 600,
+              "civilRank": 9
+            },
+            "2": {
+              "steps": [
+                13150,
+                13800,
+                14450,
+                15100
+              ],
+              "increment": 650,
+              "civilRank": 9
+            },
+            "3": {
+              "steps": [
+                15750,
+                16400,
+                17050,
+                17700
+              ],
+              "increment": 650,
+              "civilRank": 10
+            },
+            "4": {
+              "steps": [
+                18400,
+                19100,
+                19800,
+                20500
+              ],
+              "increment": 700,
+              "civilRank": 10
+            },
+            "5": {
+              "steps": [
+                21200,
+                21900,
+                22600,
+                23300
+              ],
+              "increment": 700,
+              "civilRank": 10
+            }
+          }
+        },
+        "professional": {
+          "nameAr": "مهندس محترف",
+          "nameEn": "Professional Engineer",
+          "transport": 900,
+          "levels": {
+            "1": {
+              "steps": [
+                14850,
+                15600,
+                16350,
+                17100
+              ],
+              "increment": 750,
+              "civilRank": 11
+            },
+            "2": {
+              "steps": [
+                17900,
+                18700,
+                19500,
+                20300
+              ],
+              "increment": 800,
+              "civilRank": 12
+            },
+            "3": {
+              "steps": [
+                21150,
+                22000,
+                22850,
+                23700
+              ],
+              "increment": 850,
+              "civilRank": 13
+            },
+            "4": {
+              "steps": [
+                24550,
+                25400,
+                26250,
+                27100
+              ],
+              "increment": 850,
+              "civilRank": 13
+            }
+          }
+        },
+        "consultant": {
+          "nameAr": "مهندس مستشار",
+          "nameEn": "Consultant Engineer",
+          "transport": 1200,
+          "levels": {
+            "1": {
+              "steps": [
+                22650,
+                23600,
+                24550,
+                25500
+              ],
+              "increment": 950,
+              "civilRank": 14
+            },
+            "2": {
+              "steps": [
+                26550,
+                27600,
+                28650,
+                29700
+              ],
+              "increment": 1050,
+              "civilRank": 14
+            },
+            "3": {
+              "steps": [
+                30750,
+                31800,
+                32850,
+                33900
+              ],
+              "increment": 1050,
+              "civilRank": 14
+            }
+          }
+        }
+      },
+      "experience": {
+        "engineer": 0,
+        "associate": 6,
+        "professional": 12,
+        "consultant": 20
       }
     }
   },
@@ -7021,6 +7457,39 @@ export default {
         "jobSecurity": 0.005,
         "employer": 0.11
       }
+    },
+    "socialProtection": {
+      "law": "قانون الحماية الاجتماعية (م.س 52/2023، نافذ 1/1/2024) ولائحته (ر/7/2023) وتعديلها ر/12/2024، والأوامر السامية في 11/1/2026",
+      "lastReview": "2026-11-03",
+      "elderly": {
+        "amount": 115,
+        "age": 60,
+        "incomeTestFrom": "2026-04",
+        "fullMax": 1020,
+        "zeroFrom": 1250,
+        "taperRate": 0.5,
+        "ageRaiseEarliest": "2031-01-01"
+      },
+      "child": {
+        "amount": 10,
+        "maxAge": 18,
+        "student": 20,
+        "studentFrom": "2026-02"
+      },
+      "disability": 130,
+      "orphanWidow": {
+        "widow": 80,
+        "orphanBoth": 80,
+        "orphanOne": 40,
+        "min": 5
+      },
+      "fis": {
+        "base": 115,
+        "minOne": 15,
+        "minTwoPlus": 25,
+        "imputedMale": 115,
+        "imputedFemaleNoChildren": 35
+      }
     }
   },
   "bh": {
@@ -8130,6 +8599,72 @@ export default {
         100
       ],
       "transport": 20
+    },
+    "costOfLiving": {
+      "nameAr": "الدعم المالي للأسر محدودة الدخل (علاوة الغلاء)",
+      "law": "أمر ولي العهد رئيس مجلس الوزراء (31/12/2025) بزيادة الدعم من يناير 2026؛ شروط الخدمة في البوابة الوطنية",
+      "lastReview": "2026-11-03",
+      "effectiveFrom": "2026-01",
+      "ceiling": 1000,
+      "payDay": 15,
+      "brackets": [
+        {
+          "max": 300,
+          "amount": 130,
+          "prev": 110,
+          "old": 100
+        },
+        {
+          "max": 700,
+          "amount": 97,
+          "prev": 77,
+          "old": 70
+        },
+        {
+          "max": 1000,
+          "amount": 75,
+          "prev": 55,
+          "old": 50
+        }
+      ],
+      "beneficiariesMar2026": [
+        44780,
+        59258,
+        34871
+      ],
+      "commercialRegister": {
+        "maxRegisters": 1,
+        "maxBranches": 1,
+        "maxEmployees": 10,
+        "maxTotalWages": 1000
+      },
+      "categories": {
+        "couple": true,
+        "widower": true,
+        "divorced": true,
+        "elderly": true,
+        "socialSecurity": true,
+        "single": false
+      },
+      "socialSecurityMin": {
+        "one": 77,
+        "two": 132,
+        "extra": 28
+      },
+      "disability": {
+        "standard": 100,
+        "severe": 200
+      },
+      "retirees2023": [
+        {
+          "below": 700,
+          "amount": 190
+        },
+        {
+          "below": 1500,
+          "amount": 165
+        }
+      ]
     }
   },
   "zakat": {
