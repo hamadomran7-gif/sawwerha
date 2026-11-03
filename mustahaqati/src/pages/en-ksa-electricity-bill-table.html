@@ -1,0 +1,45 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-electricity-bill-table",
+  "alternate": "ksa-electricity-bill-table",
+  "parent": "en-ksa-electricity-bill",
+  "article": true,
+  "title": "Saudi Electricity Bill Table 2027 — What You Will Pay for Your Monthly kWh",
+  "h1": "Saudi Electricity Bill Table by Consumption",
+  "short": "Your bill from 500 to 10,000 kWh at the current and 2027 tariffs",
+  "description": "A ready-made table of the monthly residential electricity bill in Saudi Arabia from 500 to 10,000 kWh at the current tariff (18 and 30 halalas) and the tariff from 1 January 2027 (21 and 33 halalas plus a SAR 70 fixed fee), including VAT, with the monthly difference.",
+  "lead": "Find your monthly consumption to see your bill before and after the change. For a larger breaker or an exact figure, use the calculator.",
+  "country": "sa",
+  "category": "tools",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "What is the new electricity bill for 1,000 kWh?", "a": "SAR 322 including VAT for a breaker under 100 A: SAR 210 for consumption (21 halalas) and 70 in fixed fees, plus 15% VAT. At the current tariff it was SAR 207, without meter fees."},
+    {"q": "What is the bill for 3,000 kWh at the new tariff?", "a": "SAR 805 including VAT: SAR 630 for consumption and 70 in fixed fees, plus VAT. It was SAR 621 at the current tariff, without meter fees."},
+    {"q": "Does the current tariff in the table include meter fees?", "a": "No, because the meter reading and maintenance fees on the current bill are not published in detail, so the actual difference may be slightly smaller than shown."}
+  ],
+  "sources": [
+    {"t": "Al Watan — details of the new electricity tariff (October 2026, Arabic)", "u": "https://www.alwatan.com.sa/article/1187881"},
+    {"t": "Ajel — fixed fee replaces meter reading charges (25 October 2026, Arabic)", "u": "https://ajel.sa/economy/akkj28rot"}
+  ]
+}
+---
+<div class="article">
+<p>The table is calculated with the same formula as the <a href="{{root}}en/saudi-electricity-bill-calculator/{{ix}}">Saudi electricity bill calculator</a>: 21 halalas per kWh up to 6,000 and 33 halalas above, a fixed fee of SAR 70 for a breaker under 100 A, then 15% VAT.</p>
+
+<h2>Monthly bill by consumption</h2>
+{{table:ksa-electricity-grid lang=en}}
+<p class="muted small">The current tariff (18 halalas up to 6,000 and 30 above) excludes meter fees, which are not published in detail.</p>
+
+<h2>With a 100 to under 200 A breaker</h2>
+{{table:ksa-electricity-grid lang=en amps=150 kwh=1000,2000,4000,6000,8000,12000 caption="Monthly bill including VAT (SAR), fixed fee SAR 80"}}
+
+<h2>Three things the table shows</h2>
+<ol>
+  <li><strong>The increase is 3 halalas per kWh</strong> in both tiers, or SAR 34.50 per 1,000 kWh including VAT.</li>
+  <li><strong>The fixed fee adds SAR 80.50 including VAT</strong> for a breaker under 100 A, replacing the current meter fees.</li>
+  <li><strong>Consumption above 6,000 kWh</strong> is charged at 33 halalas, so cutting it saves the most.</li>
+</ol>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-electricity-bill-table/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

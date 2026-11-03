@@ -151,6 +151,7 @@ function renderPartial(name, params) {
 }
 
 const fmt0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+const fmt2 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const yearsLabel = (y) => {
   const whole = Math.floor(y + 1e-9);
   const months = Math.round((y - whole) * 12);
@@ -326,6 +327,64 @@ const TABLES = {
     );
   },
   /** السعودية: استقالة عادية مقابل استثناء المادة 87 */
+  /** السعودية: فاتورة الكهرباء الشهرية بالتعرفة الجديدة والحالية حسب الاستهلاك (سكني، شاملة الضريبة) */
+  "ksa-electricity-grid"(a) {
+    const en = a.lang === "en";
+    const kwh = listNums(a.kwh, [500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 8000, 10000]);
+    const amps = Number(a.amps || 60);
+    const rows = kwh.map((k) => {
+      const n = calc.ksaElectricityBill({ kwh: k, sector: "residential", amps, tariff: "new" });
+      const o = calc.ksaElectricityBill({ kwh: k, sector: "residential", tariff: "old", fixedOverride: 0 });
+      return [fmt0.format(k), fmt2.format(o.total), fmt2.format(n.total), `+${fmt2.format(n.total - o.total)}`];
+    });
+    return tableWrap(
+      a.caption || (en ? "Monthly bill including 15% VAT (SAR), breaker under 100 A" : "الفاتورة الشهرية شاملة الضريبة 15% (ريال)، قاطع أقل من 100 أمبير"),
+      en ? ["kWh a month", "Current tariff", "2027 tariff", "Difference"] : ["الاستهلاك (ك.و.س)", "التعرفة الحالية", "تعرفة 2027", "الفرق"],
+      rows
+    );
+  },
+  /** السعودية: فاتورة المياه الشهرية بالتعرفة الجديدة والحالية حسب الاستهلاك (سكني، عداد حتى 20 مم، شاملة الضريبة) */
+  "ksa-water-grid"(a) {
+    const en = a.lang === "en";
+    const m3 = listNums(a.m3, [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 80]);
+    const sewer = a.sewer !== "no";
+    const rows = m3.map((q) => {
+      const n = calc.ksaWaterBill({ m3: q, sewer });
+      const o = calc.ksaWaterBill({ m3: q, sewer, tariff: "current" });
+      return [fmt0.format(q), fmt2.format(o.total), fmt2.format(n.total), `+${fmt2.format(n.total - o.total)}`];
+    });
+    return tableWrap(
+      a.caption || (en ? "Monthly bill including 15% VAT (SAR), meter up to 20 mm, connected to sewage" : "الفاتورة الشهرية شاملة الضريبة 15% (ريال)، عداد حتى 20 مم، متصل بالصرف"),
+      en ? ["m³ a month", "Current tariff", "2027 tariff", "Difference"] : ["الاستهلاك (م³)", "التعرفة الحالية", "تعرفة 2027", "الفرق"],
+      rows
+    );
+  },
+  /** السعودية: معاش التأمينات حسب سنوات الاشتراك والأجر (النظام السابق أو الجديد) مع الحد الأدنى */
+  "ksa-pension-grid"(a) {
+    const P = rules.sa.pension;
+    const isNew = a.system === "new";
+    const salaries = listNums(a.salaries, [4000, 6000, 8000, 10000, 15000, 20000, 30000]);
+    const years = listNums(a.years, isNew ? [15, 20, 25, 30, 35, 40] : [10, 15, 20, 25, 30, 35, 40]);
+    const cell = (S, y) => {
+      const m = y * 12;
+      if (isNew) {
+        const N = P.new;
+        const base = Math.min(N.maxPct * S, N.accrualPerYear * S * y);
+        const mm = Math.min(m, N.minPensionFullMonths);
+        const minimum = N.minPensionFull - (N.minPensionFullMonths - mm) * ((N.minPensionFull - N.minPensionFloor) / (N.minPensionFullMonths - N.minPensionFloorMonths));
+        return base < minimum ? `${fmt0.format(minimum)}*` : fmt0.format(base);
+      }
+      const L = P.legacy;
+      const base = Math.min(L.maxPct * S, (S * m) / L.divisorMonths);
+      return base < L.minPension ? `${fmt0.format(L.minPension)}*` : fmt0.format(base);
+    };
+    const rows = years.map((y) => [yearsLabel(y), ...salaries.map((S) => cell(S, y))]);
+    return tableWrap(
+      a.caption || (isNew ? "النظام الجديد (من 3 يوليو 2024) عند سن 65 — ريال شهرياً" : "النظام السابق — ريال شهرياً"),
+      ["مدة الاشتراك", ...salaries.map((S) => `متوسط ${fmt0.format(S)}`)],
+      rows
+    );
+  },
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);

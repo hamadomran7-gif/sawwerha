@@ -1,0 +1,46 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-water-bill-table",
+  "alternate": "ksa-water-bill-table",
+  "parent": "en-ksa-water-bill",
+  "article": true,
+  "title": "Saudi Water Bill Table 2027 — What You Will Pay for Your Monthly Consumption",
+  "h1": "Saudi Water Bill Table by Consumption",
+  "short": "Your bill from 5 to 80 m³ at the current and 2027 tariffs, and the difference",
+  "description": "A ready-made table of the monthly residential water bill in Saudi Arabia from 5 to 80 cubic metres at the current tariff and the tariff from 1 January 2027, including sewage, fixed fees and VAT, with the monthly difference.",
+  "lead": "Find your monthly consumption in the table to see your bill before and after the change. For your exact case (a larger meter, several units or no sewage connection), use the calculator.",
+  "country": "sa",
+  "category": "tools",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "faq": [
+    {"q": "What is the new water bill for 30 m³?", "a": "About SAR 112.13 including VAT for a meter up to 20 mm and a home connected to sewage: SAR 45 for water, 22.50 for sewage and 30 in fixed fees, plus 15% VAT. At the current tariff it was about SAR 28.46, without any meter fee."},
+    {"q": "How much water does a home use a month?", "a": "It depends on household size and habits; a small family often uses between 15 and 30 m³ a month, and the amount is shown on your bill or in the National Water Company app."},
+    {"q": "Why does the bill rise so much for low consumption?", "a": "Because the new tariff adds fixed fees of SAR 30 a month (20 for water and 10 for sewage) for a meter up to 20 mm, and raises the price of the first 15 m³ from 15 halalas to SAR 1.50 including sewage."}
+  ],
+  "sources": [
+    {"t": "SPA — National Water Company announces the new tariff from 1 January 2027 (Arabic)", "u": "https://www.spa.gov.sa/N2709803"},
+    {"t": "Ajel — tiers and fixed fees, 25 October 2026 (Arabic)", "u": "https://ajel.sa/local/1mpq84yte"},
+    {"t": "Saudi Gazette — current water and sewage tariff (April 2016)", "u": "https://saudigazette.com.sa/article/152632"}
+  ]
+}
+---
+<div class="article">
+<p>The table is calculated with the same formula as the <a href="{{root}}en/saudi-water-bill-calculator/{{ix}}">Saudi water bill calculator</a>: progressive tiers, sewage at half the water price, fixed fees of SAR 20 + 10 for a meter up to 20 mm, then 15% VAT.</p>
+
+<h2>Monthly bill by consumption</h2>
+{{table:ksa-water-grid lang=en}}
+<p class="muted small">The current tariff in the table excludes any meter fee on your bill, because its amount is not published.</p>
+
+<h2>If your home is not connected to the sewage network</h2>
+{{table:ksa-water-grid lang=en sewer=no m3=10,20,30,40,60 caption="Monthly bill including VAT (SAR), meter up to 20 mm, no sewage"}}
+
+<h2>Three things the table shows</h2>
+<ol>
+  <li><strong>Fixed fees are most of the bill at low consumption:</strong> at 10 m³ they are SAR 30 of SAR 45 before VAT.</li>
+  <li><strong>Every cubic metre above 45 costs SAR 9 including sewage</strong> before VAT, so cutting use above that level saves the most.</li>
+  <li><strong>The difference grows with consumption,</strong> because the first tiers rose more than the others, while the price above 60 m³ stays the same (SAR 9).</li>
+</ol>
+<p>Prefer Arabic? Use the <a href="{{root}}ksa-water-bill-table/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
