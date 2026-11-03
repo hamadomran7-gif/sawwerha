@@ -1,0 +1,85 @@
+---json
+{
+  "lang": "en",
+  "path": "en/eid-al-adha-2027-countdown",
+  "alternate": "eid-al-adha-countdown",
+  "title": "Eid al-Adha 2027 Countdown — Days Until Arafah, Eid and the GCC Holiday",
+  "h1": "Eid al-Adha 2027 countdown",
+  "description": "Count the days until Eid al-Adha 1448: the Day of Arafah on Saturday 15 May 2027 and Eid on Sunday 16 May by the Umm al-Qura calendar, or a day later depending on moon sighting, with the expected private-sector holiday: 4 days from Arafah in Saudi Arabia, Oman, the UAE and Kuwait, and 3 days in Qatar and Bahrain.",
+  "short": "Live countdown to 10 Dhu al-Hijjah 1448 (16 May 2027 expected), the Day of Arafah and the Eid holiday",
+  "lead": "Shows the days and hours until Eid al-Adha, the Day of Arafah, and the expected private-sector holiday in each country.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-eid-countdown.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-eid-al-fitr-countdown",
+    "en-ramadan-countdown",
+    "en-gcc-public-holidays",
+    "en-ksa-public-holidays",
+    "en-uae-public-holidays",
+    "en-hijri-date-today"
+  ],
+  "faq": [
+    {
+      "q": "When is Eid al-Adha 2027?",
+      "a": "Sunday 16 May 2027 (10 Dhu al-Hijjah 1448) by Umm al-Qura, with the Day of Arafah on Saturday 15 May; both may move a day later with the moon sighting."
+    },
+    {
+      "q": "How long is the Eid al-Adha holiday for the private sector?",
+      "a": "4 days from the Day of Arafah in Saudi Arabia and Oman, Arafah plus 3 days of Eid in the UAE and Kuwait, and 3 days in Qatar and Bahrain, under the labour laws and published decisions."
+    }
+  ],
+  "sources": [
+    {
+      "t": "UAE — Cabinet Resolution 27/2024 on official holidays (Arabic)",
+      "u": "https://uaelegislation.gov.ae/ar/legislations/2595/download"
+    },
+    {
+      "t": "Saudi Arabia — Labour Law Article 112 (English translation, HRDF)",
+      "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"
+    },
+    {
+      "t": "Qatar — text of Labour Law 14/2004 (Al Raya, Arabic)",
+      "u": "https://www.raya.com/2004/05/20/الجزء-الثاني-من-قانون-رقم-14-لسنة-2004-بإصدا"
+    },
+    {
+      "t": "Kuwait — text of Labour Law 6/2010 (Al Anba, Arabic)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "Oman — Labour Law, Royal Decree 53/2023 (Arabic)",
+      "u": "https://qanoon.om/p/2023/l2023053/"
+    },
+    {
+      "t": "Bahrain — Labour Law 36/2012 (Legislation and Legal Opinion Commission, Arabic)",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How many days left?</h2>
+  <form id="calc" data-event="eidAdha" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Expected Eid al-Adha 1448 holiday in the GCC</h2>
+{{table:eid-holidays id=eidAlAdha lang=en}}
+<p>The holidays above are for the private sector and include the Day of Arafah where it is a holiday; each is confirmed by official decision after the Dhu al-Hijjah moon sighting. In Saudi Arabia the private-sector holiday starts on the Day of Arafah. Government holidays are usually longer.</p>
+<p>Working during Eid earns extra pay or a substitute day; see <a href="{{root}}en/gcc-public-holidays/{{ix}}">GCC public holidays</a>. For Eid al-Fitr see the <a href="{{root}}en/eid-al-fitr-2027-countdown/{{ix}}">Eid al-Fitr countdown</a>.</p>
+</div>

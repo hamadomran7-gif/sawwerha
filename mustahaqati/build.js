@@ -512,6 +512,23 @@ const TABLES = {
     });
     return tableWrap(a.caption || "", en ? ["Hijri month", "First day", "Last day", "Length"] : ["الشهر الهجري", "أوله", "آخره", "عدد أيامه"], rows);
   },
+  "eid-holidays"(a) {
+    const en = a.lang === "en";
+    const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];
+    const C = en ? { sa: "Saudi Arabia", ae: "UAE", qa: "Qatar", kw: "Kuwait", om: "Oman", bh: "Bahrain" } : { sa: "السعودية", ae: "الإمارات", qa: "قطر", kw: "الكويت", om: "عُمان", bh: "البحرين" };
+    const df = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+    const D = (iso) => df.format(new Date(`${iso}T00:00:00Z`));
+    const span = (list) => (list.length ? (list.length === 1 ? D(list[0]) : `${D(list[0])} – ${D(list[list.length - 1])}`) : "—");
+    const cnt = (n) => (en ? `${n} ${n === 1 ? "day" : "days"}` : n === 1 ? "يوم واحد" : n === 2 ? "يومان" : n <= 10 ? `${n} أيام` : `${n} يوماً`);
+    const rows = Object.keys(C).map((c) => {
+      const items = (calc.rules[c].holidays?.items || []).filter((it) => ids.includes(it.id));
+      const main = items.flatMap((it) => it.d2027 || []).sort();
+      const alt = items.flatMap((it) => it.alt2027 || it.d2027 || []).sort();
+      const same = alt.join() === main.join();
+      return [C[c], `${span(main)} (${cnt(main.length)})`, same ? (en ? "Same" : "نفسها") : `${span(alt)} (${cnt(alt.length)})`];
+    });
+    return tableWrap(a.caption || "", en ? ["Country", "Expected private-sector holiday", "If the month completes 30 days"] : ["الدولة", "الإجازة المتوقعة للقطاع الخاص", "إن اكتمل الشهر 30 يوماً"], rows);
+  },
   "ksa-pay-dates"(a) {
     const en = a.lang === "en";
     const [fy, fm] = String(a.from || "2026-11").split("-").map(Number);

@@ -304,5 +304,9 @@
  "ksa-citizen-account-date": "b3daffa22c5265ad",
  "ksa-payment-calendar": "a435a370b8a9b937",
  "ksa-salary-date": "485456eeb6b461a0",
- "ksa-social-security-date": "ec6c10d0c74511a6"
+ "ksa-social-security-date": "ec6c10d0c74511a6",
+ "eid-al-adha-countdown": "69e2b427ce9adcda",
+ "eid-al-fitr-countdown": "3217c967f7d42165",
+ "en-eid-al-adha-countdown": "f6ea88228dce8196",
+ "en-eid-al-fitr-countdown": "c417d0b51d0b9fef"
 }
