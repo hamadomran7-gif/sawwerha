@@ -1,0 +1,106 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-public-holidays",
+  "alternate": "qatar-public-holidays",
+  "title": "Qatar Public Holidays 2026 and 2027 — National Day, Eids and Holiday Work Pay",
+  "h1": "Qatar Public Holidays and Holiday Work Pay",
+  "description": "Private-sector public holidays in Qatar under Article 78 of the Labour Law: 3 working days for each Eid, one day for National Day on 18 December, and 3 days set by the employer, with a calculator for working on a holiday: basic pay + 25%, or + 50% at night.",
+  "short": "3 working days per Eid, National Day on 18 December; holiday work pay: basic + 25%",
+  "lead": "The next holiday is shown first; then calculate what you are owed if you work on a holiday.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-overtime",
+    "en-qatar-leave",
+    "en-qatar-notice-period",
+    "en-qatar-overstay-fine"
+  ],
+  "faq": [
+    {
+      "q": "How many public holidays does the private sector get in Qatar?",
+      "a": "10 working days a year: 3 for Eid al-Fitr, 3 for Eid al-Adha, one for National Day and 3 set by the employer (Article 78). The Ministry of Labour also declared National Sport Day a private-sector holiday in 2026."
+    },
+    {
+      "q": "When is Qatar National Day in 2026?",
+      "a": "Friday 18 December 2026. Because Article 78 counts holidays as working days, another working day may be given instead; the Ministry of Labour usually announces this in mid-December."
+    },
+    {
+      "q": "How much is pay for working on a public holiday in Qatar?",
+      "a": "Article 74 applies: the basic hourly wage + at least 25%, and + 50% for hours between 9 pm and 3 am except for shift workers, with no substitute day in the text. Example: basic QR 6,000 and 8 hours = QR 250."
+    },
+    {
+      "q": "How long are Eid holidays for the government in Qatar?",
+      "a": "Eid al-Fitr from 28 Ramadan to the end of 4 Shawwal, and Eid al-Adha from 9 to 13 Dhu al-Hijjah, with a working day between two holidays added, under the Cabinet decision published in 2025."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Al Raya — text of Labour Law 14/2004 (Article 78, Arabic)",
+      "u": "https://www.raya.com/2004/05/20/الجزء-الثاني-من-قانون-رقم-14-لسنة-2004-بإصدا"
+    },
+    {
+      "t": "The Peninsula — National Day holiday for the private sector (16/12/2025)",
+      "u": "https://s.thepeninsula.qa/article/16/12/2025/labour-ministry-announces-national-day-holiday-for-private-sector"
+    },
+    {
+      "t": "The Peninsula — Eid al-Fitr 2026 holiday for the private sector",
+      "u": "https://thepeninsulaqatar.com/article/15/03/2026/labour-ministry-announces-three-day-eid-al-fitr-holiday-for-private-sector"
+    },
+    {
+      "t": "Qatar Tribune — National Sport Day a private-sector holiday (9/2/2026)",
+      "u": "https://www.qatar-tribune.com/article/218630/latest-news/labour-ministry-declares-national-sport-day-an-official-holiday"
+    },
+    {
+      "t": "Gulf Times — official holidays for the government (19/5/2025)",
+      "u": "https://www.gulf-times.com/article/704849/qatar/list-of-official-holidays-in-qatar-approved"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">Pay for working on a public holiday</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (QR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000">
+      </div>
+      <div class="field">
+        <label for="days">Holiday days worked</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+      <div class="field">
+        <label for="hours">Hours worked per day</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="0" step="1" value="8">
+      </div>
+      <div class="field">
+        <label for="nightHours">Of which between 9 pm and 3 am</label>
+        <input type="number" id="nightHours" name="nightHours" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Public holidays in Qatar: 2026 and 2027</h2>
+{{table:holidays country=qa lang=en}}
+<h2>Pay for working on a holiday</h2>
+<p>A worker who works on a public holiday is covered by Article 74 (Article 78): <strong>the basic hourly wage plus at least 25%</strong>, and 50% for hours between 9 pm and 3 am except for shift workers, on top of salary. The law provides no substitute day. We calculate the hourly wage as basic ÷ 30 ÷ 8.</p>
+<div class="example"><p><strong>Example:</strong> basic QR 6,000 (QR 25 an hour), working 8 hours on Eid: 8 × 25 × 1.25 = <strong>QR 250</strong>. If 4 of those hours are between 9 pm and 3 am: 150 + 125 = 275.</p></div>
+<h2>Holidays that fall on a Friday</h2>
+<p>There is no express rule, but Article 78 counts holidays as working days, so a Friday inside an Eid most likely does not count towards the three days. The employer sets its own three days, which may include National Sport Day.</p>
+<h2>Government sector</h2>
+<p>The government Eid al-Fitr holiday runs from 28 Ramadan to the end of 4 Shawwal, Eid al-Adha from 9 to 13 Dhu al-Hijjah, National Day on 18 December, and National Sport Day on the second Tuesday of February. The original text of Article 78 says Independence Day; the ministry gives the private sector 18 December.</p>
+<p class="muted small">Eid dates are expected and may move by a day depending on the moon sighting; the Ministry of Labour announces the private-sector holiday before each Eid.</p>
+</div>

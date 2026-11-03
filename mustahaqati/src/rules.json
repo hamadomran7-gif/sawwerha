@@ -495,6 +495,138 @@
           "permit"
         ]
       }
+    },
+    "holidays": {
+      "law": "المرسوم بقانون اتحادي 33/2021 (م28) وقرار مجلس الوزراء 27/2024 بشأن العطلات الرسمية (نافذ 1/1/2025)",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "newYear",
+          "ar": "رأس السنة الميلادية",
+          "en": "New Year's Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-01"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr",
+          "days": 3,
+          "daysMax": 4,
+          "d2026": [],
+          "d2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11"
+          ],
+          "alt2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-12"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "arafat",
+          "ar": "يوم عرفة",
+          "en": "Arafat Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-05-15"
+          ],
+          "alt2027": [
+            "2027-05-16"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "hijriNewYear",
+          "ar": "رأس السنة الهجرية",
+          "en": "Islamic New Year",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-06-06"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "mawlid",
+          "ar": "المولد النبوي",
+          "en": "Prophet's Birthday",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-08-14"
+          ],
+          "alt2027": [
+            "2027-08-15"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "عيد الاتحاد (اليوم الوطني)",
+          "en": "Eid Al Etihad (National Day)",
+          "days": 2,
+          "d2026": [
+            "2026-12-02",
+            "2026-12-03"
+          ],
+          "d2027": [
+            "2027-12-02",
+            "2027-12-03"
+          ],
+          "hijri": 0,
+          "official2026": 1,
+          "official2027": 1
+        }
+      ],
+      "workPay": {
+        "multiplier": 1.5,
+        "substituteDay": 1,
+        "substituteMode": 1,
+        "wageBasis": 3,
+        "premiumOnBasic": 0.5,
+        "mohreGuideTotalMultiplier": 2.5,
+        "weekendOverlapCompDay": 0
+      }
     }
   },
   "sa": {
@@ -1874,6 +2006,87 @@
       "abolishedMonths": 2,
       "leaveDaysPerYear": 36,
       "ticketPersons": 4
+    },
+    "holidays": {
+      "law": "نظام العمل م107 وم112، واللائحة التنفيذية م24 وتعديل 2022 (يوم التأسيس)",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "foundingDay",
+          "ar": "يوم التأسيس",
+          "en": "Founding Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-02-22"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr",
+          "days": 4,
+          "d2026": [],
+          "d2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-12"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha (from Arafat Day)",
+          "days": 4,
+          "d2026": [],
+          "d2027": [
+            "2027-05-15",
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "اليوم الوطني",
+          "en": "National Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-09-23"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        }
+      ],
+      "workPay": {
+        "multiplier": 1.5,
+        "substituteDay": 0,
+        "wageBasis": 3,
+        "premiumOnBasic": 0.5,
+        "hourlyDivisor": 240,
+        "compLeaveInsteadWithConsent": 1,
+        "compLeaveHoursPerHour": 1.5,
+        "weekendOverlapCompDay": 1,
+        "nationalOrFoundingDayInsideEidComp": 0
+      }
     }
   },
   "gcc": {
@@ -2035,6 +2248,91 @@
           "cap": 6000
         }
       }
+    },
+    "holidays": {
+      "law": "القانون 14/2004 م74 وم78، وإعلانات وزارة العمل",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "sportDay",
+          "ar": "اليوم الرياضي للدولة",
+          "en": "National Sport Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-02-09"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11"
+          ],
+          "alt2027": [
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-13"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "اليوم الوطني",
+          "en": "National Day",
+          "days": 1,
+          "d2026": [
+            "2026-12-18"
+          ],
+          "d2027": [
+            "2027-12-18"
+          ],
+          "hijri": 0,
+          "official2026": 1,
+          "official2027": 1
+        }
+      ],
+      "workPay": {
+        "multiplier": 1.25,
+        "nightMultiplier": 1.5,
+        "nightFromHour": 21,
+        "nightToHour": 3,
+        "substituteDay": 0,
+        "wageBasis": 1,
+        "hourlyDivisor": 240,
+        "weekendOverlapCompDay": -1
+      },
+      "employerSetDays": 3
     }
   },
   "kw": {
@@ -2275,6 +2573,164 @@
       },
       "departureNoticePerMonth": 10,
       "measuresFrom": "2026-02-28"
+    },
+    "holidays": {
+      "law": "القانون 6/2010 م68",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "newYear",
+          "ar": "رأس السنة الميلادية",
+          "en": "New Year's Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-01"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "israMiraj",
+          "ar": "الإسراء والمعراج",
+          "en": "Isra and Mi'raj",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-05",
+            "2027-12-25"
+          ],
+          "alt2027": [
+            "2027-01-06",
+            "2027-12-26"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "اليوم الوطني",
+          "en": "National Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-02-25"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "liberationDay",
+          "ar": "يوم التحرير",
+          "en": "Liberation Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-02-26"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11"
+          ],
+          "alt2027": [
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-12"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "arafat",
+          "ar": "وقفة عرفة",
+          "en": "Arafat Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-05-15"
+          ],
+          "alt2027": [
+            "2027-05-16"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "hijriNewYear",
+          "ar": "رأس السنة الهجرية",
+          "en": "Islamic New Year",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-06-06"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "mawlid",
+          "ar": "المولد النبوي",
+          "en": "Prophet's Birthday",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-08-14"
+          ],
+          "alt2027": [
+            "2027-08-15"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        }
+      ],
+      "workPay": {
+        "multiplier": 2,
+        "multiplierAlt": 1,
+        "substituteDay": 1,
+        "substituteMode": 3,
+        "wageBasis": 2,
+        "dailyDivisor": 26,
+        "dailyDivisorAlt": 30,
+        "weekendOverlapCompDay": -1
+      }
     }
   },
   "om": {
@@ -2398,6 +2854,145 @@
       "basis": "total",
       "jobSearchHoursWeek": 10,
       "daysPerMonth": 30
+    },
+    "holidays": {
+      "law": "قانون العمل (م.س 53/2023) م71 وم72 وم79، والمرسوم السلطاني 88/2022 المعدل بالمرسوم 15/2025",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "accessionDay",
+          "ar": "يوم تولي السلطان مقاليد الحكم",
+          "en": "Accession Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-11"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "israMiraj",
+          "ar": "الإسراء والمعراج",
+          "en": "Isra and Mi'raj",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-05",
+            "2027-12-25"
+          ],
+          "alt2027": [
+            "2027-01-06",
+            "2027-12-26"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr (29 Ramadan to 3 Shawwal)",
+          "days": 4,
+          "daysMax": 5,
+          "d2026": [],
+          "d2027": [
+            "2027-03-08",
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11"
+          ],
+          "alt2027": [
+            "2027-03-08",
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-12"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha (9 to 12 Dhu al-Hijjah)",
+          "days": 4,
+          "d2026": [],
+          "d2027": [
+            "2027-05-15",
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "hijriNewYear",
+          "ar": "رأس السنة الهجرية",
+          "en": "Islamic New Year",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-06-06"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "mawlid",
+          "ar": "المولد النبوي",
+          "en": "Prophet's Birthday",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-08-14"
+          ],
+          "alt2027": [
+            "2027-08-15"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "العيد الوطني",
+          "en": "National Day",
+          "days": 2,
+          "d2026": [
+            "2026-11-25",
+            "2026-11-26"
+          ],
+          "d2027": [
+            "2027-11-20",
+            "2027-11-21"
+          ],
+          "hijri": 0,
+          "official2026": 1,
+          "official2027": 0
+        }
+      ],
+      "workPay": {
+        "multiplier": 2,
+        "multiplierAlt": 1,
+        "multiplierNoConsent": 3,
+        "substituteDay": 1,
+        "substituteMode": 1,
+        "compDaysPerDayNoConsent": 2,
+        "wageBasis": 1,
+        "weekendOverlapCompDay": 1
+      }
     }
   },
   "bh": {
@@ -2512,6 +3107,146 @@
       "basis": "basicSocial",
       "jobSearchDaysWeek": 1,
       "daysPerMonth": 30
+    },
+    "holidays": {
+      "law": "القانون 36/2012 م64، وقرار مجلس الوزراء 1/2013 بشأن الإجازات الرسمية للقطاع الأهلي",
+      "lastReview": "2026-11-03",
+      "items": [
+        {
+          "id": "newYear",
+          "ar": "رأس السنة الميلادية",
+          "en": "New Year's Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-01-01"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "eidAlFitr",
+          "ar": "عيد الفطر",
+          "en": "Eid al-Fitr",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-03-09",
+            "2027-03-10",
+            "2027-03-11"
+          ],
+          "alt2027": [
+            "2027-03-10",
+            "2027-03-11",
+            "2027-03-12"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "labourDay",
+          "ar": "عيد العمال",
+          "en": "Labour Day",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-05-01"
+          ],
+          "hijri": 0,
+          "official2026": 0,
+          "official2027": 1
+        },
+        {
+          "id": "eidAlAdha",
+          "ar": "عيد الأضحى",
+          "en": "Eid al-Adha",
+          "days": 3,
+          "d2026": [],
+          "d2027": [
+            "2027-05-16",
+            "2027-05-17",
+            "2027-05-18"
+          ],
+          "alt2027": [
+            "2027-05-17",
+            "2027-05-18",
+            "2027-05-19"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "hijriNewYear",
+          "ar": "رأس السنة الهجرية",
+          "en": "Islamic New Year",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-06-06"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "ashura",
+          "ar": "تاسوعاء وعاشوراء",
+          "en": "Ashura (9-10 Muharram)",
+          "days": 2,
+          "d2026": [],
+          "d2027": [
+            "2027-06-14",
+            "2027-06-15"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "mawlid",
+          "ar": "المولد النبوي",
+          "en": "Prophet's Birthday",
+          "days": 1,
+          "d2026": [],
+          "d2027": [
+            "2027-08-14"
+          ],
+          "alt2027": [
+            "2027-08-15"
+          ],
+          "hijri": 1,
+          "official2026": 0,
+          "official2027": 0
+        },
+        {
+          "id": "nationalDay",
+          "ar": "العيد الوطني وعيد الجلوس",
+          "en": "National Day and Accession Day",
+          "days": 2,
+          "d2026": [
+            "2026-12-16",
+            "2026-12-17"
+          ],
+          "d2027": [
+            "2027-12-16",
+            "2027-12-17"
+          ],
+          "hijri": 0,
+          "official2026": 1,
+          "official2027": 1
+        }
+      ],
+      "workPay": {
+        "multiplier": 2.5,
+        "multiplierAlt": 1.5,
+        "substituteDay": 1,
+        "substituteMode": 2,
+        "wageBasis": 2,
+        "weekendOverlapCompDay": 1
+      }
     }
   },
   "zakat": {

@@ -47,6 +47,9 @@ import {
   ksaResidencyFine,
   ksaGovLeaveComp,
   ksaGovContractorAward,
+  upcomingHolidays,
+  holidayWorkPay,
+  dateRuns,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1351,4 +1354,27 @@ test("موظفو الدولة في السعودية: تعويض الإجازات
   assert.equal(ksaGovContractorAward({ salary: 10000, years: 5, months: 8, reason: "end" }).award, 25000);
   assert.equal(ksaGovContractorAward({ salary: 10000, years: 9, reason: "disciplinary" }).award, 0);
   assert.equal(ksaGovContractorAward({ salary: 10000, years: 4, reason: "abolished", remainingMonths: 8 }).compensation, 20000);
+});
+
+test("العطل الرسمية: المواعيد القادمة وأجر العمل فيها", () => {
+  assert.deepEqual(dateRuns(["2027-01-05", "2027-12-25"]).map((x) => x.days), [1, 1]);
+  assert.deepEqual(dateRuns(["2026-12-03", "2026-12-02"]), [{ start: "2026-12-02", end: "2026-12-03", days: 2 }]);
+  const ae = upcomingHolidays({ country: "ae", from: "2026-11-03" });
+  assert.equal(ae[0].id, "nationalDay"); assert.equal(ae[0].daysUntil, 29); assert.equal(ae[0].days, 2);
+  const om = upcomingHolidays({ country: "om", from: "2026-11-03" });
+  assert.equal(om[0].start, "2026-11-25");
+  assert.equal(upcomingHolidays({ country: "sa", from: "2026-11-03" })[0].id, "foundingDay");
+  const kwIsra = upcomingHolidays({ country: "kw", from: "2026-11-03" }).filter((x) => x.id === "israMiraj");
+  assert.equal(kwIsra.length, 2);
+  // أمثلة البحث: أساسي 6,000 وشامل 8,000
+  assert.equal(holidayWorkPay({ country: "ae", basic: 6000, total: 8000 }).total, 366.67);
+  assert.equal(holidayWorkPay({ country: "sa", basic: 6000, total: 8000, hours: 8 }).total, 366.67);
+  assert.equal(holidayWorkPay({ country: "qa", basic: 6000, hours: 8 }).total, 250);
+  assert.equal(holidayWorkPay({ country: "qa", basic: 6000, hours: 8, nightHours: 4 }).total, 275);
+  const kw = holidayWorkPay({ country: "kw", total: 8000 });
+  assert.equal(kw.total, 615.38); assert.equal(kw.totalMin, 307.69); assert.equal(kw.total30, 533.33);
+  assert.equal(holidayWorkPay({ country: "om", basic: 6000, total: 8000 }).total, 400);
+  assert.equal(holidayWorkPay({ country: "om", basic: 6000, total: 8000, consent: false }).total, 600);
+  const bh = holidayWorkPay({ country: "bh", total: 8000 });
+  assert.equal(bh.total, 666.67); assert.equal(bh.totalMin, 400);
 });

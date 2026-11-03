@@ -2598,6 +2598,85 @@ export function ksaGovContractorAward({ salary = 0, years = 0, months = 0, reaso
 }
 
 /* ------------------------------------------------------------------ */
+/* العطل الرسمية في الخليج: المواعيد القادمة وأجر العمل فيها            */
+/* ------------------------------------------------------------------ */
+
+/** يقسم قائمة تواريخ ISO إلى فترات متصلة: [{start, end, days}] */
+export function dateRuns(dates = []) {
+  const sorted = [...dates].sort();
+  const runs = [];
+  for (const d of sorted) {
+    const last = runs[runs.length - 1];
+    if (last && dayDiff(utcDay(last.end), utcDay(d)) === 1) { last.end = d; last.days++; }
+    else runs.push({ start: d, end: d, days: 1 });
+  }
+  return runs;
+}
+
+/** العطل القادمة من تاريخ معين (افتراضياً اليوم)، مرتبة، مع عدد الأيام المتبقية. */
+export function upcomingHolidays({ country = "ae", from = new Date() }) {
+  const H = rules[country] && rules[country].holidays;
+  if (!H) return [];
+  const today = utcDay(from);
+  const out = [];
+  for (const it of H.items) {
+    for (const [year, list] of [[2026, it.d2026], [2027, it.d2027]]) {
+      for (const run of dateRuns(list || [])) {
+        if (utcDay(run.end) < today) continue;
+        const alt = year === 2027 && it.alt2027 ? dateRuns(it.alt2027).find((x) => Math.abs(dayDiff(utcDay(x.start), utcDay(run.start))) <= 3) : null;
+        out.push({ id: it.id, ar: it.ar, en: it.en, start: run.start, end: run.end, days: run.days, alt: alt && (alt.start !== run.start || alt.end !== run.end) ? alt : null, official: year === 2026 ? !!it.official2026 : !!it.official2027, hijri: !!it.hijri, daysUntil: Math.max(0, dayDiff(today, utcDay(run.start))), ongoing: utcDay(run.start) <= today });
+      }
+    }
+  }
+  return out.sort((a, b) => a.start.localeCompare(b.start));
+}
+
+/**
+ * أجر العمل يوم العطلة الرسمية فوق الراتب الشهري، بحسب الدولة:
+ * ae: أجر اليوم (الشامل ÷ 30) + 50% من الأساسي اليومي، أو يوم راحة بديل.
+ * sa: كل ساعة = الفعلي ÷ 240 + 50% × الأساسي ÷ 240.
+ * qa: الأساسي ÷ 240 × 1.25 (× 1.5 بين 9 مساءً و3 صباحاً).
+ * kw: أجر مضاعف (2 × الشامل ÷ 26) ومعه يوم بديل؛ والقراءة الدنيا 1×.
+ * om: بموافقة العامل أجر اليوم + 100% من الأساسي اليومي (2 × الأساسي ÷ 30)، ودونها 3×.
+ * bh: أجر اليوم + 150% (2.5 × الشامل ÷ 30)، أو يوم بديل باختيار العامل؛ والقراءة الدنيا 1.5×.
+ */
+export function holidayWorkPay({ country = "ae", basic = 0, total = 0, days = 1, hours = 8, nightHours = 0, consent = true }) {
+  const W = rules[country].holidays.workPay;
+  const b = Math.max(0, Number(basic) || 0);
+  const t = Math.max(b, Number(total) || 0) || b;
+  const d = Math.max(0, Number(days) || 0);
+  const h = Math.max(0, Math.min(24, Number(hours) || 0));
+  const n = Math.max(0, Math.min(h, Number(nightHours) || 0));
+  if (country === "ae") {
+    const dayWage = t / 30, premium = W.premiumOnBasic * b / 30;
+    return { country, perDay: r2(dayWage + premium), dayWage: r2(dayWage), premium: r2(premium), total: r2(d * (dayWage + premium)), substituteDays: d };
+  }
+  if (country === "sa") {
+    const hourly = t / W.hourlyDivisor + W.premiumOnBasic * b / W.hourlyDivisor;
+    return { country, hourly: r2(hourly), actualHourly: r2(t / W.hourlyDivisor), premiumHourly: r2(W.premiumOnBasic * b / W.hourlyDivisor), hours: d * h, total: r2(d * h * hourly), compLeaveHours: d * h * W.compLeaveHoursPerHour };
+  }
+  if (country === "qa") {
+    const hb = b / W.hourlyDivisor;
+    const dayPart = (h - n) * hb * W.multiplier, nightPart = n * hb * W.nightMultiplier;
+    return { country, hourlyBasic: r2(hb), dayHours: d * (h - n), nightHours: d * n, total: r2(d * (dayPart + nightPart)) };
+  }
+  if (country === "kw") {
+    const daily = t / W.dailyDivisor, dailyAlt = t / W.dailyDivisorAlt;
+    return { country, daily: r2(daily), total: r2(d * W.multiplier * daily), totalMin: r2(d * W.multiplierAlt * daily), total30: r2(d * W.multiplier * dailyAlt), substituteDays: d };
+  }
+  if (country === "om") {
+    const dailyBasic = b / 30;
+    const mult = consent ? W.multiplier : W.multiplierNoConsent;
+    return { country, dailyBasic: r2(dailyBasic), consent, total: r2(d * mult * dailyBasic), totalGrossDay: consent ? r2(d * (t / 30 + dailyBasic)) : null, compDays: consent ? d : d * W.compDaysPerDayNoConsent };
+  }
+  if (country === "bh") {
+    const daily = t / 30;
+    return { country, daily: r2(daily), total: r2(d * W.multiplier * daily), totalMin: r2(d * W.multiplierAlt * daily), substituteDays: d };
+  }
+  return null;
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

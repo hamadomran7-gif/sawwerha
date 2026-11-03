@@ -1,0 +1,90 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-public-holidays",
+  "alternate": "kuwait-public-holidays",
+  "title": "Kuwait Public Holidays 2027 — 13 Days Under Article 68 and Holiday Work Pay",
+  "h1": "Kuwait Public Holidays and Holiday Work Pay",
+  "description": "Private-sector public holidays in Kuwait under Article 68 of Labour Law 6/2010: 13 days including both Eids, National Day, Liberation Day and Isra and Mi'raj, the expected 2027 dates, and a calculator for working on a holiday: double pay plus a substitute day.",
+  "short": "13 days under Article 68, Isra and Mi'raj twice in 2027; holiday work: double pay and a day off",
+  "lead": "The next holiday is shown first; then calculate what you are owed if you work on a holiday.",
+  "country": "kw",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-overtime",
+    "en-kuwait-leave",
+    "en-kuwait-notice-period",
+    "en-kuwait-residency-fine"
+  ],
+  "faq": [
+    {
+      "q": "How many public holidays are there in Kuwait?",
+      "a": "13 paid days for the private sector (Article 68): the Islamic New Year, Isra and Mi'raj, Eid al-Fitr (3 days), Arafat Day, Eid al-Adha (3 days), the Prophet's Birthday, National Day on 25 February, Liberation Day on 26 February and New Year's Day."
+    },
+    {
+      "q": "How much is pay for working on a public holiday in Kuwait?",
+      "a": "Double pay for the day plus a substitute day (Article 68). We calculate 2 × the day's wage on top of salary (total ÷ 26); the minimum reading is one day's wage on top of salary. Example: total KD 800: 2 × 30.77 = KD 61.54 plus a day off."
+    },
+    {
+      "q": "Why is Isra and Mi'raj a holiday twice in 2027?",
+      "a": "Because 27 Rajab falls twice in calendar year 2027: around 5 January (1448H) and around 25 December (1449H), so private-sector holidays in 2027 total 14 days."
+    },
+    {
+      "q": "Does the private sector get the extra rest days the government gets?",
+      "a": "The law does not provide for them; rest days linking a holiday to the weekend are Cabinet decisions for the government sector."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Al Anba — text of Labour Law 6/2010 (Article 68, Arabic)",
+      "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"
+    },
+    {
+      "t": "Kuwait Times — weekends, holidays and overtime: double pay and a day off",
+      "u": "https://kuwaittimes.com/weekends-holidays-and-overtime/"
+    },
+    {
+      "t": "Kuwait Times — are you getting paid on public holidays? (9/8/2021)",
+      "u": "https://kuwaittimes.com/are-you-getting-paid-on-public-holidays/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">Pay for working on a public holiday</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="total">Monthly total salary (KD)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="1" value="800">
+      </div>
+      <div class="field">
+        <label for="days">Holiday days worked</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Public holidays in Kuwait: 2026 and 2027</h2>
+{{table:holidays country=kw lang=en}}
+<h2>Pay for working on a holiday</h2>
+<p>If the work requires an employee to work on one of these days, they are entitled to <strong>double pay for the day plus a substitute day</strong> (Article 68). We calculate the day's wage as total pay ÷ 26 and the amount owed as twice that on top of salary, as published legal columns read it. Another reading treats "double" as including the holiday pay already in salary, so the extra would be one day's wage.</p>
+<div class="example"><p><strong>Example:</strong> total salary KD 800 and one working day on Eid: 800 ÷ 26 = 30.77, so you are owed <strong>KD 61.54</strong> plus a day off. On the minimum reading it is 30.77, and dividing salary by 30 gives 53.33.</p></div>
+<h2>Holidays that fall on the rest day</h2>
+<p>The law gives the private sector no day in lieu when a holiday falls on the weekly rest day. The Cabinet sets linking rest days for the government sector for each occasion, and they do not apply to the private sector by law.</p>
+<h2>2027 holidays</h2>
+<p>No private-sector holidays remain in 2026. In 2027 Isra and Mi'raj comes twice (around 5 January and 25 December), and National Day and Liberation Day fall on Thursday and Friday 25–26 February.</p>
+<p class="muted small">Hijri dates are expected by the Umm al-Qura calendar and may move by a day; the Cabinet announces holidays before each occasion.</p>
+</div>

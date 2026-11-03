@@ -235,5 +235,17 @@
  "ksa-residency-fines": "0db52d23b1e6d5f3",
  "kuwait-residency-fine": "c3a53a935d6dbc7c",
  "qatar-overstay-fine": "ccf7ed0e5ad06c99",
- "uae-overstay-fine": "722f216ba5bc093f"
+ "uae-overstay-fine": "722f216ba5bc093f",
+ "bahrain-public-holidays": "339839689d9b4bdf",
+ "en-bahrain-public-holidays": "c80f7f6c89ef7467",
+ "en-ksa-public-holidays": "277083f20091b35c",
+ "en-kuwait-public-holidays": "f9a4f84bd742d497",
+ "en-oman-public-holidays": "c11b20e475cc2d6f",
+ "en-qatar-public-holidays": "0bbe268eacc24bf6",
+ "en-uae-public-holidays": "29ef888dca4c3e02",
+ "ksa-public-holidays": "2b272dd3960e1ea7",
+ "kuwait-public-holidays": "8b628c00e6a3c376",
+ "oman-public-holidays": "9ee26c72a5e5a6f7",
+ "qatar-public-holidays": "17d9faf445969f10",
+ "uae-public-holidays": "5fba62d16e51570b"
 }

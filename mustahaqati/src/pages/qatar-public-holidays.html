@@ -1,0 +1,103 @@
+---json
+{
+  "title": "العطل الرسمية في قطر 2026 و2027 — اليوم الوطني والعيدان وأجر العمل في العطلة",
+  "h1": "العطل الرسمية في قطر وأجر العمل فيها",
+  "description": "العطل الرسمية للقطاع الخاص في قطر بحسب المادة 78 من قانون العمل: 3 أيام عمل لكل عيد، ويوم لليوم الوطني 18 ديسمبر، و3 أيام يحددها صاحب العمل، مع حاسبة أجر العمل في العطلة: الأساسي + 25%، و50% ليلاً.",
+  "short": "3 أيام عمل لكل عيد، واليوم الوطني 18 ديسمبر، وأجر العمل في العطلة: الأساسي + 25%",
+  "lead": "تظهر العطلة القادمة أولاً، ثم احسب ما تستحقه إن عملت يوم العطلة.",
+  "country": "qa",
+  "category": "leave",
+  "tool": true,
+  "script": "gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-overtime",
+    "qatar-leave",
+    "qatar-notice-period",
+    "qatar-overstay-fine"
+  ],
+  "faq": [
+    {
+      "q": "كم عطلة القطاع الخاص الرسمية في قطر؟",
+      "a": "10 أيام عمل في السنة: 3 لعيد الفطر، و3 لعيد الأضحى، ويوم لليوم الوطني، و3 يحدد مواعيدها صاحب العمل (المادة 78). وأعلنت وزارة العمل اليوم الرياضي عطلة للقطاع الخاص في 2026."
+    },
+    {
+      "q": "متى اليوم الوطني 2026 في قطر؟",
+      "a": "الجمعة 18 ديسمبر 2026. ولأن المادة 78 تعدّ العطل «أيام عمل» فقد يُستحق يوم عمل بدله؛ وتعلن وزارة العمل ذلك عادة في منتصف ديسمبر."
+    },
+    {
+      "q": "كم أجر العمل يوم العطلة في قطر؟",
+      "a": "تُطبق المادة 74: أجر الساعة الأساسي + 25% على الأقل، و+50% للساعات بين 9 مساءً و3 صباحاً عدا عمال المناوبة، ولا يوم بديل في النص. مثال: أساسي 6,000 و8 ساعات = 250 ريالاً."
+    },
+    {
+      "q": "كم عطلة العيد للحكومة في قطر؟",
+      "a": "الفطر من 28 رمضان إلى نهاية 4 شوال، والأضحى من 9 إلى 13 ذي الحجة، مع ضم يوم العمل الواقع بين عطلتين، بحسب قرار مجلس الوزراء المنشور في 2025."
+    }
+  ],
+  "sources": [
+    {
+      "t": "الراية — نص قانون العمل 14/2004 (المادة 78)",
+      "u": "https://www.raya.com/2004/05/20/الجزء-الثاني-من-قانون-رقم-14-لسنة-2004-بإصدا"
+    },
+    {
+      "t": "The Peninsula — عطلة اليوم الوطني للقطاع الخاص (16/12/2025)",
+      "u": "https://s.thepeninsula.qa/article/16/12/2025/labour-ministry-announces-national-day-holiday-for-private-sector"
+    },
+    {
+      "t": "The Peninsula — عطلة عيد الفطر 2026 للقطاع الخاص",
+      "u": "https://thepeninsulaqatar.com/article/15/03/2026/labour-ministry-announces-three-day-eid-al-fitr-holiday-for-private-sector"
+    },
+    {
+      "t": "Qatar Tribune — اليوم الرياضي عطلة للقطاع الخاص (9/2/2026)",
+      "u": "https://www.qatar-tribune.com/article/218630/latest-news/labour-ministry-declares-national-sport-day-an-official-holiday"
+    },
+    {
+      "t": "Gulf Times — العطل الرسمية للحكومة (19/5/2025)",
+      "u": "https://www.gulf-times.com/article/704849/qatar/list-of-official-holidays-in-qatar-approved"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">أجر العمل يوم العطلة الرسمية</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">الراتب الأساسي الشهري (ريال)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000">
+      </div>
+      <div class="field">
+        <label for="days">أيام العمل في العطلة</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+      <div class="field">
+        <label for="hours">ساعات العمل في اليوم</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="0" step="1" value="8">
+      </div>
+      <div class="field">
+        <label for="nightHours">منها بين 9 مساءً و3 صباحاً</label>
+        <input type="number" id="nightHours" name="nightHours" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>العطل الرسمية في قطر: 2026 و2027</h2>
+{{table:holidays country=qa}}
+<h2>أجر العمل يوم العطلة</h2>
+<p>إذا عمل العامل في عطلة رسمية «طبقت بشأنه أحكام المادة (74)» (المادة 78): <strong>أجر الساعة الأساسي مضافاً إليه 25% على الأقل</strong>، و50% للساعات بين 9 مساءً و3 صباحاً عدا عمال المناوبة، فوق الراتب. ولا ينص القانون على يوم بديل. ونحسب أجر الساعة على الأساسي ÷ 30 ÷ 8.</p>
+<div class="example"><p><strong>مثال:</strong> أساسي 6,000 ريال (الساعة 25)، و8 ساعات يوم العيد: 8 × 25 × 1.25 = <strong>250 ريالاً</strong>. وإن كانت 4 منها بين 9 مساءً و3 صباحاً: 150 + 125 = 275.</p></div>
+<h2>إذا وقعت العطلة يوم الجمعة</h2>
+<p>لا نص صريحاً، لكن المادة 78 تحسب العطل «أيام عمل»، فالأرجح ألا تُحسب الجمعة الواقعة داخل العيد من الأيام الثلاثة. وأيام صاحب العمل الثلاثة يحددها بنفسه، وقد يُحتسب منها اليوم الرياضي.</p>
+<h2>القطاع الحكومي</h2>
+<p>عطلة الفطر للحكومة من 28 رمضان إلى نهاية 4 شوال، والأضحى من 9 إلى 13 ذي الحجة، واليوم الوطني 18 ديسمبر، واليوم الرياضي الثلاثاء الثاني من فبراير. والنص الأصلي للمادة 78 يقول «يوم الاستقلال»، والوزارة تمنح القطاع الخاص 18 ديسمبر.</p>
+<p class="muted small">مواعيد العيدين متوقعة وقد تتأخر يوماً بحسب رؤية الهلال، وتعلن وزارة العمل عطلة القطاع الخاص قبل كل عيد.</p>
+</div>

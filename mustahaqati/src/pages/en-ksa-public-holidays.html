@@ -1,0 +1,115 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-public-holidays",
+  "alternate": "ksa-public-holidays",
+  "title": "Saudi Public Holidays 2027 — Eid, Founding Day and National Day Dates and Holiday Work Pay",
+  "h1": "Saudi Arabia Public Holidays and Holiday Work Pay",
+  "description": "Private-sector public holidays in Saudi Arabia: Founding Day on 22 February, Eid al-Fitr for 4 days from the day after 29 Ramadan, Eid al-Adha for 4 days from Arafat Day, and National Day on 23 September, with a calculator for working on a holiday: each hour at the actual hourly wage + 50% of basic.",
+  "short": "Eid al-Fitr 4 days, Eid al-Adha 4 days, Founding Day and National Day; holiday work is overtime",
+  "lead": "The next holiday is shown first; then calculate what you are owed if you work on a holiday.",
+  "country": "sa",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-ksa-overtime",
+    "en-ksa-annual-leave",
+    "en-ksa-special-leave",
+    "en-hijri-gregorian-converter"
+  ],
+  "faq": [
+    {
+      "q": "How many days is the Eid al-Fitr holiday for the private sector?",
+      "a": "4 days starting the day after 29 Ramadan by the Umm al-Qura calendar (Article 24 of the Executive Regulations). In 2027 it is expected from Tuesday 9 to Friday 12 March, with a day in lieu of the Friday before or after."
+    },
+    {
+      "q": "How many days is the Eid al-Adha holiday?",
+      "a": "4 days starting on Arafat Day: expected from Saturday 15 to Tuesday 18 May 2027, or 16–19 May if Arafat is declared on Sunday."
+    },
+    {
+      "q": "Is Founding Day a holiday for the private sector?",
+      "a": "Yes, one day on 22 February since the regulations were amended in 2022; in 2027 it falls on Monday 22 February."
+    },
+    {
+      "q": "How much is pay for working on Eid in Saudi Arabia?",
+      "a": "All hours worked on holidays and Eids are overtime (Article 107): the actual hourly wage + 50% of the basic hourly wage, on top of holiday pay. Example: basic SAR 6,000, actual SAR 8,000 and 8 hours = SAR 366.67, or compensatory leave with the worker's consent."
+    },
+    {
+      "q": "What if a holiday falls on the weekly rest day?",
+      "a": "The worker gets a similar day before or after it (Article 24), except that National Day or Founding Day falling inside an Eid holiday is not compensated."
+    },
+    {
+      "q": "How long are Eid holidays for government employees?",
+      "a": "Much longer: the Eid al-Fitr 1447 holiday for civil servants was about 13 days. Employees of government bodies under the Labour Law get 4 to 5 working days for each Eid (Council of Ministers Resolution 532)."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Labour Law — Article 112 (English translation, HRDF)",
+      "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"
+    },
+    {
+      "t": "Umm Al-Qura — 2022 amendment adding Founding Day (Arabic)",
+      "u": "https://www.uqn.gov.sa/details?p=18988"
+    },
+    {
+      "t": "Umm Al-Qura — Royal Decree M/44 amending Article 107 (Arabic)",
+      "u": "https://www.uqn.gov.sa/details?p=25379"
+    },
+    {
+      "t": "Umm Al-Qura — Council of Ministers Resolution 532 on Eid holidays in government bodies (Arabic)",
+      "u": "https://www.uqn.gov.sa/details?p=24401"
+    },
+    {
+      "t": "Gulf News — Eid al-Fitr 2026 holiday for the private sector",
+      "u": "https://gulfnews.com/amp/story/world%2Fgulf%2Fsaudi%2Fsaudi-arabia-announces-eid-al-fitr-holidays-for-private-and-non-profit-sectors-1.500462986"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">Pay for working on a public holiday</h2>
+  <form id="calc" data-country="sa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000">
+      </div>
+      <div class="field">
+        <label for="total">Monthly actual wage (SAR)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="1" value="8000">
+        <span class="hint">Basic plus allowances.</span>
+      </div>
+      <div class="field">
+        <label for="days">Holiday days worked</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+      <div class="field">
+        <label for="hours">Hours worked per day</label>
+        <input type="number" id="hours" name="hours" inputmode="decimal" min="0" step="1" value="8">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Public holidays in Saudi Arabia: 2026 and 2027</h2>
+{{table:holidays country=sa lang=en}}
+<h2>Pay for working on a holiday</h2>
+<p>All hours worked on holidays and Eids count as overtime (Article 107(3)), paid at <strong>the actual hourly wage plus 50% of the basic hourly wage</strong> on top of the holiday pay already in your salary. With the worker's consent, paid compensatory leave of at least an hour and a half per hour can replace the cash. We calculate the hourly wage as monthly pay ÷ 30 ÷ 8.</p>
+<div class="example"><p><strong>Example:</strong> basic SAR 6,000 and actual SAR 8,000, working 8 hours on Eid: 8,000 ÷ 240 = 33.33, and 50% × 6,000 ÷ 240 = 12.50, so each hour is 45.83 and you are owed <strong>SAR 366.67</strong>.</p></div>
+<h2>Holidays that fall on the weekly rest day</h2>
+<p>The worker gets a similar day before or after it (Article 24 of the regulations), so if the Eid al-Fitr 2027 holiday includes Friday 12 March, a day in lieu is due. National Day or Founding Day inside an Eid holiday is not compensated. A holiday inside annual leave extends the leave by the same number of days.</p>
+<h2>Government sector</h2>
+<p>Civil servants have much longer holidays (about two weeks for each Eid), and Labour Law employees of government bodies get 4 to 5 working days per Eid under Council of Ministers Resolution 532. No private-sector public holidays remain in 2026.</p>
+<p class="muted small">Eid dates are expected dates by the Umm al-Qura calendar; the Ministry of Human Resources announces them before each Eid.</p>
+</div>

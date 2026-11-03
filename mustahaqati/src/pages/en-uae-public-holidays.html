@@ -1,0 +1,106 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-public-holidays",
+  "alternate": "uae-public-holidays",
+  "title": "UAE Public Holidays 2026 and 2027 — Dates and Pay for Working on a Holiday",
+  "h1": "UAE Public Holidays and Holiday Work Pay",
+  "description": "UAE public holidays for the public and private sectors: Eid Al Etihad on Wednesday and Thursday 2–3 December 2026, the expected 2027 holidays, and a calculator for working on a public holiday: the day's wage plus 50% of basic pay, or a substitute rest day (Article 28).",
+  "short": "Eid Al Etihad on 2–3 December and 2027 holidays; holiday work pay: day's wage + 50% of basic, or a day off",
+  "lead": "The next holiday is shown first; then calculate what you are owed if you work on a holiday.",
+  "country": "ae",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-uae-overtime",
+    "en-uae-annual-leave",
+    "en-uae-special-leave",
+    "en-uae-ramadan-working-hours"
+  ],
+  "faq": [
+    {
+      "q": "When is the Eid Al Etihad holiday in 2026?",
+      "a": "Wednesday 2 and Thursday 3 December 2026 for both sectors under Cabinet Resolution 27/2024, which allows the Cabinet to move it to the start or end of the week. No move had been announced by 3 November 2026; in 2025 it was moved to Monday and Tuesday."
+    },
+    {
+      "q": "Is Commemoration Day a public holiday?",
+      "a": "It has not been a paid holiday since 1 January 2025; Cabinet Resolution 27/2024 on official holidays does not include it."
+    },
+    {
+      "q": "How many days is the Eid al-Fitr holiday in the UAE?",
+      "a": "1 to 3 Shawwal, plus 30 Ramadan if the month has 30 days, according to Resolution 27/2024. The government portal says 29 Ramadan to 3 Shawwal; we follow the resolution."
+    },
+    {
+      "q": "How much is pay for working on a public holiday in the UAE?",
+      "a": "A substitute rest day for each day, or the day's wage plus at least 50% of the basic wage for that day (Article 28 of Decree-Law 33/2021). Example: basic AED 6,000 and total AED 8,000: 266.67 + 100 = AED 366.67 on top of salary."
+    },
+    {
+      "q": "What if a holiday falls on a Saturday or Sunday?",
+      "a": "It is not carried over: Article 3 of Resolution 27/2024 prevents carrying over a holiday that falls on the weekend or on another holiday."
+    },
+    {
+      "q": "What are the expected UAE holidays in 2027?",
+      "a": "New Year on Friday 1 January, Eid al-Fitr around 9–11 March, Arafat and Eid al-Adha around 15–18 May, the Islamic New Year around 6 June, the Prophet's Birthday around 14 August, and Eid Al Etihad on 2–3 December. Hijri dates depend on the moon sighting."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Cabinet Resolution 27/2024 on official holidays (Arabic)",
+      "u": "https://uaelegislation.gov.ae/ar/legislations/2595/download"
+    },
+    {
+      "t": "Federal Decree-Law 33/2021 — Articles 28 and 29 (Arabic)",
+      "u": "https://uaelegislation.gov.ae/ar/legislations/1541/download"
+    },
+    {
+      "t": "UAE Government portal — public holidays",
+      "u": "https://u.ae/en/information-and-services/public-holidays-and-religious-affairs/public-holidays"
+    },
+    {
+      "t": "Khaleej Times — expected UAE holidays in 2027",
+      "u": "https://www.khaleejtimes.com/uae/uae-holidays-2027-possible-6-day-break-multiple-long-weekends-expected"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">Pay for working on a public holiday</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="6000">
+      </div>
+      <div class="field">
+        <label for="total">Monthly total salary (AED)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="1" value="8000">
+      </div>
+      <div class="field">
+        <label for="days">Holiday days worked</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Public holidays in the UAE: 2026 and 2027</h2>
+{{table:holidays country=ae lang=en}}
+<h2>Pay for working on a holiday</h2>
+<p>If you have to work on a public holiday, your employer must give you <strong>another rest day</strong> for each day, or pay <strong>the day's wage plus at least 50% of your basic wage</strong> (Article 28(2)). We calculate the day's wage on total pay ÷ 30 and the premium on basic ÷ 30, on top of your monthly salary, which already covers the holiday itself.</p>
+<div class="example"><p><strong>Example:</strong> basic AED 6,000 and total AED 8,000, working one Eid day: 8,000 ÷ 30 = 266.67, and 50% × 6,000 ÷ 30 = 100, so you are owed <strong>AED 366.67</strong> or a substitute rest day.</p></div>
+<h2>Holidays that fall on the weekend</h2>
+<p>A holiday that falls on the weekend or on another holiday is not carried over (Article 3 of Resolution 27/2024). The Cabinet can move holidays other than the Eids to the start or end of the week, as it moved the Prophet's Birthday in 2026 to Friday 28 August. A holiday inside your annual leave counts as part of it unless your contract is more generous (Article 29).</p>
+<h2>Government sector</h2>
+<p>The list has been the same for both sectors since 2019, and emirate governments may add holidays for their own bodies. Commemoration Day (1 December) has not been a paid holiday since 2025.</p>
+<p class="muted small">Hijri dates are expected dates based on the Umm al-Qura calendar and may move by a day depending on the moon sighting.</p>
+</div>

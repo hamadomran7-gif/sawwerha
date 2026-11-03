@@ -1,0 +1,90 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-public-holidays",
+  "alternate": "bahrain-public-holidays",
+  "title": "Bahrain Public Holidays 2026 and 2027 — National Day on 16–17 December and Holiday Work Pay",
+  "h1": "Bahrain Public Holidays and Holiday Work Pay",
+  "description": "Private-sector public holidays in Bahrain under Cabinet Decision 1/2013: 14 days including National Day on 16–17 December, Ashura and Labour Day, with a calculator for working on a holiday: the wage + 150%, or a substitute day at the worker's choice.",
+  "short": "14 days including National Day on 16–17 December; holiday work: wage + 150% or a day off",
+  "lead": "The next holiday is shown first; then calculate what you are owed if you work on a holiday.",
+  "country": "bh",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-overtime",
+    "en-bahrain-leave",
+    "en-bahrain-notice-period",
+    "en-bahrain-end-of-service"
+  ],
+  "faq": [
+    {
+      "q": "How many public holidays does the private sector get in Bahrain?",
+      "a": "14 days: the Islamic New Year, Tasu'a and Ashura, the Prophet's Birthday, Eid al-Fitr (3 days), Eid al-Adha (3 days), New Year's Day, Labour Day, and National Day and Accession Day (2 days) under Cabinet Decision 1/2013. The decision does not include Arafat Day, which the government grants by circular."
+    },
+    {
+      "q": "How much is pay for working on a public holiday in Bahrain?",
+      "a": "The day's wage plus extra pay equal to 150% of it, or another day off instead, at the worker's choice (Article 64). Example: salary BHD 600: 20 × 2.5 = BHD 50 on top of salary."
+    },
+    {
+      "q": "What if a holiday falls on a Friday?",
+      "a": "The worker gets another day instead (Article 64 and Decision 1/2013), as when it falls on another holiday. Saturday is not mentioned, so Labour Day on Saturday 1 May 2027 has no day in lieu on our reading."
+    },
+    {
+      "q": "When is Bahrain National Day in 2026?",
+      "a": "Wednesday 16 and Thursday 17 December 2026; in 2027 it falls on Thursday and Friday 16–17 December, with a day in lieu for the Friday."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Legislation and Legal Opinion Commission — Labour Law 36/2012 (Article 64, Arabic)",
+      "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"
+    },
+    {
+      "t": "Legislation and Legal Opinion Commission — Cabinet Decision 1/2013 on private-sector official holidays (Arabic)",
+      "u": "https://www.lloc.gov.bh/Legislation/HTM/RCAB0113"
+    },
+    {
+      "t": "Prime Minister's Office — Eid al-Adha 2026 holiday circular",
+      "u": "https://www.pmo.gov.bh/en/article/hrh-the-crown-prince-and-prime-minister-issues-circular-on-the-eid-al-adha-holiday-2026"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <div id="next" class="result" aria-live="polite"></div>
+  <h2 id="tool-h">Pay for working on a public holiday</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="total">Monthly salary (BHD)</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="0" step="1" value="600">
+      </div>
+      <div class="field">
+        <label for="days">Holiday days worked</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="1">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Public holidays in Bahrain: 2026 and 2027</h2>
+{{table:holidays country=bh lang=en}}
+<h2>Pay for working on a holiday</h2>
+<p>A worker who works on a public holiday is entitled to <strong>the day's wage plus extra pay equal to 150% of it</strong>, or <strong>another day off instead</strong>, at the worker's choice (Article 64). We calculate the day's wage as salary ÷ 30 and the amount owed as 2.5 times that on top of salary. On another reading the day's wage is already in the salary, so the extra is 1.5 times.</p>
+<div class="example"><p><strong>Example:</strong> salary BHD 600 and one working day on Eid: 600 ÷ 30 = 20, so you are owed <strong>BHD 50</strong> or a day off. On the other reading, BHD 30.</p></div>
+<h2>Holidays that fall on a Friday</h2>
+<p>If a holiday falls on a Friday or another public holiday, the worker gets another day instead (Article 2 of Decision 1/2013). In 2027, New Year's Day (Friday 1 January) and National Day (Friday 17 December) are compensated, and Eid al-Fitr may be if it ends on a Friday.</p>
+<h2>Government sector</h2>
+<p>The government follows circulars from the Crown Prince and Prime Minister for each occasion, including Arafat Day and days in lieu. The private sector follows Decision 1/2013, which does not include Arafat Day.</p>
+<p class="muted small">Hijri dates are expected and may move by a day depending on the moon sighting.</p>
+</div>
