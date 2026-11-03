@@ -1,0 +1,128 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-federal-government-salary-scale",
+  "alternate": "uae-federal-salary-scale",
+  "title": "UAE Federal Government Salary Scale 2026 — Emirati Salary Calculator by Grade and Allowances",
+  "h1": "UAE Federal Government Salary Scale Calculator for Emiratis",
+  "description": "Calculate an Emirati federal government employee's salary from the federal salary table (Cabinet Resolution 23/2012): basic pay for grades 1 to 14, housing for single and married staff, cost of living, social allowance, transport, the AED 600 children's allowance per child, and the 11% or 5% pension deduction.",
+  "short": "Grades 1–14, single and married housing, AED 600 per child, and the 11% or 5% pension",
+  "lead": "Choose your grade, marital status, number of children and pension scheme to see your gross salary, pension base and net pay.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-federal-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-pension", "en-uae-net-salary", "en-uae-pension-table", "en-abu-dhabi-pension", "en-uae-annual-leave", "en-ksa-civil-salary-scale"],
+  "faq": [
+    {"q": "What is an Emirati federal government employee's salary?", "a": "Under the Resolution 23/2012 table, grade 14 starts at a total of AED 5,300 single and 5,700 married, grade 7 at 11,830 and 12,330, and grade 1 at 26,655 and 27,155, plus AED 600 per child. The total includes basic pay, housing, cost of living, social allowance and transport."},
+    {"q": "How much is the federal housing allowance for Emiratis?", "a": "In the table: single staff get the lower of AED 1,500 and 40% of basic, married staff the lower of AED 2,000 and 60% of basic. So grades 1–9 get 1,500 and 2,000, and grade 14 gets 800 and 1,200."},
+    {"q": "How much is the children's allowance for federal employees?", "a": "AED 600 a month per child with no limit on the number, under Cabinet Resolution 6/1981. It stops for a son at 24 and for a daughter on marriage, and continues for a child unable to work, certified by a medical committee."},
+    {"q": "How much pension is deducted from an Emirati employee's salary?", "a": "11% for those first registered from 31 October 2023 (Decree-Law 57/2023), and 5% for those registered earlier, with the government employer paying 15%. The base is basic pay, housing, cost of living, social allowance and children's allowance, capped at AED 100,000; transport is excluded."},
+    {"q": "How much is the federal annual performance bonus?", "a": "A one-off payment of up to twice the total salary for rating 5, up to 1.5 salaries for rating 4 and up to one salary for rating 3 (Resolution 42/2024 and the Injazati system from 2026), capped at AED 100,000 a year, subject to budget and the head of entity's approval."},
+    {"q": "Has a new federal salary scale been issued since 2012?", "a": "We found no newer general table up to November 2026. Federal HR Law 49/2022 keeps existing tables until the Cabinet amends them, and the 2012 table is still published by the Federal Authority for Government Human Resources."}
+  ],
+  "sources": [
+    {"t": "FAHR — Cabinet Resolution 23/2012 endorsing salary scales (translation)", "u": "https://fahr.gov.ae/Portal/Userfiles/Assets/Documents/1b46f5fb.pdf"},
+    {"t": "government.ae — Decree-Law 49/2022 on human resources in the federal government", "u": "https://government.ae/-/media/Documents-2nd-half-2023/Arabic--Federal-Human-Resources-Law-2022.pdf"},
+    {"t": "UAE Legislation — Resolution 6/1981 on the children's allowance", "u": "https://uaelegislation.gov.ae/ar/legislations/4082/download"},
+    {"t": "UAE Legislation — Resolution 42/2024 on rewards and incentives", "u": "https://uaelegislation.gov.ae/en/legislations/2489/download"},
+    {"t": "FAHR — Injazati policy (8/7/2026)", "u": "https://www.fahr.gov.ae/wp-content/uploads/2026/07/ENG-Injazati-Policy-08.07.2026.pdf"},
+    {"t": "GPSSA — contribution calculation salary", "u": "https://www.gpssa.gov.ae/pages/en/help/faq/what-meant-contribution-calculation-salary-which-contributions-are-deducted"},
+    {"t": "u.ae — pensions and social security for UAE citizens in government", "u": "https://u.ae/en/information-and-services/jobs/Sector-of-employment/working-in-uae-government-sector/pensions-and-social-security-for-uae-citizens"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your federal salary</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">Grade</label>
+        <select id="grade" name="grade">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7" selected>7</option>
+          <option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="married">Marital status</label>
+        <select id="married" name="married">
+          <option value="yes" selected>Married</option>
+          <option value="no">Single</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Children eligible for the allowance</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" max="20" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="scheme">Pension scheme</label>
+        <select id="scheme" name="scheme">
+          <option value="new" selected>First registered from 31 October 2023 (11%)</option>
+          <option value="legacy">Registered earlier (5%)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="qualification">Qualification allowance (if relevant to the job)</label>
+        <select id="qualification" name="qualification">
+          <option value="none" selected>Not paid to me</option>
+          <option value="master">Master's (1,000)</option>
+          <option value="phd">PhD (2,000)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="increments">Annual increments in the grade (optional)</label>
+        <input type="number" id="increments" name="increments" inputmode="decimal" min="0" max="30" step="1" value="0">
+        <span class="hint">Estimate: we add the table's "annual allowance" column for each increment.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Federal salary table for UAE nationals</h2>
+{{table:ae-federal-scale lang=en}}
+<p>This is Table 1 of Cabinet Resolution 23/2012, in force since 1 January 2012, as published in English by the Federal Authority for Government Human Resources. Housing is split into single and married amounts, and the printed totals match the sum of the items for every grade after correcting two cells confirmed by the table's ratios (housing 40% and 60% and cost of living 20% of basic, with caps). Which of two columns is "cost of living" and which is "social allowance" is not settled; it affects neither the total nor the pension.</p>
+
+<h2>Senior positions</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Position</th><th scope="col">Basic</th><th scope="col">Housing</th><th scope="col">Monthly total</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Undersecretary</th><td>53,125</td><td>10,000</td><td>131,250</td></tr>
+    <tr><th scope="row">Assistant undersecretary</th><td>42,500</td><td>10,000</td><td>107,000</td></tr>
+    <tr><th scope="row">Special grade (A)</th><td>34,000</td><td>5,000</td><td>55,400</td></tr>
+    <tr><th scope="row">Special grade (B)</th><td>25,500</td><td>5,000</td><td>42,925</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The undersecretary's and assistant undersecretary's totals include a special allowance granted by the President and furniture, phone and hospitality allowances.</p>
+
+<h2>Other allowances</h2>
+<ul>
+  <li><strong>Children's allowance:</strong> AED 600 per child with no limit, stopping for a son at 24 and for a daughter on marriage.</li>
+  <li><strong>Qualification allowance:</strong> AED 1,000 for a master's and 2,000 for a PhD a month if relevant to the job, under the previous regulation and as reported for the 2023 regulation.</li>
+  <li><strong>Technical allowance:</strong> under the previous regulation 50% of basic up to 5,000 for engineers and similar, and 30% up to 2,500 for engineering and technical diploma holders; not verified in the 2023 regulation, so the calculator leaves it out.</li>
+</ul>
+
+<h2>Annual increment and bonus</h2>
+<p>Under the Injazati performance system in force from 1 January 2026, annual increments are due to levels 2 to 5 based on the salary scale and the annual rating. The table does not say explicitly that its "annual allowance" column (AED 70 to 250) is added to basic pay each year, so we offer it as an optional estimate. The annual bonus is a one-off payment: up to twice the total salary for rating 5, 1.5 for rating 4 and one salary for rating 3, capped at AED 100,000 a year.</p>
+
+<h2>Pension</h2>
+<p>11% is deducted for those first registered from 31 October 2023 and 5% for those registered earlier, with the employer paying 15%. The pensionable salary in government is basic pay, housing, cost of living, social allowance and children's allowance, capped at AED 100,000; transport and the President's grant are excluded. Estimate your pension with the <a href="{{root}}en/uae-pension-calculator/{{ix}}">Emirati pension calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Grade 7, married, two children, registered after October 2023: 12,330 + 1,200 = 13,530 total, pension base 10,650, deduction 1,171.50, net <strong>AED 12,358.50</strong>.<br>
+Grade 10, single, registered before 2023: total 7,364, base 5,784, 5% deduction 289.20, net <strong>AED 7,074.80</strong>.<br>
+Grade 1, married, three children: total 28,955, net after 11% <strong>AED 26,502</strong>.</p>
+</div>
+
+<p>The Abu Dhabi and Dubai governments have their own tables, which are not officially published, so the calculator does not apply to them. For the Abu Dhabi pension use the <a href="{{root}}en/abu-dhabi-pension-calculator/{{ix}}">Abu Dhabi pension calculator</a>.</p>
+</div>

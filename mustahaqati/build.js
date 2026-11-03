@@ -653,6 +653,34 @@ const TABLES = {
       rows
     );
   },
+  "om-civil-scale"(a) {
+    const en = a.lang === "en";
+    const G = calc.rules.om.civilScale.grades;
+    const rows = Object.keys(G).sort((x, y) => x - y).map((g) => {
+      const v = G[g];
+      const al = v.housing + v.electricity + v.water + v.phone + v.transport + v.costOfLiving;
+      return [en ? `Grade ${g}` : `الدرجة ${g}`, fmt0.format(v.basicStart), fmt0.format(v.increment), fmt0.format(v.housing), fmt0.format(v.electricity), fmt0.format(v.water), fmt0.format(v.phone), fmt0.format(v.transport), fmt0.format(v.costOfLiving), fmt0.format(v.basicStart + al)];
+    });
+    return tableWrap(
+      a.caption || (en ? "OMR per month (Royal Decree 78/2013, in force since 1 January 2014). Grade 1 is the highest" : "بالريال العُماني شهرياً (المرسوم السلطاني 78/2013، نافذ منذ 1 يناير 2014). الدرجة 1 هي الأعلى"),
+      en ? ["Grade", "Starting basic", "Annual increment", "Housing", "Electricity", "Water", "Phone", "Transport", "Cost of living", "Starting total"] : ["الدرجة", "الأساسي (البداية)", "العلاوة الدورية", "السكن", "الكهرباء", "الماء", "الهاتف", "الانتقال", "غلاء المعيشة", "الإجمالي عند البداية"],
+      rows
+    );
+  },
+  "ae-federal-scale"(a) {
+    const en = a.lang === "en";
+    const G = calc.rules.ae.federalScale.grades;
+    const rows = Object.keys(G).sort((x, y) => x - y).map((g) => {
+      const v = G[g];
+      const fix = g === "11" || g === "13" ? "*" : "";
+      return [en ? `Grade ${g}${fix}` : `الدرجة ${g}${fix}`, fmt0.format(v.basic), `${fmt0.format(v.housingSingle)} / ${fmt0.format(v.housingMarried)}`, fmt0.format(v.costOfLiving), fmt0.format(v.social), fmt0.format(v.transport), fmt0.format(v.annual), fmt0.format(v.basic + v.housingSingle + v.costOfLiving + v.social + v.transport), fmt0.format(v.basic + v.housingMarried + v.costOfLiving + v.social + v.transport)];
+    });
+    return tableWrap(
+      a.caption || (en ? "AED per month (Cabinet Resolution 23/2012, table 1, UAE nationals). * corrected cell: grade 11 basic printed 2,925 and grade 13 single housing printed 818 in the translation" : "بالدرهم شهرياً (قرار مجلس الوزراء 23/2012، الجدول 1 للمواطنين). * خلية مصححة: أساسي الدرجة 11 مطبوع 2,925، وسكن الأعزب في الدرجة 13 مطبوع 818 في الترجمة"),
+      en ? ["Grade", "Basic", "Housing single / married", "Cost of living", "Social", "Transport incl. President's grant", "Annual increment", "Total single", "Total married"] : ["الدرجة", "الأساسي", "السكن أعزب / متزوج", "غلاء المعيشة", "العلاوة الاجتماعية", "المواصلات شاملة منحة الرئيس", "العلاوة السنوية", "الإجمالي أعزب", "الإجمالي متزوج"],
+      rows
+    );
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];

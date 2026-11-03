@@ -1,0 +1,95 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-civil-service-salary-scale",
+  "alternate": "oman-civil-salary-scale",
+  "title": "Oman Civil Service Salary Scale 2026 — Government Salary Calculator by Grade and Increments",
+  "h1": "Oman Unified Grades and Salaries Scale Calculator",
+  "description": "Calculate an Omani government employee's salary from the unified grades and salaries scale (Royal Decree 78/2013): basic pay for each grade from 1 to 18 with annual increments, the housing, electricity, water, phone, transport and cost-of-living allowances, the 7.5% and 0.5% social protection deductions, and pay after promotion.",
+  "short": "18 grades, the annual increment every 1 January, six allowances and an 8% deduction",
+  "lead": "Choose your grade and how many annual increments you have received in it to see your gross and net salary, your pay after the next increment and after promotion.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-oman-civil-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-net-salary", "en-oman-pension", "en-oman-end-of-service", "en-oman-job-security", "en-oman-income-tax", "en-ksa-civil-salary-scale"],
+  "faq": [
+    {"q": "What is a bachelor's degree holder's salary in the Omani government?", "a": "A bachelor's holder has been appointed at grade 11 since Civil Service Council Decision 3/2020: basic OMR 400 and allowances of 385 (housing 180, electricity 25, water 20, phone 20, transport 60, cost of living 80), for a total of OMR 785 and about OMR 722.200 net after the 8% deduction."},
+    {"q": "What do master's and PhD holders earn?", "a": "A master's holder is appointed at grade 10: OMR 910 in total (basic 460 and allowances 450). A PhD holder at grade 9: OMR 1,035 (basic 550 and allowances 485). Each was one grade higher before May 2020."},
+    {"q": "When is the annual increment paid in Oman and how much is it?", "a": "On 1 January each year under Article 36 of the Civil Service Law, after at least six months of service, withheld in the year after a 'weak' rating. The amount is the grade's increment in the scale, from OMR 5 at grade 18 to OMR 80 at grade 1; it is added to basic pay and does not change the allowances."},
+    {"q": "How much is deducted from an Omani government employee's salary?", "a": "7.5% for the Social Protection Fund (old age, disability and death) on basic pay plus all allowances, capped at OMR 3,000, and 0.5% for job security with no cap, about 8% of the total. The employer pays 11% plus other branches."},
+    {"q": "How is pay calculated after promotion in Oman?", "a": "A promoted employee gets the higher of the new grade's starting basic or current pay plus one increment of the new grade (Article 44), and the allowances move to those of the new grade. At least three years are needed for promotion, and under the 2026 promotion system decisions take effect on 2 January and 2 July."},
+    {"q": "Has Oman issued a new salary scale since 2013?", "a": "We found no replacement scale up to November 2026. The Royal Decree 78/2013 scale, in force since 1 January 2014, still applies; the Social Protection Law 52/2023 changed deductions, not salaries, and the 2026 promotion system brought no new scale."}
+  ],
+  "sources": [
+    {"t": "Qanoon — Royal Decree 78/2013 issuing the unified grades and salaries scale", "u": "https://qanoon.om/p/2013/rd2013078/"},
+    {"t": "Qanoon — Civil Service Law (Royal Decree 120/2004)", "u": "https://qanoon.om/p/2004/rd2004120/"},
+    {"t": "Qanoon — Social Protection Law (52/2023)", "u": "https://qanoon.om/p/2023/l2023052/"},
+    {"t": "Oman Observer — appointment grades amended by Decision 3/2020 (17/5/2020)", "u": "https://www.omanobserver.om/article/13228/Main/salary-scale-of-new-appointments-in-civil-service-amended"},
+    {"t": "Gulf News — new hires' pay of 1,035 and 785 (18/5/2020)", "u": "https://gulfnews.com/world/gulf/oman/oman-cuts-pay-23-per-cent-for-new-civil-servants-1.1589822083045"},
+    {"t": "Oman Observer — new promotion system for civil employees (28/9/2026)", "u": "https://www.omanobserver.om/article/1196885/oman/labour/new-promotion-system-for-omani-civil-employees-takes-effect"},
+    {"t": "Oman Observer — circular on the 2021 annual increment (28/12/2020)", "u": "https://omanobserver.om/ministry-of-finance-issues-circular-on-annual-increment"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your salary from the grade scale</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="grade">Grade (1 highest, 18 lowest)</label>
+        <select id="grade" name="grade">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+          <option value="9">9 (PhD appointment)</option><option value="10">10 (master's appointment)</option><option value="11" selected>11 (bachelor's appointment)</option>
+          <option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="increments">Annual increments received in your grade</label>
+        <input type="number" id="increments" name="increments" inputmode="decimal" min="0" max="40" step="1" value="0">
+        <span class="hint">One increment each 1 January after six months of service, including any granted at appointment for experience.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Oman's unified grades and salaries scale</h2>
+{{table:om-civil-scale lang=en}}
+<p>The scale is the annex to Royal Decree 78/2013 and has applied to Omani civil employees in the state administrative apparatus since 1 January 2014. Each grade has a starting basic and a fixed annual increment with no maximum in the table, and the allowances are fixed amounts per grade, not percentages of basic pay, so they do not change with increments.</p>
+
+<h2>Appointment grade by qualification</h2>
+<ul>
+  <li><strong>PhD:</strong> grade 9, OMR 1,035 in total.</li>
+  <li><strong>Master's:</strong> grade 10, OMR 910.</li>
+  <li><strong>Bachelor's:</strong> grade 11, OMR 785.</li>
+</ul>
+<p>Civil Service Council Decision 3/2020 placed qualified appointees one grade lower from 17 May 2020, cutting the PhD total by 23% and the bachelor's by 14%. An appointee also gets one increment of the grade for each year of relevant experience above the requirement (Article 35).</p>
+
+<h2>Annual and incentive increments</h2>
+<ul>
+  <li><strong>Annual:</strong> on 1 January each year, equal to the grade's increment, after at least six months of service, withheld in the year after a "weak" rating. In 2021 it was paid in full to those with totals under OMR 900 and half to those above; we found no reduction since.</li>
+  <li><strong>Incentive:</strong> one or two increments a year, up to four in the grade, for those whose latest rating is "very good" or above (Article 37).</li>
+</ul>
+
+<h2>Promotion</h2>
+<p>A promoted employee gets the higher of the new grade's starting basic or current pay plus one increment of the new grade, and the annual increment date does not change (Article 44). Promotion requires at least three years. The 2026 promotion system has three tracks (exceptional performance, preferential selection by points, and retention), with decisions effective on 2 January and 2 July and an OMR 10 million budget for 2026.</p>
+
+<h2>Deductions</h2>
+<p>Since 1 January 2024, 7.5% is deducted for the Social Protection Fund on basic pay plus all allowances, capped at OMR 3,000 a month, and 0.5% for job security with no cap. The employer pays 11%, 0.5% job security and 1% each for work injury, maternity and sick leave. For any other salary, use the <a href="{{root}}en/oman-net-salary-calculator/{{ix}}">Oman net salary calculator</a>.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Bachelor's holder appointed at grade 11: 400 + allowances 385 = 785, deductions 58.875 + 3.925 = 62.800, net <strong>OMR 722.200</strong>.<br>
+The same employee after three increments: basic 445, total 830, net <strong>OMR 763.600</strong>.<br>
+Promotion to grade 10 after five increments: the higher of 460 and 475 + 15 = <strong>490</strong> basic, total 940.<br>
+Grade 1: total 3,780, pension on the 3,000 cap = 225, job security 18.900, net <strong>OMR 3,536.100</strong>.</p>
+</div>
+</div>

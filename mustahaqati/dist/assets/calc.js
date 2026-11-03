@@ -3652,6 +3652,55 @@ export function ksaCitizenAccountMax({ type = "head", adults = 0, children = 0, 
   };
 }
 
+/**
+ * راتب الموظف العُماني في الجهاز الإداري للدولة (جدول المرسوم 78/2013): الأساسي = بداية الدرجة + عدد العلاوات × العلاوة الدورية،
+ * والبدلات الست ثابتة للدرجة. الاستقطاع 7.5% معاش على الأساسي والبدلات بسقف 3,000 ر.ع، و0.5% أمان وظيفي بلا سقف.
+ * الترقية: الأعلى من بداية الدرجة الأعلى أو الأساسي + علاوة منها (م44).
+ */
+export function omanCivilSalary({ grade = 11, increments = 0 } = {}) {
+  const S = rules.om.civilScale;
+  const G = S.grades[String(Math.floor(Number(grade) || 0))];
+  if (!G) return null;
+  const n = Math.max(0, Math.floor(Number(increments) || 0));
+  const basic = G.basicStart + n * G.increment;
+  const allowances = G.housing + G.electricity + G.water + G.phone + G.transport + G.costOfLiving;
+  const total = basic + allowances;
+  const pensionBase = Math.min(total, S.pension.cap);
+  const pension = Math.round(pensionBase * S.pension.employee * 1000) / 1000;
+  const jobSecurity = Math.round(total * S.pension.jobSecurity * 1000) / 1000;
+  const deductions = Math.round((pension + jobSecurity) * 1000) / 1000;
+  const g = Math.floor(Number(grade));
+  const up = S.grades[String(g - 1)];
+  let promotion = null;
+  if (up) {
+    const pb = Math.max(up.basicStart, basic + up.increment);
+    const pa = up.housing + up.electricity + up.water + up.phone + up.transport + up.costOfLiving;
+    promotion = { grade: g - 1, basic: pb, total: pb + pa };
+  }
+  return { grade: g, increments: n, ...G, basic, allowances, total, pensionBase, pension, jobSecurity, deductions, net: Math.round((total - deductions) * 1000) / 1000, nextBasic: basic + G.increment, promotion };
+}
+
+/**
+ * راتب المواطن في الحكومة الاتحادية الإماراتية (الجدول 1 من القرار 23/2012): الأساسي والسكن (أعزب أو متزوج) وغلاء المعيشة والعلاوة الاجتماعية
+ * والمواصلات شاملة منحة الرئيس، وعلاوة الأبناء 600 لكل ابن، وعلاوة المؤهل اختياراً. الاشتراك 11% (من سُجّل من 31/10/2023) أو 5%
+ * على الأساسي والسكن والغلاء والاجتماعية والأبناء. العلاوة الدورية من عمود «العلاوة السنوية» اختياراً «استنتاج».
+ */
+export function uaeFederalSalary({ grade = 7, married = true, children = 0, scheme = "new", qualification = "none", increments = 0 } = {}) {
+  const F = rules.ae.federalScale;
+  const G = F.grades[String(Math.floor(Number(grade) || 0))];
+  if (!G) return null;
+  const n = Math.max(0, Math.floor(Number(increments) || 0));
+  const basic = G.basic + n * G.annual;
+  const housing = married ? G.housingMarried : G.housingSingle;
+  const kids = Math.max(0, Math.floor(Number(children) || 0)) * F.childPerMonth;
+  const qual = F.qualification[qualification] || 0;
+  const total = basic + housing + G.costOfLiving + G.social + G.transport + kids + qual;
+  const base = Math.min(basic + housing + G.costOfLiving + G.social + kids, F.pension.cap);
+  const rate = scheme === "legacy" ? F.pension.legacyEmployee : F.pension.newEmployee;
+  const contribution = r2(base * rate);
+  return { grade: Math.floor(Number(grade)), increments: n, basic, housing, costOfLiving: G.costOfLiving, social: G.social, transport: G.transport, children: kids, qualification: qual, annual: G.annual, total, pensionBase: base, rate, contribution, employer: r2(base * F.pension.employer), net: r2(total - contribution) };
+}
+
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;

@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  omanCivilSalary,
+  uaeFederalSalary,
   ksaCitizenAccountMax,
   ksaHealthSalary,
   ksaMilitarySalary,
@@ -1785,4 +1787,30 @@ test("حساب المواطن: الحد الأعلى بالأوزان وسقف �
   assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 20500 }).result, 0);
   assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 20000 }).result, 2088);
   assert.equal(ksaCitizenAccountMax({ adults: 2, children: 3, income: 5000, assets: "yes" }).result, 0);
+});
+
+test("جدول رواتب عُمان والسلم الاتحادي الإماراتي (الدفعة 32ب)", () => {
+  const o1 = omanCivilSalary({ grade: 11 });
+  assert.equal(o1.total, 785);
+  assert.equal(o1.deductions, 62.8);
+  assert.equal(o1.net, 722.2);
+  assert.equal(omanCivilSalary({ grade: 11, increments: 3 }).net, 763.6);
+  assert.deepEqual(omanCivilSalary({ grade: 11, increments: 5 }).promotion, { grade: 10, basic: 490, total: 940 });
+  const o5 = omanCivilSalary({ grade: 1 });
+  assert.equal(o5.total, 3780);
+  assert.equal(o5.pension, 225);
+  assert.equal(o5.net, 3536.1);
+  assert.equal(omanCivilSalary({ grade: 9 }).total, 1035);
+  assert.equal(omanCivilSalary({ grade: 18 }).total, 381);
+  const u6 = uaeFederalSalary({ grade: 7, married: true, children: 2, scheme: "new" });
+  assert.equal(u6.total, 13530);
+  assert.equal(u6.pensionBase, 10650);
+  assert.equal(u6.net, 12358.5);
+  const u7 = uaeFederalSalary({ grade: 10, married: false, scheme: "legacy" });
+  assert.equal(u7.total, 7364);
+  assert.equal(u7.net, 7074.8);
+  assert.equal(uaeFederalSalary({ grade: 7, married: true, children: 2, increments: 1 }).net, 12469.75);
+  assert.equal(uaeFederalSalary({ grade: 1, married: true, children: 3 }).net, 26502);
+  assert.equal(uaeFederalSalary({ grade: 11, married: false }).total, 7205);
+  assert.equal(uaeFederalSalary({ grade: 13, married: false }).total, 5907);
 });

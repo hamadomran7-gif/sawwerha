@@ -753,6 +753,166 @@ export default {
       },
       "nafisMin": 6000,
       "nafisMax": 20000
+    },
+    "federalScale": {
+      "law": "قرار مجلس الوزراء 23/2012 باعتماد جداول الرواتب في الحكومة الاتحادية (الجدول 1، نافذ 1/1/2012، ترجمة الهيئة الاتحادية)، باقٍ بالمرسوم بقانون 49/2022؛ علاوة الأبناء بالقرار 6/1981؛ المعاشات بالمرسوم بقانون 57/2023",
+      "lastReview": "2026-11-03",
+      "grades": {
+        "1": {
+          "basic": 17300,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 700,
+          "transport": 6655,
+          "annual": 250
+        },
+        "2": {
+          "basic": 15940,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 700,
+          "transport": 6180,
+          "annual": 250
+        },
+        "3": {
+          "basic": 13050,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 800,
+          "transport": 4970,
+          "annual": 200
+        },
+        "4": {
+          "basic": 11180,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 800,
+          "transport": 4315,
+          "annual": 200
+        },
+        "5": {
+          "basic": 9310,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 800,
+          "transport": 3560,
+          "annual": 200
+        },
+        "6": {
+          "basic": 7440,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 800,
+          "transport": 2905,
+          "annual": 200
+        },
+        "7": {
+          "basic": 5950,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 2880,
+          "annual": 125
+        },
+        "8": {
+          "basic": 4845,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 2380,
+          "annual": 125
+        },
+        "9": {
+          "basic": 3870,
+          "housingSingle": 1500,
+          "housingMarried": 2000,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 1945,
+          "annual": 125
+        },
+        "10": {
+          "basic": 3060,
+          "housingSingle": 1224,
+          "housingMarried": 1836,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 1580,
+          "annual": 125
+        },
+        "11": {
+          "basic": 2975,
+          "housingSingle": 1190,
+          "housingMarried": 1785,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 1540,
+          "annual": 70
+        },
+        "12": {
+          "basic": 2890,
+          "housingSingle": 1156,
+          "housingMarried": 1734,
+          "costOfLiving": 500,
+          "social": 1000,
+          "transport": 1505,
+          "annual": 70
+        },
+        "13": {
+          "basic": 2295,
+          "housingSingle": 918,
+          "housingMarried": 1377,
+          "costOfLiving": 459,
+          "social": 1000,
+          "transport": 1235,
+          "annual": 70
+        },
+        "14": {
+          "basic": 2000,
+          "housingSingle": 800,
+          "housingMarried": 1200,
+          "costOfLiving": 400,
+          "social": 1000,
+          "transport": 1100,
+          "annual": 70
+        }
+      },
+      "ocrCorrections": {
+        "11": {
+          "basicPrinted": 2925,
+          "basicUsed": 2975
+        },
+        "13": {
+          "housingSinglePrinted": 818,
+          "housingSingleUsed": 918
+        }
+      },
+      "childPerMonth": 600,
+      "qualification": {
+        "master": 1000,
+        "phd": 2000
+      },
+      "pension": {
+        "newEmployee": 0.11,
+        "legacyEmployee": 0.05,
+        "employer": 0.15,
+        "newFrom": "2023-10-31",
+        "cap": 100000
+      },
+      "bonusMultiple": {
+        "3": 1,
+        "4": 1.5,
+        "5": 2
+      },
+      "bonusCap": 100000
     }
   },
   "sa": {
@@ -6033,6 +6193,205 @@ export default {
         "injuryBy": "2028-07-19",
         "savings": 0.09,
         "savingsBy": "2027-07-19"
+      }
+    },
+    "civilScale": {
+      "law": "المرسوم السلطاني 78/2013 بإصدار جدول الدرجات والرواتب الموحد (نافذ 1/1/2014)، وقانون الخدمة المدنية 120/2004 (م35 وم36 وم44)، وقانون الحماية الاجتماعية 52/2023",
+      "lastReview": "2026-11-03",
+      "grades": {
+        "1": {
+          "basicStart": 2600,
+          "increment": 80,
+          "housing": 600,
+          "electricity": 60,
+          "water": 40,
+          "phone": 40,
+          "transport": 390,
+          "costOfLiving": 50
+        },
+        "2": {
+          "basicStart": 1950,
+          "increment": 60,
+          "housing": 550,
+          "electricity": 60,
+          "water": 40,
+          "phone": 40,
+          "transport": 290,
+          "costOfLiving": 50
+        },
+        "3": {
+          "basicStart": 1500,
+          "increment": 40,
+          "housing": 500,
+          "electricity": 55,
+          "water": 35,
+          "phone": 35,
+          "transport": 225,
+          "costOfLiving": 50
+        },
+        "4": {
+          "basicStart": 1260,
+          "increment": 40,
+          "housing": 450,
+          "electricity": 50,
+          "water": 35,
+          "phone": 35,
+          "transport": 190,
+          "costOfLiving": 50
+        },
+        "5": {
+          "basicStart": 1080,
+          "increment": 25,
+          "housing": 425,
+          "electricity": 50,
+          "water": 30,
+          "phone": 30,
+          "transport": 160,
+          "costOfLiving": 50
+        },
+        "6": {
+          "basicStart": 950,
+          "increment": 20,
+          "housing": 400,
+          "electricity": 45,
+          "water": 30,
+          "phone": 30,
+          "transport": 145,
+          "costOfLiving": 60
+        },
+        "7": {
+          "basicStart": 830,
+          "increment": 20,
+          "housing": 375,
+          "electricity": 40,
+          "water": 30,
+          "phone": 30,
+          "transport": 125,
+          "costOfLiving": 60
+        },
+        "8": {
+          "basicStart": 730,
+          "increment": 15,
+          "housing": 350,
+          "electricity": 40,
+          "water": 25,
+          "phone": 25,
+          "transport": 110,
+          "costOfLiving": 60
+        },
+        "9": {
+          "basicStart": 550,
+          "increment": 15,
+          "housing": 275,
+          "electricity": 30,
+          "water": 20,
+          "phone": 20,
+          "transport": 80,
+          "costOfLiving": 60
+        },
+        "10": {
+          "basicStart": 460,
+          "increment": 15,
+          "housing": 250,
+          "electricity": 30,
+          "water": 20,
+          "phone": 20,
+          "transport": 70,
+          "costOfLiving": 60
+        },
+        "11": {
+          "basicStart": 400,
+          "increment": 15,
+          "housing": 180,
+          "electricity": 25,
+          "water": 20,
+          "phone": 20,
+          "transport": 60,
+          "costOfLiving": 80
+        },
+        "12": {
+          "basicStart": 360,
+          "increment": 8,
+          "housing": 120,
+          "electricity": 25,
+          "water": 15,
+          "phone": 15,
+          "transport": 55,
+          "costOfLiving": 80
+        },
+        "13": {
+          "basicStart": 310,
+          "increment": 8,
+          "housing": 100,
+          "electricity": 20,
+          "water": 15,
+          "phone": 15,
+          "transport": 50,
+          "costOfLiving": 80
+        },
+        "14": {
+          "basicStart": 270,
+          "increment": 8,
+          "housing": 100,
+          "electricity": 20,
+          "water": 10,
+          "phone": 10,
+          "transport": 40,
+          "costOfLiving": 90
+        },
+        "15": {
+          "basicStart": 250,
+          "increment": 7,
+          "housing": 80,
+          "electricity": 20,
+          "water": 10,
+          "phone": 10,
+          "transport": 40,
+          "costOfLiving": 90
+        },
+        "16": {
+          "basicStart": 230,
+          "increment": 6,
+          "housing": 80,
+          "electricity": 10,
+          "water": 6,
+          "phone": 5,
+          "transport": 30,
+          "costOfLiving": 100
+        },
+        "17": {
+          "basicStart": 200,
+          "increment": 6,
+          "housing": 60,
+          "electricity": 10,
+          "water": 6,
+          "phone": 5,
+          "transport": 30,
+          "costOfLiving": 100
+        },
+        "18": {
+          "basicStart": 170,
+          "increment": 5,
+          "housing": 60,
+          "electricity": 10,
+          "water": 6,
+          "phone": 5,
+          "transport": 30,
+          "costOfLiving": 100
+        }
+      },
+      "incrementMinServiceMonths": 6,
+      "promotionMinYears": 3,
+      "newHireGrade": {
+        "phd": 9,
+        "master": 10,
+        "bachelor": 11
+      },
+      "pension": {
+        "employee": 0.075,
+        "cap": 3000,
+        "jobSecurity": 0.005,
+        "employer": 0.11
       }
     }
   },
