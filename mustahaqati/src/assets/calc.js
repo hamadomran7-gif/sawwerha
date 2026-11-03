@@ -1690,3 +1690,51 @@ export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, day
   const vat = subtotal * E.vat;
   return { t1, t2, p1: prices[0], p2: prices[1], consumption: r2(consumption), fixedMonthly, fixed: r2(fixed), subtotal: r2(subtotal), vat: r2(vat), total: r2(subtotal + vat) };
 }
+
+/* ------------------------------------------------------------------ */
+/* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * راتب موظف الدولة من السلم: الأساسي + بدل النقل − استقطاع التقاعد (9% مدني، أو نسبة نظام التأمينات الجديد لمن عُيّن من 3/7/2024).
+ * scale: civil (rank 1–15, step) | teacher (rank: assistant|practicing|advanced|expert, level, step).
+ * العلاوة: الدرجة التالية في 1 يناير، ولا علاوة بعد آخر درجة.
+ */
+export function ksaGovSalary({ scale = "civil", rank, level = 1, step = 1, system = "civil", transport = null, asOf = new Date() }) {
+  let steps, idx, increment, defaultTransport = 0, maxStep, car = false;
+  if (scale === "teacher") {
+    const R = rules.sa.teacherScale.ranks[rank];
+    if (!R) return null;
+    const levels = Object.keys(R.levels).sort((a, b) => a - b);
+    steps = levels.flatMap((lv) => R.levels[lv].steps);
+    const lvSteps = R.levels[String(level)];
+    if (!lvSteps) return null;
+    const before = levels.filter((lv) => Number(lv) < Number(level)).reduce((n, lv) => n + R.levels[lv].steps.length, 0);
+    const s = Math.floor(Number(step) || 1);
+    if (s < 1 || s > lvSteps.steps.length) return null;
+    idx = before + s - 1;
+    increment = idx + 1 < steps.length ? steps[idx + 1] - steps[idx] : 0;
+    defaultTransport = rules.sa.teacherScale.transportDefault;
+    maxStep = steps.length;
+  } else {
+    const R = rules.sa.civilScale.ranks[String(rank)];
+    if (!R) return null;
+    const s = Math.floor(Number(step) || 1);
+    if (s < 1 || s > R.maxStep) return null;
+    steps = R.steps;
+    idx = s - 1;
+    increment = idx + 1 < steps.length ? R.increment : 0;
+    maxStep = R.maxStep;
+    if (R.transport > 0) defaultTransport = R.transport;
+    else car = true;
+  }
+  const basic = steps[idx];
+  const tr = transport === null || transport === undefined || transport === "" ? defaultTransport : Math.max(0, Number(transport) || 0);
+  const rate = system === "gosiNew" ? gosiNewEntrantPensionRate(asOf) : rules.sa.civilScale.retirementRate;
+  const deduction = basic * rate;
+  const atMax = idx + 1 >= steps.length;
+  return {
+    basic, transport: tr, gross: basic + tr, rate, deduction: r2(deduction), net: r2(basic + tr - deduction),
+    increment, nextBasic: atMax ? basic : steps[idx + 1], atMax, position: idx + 1, totalSteps: maxStep, car,
+  };
+}

@@ -847,3 +847,29 @@ test("فاتورة الكهرباء السعودية بتعرفة 2027", () => {
   near(ksaElectricityBill({ kwh: 7000, sector: "commercial", fixedOverride: 0 }).consumption, 1850);
   near(ksaElectricityBill({ kwh: 1000, sector: "government" }).consumption, 350);
 });
+
+import { ksaGovSalary } from "../src/assets/calc.js";
+
+test("سلم رواتب موظفي الدولة والمعلمين", () => {
+  assert.equal(ksaGovSalary({ rank: 8, step: 1 }).basic, 8010);
+  assert.equal(ksaGovSalary({ rank: 1, step: 1 }).basic, 3000);
+  assert.equal(ksaGovSalary({ rank: 15, step: 10 }).basic, 28640);
+  assert.equal(ksaGovSalary({ rank: 15, step: 10 }).atMax, true);
+  assert.equal(ksaGovSalary({ rank: 15, step: 1 }).car, true);
+  assert.equal(ksaGovSalary({ rank: 11, step: 15 }), null);
+  const g = ksaGovSalary({ rank: 6, step: 5 });
+  assert.equal(g.basic, 7285);
+  assert.equal(g.transport, 700);
+  near(g.deduction, 655.65);
+  near(g.net, 7285 + 700 - 655.65);
+  assert.equal(g.nextBasic, 7590);
+  // أرقام عكاظ 2022 الصافية للمعلم الممارس: 7,588.70 و20,037.50
+  near(ksaGovSalary({ scale: "teacher", rank: "practicing", level: 1, step: 1 }).net, 7588.7);
+  near(ksaGovSalary({ scale: "teacher", rank: "practicing", level: 5, step: 3 }).net, 20037.5);
+  assert.equal(ksaGovSalary({ scale: "teacher", rank: "practicing", level: 5, step: 4 }), null);
+  const t = ksaGovSalary({ scale: "teacher", rank: "assistant", level: 1, step: 6 });
+  assert.equal(t.basic, 6700);
+  assert.equal(t.nextBasic, 7000);
+  assert.equal(t.increment, 300);
+  near(ksaGovSalary({ rank: 8, step: 1, system: "gosiNew", asOf: new Date("2026-11-03") }).deduction, 801);
+});

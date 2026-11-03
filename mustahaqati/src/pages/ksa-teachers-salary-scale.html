@@ -1,0 +1,175 @@
+---json
+{
+  "title": "سلم رواتب المعلمين الجديد 2026 — حاسبة راتب المعلم حسب الرتبة والمستوى والدرجة",
+  "h1": "حاسبة سلم رواتب المعلمين في السعودية",
+  "description": "احسب راتب المعلم والمعلمة في السعودية من سلم رواتب شاغلي الوظائف التعليمية النافذ منذ 1 يوليو 2020: رتبة معلم ومعلم ممارس ومتقدم وخبير، بالمستوى والدرجة، مع بدل النقل واستقطاع التقاعد والصافي، والراتب بعد العلاوة في يناير.",
+  "short": "راتب المعلم بالرتبة والمستوى والدرجة، والصافي، والعلاوة في يناير",
+  "lead": "اختر رتبتك ومستواك ودرجتك، ويظهر راتبك الأساسي والصافي وراتبك بعد العلاوة القادمة.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "ksa-teachers-salary-scale.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "ksa-civil-salary-scale",
+    "ksa-civil-retirement",
+    "ksa-retirement-pension",
+    "ksa-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "كم راتب المعلم الجديد في السعودية؟",
+      "a": "يبدأ سلم المعلمين من 5,200 ريال أساسياً في الدرجة الأولى من رتبة معلم (مساعد معلم)، ويبدأ المعلم الممارس من 7,570 ريالاً. وبإضافة بدل نقل 700 وخصم التقاعد 9% يصبح صافي أول درجة للممارس نحو 7,588 ريالاً، وهو الرقم الذي نشرته عكاظ للمعلمين الجدد."
+    },
+    {
+      "q": "ما رتب المعلمين في السلم الجديد؟",
+      "a": "أربع رتب: معلم (مساعد معلم) من 5,200 إلى 17,400، ومعلم ممارس من 7,570 إلى 21,250، ومعلم متقدم من 9,950 إلى 21,770، ومعلم خبير من 12,650 إلى 23,170 ريالاً. وكل مستوى فيه ست درجات."
+    },
+    {
+      "q": "كم علاوة المعلم السنوية ومتى تُصرف؟",
+      "a": "درجة واحدة في السنة، وقيمتها بحسب المستوى بين 300 و640 ريالاً، وتُضاف في يناير. وتتغير قيمة العلاوة كل ست درجات بانتقال المعلم إلى المستوى التالي."
+    },
+    {
+      "q": "متى بدأ تطبيق سلم المعلمين الجديد؟",
+      "a": "نفذت لائحة الوظائف التعليمية وسلمها في 10/11/1441هـ الموافق 1 يوليو 2020، وسُكّن المعلمون عليها براتب مساوٍ لرواتبهم السابقة أو أعلى. ولم نجد تعديلاً لأرقام السلم في 2024–2026؛ أخبار 2026 تخص ضوابط الترقية بين الرتب."
+    },
+    {
+      "q": "كم بدل النقل للمعلم؟",
+      "a": "المتداول للمعلم الممارس 700 ريال، وهو ما يطابق أرقام الرواتب الصافية المنشورة، لكننا لم نجد نصاً رسمياً يحدد بدل كل رتبة، فالحاسبة تتيح لك تعديله."
+    }
+  ],
+  "sources": [
+    {
+      "t": "وزارة التعليم — اعتماد لائحة الوظائف التعليمية وسلم رواتبها (1440هـ)",
+      "u": "https://www.moe.gov.sa/ar/mediacenter/MOEnews/Pages/n-b-1440-r.aspx"
+    },
+    {
+      "t": "أي وظيفة — جداول البيان الصحفي لسلم رواتب المعلمين (يوليو 2019)",
+      "u": "https://www.ewdifh.com/jobs/54302"
+    },
+    {
+      "t": "الاقتصادية — تسكين المعلمين على السلم الجديد من 1 يوليو 2020",
+      "u": "https://www.aleqt.com/2020/06/29/article_1862491.html"
+    },
+    {
+      "t": "عكاظ — 7,588 ريالاً صافي أول درجة للمعلمين الجدد (يوليو 2022)",
+      "u": "https://www.okaz.com.sa/ampArticle/2111255"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب راتبك من سلم المعلمين</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="rank">الرتبة</label>
+        <select id="rank" name="rank">
+          <option value="assistant">معلم (مساعد معلم)</option>
+          <option value="practicing" selected>معلم ممارس</option>
+          <option value="advanced">معلم متقدم</option>
+          <option value="expert">معلم خبير</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="level">المستوى</label>
+        <select id="level" name="level">
+          <option value="1">المستوى 1</option>
+          <option value="2">المستوى 2</option>
+          <option value="3">المستوى 3</option>
+          <option value="4">المستوى 4</option>
+          <option value="5">المستوى 5</option>
+          <option value="6">المستوى 6</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="step">الدرجة</label>
+        <select id="step" name="step">
+          <option value="1">الدرجة 1</option>
+          <option value="2">الدرجة 2</option>
+          <option value="3">الدرجة 3</option>
+          <option value="4">الدرجة 4</option>
+          <option value="5">الدرجة 5</option>
+          <option value="6">الدرجة 6</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="transport">بدل النقل (ريال)</label>
+        <input type="number" id="transport" name="transport" inputmode="decimal" min="0" step="1" value="700">
+        <span class="hint">المتداول 700؛ عدّله من مسير راتبك.</span>
+      </div>
+      <div class="field">
+        <label for="system">نظام التقاعد</label>
+        <select id="system" name="system">
+          <option value="civil">التقاعد المدني (9%)</option>
+          <option value="gosiNew">التأمينات الجديد (عُيّنت من 3 يوليو 2024)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>جداول سلم رواتب المعلمين (الراتب الأساسي بالريال)</h2>
+<p>النافذ منذ 1 يوليو 2020. في كل مستوى ست درجات، والعلاوة السنوية درجة واحدة بقيمة علاوة المستوى، وأول درجة في المستوى التالي تزيد على آخر درجة في المستوى السابق بعلاوته.</p>
+<h3>معلم (مساعد معلم)</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المستوى</th><th scope="col">د1</th><th scope="col">د2</th><th scope="col">د3</th><th scope="col">د4</th><th scope="col">د5</th><th scope="col">د6</th><th scope="col">العلاوة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>5,200</td><td>5,500</td><td>5,800</td><td>6,100</td><td>6,400</td><td>6,700</td><td>300</td></tr>
+    <tr><th scope="row">2</th><td>7,000</td><td>7,320</td><td>7,640</td><td>7,960</td><td>8,280</td><td>8,600</td><td>320</td></tr>
+    <tr><th scope="row">3</th><td>8,920</td><td>9,260</td><td>9,600</td><td>9,940</td><td>10,280</td><td>10,620</td><td>340</td></tr>
+    <tr><th scope="row">4</th><td>10,960</td><td>11,320</td><td>11,680</td><td>12,040</td><td>12,400</td><td>12,760</td><td>360</td></tr>
+    <tr><th scope="row">5</th><td>13,120</td><td>13,500</td><td>13,880</td><td>14,260</td><td>14,640</td><td>15,020</td><td>380</td></tr>
+    <tr><th scope="row">6</th><td>15,400</td><td>15,800</td><td>16,200</td><td>16,600</td><td>17,000</td><td>17,400</td><td>400</td></tr>
+  </tbody>
+</table>
+</div>
+<h3>معلم ممارس</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المستوى</th><th scope="col">د1</th><th scope="col">د2</th><th scope="col">د3</th><th scope="col">د4</th><th scope="col">د5</th><th scope="col">د6</th><th scope="col">العلاوة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>7,570</td><td>8,070</td><td>8,570</td><td>9,070</td><td>9,570</td><td>10,070</td><td>500</td></tr>
+    <tr><th scope="row">2</th><td>10,570</td><td>11,090</td><td>11,610</td><td>12,130</td><td>12,650</td><td>13,170</td><td>520</td></tr>
+    <tr><th scope="row">3</th><td>13,690</td><td>14,230</td><td>14,770</td><td>15,310</td><td>15,850</td><td>16,390</td><td>540</td></tr>
+    <tr><th scope="row">4</th><td>16,930</td><td>17,470</td><td>18,010</td><td>18,550</td><td>19,090</td><td>19,630</td><td>540</td></tr>
+    <tr><th scope="row">5</th><td>20,170</td><td>20,710</td><td>21,250</td><td>—</td><td>—</td><td>—</td><td>540</td></tr>
+  </tbody>
+</table>
+</div>
+<h3>معلم متقدم</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المستوى</th><th scope="col">د1</th><th scope="col">د2</th><th scope="col">د3</th><th scope="col">د4</th><th scope="col">د5</th><th scope="col">د6</th><th scope="col">العلاوة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>9,950</td><td>10,490</td><td>11,030</td><td>11,570</td><td>12,110</td><td>12,650</td><td>540</td></tr>
+    <tr><th scope="row">2</th><td>13,190</td><td>13,750</td><td>14,310</td><td>14,870</td><td>15,430</td><td>15,990</td><td>560</td></tr>
+    <tr><th scope="row">3</th><td>16,550</td><td>17,130</td><td>17,710</td><td>18,290</td><td>18,870</td><td>19,450</td><td>580</td></tr>
+    <tr><th scope="row">4</th><td>20,030</td><td>20,610</td><td>21,190</td><td>21,770</td><td>—</td><td>—</td><td>580</td></tr>
+  </tbody>
+</table>
+</div>
+<h3>معلم خبير</h3>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">المستوى</th><th scope="col">د1</th><th scope="col">د2</th><th scope="col">د3</th><th scope="col">د4</th><th scope="col">د5</th><th scope="col">د6</th><th scope="col">العلاوة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">1</th><td>12,650</td><td>13,250</td><td>13,850</td><td>14,450</td><td>15,050</td><td>15,650</td><td>600</td></tr>
+    <tr><th scope="row">2</th><td>16,250</td><td>16,870</td><td>17,490</td><td>18,110</td><td>18,730</td><td>19,350</td><td>620</td></tr>
+    <tr><th scope="row">3</th><td>19,970</td><td>20,610</td><td>21,250</td><td>21,890</td><td>22,530</td><td>23,170</td><td>640</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> معلم ممارس، المستوى الأول، الدرجة الأولى: 7,570 + بدل نقل 700 = 8,270، ناقص تقاعد 9% (681.30) = <strong>صافي 7,588.70 ريالاً</strong>. وفي يناير ينتقل إلى الدرجة الثانية: 8,070 ريالاً أساسياً.</p>
+</div>
+<p>الأرقام من البيان الصحفي لوزارة التعليم كما نقلته الصحف، وتطابق الأرقام الصافية المنشورة لاحقاً؛ تحقق من مسير راتبك. ولبقية موظفي الدولة <a href="{{root}}ksa-civil-salary-scale/{{ix}}">سلم رواتب الموظفين العام</a>.</p>
+</div>
