@@ -183,6 +183,27 @@ const TABLES = {
     });
     return tableWrap(a.caption || `راتب أساسي ${fmt0.format(basic)} درهم`, ["مدة الخدمة", "أيام الأجر المستحقة", "المكافأة (درهم)"], rows);
   },
+  /** English: UAE gratuity grid (rows = years of service, columns = basic salary) */
+  "uae-gratuity-grid-en"(a) {
+    const salaries = listNums(a.salaries, [3000, 5000, 8000, 10000, 15000, 20000, 30000]);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20, 25, 30]);
+    const yl = (y) => `${fmt0.format(y)} ${y === 1 ? "year" : "years"}`;
+    const rows = years.map((y) => [yl(y), ...salaries.map((s) => fmt0.format(calc.uaeGratuity({ basicSalary: s, years: y }).total))]);
+    return tableWrap(a.caption || "Gratuity in AED (rounded to the nearest dirham)", ["Service", ...salaries.map((s) => `Basic ${fmt0.format(s)}`)], rows);
+  },
+  /** English: effect of unpaid leave days on UAE gratuity */
+  "uae-unpaid-impact-en"(a) {
+    const basic = Number(a.basic || 6000);
+    const start = a.start || "2021-01-01";
+    const end = a.end || "2025-12-31";
+    const days = listNums(a.days, [0, 30, 60, 90, 180, 365]);
+    const rows = days.map((u) => {
+      const d = calc.serviceDuration(start, end, u);
+      const g = calc.uaeGratuity({ basicSalary: basic, years: d.decimalYears });
+      return [fmt0.format(u), `${d.years} y ${d.months} m ${d.days} d`, g.eligible ? fmt0.format(g.total) : "Not due"];
+    });
+    return tableWrap(a.caption || "", ["Unpaid days", "Service counted", "Gratuity (AED)"], rows);
+  },
   /** أثر أيام الإجازة بدون راتب على المكافأة الإماراتية */
   "uae-unpaid-impact"(a) {
     const basic = Number(a.basic || 6000);
@@ -222,6 +243,39 @@ const TABLES = {
       return [`${yearsLabel(y1)} ← ${yearsLabel(y2)}`, fmt0.format(r1), fmt0.format(r2), `+${fmt0.format(r2 - r1)}`];
     });
     return tableWrap(a.caption || `أجر ${fmt0.format(wage)} ريال`, ["الانتقال", "قبل", "بعد", "الزيادة"], rows);
+  },
+  /** English: Saudi full award vs resignation award */
+  "ksa-resignation-grid-en"(a) {
+    const wage = Number(a.wage || 10000);
+    const years = listNums(a.years, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]);
+    const yl = (y) => `${fmt0.format(y)} ${y === 1 ? "year" : "years"}`;
+    const rows = years.map((y) => {
+      const full = calc.ksaEndOfService({ wage, years: y, reason: "contract_end" });
+      const res = calc.ksaEndOfService({ wage, years: y, reason: "resignation" });
+      const frac = res.fraction === 1 ? "Full" : res.fraction === 0 ? "None" : res.fraction > 0.5 ? "Two thirds" : "One third";
+      return [yl(y), fmt0.format(full.total), frac, fmt0.format(res.total), fmt0.format(full.total - res.total)];
+    });
+    return tableWrap(a.caption || `Last actual wage SAR ${fmt0.format(wage)}`, ["Service", "Full award", "Resignation share", "Resignation award", "Difference"], rows);
+  },
+  /** English: Saudi resignation thresholds */
+  "ksa-resignation-thresholds-en"(a) {
+    const wage = Number(a.wage || 10000);
+    const yl = (y) => {
+      const whole = Math.floor(y + 1e-9);
+      const m = Math.round((y - whole) * 12);
+      return [whole ? `${whole} ${whole === 1 ? "year" : "years"}` : "", m ? `${m} ${m === 1 ? "month" : "months"}` : ""].filter(Boolean).join(" ");
+    };
+    const pairs = [
+      [1 + 11 / 12, 2],
+      [5, 5 + 1 / 12],
+      [9 + 11 / 12, 10],
+    ];
+    const rows = pairs.map(([y1, y2]) => {
+      const r1 = calc.ksaEndOfService({ wage, years: y1, reason: "resignation" }).total;
+      const r2 = calc.ksaEndOfService({ wage, years: y2, reason: "resignation" }).total;
+      return [`${yl(y1)} → ${yl(y2)}`, fmt0.format(r1), fmt0.format(r2), `+${fmt0.format(r2 - r1)}`];
+    });
+    return tableWrap(a.caption || `Wage SAR ${fmt0.format(wage)}`, ["Step", "Before", "After", "Increase"], rows);
   },
   /** مقارنة دول الخليج الست لأجر 10,000 بالعملة المحلية */
   "gcc-compare"(a) {
