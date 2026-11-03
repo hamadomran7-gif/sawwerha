@@ -1,0 +1,130 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-net-salary-calculator",
+  "alternate": "bahrain-net-salary",
+  "title": "Bahrain Net Salary Calculator 2026 — 8% SIO Deduction for Bahrainis and 1% for Expats",
+  "h1": "Bahrain Net Salary Calculator",
+  "description": "Work out your net salary in Bahrain after SIO contributions: 7% pension and 1% unemployment for Bahrainis, an employer pension share of 15% in 2026 rising 1% a year to 17% in 2028 plus 3% work injury, capped at BHD 4,000, and 1% for expats with an end-of-service contribution of 4.2% or 8.4% paid by the employer.",
+  "short": "7% + 1% for Bahrainis and 15% + 3% for employers in 2026, and 1% for expats",
+  "lead": "Enter your basic salary and fixed allowances to see the deduction, your net pay and the employer's share by year.",
+  "country": "bh",
+  "category": "salary",
+  "tool": true,
+  "script": "en-gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-pension",
+    "en-bahrain-end-of-service",
+    "en-bahrain-unemployment",
+    "en-bahrain-leave"
+  ],
+  "faq": [
+    {
+      "q": "How much is deducted from a Bahraini's salary for social insurance?",
+      "a": "8% in the private sector: 7% for the pension and 1% for unemployment insurance, on insurable pay (basic plus fixed allowances up to 100% of basic) capped at BHD 4,000. The employee rate has been fixed since January 2023."
+    },
+    {
+      "q": "What is the employer's share of Bahraini social insurance in 2026?",
+      "a": "15% for the pension in 2026, 16% in 2027 and 17% in 2028, plus 3% for work injury. The employer's unemployment share is paid by the Labour Fund for the private sector."
+    },
+    {
+      "q": "How much is deducted from an expat's salary in Bahrain?",
+      "a": "Only 1% for unemployment insurance. The employer pays 3% for work injury and, since March 2024, an end-of-service contribution to the SIO: 4.2% for the first 3 years, then 8.4%."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Legislation and Legal Opinion Commission — Law 14/2022 amending the Social Insurance Law (Arabic)",
+      "u": "https://www.lloc.gov.bh/Legislation/HTM/K1422"
+    },
+    {
+      "t": "Daily Tribune — employer share rising to 2028 (30 Aug 2025)",
+      "u": "https://www.newsofbahrain.com/bahrain/118098.html"
+    },
+    {
+      "t": "Teamed — Bahrain payroll and social insurance (30 Oct 2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/bahrain-payroll-and-social-insurance"
+    },
+    {
+      "t": "Teamed — end-of-service with the SIO (30 Oct 2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/bahrain-end-of-service-sio"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your net salary</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">Nationality</label>
+        <select id="national" name="national">
+          <option value="yes" selected>Bahraini</option>
+          <option value="no">Expat</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="sector">Sector</label>
+        <select id="sector" name="sector">
+          <option value="private" selected>Private</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Basic salary (BHD)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="1000">
+      </div>
+      <div class="field">
+        <label for="allowances">Fixed allowances (housing, transport, social)</label>
+        <input type="number" id="allowances" name="allowances" inputmode="decimal" min="0" step="1" value="400">
+      </div>
+      <div class="field" data-national data-private>
+        <label for="year">Year</label>
+        <select id="year" name="year">
+          <option value="2026" selected>2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+        </select>
+      </div>
+      <div class="field" data-expat hidden>
+        <label for="over3">Your service with the employer</label>
+        <select id="over3" name="over3">
+          <option value="no" selected>Under 3 years</option>
+          <option value="yes">3 years or more</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Bahrain contribution rates</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Group and branch</th><th scope="col">Employee</th><th scope="col">Employer</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Bahraini: pension</th><td>7%</td><td>15% (2026), 16% (2027), 17% (2028)</td></tr>
+    <tr><th scope="row">Bahraini: work injury</th><td>—</td><td>3%</td></tr>
+    <tr><th scope="row">Bahraini: unemployment</th><td>1%</td><td>paid by the Labour Fund</td></tr>
+    <tr><th scope="row">Expat: work injury</th><td>—</td><td>3%</td></tr>
+    <tr><th scope="row">Expat: unemployment</th><td>1%</td><td>paid by the Labour Fund</td></tr>
+    <tr><th scope="row">Expat: end-of-service</th><td>—</td><td>4.2% for 3 years, then 8.4%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Examples (2026):</strong><br>
+Bahraini, basic 1,000 and allowances 400: 8% × 1,400 = 112 is deducted and net pay is <strong>BHD 1,288</strong>; the employer pays 18% = 252.<br>
+Bahraini, basic 1,000 and allowances 1,500: allowances count at 1,000 only (100% of basic), so insurable pay is 2,000 and 160 is deducted.<br>
+Expat on 1,400 in the first 3 years: 14 is deducted and net pay is 1,386; the employer pays 3% + 4.2% = 100.8.</p>
+</div>
+<p>Insurable pay for Bahrainis is basic plus fixed allowances paid to all workers in the same category (cash housing, transport, social and others) up to 100% of basic, capped at BHD 4,000. Decree-Law 44/2026 adds a minimum insurable wage for first-time registrants after 9 October 2026; the amount has not been set yet. In government, contributions are on basic salary: 7% from the employee and 20% from the employer.</p>
+<p>For your pension use the <a href="{{root}}en/bahrain-pension-calculator/{{ix}}">Bahrain pension calculator</a>, and for your gratuity the <a href="{{root}}en/bahrain-end-of-service-calculator/{{ix}}">end-of-service calculator</a>.</p>
+</div>

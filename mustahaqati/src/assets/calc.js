@@ -3045,6 +3045,135 @@ export function hijriMonthGrid({ year, month }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* الراتب الصافي واشتراكات التأمينات: الإمارات والكويت وقطر والبحرين وعُمان */
+/* ------------------------------------------------------------------ */
+
+const sumBy = (rows, k) => rows.reduce((a, r) => a + (r[k] || 0), 0);
+const finishNet = (gross, base, rows, dp = 2) => {
+  const rd = (x) => Math.round(x * 10 ** dp) / 10 ** dp;
+  rows.forEach((r) => { r.employee = rd(r.employee || 0); r.employer = rd(r.employer || 0); r.gov = rd(r.gov || 0); });
+  const employee = rd(sumBy(rows, "employee")), employer = rd(sumBy(rows, "employer")), gov = rd(sumBy(rows, "gov"));
+  return { gross: rd(gross), base: rd(base), rows, employee, employer, gov, net: rd(gross - employee), cost: rd(gross + employer) };
+};
+
+/** الإمارات: اشتراك المواطن في الهيئة الاتحادية (جديد/قديم) أو صندوق أبوظبي (جديد/حالي) أو صندوق الشارقة، والوافد بلا اشتراك. */
+export function uaeNetSalary({ national = true, fund = "gpssaNew", sector = "private", basic = 0, housing = 0, other = 0, nafis = false } = {}) {
+  const C = rules.ae.contrib;
+  const b = Math.max(0, Number(basic) || 0), h = Math.max(0, Number(housing) || 0), o = Math.max(0, Number(other) || 0);
+  const gross = b + h + o;
+  if (!national) return { ...finishNet(gross, 0, []), national: false, iloePremium: b <= rules.ae.iloe.categoryAMaxBasic ? rules.ae.iloe.premiumA : rules.ae.iloe.premiumB };
+  const F = C[fund] || C.gpssaNew;
+  let raw = fund === "sharjah" ? b + o : gross;
+  let min = 0, max = Infinity;
+  if (fund === "gpssaNew") { min = sector === "private" ? F.privateMin : 0; max = sector === "private" ? F.privateMax : F.govMax; }
+  else if (fund === "gpssaOld") { min = sector === "private" ? F.privateMin : 0; max = sector === "private" ? F.privateMax : F.govMax; }
+  else if (fund === "adpfNew" || fund === "adpfCurrent") { min = sector === "private" ? F.privateMin : 0; max = F.max; }
+  const base = Math.min(max, Math.max(min, raw));
+  let employerPct = F.employer, govPct = 0;
+  if (sector === "private" && fund === "gpssaNew" && base < F.govShareBelow) { govPct = F.govShare; employerPct = F.employer - F.govShare; }
+  if (sector === "private" && fund === "gpssaOld") { govPct = F.govShare; employerPct = F.employer - F.govShare; }
+  const nafisCovers = !!nafis && sector === "private" && gross >= C.nafisMin && gross <= C.nafisMax;
+  const rows = [{ id: "pension", employee: nafisCovers ? 0 : base * F.employee, employer: base * employerPct, gov: base * govPct, nafis: nafisCovers ? base * F.employee : 0 }];
+  const out = finishNet(gross, base, rows);
+  out.national = true; out.employeePct = F.employee; out.employerPct = employerPct; out.govPct = govPct;
+  out.nafis = nafisCovers ? Math.round(base * F.employee * 100) / 100 : 0;
+  out.raisedToMin = raw < min; out.capped = raw > max;
+  if (fund === "adpfCurrent") out.govAnnualPct = F.govAnnual;
+  return out;
+}
+
+/** الكويت: للكويتي الأساسي حتى 1,500 والتكميلي حتى 2,750 وزيادة المعاشات والمكافأة المالية والبطالة (للأهلي)، والوافد بلا اشتراك. */
+export function kuwaitNetSalary({ national = true, sector = "private", salary = 0 } = {}) {
+  const C = rules.kw.contrib;
+  const gross = Math.max(0, Number(salary) || 0);
+  if (!national) return { ...finishNet(gross, 0, [], 3), national: false };
+  const raw = sector === "private" ? Math.max(C.privateMin, gross) : gross;
+  const total = Math.min(C.totalCap, raw);
+  const bands = { basic: Math.min(C.basicCap, raw), supp: Math.max(0, total - C.basicCap), total };
+  const rows = C.branches.filter((x) => !(x.privateOnly && sector !== "private")).map((x) => ({ id: x.id, base: bands[x.band], employee: bands[x.band] * x.employee, employer: bands[x.band] * x.employer }));
+  const out = finishNet(gross, total, rows, 3);
+  out.national = true; out.raisedToMin = sector === "private" && gross < C.privateMin; out.capped = raw > C.totalCap;
+  return out;
+}
+
+/** قطر: للقطري 7% و14% على الأساسي والعلاوة الاجتماعية وبدل السكن (بحد 6,000، والعيني كأنه نقدي) بسقف 100,000. */
+export function qatarNetSalary({ national = true, basic = 0, social = 0, housing = 0, other = 0 } = {}) {
+  const C = rules.qa.contrib;
+  const b = Math.max(0, Number(basic) || 0), s = Math.max(0, Number(social) || 0), h = Math.max(0, Number(housing) || 0), o = Math.max(0, Number(other) || 0);
+  const gross = b + s + h + o;
+  if (!national) return { ...finishNet(gross, 0, []), national: false };
+  const raw = b + s + Math.min(C.housingCap, h);
+  const base = Math.min(C.max, raw);
+  const out = finishNet(gross, base, [{ id: "pension", employee: base * C.employee, employer: base * C.employer }]);
+  out.national = true; out.housingCapped = h > C.housingCap; out.capped = raw > C.max;
+  return out;
+}
+
+/** البحرين: للبحريني معاش 7% و15% (2026) يزيد 1% سنوياً حتى 17%، وإصابات 3%، وتعطل 1%؛ وللوافد إصابات 3% ومكافأة 4.2% أو 8.4% وتعطل 1%. */
+export function bahrainNetSalary({ national = true, sector = "private", basic = 0, allowances = 0, year = 2026, over3 = false } = {}) {
+  const C = rules.bh.contrib;
+  const b = Math.max(0, Number(basic) || 0), a = Math.max(0, Number(allowances) || 0);
+  const gross = b + a;
+  const y = String(Math.min(2028, Math.max(2026, Number(year) || 2026)));
+  if (!national) {
+    const capped = Math.min(C.max, gross);
+    const rows = [
+      { id: "injury", employer: capped * C.expat.injury },
+      { id: "unemployment", employee: capped * C.expat.unempEmployee, gov: capped * C.unempGov },
+      { id: "eos", employer: gross * (over3 ? C.expat.eosAfter3 : C.expat.eosFirst3) },
+    ];
+    const out = finishNet(gross, capped, rows, 3);
+    out.national = false; out.eosPct = over3 ? C.expat.eosAfter3 : C.expat.eosFirst3;
+    return out;
+  }
+  if (sector === "government") {
+    const rows = [{ id: "pension", employee: b * C.government.employee, employer: b * C.government.employer }, { id: "unemployment", employee: b * C.unempEmployee, gov: b * C.unempGov }];
+    const out = finishNet(gross, b, rows, 3);
+    out.national = true; out.government = true;
+    return out;
+  }
+  const raw = b + Math.min(a, b * C.allowancesCapOfBasic);
+  const base = Math.min(C.max, raw);
+  const er = C.employerByYear[y];
+  const rows = [
+    { id: "pension", employee: base * C.employee, employer: base * er },
+    { id: "injury", employer: base * C.injury },
+    { id: "unemployment", employee: base * C.unempEmployee, gov: base * C.unempGov },
+  ];
+  const out = finishNet(gross, base, rows, 3);
+  out.national = true; out.employerPct = er; out.allowancesCapped = a > b * C.allowancesCapOfBasic; out.capped = raw > C.max;
+  return out;
+}
+
+/** عُمان: للعُماني معاش 7.5% و11% وإصابات 1% بسقف 3,000، وأمومة 1% ومرضية 1% وأمان وظيفي 0.5% + 0.5% بلا سقف؛ وللوافد على صاحب العمل أمومة 1% ومرضية 1%. */
+export function omanNetSalary({ national = true, gross = 0, basic = 0, today } = {}) {
+  const C = rules.om.contrib;
+  const g = Math.max(0, Number(gross) || 0);
+  const t = utcDay(today || new Date());
+  const sickOn = t >= utcDay(C.sickFrom);
+  if (!national) {
+    const rows = [{ id: "maternity", employer: g * C.expat.maternity }];
+    if (sickOn) rows.push({ id: "sick", employer: g * C.expat.sick });
+    const out = finishNet(g, g, rows, 3);
+    out.national = false;
+    out.futureSavings = Math.round(Math.max(0, Number(basic) || 0) * C.expat.savings * 1000) / 1000;
+    out.futureInjury = Math.round(Math.min(C.cap, g) * C.expat.injury * 1000) / 1000;
+    return out;
+  }
+  const capped = Math.min(C.cap, g);
+  const rows = [
+    { id: "pension", base: capped, employee: capped * C.employee.pension, employer: capped * C.employer.pension },
+    { id: "injury", base: capped, employer: capped * C.employer.injury },
+    { id: "maternity", base: g, employer: g * C.employer.maternity },
+  ];
+  if (sickOn) rows.push({ id: "sick", base: g, employer: g * C.employer.sick });
+  rows.push({ id: "jobSecurity", base: g, employee: g * C.employee.jobSecurity, employer: g * C.employer.jobSecurity });
+  const out = finishNet(g, capped, rows, 3);
+  out.national = true; out.capped = g > C.cap;
+  return out;
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

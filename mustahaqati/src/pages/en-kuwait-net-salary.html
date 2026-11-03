@@ -1,0 +1,116 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-net-salary-calculator",
+  "alternate": "kuwait-net-salary",
+  "title": "Kuwait Net Salary Calculator 2026 — 10.5% PIFSS Deduction for Kuwaitis, None for Expats",
+  "h1": "Kuwait Net Salary Calculator",
+  "description": "Work out your net salary in Kuwait after PIFSS contributions: 10.5% for Kuwaitis in the private sector and 10% in government on pay up to KWD 1,500, the supplementary band up to 2,750, an employer share of 11.5% or 11%, and no contribution for expats.",
+  "short": "10.5% for Kuwaitis in the private sector and 10% in government up to 1,500, plus the supplementary band to 2,750",
+  "lead": "Choose your nationality and sector and enter your insurable salary to see each deduction, your net pay and the employer's share.",
+  "country": "kw",
+  "category": "salary",
+  "tool": true,
+  "script": "en-gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-pension",
+    "en-kuwait-labour-support",
+    "en-kuwait-end-of-service",
+    "en-kuwait-leave"
+  ],
+  "faq": [
+    {
+      "q": "How much is deducted from a Kuwaiti's salary for social insurance?",
+      "a": "In the private sector 10.5% on pay up to KWD 1,500: 5% basic insurance, 2.5% pension increase, 2.5% financial reward and 0.5% unemployment. In government 10%, because unemployment insurance covers the private and oil sectors only. On pay between 1,500 and 2,750, 5% supplementary, 2.5% increase and 0.5% unemployment are deducted."
+    },
+    {
+      "q": "What is the employer's share of Kuwaiti social insurance?",
+      "a": "11.5% in the private sector on pay up to 1,500 (10% basic, 1% pension increase and 0.5% unemployment) and 11% in government, plus 10% supplementary on the 1,500–2,750 band."
+    },
+    {
+      "q": "What is the maximum insurable salary in Kuwait?",
+      "a": "KWD 1,500 for basic insurance and KWD 2,750 for supplementary insurance, the pension increase and unemployment; nothing is due above that. The private-sector minimum is KWD 230."
+    },
+    {
+      "q": "Is anything deducted from an expat's salary in Kuwait?",
+      "a": "No. Expats are not insured with PIFSS, so their net pay equals their gross pay; the employer pays the end-of-service indemnity."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Oracle — social insurance calculation for Kuwait",
+      "u": "https://docs.oracle.com/en/cloud/saas/human-resources/faakw/social-insurance-calculation-for-kuwait.html"
+    },
+    {
+      "t": "Teamed — Kuwait payroll and social security (30 Oct 2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/kuwait-payroll-and-social-security"
+    },
+    {
+      "t": "Al Tamimi — Unemployment Insurance Law 101/2013",
+      "u": "https://tamimi.com/law-update-articles/introduction-of-unemployment-insurance-law-in-kuwait"
+    },
+    {
+      "t": "Public Institution for Social Security — official site",
+      "u": "https://www.pifss.gov.kw"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your net salary</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">Nationality</label>
+        <select id="national" name="national">
+          <option value="yes" selected>Kuwaiti</option>
+          <option value="no">Expat</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="sector">Sector</label>
+        <select id="sector" name="sector">
+          <option value="private" selected>Private</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">Monthly insurable salary (KWD)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="1400">
+        <span class="hint">Private: everything paid in cash or in kind. Government: basic, social and children's allowances.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Contribution rates for Kuwaitis</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Branch</th><th scope="col">Employee</th><th scope="col">Employer</th><th scope="col">Band</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Basic insurance</th><td>5%</td><td>10%</td><td>up to 1,500</td></tr>
+    <tr><th scope="row">Supplementary insurance</th><td>5%</td><td>10%</td><td>1,500–2,750</td></tr>
+    <tr><th scope="row">Pension increase</th><td>2.5%</td><td>1%</td><td>up to 2,750</td></tr>
+    <tr><th scope="row">Financial reward</th><td>2.5%</td><td>—</td><td>up to 1,500</td></tr>
+    <tr><th scope="row">Unemployment (private and oil)</th><td>0.5%</td><td>0.5%</td><td>up to 2,750</td></tr>
+    <tr><th scope="row">Total up to 1,500</th><td>10.5% (government 10%)</td><td>11.5% (government 11%)</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Examples (private sector):</strong><br>
+Salary 1,400: 10.5% = 147 is deducted and net pay is <strong>KWD 1,253</strong>; the employer pays 161.<br>
+Salary 2,000: 75 + 25 + 50 + 37.5 + 10 = 197.5 is deducted and net pay is 1,802.5; the employer pays 230.<br>
+Salary 14,000: insurable pay is capped at 2,750, so 257.5 is deducted and net pay is 13,742.5.</p>
+</div>
+<p>Insurable pay in the private sector is everything paid in cash or in kind; in government it is basic plus social and children's allowances. None of the rates or caps changed in 2024–2026. Secondary sources say national labour support may count as insurable pay, but we found no official text. The treasury pays further shares that do not affect your net pay.</p>
+<p>For your pension use the <a href="{{root}}en/kuwait-pension-calculator/{{ix}}">Kuwait pension calculator</a>, and for labour support the <a href="{{root}}en/kuwait-national-labour-support-calculator/{{ix}}">national labour support calculator</a>.</p>
+</div>

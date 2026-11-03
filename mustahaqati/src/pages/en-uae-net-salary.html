@@ -1,0 +1,144 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-net-salary-calculator",
+  "alternate": "uae-net-salary",
+  "title": "UAE Net Salary Calculator 2026 — 11% or 5% Pension Deduction for Nationals, None for Expats",
+  "h1": "UAE Net Salary Calculator",
+  "description": "Work out your net salary in the UAE after pension contributions: 11% for nationals registered with GPSSA from 31 October 2023 and 5% for earlier members, 15% from the employer with the government covering 2.5% in the private sector below 20,000, the Abu Dhabi and Sharjah funds, Nafis cover, and no deduction for expats.",
+  "short": "11% or 5% for nationals and 15% for employers, the Abu Dhabi and Sharjah funds, and no deduction for expats",
+  "lead": "Choose your fund and sector and enter your salary and allowances to see the deduction, your net pay and your cost to the employer.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related":["en-uae-pension", "en-uae-nafis", "en-abu-dhabi-pension", "en-uae-iloe", "en-ksa-net-salary"],
+  "faq": [
+    {
+      "q": "How much is deducted from a UAE national's salary for pension?",
+      "a": "For those registered with GPSSA from 31 October 2023: 11% of the contribution salary; for earlier members 5%. The employer pays 15%, of which the government covers 2.5% in the private sector when the contribution salary is below AED 20,000 (Decree-Law 57/2023)."
+    },
+    {
+      "q": "What is the contribution salary in the private sector?",
+      "a": "The contract wage, meaning basic plus the fixed allowances in the contract, from AED 3,000 to 70,000 for new members and 1,000 to 50,000 for earlier members. In government it is basic plus specific allowances, capped at 100,000."
+    },
+    {
+      "q": "Is anything deducted from an expat's salary in the UAE?",
+      "a": "No pension contribution is deducted from expats; the employer pays the end-of-service gratuity when the contract ends. Expats pay the unemployment insurance premium of AED 5 a month for basic salaries up to 16,000 or AED 10 above, usually outside payroll."
+    },
+    {
+      "q": "Does Nafis pay the Emirati employee's pension share?",
+      "a": "Yes. The Eshtirak programme covers the employee's share for private-sector Emiratis with a gross salary between AED 6,000 and 20,000, and the employer pays its own share in full since September 2026."
+    },
+    {
+      "q": "What are the Abu Dhabi Pension Fund contribution rates?",
+      "a": "For members registered from 1 December 2023: 11% from the employee and 15% from the employer, with no government share. For existing members: 5% and 15%, plus 6% a year from the Abu Dhabi government. The total is 26% in both cases."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Federal Decree-Law 57/2023 on pensions (Articles 4 and 5)",
+      "u": "https://uaelegislation.gov.ae/en/legislations/2254/download"
+    },
+    {
+      "t": "MOHRE — employer contribution guide under Law 57 (Arabic)",
+      "u": "https://mohre.gov.ae/assets/download/3df0274/monthly-contribution-employer-guideline-according-to-the-pension-law-no-57-ar.aspx"
+    },
+    {
+      "t": "Abu Dhabi Media Office — pension law amendments (17 Nov 2023, Arabic)",
+      "u": "https://www.mediaoffice.abudhabi/ar/government-affairs/abu-dhabi-pension-fund-amends-retirement-law-and-introduces-new-benefits/"
+    },
+    {
+      "t": "Sharjah Social Security Fund — FAQ",
+      "u": "https://sssf.shj.ae/en/faq"
+    },
+    {
+      "t": "Zoho — GPSSA and ADPF contributions (16 Apr 2026)",
+      "u": "https://www.zoho.com/en-ae/payroll/academy/compliance/gpssa-and-adpf-pension.html"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your net salary</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">Nationality</label>
+        <select id="national" name="national">
+          <option value="yes" selected>UAE national</option>
+          <option value="no">Expat</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="fund">Pension fund</label>
+        <select id="fund" name="fund">
+          <option value="gpssaNew" selected>GPSSA — registered from 31 Oct 2023</option>
+          <option value="gpssaOld">GPSSA — registered earlier</option>
+          <option value="adpfNew">Abu Dhabi fund — registered from 1 Dec 2023</option>
+          <option value="adpfCurrent">Abu Dhabi fund — existing member</option>
+          <option value="sharjah">Sharjah fund (Sharjah government)</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="sector">Sector</label>
+        <select id="sector" name="sector">
+          <option value="private" selected>Private</option>
+          <option value="government">Government</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">Basic salary (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="10000">
+      </div>
+      <div class="field">
+        <label for="housing">Housing allowance</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="1" value="4000">
+      </div>
+      <div class="field">
+        <label for="other">Other fixed allowances</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-national data-nafis>
+        <label for="nafis">Covered by Nafis Eshtirak?</label>
+        <select id="nafis" name="nafis">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes (salary 6,000–20,000)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>UAE contribution rates</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Case</th><th scope="col">Employee</th><th scope="col">Employer</th><th scope="col">Government</th><th scope="col">Contribution salary</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">GPSSA, new, private, below 20,000</th><td>11%</td><td>12.5%</td><td>2.5%</td><td>3,000–70,000</td></tr>
+    <tr><th scope="row">GPSSA, new, private, 20,000 or more</th><td>11%</td><td>15%</td><td>—</td><td>up to 70,000</td></tr>
+    <tr><th scope="row">GPSSA, earlier member, private</th><td>5%</td><td>12.5%</td><td>2.5%</td><td>1,000–50,000</td></tr>
+    <tr><th scope="row">GPSSA, government</th><td>11% (new) or 5%</td><td>15%</td><td>—</td><td>up to 100,000 (new)</td></tr>
+    <tr><th scope="row">Abu Dhabi fund, new</th><td>11%</td><td>15%</td><td>—</td><td>private 6,000–100,000</td></tr>
+    <tr><th scope="row">Abu Dhabi fund, existing</th><td>5%</td><td>15%</td><td>6% a year</td><td>up to 150,000</td></tr>
+    <tr><th scope="row">Sharjah fund</th><td>5%</td><td>15%</td><td>—</td><td>excluding housing</td></tr>
+    <tr><th scope="row">Expat</th><td>—</td><td>—</td><td>—</td><td>no contribution</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> an Emirati in the private sector registered after October 2023, basic 10,000 and housing 4,000.<br>
+The contribution salary is 14,000, so 11% = 1,540 is deducted and net pay is <strong>AED 12,460</strong>. The employer pays 12.5% = 1,750 and the government 2.5% = 350, so the employer's cost is 15,750.<br>
+If covered by Nafis Eshtirak, nothing is deducted and net pay stays at 14,000. If registered before October 2023, the deduction is 5% = 700 and net pay is 13,300.</p>
+</div>
+<p>GCC nationals working in the UAE contribute at their home country's rates through the insurance protection extension scheme; the employer pays no more than its UAE share and the employee pays the difference. In the DIFC, employers pay 5.83% of an expat's basic salary into the savings scheme (8.33% after 5 years) with no deduction from the employee.</p>
+<p>To estimate your pension use the <a href="{{root}}en/uae-pension-calculator/{{ix}}">UAE pension calculator</a> or the <a href="{{root}}en/abu-dhabi-pension-calculator/{{ix}}">Abu Dhabi pension calculator</a>, and for Nafis support the <a href="{{root}}en/uae-nafis-calculator/{{ix}}">Nafis calculator</a>.</p>
+</div>

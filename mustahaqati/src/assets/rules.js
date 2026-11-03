@@ -713,6 +713,46 @@ export default {
         "minAge": 18,
         "maxAge": 60
       }
+    },
+    "contrib": {
+      "law": "المرسوم بقانون اتحادي 57/2023 (م4–5)، والقانون 7/1999 كما عُدّل بالمرسوم بقانون 58/2023، وقانون أبوظبي 2/2000 المعدل بالقانون 18/2023، وقانون الشارقة 5/2018",
+      "lastReview": "2026-11-03",
+      "gpssaNew": {
+        "employee": 0.11,
+        "employer": 0.15,
+        "govShare": 0.025,
+        "govShareBelow": 20000,
+        "privateMin": 3000,
+        "privateMax": 70000,
+        "govMax": 100000
+      },
+      "gpssaOld": {
+        "employee": 0.05,
+        "employer": 0.15,
+        "govShare": 0.025,
+        "privateMin": 1000,
+        "privateMax": 50000,
+        "govMax": 300000
+      },
+      "adpfNew": {
+        "employee": 0.11,
+        "employer": 0.15,
+        "privateMin": 6000,
+        "max": 100000
+      },
+      "adpfCurrent": {
+        "employee": 0.05,
+        "employer": 0.15,
+        "govAnnual": 0.06,
+        "privateMin": 6000,
+        "max": 150000
+      },
+      "sharjah": {
+        "employee": 0.05,
+        "employer": 0.15
+      },
+      "nafisMin": 6000,
+      "nafisMax": 20000
     }
   },
   "sa": {
@@ -2481,6 +2521,14 @@ export default {
       ],
       "paternityDays": 0,
       "payer": "employer"
+    },
+    "contrib": {
+      "law": "قانون التأمينات الاجتماعية 1/2022 (نافذ 3/1/2023)",
+      "lastReview": "2026-11-03",
+      "employee": 0.07,
+      "employer": 0.14,
+      "housingCap": 6000,
+      "max": 100000
     }
   },
   "kw": {
@@ -3034,6 +3082,46 @@ export default {
       ],
       "paternityDays": 0,
       "payer": "employer"
+    },
+    "contrib": {
+      "law": "قانون التأمينات الاجتماعية 61/1976 والقوانين 128/1992 و101/2013 و110/2014",
+      "lastReview": "2026-11-03",
+      "basicCap": 1500,
+      "totalCap": 2750,
+      "privateMin": 230,
+      "branches": [
+        {
+          "id": "basic",
+          "employee": 0.05,
+          "employer": 0.1,
+          "band": "basic"
+        },
+        {
+          "id": "supplementary",
+          "employee": 0.05,
+          "employer": 0.1,
+          "band": "supp"
+        },
+        {
+          "id": "increase",
+          "employee": 0.025,
+          "employer": 0.01,
+          "band": "total"
+        },
+        {
+          "id": "reward",
+          "employee": 0.025,
+          "employer": 0,
+          "band": "basic"
+        },
+        {
+          "id": "unemployment",
+          "employee": 0.005,
+          "employer": 0.005,
+          "band": "total",
+          "privateOnly": true
+        }
+      ]
     }
   },
   "om": {
@@ -3343,6 +3431,31 @@ export default {
       "payer": "fund",
       "employerContribution": 0.01,
       "fundFrom": "2024-07-19"
+    },
+    "contrib": {
+      "law": "قانون الحماية الاجتماعية 52/2023 (م52 وم70 وم90 وم116 وم121–128 وم139)",
+      "lastReview": "2026-11-03",
+      "cap": 3000,
+      "employee": {
+        "pension": 0.075,
+        "jobSecurity": 0.005
+      },
+      "employer": {
+        "pension": 0.11,
+        "injury": 0.01,
+        "maternity": 0.01,
+        "sick": 0.01,
+        "jobSecurity": 0.005
+      },
+      "sickFrom": "2026-07-19",
+      "expat": {
+        "maternity": 0.01,
+        "sick": 0.01,
+        "injury": 0.01,
+        "injuryBy": "2028-07-19",
+        "savings": 0.09,
+        "savingsBy": "2027-07-19"
+      }
     }
   },
   "bh": {
@@ -3644,6 +3757,31 @@ export default {
       },
       "payer": "employer",
       "prenatalAdvised": 20
+    },
+    "contrib": {
+      "law": "قانون التأمين الاجتماعي 24/1976 المعدل بالقانون 14/2022، والمرسوم بقانون 78/2006، وقرار رئيس الوزراء 109/2023",
+      "lastReview": "2026-11-03",
+      "employee": 0.07,
+      "employerByYear": {
+        "2026": 0.15,
+        "2027": 0.16,
+        "2028": 0.17
+      },
+      "injury": 0.03,
+      "unempEmployee": 0.01,
+      "unempGov": 0.01,
+      "max": 4000,
+      "allowancesCapOfBasic": 1,
+      "government": {
+        "employee": 0.07,
+        "employer": 0.2
+      },
+      "expat": {
+        "injury": 0.03,
+        "eosFirst3": 0.042,
+        "eosAfter3": 0.084,
+        "unempEmployee": 0.01
+      }
     }
   },
   "zakat": {

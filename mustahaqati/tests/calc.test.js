@@ -5,6 +5,11 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  uaeNetSalary,
+  kuwaitNetSalary,
+  qatarNetSalary,
+  bahrainNetSalary,
+  omanNetSalary,
   gccMaternityPlan,
   ksaMaternityPay,
   hijriMonthGrid,
@@ -1522,4 +1527,37 @@ test("إجازة الوضع في قطر والكويت وعُمان والبحر
   const bh = gccMaternityPlan({ country: "bh", due, start: due, wage: 6000, extra: true });
   assert.equal(bh.lastDay, "2027-02-07"); assert.equal(bh.pay, 12000); assert.equal(bh.banUntil, "2027-01-18"); assert.equal(bh.extra.back, "2027-02-23");
   assert.equal(bh.nursing[0].hours, 2); assert.equal(bh.nursing[1].hours, 1);
+});
+
+test("الراتب الصافي واشتراكات التأمينات — أمثلة البحث 24", () => {
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000 }).net, 12460);
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000 }).cost, 15750);
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000, nafis: true }).net, 14000);
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000, fund: "gpssaOld" }).net, 13300);
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000, sector: "government" }).cost, 16100);
+  assert.equal(uaeNetSalary({ basic: 10000, housing: 4000, fund: "sharjah", sector: "government" }).net, 13500);
+  assert.equal(uaeNetSalary({ basic: 25000 }).employer, 3750);
+  assert.equal(uaeNetSalary({ basic: 80000 }).net, 72300);
+  assert.equal(uaeNetSalary({ basic: 2500 }).net, 2170);
+  assert.equal(uaeNetSalary({ national: false, basic: 10000, housing: 4000 }).net, 14000);
+  assert.equal(kuwaitNetSalary({ salary: 14000 }).employee, 257.5);
+  assert.equal(kuwaitNetSalary({ salary: 14000 }).employer, 316.25);
+  assert.equal(kuwaitNetSalary({ salary: 1400 }).net, 1253);
+  assert.equal(kuwaitNetSalary({ salary: 2000 }).employee, 197.5);
+  assert.equal(kuwaitNetSalary({ salary: 2000 }).employer, 230);
+  assert.equal(kuwaitNetSalary({ salary: 1400, sector: "government" }).employee, 140);
+  assert.equal(qatarNetSalary({ basic: 10000, housing: 4000 }).net, 13020);
+  assert.equal(qatarNetSalary({ basic: 10000, housing: 8000 }).employee, 1120);
+  assert.equal(qatarNetSalary({ basic: 120000 }).net, 113000);
+  assert.equal(bahrainNetSalary({ basic: 10000, allowances: 4000 }).net, 13680);
+  assert.equal(bahrainNetSalary({ basic: 1000, allowances: 400 }).employer, 252);
+  assert.equal(bahrainNetSalary({ basic: 1000, allowances: 1500 }).employee, 160);
+  assert.equal(bahrainNetSalary({ basic: 1000, allowances: 400, year: 2028 }).employer, 280);
+  assert.equal(bahrainNetSalary({ national: false, basic: 1000, allowances: 400 }).employer, 100.8);
+  assert.equal(bahrainNetSalary({ national: false, basic: 1000, allowances: 400, over3: true }).employer, 159.6);
+  assert.equal(omanNetSalary({ gross: 14000, today: "2026-11-03" }).employee, 295);
+  assert.equal(omanNetSalary({ gross: 14000, today: "2026-11-03" }).employer, 710);
+  assert.equal(omanNetSalary({ gross: 14000, today: "2026-07-01" }).employer, 570);
+  assert.equal(omanNetSalary({ gross: 1400, today: "2026-11-03" }).net, 1288);
+  assert.equal(omanNetSalary({ national: false, gross: 1400, basic: 1000, today: "2026-11-03" }).employer, 28);
 });

@@ -1,0 +1,113 @@
+---json
+{
+  "title": "حاسبة الراتب الصافي في الكويت 2026 — خصم التأمينات 10.5% للكويتي والوافد بلا خصم",
+  "h1": "حاسبة الراتب الصافي في الكويت",
+  "description": "احسب راتبك الصافي في الكويت بعد اشتراكات المؤسسة العامة للتأمينات الاجتماعية: 10.5% على الكويتي في القطاع الأهلي و10% في الحكومي على الأجر حتى 1,500 دينار، ونسب الشريحة التكميلية حتى 2,750، وحصة صاحب العمل 11.5% أو 11%، والوافد بلا اشتراك.",
+  "short": "10.5% على الكويتي في الأهلي و10% في الحكومي حتى 1,500، والشريحة التكميلية حتى 2,750",
+  "lead": "اختر جنسيتك وقطاعك وأدخل راتبك الخاضع، ويظهر الاستقطاع من كل فرع والصافي وحصة صاحب العمل.",
+  "country": "kw",
+  "category": "salary",
+  "tool": true,
+  "script": "gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-pension",
+    "kuwait-labour-support",
+    "kuwait-end-of-service",
+    "kuwait-leave"
+  ],
+  "faq": [
+    {
+      "q": "كم يُخصم من راتب الكويتي للتأمينات؟",
+      "a": "في القطاع الأهلي 10.5% على الأجر حتى 1,500 دينار: 5% تأمين أساسي و2.5% زيادة المعاشات و2.5% المكافأة المالية و0.5% بطالة. وفي الحكومي 10%، لأن تأمين البطالة للأهلي والنفطي فقط. وعلى ما بين 1,500 و2,750 يُقتطع 5% تكميلي و2.5% زيادة و0.5% بطالة."
+    },
+    {
+      "q": "كم حصة صاحب العمل في التأمينات الكويتية؟",
+      "a": "11.5% في القطاع الأهلي على الأجر حتى 1,500 (10% أساسي و1% زيادة المعاشات و0.5% بطالة) و11% في الحكومي، و10% تكميلي على الشريحة من 1,500 إلى 2,750."
+    },
+    {
+      "q": "ما الحد الأعلى للراتب الخاضع للتأمينات في الكويت؟",
+      "a": "1,500 دينار للتأمين الأساسي، و2,750 دينار للتكميلي وزيادة المعاشات والبطالة، ولا اشتراك على ما يزيد. والحد الأدنى في القطاع الأهلي 230 ديناراً."
+    },
+    {
+      "q": "هل يُخصم من راتب الوافد في الكويت؟",
+      "a": "لا. الوافد لا يُؤمَّن عليه لدى المؤسسة العامة للتأمينات الاجتماعية، فصافي راتبه هو الإجمالي، ومكافأة نهاية الخدمة يدفعها صاحب العمل."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Oracle — حساب التأمينات الاجتماعية في الكويت",
+      "u": "https://docs.oracle.com/en/cloud/saas/human-resources/faakw/social-insurance-calculation-for-kuwait.html"
+    },
+    {
+      "t": "Teamed — الرواتب والتأمينات في الكويت (30/10/2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/kuwait-payroll-and-social-security"
+    },
+    {
+      "t": "التميمي — قانون التأمين ضد البطالة 101/2013",
+      "u": "https://tamimi.com/law-update-articles/introduction-of-unemployment-insurance-law-in-kuwait"
+    },
+    {
+      "t": "المؤسسة العامة للتأمينات الاجتماعية — الموقع الرسمي",
+      "u": "https://www.pifss.gov.kw"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب راتبك الصافي</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">الجنسية</label>
+        <select id="national" name="national">
+          <option value="yes" selected>كويتي</option>
+          <option value="no">وافد</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="sector">القطاع</label>
+        <select id="sector" name="sector">
+          <option value="private" selected>أهلي</option>
+          <option value="government">حكومي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">الراتب الشهري الخاضع (دينار)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="1400">
+        <span class="hint">الأهلي: كل ما تتقاضاه نقداً أو عيناً. الحكومي: الأساسي والاجتماعية والأولاد.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>نسب الاشتراك للكويتي</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الفرع</th><th scope="col">الموظف</th><th scope="col">صاحب العمل</th><th scope="col">الشريحة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">التأمين الأساسي</th><td>5%</td><td>10%</td><td>حتى 1,500</td></tr>
+    <tr><th scope="row">التأمين التكميلي</th><td>5%</td><td>10%</td><td>1,500–2,750</td></tr>
+    <tr><th scope="row">زيادة المعاشات</th><td>2.5%</td><td>1%</td><td>حتى 2,750</td></tr>
+    <tr><th scope="row">المكافأة المالية</th><td>2.5%</td><td>—</td><td>حتى 1,500</td></tr>
+    <tr><th scope="row">البطالة (الأهلي والنفطي)</th><td>0.5%</td><td>0.5%</td><td>حتى 2,750</td></tr>
+    <tr><th scope="row">المجموع حتى 1,500</th><td>10.5% (حكومي 10%)</td><td>11.5% (حكومي 11%)</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>أمثلة (القطاع الأهلي):</strong><br>
+راتب 1,400: يُقتطع 10.5% = 147 والصافي <strong>1,253 ديناراً</strong>، وعلى صاحب العمل 161.<br>
+راتب 2,000: يُقتطع 75 + 25 + 50 + 37.5 + 10 = 197.5 والصافي 1,802.5، وعلى صاحب العمل 230.<br>
+راتب 14,000: الشريحة الخاضعة 2,750، فيُقتطع 257.5 والصافي 13,742.5.</p>
+</div>
+<p>الأجر الخاضع في القطاع الأهلي كل ما يتقاضاه العامل نقداً أو عيناً، وفي الحكومي الأساسي والعلاوة الاجتماعية وعلاوة الأولاد. ولم يتغير أي من النسب أو السقوف في 2024–2026. ودعم العمالة الوطنية قد يدخل في الأجر الخاضع بحسب مصادر ثانوية، ولم نجد نصاً رسمياً بذلك. وللخزانة العامة حصص أخرى لا تمس صافيك.</p>
+<p>لمعاشك عند التقاعد استخدم <a href="{{root}}kuwait-pension/{{ix}}">حاسبة معاش التقاعد في الكويت</a>، ولدعم العمالة <a href="{{root}}kuwait-labour-support/{{ix}}">حاسبة دعم العمالة الوطنية</a>.</p>
+</div>

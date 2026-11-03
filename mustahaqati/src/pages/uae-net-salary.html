@@ -1,0 +1,145 @@
+---json
+{
+  "title": "حاسبة الراتب الصافي في الإمارات 2026 — خصم التقاعد 11% أو 5% للمواطن والوافد",
+  "h1": "حاسبة الراتب الصافي في الإمارات",
+  "description": "احسب راتبك الصافي في الإمارات بعد اشتراك التقاعد: 11% على المواطن المسجل في الهيئة الاتحادية منذ 31 أكتوبر 2023 و5% لمن قبله، و15% على صاحب العمل تتحمل منها الحكومة 2.5% في القطاع الخاص تحت 20,000، وصندوقي أبوظبي والشارقة، ودعم نافس، والوافد بلا اشتراك.",
+  "short": "11% أو 5% على المواطن و15% على صاحب العمل، وصندوقا أبوظبي والشارقة، والوافد بلا خصم",
+  "lead": "اختر صندوقك وقطاعك وأدخل راتبك وبدلاتك، ويظهر الاستقطاع والصافي وكلفتك على صاحب العمل.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related":["uae-pension", "uae-nafis", "abu-dhabi-pension", "uae-iloe", "ksa-net-salary"],
+  "faq": [
+    {
+      "q": "كم يُخصم من راتب المواطن للتقاعد في الإمارات؟",
+      "a": "للمسجل في الهيئة العامة للمعاشات من 31 أكتوبر 2023: 11% من راتب حساب الاشتراك، ولمن سُجّل قبل ذلك 5%. وعلى صاحب العمل 15%، تتحمل الحكومة منها 2.5% في القطاع الخاص إن قلّ راتب الاشتراك عن 20,000 درهم (المرسوم بقانون 57/2023)."
+    },
+    {
+      "q": "ما راتب حساب الاشتراك في القطاع الخاص؟",
+      "a": "أجر عقد العمل، أي الأساسي والبدلات الثابتة في العقد، بحد أدنى 3,000 وأقصى 70,000 درهم للمسجل الجديد، و1,000 إلى 50,000 للقديم. وفي الحكومة الأساسي مع علاوات محددة بسقف 100,000."
+    },
+    {
+      "q": "هل يُخصم من راتب الوافد في الإمارات؟",
+      "a": "لا يُقتطع من الوافد اشتراك تقاعدي، ومكافأة نهاية الخدمة يدفعها صاحب العمل عند انتهاء العقد. وعليه قسط التأمين ضد التعطل 5 دراهم شهرياً لمن أساسيه حتى 16,000 و10 لمن يزيد، ويُدفع عادة خارج كشف الراتب."
+    },
+    {
+      "q": "هل تدفع نافس حصة المواطن من التقاعد؟",
+      "a": "نعم، برنامج «اشتراك» يغطي حصة المواطن لمن راتبه الإجمالي بين 6,000 و20,000 درهم في القطاع الخاص، وتتحمل جهة العمل حصتها كاملة منذ سبتمبر 2026."
+    },
+    {
+      "q": "كم اشتراك صندوق أبوظبي للمعاشات؟",
+      "a": "للمسجل الجديد من 1 ديسمبر 2023: 11% على الموظف و15% على صاحب العمل بلا حصة حكومية. وللمشترك الحالي: 5% و15%، وتدفع حكومة أبوظبي 6% سنوياً. والمجموع 26% في الحالتين."
+    }
+  ],
+  "sources": [
+    {
+      "t": "المرسوم بقانون اتحادي 57/2023 بشأن المعاشات (المادتان 4 و5)",
+      "u": "https://uaelegislation.gov.ae/en/legislations/2254/download"
+    },
+    {
+      "t": "وزارة الموارد البشرية — دليل اشتراكات صاحب العمل وفق القانون 57",
+      "u": "https://mohre.gov.ae/assets/download/3df0274/monthly-contribution-employer-guideline-according-to-the-pension-law-no-57-ar.aspx"
+    },
+    {
+      "t": "المرسوم بقانون 58/2023 بتعديل القانون 7/1999",
+      "u": "https://www.uaelegislation.gov.ae/ar/constitution/modifications/1349/download"
+    },
+    {
+      "t": "المكتب الإعلامي لحكومة أبوظبي — تعديل قانون التقاعد (17/11/2023)",
+      "u": "https://www.mediaoffice.abudhabi/ar/government-affairs/abu-dhabi-pension-fund-amends-retirement-law-and-introduces-new-benefits/"
+    },
+    {
+      "t": "صندوق الشارقة للضمان الاجتماعي — الأسئلة الشائعة",
+      "u": "https://sssf.shj.ae/en/faq"
+    },
+    {
+      "t": "Zoho — اشتراكات الهيئة وصندوق أبوظبي (16/4/2026)",
+      "u": "https://www.zoho.com/en-ae/payroll/academy/compliance/gpssa-and-adpf-pension.html"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب راتبك الصافي</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">الجنسية</label>
+        <select id="national" name="national">
+          <option value="yes" selected>مواطن إماراتي</option>
+          <option value="no">وافد</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="fund">صندوق التقاعد</label>
+        <select id="fund" name="fund">
+          <option value="gpssaNew" selected>الهيئة الاتحادية — مسجل من 31 أكتوبر 2023</option>
+          <option value="gpssaOld">الهيئة الاتحادية — مسجل قبل ذلك</option>
+          <option value="adpfNew">صندوق أبوظبي — مسجل من 1 ديسمبر 2023</option>
+          <option value="adpfCurrent">صندوق أبوظبي — مشترك حالي</option>
+          <option value="sharjah">صندوق الشارقة (حكومة الشارقة)</option>
+        </select>
+      </div>
+      <div class="field" data-national>
+        <label for="sector">القطاع</label>
+        <select id="sector" name="sector">
+          <option value="private" selected>خاص</option>
+          <option value="government">حكومي</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="basic">الراتب الأساسي (درهم)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="10000">
+      </div>
+      <div class="field">
+        <label for="housing">بدل السكن</label>
+        <input type="number" id="housing" name="housing" inputmode="decimal" min="0" step="1" value="4000">
+      </div>
+      <div class="field">
+        <label for="other">بدلات ثابتة أخرى</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-national data-nafis>
+        <label for="nafis">مستفيد من «اشتراك» في نافس؟</label>
+        <select id="nafis" name="nafis">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم (راتب 6,000–20,000)</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>نسب الاشتراك في الإمارات</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الحالة</th><th scope="col">الموظف</th><th scope="col">صاحب العمل</th><th scope="col">الحكومة</th><th scope="col">راتب الاشتراك</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">الهيئة، جديد، خاص، تحت 20,000</th><td>11%</td><td>12.5%</td><td>2.5%</td><td>3,000–70,000</td></tr>
+    <tr><th scope="row">الهيئة، جديد، خاص، 20,000 فأكثر</th><td>11%</td><td>15%</td><td>—</td><td>حتى 70,000</td></tr>
+    <tr><th scope="row">الهيئة، قديم، خاص</th><td>5%</td><td>12.5%</td><td>2.5%</td><td>1,000–50,000</td></tr>
+    <tr><th scope="row">الهيئة، حكومي</th><td>11% (جديد) أو 5%</td><td>15%</td><td>—</td><td>حتى 100,000 (جديد)</td></tr>
+    <tr><th scope="row">صندوق أبوظبي، جديد</th><td>11%</td><td>15%</td><td>—</td><td>خاص 6,000–100,000</td></tr>
+    <tr><th scope="row">صندوق أبوظبي، حالي</th><td>5%</td><td>15%</td><td>6% سنوياً</td><td>حتى 150,000</td></tr>
+    <tr><th scope="row">صندوق الشارقة</th><td>5%</td><td>15%</td><td>—</td><td>بلا بدل السكن</td></tr>
+    <tr><th scope="row">الوافد</th><td>—</td><td>—</td><td>—</td><td>لا اشتراك</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> مواطن في القطاع الخاص سُجّل بعد أكتوبر 2023، أساسي 10,000 وسكن 4,000.<br>
+راتب الاشتراك 14,000، فيُقتطع منه 11% = 1,540 والصافي <strong>12,460 درهماً</strong>. وعلى صاحب العمل 12.5% = 1,750 وعلى الحكومة 2.5% = 350، فكلفته 15,750.<br>
+ولو كان مستفيداً من «اشتراك» في نافس فلا يُقتطع منه شيء، ويبقى صافيه 14,000. ولو سُجّل قبل أكتوبر 2023 فالاستقطاع 5% = 700 والصافي 13,300.</p>
+</div>
+<p>مواطنو دول الخليج العاملون في الإمارات يخضعون لنسب بلدهم عبر نظام مد الحماية التأمينية، ولا يدفع صاحب العمل أكثر من حصته الإماراتية، ويتحمل الموظف الفرق. وفي مركز دبي المالي يدفع صاحب العمل عن الوافد 5.83% من الأساسي لنظام الادخار (8.33% بعد 5 سنوات) دون استقطاع منه.</p>
+<p>لحساب معاشك عند التقاعد استخدم <a href="{{root}}uae-pension/{{ix}}">حاسبة معاش التقاعد في الإمارات</a> أو <a href="{{root}}abu-dhabi-pension/{{ix}}">حاسبة معاش أبوظبي</a>، ولدعم نافس <a href="{{root}}uae-nafis/{{ix}}">حاسبة نافس</a>.</p>
+</div>

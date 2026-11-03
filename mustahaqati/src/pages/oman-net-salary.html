@@ -1,0 +1,111 @@
+---json
+{
+  "title": "حاسبة الراتب الصافي في عُمان 2026 — خصم 8% للعُماني والوافد بلا خصم",
+  "h1": "حاسبة الراتب الصافي في عُمان",
+  "description": "احسب راتبك الصافي في عُمان بعد اشتراكات صندوق الحماية الاجتماعية: 7.5% معاش و0.5% أمان وظيفي على العُماني، و14.5% على صاحب العمل منذ 19 يوليو 2026 (معاش 11% وإصابات 1% بسقف 3,000، وأمومة 1% ومرضية 1% وأمان وظيفي 0.5%)، والوافد بلا خصم مع 2% على صاحب العمل.",
+  "short": "8% على العُماني و14.5% على صاحب العمل، و2% على صاحب العمل عن الوافد",
+  "lead": "أدخل إجمالي أجرك بكل البدلات، ويظهر الاستقطاع من كل فرع والصافي وحصة صاحب العمل.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-pension",
+    "oman-job-security",
+    "oman-end-of-service",
+    "oman-income-tax"
+  ],
+  "faq": [
+    {
+      "q": "كم يُخصم من راتب العُماني للتأمينات؟",
+      "a": "8%: 7.5% لفرع كبار السن والعجز والوفاة على الأجر حتى 3,000 ريال، و0.5% للأمان الوظيفي على كامل الأجر، بحسب قانون الحماية الاجتماعية 52/2023 النافذ منذ 1 يناير 2024."
+    },
+    {
+      "q": "كم حصة صاحب العمل في عُمان 2026؟",
+      "a": "14.5% عن العُماني منذ 19 يوليو 2026: 11% معاش و1% إصابات عمل (حتى 3,000)، و1% أمومة و1% إجازات مرضية و0.5% أمان وظيفي على كامل الأجر. وكانت 13.5% قبل بدء فرع الإجازات المرضية."
+    },
+    {
+      "q": "هل يُخصم من راتب الوافد في عُمان؟",
+      "a": "لا يُقتطع من الوافد شيء. ويدفع صاحب العمل 1% لتأمين الأمومة منذ يوليو 2024 و1% للإجازات المرضية منذ يوليو 2026، وسيبدأ نظام ادخار 9% من الأساسي بحد أقصى 19 يوليو 2027، وإصابات العمل 1% بحد أقصى 19 يوليو 2028."
+    }
+  ],
+  "sources": [
+    {
+      "t": "قانون الحماية الاجتماعية 52/2023 (ترجمة decree.om)",
+      "u": "https://decree.om/2023/rd20230052/"
+    },
+    {
+      "t": "Gulf News — بدء تأمين الإجازات المرضية في عُمان (16/7/2026)",
+      "u": "https://gulfnews.com/world/gulf/oman/oman-rolls-out-sick-leave-insurance-scheme-from-july-19-1.500610430"
+    },
+    {
+      "t": "Oman Observer — تأمين الأمومة لغير العُمانيين (1/7/2024)",
+      "u": "https://www.omanobserver.om/article/1155733/oman/health/spf-clarifies-maternity-leave-coverage-for-non-omani-workforce"
+    },
+    {
+      "t": "التميمي — تمديد مواعيد قانون الحماية بالمرسوم 60/2025 (23/2/2026)",
+      "u": "https://www.tamimi.com/law-update/general/articles/omani-social-protection-law-key-timeline-extensions-under-sultani-decree-60-2025"
+    },
+    {
+      "t": "Teamed — الرواتب والحماية الاجتماعية في عُمان (30/10/2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/oman-payroll-and-social-protection"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب راتبك الصافي</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">الجنسية</label>
+        <select id="national" name="national">
+          <option value="yes" selected>عُماني</option>
+          <option value="no">وافد</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gross">إجمالي الأجر الشهري بكل البدلات (ريال)</label>
+        <input type="number" id="gross" name="gross" inputmode="decimal" min="0" step="1" value="1400">
+      </div>
+      <div class="field" data-expat hidden>
+        <label for="basic">الراتب الأساسي</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="1000">
+        <span class="hint">لحساب نظام ادخار الوافدين المقبل.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>نسب الاشتراك في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الفرع</th><th scope="col">العُماني</th><th scope="col">صاحب العمل عن العُماني</th><th scope="col">صاحب العمل عن الوافد</th><th scope="col">الأجر الخاضع</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">كبار السن والعجز والوفاة</th><td>7.5%</td><td>11%</td><td>—</td><td>حتى 3,000</td></tr>
+    <tr><th scope="row">إصابات العمل</th><td>—</td><td>1%</td><td>1% بحد أقصى 19/7/2028</td><td>حتى 3,000</td></tr>
+    <tr><th scope="row">الأمومة</th><td>—</td><td>1%</td><td>1%</td><td>كامل الأجر</td></tr>
+    <tr><th scope="row">الإجازات المرضية (من 19/7/2026)</th><td>—</td><td>1%</td><td>1%</td><td>كامل الأجر</td></tr>
+    <tr><th scope="row">الأمان الوظيفي</th><td>0.5%</td><td>0.5%</td><td>—</td><td>كامل الأجر</td></tr>
+    <tr><th scope="row">ادخار الوافدين</th><td>—</td><td>—</td><td>9% من الأساسي بحد أقصى 19/7/2027</td><td>الأساسي</td></tr>
+    <tr><th scope="row">المجموع اليوم</th><td>8%</td><td>14.5%</td><td>2%</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>أمثلة:</strong><br>
+عُماني بأجر 1,400: يُقتطع 105 + 7 = 112 والصافي <strong>1,288 ريالاً</strong>، وعلى صاحب العمل 203.<br>
+عُماني بأجر 14,000: المعاش على 3,000 فقط (225) والأمان الوظيفي على كامل الأجر (70)، فيُقتطع 295 والصافي 13,705.<br>
+وافد بأجر 1,400: لا يُقتطع منه شيء، وعلى صاحب العمل 28.</p>
+</div>
+<p>الأجر الخاضع إجمالي الأجر بكل البدلات، ويُحسب اشتراك المعاش يومياً. ويجوز لوزارة المالية دعم حصة المؤمن عليه، ولم نجد قراراً نافذاً بذلك. ومواطنو دول الخليج العاملون في عُمان يخضعون لنسب بلدهم عبر نظام مد الحماية التأمينية.</p>
+<p>لمعاشك استخدم <a href="{{root}}oman-pension/{{ix}}">حاسبة معاش التقاعد في عُمان</a>، وللأمان الوظيفي <a href="{{root}}oman-job-security/{{ix}}">حاسبة بدل الأمان الوظيفي</a>.</p>
+</div>

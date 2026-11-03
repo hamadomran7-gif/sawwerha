@@ -1,0 +1,114 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-net-salary-calculator",
+  "alternate": "oman-net-salary",
+  "title": "Oman Net Salary Calculator 2026 — 8% SPF Deduction for Omanis, None for Expats",
+  "h1": "Oman Net Salary Calculator",
+  "description": "Work out your net salary in Oman after Social Protection Fund contributions: 7.5% pension and 0.5% job security from Omanis, 14.5% from the employer since 19 July 2026 (11% pension and 1% work injury capped at OMR 3,000, plus 1% maternity, 1% sick leave and 0.5% job security), and nothing from expats with 2% paid by the employer.",
+  "short": "8% for Omanis and 14.5% for employers, and 2% paid by employers for expats",
+  "lead": "Enter your gross wage with all allowances to see each deduction, your net pay and the employer's share.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-gcc-net-salary.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-oman-pension",
+    "en-oman-job-security",
+    "en-oman-end-of-service",
+    "en-oman-income-tax"
+  ],
+  "faq": [
+    {
+      "q": "How much is deducted from an Omani's salary for social protection?",
+      "a": "8%: 7.5% for the old-age, disability and death branch on pay up to OMR 3,000, and 0.5% for job security on the full wage, under Social Protection Law 52/2023 in force since 1 January 2024."
+    },
+    {
+      "q": "What is the employer's share in Oman in 2026?",
+      "a": "14.5% for Omanis since 19 July 2026: 11% pension and 1% work injury (up to 3,000), plus 1% maternity, 1% sick leave and 0.5% job security on the full wage. It was 13.5% before the sick leave branch started."
+    },
+    {
+      "q": "Is anything deducted from an expat's salary in Oman?",
+      "a": "Nothing is deducted from expats. The employer pays 1% for maternity insurance since July 2024 and 1% for sick leave since July 2026; a savings scheme of 9% of basic starts by 19 July 2027 at the latest, and 1% work injury by 19 July 2028."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Social Protection Law 52/2023 (decree.om translation)",
+      "u": "https://decree.om/2023/rd20230052/"
+    },
+    {
+      "t": "Gulf News — Oman rolls out sick leave insurance (16 Jul 2026)",
+      "u": "https://gulfnews.com/world/gulf/oman/oman-rolls-out-sick-leave-insurance-scheme-from-july-19-1.500610430"
+    },
+    {
+      "t": "Oman Observer — maternity cover for non-Omanis (1 Jul 2024)",
+      "u": "https://www.omanobserver.om/article/1155733/oman/health/spf-clarifies-maternity-leave-coverage-for-non-omani-workforce"
+    },
+    {
+      "t": "Al Tamimi — timeline extensions under Decree 60/2025 (23 Feb 2026)",
+      "u": "https://www.tamimi.com/law-update/general/articles/omani-social-protection-law-key-timeline-extensions-under-sultani-decree-60-2025"
+    },
+    {
+      "t": "Teamed — Oman payroll and social protection (30 Oct 2026)",
+      "u": "https://www.teamed.global/gulf-employment-law/oman-payroll-and-social-protection"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your net salary</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="national">Nationality</label>
+        <select id="national" name="national">
+          <option value="yes" selected>Omani</option>
+          <option value="no">Expat</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gross">Gross monthly wage with all allowances (OMR)</label>
+        <input type="number" id="gross" name="gross" inputmode="decimal" min="0" step="1" value="1400">
+      </div>
+      <div class="field" data-expat hidden>
+        <label for="basic">Basic salary</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="1000">
+        <span class="hint">For the upcoming expat savings scheme.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Oman contribution rates</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Branch</th><th scope="col">Omani</th><th scope="col">Employer for Omanis</th><th scope="col">Employer for expats</th><th scope="col">Insurable pay</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Old age, disability and death</th><td>7.5%</td><td>11%</td><td>—</td><td>up to 3,000</td></tr>
+    <tr><th scope="row">Work injury</th><td>—</td><td>1%</td><td>1% by 19 Jul 2028</td><td>up to 3,000</td></tr>
+    <tr><th scope="row">Maternity</th><td>—</td><td>1%</td><td>1%</td><td>full wage</td></tr>
+    <tr><th scope="row">Sick leave (from 19 Jul 2026)</th><td>—</td><td>1%</td><td>1%</td><td>full wage</td></tr>
+    <tr><th scope="row">Job security</th><td>0.5%</td><td>0.5%</td><td>—</td><td>full wage</td></tr>
+    <tr><th scope="row">Expat savings</th><td>—</td><td>—</td><td>9% of basic by 19 Jul 2027</td><td>basic</td></tr>
+    <tr><th scope="row">Total today</th><td>8%</td><td>14.5%</td><td>2%</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Examples:</strong><br>
+Omani on 1,400: 105 + 7 = 112 is deducted and net pay is <strong>OMR 1,288</strong>; the employer pays 203.<br>
+Omani on 14,000: the pension applies to 3,000 only (225) and job security to the full wage (70), so 295 is deducted and net pay is 13,705.<br>
+Expat on 1,400: nothing is deducted; the employer pays 28.</p>
+</div>
+<p>Insurable pay is the gross wage with all allowances, and pension contributions are calculated daily. The Ministry of Finance may subsidise the insured person's share, but we found no decision in force. GCC nationals working in Oman contribute at their home country's rates through the insurance protection extension scheme.</p>
+<p>For your pension use the <a href="{{root}}en/oman-pension-calculator/{{ix}}">Oman pension calculator</a>, and for job security the <a href="{{root}}en/oman-job-security-allowance-calculator/{{ix}}">job security allowance calculator</a>.</p>
+</div>
