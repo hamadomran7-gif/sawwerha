@@ -138,6 +138,15 @@ a.btn { text-decoration: none; display: inline-flex; align-items: center; justif
 .breakdown tr.strong th, .breakdown tr.strong td { font-weight: 700; color: var(--fg); }
 .breakdown tr.muted th, .breakdown tr.muted td { color: var(--muted); font-weight: 400; }
 .breakdown caption { text-align: start; font-weight: 700; padding: 6px 0; caption-side: top; }
+/* جدول أنصبة الورثة: ثلاثة أعمدة، والتفصيل بخط صغير تحت كل قيمة */
+.shares { width: 100%; border-collapse: collapse; font-size: .95rem; margin: 10px 0; }
+.shares caption { text-align: start; font-weight: 700; padding: 6px 0; caption-side: top; }
+.shares th, .shares td { text-align: start; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.shares thead th { color: var(--muted); font-weight: 500; font-size: .86rem; }
+.shares tbody th { font-weight: 700; }
+.shares td { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.shares small { display: block; color: var(--muted); font-weight: 400; font-size: .82rem; white-space: normal; margin-top: 2px; }
+.shares tr.out th, .shares tr.out td { color: var(--muted); font-weight: 400; }
 .note { border-radius: 10px; padding: 10px 14px; font-size: .95rem; margin: 10px 0; border: 1px solid var(--line); background: var(--surface-2); }
 .note-ok { background: var(--primary-soft); border-color: transparent; }
 .note-warn { background: var(--warn-soft); border-color: transparent; color: var(--warn); }

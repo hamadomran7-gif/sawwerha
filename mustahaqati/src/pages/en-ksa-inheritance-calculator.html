@@ -1,0 +1,204 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-inheritance-calculator",
+  "alternate": "ksa-inheritance-calculator",
+  "title": "Saudi Inheritance Calculator 2026 — Islamic Estate Shares under the Personal Status Law",
+  "h1": "Saudi Inheritance Calculator (Personal Status Law)",
+  "description": "Calculate each heir's share of an estate in fractions and riyals under the Saudi Personal Status Law (1443H): spouses, sons and daughters, parents, grandparents, siblings and uncles, with proportional reduction, return of the remainder, the two 'Umariyya cases, the grandfather excluding siblings, and debts and bequests capped at one-third.",
+  "short": "Each heir's share in fractions and riyals, with the Saudi rules on reduction, return and exclusion",
+  "lead": "Enter the estate value, debts and bequest, then the living heirs, to see each heir's share and why they inherit or are excluded.",
+  "country": "sa",
+  "category": "finance",
+  "tool": true,
+  "script": "en-ksa-inheritance.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-zakat", "en-ksa-pension-date", "en-ksa-retirement-pension", "en-ksa-civil-retirement", "en-ksa-mortgage", "en-hijri-date-today"],
+  "faq": [
+    {"q": "How is an estate divided in Saudi Arabia?", "a": "Under Article 198 of the Personal Status Law: funeral costs come first, then debts, then the bequest up to one-third, and the rest goes to the heirs: fixed-share heirs first, then residuary heirs, then return of any remainder, then distant kin."},
+    {"q": "How much does a wife inherit?", "a": "One-quarter if the husband left no inheriting descendant (son, daughter, son's son or son's daughter), and one-eighth if he did. Several wives share the quarter or eighth equally (Art. 210)."},
+    {"q": "How much does a daughter inherit if there is no son?", "a": "One-half for one daughter and two-thirds for two or more, with any remainder returned to them if there is no residuary heir such as the father or a brother. With a son, they inherit as residuaries, a son taking twice a daughter's share."},
+    {"q": "Do siblings inherit with the grandfather under Saudi law?", "a": "No. Article 212 says the grandfather inherits like the father and excludes the siblings, so there is no sharing between the grandfather and siblings and no Akdariyya case."},
+    {"q": "What is the Mushtaraka case and how does Saudi law solve it?", "a": "Husband, mother, maternal siblings and a full brother: the husband takes one-half, the mother one-sixth and the maternal siblings one-third, leaving nothing for the full brother, who is excluded because Article 227 drops the residuary when the fixed shares use up the estate."},
+    {"q": "Is the remainder returned to the husband or wife?", "a": "The remainder is returned to fixed-share heirs other than the spouses in proportion to their shares. It goes to a spouse only if there is no fixed-share heir, residuary or distant kin (Art. 231)."},
+    {"q": "Is there an obligatory bequest for grandchildren in Saudi Arabia?", "a": "No. Bequests are voluntary, capped at one-third, and none may go to an heir unless the other heirs consent after the death (Arts. 179 and 190). So the children of a son who died before his father do not inherit alongside a living son."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — Royal Decree M/73 approving the Personal Status Law (1443H)", "u": "https://www.uqn.gov.sa/details?p=19128"},
+    {"t": "Text of the Saudi Personal Status Law (text copy from the Bureau of Experts)", "u": "https://new.saaid.org/Doat/aldgithr/d91-1.pdf"},
+    {"t": "Qassim University Journal of Sharia Sciences — inheritance of distant kin (2024)", "u": "https://jiss.qu.edu.sa/index.php/jiss/article/download/903/1522/4983"},
+    {"t": "LEXIUM — Inheritance under Saudi law (2026)", "u": "https://lexium.sa/en/blog/inheritance-saudi-arabia"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the heirs' shares</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="estate">Estate value (SAR)</label>
+        <input type="number" id="estate" name="estate" inputmode="decimal" min="0" step="1000" value="300000">
+      </div>
+      <div class="field">
+        <label for="debts">Debts and funeral costs (SAR)</label>
+        <input type="number" id="debts" name="debts" inputmode="decimal" min="0" max="100000000" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="bequest">Bequest to a non-heir (SAR)</label>
+        <input type="number" id="bequest" name="bequest" inputmode="decimal" min="0" max="100000000" step="1" value="0">
+        <span class="hint">Capped at one-third of what remains after debts.</span>
+      </div>
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="none">None</option>
+          <option value="husband">Husband (the deceased is a woman)</option>
+          <option value="w1" selected>One wife</option>
+          <option value="w2">Two wives</option>
+          <option value="w3">Three wives</option>
+          <option value="w4">Four wives</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sons">Sons</label>
+        <input type="number" id="sons" name="sons" inputmode="decimal" min="0" max="30" step="1" value="1">
+      </div>
+      <div class="field">
+        <label for="daughters">Daughters</label>
+        <input type="number" id="daughters" name="daughters" inputmode="decimal" min="0" max="30" step="1" value="1">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="father" name="father">
+        <label for="father">Father alive</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="mother" name="mother">
+        <label for="mother">Mother alive</label>
+      </div>
+      <div class="field">
+        <label for="fullBrothers">Full brothers</label>
+        <input type="number" id="fullBrothers" name="fullBrothers" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="fullSisters">Full sisters</label>
+        <input type="number" id="fullSisters" name="fullSisters" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <details class="more">
+        <summary>More heirs: grandchildren, grandparents, half-siblings and uncles</summary>
+      <div class="fields">
+      <div class="field">
+        <label for="sonsSons">Son's sons</label>
+        <input type="number" id="sonsSons" name="sonsSons" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="sonsDaughters">Son's daughters</label>
+        <input type="number" id="sonsDaughters" name="sonsDaughters" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="grandfather" name="grandfather">
+        <label for="grandfather">Paternal grandfather</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="patGrandmother" name="patGrandmother">
+        <label for="patGrandmother">Paternal grandmother</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="matGrandmother" name="matGrandmother">
+        <label for="matGrandmother">Maternal grandmother</label>
+      </div>
+      <div class="field">
+        <label for="patBrothers">Paternal half-brothers</label>
+        <input type="number" id="patBrothers" name="patBrothers" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="patSisters">Paternal half-sisters</label>
+        <input type="number" id="patSisters" name="patSisters" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="matSiblings">Maternal half-siblings</label>
+        <input type="number" id="matSiblings" name="matSiblings" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="fullNephews">Full brother's sons</label>
+        <input type="number" id="fullNephews" name="fullNephews" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="patNephews">Half-brother's sons</label>
+        <input type="number" id="patNephews" name="patNephews" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="fullUncles">Full paternal uncles</label>
+        <input type="number" id="fullUncles" name="fullUncles" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="patUncles">Paternal half-uncles</label>
+        <input type="number" id="patUncles" name="patUncles" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="fullCousins">Full uncle's sons</label>
+        <input type="number" id="fullCousins" name="fullCousins" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="patCousins">Half-uncle's sons</label>
+        <input type="number" id="patCousins" name="patCousins" inputmode="decimal" min="0" max="30" step="1" value="0">
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="arham" name="arham">
+        <label for="arham">There are distant kin (e.g. daughters' children, maternal uncles, paternal aunts)</label>
+      </div>
+        </div>
+      </details>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Order of claims on the estate</h2>
+<p>Under Article 198 of the Personal Status Law: funeral costs in a customary way, then the deceased's debts (secured debts first), then the bequest up to one-third, then division of the rest among the heirs. A bequest above one-third or to an heir depends on the heirs' consent, and a bequest above one-third is valid for someone with no heirs (Arts. 179, 190 and 191).</p>
+
+<h2>Fixed shares</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Heir</th><th scope="col">Share</th><th scope="col">Condition</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Husband</th><td>1/2 or 1/4</td><td>1/4 with an inheriting descendant</td></tr>
+    <tr><th scope="row">Wife or wives</th><td>1/4 or 1/8</td><td>1/8 with an inheriting descendant, shared</td></tr>
+    <tr><th scope="row">Daughter</th><td>1/2, or 2/3 for two or more</td><td>If there is no son; with a son, a son takes twice a daughter's share</td></tr>
+    <tr><th scope="row">Son's daughter</th><td>1/2 or 2/3, or 1/6 with one daughter</td><td>If there is no son; excluded by two daughters unless with a son's son</td></tr>
+    <tr><th scope="row">Father and grandfather</th><td>1/6, or 1/6 plus the remainder with daughters</td><td>The whole remainder if there is no inheriting descendant</td></tr>
+    <tr><th scope="row">Mother</th><td>1/3 or 1/6, or one-third of the remainder</td><td>1/6 with a descendant or two siblings; one-third of the remainder in the 'Umariyya cases</td></tr>
+    <tr><th scope="row">Grandmother(s)</th><td>1/6, shared</td><td>When there is no mother; the father does not exclude his mother (Art. 214)</td></tr>
+    <tr><th scope="row">Full sister</th><td>1/2, or 2/3 for two or more</td><td>With daughters she becomes a residuary taking the remainder</td></tr>
+    <tr><th scope="row">Paternal half-sister</th><td>1/2 or 2/3, or 1/6 with one full sister</td><td>Excluded by a full brother or two full sisters</td></tr>
+    <tr><th scope="row">Maternal half-siblings</th><td>1/6 for one, 1/3 for two or more</td><td>Male and female equal; excluded by a descendant, the father and the grandfather</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>What is specific to Saudi law</h2>
+<ul>
+  <li><strong>The grandfather excludes siblings:</strong> he inherits like the father and excludes the siblings (Art. 212), so there is no sharing and no Akdariyya.</li>
+  <li><strong>No sharing in the Mushtaraka:</strong> the residuary drops out when the fixed shares use up the estate (Art. 227).</li>
+  <li><strong>The 'Umariyya cases:</strong> the mother takes one-third of the remainder when the heirs are the parents and one spouse (Art. 213).</li>
+  <li><strong>The father does not exclude his mother:</strong> the paternal grandmother takes 1/6 with the father, and grandmothers are excluded by the mother (Art. 214).</li>
+  <li><strong>Reduction and return:</strong> shares are reduced proportionally when they exceed the estate (Art. 230), and any remainder returns to heirs other than spouses in proportion to their shares, reaching a spouse only after distant kin (Art. 231).</li>
+  <li><strong>No obligatory bequest:</strong> the children of a son who died before his father get no automatic share alongside a living son.</li>
+</ul>
+
+<h2>What the calculator does not cover</h2>
+<p>An unborn child, a missing person, an intersex heir, several people dying together, the distribution among distant kin, and grandparents or grandchildren beyond the first degree. A person who killed the deceased intentionally does not inherit, and there is no inheritance across religions (Arts. 200 and 202), so do not enter them. The calculator is for illustration and does not replace the court's heirship deed and division.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Wife, son and daughter: wife 1/8, son 7/12, daughter 7/24; an estate of 300,000 gives 37,500, 175,000 and 87,500.<br>
+Husband, mother and father ('Umariyya): husband 1/2, mother one-third of the remainder (1/6), father 1/3.<br>
+Husband, two full sisters and mother: the case is reduced to 8 parts; husband 3/8, each sister 1/4, mother 1/8.<br>
+Mother, grandfather, full brother and full sister: mother 1/6, grandfather the remaining 5/6, the siblings excluded by the grandfather.</p>
+</div>
+</div>

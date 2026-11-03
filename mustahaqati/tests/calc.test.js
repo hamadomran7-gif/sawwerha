@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  ksaInheritance,
+  ksaEstateNet,
   ksaReefSupport,
   ksaReefWindow,
   ksaUniversityStipend,
@@ -2014,4 +2016,66 @@ test("دعم ريف (الدفعة 36)", () => {
   assert.equal(ksaReefSupport({ sector: "rainfed", grains: 2000, watermelon: 3000 }).amount, 5500);
   assert.equal(ksaReefSupport({ sector: "lemon", lemonKg: 1000, lemonTrees: 100 }).amount, 900);
   assert.equal(ksaReefSupport({ sector: "livestock", sheep: 100, camels: 10 }).amount, 1200);
+});
+
+test("المواريث وفق النظام السعودي (الدفعة 37)", () => {
+  const fs = (f) => `${f.n}/${f.d}`;
+  const cases = [
+    [{ wives: 1, sons: 1, daughters: 1 }, { wives: "1/8", sons: "7/12", daughters: "7/24" }],
+    [{ daughters: 2 }, { daughters: "1/1" }],
+    [{ husband: 1, daughters: 2 }, { husband: "1/4", daughters: "3/4" }],
+    [{ father: 1, mother: 1, sons: 1 }, { father: "1/6", mother: "1/6", sons: "2/3" }],
+    [{ father: 1, mother: 1, daughters: 1 }, { daughters: "1/2", mother: "1/6", father: "1/3" }],
+    [{ mother: 1, fullBrothers: 2 }, { mother: "1/6", fullBrothers: "5/6" }],
+    [{ mother: 1, fullBrothers: 1 }, { mother: "1/3", fullBrothers: "2/3" }],
+    [{ husband: 1, mother: 1, father: 1 }, { husband: "1/2", mother: "1/6", father: "1/3" }],
+    [{ wives: 1, mother: 1, father: 1 }, { wives: "1/4", mother: "1/4", father: "1/2" }],
+    [{ husband: 1, mother: 1, grandfather: 1 }, { husband: "1/2", mother: "1/3", grandfather: "1/6" }],
+    [{ husband: 1, fullSisters: 2, mother: 1 }, { husband: "3/8", fullSisters: "1/2", mother: "1/8" }],
+    [{ husband: 1, mother: 1, matSiblings: 2, fullSisters: 2 }, { husband: "3/10", fullSisters: "2/5", mother: "1/10", matSiblings: "1/5" }],
+    [{ wives: 1, daughters: 2, father: 1, mother: 1 }, { wives: "1/9", daughters: "16/27", father: "4/27", mother: "4/27" }],
+    [{ husband: 1, fullSisters: 1, patSisters: 1 }, { husband: "3/7", fullSisters: "3/7", patSisters: "1/7" }],
+    [{ daughters: 1, sonsDaughters: 1, fullBrothers: 1 }, { daughters: "1/2", sonsDaughters: "1/6", fullBrothers: "1/3" }],
+    [{ daughters: 2, sonsDaughters: 1, sonsSons: 1 }, { daughters: "2/3", sonsSons: "2/9", sonsDaughters: "1/9" }],
+    [{ fullSisters: 1, patSisters: 1, fullUncles: 1 }, { fullSisters: "1/2", patSisters: "1/6", fullUncles: "1/3" }],
+    [{ matSiblings: 2, fullNephews: 1 }, { matSiblings: "1/3", fullNephews: "2/3" }],
+    [{ wives: 1, fullNephews: 1, fullUncles: 1 }, { wives: "1/4", fullNephews: "3/4", fullUncles: "0/1" }],
+    [{ wives: 3, sons: 1 }, { wives: "1/8", sons: "7/8" }],
+    [{ mother: 1, daughters: 1 }, { mother: "1/4", daughters: "3/4" }],
+    // المشتركة: يسقط الشقيق (م227)
+    [{ husband: 1, mother: 1, matSiblings: 2, fullBrothers: 1 }, { husband: "1/2", mother: "1/6", matSiblings: "1/3", fullBrothers: "0/1" }],
+    // الأكدرية والمالكية: الجد يحجب الإخوة (م212)
+    [{ husband: 1, mother: 1, grandfather: 1, fullSisters: 1 }, { husband: "1/2", mother: "1/3", grandfather: "1/6", fullSisters: "0/1" }],
+    [{ husband: 1, mother: 1, grandfather: 1, matSiblings: 2, patBrothers: 1 }, { husband: "1/2", mother: "1/6", grandfather: "1/3", matSiblings: "0/1", patBrothers: "0/1" }],
+    [{ mother: 1, grandfather: 1, fullBrothers: 1, fullSisters: 1, patGrandmother: 1 }, { mother: "1/6", grandfather: "5/6", fullBrothers: "0/1", fullSisters: "0/1", patGrandmother: "0/1" }],
+    [{ grandfather: 1, fullBrothers: 3 }, { grandfather: "1/1", fullBrothers: "0/1" }],
+    [{ wives: 1 }, { wives: "1/1" }],
+    [{ wives: 1, mother: 1, daughters: 1 }, { wives: "1/8", mother: "7/32", daughters: "21/32" }],
+    // الأب لا يحجب أمه (م214)
+    [{ father: 1, patGrandmother: 1, sons: 1 }, { father: "1/6", patGrandmother: "1/6", sons: "2/3" }],
+    [{ patGrandmother: 1, matGrandmother: 1, sons: 1 }, { patGrandmother: "1/12", matGrandmother: "1/12", sons: "5/6" }],
+    [{ daughters: 1, fullSisters: 1, patBrothers: 1 }, { daughters: "1/2", fullSisters: "1/2", patBrothers: "0/1" }],
+    [{ fullSisters: 2, patSisters: 1, patBrothers: 1 }, { fullSisters: "2/3", patBrothers: "2/9", patSisters: "1/9" }],
+    [{ daughters: 1, sonsSons: 1, sonsDaughters: 1 }, { daughters: "1/2", sonsSons: "1/3", sonsDaughters: "1/6" }],
+  ];
+  for (const [input, want] of cases) {
+    const r = ksaInheritance(input);
+    assert.equal(r.ok, true, JSON.stringify(input));
+    const got = Object.fromEntries(r.heirs.map((h) => [h.key, fs(h.share)]));
+    for (const k in want) assert.equal(got[k], want[k], `${JSON.stringify(input)} ${k}`);
+  }
+  const minbariyya = ksaInheritance({ wives: 1, daughters: 2, father: 1, mother: 1 });
+  assert.equal(fs(minbariyya.awl), "9/8");
+  assert.equal(minbariyya.base, 27);
+  assert.equal(ksaInheritance({ husband: 1, mother: 1, father: 1 }).umariyya, true);
+  assert.equal(ksaInheritance({ wives: 1, mother: 1, daughters: 1 }).radd, true);
+  const arham = ksaInheritance({ wives: 1, arham: true });
+  assert.equal(fs(arham.heirs[0].share), "1/4");
+  assert.equal(fs(arham.toArham), "3/4");
+  assert.equal(ksaInheritance({ husband: 1, wives: 1 }).error, "spouses");
+  const e = ksaEstateNet({ estate: 300000, debts: 30000, bequest: 120000 });
+  assert.equal(e.bequestCap, 90000);
+  assert.equal(e.bequest, 90000);
+  assert.equal(e.overCap, true);
+  assert.equal(e.net, 180000);
 });

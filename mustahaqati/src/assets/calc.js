@@ -4018,6 +4018,130 @@ export function ksaReefSupport({ sector = "productive", capital = 0, grains = 0,
   if (sector === "fisherman") return { sector, amount: R.fishermanCap };
   return null;
 }
+/* ------------------------------------------------------------------ */
+/* المواريث بحسب نظام الأحوال الشخصية السعودي (م/73، 1443هـ)            */
+/* ------------------------------------------------------------------ */
+const fgcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+const Fr = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = fgcd(n, d); return { n: n / g, d: d / g }; };
+const fadd = (a, b) => Fr(a.n * b.d + b.n * a.d, a.d * b.d);
+const fsub = (a, b) => Fr(a.n * b.d - b.n * a.d, a.d * b.d);
+const fmul = (a, b) => Fr(a.n * b.n, a.d * b.d);
+const fdiv = (a, b) => Fr(a.n * b.d, a.d * b.n);
+const FZERO = Fr(0), FONE = Fr(1);
+export const KSA_HEIRS = [
+  ["husband", "زوج", "Husband", 1], ["wives", "زوجة", "Wife", 4], ["sons", "ابن", "Son"], ["daughters", "بنت", "Daughter"],
+  ["sonsSons", "ابن ابن", "Son's son"], ["sonsDaughters", "بنت ابن", "Son's daughter"], ["father", "أب", "Father", 1], ["mother", "أم", "Mother", 1],
+  ["grandfather", "جد (أبو الأب)", "Paternal grandfather", 1], ["patGrandmother", "جدة لأب (أم الأب)", "Paternal grandmother", 1], ["matGrandmother", "جدة لأم (أم الأم)", "Maternal grandmother", 1],
+  ["fullBrothers", "أخ شقيق", "Full brother"], ["fullSisters", "أخت شقيقة", "Full sister"], ["patBrothers", "أخ لأب", "Paternal half-brother"], ["patSisters", "أخت لأب", "Paternal half-sister"],
+  ["matSiblings", "أخ أو أخت لأم", "Maternal half-sibling"], ["fullNephews", "ابن أخ شقيق", "Full brother's son"], ["patNephews", "ابن أخ لأب", "Half-brother's son"],
+  ["fullUncles", "عم شقيق", "Full paternal uncle"], ["patUncles", "عم لأب", "Paternal half-uncle"], ["fullCousins", "ابن عم شقيق", "Full uncle's son"], ["patCousins", "ابن عم لأب", "Half-uncle's son"],
+];
+/** يوزّع التركة الصافية على الورثة بكسور دقيقة: الفروض ثم التعصيب ثم العول أو الرد (لغير الزوجين)، والجد يحجب الإخوة (م212)، ولا مشتركة (م227)، والأب لا يحجب أمه (م214). */
+export function ksaInheritance(input = {}) {
+  const c = {};
+  for (const [k, , , max] of KSA_HEIRS) c[k] = Math.min(max || 99, Math.max(0, Math.floor(Number(input[k]) || 0)));
+  if (c.husband && c.wives) return { error: "spouses" };
+  const ex = {};
+  const has = (k) => c[k] > 0 && !ex[k];
+  if (c.sons) { if (c.sonsSons) ex.sonsSons = "sons"; if (c.sonsDaughters) ex.sonsDaughters = "sons"; }
+  if (!ex.sonsDaughters && c.sonsDaughters && c.daughters >= 2 && !c.sonsSons) ex.sonsDaughters = "daughters";
+  const maleDesc = has("sons") || has("sonsSons");
+  const femaleDesc = has("daughters") || has("sonsDaughters");
+  const desc = maleDesc || femaleDesc;
+  if (c.father && c.grandfather) ex.grandfather = "father";
+  if (c.mother && c.matGrandmother) ex.matGrandmother = "mother";
+  if (c.mother && c.patGrandmother) ex.patGrandmother = "mother";
+  const father = has("father"), gf = has("grandfather");
+  const sibBlock = has("sons") ? "sons" : has("sonsSons") ? "sonsSons" : father ? "father" : gf ? "grandfather" : null;
+  if (sibBlock) for (const k of ["fullBrothers", "fullSisters", "patBrothers", "patSisters"]) if (c[k]) ex[k] = sibBlock;
+  if (c.matSiblings) {
+    const b = ["sons", "daughters", "sonsSons", "sonsDaughters"].find((k) => has(k)) || (father ? "father" : gf ? "grandfather" : null);
+    if (b) ex.matSiblings = b;
+  }
+  const fullSisterMAG = has("fullSisters") && !has("fullBrothers") && femaleDesc;
+  for (const k of ["patBrothers", "patSisters"]) if (c[k] && !ex[k]) { if (has("fullBrothers")) ex[k] = "fullBrothers"; else if (fullSisterMAG) ex[k] = "fullSisters"; }
+  if (c.patSisters && !ex.patSisters && c.fullSisters >= 2 && has("fullSisters") && !has("patBrothers")) ex.patSisters = "fullSisters";
+  const patSisterMAG = has("patSisters") && !has("patBrothers") && femaleDesc;
+  const DIST = ["fullNephews", "patNephews", "fullUncles", "patUncles", "fullCousins", "patCousins"];
+  const chain = [["sons", has("sons")], ["sonsSons", has("sonsSons")], ["father", father], ["grandfather", gf], ["fullBrothers", has("fullBrothers")], ["fullSisters", fullSisterMAG], ["patBrothers", has("patBrothers")], ["patSisters", patSisterMAG], ...DIST.map((k) => [k, has(k)])];
+  let top = null;
+  for (const [k, p] of chain) if (p) { if (!top) top = k; else if (DIST.includes(k)) ex[k] = top; }
+  const fard = {};
+  const siblingsCount = c.fullBrothers + c.fullSisters + c.patBrothers + c.patSisters + c.matSiblings;
+  if (c.husband) fard.husband = desc ? Fr(1, 4) : Fr(1, 2);
+  if (c.wives) fard.wives = desc ? Fr(1, 8) : Fr(1, 4);
+  let umariyya = false;
+  if (c.mother) {
+    if (desc || siblingsCount >= 2) fard.mother = Fr(1, 6);
+    else if (father && (c.husband || c.wives)) { umariyya = true; fard.mother = fmul(fsub(FONE, fard.husband || fard.wives), Fr(1, 3)); }
+    else fard.mother = Fr(1, 3);
+  }
+  const gms = ["patGrandmother", "matGrandmother"].filter((k) => has(k));
+  for (const k of gms) fard[k] = Fr(1, 6 * gms.length);
+  if ((father || gf) && desc) fard[father ? "father" : "grandfather"] = Fr(1, 6);
+  if (has("daughters") && !has("sons")) fard.daughters = c.daughters === 1 ? Fr(1, 2) : Fr(2, 3);
+  if (has("sonsDaughters") && !has("sonsSons")) {
+    if (!has("daughters")) fard.sonsDaughters = c.sonsDaughters === 1 ? Fr(1, 2) : Fr(2, 3);
+    else if (c.daughters === 1) fard.sonsDaughters = Fr(1, 6);
+  }
+  if (has("fullSisters") && !has("fullBrothers") && !fullSisterMAG) fard.fullSisters = c.fullSisters === 1 ? Fr(1, 2) : Fr(2, 3);
+  if (has("patSisters") && !has("patBrothers") && !patSisterMAG) {
+    if (!has("fullSisters")) fard.patSisters = c.patSisters === 1 ? Fr(1, 2) : Fr(2, 3);
+    else if (fard.fullSisters && c.fullSisters === 1) fard.patSisters = Fr(1, 6);
+  }
+  if (has("matSiblings")) fard.matSiblings = c.matSiblings === 1 ? Fr(1, 6) : Fr(1, 3);
+  const sumF = Object.values(fard).reduce(fadd, FZERO);
+  const share = {};
+  for (const k in fard) share[k] = fard[k];
+  const residue = {};
+  let awl = null, radd = false, raddSpouse = false, toArham = FZERO, toTreasury = FZERO;
+  if (sumF.n > sumF.d) {
+    awl = sumF;
+    for (const k in share) share[k] = fdiv(share[k], sumF);
+  } else {
+    const R = fsub(FONE, sumF);
+    if (R.n > 0) {
+      if (top) {
+        const pair = { sons: "daughters", sonsSons: "sonsDaughters", fullBrothers: "fullSisters", patBrothers: "patSisters" }[top];
+        if (pair && has(pair) && !fard[pair]) {
+          const units = 2 * c[top] + c[pair];
+          residue[top] = fmul(R, Fr(2 * c[top], units));
+          residue[pair] = fmul(R, Fr(c[pair], units));
+        } else residue[top] = R;
+        for (const k in residue) share[k] = fadd(share[k] || FZERO, residue[k]);
+      } else {
+        const nonSpouse = Object.keys(fard).filter((k) => k !== "husband" && k !== "wives");
+        if (nonSpouse.length) {
+          radd = true;
+          const S = nonSpouse.map((k) => fard[k]).reduce(fadd, FZERO);
+          for (const k of nonSpouse) share[k] = fadd(fard[k], fmul(R, fdiv(fard[k], S)));
+        } else if (input.arham) toArham = R;
+        else if (c.husband || c.wives) { raddSpouse = true; const k = c.husband ? "husband" : "wives"; share[k] = fadd(share[k], R); }
+        else toTreasury = R;
+      }
+    }
+  }
+  const heirs = [];
+  for (const [k, ar, en] of KSA_HEIRS) {
+    if (!c[k]) continue;
+    const sh = share[k] || FZERO;
+    const basis = ex[k] ? "excluded" : fard[k] && residue[k] ? "fardAsaba" : residue[k] ? (k === top && ["fullSisters", "patSisters"].includes(k) ? "asabaMaGhayr" : ["daughters", "sonsDaughters", "fullSisters", "patSisters"].includes(k) ? "asabaBiGhayr" : "asaba") : fard[k] ? (radd || (raddSpouse && (k === "husband" || k === "wives")) ? "fardRadd" : "fard") : "none";
+    heirs.push({ key: k, ar, en, count: c[k], basis, excludedBy: ex[k] || null, share: sh, each: Fr(sh.n, sh.d * c[k]), fard: fard[k] || null });
+  }
+  const total = [...heirs.map((h) => h.share), toArham, toTreasury].reduce(fadd, FZERO);
+  let base = 1;
+  for (const h of heirs) if (h.each.n) base = (base * h.each.d) / fgcd(base, h.each.d);
+  for (const f of [toArham, toTreasury]) if (f.n) base = (base * f.d) / fgcd(base, f.d);
+  return { heirs, awl, radd, raddSpouse, umariyya, toArham, toTreasury, base, ok: total.n === total.d, top };
+}
+/** قيمة التركة الصافية للقسمة بعد التجهيز والديون والوصية (بحد الثلث، م190–191). */
+export function ksaEstateNet({ estate = 0, funeral = 0, debts = 0, bequest = 0 } = {}) {
+  const e = Math.max(0, Number(estate) || 0), f = Math.max(0, Number(funeral) || 0), d = Math.max(0, Number(debts) || 0), b = Math.max(0, Number(bequest) || 0);
+  const afterDebts = Math.max(0, e - f - d);
+  const cap = r2(afterDebts / 3);
+  const allowed = Math.min(b, cap);
+  return { estate: e, funeral: f, debts: d, afterDebts: r2(afterDebts), bequest: r2(allowed), bequestCap: cap, overCap: b > cap + 0.004, net: r2(afterDebts - allowed) };
+}
 /** بدل 500 ريال الشهري من 1 يناير 2027 (لا يدخل في الأساسي): يعيد المبلغ إن كان التاريخ في نفاذه أو بعده. */
 export function ksaAllowance2027(asOf = new Date()) {
   const A = rules.sa.allowance2027;
