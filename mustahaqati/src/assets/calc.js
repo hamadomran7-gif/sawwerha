@@ -1731,6 +1731,60 @@ export function ksaWaterBill({ m3, sector = "residential", meter = 20, units = 1
   };
 }
 
+/**
+ * السعودية — «نطاقات»: وزن الموظف السعودي بدوام كامل بحسب أجره المسجل في التأمينات، في كل مرحلة:
+ * الحالية (4,000 كامل و3,000 نصف)، ومن 25/4/2027 (5,000)، ومن 25/4/2028 (6,000).
+ * نطاق النصف بعد التعديل غير منشور رسمياً؛ halfBand=true يفترض بقاء نطاق الألف ريال تحت الحد.
+ */
+export function nitaqatWeight(wage, phaseIndex = 0, halfBand = true) {
+  const P = rules.sa.nitaqat.phases[phaseIndex];
+  const w = Number(wage) || 0;
+  if (!P) return 0;
+  if (w >= P.full) return 1;
+  if (w >= P.half && (P.halfOfficial || halfBand)) return 0.5;
+  return 0;
+}
+
+export function nitaqatPhaseAt(date = new Date()) {
+  const iso = typeof date === "string" ? date : new Date(date).toISOString().slice(0, 10);
+  const phases = rules.sa.nitaqat.phases;
+  let idx = 0;
+  phases.forEach((p, i) => { if (iso >= p.from) idx = i; });
+  return idx;
+}
+
+/** يحلل قائمة أجور نصية: «4500, 5200» أو سطر لكل أجر، مع «4500×10» لعشرة موظفين بالأجر نفسه، والأرقام العربية الهندية. */
+export function parseWageList(text) {
+  const t = String(text || "").replace(/[٠-٩]/g, (c) => "٠١٢٣٤٥٦٧٨٩".indexOf(c)).replace(/[۰-۹]/g, (c) => "۰۱۲۳۴۵۶۷۸۹".indexOf(c)).replace(/٫/g, ".").replace(/٬/g, ",");
+  const out = [];
+  for (const raw of t.split(/[\n\r،;؛]+|\s+/)) {
+    if (!raw) continue;
+    const parts = /^\d{1,3}(,\d{3})+(\.\d+)?([x×*]\d+)?$/i.test(raw) ? [raw.replace(/,/g, "")] : raw.split(",");
+    for (const p of parts) {
+      const m = p.trim().match(/^(\d+(?:\.\d+)?)(?:\s*[x×*]\s*(\d+))?$/i);
+      if (!m) continue;
+      const wage = Number(m[1]);
+      const n = Math.min(10000, Number(m[2] || 1));
+      if (wage > 0) for (let i = 0; i < n; i++) out.push(wage);
+    }
+  }
+  return out;
+}
+
+export function nitaqatSummary(wages, halfBand = true) {
+  const phases = rules.sa.nitaqat.phases;
+  return phases.map((P, i) => {
+    let total = 0, full = 0, half = 0, zero = 0, raiseCost = 0, toRaise = 0;
+    for (const w of wages) {
+      const x = nitaqatWeight(w, i, halfBand);
+      total += x;
+      if (x === 1) full++; else if (x === 0.5) half++; else zero++;
+      if (w < P.full) { raiseCost += P.full - w; toRaise++; }
+    }
+    return { from: P.from, full: P.full, half: P.half, halfOfficial: P.halfOfficial, total, fullCount: full, halfCount: half, zeroCount: zero, raiseCost: r2(raiseCost), toRaise };
+  });
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

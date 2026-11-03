@@ -23,6 +23,10 @@ import {
   ageCalc,
   hijriParts,
   ksaWaterBill,
+  nitaqatWeight,
+  nitaqatPhaseAt,
+  parseWageList,
+  nitaqatSummary,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -894,4 +898,28 @@ test("السعودية — فاتورة المياه 2027 والتعرفة ال�
   // تجاري: 8 للمتر + 4 صرف، ورسم 40/20 لعداد ≤ 20 مم
   assert.equal(ksaWaterBill({ m3: 10, sector: "commercial", vat: false }).total, 120 + 60);
   assert.equal(ksaWaterBill({ m3: 10, sector: "government", vat: false }).total, 150 + 1500);
+});
+
+test("نطاقات — الأوزان والمراحل وتحليل قائمة الأجور", () => {
+  assert.equal(nitaqatWeight(4000, 0), 1);
+  assert.equal(nitaqatWeight(3999, 0), 0.5);
+  assert.equal(nitaqatWeight(3000, 0), 0.5);
+  assert.equal(nitaqatWeight(2999, 0), 0);
+  assert.equal(nitaqatWeight(4500, 1), 0.5);
+  assert.equal(nitaqatWeight(4500, 1, false), 0);
+  assert.equal(nitaqatWeight(5000, 1), 1);
+  assert.equal(nitaqatWeight(5500, 2), 0.5);
+  assert.equal(nitaqatWeight(6000, 2), 1);
+  assert.equal(nitaqatPhaseAt("2026-11-03"), 0);
+  assert.equal(nitaqatPhaseAt("2027-04-24"), 0);
+  assert.equal(nitaqatPhaseAt("2027-04-25"), 1);
+  assert.equal(nitaqatPhaseAt("2028-04-25"), 2);
+  assert.deepEqual(parseWageList("4,500 5200\n٣٨٠٠، 6000×2"), [4500, 5200, 3800, 6000, 6000]);
+  assert.deepEqual(parseWageList("4500,5200,3000"), [4500, 5200, 3000]);
+  const s = nitaqatSummary([3500, 4200, 4800, 5500, 6500]);
+  assert.equal(s[0].total, 4.5);
+  assert.equal(s[1].total, 3);
+  assert.equal(s[2].total, 1.5);
+  assert.equal(s[1].raiseCost, 1500 + 800 + 200);
+  assert.equal(s[2].toRaise, 4);
 });
