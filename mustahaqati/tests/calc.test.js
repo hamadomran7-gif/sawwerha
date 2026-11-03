@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  uaePayDate,
+  uaeNextPayDates,
   ksaAllowance500,
   ksaEngineeringSalary,
   ksaOfficerSalary,
@@ -1963,4 +1965,23 @@ test("بدل 500 ريال ومقارنة فواتير 2027", () => {
   assert.equal(ksaAllowance500({ category: "saned" }).amount, 0);
   assert.equal(ksaAllowance500({ category: "private" }).eligible, false);
   assert.equal(ksaAllowance500({ category: "retiree", kwh: 6000, m3: 60 }).net, 51.21);
+});
+
+test("مواعيد الرواتب والمعاشات في الإمارات (الدفعة 38)", () => {
+  assert.equal(uaePayDate({ item: "federal", year: 2026, month: 11 }).date, "2026-11-30");
+  assert.equal(uaePayDate({ item: "federal", year: 2026, month: 12 }).date, "2026-12-30");
+  assert.equal(uaePayDate({ item: "federal", year: 2027, month: 1 }).date, "2027-01-29");
+  const feb = uaePayDate({ item: "federal", year: 2027, month: 2 });
+  assert.equal(feb.date, "2027-02-26");
+  assert.equal(feb.estimate, true);
+  assert.equal(uaePayDate({ item: "gpssa", year: 2026, month: 11 }).date, "2026-11-26");
+  assert.equal(uaePayDate({ item: "gpssa", year: 2026, month: 12 }).official, true);
+  assert.equal(uaePayDate({ item: "gpssa", year: 2027, month: 3 }).date, "2027-03-26");
+  assert.equal(uaePayDate({ item: "adpf", year: 2026, month: 12 }).unsure, true);
+  const pv = uaePayDate({ item: "private", year: 2027, month: 1 });
+  assert.equal(pv.date, "2027-01-01");
+  assert.equal(pv.forMonth, "2026-12");
+  assert.equal(pv.unsure, true);
+  const next = uaeNextPayDates({ item: "federal", today: new Date("2026-11-03"), count: 2 });
+  assert.equal(next[0].days, 27);
 });

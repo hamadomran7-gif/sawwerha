@@ -1,0 +1,84 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-salary-date",
+  "alternate": "uae-salary-date",
+  "title": "UAE Salary Date 2026–2027 — Countdown to Federal Salaries, GPSSA Pensions and Private-Sector Pay",
+  "h1": "UAE Salary Date Countdown",
+  "description": "Days left until payday in the UAE: federal government salaries on the 30th of each month, moved earlier if it falls on a holiday; GPSSA pensions on their official schedule (26 November and 25 December 2026); the Abu Dhabi Pension Fund on the 26th; and private-sector wages due on the 1st of each month since June 2026.",
+  "short": "Federal salaries on the 30th, GPSSA pensions by schedule, and private-sector pay due on the 1st",
+  "lead": "Choose the payment to see the days and hours until the next date, and the following dates to the end of 2027.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-pay-dates.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-net-salary", "en-uae-federal-salary-scale", "en-uae-pension", "en-abu-dhabi-pension", "en-uae-public-holidays", "en-uae-national-day-countdown", "en-ksa-salary-date"],
+  "faq": [
+    {"q": "When are UAE federal government salaries paid?", "a": "On the 30th of each month under a Ministry of Finance circular since March 2019, with entities transferring funds on the 29th, and earlier if the 30th is a holiday. So the November 2026 salary comes on Monday 30 November, December on Wednesday 30 December, and January 2027 on Friday 29 January because the 30th is a Saturday."},
+    {"q": "When are GPSSA pensions paid in November and December 2026?", "a": "Under GPSSA's official 2026 schedule: Thursday 26 November and Friday 25 December. The base is the 27th, adjusted for holidays, and the 2027 schedule is published in January."},
+    {"q": "When does the Abu Dhabi Pension Fund pay pensions?", "a": "On the 26th of each month, according to the fund, with early payments announced before Eid, such as 16 March and 22 May 2026. It has not said what happens when the 26th falls on a weekend."},
+    {"q": "When must private-sector salaries be paid in the UAE?", "a": "Since 1 June 2026 wages are due on the 1st of each calendar month for the previous month under Ministerial Resolution 0340/2026, and any later payment counts as late, with measures starting from day 2. Before that, employers had 15 days after the due date."},
+    {"q": "What happens if a UAE employer pays salaries late?", "a": "Under Resolution 0340/2026 as reported: monitoring and notice from day 2, a stop on new work permits from day 5, fines for repeat cases from day 11, automatic dispute registration from day 16, and enforcement, travel bans and referral to prosecutors from day 21. A company counts as compliant if it pays 85% of wages on time."},
+    {"q": "Will salaries be paid early before UAE National Day?", "a": "No early payment for December 2026 had been announced as of 3 November. The National Day holiday on 2 and 3 December does not affect the federal date (30 December) or GPSSA pensions (25 December)."}
+  ],
+  "sources": [
+    {"t": "Emarat Al Youm — federal salaries unified on the 30th (27/3/2019)", "u": "https://www.emaratalyoum.com/local-section/other/2019-03-27-1.1196512"},
+    {"t": "GPSSA — 2026 pension disbursement dates", "u": "https://gpssa.gov.ae/pages/en/media-center/news/gpssa-announces-2026-pension-disbursement-dates"},
+    {"t": "Emarat Al Youm — Abu Dhabi Pension Fund pays on the 26th (4/3/2026)", "u": "https://www.emaratalyoum.com/local-section/other/2026-03-04-1.2021700"},
+    {"t": "Gulf News — UAE's new salary payment rule starts June 1 (29/5/2026)", "u": "https://gulfnews.com/business/uaes-new-salary-payment-rule-starts-monday-june-1-all-you-need-to-know-1.500557062"},
+    {"t": "Emarat Al Youm — Resolution 0340/2026: wages due on the 1st (18/5/2026)", "u": "https://www.emaratalyoum.com/local-section/other/2026-05-18-1.2047032"},
+    {"t": "MoHRE — Ministerial Resolution 598/2022 on the Wages Protection System", "u": "https://mohre.gov.ae/assets/download/d0af668c/Ministerial%20Resolution%20No.%20598%20of%202022%20Regarding%20the%20Wages%20Protection%20System%20and%20Its%20Amendment.pdf.aspx"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How long until payday?</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="item">Payment</label>
+        <select id="item" name="item">
+          <option value="federal" selected>Federal government salaries</option>
+          <option value="gpssa">GPSSA pensions</option>
+          <option value="adpf">Abu Dhabi Pension Fund pensions</option>
+          <option value="private">Private-sector pay (due date)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="from">Starting from (optional)</label>
+        <input type="date" id="from" name="from">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Federal government salaries</h2>
+{{table:uae-pay-dates item=federal from=2026-11 count=14 lang=en}}
+<p>The 30th of each month under a Ministry of Finance circular (March 2019), moved earlier if it falls on a holiday. Since the government weekend has been Saturday and Sunday since 2022, we move it to the Friday, and in February to the last working day; both are our inference. We found no official restatement of the day after 2023, and payment may be brought forward before Eid by directive. The Abu Dhabi and Dubai governments have not published a usual payday.</p>
+
+<h2>GPSSA pensions</h2>
+{{table:uae-pay-dates item=gpssa from=2026-11 count=14 lang=en}}
+<p>2026 dates are from GPSSA's official schedule, based on the 27th and adjusted for holidays. 2027 dates are estimates on the same basis until the schedule is published in January; they may differ by a day or two or be brought forward before Eid.</p>
+
+<h2>Abu Dhabi Pension Fund</h2>
+<p>The 26th of each month according to the fund, with early payments announced before Eid (16 March, 20 April and 22 May 2026). It has not said what happens when the 26th falls on a Saturday or Sunday, as on 26 December 2026. Estimate your pension with the <a href="{{root}}en/abu-dhabi-pension-calculator/{{ix}}">Abu Dhabi pension calculator</a>.</p>
+
+<h2>Private-sector pay: due on the 1st, late from the 2nd</h2>
+<p>Since 1 June 2026 wages are due on the 1st of each calendar month for the previous month under Ministerial Resolution 0340/2026 on the Wages Protection System, replacing the contract date or monthly payment with a 15-day grace period (Resolution 598/2022). A company counts as compliant if it transfers 85% of the wages due on time. Escalation, in days from the due date:</p>
+<ul>
+  <li><strong>Day 2:</strong> electronic monitoring and notice.</li>
+  <li><strong>Day 5:</strong> new work permits stopped.</li>
+  <li><strong>Day 11:</strong> for repeat cases within 6 months, a fine and a lower company category.</li>
+  <li><strong>Day 16:</strong> disputes registered automatically.</li>
+  <li><strong>Day 21:</strong> an enforcement order or collective dispute, precautionary attachment and travel bans, and referral to prosecutors for repeat cases.</li>
+</ul>
+<p>The coverage we found does not say what happens when the due date is a holiday, such as December 2026 pay due on Friday 1 January 2027. Work out your take-home pay with the <a href="{{root}}en/uae-net-salary-calculator/{{ix}}">UAE net salary calculator</a>.</p>
+</div>

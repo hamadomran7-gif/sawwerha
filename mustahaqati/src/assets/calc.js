@@ -3498,6 +3498,69 @@ export function ksaPayCountdown({ today, items = KSA_PAY_ITEMS } = {}) {
 }
 
 /* ------------------------------------------------------------------ */
+/* مواعيد الرواتب والمعاشات في الإمارات                                */
+/* ------------------------------------------------------------------ */
+export const UAE_PAY_ITEMS = ["federal", "gpssa", "adpf", "private"];
+let aeHolidayCache = null;
+const aeHolidays = () => {
+  if (!aeHolidayCache) {
+    aeHolidayCache = new Map();
+    for (const it of rules.ae.holidays.items) for (const k of ["d2026", "d2027"]) for (const d of it[k] || []) aeHolidayCache.set(d, it);
+  }
+  return aeHolidayCache;
+};
+const aeWeekend = (iso) => { const w = new Date(`${iso}T00:00:00Z`).getUTCDay(); return w === 6 || w === 0; };
+const aeOff = (iso) => aeWeekend(iso) || aeHolidays().has(iso);
+const prevIso = (iso) => isoUTC(new Date(Date.parse(`${iso}T00:00:00Z`) - 86400000));
+const ymIso = (y, m, d) => `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+/** موعد دفعة في الإمارات لشهر معيّن: الحكومة الاتحادية (30)، ومعاشات GPSSA (الجدول الرسمي أو تقدير)، وصندوق أبوظبي (26)، واستحقاق أجر القطاع الخاص (يوم 1). */
+export function uaePayDate({ item = "federal", year, month }) {
+  const P = rules.ae.payDates;
+  const y = Number(year), m = Number(month);
+  if (!P || !P[item] || !y || !m) return null;
+  const key = `${y}-${String(m).padStart(2, "0")}`;
+  const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const base = { item, month: key, official: false, estimate: false, unsure: false, reason: null, holiday: null };
+  if (item === "federal") {
+    const nominal = ymIso(y, m, Math.min(P.federal.day, last));
+    let d = nominal;
+    while (aeOff(d)) d = prevIso(d);
+    const reason = d === nominal ? null : aeHolidays().has(nominal) ? "holiday" : "weekend";
+    return { ...base, nominal, date: d, shifted: d !== nominal, reason, estimate: last < P.federal.day };
+  }
+  if (item === "gpssa") {
+    const nominal = ymIso(y, m, Math.min(P.gpssa.base, last));
+    const off = P.gpssa.official[key];
+    if (off) return { ...base, nominal, date: off, shifted: off !== nominal, official: true };
+    let d = nominal;
+    const w = new Date(`${d}T00:00:00Z`).getUTCDay();
+    if (w === 5) d = prevIso(d);
+    while (aeOff(d)) d = prevIso(d);
+    return { ...base, nominal, date: d, shifted: d !== nominal, estimate: true, reason: d === nominal ? null : aeHolidays().has(nominal) ? "holiday" : "weekend" };
+  }
+  if (item === "adpf") {
+    const nominal = ymIso(y, m, Math.min(P.adpf.day, last));
+    return { ...base, nominal, date: nominal, shifted: false, unsure: aeOff(nominal), holiday: aeHolidays().get(nominal) || null };
+  }
+  const nominal = ymIso(y, m, P.private.day);
+  const prev = new Date(Date.UTC(y, m - 2, 1));
+  return { ...base, nominal, date: nominal, shifted: false, unsure: aeOff(nominal), holiday: aeHolidays().get(nominal) || null, forMonth: isoUTC(prev).slice(0, 7) };
+}
+export function uaeNextPayDates({ item = "federal", today, count = 12 } = {}) {
+  const t = utcDay(today || new Date());
+  if (!t || !UAE_PAY_ITEMS.includes(item)) return [];
+  const tIso = isoUTC(t);
+  const y0 = t.getUTCFullYear(), m0 = t.getUTCMonth();
+  const out = [];
+  for (let i = 0; out.length < count && i < count + 3; i++) {
+    const yy = y0 + Math.floor((m0 + i) / 12), mm = ((m0 + i) % 12) + 1;
+    const p = uaePayDate({ item, year: yy, month: mm });
+    if (p && p.date >= tIso) out.push({ ...p, days: dayDiff(t, utcDay(p.date)) });
+  }
+  return out;
+}
+
+/* ------------------------------------------------------------------ */
 /* تقاويم المدارس 2026–2027 وعدّاد «كم باقي على الإجازة»                */
 /* ------------------------------------------------------------------ */
 

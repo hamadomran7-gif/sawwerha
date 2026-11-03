@@ -792,6 +792,29 @@ const TABLES = {
         ];
     return tableWrap(a.caption || (en ? "OMR per month" : "بالريال العماني شهرياً"), en ? ["Benefit", "Amount", "Conditions"] : ["المنفعة", "المبلغ", "الشروط"], rows);
   },
+  "uae-pay-dates"(a) {
+    const en = a.lang === "en";
+    const [fy, fm] = String(a.from || "2026-11").split("-").map(Number);
+    const count = Number(a.count || 14);
+    const loc = en ? "en-GB" : "ar-u-nu-latn";
+    const mf = new Intl.DateTimeFormat(loc, { month: "long", year: "numeric", timeZone: "UTC" });
+    const df = new Intl.DateTimeFormat(loc, { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+    const wf = new Intl.DateTimeFormat(loc, { weekday: "long", timeZone: "UTC" });
+    const D = (iso) => new Date(`${iso}T00:00:00Z`);
+    const rows = [];
+    for (let i = 0; i < count; i++) {
+      const y = fy + Math.floor((fm - 1 + i) / 12), m = ((fm - 1 + i) % 12) + 1;
+      const p = calc.uaePayDate({ item: a.item || "federal", year: y, month: m });
+      const notes = [];
+      if (p.official) notes.push(en ? "Official GPSSA schedule" : "جدول الهيئة الرسمي");
+      if (p.reason === "holiday") notes.push(en ? "Public holiday, moved earlier" : "عطلة رسمية، فيُقدَّم");
+      else if (p.shifted && !p.official) notes.push(en ? `${p.nominal.slice(8)} is a ${wf.format(D(p.nominal))}, moved earlier` : `يوم ${Number(p.nominal.slice(8))} يوافق ${wf.format(D(p.nominal))}، فيُقدَّم`);
+      if (p.estimate) notes.push(en ? "Estimate" : "تقديري");
+      if (p.unsure) notes.push(en ? `Falls on a ${p.holiday ? p.holiday.en + " holiday" : wf.format(D(p.date))}; rule not published` : `يوافق ${p.holiday ? "عطلة " + p.holiday.ar : wf.format(D(p.date))}، والقاعدة غير منشورة`);
+      rows.push([mf.format(D(`${y}-${String(m).padStart(2, "0")}-01`)), `<strong>${df.format(D(p.date))}</strong>`, notes.join(en ? "; " : "، ") || "—"]);
+    }
+    return tableWrap(a.caption || "", en ? ["Month", "Payment date", "Note"] : ["الشهر", "موعد الصرف", "ملاحظة"], rows);
+  },
   "eid-holidays"(a) {
     const en = a.lang === "en";
     const ids = a.id === "eidAlAdha" ? ["arafat", "eidAlAdha"] : ["eidAlFitr"];
