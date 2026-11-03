@@ -1989,6 +1989,21 @@ export default {
       "employerRate": 0.11,
       "transitionalPriorYears": 20,
       "seniorBenefit": 115
+    },
+    "incomeTax": {
+      "law": "المرسوم السلطاني 56/2025 بإصدار قانون الضريبة على دخل الأفراد (الجريدة الرسمية 1602، 30/6/2025)",
+      "effective": "2028-01-01",
+      "firstReturnDue": "2029-06-30",
+      "rate": 0.05,
+      "threshold": 42000,
+      "residencyDays": 183,
+      "deemedCostPct": 0.15,
+      "donationsCapPct": 0.05,
+      "spfEmployeeRate": 0.075,
+      "spfWageCapMonthly": 3000,
+      "entityWhtThreshold": 20000,
+      "entityWhtShareResident": 0.2,
+      "lateMonthlyPct": 0.01
     }
   },
   "bh": {

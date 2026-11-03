@@ -36,6 +36,7 @@ import {
   adPeriod,
   uaeEmiratisation,
   ksaRetirementAge,
+  omanIncomeTax,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1147,4 +1148,33 @@ test("السعودية — سن التقاعد وتاريخه", () => {
   const t2 = ksaRetirementAge({ birth: "1985-06-15", start: "2010-01-01", monthsAtEff: 200 });
   assert.equal(t2.category, "transitional");
   assert.equal(t2.earlyMonthsNeeded, 336);
+});
+
+test("عُمان — ضريبة دخل الأفراد (من 2028)", () => {
+  // راتب 3,000 شهرياً: دون الحد
+  assert.equal(omanIncomeTax({ monthlySalary: 3000 }).tax, 0);
+  assert.equal(omanIncomeTax({ monthlySalary: 3500 }).filingRequired, false);
+  // عُماني: راتب 4,000 + إيجار 6,000 + فوائد قرض المسكن 2,000 → 320، والاستقطاع 165
+  const a = omanIncomeTax({ omani: true, monthlySalary: 4000, rent: 6000, loanInterest: 2000 });
+  assert.equal(a.G, 54000);
+  assert.equal(a.contrib, 2700);
+  assert.equal(a.taxable, 6400);
+  assert.equal(a.tax, 320);
+  assert.equal(a.withholding, 165);
+  // بتكاليف إيجار فعلية 1,500 → 290
+  assert.equal(omanIncomeTax({ omani: true, monthlySalary: 4000, rent: 6000, rentActualCost: 1500, loanInterest: 2000 }).tax, 290);
+  // وافد بلا اشتراك → 455
+  assert.equal(omanIncomeTax({ monthlySalary: 4000, rent: 6000, loanInterest: 2000 }).tax, 455);
+  // وافد 5,000 شهرياً → 900، ومع مدارس 4,000 وعلاج 500 → 675
+  assert.equal(omanIncomeTax({ monthlySalary: 5000 }).tax, 900);
+  assert.equal(omanIncomeTax({ monthlySalary: 5000, education: 4000, health: 500 }).tax, 675);
+  // عُماني بدخول متعددة: 87,000 إجمالي، والتبرعات بحد 5% → 1,722.5
+  const b = omanIncomeTax({ omani: true, monthlySalary: 6000, other: 13000, exemptIncome: 2000, donations: 5000, health: 1500 });
+  assert.equal(b.G, 87000);
+  assert.equal(b.donationsAllowed, 4350);
+  assert.equal(b.exemptions, 10550);
+  assert.equal(b.tax, 1722.5);
+  assert.equal(b.withholding, 1365);
+  // وافد 8 أشهر بـ4,500 ومكافأة 25,000 → 950
+  assert.equal(omanIncomeTax({ monthlySalary: 4500, months: 8, gratuity: 25000 }).tax, 950);
 });

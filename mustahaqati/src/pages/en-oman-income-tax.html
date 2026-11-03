@@ -1,0 +1,162 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-personal-income-tax-calculator",
+  "alternate": "oman-income-tax",
+  "title": "Oman Personal Income Tax Calculator 2028 — 5% Above OMR 42,000 a Year",
+  "h1": "Oman Personal Income Tax Calculator",
+  "description": "Calculate Oman's personal income tax, which starts on 1 January 2028 under Royal Decree 56/2025: 5% on gross annual income above OMR 42,000, after deemed or actual costs for rent and self-employment and exemptions for pension contributions, education, healthcare, donations and home-loan interest — plus an estimate of what your employer will withhold.",
+  "short": "5% on income above OMR 42,000 a year from 2028, after costs and exemptions",
+  "lead": "Enter your salary, other income for the year and your exempt expenses to see your annual tax, your effective rate, whether you must file a return, and an estimate of payroll withholding.",
+  "country": "om",
+  "category": "tax",
+  "tool": true,
+  "script": "en-oman-income-tax.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-end-of-service", "en-oman-pension", "en-uae-corporate-tax", "en-zakat"],
+  "faq": [
+    {"q": "When does personal income tax start in Oman?", "a": "On 1 January 2028. The tax year is the calendar year, so the first return and payment are due by 30 June 2029. The law was issued by Royal Decree 56/2025 on 22 June 2025."},
+    {"q": "How much is income tax in Oman?", "a": "5% only on gross annual income above OMR 42,000, after costs and exemptions. Someone earning OMR 60,000 with no deductions pays 5% × 18,000 = OMR 900, or 1.5% of income."},
+    {"q": "Do expatriates pay income tax in Oman?", "a": "Yes, if their income exceeds the threshold. The test is residence, not nationality: anyone in Oman for more than 183 days in the year is resident and taxed on worldwide income; non-residents are taxed only on income earned in Oman."},
+    {"q": "Is a salary of OMR 3,500 a month taxed?", "a": "No. 3,500 × 12 = OMR 42,000 exactly, and the tax applies only to income above the threshold, so there is no tax and no return. Tax starts on anything above that."},
+    {"q": "Are end-of-service gratuity and pensions taxed?", "a": "Yes. The law lists pensions and end-of-service gratuities among taxable income, so a gratuity can push someone into tax in the year it is paid. What is exempt is your own contributions to pension schemes (up to two schemes)."},
+    {"q": "Which exemptions reduce the tax?", "a": "Your pension contributions, education and healthcare expenses for you and your family, zakat and donations to approved bodies up to 5% of gross income, interest on a loan to build or buy your main home (once), and interest on Omani government bonds and sukuk. Rent and self-employment get a 15% deemed cost or actual costs."},
+    {"q": "Is the threshold per person or per family?", "a": "Per person. There is no joint return for spouses, so each has their own OMR 42,000 threshold."}
+  ],
+  "sources": [
+    {"t": "Royal Decree 56/2025 issuing the Personal Income Tax Law (Official Gazette 1602, June 2025, Arabic)", "u": "https://qanoon.om/p/2025/rd2025056/"},
+    {"t": "Oman Tax Authority — personal income tax FAQs (October 2026)", "u": "https://tms.taxoman.gov.om/portal/web/taxportal//personal-income-tax-faqs"},
+    {"t": "Oman Tax Authority — issuance of the PIT law (June 2025)", "u": "https://tms.taxoman.gov.om/portal/w/issuance-of-personal-income-tax-pit-law"},
+    {"t": "EY — Oman to introduce personal income tax from January 2028 (July 2025)", "u": "https://www.ey.com/en_gl/technical/tax-alerts/oman-to-introduce-personal-income-tax-from-january-2028"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your annual tax</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="omani">Nationality</label>
+        <select id="omani" name="omani">
+          <option value="no" selected>Expatriate</option>
+          <option value="yes">Omani</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="resident">Days in Oman in the year</label>
+        <select id="resident" name="resident">
+          <option value="yes" selected>More than 183 (resident)</option>
+          <option value="no">183 or fewer (non-resident)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="monthlySalary">Monthly gross salary (OMR)</label>
+        <input type="number" id="monthlySalary" name="monthlySalary" inputmode="decimal" min="0" step="10" value="5000" required>
+        <span class="hint">Including allowances and benefits, before any deduction.</span>
+      </div>
+      <div class="field">
+        <label for="months">Months worked in the year</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="12" step="1" value="12">
+      </div>
+      <div class="field">
+        <label for="gratuity">End-of-service gratuity received in the year</label>
+        <input type="number" id="gratuity" name="gratuity" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="pension">Pension received in the year</label>
+        <input type="number" id="pension" name="pension" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="rent">Rental income in the year (residential or commercial)</label>
+        <input type="number" id="rent" name="rent" inputmode="decimal" min="0" step="10" value="0">
+        <span class="hint">A 15% deemed cost is deducted unless you enter actual costs.</span>
+      </div>
+      <div class="field">
+        <label for="rentActualCost">Actual rental costs (optional)</label>
+        <input type="number" id="rentActualCost" name="rentActualCost" inputmode="decimal" min="0" step="10" value="">
+      </div>
+      <div class="field">
+        <label for="selfEmp">Self-employment income without a commercial registration</label>
+        <input type="number" id="selfEmp" name="selfEmp" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="other">Other taxable income (interest, dividends, shares…)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="exemptIncome">Interest on Omani government bonds and sukuk</label>
+        <input type="number" id="exemptIncome" name="exemptIncome" inputmode="decimal" min="0" step="10" value="0">
+        <span class="hint">Exempt, but counted in gross income.</span>
+      </div>
+      <div class="field">
+        <label for="pensionContrib">Your pension contributions in the year</label>
+        <input type="number" id="pensionContrib" name="pensionContrib" inputmode="decimal" min="0" step="10" value="">
+        <span class="hint">Leave blank: for Omanis 7.5% of salary capped at OMR 3,000 a month.</span>
+      </div>
+      <div class="field">
+        <label for="education">Education expenses (you and your family)</label>
+        <input type="number" id="education" name="education" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="health">Healthcare expenses</label>
+        <input type="number" id="health" name="health" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="donations">Zakat and donations to approved bodies</label>
+        <input type="number" id="donations" name="donations" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="loanInterest">Main-home loan interest in the year</label>
+        <input type="number" id="loanInterest" name="loanInterest" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate tax</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How Oman's personal income tax works</h2>
+<ol>
+  <li><strong>Gross income:</strong> everything you receive in the year in cash or in kind: salary, allowances, bonuses, pension, end-of-service gratuity, rent, dividends and interest.</li>
+  <li><strong>Threshold:</strong> if gross income does not exceed OMR 42,000, there is no tax and no return.</li>
+  <li><strong>Taxable income:</strong> gross − 42,000 − costs (15% of rent and self-employment, or actual) − exemptions.</li>
+  <li><strong>Tax:</strong> 5% of taxable income, with no bands.</li>
+</ol>
+
+<h2>Effective tax on a salary with no deductions</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Annual income</th><th scope="col">Monthly salary</th><th scope="col">Annual tax</th><th scope="col">Effective rate</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">42,000</th><td>3,500</td><td>0</td><td>0%</td></tr>
+    <tr><th scope="row">48,000</th><td>4,000</td><td>300</td><td>0.63%</td></tr>
+    <tr><th scope="row">60,000</th><td>5,000</td><td>900</td><td>1.5%</td></tr>
+    <tr><th scope="row">84,000</th><td>7,000</td><td>2,100</td><td>2.5%</td></tr>
+    <tr><th scope="row">120,000</th><td>10,000</td><td>3,900</td><td>3.25%</td></tr>
+    <tr><th scope="row">240,000</th><td>20,000</td><td>9,900</td><td>4.13%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The Tax Authority says about 99% of the population is below the threshold and will not pay the tax.</p>
+
+<div class="example">
+<p><strong>Examples for 2028:</strong><br>
+An Omani earning OMR 4,000 a month with residential rent of 6,000 and main-home loan interest of 2,000: gross 54,000, deductions 5,600 (rent cost 900 + pension contributions 2,700 + interest 2,000), taxable 6,400 and tax <strong>OMR 320</strong>.<br>
+An expatriate earning OMR 5,000 a month: taxable 18,000 and tax <strong>OMR 900</strong> (75 a month), falling to 675 with school fees of 4,000 and medical costs of 500.<br>
+An expatriate who works 8 months on 4,500 and receives a gratuity of 25,000: gross 61,000 and tax <strong>OMR 950</strong>; without the gratuity there would be no tax.</p>
+</div>
+
+<h2>Returns and withholding</h2>
+<ul>
+  <li>Anyone whose gross income exceeds OMR 42,000 files an electronic return within 6 months of the year end (first deadline 30 June 2029) and pays with it.</li>
+  <li>Employers withhold tax from salaries expected to exceed the threshold, deducting only exemptions that are part of the salary, such as pension contributions; you recover the rest through your return.</li>
+  <li>Anyone leaving Oman for good files a return at least 60 days before their residence ends.</li>
+  <li>Late payment costs 1% a month of the unpaid amount.</li>
+</ul>
+<p>This is an estimate: the executive regulations that set the conditions for education, healthcare and loan exemptions and the monthly withholding method had not been published by November 2026. To work out a gratuity before you receive it, see the <a href="{{root}}en/oman-end-of-service-calculator/{{ix}}">Oman end-of-service calculator</a>. Prefer Arabic? Use the <a href="{{root}}oman-income-tax/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

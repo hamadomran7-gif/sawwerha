@@ -2186,6 +2186,45 @@ export function uaeEmiratisation({ total, skilled, emiratis = 0, baseline = 0, s
   return { scope: "none", W, S, have, small: W >= E.smallMin, share: have / W };
 }
 
+/**
+ * عُمان — ضريبة دخل الأفراد (المرسوم السلطاني 56/2025، من 1/1/2028):
+ * الضريبة = 5% × (الإجمالي − 42,000 − التكاليف − الإعفاءات)، بحد أدنى صفر، والحد على الإجمالي قبل أي خصم.
+ * التكاليف: 15% حكمية للإيجار والعمل الحر أو الفعلية. الإعفاءات: اشتراكات التقاعد (للعُماني 7.5% بسقف 3,000 شهرياً)،
+ * والتعليم والصحة، والتبرعات والزكاة بحد 5% من الإجمالي، وفوائد قرض المسكن الأساسي، والدخل المعفى بطبيعته (سندات وصكوك حكومية).
+ */
+export function omanIncomeTax({
+  omani = false, monthlySalary = 0, months = 12, gratuity = 0, pension = 0,
+  rent = 0, rentActualCost = null, selfEmp = 0, selfEmpActualCost = null, other = 0, exemptIncome = 0,
+  pensionContrib = null, education = 0, health = 0, donations = 0, loanInterest = 0,
+}) {
+  const T = rules.om.incomeTax;
+  const n = (x) => Math.max(0, Number(x) || 0);
+  const m = Math.min(12, Math.max(0, Number(months) || 0));
+  const salary = n(monthlySalary) * m;
+  const G = salary + n(gratuity) + n(pension) + n(rent) + n(selfEmp) + n(other) + n(exemptIncome);
+  const costOf = (inc, actual) => (actual === null || actual === undefined || actual === "" || isNaN(Number(actual)) ? inc * T.deemedCostPct : Math.min(n(actual), inc));
+  const rentCost = costOf(n(rent), rentActualCost);
+  const selfCost = costOf(n(selfEmp), selfEmpActualCost);
+  const autoContrib = omani ? T.spfEmployeeRate * Math.min(n(monthlySalary), T.spfWageCapMonthly) * m : 0;
+  const contrib = pensionContrib === null || pensionContrib === undefined || pensionContrib === "" || isNaN(Number(pensionContrib)) ? autoContrib : n(pensionContrib);
+  const donationsAllowed = Math.min(n(donations), T.donationsCapPct * G);
+  const exemptions = contrib + n(education) + n(health) + donationsAllowed + n(loanInterest) + n(exemptIncome);
+  const costs = rentCost + selfCost;
+  const over = Math.max(0, G - T.threshold);
+  const taxable = G > T.threshold ? Math.max(0, over - costs - exemptions) : 0;
+  const tax = taxable * T.rate;
+  // تقدير استقطاع جهة العمل: على الراتب والمكافأة والمعاش ناقص الحد واشتراك التقاعد فقط (م30/2)
+  const wageBase = salary + n(gratuity) + n(pension);
+  const withholding = Math.max(0, wageBase - T.threshold - contrib) * T.rate;
+  return {
+    G: r2(G), salary: r2(salary), over: r2(over), rentCost: r2(rentCost), selfCost: r2(selfCost), costs: r2(costs),
+    contrib: r2(contrib), autoContrib: r2(autoContrib), donationsAllowed: r2(donationsAllowed), donationsCapped: n(donations) > donationsAllowed,
+    exemptions: r2(exemptions), taxable: r2(taxable), tax: Math.round(tax * 1000) / 1000,
+    effective: G ? tax / G : 0, filingRequired: G > T.threshold, withholding: Math.round(withholding * 1000) / 1000,
+    balance: Math.round((tax - withholding) * 1000) / 1000, monthlyWithholding: m ? Math.round((withholding / m) * 1000) / 1000 : 0,
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

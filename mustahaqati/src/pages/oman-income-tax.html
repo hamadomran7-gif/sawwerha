@@ -1,0 +1,159 @@
+---json
+{
+  "title": "حاسبة ضريبة الدخل في عُمان 2028 — 5% على ما زاد على 42,000 ريال سنوياً",
+  "h1": "حاسبة ضريبة دخل الأفراد في عُمان",
+  "description": "احسب ضريبة دخل الأفراد في سلطنة عُمان التي تبدأ في 1 يناير 2028 بالمرسوم السلطاني 56/2025: 5% على ما زاد على 42,000 ريال من الدخل الإجمالي السنوي، بعد طرح تكاليف الإيجار والعمل الحر وإعفاءات التقاعد والتعليم والصحة والتبرعات وفوائد قرض المسكن، مع تقدير ما يستقطعه صاحب العمل.",
+  "short": "5% على ما زاد على 42,000 ريال سنوياً من 2028، بعد التكاليف والإعفاءات",
+  "lead": "أدخل راتبك ودخلك الآخر في السنة ونفقاتك المعفاة، وتظهر الضريبة السنوية ونسبتها الفعلية، وهل يلزمك إقرار، وتقدير الاستقطاع من راتبك.",
+  "country": "om",
+  "category": "tax",
+  "tool": true,
+  "script": "oman-income-tax.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["oman-end-of-service", "oman-pension", "uae-corporate-tax", "zakat-calculator"],
+  "faq": [
+    {"q": "متى تبدأ ضريبة الدخل على الأفراد في عُمان؟", "a": "من 1 يناير 2028، والسنة الضريبية هي السنة الميلادية، فأول إقرار وسداد حتى 30 يونيو 2029. صدر القانون بالمرسوم السلطاني 56/2025 في 22 يونيو 2025."},
+    {"q": "كم ضريبة الدخل في عُمان؟", "a": "5% فقط على ما زاد على 42,000 ريال عُماني من الدخل الإجمالي السنوي، بعد طرح التكاليف والإعفاءات. فمن دخله 60,000 بلا خصومات يدفع 5% × 18,000 = 900 ريال، أي 1.5% من دخله."},
+    {"q": "هل يدفع الوافد ضريبة الدخل في عُمان؟", "a": "نعم إن تجاوز دخله الحد. الاختبار هو الإقامة لا الجنسية: من بقي في عُمان أكثر من 183 يوماً في السنة يُعد مقيماً ويخضع دخله العالمي، وغير المقيم يخضع دخله المحقق في عُمان فقط."},
+    {"q": "هل يخضع راتب 3,500 ريال شهرياً للضريبة؟", "a": "لا. 3,500 × 12 = 42,000 ريال بالضبط، والضريبة على ما يتجاوز الحد، فلا ضريبة ولا إقرار. وتبدأ الضريبة مما زاد على ذلك."},
+    {"q": "هل تخضع مكافأة نهاية الخدمة والمعاش للضريبة؟", "a": "نعم. القانون يعد معاشات التقاعد ومكافآت نهاية الخدمة من مصادر الدخل الخاضعة، فقد تُدخل المكافأة صاحبها في الضريبة في سنة قبضها. والمعفى هو اشتراكات الشخص في أنظمة التقاعد (بحد نظامين)."},
+    {"q": "ما الإعفاءات التي تخفض الضريبة؟", "a": "اشتراكاتك في التقاعد، ونفقات التعليم والرعاية الصحية لك ولأسرتك، والزكاة والتبرعات للجهات المعتمدة بحد 5% من الدخل الإجمالي، وفوائد قرض بناء المسكن الأساسي أو شرائه لمرة واحدة، وفوائد السندات والصكوك الحكومية العُمانية. وللإيجار والعمل الحر تكلفة حكمية 15% أو الفعلية."},
+    {"q": "هل الحد لكل فرد أم للأسرة؟", "a": "لكل فرد. لا يوجد إقرار مشترك للزوجين، فلكل منهما حد 42,000 ريال على دخله."}
+  ],
+  "sources": [
+    {"t": "المرسوم السلطاني 56/2025 بإصدار قانون الضريبة على دخل الأفراد (الجريدة الرسمية 1602، يونيو 2025)", "u": "https://qanoon.om/p/2025/rd2025056/"},
+    {"t": "جهاز الضرائب — الأسئلة الشائعة عن ضريبة دخل الأفراد (أكتوبر 2026)", "u": "https://tms.taxoman.gov.om/portal/web/taxportal//personal-income-tax-faqs"},
+    {"t": "جهاز الضرائب — إصدار قانون ضريبة دخل الأفراد (يونيو 2025)", "u": "https://tms.taxoman.gov.om/portal/w/issuance-of-personal-income-tax-pit-law"},
+    {"t": "EY — عُمان تفرض ضريبة دخل الأفراد من يناير 2028 (يوليو 2025)", "u": "https://www.ey.com/en_gl/technical/tax-alerts/oman-to-introduce-personal-income-tax-from-january-2028"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب ضريبتك السنوية</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="omani">الجنسية</label>
+        <select id="omani" name="omani">
+          <option value="no" selected>وافد</option>
+          <option value="yes">عُماني</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="resident">الإقامة في السنة</label>
+        <select id="resident" name="resident">
+          <option value="yes" selected>أكثر من 183 يوماً (مقيم)</option>
+          <option value="no">183 يوماً فأقل (غير مقيم)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="monthlySalary">الراتب الشهري الشامل (ريال عُماني)</label>
+        <input type="number" id="monthlySalary" name="monthlySalary" inputmode="decimal" min="0" step="10" value="5000" required>
+        <span class="hint">مع البدلات والمزايا، قبل أي استقطاع.</span>
+      </div>
+      <div class="field">
+        <label for="months">أشهر العمل في السنة</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="12" step="1" value="12">
+      </div>
+      <div class="field">
+        <label for="gratuity">مكافأة نهاية خدمة قبضتها في السنة</label>
+        <input type="number" id="gratuity" name="gratuity" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="pension">معاش تقاعدي في السنة</label>
+        <input type="number" id="pension" name="pension" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="rent">دخل إيجار في السنة (سكني أو تجاري)</label>
+        <input type="number" id="rent" name="rent" inputmode="decimal" min="0" step="10" value="0">
+        <span class="hint">تُطرح منه تكلفة حكمية 15% ما لم تدخل الفعلية.</span>
+      </div>
+      <div class="field">
+        <label for="rentActualCost">تكاليف الإيجار الفعلية (اختياري)</label>
+        <input type="number" id="rentActualCost" name="rentActualCost" inputmode="decimal" min="0" step="10" value="">
+      </div>
+      <div class="field">
+        <label for="selfEmp">دخل عمل حر بلا سجل تجاري</label>
+        <input type="number" id="selfEmp" name="selfEmp" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="other">دخل آخر خاضع (فوائد، أرباح، أسهم…)</label>
+        <input type="number" id="other" name="other" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="exemptIncome">فوائد سندات وصكوك حكومية عُمانية</label>
+        <input type="number" id="exemptIncome" name="exemptIncome" inputmode="decimal" min="0" step="10" value="0">
+        <span class="hint">معفاة، لكنها تُحسب في الدخل الإجمالي.</span>
+      </div>
+      <div class="field">
+        <label for="pensionContrib">اشتراكاتك في التقاعد في السنة</label>
+        <input type="number" id="pensionContrib" name="pensionContrib" inputmode="decimal" min="0" step="10" value="">
+        <span class="hint">اتركه فارغاً: للعُماني 7.5% من الراتب بسقف 3,000 شهرياً.</span>
+      </div>
+      <div class="field">
+        <label for="education">نفقات التعليم (لك ولأسرتك)</label>
+        <input type="number" id="education" name="education" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="health">نفقات الرعاية الصحية</label>
+        <input type="number" id="health" name="health" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="donations">الزكاة والتبرعات لجهات معتمدة</label>
+        <input type="number" id="donations" name="donations" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+      <div class="field">
+        <label for="loanInterest">فوائد قرض المسكن الأساسي في السنة</label>
+        <input type="number" id="loanInterest" name="loanInterest" inputmode="decimal" min="0" step="10" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب الضريبة</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف تُحسب ضريبة الدخل في عُمان؟</h2>
+<ol>
+  <li><strong>الدخل الإجمالي:</strong> كل ما تحصّله في السنة نقداً أو عيناً: الراتب والبدلات والمكافآت والمعاش ومكافأة نهاية الخدمة والإيجار والأرباح والفوائد.</li>
+  <li><strong>الحد:</strong> إن لم يتجاوز الإجمالي 42,000 ريال فلا ضريبة ولا إقرار.</li>
+  <li><strong>الدخل الخاضع:</strong> الإجمالي − 42,000 − التكاليف (15% من الإيجار والعمل الحر أو الفعلية) − الإعفاءات.</li>
+  <li><strong>الضريبة:</strong> 5% من الدخل الخاضع، بلا شرائح.</li>
+</ol>
+
+<h2>الضريبة الفعلية لراتب بلا خصومات</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدخل السنوي</th><th scope="col">الراتب الشهري</th><th scope="col">الضريبة السنوية</th><th scope="col">النسبة الفعلية</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">42,000</th><td>3,500</td><td>0</td><td>0%</td></tr>
+    <tr><th scope="row">48,000</th><td>4,000</td><td>300</td><td>0.63%</td></tr>
+    <tr><th scope="row">60,000</th><td>5,000</td><td>900</td><td>1.5%</td></tr>
+    <tr><th scope="row">84,000</th><td>7,000</td><td>2,100</td><td>2.5%</td></tr>
+    <tr><th scope="row">120,000</th><td>10,000</td><td>3,900</td><td>3.25%</td></tr>
+    <tr><th scope="row">240,000</th><td>20,000</td><td>9,900</td><td>4.13%</td></tr>
+  </tbody>
+</table>
+</div>
+<p>ويشير جهاز الضرائب إلى أن نحو 99% من السكان دون الحد، فلا تمسهم الضريبة.</p>
+
+<div class="example">
+<p><strong>أمثلة لسنة 2028:</strong><br>
+عُماني راتبه 4,000 شهرياً، وله إيجار سكني 6,000 وفوائد قرض مسكنه 2,000: الإجمالي 54,000، والخصومات 5,600 (تكلفة الإيجار 900 + اشتراك التقاعد 2,700 + الفوائد 2,000)، فالخاضع 6,400 والضريبة <strong>320 ريالاً</strong>.<br>
+وافد راتبه 5,000 شهرياً: الخاضع 18,000 والضريبة <strong>900 ريال</strong> (75 شهرياً)، وتنزل إلى 675 إن دفع رسوم مدارس 4,000 وعلاجاً 500.<br>
+وافد عمل 8 أشهر براتب 4,500 وقبض مكافأة نهاية خدمة 25,000: الإجمالي 61,000 والضريبة <strong>950 ريالاً</strong>، وبلا المكافأة لا ضريبة عليه.</p>
+</div>
+
+<h2>الإقرار والاستقطاع</h2>
+<ul>
+  <li>يقدّم الإقرار إلكترونياً كل من تجاوز دخله الإجمالي 42,000 ريال، خلال 6 أشهر من نهاية السنة (أول موعد 30 يونيو 2029)، ويسدد الضريبة معه.</li>
+  <li>تستقطع جهة العمل الضريبة من الراتب إذا توقعت تجاوزه الحد، ولا تطرح إلا الإعفاءات التي هي جزء من الراتب كاشتراك التقاعد؛ والباقي تسترده بإقرارك.</li>
+  <li>من يغادر عُمان نهائياً يقدّم إقراره قبل انقطاع إقامته بـ60 يوماً على الأقل.</li>
+  <li>التأخر في السداد عليه 1% شهرياً من المبلغ غير المسدد.</li>
+</ul>
+<p>الحاسبة تقديرية: اللائحة التنفيذية التي تحدد شروط التعليم والصحة والقرض وطريقة الاستقطاع الشهري لم تُنشر حتى نوفمبر 2026. ولحساب مكافأتك قبل قبضها راجع <a href="{{root}}oman-end-of-service/{{ix}}">حاسبة نهاية الخدمة في عُمان</a>.</p>
+</div>
