@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  inheritanceWithWajiba,
   gccInheritance,
   INHERITANCE_PROFILES,
   pregnancyDueDate,
@@ -2140,4 +2141,24 @@ test("المواريث بطريقة زيد في الجد والإخوة والم
     const got = Object.fromEntries(r.heirs.map((h) => [h.key, fs(h.share)]));
     for (const k in want) assert.equal(got[k], want[k], `${JSON.stringify(input)} ${k}`);
   }
+});
+
+test("الوصية الواجبة بالطريقة المصرية (حد الثلث ثم قسمة الباقي)", () => {
+  const fs = (f) => (f ? `${f.n}/${f.d}` : null);
+  const Z = INHERITANCE_PROFILES.zayd;
+  const a = inheritanceWithWajiba({ sons: 1 }, Z, { deadSons: 1 });
+  assert.equal(fs(a.wajiba.total), "1/3");
+  assert.equal(a.wajiba.capped, true);
+  assert.equal(fs(a.heirs[0].share), "2/3");
+  const b = inheritanceWithWajiba({ wives: 1, daughters: 1 }, Z, { deadDaughters: 1 });
+  assert.deepEqual(b.heirs.map((h) => [h.key, fs(h.share)]), [["wives", "1/12"], ["daughters", "7/12"]]);
+  const c = inheritanceWithWajiba({ sons: 2, daughters: 1, wives: 1 }, Z, { deadSons: 1, deadDaughters: 1 });
+  assert.equal(fs(c.wajiba.total), "21/64");
+  assert.equal(c.wajiba.capped, false);
+  assert.equal(fs(c.wajiba.sonBranch), "7/32");
+  assert.equal(fs(c.wajiba.daughterBranch), "7/64");
+  assert.equal(fs(c.heirs.find((h) => h.key === "wives").share), "43/512");
+  const d = inheritanceWithWajiba({ daughters: 1 }, Z, { deadSons: 1 });
+  assert.equal(d.wajiba, null);
+  assert.equal(d.sonBranchesInherit, true);
 });

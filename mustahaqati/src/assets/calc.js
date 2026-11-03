@@ -4259,6 +4259,34 @@ export function gccInheritance(input = {}, profile = INHERITANCE_PROFILES.sa) {
   for (const f of [toArham, toTreasury]) if (f.n) base = (base * f.d) / fgcd(base, f.d);
   return { heirs, awl, radd, raddSpouse, umariyya, mushtaraka, akdariyya, malikiyya, jaddMethod, toArham, toTreasury, base, ok: total.n === total.d, top, noHeirs: P.noHeirs };
 }
+/**
+ * الوصية الواجبة على الطريقة المصرية التي أخذت بها قوانين خليجية: يُفرض الابن أو البنت المتوفى قبل المورّث حياً،
+ * فيُخرج نصيبه لأولاده بحد الثلث (cap) قبل الورثة، ويُقسم الباقي على الورثة الأحياء بأنصبتهم.
+ * فرع الابن لا يستحقها إن لم يوجد ابن حي، لأن أولاد الابن يرثون حينئذ بأنفسهم.
+ */
+export function inheritanceWithWajiba(input = {}, profile = INHERITANCE_PROFILES.sa, { deadSons = 0, deadDaughters = 0, cap = Fr(1, 3) } = {}) {
+  const base = gccInheritance(input, profile);
+  if (base.error) return base;
+  const livingSons = Math.max(0, Math.floor(Number(input.sons) || 0));
+  const ds0 = Math.max(0, Math.floor(Number(deadSons) || 0)), dd = Math.max(0, Math.floor(Number(deadDaughters) || 0));
+  const ds = livingSons ? ds0 : 0;
+  const out = { ...base, wajiba: null, sonBranchesInherit: !livingSons && ds0 > 0 };
+  if (!ds && !dd) return out;
+  const hypo = gccInheritance({ ...input, sons: livingSons + ds, daughters: (Math.floor(Number(input.daughters) || 0)) + dd }, profile);
+  const perSon = hypo.heirs.find((h) => h.key === "sons")?.each || FZERO;
+  const perDau = hypo.heirs.find((h) => h.key === "daughters")?.each || FZERO;
+  const raw = fadd(fmul(perSon, Fr(ds)), fmul(perDau, Fr(dd)));
+  const capped = !fle(raw, cap);
+  const W = capped ? cap : raw;
+  const scale = raw.n ? fdiv(W, raw) : FZERO;
+  const rest = fsub(FONE, W);
+  const heirs = base.heirs.map((h) => ({ ...h, share: fmul(h.share, rest), each: fmul(h.each, rest) }));
+  const toArham = fmul(base.toArham, rest), toTreasury = fmul(base.toTreasury, rest);
+  const sonBranch = ds ? fmul(perSon, scale) : null, dauBranch = dd ? fmul(perDau, scale) : null;
+  let b = 1;
+  for (const f of [...heirs.map((h) => h.each), toArham, toTreasury, sonBranch, dauBranch]) if (f && f.n) b = (b * f.d) / fgcd(b, f.d);
+  return { ...out, heirs, toArham, toTreasury, base: b, wajiba: { total: W, raw, capped, sonBranch, daughterBranch: dauBranch, deadSons: ds, deadDaughters: dd } };
+}
 /** المواريث وفق نظام الأحوال الشخصية السعودي. */
 export const ksaInheritance = (input = {}) => gccInheritance(input, INHERITANCE_PROFILES.sa);
 /** قيمة التركة الصافية للقسمة بعد التجهيز والديون والوصية (بحد الثلث، م190–191). */
