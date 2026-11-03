@@ -1,5 +1,5 @@
 import { uaeDomesticSettlement, uaeDomesticLeaveAccrued, uaeRecruitmentRefund, rules } from "../calc.js";
-import { bind, money, num, table, big, note, duration, daysAr, monthsAr } from "../app.js";
+import { bind, money, num, table, big, note, duration, daysAr, monthsAr, monthsGen, daysGen } from "../app.js";
 
 const $ = (id) => document.getElementById(id);
 const form = $("calc");
@@ -13,7 +13,7 @@ bind(form, $("result"), (v) => {
   if (!s) return note("تاريخ آخر يوم عمل يجب أن يكون بعد تاريخ البداية.", "bad");
   const months = s.duration.years * 12 + s.duration.months;
   const accrued = uaeDomesticLeaveAccrued(months);
-  if (hint) hint.textContent = `الرصيد المتراكم لمدة ${monthsAr(months)}: ${daysAr(accrued)}، اطرح منه ما استُخدم.`;
+  if (hint) hint.textContent = `الرصيد المتراكم لمدة ${monthsGen(months)}: ${daysAr(accrued)}، اطرح منه ما استُخدم.`;
 
   let html = big("مستحقات العامل", money(s.total, cur), `مدة الخدمة: ${duration(s.duration)}`);
   html += table(
@@ -29,7 +29,7 @@ bind(form, $("result"), (v) => {
     "تفصيل المستحقات"
   );
   if (Number(v.rate) === D.eosDaysPerYear || !v.rate) html += note("معدل 14 يوماً هو ما أعلنته الوزارة؛ المرسوم أحال المكافأة إلى قرار من مجلس الوزراء، فتحقق من حاسبة الوزارة عند التسوية.", "info");
-  html += note(`تُصرف المستحقات خلال ${D.finalDuesDeadlineDays} أيام من انتهاء العقد، ومعها تذكرة العودة إن أنهى صاحب العمل العقد لسبب لا يعود للعامل. وتُسمع الدعوى خلال ${monthsAr(D.claimTimeLimitMonths)} من انتهاء العلاقة.`, "ok");
+  html += note(`تُصرف المستحقات خلال ${daysGen(D.finalDuesDeadlineDays)} من انتهاء العقد، ومعها تذكرة العودة إن أنهى صاحب العمل العقد لسبب لا يعود للعامل. وتُسمع الدعوى خلال ${monthsAr(D.claimTimeLimitMonths)} من انتهاء العلاقة.`, "ok");
   return html;
 });
 

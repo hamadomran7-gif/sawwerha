@@ -1,5 +1,5 @@
 import { uaeFinalSettlement } from "../calc.js";
-import { bind, money, num, table, big, note, duration, daysAr, yearsAr } from "../app.js";
+import { bind, money, num, table, big, note, duration, daysAr, yearsAr, daysGen } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -21,7 +21,7 @@ bind(form, result, (v) => {
       [`بدل الإجازات: ${daysAr(Number(v.leaveDays) || 0)} × ${num(s.leave.dailyWage)}`, money(s.leave.amount, cur)],
       s.salary ? [`أجر ${daysAr(Number(v.salaryDays))} لم يُصرف`, money(s.salary, cur)] : null,
       n.remainingDays
-        ? [v.endedBy === "employer" ? `بدل إنذار عن ${daysAr(n.remainingDays)} غير مراعاة` : `خصم بدل إنذار عن ${daysAr(n.remainingDays)} لم تعملها`, money(s.notice, cur)]
+        ? [v.endedBy === "employer" ? `بدل إنذار عن ${daysGen(n.remainingDays)} غير مراعاة` : `خصم بدل إنذار عن ${daysGen(n.remainingDays)} لم تعملها`, money(s.notice, cur)]
         : ["بدل الإنذار", "لا يوجد (المهلة مراعاة)"],
       s.other ? ["مستحقات أخرى", money(s.other, cur)] : null,
       s.deductions ? ["خصومات", money(-s.deductions, cur)] : null,

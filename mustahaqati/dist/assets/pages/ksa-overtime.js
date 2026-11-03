@@ -1,5 +1,5 @@
 import { ksaOvertime, rules } from "../calc.js";
-import { bind, money, num, table, big, note, hoursAr } from "../app.js";
+import { bind, money, num, table, big, note, hoursAr, hoursGen } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -23,7 +23,7 @@ bind(form, result, (v) => {
     "تفصيل الحساب (المادة 107)"
   );
   if (v.allowances > 0) html += note(`الصيغة الخاطئة الشائعة «1.5 × أجر الساعة الأساسي» تعطي ${money(wrong, cur)} فقط، لأنها تتجاهل البدلات في أجر الساعة.`, "warn");
-  html += note(`بديل نظامي بموافقتك: إجازة تعويضية مدفوعة لا تقل عن ${hoursAr(o.compLeaveHours)} (ساعة ونصف عن كل ساعة إضافية)، تُستخدم خلال ${O.compLeaveUseWithinDays} يوماً، وبحد أقصى ${O.compLeaveMaxDaysPerYear} يوماً في السنة.`, "info");
+  html += note(`بديل نظامي بموافقتك: إجازة تعويضية مدفوعة لا تقل عن ${hoursGen(o.compLeaveHours)} (ساعة ونصف عن كل ساعة إضافية)، تُستخدم خلال ${O.compLeaveUseWithinDays} يوماً، وبحد أقصى ${O.compLeaveMaxDaysPerYear} يوماً في السنة.`, "info");
   if (v.hours > O.annualCapHours) html += note(`الحد السنوي للساعات الإضافية ${O.annualCapHours} ساعة، ويجوز تجاوزه بموافقة العامل.`, "warn");
   return html;
 });

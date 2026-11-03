@@ -1,0 +1,76 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gcc-public-holidays",
+  "alternate": "gcc-public-holidays",
+  "title": "GCC Public Holidays 2026–2027 — UAE, Saudi Arabia, Qatar, Kuwait, Oman and Bahrain",
+  "h1": "Public holidays in the six GCC countries",
+  "description": "Private-sector public holidays in the UAE, Saudi Arabia, Qatar, Kuwait, Oman and Bahrain for the rest of 2026 and in 2027: Eid Al Etihad on 2–3 December, Bahrain National Day on 16–17 December, Qatar National Day on 18 December, and Eid al-Fitr expected on 9 March 2027, with the next holiday in each country and the days left until it.",
+  "short": "Holidays in the six countries for the rest of 2026 and 2027, and the next holiday in each",
+  "lead": "Shows the next public holiday in each country from today, followed by each country's full holiday table.",
+  "country": "gcc",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-public-holidays.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-public-holidays", "en-ksa-public-holidays", "en-qatar-public-holidays", "en-kuwait-public-holidays", "en-oman-public-holidays", "en-bahrain-public-holidays", "en-ramadan-countdown"],
+  "faq": [
+    {"q": "What is the next public holiday in the GCC?", "a": "In November and December 2026: Oman's National Day (holiday on 25–26 November), the UAE's Eid Al Etihad on 2–3 December, Bahrain's National Day on 16–17 December and Qatar's on 18 December. Then New Year's Day in the UAE, Kuwait and Bahrain, Saudi Founding Day on 22 February 2027, and Kuwait's National and Liberation Days on 25–26 February."},
+    {"q": "How many days off for Eid al-Fitr 2027 in the GCC?", "a": "For the private sector: 4 days in Saudi Arabia, 4 in Oman (possibly 5) starting on 8 March, 3 in the UAE (4 if Ramadan completes 30 days), and 3 in Qatar, Kuwait and Bahrain. The first day of Eid is expected on Tuesday 9 March 2027 by the Umm al-Qura calendar."},
+    {"q": "Do workers get extra pay for working on a public holiday?", "a": "Yes in all six countries, at different rates: in the UAE a day's wage plus 50% of basic or a substitute day, in Saudi Arabia overtime pay or compensatory leave, and in Kuwait, Bahrain, Oman and Qatar at rates set out on each country's page."}
+  ],
+  "sources": [
+    {"t": "UAE — Cabinet Resolution 27/2024 on official holidays (Arabic)", "u": "https://uaelegislation.gov.ae/ar/legislations/2595/download"},
+    {"t": "Saudi Arabia — Labour Law Article 112 (English translation, HRDF)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"},
+    {"t": "Qatar — text of Labour Law 14/2004 (Al Raya, Arabic)", "u": "https://www.raya.com/2004/05/20/الجزء-الثاني-من-قانون-رقم-14-لسنة-2004-بإصدا"},
+    {"t": "Kuwait — text of Labour Law 6/2010 (Al Anba, Arabic)", "u": "https://pdf.alanba.com.kw/pdf/2010/02/22-02-2010/10.pdf"},
+    {"t": "Oman — Labour Law, Royal Decree 53/2023 (Arabic)", "u": "https://qanoon.om/p/2023/l2023053/"},
+    {"t": "Bahrain — Labour Law 36/2012 (Legislation and Legal Opinion Commission, Arabic)", "u": "https://www.lloc.gov.bh/PDF/K3612.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Next holiday in each country</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="from">Starting from</label>
+        <input type="date" id="from" name="from" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Show</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>UAE</h2>
+{{table:holidays country=ae lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/uae-public-holidays/{{ix}}">UAE public holidays</a>.</p>
+
+<h2>Saudi Arabia</h2>
+{{table:holidays country=sa lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/saudi-public-holidays/{{ix}}">Saudi public holidays</a>.</p>
+
+<h2>Qatar</h2>
+{{table:holidays country=qa lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/qatar-public-holidays/{{ix}}">Qatar public holidays</a>.</p>
+
+<h2>Kuwait</h2>
+{{table:holidays country=kw lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/kuwait-public-holidays/{{ix}}">Kuwait public holidays</a>.</p>
+
+<h2>Oman</h2>
+{{table:holidays country=om lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/oman-public-holidays/{{ix}}">Oman public holidays</a>.</p>
+
+<h2>Bahrain</h2>
+{{table:holidays country=bh lang=en}}
+<p>Details and pay for working on a holiday: <a href="{{root}}en/bahrain-public-holidays/{{ix}}">Bahrain public holidays</a>.</p>
+
+<p>Hijri-based dates for 2027 are expected by the Umm al-Qura calendar and may shift by a day with moon sighting; each country announces its holidays by official decision. Government-sector holidays can differ in length from the private sector. For Ramadan and Eid dates see the <a href="{{root}}en/ramadan-2027-countdown/{{ix}}">Ramadan countdown</a>.</p>
+</div>

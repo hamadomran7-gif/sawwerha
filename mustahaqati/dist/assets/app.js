@@ -43,6 +43,7 @@ export const yearsAr = (n) => countAr(n, "سنة واحدة", "سنتان", "س�
 export const yearsGen = (n) => countAr(n, "سنة واحدة", "سنتين", "سنوات", "سنة", "سنة", 2);
 export const monthsGen = (n) => countAr(n, "شهر واحد", "شهرين", "أشهر", "شهراً", "شهر");
 export const daysGen = (n) => countAr(n, "يوم واحد", "يومين", "أيام", "يوماً", "يوم");
+export const hoursGen = (n) => countAr(n, "ساعة واحدة", "ساعتين", "ساعات", "ساعة", "ساعة");
 export function pct(n, digits = 2) {
   return `${num(n, digits)}%`;
 }

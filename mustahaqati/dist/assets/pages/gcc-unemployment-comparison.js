@@ -1,5 +1,5 @@
 import { gccUnemployment } from "../calc.js";
-import { bind, money, table, big, note, monthsAr } from "../app.js";
+import { bind, money, table, big, note, monthsAr, monthsGen } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
@@ -28,9 +28,9 @@ bind(form, result, (v) => {
   const m = (x) => money(x, CUR[v.country]);
   if (r.rows[0].why === "notCovered") return big("لم نُدرج هذه الدولة بعد", "—", "") + note("لم نتحقق بعد من أنظمة التعطل في قطر والكويت، فلا نعرض رقماً.", "info");
   const varying = (x) => x.id === "sa-saned" || x.id === "om-job-security";
-  const desc = (x) => (varying(x) ? `${m(x.total)} خلال ${monthsAr(x.months)} (يبدأ بـ${m(x.monthly)} شهرياً)` : `${m(x.monthly)} × ${monthsAr(x.months)} = ${m(x.total)}`);
+  const desc = (x) => (varying(x) ? `${m(x.total)} خلال ${monthsGen(x.months)} (يبدأ بـ${m(x.monthly)} شهرياً)` : `${m(x.monthly)} × ${monthsAr(x.months)} = ${m(x.total)}`);
   let html = r.best
-    ? big("أكبر ما تستحقه", m(r.best.total), `${NAME[r.best.id]} خلال ${monthsAr(r.best.months)}`)
+    ? big("أكبر ما تستحقه", m(r.best.total), `${NAME[r.best.id]} خلال ${monthsGen(r.best.months)}`)
     : big("لا تعويض متاحاً لحالتك", m(0), "الأسباب أدناه");
   html += table(
     r.rows.map((x) => [NAME[x.id] || "—", x.eligible ? desc(x) : WHY[x.why] || "لا يُستحق", x === r.best ? { strong: true } : { muted: !x.eligible }]),
