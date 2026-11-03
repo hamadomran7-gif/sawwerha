@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import {
   serviceDuration,
   uaeNafis,
+  gccUnemployment,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
@@ -1454,4 +1455,17 @@ test("نافس ودعم العمالة الكويتية — أمثلة البح�
   assert.equal(kuwaitLabourSupport({ category: "intermediateCourse", salary: 600 }).alt, 531);
   for (const c of ["uniMed", "uniPro", "uniOther", "diploma", "secondaryCourse", "secondary", "intermediateCourse", "intermediate", "belowIntermediate"])
     for (const married of [false, true]) assert.ok(kuwaitLabourSupport({ category: c, married }).formulaOk, c + married);
+});
+
+test("مقارنة أنظمة التعطل في الخليج", () => {
+  const ae = gccUnemployment({ country: "ae", national: true, wage: 12000 });
+  assert.equal(ae.rows.find((x) => x.id === "ae-iloe").total, 21600);
+  assert.equal(ae.best.id, "ae-nafis"); assert.equal(ae.best.total, 42000);
+  assert.equal(gccUnemployment({ country: "ae", national: false, wage: 20000 }).best.total, 36000);
+  assert.equal(gccUnemployment({ country: "sa", wage: 12000 }).best.total, 75600);
+  assert.equal(gccUnemployment({ country: "sa", national: false, wage: 12000 }).best, null);
+  assert.equal(gccUnemployment({ country: "om", wage: 800 }).best.total, 5040);
+  assert.equal(gccUnemployment({ country: "bh", wage: 1200 }).best.total, 6480);
+  assert.equal(gccUnemployment({ country: "bh", national: false, wage: 500, reason: "resignation" }).best, null);
+  assert.equal(gccUnemployment({ country: "kw", wage: 1000 }).rows[0].why, "notCovered");
 });

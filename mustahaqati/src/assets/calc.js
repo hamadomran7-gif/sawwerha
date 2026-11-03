@@ -2896,6 +2896,38 @@ export function kuwaitLabourSupport({ category = "uniOther", married = false, ch
   return { category: C.id, social, fixed: L.fixed, qual: C.qual, diff, base, deduction, kids, kidsCounted, childAmt, degreeAmt, disabilityAmt, total, alt, disputedBase: C.disputed ? C.disputed[i] : null, formulaOk: social + L.fixed + C.qual + diff === base };
 }
 
+/** مقارنة أنظمة التعطل في الخليج: ما يستحقه المواطن أو الوافد في دولة واحدة بحسب الأجر وسبب ترك العمل. */
+export function gccUnemployment({ country = "ae", national = true, wage = 0, reason = "termination" } = {}) {
+  const w = Math.max(0, Number(wage) || 0);
+  const involuntary = reason === "termination";
+  const out = [];
+  const row = (id, eligible, monthly, months, total, why = null, extra = {}) => out.push({ id, eligible, monthly: eligible ? monthly : 0, months, total: eligible ? total : 0, why, ...extra });
+  if (country === "ae") {
+    const i = iloe({ basicSalary: w });
+    row("ae-iloe", involuntary, i.monthly, i.months, i.total, involuntary ? null : reason, { capped: i.capped, cap: i.cap });
+    if (national) {
+      const n = uaeNafisJobLoss({ reason: involuntary ? "termination" : reason, spouse: false, children: 0 });
+      row("ae-nafis", involuntary, n.monthly || 0, n.consecutive || 6, n.totalConsecutive || 0, involuntary ? null : reason, { maxMonths: 12 });
+    }
+  } else if (country === "sa") {
+    if (national) {
+      const s = ksaSaned({ avgWage: w, months: 12 });
+      row("sa-saned", involuntary, s.first, 12, s.total, involuntary ? null : reason, { after: s.after });
+      row("sa-hafiz", false, 0, 15, 0, "hafizLater");
+    } else row("sa-none", false, 0, 0, 0, "saudiOnly");
+  } else if (country === "om") {
+    if (national) {
+      const o = omanJobSecurity({ avgWage: w, reason: involuntary ? "termination" : reason });
+      row("om-job-security", o.eligible, o.rows[0].monthly, o.months, o.total, o.eligible ? null : reason);
+    } else row("om-none", false, 0, 0, 0, "omaniOnly");
+  } else if (country === "bh") {
+    const b = bahrainUnemployment({ avgWage: w, contribMonths: 12, reason: involuntary ? "termination" : reason, bahraini: national });
+    row("bh-unemployment", b.kind === "comp", b.monthly || 0, b.months || 9, b.total || 0, b.kind === "comp" ? null : reason, { capped: b.capped, raisedToMin: b.raisedToMin });
+  } else row(country + "-none", false, 0, 0, 0, "notCovered");
+  const best = out.filter((x) => x.eligible).sort((a, b) => b.total - a.total)[0] || null;
+  return { country, national, wage: w, rows: out, best };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
