@@ -1,0 +1,82 @@
+---json
+{
+  "lang": "en",
+  "path": "en/probation-period-calculator",
+  "alternate": "probation-period",
+  "title": "Probation Period Calculator 2026 — When Does Probation End in the UAE and Saudi Arabia?",
+  "h1": "Probation Period End Date Calculator",
+  "description": "Find the last day of your probation: in the UAE up to 6 months from your start date (Article 9), and in Saudi Arabia up to 180 days after the 2025 amendment of Article 53, plus any excluded days — with the termination and notice rules during probation in both countries.",
+  "short": "UAE up to 6 months, Saudi Arabia up to 180 days, with the rules during probation",
+  "lead": "Choose the country, enter your start date and the probation length in your contract to see the last day of probation.",
+  "country": "gcc",
+  "category": "eos",
+  "tool": true,
+  "script": "en-probation-period.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-uae-notice-pay", "en-uae-sick-leave", "en-ksa-notice-period"],
+  "faq": [
+    {"q": "How long is probation in the UAE?", "a": "No more than 6 months from the start date (Article 9 of Decree-Law 33 of 2021). The employer may end the contract during probation with at least 14 days' written notice."},
+    {"q": "How long is probation in Saudi Arabia after the 2025 amendments?", "a": "No more than 180 days in total in all cases, and it must be stated expressly in the employment contract with its length. Before the amendment it was 90 days, extendable by written agreement to 180."},
+    {"q": "Am I owed an end-of-service award if I'm let go during probation?", "a": "In Saudi Arabia, neither party owes compensation and no end-of-service award is due for the probation period. In the UAE, gratuity is not due before one year of service anyway, and probation cannot exceed 6 months."},
+    {"q": "Can probation be repeated?", "a": "In Saudi Arabia an employee may not be put on probation more than once with the same employer, unless agreed in writing for a different job, or six months after the previous relationship ended."},
+    {"q": "Which days are not counted in Saudi probation?", "a": "The previous text excluded the two Eid holidays and sick leave. Since the 2025 amendment, Article 53 leaves the excluded leave to the executive regulations, so check them and enter the number of days in the calculator."}
+  ],
+  "sources": [
+    {"t": "Federal Decree-Law No. 33 of 2021 and its amendments — MOHRE consolidated text (Article 9)", "u": "https://www.mohre.gov.ae/assets/download/3bde4984/Federal%20Decree-Law%20No.%2033%20of%202021%20Regarding%20the%20Regulation%20of%20Employment%20Relationship%20and%20its%20amendments_638990571068264034.pdf.aspx"},
+    {"t": "Umm Al-Qura — Saudi Labour Law amendments by Royal Decree M/44, Article 53 (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25379"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Find your probation end date</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="ae">UAE</option>
+          <option value="sa">Saudi Arabia</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="start">Start date</label>
+        <input type="date" id="start" name="start" value="2026-09-01" required>
+      </div>
+      <div class="field" data-ae>
+        <label for="months">Probation in the contract (months)</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="1" max="6" step="1" value="6">
+      </div>
+      <div class="field" data-sa hidden>
+        <label for="days">Probation in the contract (days)</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="180" step="1" value="90">
+      </div>
+      <div class="field" data-sa hidden>
+        <label for="excluded">Days excluded from probation</label>
+        <input type="number" id="excluded" name="excluded" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">Per the executive regulations, such as leave that does not count.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Probation rules at a glance</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">UAE</th><th scope="col">Saudi Arabia</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Maximum length</th><td>6 months</td><td>180 days</td></tr>
+    <tr><th scope="row">Employer ends it</th><td>14 days' written notice</td><td>No compensation or end-of-service award</td></tr>
+    <tr><th scope="row">Employee leaves</th><td>1 month to join another UAE employer; 14 days to leave the UAE</td><td>No compensation or end-of-service award</td></tr>
+    <tr><th scope="row">Leave during probation</th><td>No paid sick leave</td><td>Excluded leave is set by the executive regulations</td></tr>
+  </tbody>
+</table>
+</div>
+<p>See also the <a href="{{root}}en/uae-notice-period-pay-calculator/{{ix}}">UAE notice pay calculator</a>, which covers probation notice. Prefer Arabic? Use the <a href="{{root}}probation-period/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>
