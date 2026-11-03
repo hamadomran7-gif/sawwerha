@@ -1,0 +1,115 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-retirement-age-calculator",
+  "alternate": "ksa-retirement-age",
+  "title": "Saudi Retirement Age Calculator 2026 — When Can I Retire Under the New GOSI Law?",
+  "h1": "Saudi Retirement Age Calculator",
+  "description": "Find your retirement age and date after Saudi Arabia's new Social Insurance Law: 65 for those first insured from 3 July 2024, 60 Hijri years for those not affected, and 58 years 4 months to 65 for affected members depending on their age that day — plus the early-retirement period (300 to 360 months) and when you reach it.",
+  "short": "65 for new members, 60 Hijri for those not affected, 58y4m to 65 for affected members, plus early retirement",
+  "lead": "Enter your date of birth and the date you first joined GOSI or the civil pension scheme to see your statutory retirement age and date, and when you complete the early-retirement period.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-retirement-age.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-retirement-pension", "en-ksa-pension-table", "en-hijri-gregorian-converter", "en-ksa-gosi"],
+  "faq": [
+    {"q": "What is the new retirement age in Saudi Arabia?", "a": "65 Gregorian years for anyone first insured from 3 July 2024 in the private or government sector. Existing members who were under 50 Hijri years (48 years 6 months) that day with less than 240 months of contributions have an age that rises from 58 years 4 months to 65 depending on their age that day. Everyone else stays at 60 Hijri years."},
+    {"q": "How do I find my retirement age if I am affected by the changes?", "a": "It depends on your age on 3 July 2024: under 29 retires at 65, and the age falls by 4 months for each year of age that day, down to 58 years 4 months for those aged 48 to 48.5. Example: aged 34 that day, you retire at 63."},
+    {"q": "How long is the early-retirement period now?", "a": "Existing members not affected: 300 months (25 years) at any age. Affected members: 300 to 360 months depending on their months of contribution on 3 July 2024 (360 for those under 180 months). New members: 360 months and age 55, with a 3% reduction for each year before 65."},
+    {"q": "Is 60 Hijri years the same as 58 Gregorian years?", "a": "Roughly: 60 Hijri years is about 58 years and 3 months, because the Hijri year is about 11 days shorter. The calculator works out the exact date with the Umm Al-Qura calendar."},
+    {"q": "Does this apply to government employees?", "a": "New government employees from 3 July 2024 are under the new Social Insurance Law (65). Civil-pension employees affected by the changes have the same age and early-retirement tables, but the civil service's mandatory retirement at 60 Hijri years has not been amended, and how the two interact has not been officially settled."},
+    {"q": "What is the minimum service for a pension at retirement age?", "a": "120 months (10 years) for existing members and 180 months (15 years) for new members. Those who fall short receive a one-off lump-sum compensation instead of a pension."}
+  ],
+  "sources": [
+    {"t": "Umm Al-Qura — new Social Insurance Law (Royal Decree M/273)", "u": "https://www.uqn.gov.sa/details?p=25239"},
+    {"t": "Umm Al-Qura — Council of Ministers Resolution 1022 (affected group and transitional tables)", "u": "https://www.uqn.gov.sa/details?p=25237"},
+    {"t": "GOSI — journey for members affected by the changes", "u": "https://awareness.gosi.gov.sa/journey4.html"},
+    {"t": "GOSI — journey for members not affected", "u": "https://awareness.gosi.gov.sa/journey1.html"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Find your retirement age</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="birth">Date of birth (Gregorian)</label>
+        <input type="date" id="birth" name="birth" value="1990-05-10" required>
+        <span class="hint">Hijri date of birth? Convert it with the <a href="{{root}}en/hijri-gregorian-date-converter/{{ix}}">date converter</a>.</span>
+      </div>
+      <div class="field">
+        <label for="start">Date of first contribution</label>
+        <input type="date" id="start" name="start" value="2012-01-01" required>
+      </div>
+      <div class="field full">
+        <label for="system">Did you contribute before 3 July 2024?</label>
+        <select id="system" name="system">
+          <option value="auto" selected>Work it out from my first contribution date</option>
+          <option value="legacy">Yes, I have contributions before it (even with gaps)</option>
+          <option value="new">No, my first contribution was after it</option>
+        </select>
+      </div>
+      <div class="field" data-legacy>
+        <label for="monthsAtEff">My months of contribution on 3 July 2024 (optional)</label>
+        <input type="number" id="monthsAtEff" name="monthsAtEff" inputmode="decimal" min="0" max="600" step="1" value="">
+        <span class="hint">From your GOSI contribution statement. Leave blank to work it out from the start date.</span>
+      </div>
+      <div class="field" data-legacy>
+        <label for="gapMonths">Months without contributions before that date</label>
+        <input type="number" id="gapMonths" name="gapMonths" inputmode="decimal" min="0" max="600" step="1" value="0">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Three groups after 3 July 2024</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Group</th><th scope="col">Who</th><th scope="col">Statutory age</th><th scope="col">Early retirement</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">New member</th><td>First insured from 3 July 2024</td><td>65 Gregorian</td><td>360 months and age 55, 3% off for each year before 65</td></tr>
+    <tr><th scope="row">Affected member</th><td>Under 48.5 that day with under 240 months</td><td>58y4m to 65, by age that day</td><td>300 to 360 months, by months that day</td></tr>
+    <tr><th scope="row">Not affected</th><td>48.5 or older that day, or 240 months or more</td><td>60 Hijri years</td><td>300 months at any age</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Retirement age for affected members</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Your age on 3 July 2024</th><th scope="col">Your retirement age</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Under 29</th><td>65 years</td></tr>
+    <tr><th scope="row">29</th><td>64 years 8 months</td></tr>
+    <tr><th scope="row">30</th><td>64 years 4 months</td></tr>
+    <tr><th scope="row">32</th><td>63 years 8 months</td></tr>
+    <tr><th scope="row">34</th><td>63 years</td></tr>
+    <tr><th scope="row">36</th><td>62 years 4 months</td></tr>
+    <tr><th scope="row">38</th><td>61 years 8 months</td></tr>
+    <tr><th scope="row">40</th><td>61 years</td></tr>
+    <tr><th scope="row">42</th><td>60 years 4 months</td></tr>
+    <tr><th scope="row">44</th><td>59 years 8 months</td></tr>
+    <tr><th scope="row">46</th><td>59 years</td></tr>
+    <tr><th scope="row">48 to 48.5</th><td>58 years 4 months</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The age falls by 4 months for each additional year of age between these rows. The early-retirement period for affected members is 360 months for those with under 180 months that day, falling by 12 months for each further 12 months, down to 300 months for those with 228 to 239 months.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+Born 10 May 1990, contributing since 1 January 2012: aged 34 on 3 July 2024 with 150 months, so affected; retirement age 63, on <strong>10 May 2053</strong>, and early retirement after 360 months.<br>
+Born 1 March 1975, contributing since 2000: aged 49 that day, so not affected; retires at 60 Hijri years <strong>in 2033</strong>, and completed the 300-month early-retirement period in early 2025.<br>
+Born in 2000, first insured in 2025: retirement age 65, in <strong>2065</strong>, with reduced early retirement from 2055.</p>
+</div>
+<p>This is an estimate that assumes continuous contributions after 3 July 2024 when working out the early-retirement date. For your pension amount use the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a>. Prefer Arabic? Use the <a href="{{root}}ksa-retirement-age/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

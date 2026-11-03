@@ -954,6 +954,62 @@ export function ksaPension({ system = "legacy", birth, start, end, gapMonths = 0
   });
 }
 
+/**
+ * السعودية — سن التقاعد وتاريخه في التأمينات (والتقاعد المدني المشمول بالجداول الانتقالية):
+ * المشترك الجديد (أول اشتراك من 3/7/2024): 65 ميلادية، والمبكر 360 شهراً مع بلوغ 55.
+ * المشترك السابق غير المشمول: 60 هجرية، والمبكر 300 شهر بأي سن.
+ * المشمول بالتعديلات (عمره في 3/7/2024 دون 48.5 ومدته دون 240 شهراً): السن من الجدول (58 و4 أشهر – 65)، والمبكر 300–360 شهراً.
+ * monthsAtEff: أشهر الاشتراك في 3/7/2024 إن عرفها المستخدم؛ وإلا تُحسب من تاريخ البدء ناقص gapMonths.
+ */
+export function ksaRetirementAge({ birth, start, newMember = null, monthsAtEff = null, gapMonths = 0 }) {
+  const P = rules.sa.pension;
+  const L = P.legacy, T = P.transitional, N = P.new;
+  if (!birth || !start || isNaN(toUTC(birth)) || isNaN(toUTC(start))) return null;
+  const eff = T.effective;
+  const gaps = Math.max(0, Math.floor(Number(gapMonths) || 0));
+  const isNew = newMember === null ? toUTC(start) >= toUTC(eff) : !!newMember;
+  const addM = (iso, m) => isoOf(addMonthsUTC(iso, m));
+  const out = { isNew, ageOnEff: null, monthsOnEff: null };
+  if (isNew) {
+    const normalDate = addM(birth, N.retirementAge * 12);
+    const earlyAgeDate = addM(birth, N.retirementAge * 12 - N.earlyMaxMonthsBefore);
+    const earlyServiceDate = addM(start, N.earlyMinMonths + gaps);
+    const earlyDate = toUTC(earlyServiceDate) > toUTC(earlyAgeDate) ? earlyServiceDate : earlyAgeDate;
+    return Object.assign(out, {
+      category: "new", normalAgeMonths: N.retirementAge * 12, normalDate, minMonths: N.minMonths,
+      earlyMonthsNeeded: N.earlyMinMonths, earlyMinAgeMonths: N.retirementAge * 12 - N.earlyMaxMonthsBefore,
+      earlyDate: toUTC(earlyDate) < toUTC(normalDate) ? earlyDate : null, earlyReductionPerYear: N.earlyReductionPerYear,
+    });
+  }
+  const ageOnEff = yearsBetween(birth, eff);
+  let months = monthsAtEff;
+  if (months === null || months === undefined || months === "" || isNaN(Number(months))) {
+    const dur = toUTC(start) < toUTC(eff) ? serviceDuration(start, addDaysUTC(eff, -1), 0) : null;
+    months = Math.max(0, monthsFromDur(dur, L.daysToCountAsMonth) - gaps);
+  } else months = Math.max(0, Math.floor(Number(months)));
+  out.ageOnEff = r2(ageOnEff);
+  out.monthsOnEff = months;
+  const transitional = ageOnEff < T.affectedIfAgeBelow && months < T.affectedIfMonthsBelow;
+  let normalDate, normalAgeMonths = null, earlyMonthsNeeded;
+  if (transitional) {
+    const row = T.ageTable.find(([a, b]) => ageOnEff >= a && ageOnEff < b) || T.ageTable[0];
+    normalAgeMonths = row[2];
+    normalDate = addM(birth, row[2]);
+    const er = T.earlyTable.find(([a, b]) => months >= a && months < b);
+    earlyMonthsNeeded = er ? er[2] : L.earlyMinMonths;
+  } else {
+    normalDate = hijriBirthdayAt(birth, L.retirementAgeHijri);
+    earlyMonthsNeeded = L.earlyMinMonths;
+  }
+  // تاريخ بلوغ مدة المبكر إن استمر الاشتراك دون انقطاع من 3/7/2024
+  const remaining = Math.max(0, earlyMonthsNeeded - months);
+  const earlyDate = addM(toUTC(start) > toUTC(eff) ? start : eff, remaining);
+  return Object.assign(out, {
+    category: transitional ? "transitional" : "legacy", normalAgeMonths, normalDate, minMonths: L.minMonths,
+    earlyMonthsNeeded, earlyMinAgeMonths: null, earlyDate: toUTC(earlyDate) < toUTC(normalDate) ? earlyDate : null, earlyReductionPerYear: 0,
+  });
+}
+
 /** السعودية — ساند: 60% من متوسط آخر 24 شهراً للأشهر الثلاثة الأولى (بحد 9,000)، ثم 50% (بحد 7,500)، حتى 12 شهراً. */
 export function ksaSaned({ avgWage, months = 12 }) {
   const S = rules.sa.saned;

@@ -35,6 +35,7 @@ import {
   abuDhabiPension,
   adPeriod,
   uaeEmiratisation,
+  ksaRetirementAge,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1121,4 +1122,29 @@ test("الإمارات — مستهدفات التوطين", () => {
   assert.equal(s.years.find((y) => y.year === 2025).contrib, 108000);
   assert.equal(uaeEmiratisation({ total: 30, skilled: 20, emiratis: 1, sector14: false }).scope, "none");
   assert.equal(uaeEmiratisation({ total: 12, skilled: 5 }).scope, "none");
+});
+
+test("السعودية — سن التقاعد وتاريخه", () => {
+  // مشترك جديد: 65 ميلادية، والمبكر بعد 360 شهراً مع بلوغ 55
+  const n = ksaRetirementAge({ birth: "2000-01-01", start: "2025-01-01" });
+  assert.equal(n.category, "new");
+  assert.equal(n.normalDate, "2065-01-01");
+  assert.equal(n.earlyDate, "2055-01-01");
+  // مشمول بالتعديلات: عمره 34 في 3/7/2024 ومدته دون 180 → 63 سنة (756 شهراً)، والمبكر 360 شهراً
+  const t1 = ksaRetirementAge({ birth: "1990-05-10", start: "2012-01-01" });
+  assert.equal(t1.category, "transitional");
+  assert.equal(t1.normalAgeMonths, 756);
+  assert.equal(t1.normalDate, "2053-05-10");
+  assert.equal(t1.earlyMonthsNeeded, 360);
+  // غير مشمول (عمره 49 في 3/7/2024): 60 هجرية، والمبكر 300 شهر
+  const l = ksaRetirementAge({ birth: "1975-03-01", start: "2000-01-01" });
+  assert.equal(l.category, "legacy");
+  assert.equal(l.earlyMonthsNeeded, 300);
+  assert.ok(l.normalDate > "2033-01-01" && l.normalDate < "2033-12-31");
+  // مدة 240 شهراً فأكثر في 3/7/2024 تُخرجه من التعديلات حتى لو كان صغير السن
+  assert.equal(ksaRetirementAge({ birth: "1980-01-01", start: "2003-01-01" }).category, "legacy");
+  // إدخال الأشهر يدوياً
+  const t2 = ksaRetirementAge({ birth: "1985-06-15", start: "2010-01-01", monthsAtEff: 200 });
+  assert.equal(t2.category, "transitional");
+  assert.equal(t2.earlyMonthsNeeded, 336);
 });
