@@ -1,0 +1,133 @@
+---json
+{
+  "lang": "en",
+  "path": "en/saudi-civil-military-retirement-calculator",
+  "alternate": "ksa-civil-retirement",
+  "title": "Saudi Civil and Military Retirement Calculator 2026 — Government Employee Pension",
+  "h1": "Saudi Civil and Military Retirement Pension Calculator",
+  "description": "Calculate a Saudi government employee's pension: civil retirement (last basic salary × months of service ÷ 480), when it is due before 60 (25 years, 20 with approval, or 15 if the job is abolished), the deferred pension, buying service and the 14% or 10% lump sum, and military retirement (÷ 420).",
+  "short": "Last basic salary × months ÷ 480, the conditions for a pension before 60, and military retirement",
+  "lead": "Choose your system and enter your last basic salary, length of service and why it ended to see your pension or lump sum and when it is paid.",
+  "country": "sa",
+  "category": "salary",
+  "tool": true,
+  "script": "en-ksa-civil-retirement.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-retirement-age", "en-ksa-civil-salary-scale", "en-ksa-retirement-pension", "en-ksa-gosi", "en-hijri-gregorian-converter", "en-ksa-teachers-salary-scale"],
+  "faq": [
+    {"q": "How is the Saudi civil retirement pension calculated?", "a": "Last monthly basic salary × months of service ÷ 480, that is one fortieth of the salary for each year, up to 100% at 40 years. Allowances are not included. Example: last basic salary SAR 12,000 and 304 months of service = 12,000 × 304 ÷ 480 = SAR 7,600."},
+    {"q": "When am I entitled to a pension before age 60?", "a": "With 25 years (300 months) of service when service ends for any reason, including resignation. With 20 years if you apply to retire and the competent authority approves, which has been restricted since 2021. With 15 years if the job is abolished or on non-disciplinary dismissal. Reaching the age, death or disability need no minimum service."},
+    {"q": "What do I get if I resign before 25 years of service?", "a": "With 10 years or more, a deferred pension is paid at 60 using the same formula. With 5 to under 10 years, at 60 you may buy notional service to reach 10 years by paying all the contributions for it, or take the lump sum. With under 5 years you receive a lump sum: 10% of the annual salary per year for those who resign and 14% for others, paid at 60 or on death."},
+    {"q": "How much is deducted each month from a civil servant's salary?", "a": "9% of basic salary, matched by the government. Civil servants do not pay the SANED contribution, and allowances are not included in the base."},
+    {"q": "Did the 2024 Social Insurance Law change government retirement?", "a": "The formula did not change. The retirement age and the service needed for a pension before that age (between 300 and 360 months) changed for those who on 3 July 2024 were under 50 Hijri years with under 240 months of service. Those who joined government service for the first time from 3 July 2024 are under the new social insurance system (2.25% per year and age 65)."},
+    {"q": "How is the military pension calculated?", "a": "Last salary × months of service ÷ 420, that is one thirty-fifth for each year. Example from the Public Pension Agency guide: 7,744 × 25 ÷ 35 = SAR 5,531.43. A pension is due with 18 years of actual military service, or 20 years of civil and military service including 8 military, or at age 55."},
+    {"q": "I worked in the private sector and then in government. How is my pension calculated?", "a": "Combining periods under the benefits exchange system is optional, and the last system calculates the pension for all periods: under civil retirement, the last civil salary × total months ÷ 480. Since 2022, combined periods no longer complete the condition for a pension before 60 except in specific cases such as death and disability."}
+  ],
+  "sources": [
+    {"t": "Bureau of Experts — Civil Retirement Law (M/41 of 1393H, Arabic)", "u": "https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/859d4e56-627b-4766-a7aa-a9a700f23975/1"},
+    {"t": "Umm Al-Qura — Decision 631 (1443H): Articles 23 and 23 bis (Arabic)", "u": "https://www.uqn.gov.sa/details?p=19639"},
+    {"t": "Umm Al-Qura — Council of Ministers Resolution 1022: the transitional group (Arabic)", "u": "https://www.uqn.gov.sa/details?p=25237"},
+    {"t": "GOSI — journey for members not affected by the amendments (Arabic)", "u": "https://awareness.gosi.gov.sa/journey1.html"},
+    {"t": "GOSI — journey for members affected by the amendments (Arabic)", "u": "https://awareness.gosi.gov.sa/journey4.html"},
+    {"t": "Qistas — Article 18 of the Civil Retirement Law and Article 7 of the Military Retirement Law (Arabic)", "u": "https://qistas.com/legislations/ksa/view/NDQ3OTcyOQ=="},
+    {"t": "Public Pension Agency guide — benefits exchange (PDF, Arabic)", "u": "https://ld.psau.edu.sa/sites/default/files/field/attached/%D8%AA%D8%A8%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D9%85%D9%86%D8%A7%D9%81%D8%B9.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate your pension or lump sum</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="system">Your system</label>
+        <select id="system" name="system">
+          <option value="civil">Civil servant whose service began before 3 July 2024 (civil retirement)</option>
+          <option value="military">Military (military retirement)</option>
+          <option value="new">Government employee who first joined from 3 July 2024</option>
+        </select>
+      </div>
+      <div class="field" data-calc>
+        <label for="basic">Last monthly basic salary (SAR)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="12000" required>
+        <span class="hint">Basic salary only, without allowances.</span>
+      </div>
+      <div class="field" data-calc>
+        <label for="years">Years of service</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" max="50" step="1" value="25" required>
+      </div>
+      <div class="field" data-calc>
+        <label for="months">and extra months</label>
+        <input type="number" id="months" name="months" inputmode="decimal" min="0" max="11" step="1" value="4">
+        <span class="hint">Full months only; part months do not count.</span>
+      </div>
+      <div class="field full" data-civil>
+        <label for="reason">Why did service end?</label>
+        <select id="reason" name="reason">
+          <option value="resign">Resignation or leaving at my request</option>
+          <option value="early">Early retirement request approved by the employer (20 years or more)</option>
+          <option value="age">Reaching the retirement age, death or disability</option>
+          <option value="abolished">Job abolished or non-disciplinary dismissal</option>
+          <option value="disciplinary">Disciplinary dismissal</option>
+        </select>
+      </div>
+      <div class="field full" data-civil>
+        <label for="transitional">On 3 July 2024, were you both under 48.5 (Gregorian) and under 240 months of service?</label>
+        <select id="transitional" name="transitional">
+          <option value="no">No (not affected by the amendments)</option>
+          <option value="yes">Yes (in the group affected by the amendments)</option>
+        </select>
+      </div>
+      <div class="field" data-trans hidden>
+        <label for="at2024">Months of service on 3 July 2024</label>
+        <input type="number" id="at2024" name="at2024" inputmode="decimal" min="0" max="239" step="1" value="200">
+        <span class="hint">Sets the service needed for a pension before the age (300 to 360 months).</span>
+      </div>
+      <div class="field" data-mil hidden>
+        <label for="civilMonths">Months of civil service combined (optional)</label>
+        <input type="number" id="civilMonths" name="civilMonths" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field" data-mil hidden>
+        <label for="age">Age at retirement (optional)</label>
+        <input type="number" id="age" name="age" inputmode="decimal" min="0" max="70" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The civil retirement formula</h2>
+<p>Pension = <strong>last monthly basic salary × months of service ÷ 480</strong>, that is one fortieth of the salary for each year of service, up to 100% of the last salary at 40 years. There is no reduction for early pensions under this system. The deduction is 9% of basic salary, matched by the government.</p>
+<p>The base is the last salary, not the average of the last two years: the original 1393H text that used the average and capped the pension at four fifths was amended, and the 2024 Social Insurance Law did not change it.</p>
+
+<h2>What you get by length of service and reason for leaving</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Service</th><th scope="col">Reason</th><th scope="col">Entitlement</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Any length</th><td>Reaching the age, death or disability</td><td>Immediate pension by the formula</td></tr>
+    <tr><th scope="row">25 years or more</th><td>Any reason, including resignation</td><td>Immediate pension</td></tr>
+    <tr><th scope="row">20 years or more</th><td>Retirement request approved by the employer</td><td>Immediate pension if approved</td></tr>
+    <tr><th scope="row">15 years or more</th><td>Job abolished or non-disciplinary dismissal</td><td>Immediate pension</td></tr>
+    <tr><th scope="row">10 years or more</th><td>Other reasons</td><td>Deferred pension paid at 60</td></tr>
+    <tr><th scope="row">5 to under 10</th><td>Other reasons</td><td>Buy service to reach 10 years at 60, or a lump sum</td></tr>
+    <tr><th scope="row">Under 5 years</th><td>Other reasons</td><td>Lump sum of 14% of the annual salary per year (10% on resignation or disciplinary dismissal) at 60 or on death</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Retirement age for government employees</h2>
+<p>Civil servants retire at <strong>60 Hijri years</strong>, about 58 years and two and a half months in Gregorian years, and service can be extended to 65 by a Council of Ministers decision. Convert your date of birth with the <a href="{{root}}en/hijri-gregorian-date-converter/{{ix}}">Hijri–Gregorian converter</a>.</p>
+<p>Those who on 3 July 2024 were both under 50 Hijri years and under 240 months of service have a new age between 58 years 4 months and 65 Gregorian years depending on their age that day, and need 300 to 360 months for a pension before that age. The formula does not change. Work out your new age with the <a href="{{root}}en/saudi-retirement-age-calculator/{{ix}}">Saudi retirement age calculator</a>. How this interacts with compulsory retirement at 60 Hijri years has not been settled in a published text.</p>
+
+<h2>Military retirement</h2>
+<p>Military pension = <strong>last salary × months of service ÷ 420</strong>, one thirty-fifth for each year. It is due with 18 years of actual military service, or 20 years of civil and military service including 8 military, or at age 55. The retirement age varies by rank under the officers' and enlisted service laws.</p>
+
+<h2>New government employees from 3 July 2024</h2>
+<p>Anyone who joined government or private employment for the first time from 3 July 2024 with no earlier periods is under the new Social Insurance Law: 2.25% of the average wage for each year, age 65, and early retirement with 360 months from age 55 with a reduction. Calculate it with the <a href="{{root}}en/gosi-pension-calculator/{{ix}}">GOSI pension calculator</a>.</p>
+</div>
