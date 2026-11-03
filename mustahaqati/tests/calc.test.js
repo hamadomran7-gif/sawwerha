@@ -9,6 +9,8 @@ import {
   gccFuelCost,
   bahrainEwaBill,
   kuwaitUtilityBill,
+  abuDhabiUtilityBill,
+  etihadWeBill,
   uaeFuelCost,
   uaeDewaBill,
   inheritanceWithWajiba,
@@ -2293,4 +2295,45 @@ test("kuwaitUtilityBill: الاستثماري والخاص والمواطن في
   const c = kuwaitUtilityBill({ category: "kuwaitiInvestment", kwh: 1500, water: 4399.38 });
   assert.equal(c.category, "private");
   assert.equal(c.total, 3 + 3.52);
+});
+
+test("abuDhabiUtilityBill: أمثلة تعرفة طاقة للتوزيع 2025", () => {
+  const a = abuDhabiUtilityBill({ category: "expat", home: "flat", kwh: 1500, m3: 27, days: 30, annualRent: 60000 });
+  assert.equal(a.eCap, 600);
+  assert.equal(a.wCap, 21);
+  assert.equal(a.electricity, 435.3);
+  assert.equal(a.water, 227.1);
+  assert.equal(a.vat, 33.12);
+  assert.equal(a.utilitiesTotal, 695.52);
+  assert.equal(a.municipality, 250);
+  assert.equal(a.total, 945.52);
+  assert.equal(abuDhabiUtilityBill({ category: "expat", home: "flat", kwh: 1500, m3: 27, days: 31 }).utilitiesTotal, 692.85);
+  const b = abuDhabiUtilityBill({ category: "expat", home: "villa", kwh: 9000, m3: 180, days: 30, annualRent: 150000 });
+  assert.equal(b.electricity, 2523);
+  assert.equal(b.water, 1488.3);
+  assert.equal(b.vat, 200.57);
+  assert.equal(b.total, 4836.87);
+  const n = abuDhabiUtilityBill({ category: "national", home: "villa", kwh: 9000, m3: 150, days: 30, annualRent: 150000 });
+  assert.equal(n.total, 962.33);
+  assert.equal(n.municipality, 0);
+  const c = abuDhabiUtilityBill({ category: "commercial", kwh: 1000, m3: 10 });
+  assert.equal(c.utilities, 278.4);
+});
+
+test("etihadWeBill: الوافد والمواطن مع الرسم الإضافي", () => {
+  const a = etihadWeBill({ category: "expat", kwh: 1500, m3: 27 });
+  assert.equal(a.electricity, 345);
+  assert.equal(a.surcharge, 75);
+  assert.equal(a.water, 207.9);
+  assert.equal(a.vat, 31.4);
+  assert.equal(a.total, 659.3);
+  const b = etihadWeBill({ category: "expat", kwh: 7000, m3: 70 });
+  assert.equal(b.electricity + b.surcharge, 2390);
+  assert.equal(b.water, 606.1);
+  assert.equal(b.vat, 149.81);
+  assert.equal(b.total, 3145.91);
+  const n = etihadWeBill({ category: "national", kwh: 6000, m3: 60 });
+  assert.equal(n.total, 680.4);
+  assert.equal(n.surcharge, 0);
+  assert.equal(etihadWeBill({ category: "industrial", kwh: 1000 }).perKwh, 0.44);
 });

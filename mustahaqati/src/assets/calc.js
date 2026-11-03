@@ -995,6 +995,60 @@ export function kuwaitUtilityBill({ category = "investment", kwh = 0, water = 0,
   };
 }
 
+const vat2 = (x) => Math.round(x * 100 + 1e-6) / 100;
+
+/**
+ * فاتورة طاقة للتوزيع (أبوظبي والعين) الشهرية بتعرفة 2025: العتبة اليومية × أيام دورة الفوترة بالسعر الأخضر والزائد بالأحمر،
+ * حسب المواطن أو الوافد والفيلا أو الشقة، أو سعر التجاري الموحد؛ ثم ضريبة 5% على الكهرباء والمياه،
+ * ورسوم البلدية 5% من الإيجار السنوي ÷ 12 لغير المواطن. category: national | expat | commercial ؛ home: villa | flat
+ */
+export function abuDhabiUtilityBill({ category = "expat", home = "flat", kwh = 0, m3 = 0, days = 30, annualRent = 0 } = {}) {
+  const T = rules.ae.adUtility;
+  const d = Math.min(62, Math.max(1, Math.round(Number(days) || 30)));
+  const k = Math.max(0, Number(kwh) || 0), w = Math.max(0, Number(m3) || 0);
+  let e, wt, eCap = null, wCap = null;
+  if (category === "commercial") {
+    e = tierCost(k, [[null, T.commercial.electricity]]);
+    wt = tierCost(w, [[null, T.commercial.water]]);
+  } else {
+    const R = T.residential[category] || T.residential.expat;
+    const th = R.thresholds[home] || R.thresholds.flat;
+    eCap = th.kwhPerDay * d;
+    wCap = (th.litresPerDay * d) / 1000;
+    e = tierCost(k, [[eCap, R.electricity[0]], [null, R.electricity[1]]]);
+    wt = tierCost(w, [[wCap, R.water[0]], [null, R.water[1]]]);
+  }
+  const utilities = e.cost + wt.cost;
+  const vat = vat2(utilities * T.vat);
+  const municipality = category === "national" ? 0 : r2((Math.max(0, Number(annualRent) || 0) * T.municipalityRate) / 12);
+  return {
+    category, home, days: d, eCap, wCap, electricity: r2(e.cost), elecRows: e.rows, water: r2(wt.cost), waterRows: wt.rows,
+    utilities: r2(utilities), vat, utilitiesTotal: r2(utilities + vat), municipality, total: r2(utilities + vat + municipality),
+    over: { kwh: eCap === null ? 0 : r2(Math.max(0, k - eCap)), m3: wCap === null ? 0 : r2(Math.max(0, w - wCap)) },
+  };
+}
+
+/**
+ * فاتورة الاتحاد للماء والكهرباء (عجمان وأم القيوين ورأس الخيمة والفجيرة): شرائح الكهرباء مع الرسم الإضافي (5 فلوس، و4 للصناعي)،
+ * وشرائح المياه بالمتر المكعب، والمواطن 7.5 فلس و3.3 درهم، ثم ضريبة 5%، وخانة لرسوم أخرى إن وُجدت.
+ * category: national | expat | commercial | industrial | government
+ */
+export function etihadWeBill({ category = "expat", kwh = 0, m3 = 0, other = 0 } = {}) {
+  const T = rules.ae.etihadWe;
+  const cat = T.electricity[category] ? category : "expat";
+  const k = Math.max(0, Number(kwh) || 0), w = Math.max(0, Number(m3) || 0);
+  const e = tierCost(k, T.electricity[cat]);
+  const sur = k * T.surcharge[cat];
+  const wt = tierCost(w, T.water[cat]);
+  const base = e.cost + sur + wt.cost;
+  const vat = vat2(base * T.vat);
+  const o = Math.max(0, Number(other) || 0);
+  return {
+    category: cat, electricity: r2(e.cost), elecRows: e.rows, surchargeRate: T.surcharge[cat], surcharge: r2(sur), water: r2(wt.cost), waterRows: wt.rows,
+    base: r2(base), vat, other: r2(o), total: r2(base + vat + o), perKwh: k > 0 ? Math.round(((e.cost + sur) / k) * 1e6) / 1e6 : null,
+  };
+}
+
 /** أسعار الوقود الشهرية في الإمارات: كلفة تعبئة الخزان وكلفة الوقود الشهرية من المسافة والاستهلاك، ومقارنة بالشهر السابق. */
 export function uaeFuelCost({ fuel = "special95", tank = 60, km = 0, per100 = 8, month = null } = {}) {
   const F = rules.ae.fuel;

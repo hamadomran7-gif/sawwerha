@@ -1,0 +1,134 @@
+---json
+{
+  "lang": "en",
+  "path": "en/abu-dhabi-electricity-water-bill",
+  "alternate": "abu-dhabi-electricity-bill",
+  "title": "Abu Dhabi Electricity and Water Bill Calculator 2026 — TAQA Distribution Tariff for Nationals and Expats (Green and Red Bands)",
+  "h1": "Abu Dhabi and Al Ain Electricity and Water Bill Calculator",
+  "description": "Estimate your TAQA Distribution bill in Abu Dhabi and Al Ain: expats pay 26.8 fils per kWh inside the green band and 30.5 above, water AED 7.84 and 10.41 per m³; nationals 6.7 and 7.5 fils and AED 2.09 and 2.60, plus 5% VAT and the 5% municipality fee on rent.",
+  "short": "Green and red bands for nationals and expats, VAT and the municipality fee",
+  "lead": "Pick your category and home type, then enter the cycle's use and number of days from your bill to see it at TAQA Distribution's tariff.",
+  "country": "ae",
+  "category": "tools",
+  "tool": true,
+  "script": "en-abu-dhabi-bill.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-dewa-bill-calculator",
+    "en-etihad-we-bill",
+    "en-darb-calculator",
+    "en-uae-net-salary",
+    "en-bahrain-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "What is the electricity rate in Abu Dhabi for expats?",
+      "a": "26.8 fils per kWh inside the green band and 30.5 fils for use above it. The band is 20 kWh a day for a flat and 200 for a villa, multiplied by the days in the billing cycle."
+    },
+    {
+      "q": "What do UAE nationals pay in Abu Dhabi?",
+      "a": "Electricity is 6.7 fils inside the band and 7.5 above; water is AED 2.09 per m³ inside the band and 2.60 above. The nationals' band is 30 kWh a day for a flat and 400 for a villa."
+    },
+    {
+      "q": "What are the green and red bands on an Abu Dhabi bill?",
+      "a": "The green band is a daily-average allowance at the lower rate; the red rate applies only to use above it, not to the whole bill."
+    },
+    {
+      "q": "How much is the municipality fee on an Abu Dhabi bill?",
+      "a": "5% of the annual rent or the rental index, whichever is higher, collected in instalments with the bill. UAE nationals are exempt for their own home."
+    }
+  ],
+  "sources": [
+    {
+      "t": "TAQA Distribution — Utility Tariff 2025 (effective 1 Jan 2025)",
+      "u": "https://www.addc.ae/en-US/business/Documents/2025%20Tariff%20(English).pdf"
+    },
+    {
+      "t": "TAQA Distribution — Rates And Tariffs 2025 (residential)",
+      "u": "https://addc.ae/en-US/residential/Pages/RatesAndTariffs2025.aspx"
+    },
+    {
+      "t": "TAQA Distribution — Municipality fees",
+      "u": "https://www.addc.ae/en-US/residential/Pages/Municipality-Fee.aspx"
+    },
+    {
+      "t": "Gulf News — Daily-average band method (2015 announcement)",
+      "u": "https://gulfnews.com/uae/government/utilities-tariff-structure-revised-for-residential-customers-in-abu-dhabi-1.1426110"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your bill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="expat" selected>Expat</option>
+          <option value="national">UAE national</option>
+          <option value="commercial">Commercial</option>
+        </select>
+      </div>
+      <div class="field" data-home>
+        <label for="home">Home type</label>
+        <select id="home" name="home">
+          <option value="flat" selected>Flat</option>
+          <option value="villa">Villa</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="kwh">Electricity used in the cycle (kWh)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500">
+      </div>
+      <div class="field">
+        <label for="m3">Water used in the cycle (m³)</label>
+        <input type="number" id="m3" name="m3" inputmode="decimal" min="0" step="0.1" value="27">
+        <span class="hint">1 m³ = 1,000 litres.</span>
+      </div>
+      <div class="field">
+        <label for="days">Days in the billing cycle</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="0" step="1" value="30">
+        <span class="hint">From your bill, usually 28–31.</span>
+      </div>
+      <div class="field" data-rent>
+        <label for="annualRent">Annual rent (AED)</label>
+        <input type="number" id="annualRent" name="annualRent" inputmode="decimal" min="0" step="1000" value="60000">
+        <span class="hint">For the 5% municipality fee.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>TAQA Distribution residential tariff</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Category</th><th scope="col">Daily power band</th><th scope="col">Electricity (fils): green / red</th><th scope="col">Daily water band</th><th scope="col">Water (AED/m³): green / red</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Expat — flat</th><td>20 kWh</td><td>26.8 / 30.5</td><td>700 L</td><td>7.84 / 10.41</td></tr>
+    <tr><th scope="row">Expat — villa</th><td>200 kWh</td><td>26.8 / 30.5</td><td>5,000 L</td><td>7.84 / 10.41</td></tr>
+    <tr><th scope="row">National — flat</th><td>30 kWh</td><td>6.7 / 7.5</td><td>700 L</td><td>2.09 / 2.60</td></tr>
+    <tr><th scope="row">National — villa</th><td>400 kWh</td><td>6.7 / 7.5</td><td>7,000 L</td><td>2.09 / 2.60</td></tr>
+  </tbody>
+</table>
+</div>
+<p>These are the 2025 tariff figures, effective 1 January 2025 and identical to the 2023 and 2024 booklets; no different 2026 tariff has been published. Commercial accounts pay a flat 20 fils per kWh and AED 7.84 per m³.</p>
+
+<h2>How the band works</h2>
+<p>Monthly green band = daily allowance × days in the billing cycle. An expat flat on a 30-day cycle gets 600 kWh and 21 m³. Use inside the band is billed at the green rate and only the excess at the red rate. Then 5% VAT is added to electricity and water, and non-nationals pay a municipality fee of 5% of annual rent ÷ 12.</p>
+
+<h2>Worked examples (30-day cycle)</h2>
+<ul>
+  <li><strong>Expat flat, 1,500 kWh and 27 m³, rent AED 60,000:</strong> electricity 600 × 0.268 + 900 × 0.305 = 435.30, water 21 × 7.84 + 6 × 10.41 = 227.10, VAT 33.12, so utilities come to AED 695.52; with the AED 250 municipality fee the bill is AED 945.52.</li>
+  <li><strong>Expat villa, 9,000 kWh and 180 m³, rent AED 150,000:</strong> electricity 2,523, water 1,488.30, VAT 200.57 and municipality fee 625, a total of AED 4,836.87.</li>
+  <li><strong>National's villa, 9,000 kWh and 150 m³:</strong> all inside the green band: 603 + 313.50 + VAT 45.83 = AED 962.33, with no municipality fee.</li>
+</ul>
+<p>For Dubai bills use the <a href="{{root}}en/dewa-bill-calculator/{{ix}}">DEWA calculator</a>, and for the northern emirates the <a href="{{root}}en/etihad-water-electricity-bill/{{ix}}">Etihad WE calculator</a>.</p>
+</div>
