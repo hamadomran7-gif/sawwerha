@@ -1785,6 +1785,41 @@ export function nitaqatSummary(wages, halfBand = true) {
   });
 }
 
+/**
+ * البحرين — معاش القطاع الخاص للبحريني (القانون 24/1976 بعد 14/2022): 1/50 عن كل سنة من متوسط أجر آخر 5 سنوات،
+ * عند 60 مع 180 شهراً، أو مبكراً مع 240 شهراً بتخفيض بحسب السن، وإلا دفعة واحدة 15% × المتوسط × الأشهر.
+ */
+export function bahrainPension({ age, months, avgWage, year = new Date().getFullYear() }) {
+  const P = rules.bh.pension;
+  const a = Number(age) || 0;
+  const m = Math.max(0, Math.floor(Number(months) || 0));
+  const entered = Math.max(0, Number(avgWage) || 0);
+  const wage = Math.min(entered, P.wageCap);
+  const years = m / 12;
+  const pctRaw = years / P.divisor;
+  const pct = Math.min(pctRaw, P.maxPct);
+  const gross = wage * pct;
+  let status, reduction = 0;
+  if (a >= P.age && m >= P.minMonths) status = "oldAge";
+  else if (a < P.age && m >= P.earlyMinMonths) {
+    status = "early";
+    reduction = (P.earlyReduction.find(([lim]) => a < lim) || [0, 0])[1];
+  } else if (a >= P.age) status = "lump";
+  else status = "notYet";
+  const pension = status === "oldAge" || status === "early" ? gross * (1 - reduction) : 0;
+  const lump = m >= P.refundBelowMonths ? P.lumpPct * wage * m : 0;
+  const rates = P.employerRates;
+  const employerRate = (rates.slice().reverse().find(([y]) => year >= y) || rates[0])[1];
+  return {
+    status, months: m, years, wage, wageCapped: entered > P.wageCap, pctRaw, pct, capped: pctRaw > P.maxPct,
+    gross: r2(gross), reduction, pension: r2(pension), belowMin: pension > 0 && pension < Math.min(P.minPension, wage),
+    lump: r2(lump), refundOnly: m < P.refundBelowMonths,
+    atSixty: m >= P.minMonths ? r2(gross) : 0, lumpAtSixty: m >= P.minMonths ? 0 : r2(lump),
+    monthsToEarly: Math.max(0, P.earlyMinMonths - m), monthsToMin: Math.max(0, P.minMonths - m),
+    employee: r2(wage * P.employeeRate), employer: r2(wage * employerRate), employerRate,
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

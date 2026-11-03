@@ -3,7 +3,7 @@
  "age-hijri": "99c82daf5e399fab",
  "bahrain-end-of-service": "a17f5fd7ca30ef92",
  "bahrain-leave": "27310aa6716461a4",
- "bahrain": "4e1b3b759f0c3769",
+ "bahrain": "688b3f05f9a6c0f6",
  "contact": "1a510c8a14ae9e17",
  "date-difference": "ba6bba8c4ae42d12",
  "disclaimer": "fa00b79764ab45dd",
@@ -142,5 +142,7 @@
  "en-ksa-water-bill": "5cec010a094acf61",
  "ksa-water-bill": "9ba98a7df6e89deb",
  "en-ksa-nitaqat": "b58eda1c935752c8",
- "ksa-nitaqat": "c196e80d51c5daac"
+ "ksa-nitaqat": "c196e80d51c5daac",
+ "bahrain-pension": "9171f95542975567",
+ "en-bahrain-pension": "18f39f5efa16ef95"
 }

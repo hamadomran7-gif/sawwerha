@@ -27,6 +27,7 @@ import {
   nitaqatPhaseAt,
   parseWageList,
   nitaqatSummary,
+  bahrainPension,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -923,3 +924,30 @@ test("نطاقات — الأوزان والمراحل وتحليل قائمة �
   assert.equal(s[1].raiseCost, 1500 + 800 + 200);
   assert.equal(s[2].toRaise, 4);
 });
+
+test("البحرين — معاش القطاع الخاص والدفعة الواحدة", () => {
+  const a = bahrainPension({ age: 60, months: 360, avgWage: 1200, year: 2026 });
+  assert.equal(a.status, "oldAge");
+  assert.equal(a.pension, 720);
+  assert.equal(a.employee, 84);
+  assert.equal(a.employer, 180);
+  const b = bahrainPension({ age: 52, months: 300, avgWage: 1000 });
+  assert.equal(b.status, "early");
+  assert.equal(b.gross, 500);
+  assert.equal(b.pension, 450);
+  assert.equal(bahrainPension({ age: 44, months: 240, avgWage: 1000 }).pension, 320);
+  assert.equal(bahrainPension({ age: 47, months: 240, avgWage: 1000 }).pension, 340);
+  const c = bahrainPension({ age: 63, months: 504, avgWage: 2000 });
+  assert.equal(c.pension, 1600); // سقف 80%
+  assert.ok(c.capped);
+  const d = bahrainPension({ age: 60, months: 120, avgWage: 800 });
+  assert.equal(d.status, "lump");
+  assert.equal(d.lump, 14400);
+  const e = bahrainPension({ age: 40, months: 200, avgWage: 900 });
+  assert.equal(e.status, "notYet");
+  assert.equal(e.atSixty, r2t(900 * 200 / 12 / 50));
+  assert.equal(e.monthsToEarly, 40);
+  assert.equal(bahrainPension({ age: 60, months: 300, avgWage: 5000 }).wage, 4000);
+  assert.ok(bahrainPension({ age: 60, months: 6, avgWage: 500 }).refundOnly);
+});
+const r2t = (n) => Math.round((n + Number.EPSILON) * 100) / 100;

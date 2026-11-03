@@ -1817,6 +1817,50 @@ export default {
       "accumulationMaxDays": 240,
       "daysPerMonth": 30,
       "wageBasis": "total"
+    },
+    "pension": {
+      "law": "قانون التأمين الاجتماعي (المرسوم بقانون 24/1976) المواد 33 و34 و39 و43 كما عدّلها القانون 14/2022 (نافذ 19/4/2022)",
+      "age": 60,
+      "minMonths": 180,
+      "earlyMinMonths": 240,
+      "divisor": 50,
+      "avgYears": 5,
+      "maxPct": 0.8,
+      "maxPctNote": "سقف 80% من مصادر متخصصة لا من النص الرسمي",
+      "wageCap": 4000,
+      "minPension": 200,
+      "earlyReduction": [
+        [
+          45,
+          0.2
+        ],
+        [
+          50,
+          0.15
+        ],
+        [
+          60,
+          0.1
+        ]
+      ],
+      "earlyReductionNote": "الجدول رقم 1 كما نشرته مكاتب المحاماة؛ النص الرسمي للجدول غير منشور على الإنترنت",
+      "lumpPct": 0.15,
+      "refundBelowMonths": 12,
+      "employeeRate": 0.07,
+      "employerRates": [
+        [
+          2026,
+          0.15
+        ],
+        [
+          2027,
+          0.16
+        ],
+        [
+          2028,
+          0.17
+        ]
+      ]
     }
   },
   "zakat": {
