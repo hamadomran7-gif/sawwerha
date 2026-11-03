@@ -1,0 +1,85 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gcc-leave-comparison",
+  "alternate": "gcc-leave-comparison",
+  "title": "Annual and Sick Leave in the GCC Compared (2026) — How Much Are You Paid When Sick?",
+  "h1": "Leave Across the Six GCC Countries Compared",
+  "description": "Compare annual leave, sick leave and sick pay in the UAE, Saudi Arabia, Qatar, Kuwait, Oman and Bahrain, and calculate how much you would be paid for the same sick days in each country under its labour law.",
+  "short": "Annual and sick leave and sick pay in all six countries side by side",
+  "lead": "Enter your monthly wage and the number of sick days to see the comparison across the six countries, then the annual and sick leave tables.",
+  "country": "gcc",
+  "category": "leave",
+  "tool": true,
+  "script": "en-gcc-leave-comparison.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-gcc-end-of-service-comparison", "en-uae-sick-leave", "en-ksa-sick-leave", "en-qatar-leave", "en-kuwait-leave", "en-oman-leave"],
+  "faq": [
+    {"q": "Which Gulf country gives the longest annual leave?", "a": "The UAE, Kuwait, Oman and Bahrain give 30 days a year (in Kuwait, 30 working days excluding rest days and holidays). Saudi Arabia gives 21 days, rising to 30 after 5 years, and Qatar 21 days, rising to 28 after 5 years."},
+    {"q": "Which country gives the longest paid sick leave?", "a": "Oman: up to 182 days a year with pay falling in steps from full to 35%. Saudi Arabia follows with 90 paid days (30 full and 60 at three-quarters), then Kuwait and the UAE."},
+    {"q": "Is sick leave paid during probation?", "a": "In the UAE there is no paid sick leave during probation. In Qatar and Bahrain three months of service are required. The details are on each country's page."},
+    {"q": "Which wage is sick pay based on?", "a": "It varies: Qatar uses basic salary; Kuwait, Oman and Bahrain the full wage; Saudi Arabia the actual wage (basic plus fixed allowances); and the UAE the full wage by the wording of the law, though practice differs. The comparison uses one wage for simplicity, so use your country's calculator for an exact figure."}
+  ],
+  "sources": [
+    {"t": "UAE — Federal Decree-Law 33/2021, Articles 29 and 31 (MOHRE)", "u": "https://mohre.gov.ae"},
+    {"t": "Saudi Arabia — Labour Law, Articles 109 and 117 (HRDF, English)", "u": "https://hrdf.org.sa/media/eacale2o/labor-low-en.pdf"},
+    {"t": "Oman — Labour Law RD 53/2023, Articles 78–82 (Arabic)", "u": "https://qanoon.om/p/2023/rd2023053/"},
+    {"t": "Bahrain — Labour Law 36/2012, official English translation (LMRA)", "u": "https://lmra.gov.bh/files/cms/shared/file/labour%20law.pdf"},
+    {"t": "Kuwait — Law 6/2010, Articles 69 and 70 (Arabic)", "u": "https://www.alkarama.org/sites/default/files/2017-06/Law%20Of%20Labor_AR.pdf"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">How much are you paid for sick days in each country?</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="wage">Monthly wage</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="9000" required>
+        <span class="hint">In local currency; we assume the same wage in every country.</span>
+      </div>
+      <div class="field">
+        <label for="days">Sick days in the year</label>
+        <input type="number" id="days" name="days" inputmode="decimal" min="1" max="365" step="1" value="40" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Compare</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Annual leave in the GCC</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Country</th><th scope="col">Length</th><th scope="col">When it starts</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}en/uae-annual-leave-calculator/{{ix}}">UAE</a></th><td>30 days</td><td>2 days per month between 6 months and a year</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-annual-leave-calculator/{{ix}}">Saudi Arabia</a></th><td>21 days, 30 after 5 years</td><td>Pro rata for part years</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/qatar-leave-calculator/{{ix}}">Qatar</a></th><td>21 days, 28 after 5 years</td><td>After one year of service</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/kuwait-leave-calculator/{{ix}}">Kuwait</a></th><td>30 working days</td><td>After 6 months</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/oman-leave-calculator/{{ix}}">Oman</a></th><td>30 days</td><td>After 6 months</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/bahrain-leave-calculator/{{ix}}">Bahrain</a></th><td>30 days (2.5 days a month)</td><td>From the first month</td></tr>
+  </tbody>
+</table>
+</div>
+<h2>Sick leave in the GCC</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Country</th><th scope="col">Tiers in a year</th><th scope="col">Maximum</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><a href="{{root}}en/uae-sick-leave-calculator/{{ix}}">UAE</a></th><td>15 days full, 30 half, 45 unpaid (after probation)</td><td>90 days</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/saudi-sick-leave-calculator/{{ix}}">Saudi Arabia</a></th><td>30 full, 60 at three-quarters, 30 unpaid</td><td>120 days</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/qatar-leave-calculator/{{ix}}">Qatar</a></th><td>14 full, 28 half, 42 unpaid (after 3 months)</td><td>84 days</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/kuwait-leave-calculator/{{ix}}">Kuwait</a></th><td>15 full, 10 at three-quarters, 10 half, 10 quarter, 30 unpaid</td><td>75 days</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/oman-leave-calculator/{{ix}}">Oman</a></th><td>21 full, 14 at three-quarters, 35 half, 112 at 35%</td><td>182 days</td></tr>
+    <tr><th scope="row"><a href="{{root}}en/bahrain-leave-calculator/{{ix}}">Bahrain</a></th><td>15 full, 20 half, 20 unpaid (after 3 months)</td><td>55 days</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The comparison is simplified to one wage. The wage base and conditions differ between countries, so calculate your exact case on your country's page. To compare gratuity, see the <a href="{{root}}en/gcc-end-of-service-comparison/{{ix}}">GCC end-of-service comparison</a>. Prefer Arabic? Use the <a href="{{root}}gcc-leave-comparison/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

@@ -245,6 +245,32 @@ const TABLES = {
       tableWrap(`استقالة العامل — أجر ${fmt0.format(w)} بالعملة المحلية`, head, rowsFor("resignation"))
     );
   },
+  /** النسخة الإنجليزية من مقارنة الخليج */
+  "gcc-compare-en"(a) {
+    const w = Number(a.wage || 10000);
+    const years = listNums(a.years, [1, 3.5, 5, 12, 25]);
+    const om = (y) => w * y * rules.om.eos.currentMonthsPerYear;
+    const bh = (y) => w * (Math.min(y, rules.bh.eos.firstYears) * rules.bh.eos.monthsFirst + Math.max(0, y - rules.bh.eos.firstYears) * rules.bh.eos.monthsAfter);
+    const label = (y) => {
+      const whole = Math.floor(y + 1e-9), months = Math.round((y - whole) * 12);
+      return [whole ? `${whole} year${whole === 1 ? "" : "s"}` : "", months ? `${months} month${months === 1 ? "" : "s"}` : ""].filter(Boolean).join(" ") || "0";
+    };
+    const rowsFor = (reason) =>
+      years.map((y) => [
+        label(y),
+        fmt0.format(calc.uaeGratuity({ basicSalary: w, years: y }).total),
+        fmt0.format(calc.ksaEndOfService({ wage: w, years: y, reason: reason === "resignation" ? "resignation" : "contract_end" }).total),
+        fmt0.format(calc.qatarGratuity({ basicSalary: w, years: y }).total),
+        fmt0.format(calc.kuwaitIndemnity({ wage: w, years: y, reason }).total),
+        fmt0.format(om(y)),
+        fmt0.format(bh(y)),
+      ]);
+    const head = ["Service", "UAE", "Saudi Arabia", "Qatar", "Kuwait", "Oman", "Bahrain"];
+    return (
+      tableWrap(`Terminated by the employer or contract ended — wage ${fmt0.format(w)} in local currency`, head, rowsFor("employer")) +
+      tableWrap(`Employee resigns — wage ${fmt0.format(w)} in local currency`, head, rowsFor("resignation"))
+    );
+  },
   /** السعودية: استقالة عادية مقابل استثناء المادة 87 */
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
