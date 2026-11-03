@@ -385,6 +385,27 @@ const TABLES = {
       rows
     );
   },
+  /** الإمارات: معاش المواطن حسب سنوات الخدمة وراتب حساب المعاش (القانون القديم أو الجديد) */
+  "uae-pension-grid"(a) {
+    const A = rules.ae.pension;
+    const isNew = a.system === "new";
+    const L = isNew ? A.new : A.legacy;
+    const salaries = listNums(a.salaries, [10000, 15000, 20000, 30000, 40000, 50000, 70000]);
+    const years = listNums(a.years, [15, 20, 25, 30, 35]);
+    const pct = (y) => (isNew ? Math.min(L.maxPct, Math.min(y, L.breakYears) * L.accrualUpTo30 + Math.max(0, y - L.breakYears) * L.accrualOver30) : Math.min(L.maxPct, L.basePct + (y - L.baseYears) * L.stepPct));
+    const cell = (S, y) => {
+      const base = Math.min(S, L.salaryMax);
+      const v = base * pct(y);
+      if (isNew && v < L.minPension) return `${fmt0.format(L.minPension)}*`;
+      return fmt0.format(v);
+    };
+    const rows = years.map((y) => [`${yearsLabel(y)} (${fmt2.format(pct(y) * 100).replace(/\.?0+$/, "")}%)`, ...salaries.map((S) => cell(S, y))]);
+    return tableWrap(
+      a.caption || (isNew ? "القانون الجديد (من 31 أكتوبر 2023) — درهم شهرياً" : "القانون القديم (المسجلون قبل 31 أكتوبر 2023) — درهم شهرياً"),
+      ["مدة الخدمة (النسبة)", ...salaries.map((S) => `راتب ${fmt0.format(S)}`)],
+      rows
+    );
+  },
   "ksa-art87-compare"(a) {
     const wage = Number(a.wage || 8000);
     const years = listNums(a.years, [1, 2, 3, 4, 6, 8]);
