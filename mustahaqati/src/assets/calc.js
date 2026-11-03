@@ -4084,8 +4084,19 @@ export const KSA_HEIRS = [
   ["matSiblings", "أخ أو أخت لأم", "Maternal half-sibling"], ["fullNephews", "ابن أخ شقيق", "Full brother's son"], ["patNephews", "ابن أخ لأب", "Half-brother's son"],
   ["fullUncles", "عم شقيق", "Full paternal uncle"], ["patUncles", "عم لأب", "Paternal half-uncle"], ["fullCousins", "ابن عم شقيق", "Full uncle's son"], ["patCousins", "ابن عم لأب", "Half-uncle's son"],
 ];
-/** يوزّع التركة الصافية على الورثة بكسور دقيقة: الفروض ثم التعصيب ثم العول أو الرد (لغير الزوجين)، والجد يحجب الإخوة (م212)، ولا مشتركة (م227)، والأب لا يحجب أمه (م214). */
-export function ksaInheritance(input = {}) {
+/**
+ * ملفات قواعد المواريث: sa = نظام الأحوال الشخصية السعودي (الجد يحجب الإخوة م212، ولا مشتركة م227، والأب لا يحجب أمه م214).
+ * grandfather: "exclude" يحجب الإخوة، أو "share" يقاسمهم بطريقة زيد (الأحظ من المقاسمة وثلث الباقي والسدس، مع المعادّة).
+ */
+export const INHERITANCE_PROFILES = {
+  sa: { grandfather: "exclude", mushtaraka: false, akdariyya: false, malikiyya: false, fatherExcludesPatGm: false, noHeirs: "treasury" },
+  zayd: { grandfather: "share", mushtaraka: true, akdariyya: true, malikiyya: true, fatherExcludesPatGm: true, noHeirs: "treasury" },
+};
+const fmax = (a, b) => (a.n * b.d >= b.n * a.d ? a : b);
+const fle = (a, b) => a.n * b.d <= b.n * a.d;
+/** يوزّع التركة الصافية على الورثة بكسور دقيقة: الفروض ثم التعصيب ثم العول أو الرد (لغير الزوجين)، بحسب ملف القواعد. */
+export function gccInheritance(input = {}, profile = INHERITANCE_PROFILES.sa) {
+  const P = { ...INHERITANCE_PROFILES.sa, ...profile };
   const c = {};
   for (const [k, , , max] of KSA_HEIRS) c[k] = Math.min(max || 99, Math.max(0, Math.floor(Number(input[k]) || 0)));
   if (c.husband && c.wives) return { error: "spouses" };
@@ -4099,19 +4110,22 @@ export function ksaInheritance(input = {}) {
   if (c.father && c.grandfather) ex.grandfather = "father";
   if (c.mother && c.matGrandmother) ex.matGrandmother = "mother";
   if (c.mother && c.patGrandmother) ex.patGrandmother = "mother";
+  if (P.fatherExcludesPatGm && c.father && c.patGrandmother && !ex.patGrandmother) ex.patGrandmother = "father";
   const father = has("father"), gf = has("grandfather");
-  const sibBlock = has("sons") ? "sons" : has("sonsSons") ? "sonsSons" : father ? "father" : gf ? "grandfather" : null;
+  const sibBlock = has("sons") ? "sons" : has("sonsSons") ? "sonsSons" : father ? "father" : gf && P.grandfather === "exclude" ? "grandfather" : null;
   if (sibBlock) for (const k of ["fullBrothers", "fullSisters", "patBrothers", "patSisters"]) if (c[k]) ex[k] = sibBlock;
   if (c.matSiblings) {
     const b = ["sons", "daughters", "sonsSons", "sonsDaughters"].find((k) => has(k)) || (father ? "father" : gf ? "grandfather" : null);
     if (b) ex.matSiblings = b;
   }
-  const fullSisterMAG = has("fullSisters") && !has("fullBrothers") && femaleDesc;
-  for (const k of ["patBrothers", "patSisters"]) if (c[k] && !ex[k]) { if (has("fullBrothers")) ex[k] = "fullBrothers"; else if (fullSisterMAG) ex[k] = "fullSisters"; }
-  if (c.patSisters && !ex.patSisters && c.fullSisters >= 2 && has("fullSisters") && !has("patBrothers")) ex.patSisters = "fullSisters";
-  const patSisterMAG = has("patSisters") && !has("patBrothers") && femaleDesc;
+  // الجد مع الإخوة الأشقاء أو لأب بطريقة زيد
+  const jadd = P.grandfather === "share" && gf && ["fullBrothers", "fullSisters", "patBrothers", "patSisters"].some((k) => has(k));
+  const fullSisterMAG = !jadd && has("fullSisters") && !has("fullBrothers") && femaleDesc;
+  if (!jadd) for (const k of ["patBrothers", "patSisters"]) if (c[k] && !ex[k]) { if (has("fullBrothers")) ex[k] = "fullBrothers"; else if (fullSisterMAG) ex[k] = "fullSisters"; }
+  if (!jadd && c.patSisters && !ex.patSisters && c.fullSisters >= 2 && has("fullSisters") && !has("patBrothers")) ex.patSisters = "fullSisters";
+  const patSisterMAG = !jadd && has("patSisters") && !has("patBrothers") && femaleDesc;
   const DIST = ["fullNephews", "patNephews", "fullUncles", "patUncles", "fullCousins", "patCousins"];
-  const chain = [["sons", has("sons")], ["sonsSons", has("sonsSons")], ["father", father], ["grandfather", gf], ["fullBrothers", has("fullBrothers")], ["fullSisters", fullSisterMAG], ["patBrothers", has("patBrothers")], ["patSisters", patSisterMAG], ...DIST.map((k) => [k, has(k)])];
+  const chain = [["sons", has("sons")], ["sonsSons", has("sonsSons")], ["father", father], ["grandfather", gf], ["fullBrothers", !jadd && has("fullBrothers")], ["fullSisters", fullSisterMAG], ["patBrothers", !jadd && has("patBrothers")], ["patSisters", patSisterMAG], ...DIST.map((k) => [k, has(k)])];
   let top = null;
   for (const [k, p] of chain) if (p) { if (!top) top = k; else if (DIST.includes(k)) ex[k] = top; }
   const fard = {};
@@ -4126,30 +4140,87 @@ export function ksaInheritance(input = {}) {
   }
   const gms = ["patGrandmother", "matGrandmother"].filter((k) => has(k));
   for (const k of gms) fard[k] = Fr(1, 6 * gms.length);
-  if ((father || gf) && desc) fard[father ? "father" : "grandfather"] = Fr(1, 6);
+  if ((father || gf) && desc && !jadd) fard[father ? "father" : "grandfather"] = Fr(1, 6);
   if (has("daughters") && !has("sons")) fard.daughters = c.daughters === 1 ? Fr(1, 2) : Fr(2, 3);
   if (has("sonsDaughters") && !has("sonsSons")) {
     if (!has("daughters")) fard.sonsDaughters = c.sonsDaughters === 1 ? Fr(1, 2) : Fr(2, 3);
     else if (c.daughters === 1) fard.sonsDaughters = Fr(1, 6);
   }
-  if (has("fullSisters") && !has("fullBrothers") && !fullSisterMAG) fard.fullSisters = c.fullSisters === 1 ? Fr(1, 2) : Fr(2, 3);
-  if (has("patSisters") && !has("patBrothers") && !patSisterMAG) {
+  if (!jadd && has("fullSisters") && !has("fullBrothers") && !fullSisterMAG) fard.fullSisters = c.fullSisters === 1 ? Fr(1, 2) : Fr(2, 3);
+  if (!jadd && has("patSisters") && !has("patBrothers") && !patSisterMAG) {
     if (!has("fullSisters")) fard.patSisters = c.patSisters === 1 ? Fr(1, 2) : Fr(2, 3);
     else if (fard.fullSisters && c.fullSisters === 1) fard.patSisters = Fr(1, 6);
   }
   if (has("matSiblings")) fard.matSiblings = c.matSiblings === 1 ? Fr(1, 6) : Fr(1, 3);
-  const sumF = Object.values(fard).reduce(fadd, FZERO);
   const share = {};
-  for (const k in fard) share[k] = fard[k];
   const residue = {};
-  let awl = null, radd = false, raddSpouse = false, toArham = FZERO, toTreasury = FZERO;
-  if (sumF.n > sumF.d) {
+  const special = {};
+  let awl = null, radd = false, raddSpouse = false, toArham = FZERO, toTreasury = FZERO, mushtaraka = false, akdariyya = false, malikiyya = false, jaddMethod = null;
+  // المشتركة: يشترك الأشقاء مع الإخوة لأم في الثلث بالتساوي
+  if (P.mushtaraka && c.husband && (fard.mother || gms.length) && has("matSiblings") && c.matSiblings >= 2 && has("fullBrothers") && !desc && !father && !gf) {
+    mushtaraka = true;
+    const heads = c.matSiblings + c.fullBrothers + c.fullSisters;
+    for (const k of ["matSiblings", "fullBrothers", "fullSisters"]) if (c[k]) { special[k] = fmul(Fr(1, 3), Fr(c[k], heads)); }
+    delete fard.matSiblings;
+    top = null;
+  }
+  let sumF = Object.values(fard).reduce(fadd, FZERO);
+  if (jadd) {
+    const R = fsub(FONE, sumF);
+    const sib = { fullBrothers: has("fullBrothers") ? c.fullBrothers : 0, fullSisters: has("fullSisters") ? c.fullSisters : 0, patBrothers: has("patBrothers") ? c.patBrothers : 0, patSisters: has("patSisters") ? c.patSisters : 0 };
+    const sisters = sib.fullSisters + sib.patSisters, brothers = sib.fullBrothers + sib.patBrothers;
+    const onlyHusbandMother = c.husband && fard.mother && Object.keys(fard).length === 2;
+    if (P.akdariyya && onlyHusbandMother && !brothers && sisters === 1 && !c.matSiblings) {
+      akdariyya = true; jaddMethod = "akdariyya";
+      awl = Fr(9, 6);
+      share.husband = Fr(9, 27); share.mother = Fr(6, 27); special.grandfather = Fr(8, 27);
+      special[sib.fullSisters ? "fullSisters" : "patSisters"] = Fr(4, 27);
+    } else if (P.malikiyya && c.husband && (fard.mother || gms.length) && c.matSiblings >= 2 && brothers && !desc) {
+      malikiyya = true; jaddMethod = "malikiyya";
+      special.grandfather = R;
+    } else if (fle(R, Fr(1, 6)) && sumF.n > 0) {
+      jaddMethod = "sixth";
+      fard.grandfather = Fr(1, 6);
+      sumF = fadd(sumF, Fr(1, 6));
+    } else {
+      const muq = fmul(R, Fr(2, 2 + 2 * brothers + sisters));
+      const opts = sumF.n > 0 ? [["sixth", Fr(1, 6)], ["thirdRemainder", fmul(R, Fr(1, 3))], ["muqasama", muq]] : [["third", Fr(1, 3)], ["muqasama", muq]];
+      let best = opts[0];
+      for (const o of opts) if (!fle(o[1], best[1])) best = o;
+      jaddMethod = best[0];
+      special.grandfather = best[1];
+      let S = fsub(R, best[1]);
+      if (sib.fullBrothers) {
+        const u = 2 * sib.fullBrothers + sib.fullSisters;
+        special.fullBrothers = fmul(S, Fr(2 * sib.fullBrothers, u));
+        if (sib.fullSisters) special.fullSisters = fmul(S, Fr(sib.fullSisters, u));
+        for (const k of ["patBrothers", "patSisters"]) if (sib[k]) ex[k] = "fullBrothers";
+      } else {
+        if (sib.fullSisters) {
+          const cap = sib.fullSisters === 1 ? Fr(1, 2) : Fr(2, 3);
+          const take = fle(S, cap) ? S : cap;
+          special.fullSisters = take;
+          S = fsub(S, take);
+        }
+        const u = 2 * sib.patBrothers + sib.patSisters;
+        if (u && S.n > 0) {
+          if (sib.patBrothers) special.patBrothers = fmul(S, Fr(2 * sib.patBrothers, u));
+          if (sib.patSisters) special.patSisters = fmul(S, Fr(sib.patSisters, u));
+        }
+      }
+    }
+    if (jaddMethod === "sixth" || malikiyya) for (const k of ["fullBrothers", "fullSisters", "patBrothers", "patSisters"]) if (sib[k] && !special[k]) special[k] = FZERO;
+    top = "grandfather";
+  }
+  const specialSum = Object.values(special).reduce(fadd, FZERO);
+  if (!akdariyya) for (const k in fard) share[k] = fard[k];
+  if (!akdariyya && sumF.n > sumF.d) {
     awl = sumF;
     for (const k in share) share[k] = fdiv(share[k], sumF);
-  } else {
-    const R = fsub(FONE, sumF);
+  } else if (!akdariyya) {
+    const R = fsub(fsub(FONE, sumF), specialSum);
     if (R.n > 0) {
-      if (top) {
+      if (top && !jadd) {
         const pair = { sons: "daughters", sonsSons: "sonsDaughters", fullBrothers: "fullSisters", patBrothers: "patSisters" }[top];
         if (pair && has(pair) && !fard[pair]) {
           const units = 2 * c[top] + c[pair];
@@ -4157,7 +4228,7 @@ export function ksaInheritance(input = {}) {
           residue[pair] = fmul(R, Fr(c[pair], units));
         } else residue[top] = R;
         for (const k in residue) share[k] = fadd(share[k] || FZERO, residue[k]);
-      } else {
+      } else if (!jadd) {
         const nonSpouse = Object.keys(fard).filter((k) => k !== "husband" && k !== "wives");
         if (nonSpouse.length) {
           radd = true;
@@ -4169,19 +4240,27 @@ export function ksaInheritance(input = {}) {
       }
     }
   }
+  for (const k in special) share[k] = fadd(share[k] || FZERO, special[k]);
   const heirs = [];
+  const SIB = ["fullBrothers", "fullSisters", "patBrothers", "patSisters"];
   for (const [k, ar, en] of KSA_HEIRS) {
     if (!c[k]) continue;
     const sh = share[k] || FZERO;
-    const basis = ex[k] ? "excluded" : fard[k] && residue[k] ? "fardAsaba" : residue[k] ? (k === top && ["fullSisters", "patSisters"].includes(k) ? "asabaMaGhayr" : ["daughters", "sonsDaughters", "fullSisters", "patSisters"].includes(k) ? "asabaBiGhayr" : "asaba") : fard[k] ? (radd || (raddSpouse && (k === "husband" || k === "wives")) ? "fardRadd" : "fard") : "none";
+    let basis;
+    if (ex[k]) basis = "excluded";
+    else if (mushtaraka && (k === "matSiblings" || k === "fullBrothers" || k === "fullSisters")) basis = "mushtaraka";
+    else if (jadd && (k === "grandfather" || SIB.includes(k))) basis = sh.n ? (akdariyya ? "akdariyya" : k === "grandfather" ? `jadd:${jaddMethod}` : "jaddSibling") : "none";
+    else basis = fard[k] && residue[k] ? "fardAsaba" : residue[k] ? (k === top && ["fullSisters", "patSisters"].includes(k) ? "asabaMaGhayr" : ["daughters", "sonsDaughters", "fullSisters", "patSisters"].includes(k) ? "asabaBiGhayr" : "asaba") : fard[k] ? (radd || (raddSpouse && (k === "husband" || k === "wives")) ? "fardRadd" : "fard") : "none";
     heirs.push({ key: k, ar, en, count: c[k], basis, excludedBy: ex[k] || null, share: sh, each: Fr(sh.n, sh.d * c[k]), fard: fard[k] || null });
   }
   const total = [...heirs.map((h) => h.share), toArham, toTreasury].reduce(fadd, FZERO);
   let base = 1;
   for (const h of heirs) if (h.each.n) base = (base * h.each.d) / fgcd(base, h.each.d);
   for (const f of [toArham, toTreasury]) if (f.n) base = (base * f.d) / fgcd(base, f.d);
-  return { heirs, awl, radd, raddSpouse, umariyya, toArham, toTreasury, base, ok: total.n === total.d, top };
+  return { heirs, awl, radd, raddSpouse, umariyya, mushtaraka, akdariyya, malikiyya, jaddMethod, toArham, toTreasury, base, ok: total.n === total.d, top, noHeirs: P.noHeirs };
 }
+/** المواريث وفق نظام الأحوال الشخصية السعودي. */
+export const ksaInheritance = (input = {}) => gccInheritance(input, INHERITANCE_PROFILES.sa);
 /** قيمة التركة الصافية للقسمة بعد التجهيز والديون والوصية (بحد الثلث، م190–191). */
 export function ksaEstateNet({ estate = 0, funeral = 0, debts = 0, bequest = 0 } = {}) {
   const e = Math.max(0, Number(estate) || 0), f = Math.max(0, Number(funeral) || 0), d = Math.max(0, Number(debts) || 0), b = Math.max(0, Number(bequest) || 0);

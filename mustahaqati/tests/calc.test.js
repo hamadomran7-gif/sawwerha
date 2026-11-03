@@ -3,6 +3,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  gccInheritance,
+  INHERITANCE_PROFILES,
   pregnancyDueDate,
   maternityLeaveFromDue,
   ksaInheritance,
@@ -2105,4 +2107,37 @@ test("موعد الولادة وإجازة الوضع (ACOG 700 وقوانين �
   const bh = maternityLeaveFromDue({ country: "bh", due });
   assert.equal(bh.backEarliest, "2027-06-17");
   assert.equal(bh.backOnDue, "2027-07-07");
+});
+
+test("المواريث بطريقة زيد في الجد والإخوة والمشتركة والأكدرية (ملف zayd)", () => {
+  const fs = (f) => `${f.n}/${f.d}`;
+  const Z = INHERITANCE_PROFILES.zayd;
+  const cases = [
+    [{ grandfather: 1, fullBrothers: 1 }, { grandfather: "1/2", fullBrothers: "1/2" }],
+    [{ grandfather: 1, fullBrothers: 3 }, { grandfather: "1/3", fullBrothers: "2/3" }],
+    [{ grandfather: 1, fullSisters: 1 }, { grandfather: "2/3", fullSisters: "1/3" }],
+    [{ husband: 1, grandfather: 1, fullBrothers: 1 }, { husband: "1/2", grandfather: "1/4", fullBrothers: "1/4" }],
+    [{ mother: 1, grandfather: 1, fullBrothers: 1, fullSisters: 1 }, { mother: "1/6", grandfather: "1/3", fullBrothers: "1/3", fullSisters: "1/6" }],
+    // الأكدرية
+    [{ husband: 1, mother: 1, grandfather: 1, fullSisters: 1 }, { husband: "1/3", mother: "2/9", grandfather: "8/27", fullSisters: "4/27" }],
+    // مختصرة زيد والتسعينية والعشرية والعشرينية (المعادّة)
+    [{ mother: 1, grandfather: 1, fullSisters: 1, patBrothers: 1, patSisters: 1 }, { mother: "1/6", grandfather: "5/18", fullSisters: "1/2", patBrothers: "1/27", patSisters: "1/54" }],
+    [{ mother: 1, grandfather: 1, fullSisters: 1, patBrothers: 2, patSisters: 1 }, { mother: "1/6", grandfather: "5/18", fullSisters: "1/2", patBrothers: "2/45", patSisters: "1/90" }],
+    [{ grandfather: 1, fullSisters: 1, patBrothers: 1 }, { grandfather: "2/5", fullSisters: "1/2", patBrothers: "1/10" }],
+    [{ grandfather: 1, fullSisters: 1, patSisters: 2 }, { grandfather: "2/5", fullSisters: "1/2", patSisters: "1/10" }],
+    [{ grandfather: 1, fullBrothers: 1, patBrothers: 1 }, { grandfather: "1/3", fullBrothers: "2/3", patBrothers: "0/1" }],
+    // سدس الجد مع العول وسقوط الإخوة
+    [{ daughters: 2, husband: 1, grandfather: 1, fullBrothers: 1 }, { daughters: "8/13", husband: "3/13", grandfather: "2/13", fullBrothers: "0/1" }],
+    [{ daughters: 1, grandfather: 1, fullSisters: 1 }, { daughters: "1/2", grandfather: "1/3", fullSisters: "1/6" }],
+    // المالكية والمشتركة
+    [{ husband: 1, mother: 1, grandfather: 1, matSiblings: 2, patBrothers: 1 }, { husband: "1/2", mother: "1/6", grandfather: "1/3", patBrothers: "0/1" }],
+    [{ husband: 1, mother: 1, matSiblings: 2, fullBrothers: 1 }, { husband: "1/2", mother: "1/6", matSiblings: "2/9", fullBrothers: "1/9" }],
+    [{ father: 1, patGrandmother: 1, sons: 1 }, { father: "1/6", patGrandmother: "0/1", sons: "5/6" }],
+  ];
+  for (const [input, want] of cases) {
+    const r = gccInheritance(input, Z);
+    assert.equal(r.ok, true, JSON.stringify(input));
+    const got = Object.fromEntries(r.heirs.map((h) => [h.key, fs(h.share)]));
+    for (const k in want) assert.equal(got[k], want[k], `${JSON.stringify(input)} ${k}`);
+  }
 });
