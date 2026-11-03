@@ -1,0 +1,110 @@
+---json
+{
+  "title": "حاسبة ضريبة الشركات في الإمارات 2026 — 9% فوق 375 ألف درهم وإعفاء الأعمال الصغيرة حتى 2029",
+  "h1": "حاسبة ضريبة الشركات في الإمارات",
+  "description": "احسب ضريبة الشركات في الإمارات: 0% على الدخل الخاضع حتى 375,000 درهم و9% على ما زاد، مع إعفاء الأعمال الصغيرة لمن لا تتجاوز إيراداته 3 ملايين درهم (ممدد للفترات المنتهية حتى 31 ديسمبر 2029)، وخصم الخسائر المرحلة بحد 75%، وحد المليون درهم للأشخاص الطبيعيين.",
+  "short": "0% حتى 375 ألفاً و9% فوقها، وإعفاء الأعمال الصغيرة، والخسائر المرحلة",
+  "lead": "أدخل إيراداتك ودخلك الخاضع للضريبة والخسائر المرحلة، وتعرف هل يشملك إعفاء الأعمال الصغيرة وكم الضريبة المستحقة.",
+  "country": "ae",
+  "category": "tax",
+  "tool": true,
+  "script": "uae-corporate-tax.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["vat", "dubai-mortgage-fees", "uae-personal-loan"],
+  "faq": [
+    {"q": "كم نسبة ضريبة الشركات في الإمارات؟", "a": "0% على الدخل الخاضع للضريبة حتى 375,000 درهم، و9% على ما زاد عليه، للفترات الضريبية التي تبدأ من 1 يونيو 2023. مثال: دخل خاضع مليون درهم = 9% × 625,000 = 56,250 درهماً."},
+    {"q": "ما إعفاء الأعمال الصغيرة ومن يشمل؟", "a": "يجوز للشخص المقيم الذي لا تتجاوز إيراداته 3 ملايين درهم في الفترة الضريبية والفترات السابقة أن يختار معاملته كأن لا دخل خاضع له، فلا ضريبة عليه. ومُدد بالقرار الوزاري 131 لسنة 2026 ليشمل الفترات المنتهية حتى 31 ديسمبر 2029. ولا يشمل الشخص المؤهل في المنطقة الحرة، ولا الشركة العضو في مجموعة متعددة الجنسيات تتجاوز إيراداتها الموحدة 3.15 مليار درهم."},
+    {"q": "هل يعفيني إعفاء الأعمال الصغيرة من التسجيل والإقرار؟", "a": "لا. الإعفاء اختياري يُطلب في الإقرار الضريبي، ويبقى التسجيل وتقديم الإقرار وحفظ السجلات واجبة."},
+    {"q": "هل يخضع راتبي أو استثماري الشخصي للضريبة؟", "a": "لا. دخل الوظيفة والاستثمار الشخصي والعقارات التي لا تحتاج إلى رخصة خارج نطاق ضريبة الشركات. والشخص الطبيعي الذي يمارس نشاطاً تجارياً يخضع لها إذا تجاوزت إيراداته من النشاط مليون درهم في السنة."},
+    {"q": "كيف تُخصم الخسائر الضريبية؟", "a": "تُرحَّل الخسائر إلى الفترات اللاحقة وتُخصم بحد أقصى 75% من الدخل الخاضع للفترة، ويُرحَّل الباقي. وفي الفترة التي تختار فيها إعفاء الأعمال الصغيرة لا تُرحَّل الخسائر ولا صافي مصروفات الفائدة."},
+    {"q": "هل تحسب الحاسبة ضريبة شركات المناطق الحرة؟", "a": "لا. الشخص المؤهل في المنطقة الحرة يخضع لنسبة 0% على الدخل المؤهل و9% على غيره، وله شروط خاصة لا تغطيها الحاسبة. أما شركة المنطقة الحرة غير المؤهلة فتُحسب كشركة عادية."}
+  ],
+  "sources": [
+    {"t": "Khaleej Times — تمديد إعفاء الأعمال الصغيرة حتى 2029 بالقرار الوزاري 131 (أغسطس 2026)", "u": "https://khaleejtimes.com/business/uae-extends-corporate-tax-relief-for-small-businesses-until-2029"},
+    {"t": "CMS — شروط إعفاء الأعمال الصغيرة والفئات المستثناة (القرار الوزاري 73/2023)", "u": "https://cms.law/en/omn/legal-updates/uae-corporate-tax-small-business-relief-criteria"},
+    {"t": "Khaleej Times — وزارة المالية: حد 375 ألف درهم وحد المليون للأشخاص الطبيعيين (مايو 2023)", "u": "https://www.khaleejtimes.com/business/uae-will-9-corporate-tax-apply-to-personal-income-investments-ministry-clarifies"},
+    {"t": "PwC الشرق الأوسط — ضريبة الشركات في الإمارات (الخسائر بحد 75%)", "u": "https://www.pwc.com/m1/en/services/tax/corporate-income-tax.html"},
+    {"t": "الهيئة الاتحادية للضرائب", "u": "https://tax.gov.ae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب ضريبة الشركات</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="person">الخاضع للضريبة</label>
+        <select id="person" name="person">
+          <option value="company">شركة في البر الرئيسي أو منطقة حرة (غير مؤهلة)</option>
+          <option value="individual">شخص طبيعي يمارس نشاطاً تجارياً (مؤسسة فردية أو عمل حر)</option>
+          <option value="qfzp">شخص مؤهل في المنطقة الحرة</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="revenue">إيرادات الفترة الضريبية (درهم)</label>
+        <input type="number" id="revenue" name="revenue" inputmode="decimal" min="0" step="1000" value="2500000" required>
+        <span class="hint">إجمالي الإيرادات، لا الربح.</span>
+      </div>
+      <div class="field">
+        <label for="income">الدخل الخاضع للضريبة (درهم)</label>
+        <input type="number" id="income" name="income" inputmode="decimal" step="1000" value="600000" required>
+        <span class="hint">صافي الربح بعد التعديلات الضريبية.</span>
+      </div>
+      <div class="field">
+        <label for="losses">خسائر ضريبية مرحلة من فترات سابقة (درهم)</label>
+        <input type="number" id="losses" name="losses" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <div class="field">
+        <label for="year">تنتهي الفترة الضريبية في سنة</label>
+        <select id="year" name="year">
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026" selected>2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+          <option value="2029">2029</option>
+          <option value="2030">2030</option>
+        </select>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="mne" name="mne">
+        <label for="mne">عضو في مجموعة متعددة الجنسيات تتجاوز إيراداتها الموحدة 3.15 مليار درهم</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="sbr" name="sbr" checked>
+        <label for="sbr">أختار إعفاء الأعمال الصغيرة إن كنت مؤهلاً</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>كيف تُحسب ضريبة الشركات في الإمارات؟</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الدخل الخاضع للضريبة</th><th scope="col">النسبة</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">حتى 375,000 درهم</th><td>0%</td></tr>
+    <tr><th scope="row">ما زاد على 375,000 درهم</th><td>9%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> دخل خاضع 1,000,000 درهم وإيرادات 5 ملايين. الضريبة = 9% × (1,000,000 − 375,000) = <strong>56,250 درهماً</strong>، أي 5.6% فعلياً من الدخل.<br>
+ولو كانت الإيرادات 2.5 مليون والدخل 600,000 فإعفاء الأعمال الصغيرة يجعل الضريبة صفراً بدلاً من 20,250 درهماً.</p>
+</div>
+<h2>إعفاء الأعمال الصغيرة</h2>
+<ul>
+  <li><strong>الشرط:</strong> إيرادات لا تتجاوز 3 ملايين درهم في الفترة الضريبية والفترات السابقة لها.</li>
+  <li><strong>المدة:</strong> الفترات التي تبدأ من 1 يونيو 2023 وتنتهي حتى 31 ديسمبر 2029 بعد تمديده في أغسطس 2026.</li>
+  <li><strong>المستثنون:</strong> الشخص المؤهل في المنطقة الحرة، وعضو المجموعة متعددة الجنسيات التي تتجاوز إيراداتها الموحدة 3.15 مليار درهم.</li>
+  <li><strong>الأثر:</strong> لا ضريبة، لكن لا تُرحَّل خسائر الفترة، ويبقى التسجيل والإقرار واجبين.</li>
+</ul>
+<p>الحاسبة إرشادية ولا تغني عن مستشار ضريبي، خاصة في المجموعات والمناطق الحرة والتعديلات على صافي الربح.</p>
+</div>

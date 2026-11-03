@@ -1,0 +1,113 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-corporate-tax-calculator",
+  "alternate": "uae-corporate-tax",
+  "title": "UAE Corporate Tax Calculator 2026 — 9% Above AED 375,000 and Small Business Relief to 2029",
+  "h1": "UAE Corporate Tax Calculator",
+  "description": "Calculate UAE corporate tax: 0% on taxable income up to AED 375,000 and 9% above, Small Business Relief for revenue up to AED 3 million (extended to tax periods ending by 31 December 2029), tax losses offset up to 75%, and the AED 1 million threshold for individuals.",
+  "short": "0% up to AED 375,000, 9% above, Small Business Relief and loss relief",
+  "lead": "Enter your revenue, taxable income and losses brought forward to see whether Small Business Relief applies and how much tax is due.",
+  "country": "ae",
+  "category": "tax",
+  "tool": true,
+  "script": "en-uae-corporate-tax.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-vat", "en-dubai-mortgage-fees", "en-dubai-rent-increase"],
+  "faq": [
+    {"q": "What is the corporate tax rate in the UAE?", "a": "0% on taxable income up to AED 375,000 and 9% on the amount above it, for tax periods starting on or after 1 June 2023. Example: taxable income of AED 1 million = 9% × 625,000 = AED 56,250."},
+    {"q": "What is Small Business Relief and who can use it?", "a": "A resident person whose revenue does not exceed AED 3 million in the tax period and previous periods may elect to be treated as having no taxable income, so no tax is due. Ministerial Decision 131 of 2026 extended it to tax periods ending on or before 31 December 2029. It is not available to Qualifying Free Zone Persons or to members of multinational groups with consolidated revenue above AED 3.15 billion."},
+    {"q": "Does Small Business Relief remove the need to register and file?", "a": "No. The relief is an election made in the tax return; registration, filing and record-keeping still apply."},
+    {"q": "Is my salary or personal investment income taxed?", "a": "No. Employment income, personal investments and real estate that does not need a licence are outside corporate tax. A natural person running a business is taxable if the business's turnover exceeds AED 1 million a year."},
+    {"q": "How are tax losses used?", "a": "Tax losses carry forward and can offset up to 75% of the taxable income of a later period, with the rest carried forward again. Losses of a period in which you elect Small Business Relief cannot be carried forward."},
+    {"q": "Does the calculator cover free zone companies?", "a": "Not Qualifying Free Zone Persons, who pay 0% on qualifying income and 9% on other income under special conditions. A non-qualifying free zone company is calculated like any other company."}
+  ],
+  "sources": [
+    {"t": "Khaleej Times — Small Business Relief extended to 2029 by Ministerial Decision 131 (August 2026)", "u": "https://khaleejtimes.com/business/uae-extends-corporate-tax-relief-for-small-businesses-until-2029"},
+    {"t": "CMS — Small Business Relief criteria and exclusions (Ministerial Decision 73/2023)", "u": "https://cms.law/en/omn/legal-updates/uae-corporate-tax-small-business-relief-criteria"},
+    {"t": "Khaleej Times — Ministry of Finance on the AED 375,000 threshold and individuals (May 2023)", "u": "https://www.khaleejtimes.com/business/uae-will-9-corporate-tax-apply-to-personal-income-investments-ministry-clarifies"},
+    {"t": "PwC Middle East — UAE corporate income tax (75% loss relief cap)", "u": "https://www.pwc.com/m1/en/services/tax/corporate-income-tax.html"},
+    {"t": "UAE Federal Tax Authority", "u": "https://tax.gov.ae"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate corporate tax</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field full">
+        <label for="person">Taxable person</label>
+        <select id="person" name="person">
+          <option value="company">Mainland or (non-qualifying) free zone company</option>
+          <option value="individual">Individual running a business (sole establishment or freelancer)</option>
+          <option value="qfzp">Qualifying Free Zone Person</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="revenue">Revenue for the tax period (AED)</label>
+        <input type="number" id="revenue" name="revenue" inputmode="decimal" min="0" step="1000" value="2500000" required>
+        <span class="hint">Total revenue, not profit.</span>
+      </div>
+      <div class="field">
+        <label for="income">Taxable income (AED)</label>
+        <input type="number" id="income" name="income" inputmode="decimal" step="1000" value="600000" required>
+        <span class="hint">Net profit after tax adjustments.</span>
+      </div>
+      <div class="field">
+        <label for="losses">Tax losses brought forward (AED)</label>
+        <input type="number" id="losses" name="losses" inputmode="decimal" min="0" step="1000" value="0">
+      </div>
+      <div class="field">
+        <label for="year">Tax period ends in</label>
+        <select id="year" name="year">
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026" selected>2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+          <option value="2029">2029</option>
+          <option value="2030">2030</option>
+        </select>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="mne" name="mne">
+        <label for="mne">Member of a multinational group with consolidated revenue above AED 3.15 billion</label>
+      </div>
+      <div class="field full inline">
+        <input type="checkbox" id="sbr" name="sbr" checked>
+        <label for="sbr">Elect Small Business Relief if eligible</label>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How UAE corporate tax is calculated</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Taxable income</th><th scope="col">Rate</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Up to AED 375,000</th><td>0%</td></tr>
+    <tr><th scope="row">Above AED 375,000</th><td>9%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> taxable income AED 1,000,000 and revenue AED 5 million. Tax = 9% × (1,000,000 − 375,000) = <strong>AED 56,250</strong>, an effective 5.6% of income.<br>
+With revenue of AED 2.5 million and income of AED 600,000, Small Business Relief brings the tax to zero instead of AED 20,250.</p>
+</div>
+<h2>Small Business Relief</h2>
+<ul>
+  <li><strong>Condition:</strong> revenue of no more than AED 3 million in the tax period and the previous periods.</li>
+  <li><strong>Period:</strong> tax periods starting from 1 June 2023 and ending by 31 December 2029, after the August 2026 extension.</li>
+  <li><strong>Excluded:</strong> Qualifying Free Zone Persons and members of multinational groups with consolidated revenue above AED 3.15 billion.</li>
+  <li><strong>Effect:</strong> no tax, but the period's losses are not carried forward, and registration and filing still apply.</li>
+</ul>
+<p>This calculator is a guide and not a substitute for a tax adviser, especially for groups, free zones and adjustments to net profit. Prefer Arabic? Use the <a href="{{root}}uae-corporate-tax/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

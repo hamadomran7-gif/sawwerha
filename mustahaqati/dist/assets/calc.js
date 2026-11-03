@@ -1607,3 +1607,57 @@ export function ksaMilitaryPension({ lastSalary, months, civilMonths = 0, age = 
   const eligible = m >= M.minActualMonths || (total >= M.minCombinedMonths && m >= M.minMilitaryWithinCombined) || nz(age) >= M.pensionAtAge;
   return { counted, pct: counted / M.divisorMonths, pension: r2((nz(lastSalary) * counted) / M.divisorMonths), eligible };
 }
+
+/* ------------------------------------------------------------------ */
+/* الإمارات — ضريبة الشركات                                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * ضريبة الشركات: 0% حتى 375,000 درهم من الدخل الخاضع و9% على ما زاد.
+ * إعفاء الأعمال الصغيرة (اختياري): إيرادات ≤ 3 ملايين، للفترات المنتهية حتى 31/12/2029، ولا يشمل الشخص المؤهل في المنطقة الحرة ولا عضو المجموعة متعددة الجنسيات.
+ * الخسائر المرحلة تُخصم بحد 75% من الدخل الخاضع للفترة.
+ */
+export function uaeCorporateTax({ taxableIncome, revenue, losses = 0, person = "company", mne = false, periodEndYear = 2026, electSbr = true }) {
+  const C = rules.ae.corporateTax;
+  const ti = Number(taxableIncome) || 0;
+  const rev = Math.max(0, Number(revenue) || 0);
+  const lossesIn = Math.max(0, Number(losses) || 0);
+  if (person === "individual" && rev <= C.naturalPersonTurnover) {
+    return { status: "outOfScope", tax: 0, taxWithoutSbr: 0, lossUsed: 0, lossLeft: lossesIn, taxableAfterLoss: Math.max(0, ti), sbrEligible: false, effective: 0 };
+  }
+  const sbrEligible = person !== "qfzp" && !mne && rev <= C.sbrRevenueMax && Number(periodEndYear) <= C.sbrLastPeriodEndYear;
+  const lossUsed = ti > 0 ? Math.min(lossesIn, ti * C.lossOffsetCap) : 0;
+  const taxableAfterLoss = Math.max(0, ti - lossUsed);
+  const taxStd = Math.max(0, taxableAfterLoss - C.zeroBand) * C.rate;
+  const sbr = sbrEligible && electSbr;
+  return {
+    status: sbr ? "sbr" : "taxable",
+    tax: sbr ? 0 : r2(taxStd),
+    taxWithoutSbr: r2(taxStd),
+    lossUsed: sbr ? 0 : r2(lossUsed),
+    lossLeft: sbr ? lossesIn : r2(lossesIn - lossUsed),
+    taxableAfterLoss: r2(taxableAfterLoss),
+    sbrEligible,
+    effective: !sbr && ti > 0 ? taxStd / ti : 0,
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/* دبي — زيادة الإيجار (المرسوم 43/2013)                                */
+/* ------------------------------------------------------------------ */
+
+/** أقصى زيادة عند التجديد بحسب نسبة انخفاض الإيجار الحالي عن متوسط المؤشر لوحدات مماثلة. */
+export function dubaiRentIncrease({ rent, average }) {
+  const R = rules.ae.dubaiRent;
+  const cur = Math.max(0, Number(rent) || 0);
+  const avg = Math.max(0, Number(average) || 0);
+  if (!cur || !avg) return null;
+  const gapPct = ((avg - cur) / avg) * 100;
+  let pct = 0;
+  if (gapPct > 0) {
+    const band = R.bands.find(([upTo]) => gapPct <= upTo) || R.bands[R.bands.length - 1];
+    pct = band[1];
+  }
+  const maxRent = cur * (1 + pct);
+  return { gapPct: Math.round(gapPct * 100) / 100, pct, increase: r2(cur * pct), maxRent: r2(maxRent), monthlyIncrease: r2((cur * pct) / 12) };
+}

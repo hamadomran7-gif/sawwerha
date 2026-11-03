@@ -792,3 +792,37 @@ test("الراتب الصافي: السكن العيني يدخل الوعاء �
   near(r.gross, 13000);
   near(r.net, 13000 - 14000 * 0.0975);
 });
+
+import { uaeCorporateTax, dubaiRentIncrease } from "../src/assets/calc.js";
+
+test("ضريبة الشركات في الإمارات", () => {
+  near(uaeCorporateTax({ taxableIncome: 1000000, revenue: 5000000 }).tax, 56250);
+  const s = uaeCorporateTax({ taxableIncome: 600000, revenue: 2500000 });
+  assert.equal(s.status, "sbr");
+  near(s.tax, 0);
+  near(s.taxWithoutSbr, 20250);
+  near(uaeCorporateTax({ taxableIncome: 600000, revenue: 2500000, electSbr: false }).tax, 20250);
+  near(uaeCorporateTax({ taxableIncome: 600000, revenue: 2500000, periodEndYear: 2030 }).tax, 20250);
+  near(uaeCorporateTax({ taxableIncome: 600000, revenue: 2500000, mne: true }).tax, 20250);
+  const l = uaeCorporateTax({ taxableIncome: 1000000, revenue: 5000000, losses: 500000 });
+  near(l.lossUsed, 500000);
+  near(l.tax, 11250);
+  const l2 = uaeCorporateTax({ taxableIncome: 1000000, revenue: 5000000, losses: 900000 });
+  near(l2.lossUsed, 750000);
+  near(l2.lossLeft, 150000);
+  near(l2.tax, 0);
+  assert.equal(uaeCorporateTax({ taxableIncome: 400000, revenue: 800000, person: "individual" }).status, "outOfScope");
+  near(uaeCorporateTax({ taxableIncome: 400000, revenue: 4000000, person: "individual" }).tax, 2250);
+});
+
+test("زيادة الإيجار في دبي (المرسوم 43/2013)", () => {
+  const a = dubaiRentIncrease({ rent: 80000, average: 100000 });
+  near(a.pct, 0.05);
+  near(a.maxRent, 84000);
+  near(dubaiRentIncrease({ rent: 95000, average: 100000 }).pct, 0);
+  near(dubaiRentIncrease({ rent: 90000, average: 100000 }).pct, 0);
+  near(dubaiRentIncrease({ rent: 75000, average: 100000 }).maxRent, 82500);
+  near(dubaiRentIncrease({ rent: 65000, average: 100000 }).maxRent, 74750);
+  near(dubaiRentIncrease({ rent: 55000, average: 100000 }).maxRent, 66000);
+  near(dubaiRentIncrease({ rent: 110000, average: 100000 }).pct, 0);
+});
