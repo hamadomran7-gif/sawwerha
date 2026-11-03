@@ -330,6 +330,69 @@ export default {
         "routeMotherServiceFinal": 25,
         "minCreditedYears": 15
       }
+    },
+    "emiratisation": {
+      "largeMin": 50,
+      "smallMin": 20,
+      "smallMax": 49,
+      "perSkilled": 50,
+      "minPerYear": 1,
+      "firstYear": 2022,
+      "deadlines": [
+        {
+          "date": "2025-12-31",
+          "fullSteps": 4,
+          "half": 0,
+          "pct": 0.08,
+          "contrib": 108000,
+          "collect": "2026-01-01"
+        },
+        {
+          "date": "2026-06-30",
+          "fullSteps": 4,
+          "half": 1,
+          "pct": 0.09,
+          "contrib": 60000,
+          "collect": "2026-07-01"
+        },
+        {
+          "date": "2026-12-31",
+          "fullSteps": 5,
+          "half": 0,
+          "pct": 0.1,
+          "contrib": 120000,
+          "collect": "2027-01-01"
+        }
+      ],
+      "monthly": {
+        "2022": 6000,
+        "2023": 7000,
+        "2024": 8000,
+        "2025": 9000,
+        "2026": 10000
+      },
+      "small": {
+        "required": {
+          "2024": 1,
+          "2025": 2
+        },
+        "contrib": {
+          "2024": 96000,
+          "2025": 108000
+        }
+      },
+      "minSalary": 6000,
+      "minSalaryCountFrom": "2026-07-01",
+      "skilledMinSalary": 4000,
+      "exemptShare": 0.7,
+      "graceMonths": 2,
+      "fakeMin": 20000,
+      "fakeMax": 100000,
+      "circumvent": [
+        100000,
+        300000,
+        500000
+      ]
     }
   },
   "sa": {

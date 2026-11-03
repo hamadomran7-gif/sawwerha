@@ -2087,6 +2087,49 @@ export function abuDhabiPension({ category = "new", gender = "m", children = 0, 
   };
 }
 
+/**
+ * الإمارات — مستهدفات التوطين في القطاع الخاص (القرار الوزاري 279/2022 و455/2023).
+ * منشآت 50 عاملاً فأكثر: نمو 2% سنوياً في الوظائف المهارية (1% لكل نصف منذ 2023)، 10% بنهاية 2026.
+ * القراءة A — جدول القرار 279: مواطن لكل 50 عاملاً ماهراً أو جزء منها كل سنة، وحد أدنى 1، تراكمياً فوق مواطني خط الأساس؛
+ *   النصف الأول = ⌈الزيادة السنوية ÷ 2⌉ (افتراض: لا نص).
+ * القراءة B — ⌈النسبة التراكمية × العمالة الماهرة⌉.
+ * منشآت 20–49 في 14 نشاطاً: مواطن في 2024 وآخر في 2025 (96,000 / 108,000 عن كل ناقص).
+ * إعفاء (ثانوي): مواطنو المنشأة 70% فأكثر من إجمالي عمالتها.
+ */
+export function uaeEmiratisation({ total, skilled, emiratis = 0, baseline = 0, sector14 = false }) {
+  const E = rules.ae.emiratisation;
+  const int = (x) => Math.max(0, Math.floor(Number(x) || 0));
+  const W = int(total);
+  if (!W) return null;
+  const S = Math.min(int(skilled), W);
+  const have = Math.min(int(emiratis), W);
+  const base = int(baseline);
+  const exempt = have / W >= E.exemptShare;
+  if (W >= E.largeMin) {
+    const inc = Math.max(E.minPerYear, Math.ceil(S / E.perSkilled));
+    const deadlines = E.deadlines.map((d) => {
+      const a = base + inc * d.fullSteps + (d.half ? Math.ceil(inc / 2) : 0);
+      const b = Math.ceil(d.pct * S - 1e-9);
+      const shortA = Math.max(0, a - have);
+      const shortB = Math.max(0, b - have);
+      return {
+        date: d.date, pct: d.pct, half: !!d.half, per: d.contrib, collect: d.collect, a, b, shortA, shortB,
+        contribA: exempt ? 0 : shortA * d.contrib, contribB: exempt ? 0 : shortB * d.contrib,
+      };
+    });
+    return { scope: "large", W, S, have, base, inc, exempt, deadlines, share: have / W };
+  }
+  if (W >= E.smallMin && sector14) {
+    const years = Object.keys(E.small.required).map((y) => {
+      const req = E.small.required[y];
+      const short = Math.max(0, req - have);
+      return { year: Number(y), required: req, short, per: E.small.contrib[y], contrib: exempt ? 0 : short * E.small.contrib[y] };
+    });
+    return { scope: "small", W, S, have, exempt, years, share: have / W };
+  }
+  return { scope: "none", W, S, have, small: W >= E.smallMin, share: have / W };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

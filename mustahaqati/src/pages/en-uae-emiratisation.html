@@ -1,0 +1,116 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-emiratisation-calculator",
+  "alternate": "uae-emiratisation",
+  "title": "UAE Emiratisation Calculator 2026 — Emiratis Required and the AED 120,000 Contribution per Shortfall",
+  "h1": "UAE Emiratisation Calculator",
+  "description": "Work out how many Emiratis your company needs by the end of 2026 (10% cumulative growth in skilled jobs for companies with 50 or more workers, 1% every six months) under two readings — the Ministerial Resolution 279 table (one Emirati per 50 skilled workers or part of 50 each year) and a flat 10% — plus the shortfall, the AED 10,000-a-month contribution per missing Emirati and the target for companies with 20 to 49 workers.",
+  "short": "10% by the end of 2026, AED 120,000 per missing Emirati, and both counting methods",
+  "lead": "Enter your total workforce, the number in skilled jobs and the Emiratis who count today to see the requirement at the 30 June and 31 December 2026 deadlines, the shortfall and the expected contribution.",
+  "country": "ae",
+  "category": "salary",
+  "tool": true,
+  "script": "en-uae-emiratisation.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-ksa-nitaqat", "en-uae-pension", "en-uae-corporate-tax", "en-uae-gratuity"],
+  "faq": [
+    {"q": "What is the Emiratisation target for 2026?", "a": "Private-sector companies with 50 or more workers must grow Emirati employment in skilled jobs by 2% a year, split since 2023 into 1% every six months, reaching 10% cumulatively by the end of 2026. The 2026 deadlines are 30 June and 31 December; no 2027 targets had been announced by November 2026."},
+    {"q": "How much is the Emiratisation contribution per missing Emirati in 2026?", "a": "AED 10,000 a month for each Emirati not hired, or AED 120,000 for 2026; the amount has risen by AED 1,000 a month every year since AED 6,000 in 2022. First-half shortfalls are collected from 1 July and year-end shortfalls from the start of the following year."},
+    {"q": "How is the number of Emiratis required calculated?", "a": "The table in Ministerial Resolution 279 of 2022 sets the yearly increase: one Emirati for up to 50 skilled workers, two for 51 to 100, three for 101 to 150, then one for every 50 skilled workers or part of 50, added up year after year. Some calculators simply take 10% of skilled workers, and the difference is large when the skilled headcount is not a multiple of 50. The binding figure is what MoHRE's system shows for your company."},
+    {"q": "Who counts as a skilled worker for Emiratisation?", "a": "Someone in occupational skill levels 1 to 5 (managers, professionals, technicians, clerical, and services and sales), with an attested qualification above secondary school and a salary of at least AED 4,000, excluding commission."},
+    {"q": "Which Emirati employees count towards the target?", "a": "Those with a valid work permit, registered with an approved pension fund, paid through the Wage Protection System, under a genuine contract in a skilled job. From 1 July 2026 an Emirati paid less than AED 6,000 a month does not count, and the company's new work permits are suspended until it is corrected."},
+    {"q": "What do companies with 20 to 49 workers need to do?", "a": "Companies in 14 economic activities (including IT and communications, finance, real estate, education, health, construction, trade, transport and hospitality) had to hire one Emirati in 2024 and another in 2025, or pay AED 96,000 for a 2024 shortfall and AED 108,000 for a 2025 shortfall, which can be paid monthly. No 2026 target had been announced for them by November 2026, so they must keep their Emiratis."},
+    {"q": "What is the penalty for fake Emiratisation?", "a": "AED 20,000 to 100,000 per Emirati under Cabinet Resolution 95 of 2022, and since the August 2024 Labour Law amendment a fine of AED 100,000 to 1 million multiplied by the number of fictitiously employed Emiratis, along with a lower company classification and recovery of Nafis support."}
+  ],
+  "sources": [
+    {"t": "Ministry of Human Resources and Emiratisation — Emiratisation targets", "u": "https://mohre.gov.ae/en/guidance-and-awareness-portal-new/emiratisation-targets"},
+    {"t": "Ministerial Resolution 279 of 2022 on monitoring Emiratisation rates in the private sector (June 2022)", "u": "https://government.ae/-/media/Images-2022/MoHRE-resolutions-2022/Ministerial-Resolution-No279-of-2022-Monitoring-Mechanisms-of-Emiratisation-Rates-in-the-Private-Sec.pdf"},
+    {"t": "Ministerial Resolution 455 of 2023 on companies with 20–49 workers (July 2023, Arabic)", "u": "https://u.ae/-/media/Documents-2nd-half-2023/Ar-Ministerial-Resolution-No-455-of-2023.ashx"},
+    {"t": "MoHRE — minimum salary of AED 6,000 for Emiratis in the private sector (31 December 2025)", "u": "https://mohre.gov.ae/en/media-center/news/31/12/2025/mohre-raises-minimum-wage-for-emiratis-in-the-private-sector-to-aed-6000-per-month-effective-1"},
+    {"t": "Gulf News — AED 120,000 per missing Emirati in 2026 (29 June 2026)", "u": "https://gulfnews.com/business/tomorrow-is-last-day-to-meet-emiratisation-targets-or-face-dh120000-penalties-1.500590929"},
+    {"t": "Gulf Today — Ministry reaffirms the 30 June 2026 deadline (22 June 2026)", "u": "https://www.gulftoday.ae/news/2026/06/22/uae-ministry-reaffirms-june-30-deadline-for-private-sector-emiratisation-targets"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your company's target</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="total">Total workers in the company</label>
+        <input type="number" id="total" name="total" inputmode="decimal" min="1" step="1" value="80" required>
+      </div>
+      <div class="field" data-large>
+        <label for="skilled">Of whom in skilled jobs</label>
+        <input type="number" id="skilled" name="skilled" inputmode="decimal" min="0" step="1" value="60">
+        <span class="hint">Skill levels 1–5, a qualification above secondary school and a salary of AED 4,000 or more.</span>
+      </div>
+      <div class="field">
+        <label for="emiratis">Emiratis who count today</label>
+        <input type="number" id="emiratis" name="emiratis" inputmode="decimal" min="0" step="1" value="8" required>
+        <span class="hint">In skilled jobs, paid AED 6,000 or more, registered for pension and WPS.</span>
+      </div>
+      <div class="field" data-large>
+        <label for="baseline">Emiratis you had before the scheme began in 2022 (optional)</label>
+        <input type="number" id="baseline" name="baseline" inputmode="decimal" min="0" step="1" value="0">
+        <span class="hint">The resolution requires raising your "current" rate, so the table reading adds the growth on top of them.</span>
+      </div>
+      <div class="field full" data-small>
+        <label for="sector14">Is your company in one of the 14 targeted activities?</label>
+        <select id="sector14" name="sector14">
+          <option value="yes" selected>Yes (IT and communications, finance, real estate, professional, admin support, education, health, arts, mining, manufacturing, construction, trade, transport, hospitality)</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>The Resolution 279 table: Emiratis required each year</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Skilled workers</th><th scope="col">Yearly increase</th><th scope="col">By end of 2025 (4 years)</th><th scope="col">By end of 2026 (5 years)</th><th scope="col">At 10%</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">30</th><td>1</td><td>4</td><td>5</td><td>3</td></tr>
+    <tr><th scope="row">50</th><td>1</td><td>4</td><td>5</td><td>5</td></tr>
+    <tr><th scope="row">60</th><td>2</td><td>8</td><td>10</td><td>6</td></tr>
+    <tr><th scope="row">100</th><td>2</td><td>8</td><td>10</td><td>10</td></tr>
+    <tr><th scope="row">120</th><td>3</td><td>12</td><td>15</td><td>12</td></tr>
+    <tr><th scope="row">150</th><td>3</td><td>12</td><td>15</td><td>15</td></tr>
+    <tr><th scope="row">200</th><td>4</td><td>16</td><td>20</td><td>20</td></tr>
+    <tr><th scope="row">500</th><td>10</td><td>40</td><td>50</td><td>50</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The two readings match when the skilled headcount is a multiple of 50 and differ otherwise, because the table counts "part of 50" as a whole Emirati. We found no text on rounding the half-year 1% step, so we assume half the yearly increase, rounded up.</p>
+
+<h2>Contribution per missing Emirati</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Target year</th><th scope="col">Monthly</th><th scope="col">For the year</th><th scope="col">Collected from</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">2024</th><td>8,000</td><td>96,000</td><td>January 2025</td></tr>
+    <tr><th scope="row">2025</th><td>9,000</td><td>108,000</td><td>January 2026</td></tr>
+    <tr><th scope="row">First half of 2026</th><td>10,000</td><td>about 60,000</td><td>1 July 2026</td></tr>
+    <tr><th scope="row">2026</th><td>10,000</td><td>120,000</td><td>January 2027 (expected)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>No contribution is charged if the company restores its rate within two months of a drop (when an Emirati resigns, for example). Companies whose Emiratis make up 70% or more of their total workforce were exempted from contributions in a January 2023 amendment. The Emiratisation Partners Club gives up to 80% off ministry fees and priority in government procurement to companies that far exceed their targets.</p>
+
+<div class="example">
+<p><strong>Examples:</strong><br>
+A company with 80 workers, 60 of them in skilled jobs, and 8 Emiratis: the table requires two Emiratis a year, so 10 by the end of 2026, a shortfall of 2 and a contribution of <strong>AED 240,000</strong>. At a flat 10% it needs 6, so no shortfall.<br>
+A company with 900 workers, 600 of them skilled, and 50 Emiratis: both readings require 60 by the end of 2026, a shortfall of 10 and a contribution of <strong>AED 1,200,000</strong>.<br>
+A construction company with 30 workers and one Emirati at the end of 2025: it needed 2, so a shortfall of 1 and a contribution of <strong>AED 108,000</strong>, payable from January 2026 and allowed in monthly instalments.</p>
+</div>
+<p>This is an estimate that assumes your skilled headcount has not changed since 2022; the binding figure is what the Ministry of Human Resources and Emiratisation shows for your company in its system. It covers mainland companies registered with the ministry, not free zones. Private healthcare has an extra rule: half of the annual target must be in specialised health jobs, assessed from 2027. For Emirati employees' pension contributions, see the <a href="{{root}}en/uae-pension-calculator/{{ix}}">UAE pension calculator</a>, and to compare with Saudi Arabia, see the <a href="{{root}}en/saudi-nitaqat-saudization-calculator/{{ix}}">Nitaqat calculator</a>. Prefer Arabic? Use the <a href="{{root}}uae-emiratisation/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

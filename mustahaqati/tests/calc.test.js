@@ -34,6 +34,7 @@ import {
   gccPensionCompare,
   abuDhabiPension,
   adPeriod,
+  uaeEmiratisation,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1080,4 +1081,44 @@ test("أبوظبي — معاش صندوق أبوظبي بعد القانون 18
   assert.equal(e7.eligible, false);
   assert.equal(e7.next.date, "2026-07-01");
   assert.equal(e7.next.track, "routeMotherAge");
+});
+
+test("الإمارات — مستهدفات التوطين", () => {
+  const at = (r, date) => r.deadlines.find((d) => d.date === date);
+  // S = 60: جدول القرار 2 سنوياً → 8 / 9 / 10، والنسبة → 5 / 6 / 6
+  const r60 = uaeEmiratisation({ total: 80, skilled: 60, emiratis: 8 });
+  assert.equal(r60.scope, "large");
+  assert.equal(r60.inc, 2);
+  assert.deepEqual([at(r60, "2025-12-31").a, at(r60, "2026-06-30").a, at(r60, "2026-12-31").a], [8, 9, 10]);
+  assert.deepEqual([at(r60, "2025-12-31").b, at(r60, "2026-06-30").b, at(r60, "2026-12-31").b], [5, 6, 6]);
+  assert.equal(at(r60, "2026-06-30").contribA, 60000);
+  assert.equal(at(r60, "2026-12-31").contribA, 240000);
+  assert.equal(at(r60, "2026-12-31").contribB, 0);
+  // S = 150 → 12 / 14 / 15 بالطريقتين
+  const r150 = uaeEmiratisation({ total: 200, skilled: 150, emiratis: 13 });
+  assert.deepEqual([at(r150, "2025-12-31").a, at(r150, "2026-06-30").a, at(r150, "2026-12-31").a], [12, 14, 15]);
+  assert.deepEqual([at(r150, "2025-12-31").b, at(r150, "2026-06-30").b, at(r150, "2026-12-31").b], [12, 14, 15]);
+  // S = 600 → 60 بنهاية 2026، و50 مواطناً → نقص 10 = 1,200,000
+  const r600 = uaeEmiratisation({ total: 900, skilled: 600, emiratis: 50 });
+  assert.equal(at(r600, "2026-12-31").a, 60);
+  assert.equal(at(r600, "2026-12-31").contribA, 1200000);
+  assert.equal(at(r600, "2026-06-30").contribA, 240000);
+  // الحد الأدنى مواطن سنوياً: W = 55، S = 30 → 4 / 5 / 5 مقابل 3 / 3 / 3
+  const r30 = uaeEmiratisation({ total: 55, skilled: 30, emiratis: 0 });
+  assert.deepEqual([at(r30, "2025-12-31").a, at(r30, "2026-06-30").a, at(r30, "2026-12-31").a], [4, 5, 5]);
+  assert.deepEqual([at(r30, "2025-12-31").b, at(r30, "2026-06-30").b, at(r30, "2026-12-31").b], [3, 3, 3]);
+  // خط الأساس يضاف في القراءة A فقط
+  const rb = uaeEmiratisation({ total: 120, skilled: 100, emiratis: 10, baseline: 3 });
+  assert.equal(at(rb, "2026-12-31").a, 13);
+  assert.equal(at(rb, "2026-12-31").b, 10);
+  // إعفاء 70%
+  assert.equal(uaeEmiratisation({ total: 60, skilled: 50, emiratis: 42 }).exempt, true);
+  assert.equal(at(uaeEmiratisation({ total: 60, skilled: 60, emiratis: 42 }), "2026-12-31").contribA, 0);
+  // 20–49 في الأنشطة الـ14
+  const s = uaeEmiratisation({ total: 30, skilled: 20, emiratis: 1, sector14: true });
+  assert.equal(s.scope, "small");
+  assert.equal(s.years.find((y) => y.year === 2025).short, 1);
+  assert.equal(s.years.find((y) => y.year === 2025).contrib, 108000);
+  assert.equal(uaeEmiratisation({ total: 30, skilled: 20, emiratis: 1, sector14: false }).scope, "none");
+  assert.equal(uaeEmiratisation({ total: 12, skilled: 5 }).scope, "none");
 });
