@@ -1,0 +1,116 @@
+---json
+{
+  "title": "حاسبة تكلفة تأشيرة الأسرة في عُمان 2026 — 30 ريالاً للتأشيرة وبطاقة المقيم 5 إلى 15",
+  "h1": "حاسبة تكلفة إقامة الأسرة في عُمان",
+  "description": "احسب رسوم إقامة الزوجة والأبناء والوالدين في عُمان: تأشيرة الالتحاق بعائل 30 ريالاً وتجديدها 30، وبطاقة المقيم 5 ريالات لسنة و10 لسنتين و15 لثلاث للبالغين والأطفال فوق 10 سنوات، والفحص الطبي 30، وشرط الراتب 150 ريالاً منذ فبراير 2023.",
+  "short": "تأشيرة 30 ريالاً وتجديد 30، وبطاقة مقيم 5–15، وفحص 30، وشرط راتب 150",
+  "lead": "أدخل عدد أفراد أسرتك ومدة الإقامة، وتظهر الرسوم عند الإصدار والكلفة السنوية بعدها.",
+  "country": "om",
+  "category": "fees",
+  "tool": true,
+  "script": "gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "oman-net-salary",
+    "oman-end-of-service",
+    "oman-leave",
+    "ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "كم رسوم تأشيرة الالتحاق بعائل في عُمان؟",
+      "a": "30 ريالاً للتأشيرة و30 لكل تجديد، وبطاقة المقيم 5 ريالات لسنة و10 لسنتين و15 لثلاث سنوات منذ القرار 78/2025، وتلزم البالغين والأطفال فوق 10 سنوات."
+    },
+    {
+      "q": "ما الراتب المطلوب لاستقدام الأسرة في عُمان؟",
+      "a": "150 ريالاً شهرياً منذ فبراير 2023، وكان 350، وما زالت صفحة إنجليزية قديمة للشرطة تذكر 600."
+    },
+    {
+      "q": "هل التأمين الصحي إلزامي للتابعين في عُمان؟",
+      "a": "لم نجد إلزاماً بالتأمين الصحي للتابعين حتى نوفمبر 2026، فالحاسبة لا تضيفه."
+    }
+  ],
+  "sources": [
+    {
+      "t": "البوابة الحكومية العُمانية — تجديد تأشيرة الالتحاق بعائل (5/8/2025)",
+      "u": "https://gov.om/en/w/renew-joining-relatives-visa"
+    },
+    {
+      "t": "البوابة الحكومية العُمانية — تأشيرة عائلية (28/12/2025)",
+      "u": "https://gov.om/en/w/get-family-visa"
+    },
+    {
+      "t": "Gulf News — بطاقة المقيم لسنة إلى 3 سنوات بالقرار 78/2025 (11/8/2025)",
+      "u": "https://gulfnews.com/world/gulf/oman/oman-introduces-flexible-1-3-year-expat-residence-cards-extends-omani-id-validity-to-10-years-1.500228935"
+    },
+    {
+      "t": "Times of Oman — خفض الراتب المطلوب لاستقدام الأسر (15/2/2023)",
+      "u": "https://timesofoman.com/article/127017-minimum-salary-needed-to-bring-expat-families-slashed"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة إقامة أسرتك</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>مع الزوجة أو الزوج</option>
+          <option value="0">بلا</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="over10">منهم فوق 10 سنوات</label>
+        <input type="number" id="over10" name="over10" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">عدد الوالدين</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">مدة الإقامة</label>
+        <select id="years" name="years">
+          <option value="2" selected>سنتان</option>
+          <option value="1">سنة واحدة</option>
+          <option value="3">3 سنوات</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (ريال، اختياري)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>رسوم إقامة الأسرة في عُمان</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">المبلغ (ريال)</th><th scope="col">لمن ومتى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">تأشيرة الالتحاق بعائل</th><td>30</td><td>الزوجة والأبناء دون 21، أول مرة</td></tr>
+    <tr><th scope="row">تجديد التأشيرة</th><td>30</td><td>كل تجديد</td></tr>
+    <tr><th scope="row">تأشيرة عائلية للوالدين</th><td>30</td><td>بتقدير الجهة</td></tr>
+    <tr><th scope="row">بطاقة المقيم</th><td>5 لسنة، 10 لسنتين، 15 لثلاث</td><td>البالغون والأطفال فوق 10</td></tr>
+    <tr><th scope="row">الفحص الطبي</th><td>30</td><td>البالغون، كل إصدار وتجديد</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> زوجة وطفلان فوق 10 سنوات، دورة سنتين: تأشيرات 90 وبطاقات 30 وفحص 30 = <strong>150 ريالاً</strong>، ثم 75 ريالاً سنوياً. وإن كان الطفلان دون 10 سنوات تنقص 20 ريالاً.</p>
+</div>
+<p>يُشترط راتب 150 ريالاً على الأقل منذ فبراير 2023. وخُفض رسم بطاقة المقيم في 2025 إلى 5 و10 و15 ريالاً بدل 6 و11. ولراتبك الصافي بعد التأمينات استخدم <a href="{{root}}oman-net-salary/{{ix}}">حاسبة الراتب الصافي في عُمان</a>.</p>
+</div>

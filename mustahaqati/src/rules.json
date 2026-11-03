@@ -2263,6 +2263,102 @@
       "om": 0.05,
       "qa": 0,
       "kw": 0
+    },
+    "familyResidence": {
+      "lastReview": "2026-11-03",
+      "ae-icp": {
+        "currency": "AED",
+        "salaryMin": 4000,
+        "salaryMinHousing": 3000,
+        "entry": 300,
+        "inside": 500,
+        "resApp": 100,
+        "resYear": 100,
+        "resSmart": 100,
+        "eidYear": 100,
+        "eidSmart": 100,
+        "medical": 250,
+        "parentDeposit": 5000,
+        "parentDepositFee": 20,
+        "insurance": 0,
+        "maxYears": 3
+      },
+      "ae-dubai": {
+        "currency": "AED",
+        "salaryMin": 4000,
+        "salaryMinHousing": 3000,
+        "entry": 200,
+        "vat": 0.05,
+        "inside": 520,
+        "resUpTo2": 200,
+        "resExtraYear": 100,
+        "resExtras": 40,
+        "eidYear": 100,
+        "eidSmart": 100,
+        "medical": 320,
+        "insurance": 600,
+        "maxYears": 3
+      },
+      "qa": {
+        "currency": "QAR",
+        "salaryMin": 10000,
+        "salaryMinHousing": 6000,
+        "entry": 200,
+        "permitYear": 400,
+        "permitYearAlt": 500,
+        "threeYearDiscount": 0.2,
+        "idCard": 100,
+        "medical": 100,
+        "insurance": 0,
+        "maxYears": 3
+      },
+      "kw": {
+        "currency": "KWD",
+        "salaryMin": 800,
+        "entry": 10,
+        "entryHealth": 5,
+        "resYear": {
+          "standard": 20,
+          "partner": 40,
+          "self": 100
+        },
+        "parentYear": 300,
+        "healthYear": 100,
+        "civilId": 5,
+        "insurance": 0,
+        "maxYears": 5,
+        "before": {
+          "resYear": 10,
+          "healthWife": 40,
+          "healthChild": 30
+        }
+      },
+      "bh": {
+        "currency": "BHD",
+        "salaryMin": 400,
+        "salaryMinParents": 1000,
+        "permit": 90,
+        "admin": 5,
+        "cycleYears": 2,
+        "smartCard": 10,
+        "insurance": 0,
+        "insuranceFrom": "2026-09-01"
+      },
+      "om": {
+        "currency": "OMR",
+        "salaryMin": 150,
+        "visa": 30,
+        "renewal": 30,
+        "card": {
+          "1": 5,
+          "2": 10,
+          "3": 15
+        },
+        "cardMinAge": 10,
+        "medical": 30,
+        "insurance": 0,
+        "maxYears": 3
+      }
     }
   },
   "qa": {

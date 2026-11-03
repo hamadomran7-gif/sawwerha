@@ -1,0 +1,152 @@
+---json
+{
+  "lang": "en",
+  "path": "en/uae-family-visa-cost-calculator",
+  "alternate": "uae-family-visa-cost",
+  "title": "UAE Family Visa Cost Calculator 2026 — Fees to Sponsor Your Wife and Children in Dubai and Abu Dhabi",
+  "h1": "UAE Family Visa Cost Calculator",
+  "description": "Work out the fees to sponsor your wife, children and parents in the UAE: entry permit, residence, Emirates ID and medical test in Dubai (residence AED 200 for up to two years) and Abu Dhabi and the other emirates (AED 100 a year plus application and smart service fees), with health insurance and the salary rule of AED 4,000, or 3,000 with housing.",
+  "short": "Entry, residence, Emirates ID and medical in Dubai and Abu Dhabi, and the AED 4,000 (or 3,000 with housing) salary rule",
+  "lead": "Choose your emirate, family members and residence term to see the government fees at issue and the yearly cost after that.",
+  "country": "ae",
+  "category": "fees",
+  "tool": true,
+  "script": "en-gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-uae-overstay-fine",
+    "en-uae-golden-visa",
+    "en-uae-net-salary",
+    "en-ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "How much does a wife's residence visa cost in Dubai?",
+      "a": "Official government fees for a wife for two years come to about AED 1,060: entry permit 210 (200 plus VAT), residence 240 (200 plus knowledge, innovation and delivery fees), a two-year Emirates ID 300 and a medical test 320, plus health insurance (AED 550–650 a year for the basic plan) and service centre fees. Market prices at typing centres are higher."
+    },
+    {
+      "q": "What salary do you need to sponsor your family in the UAE?",
+      "a": "AED 4,000 a month, or AED 3,000 with employer-provided housing, according to the Federal Authority for Identity and Citizenship. For parents the official portal gives no figure; secondary sources cite AED 10,000 or 20,000."
+    },
+    {
+      "q": "How much is the Emirates ID for a dependent?",
+      "a": "AED 100 for each year of residence plus AED 100 for smart services, so a two-year ID costs AED 300 before centre fees."
+    },
+    {
+      "q": "Is a deposit needed to sponsor parents?",
+      "a": "The federal authority requires a refundable guarantee of AED 5,000 per person, up to 15,000, plus a AED 20 deposit fee; Dubai sources cite different deposits."
+    }
+  ],
+  "sources": [
+    {
+      "t": "UAE Government portal — residence visa for family members",
+      "u": "https://u.ae/information-and-services/visa-and-emirates-id/residence-visas/residence-visa-for-family-members"
+    },
+    {
+      "t": "ICP — issuing a residency permit (11 Dec 2024)",
+      "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e64"
+    },
+    {
+      "t": "ICP — new identity card issuance (11 Dec 2024)",
+      "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e5a"
+    },
+    {
+      "t": "GDRFA Dubai — residence for a resident's family members",
+      "u": "https://www.gdrfad.gov.ae/en/node/13961"
+    },
+    {
+      "t": "Gulf News — how to sponsor your wife for a UAE residence visa (5 Aug 2025)",
+      "u": "https://gulfnews.com/living-in-uae/visa-immigration/how-to-sponsor-your-wife-for-a-uae-residence-visa-1.500223090"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your family residence cost</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="emirate">Emirate</label>
+        <select id="emirate" name="emirate">
+          <option value="ae-dubai" selected>Dubai</option>
+          <option value="ae-icp">Abu Dhabi and the other emirates</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>Including a spouse</option>
+          <option value="0">No spouse</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">Number of parents</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">Residence term</label>
+        <select id="years" name="years">
+          <option value="2" selected>2 years</option>
+          <option value="1">1 year</option>
+          <option value="3">3 years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="inside">Is the family already in the UAE?</label>
+        <select id="inside" name="inside">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="insurance">Health insurance per person a year</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="600">
+      </div>
+      <div class="field">
+        <label for="salary">Your monthly salary (AED, optional)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+      <div class="field">
+        <label for="housing">Housing from your employer?</label>
+        <select id="housing" name="housing">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Government fees per person</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Dubai</th><th scope="col">Abu Dhabi and the other emirates</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Entry permit</th><td>200 + 5% VAT</td><td>300 (application + issue + services)</td></tr>
+    <tr><th scope="row">Residence</th><td>200 for up to two years, +100 per extra year, plus 40 in extra fees</td><td>100 application + 100 per year + 100 smart services</td></tr>
+    <tr><th scope="row">Emirates ID</th><td colspan="2">100 per year + 100 smart services</td></tr>
+    <tr><th scope="row">Medical test (18 and over)</th><td>320</td><td>250 in Abu Dhabi (standard)</td></tr>
+    <tr><th scope="row">Change of status inside the UAE</th><td>520</td><td>500</td></tr>
+    <tr><th scope="row">Health insurance</th><td>Basic plan 550–650 a year</td><td>Usually on the employer in Abu Dhabi</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a wife and two children, two-year residence, family outside the UAE.<br>
+In Dubai: entry 630, residence 720, IDs 900 and the wife's medical 320 = <strong>AED 2,570</strong> in government fees, or 4,370 with a year of insurance (600 per person); then about 2,770 a year with insurance.<br>
+In Abu Dhabi: entry 900, residence 1,200, IDs 900 and medical 250 = <strong>AED 3,250</strong>, then about 1,175 a year.</p>
+</div>
+<p>Sponsorship requires a salary of at least AED 4,000, or 3,000 with employer housing, and an attested tenancy contract. A dependent's residence cannot outlast the sponsor's. The figures above are published government fees, unchanged in 2025–2026 as far as we found; service centres add AED 100–300 per application, and newspapers put the real first-year cost in Dubai at about AED 7,000 for a family of three.</p>
+<p>If a renewal is late, work out the fine with the <a href="{{root}}en/uae-overstay-fine-calculator/{{ix}}">overstay fine calculator</a>.</p>
+</div>

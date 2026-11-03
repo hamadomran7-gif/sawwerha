@@ -1,0 +1,120 @@
+---json
+{
+  "title": "حاسبة رسوم إقامة الأسرة في قطر 2026 — رخصة الإقامة والبطاقة وشرط الراتب",
+  "h1": "حاسبة تكلفة إقامة الأسرة في قطر",
+  "description": "احسب رسوم إقامة الزوجة والأبناء في قطر: تأشيرة دخول 200 ريال، ورخصة إقامة 400 ريال لكل سنة بخصم 20% لثلاث سنوات، وبطاقة شخصية 100، وفحص طبي 100، مع التأمين الصحي الإلزامي وشرط الراتب 10,000 ريال أو 6,000 مع سكن عائلي.",
+  "short": "تأشيرة 200 ورخصة 400 سنوياً وبطاقة 100، وشرط 10,000 ريال أو 6,000 مع السكن",
+  "lead": "أدخل عدد أفراد أسرتك ومدة الإقامة، وتظهر الرسوم عند الإصدار والكلفة السنوية بعدها.",
+  "country": "qa",
+  "category": "fees",
+  "tool": true,
+  "script": "gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "qatar-overstay-fine",
+    "qatar-net-salary",
+    "qatar-end-of-service",
+    "ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "كم رسوم إقامة الزوجة في قطر؟",
+      "a": "رخصة الإقامة لأفراد الأسرة 400 ريال لكل سنة بحسب أغلب المصادر (وبعضها يذكر 500)، وبطاقة الهوية 100 ريال، وتأشيرة الدخول للإقامة أول مرة 200، والفحص الطبي 100. والتجديد لثلاث سنوات بخصم 20%."
+    },
+    {
+      "q": "ما الراتب المطلوب لاستقدام الأسرة في قطر؟",
+      "a": "10,000 ريال، أو 6,000 ريال مع سكن عائلي من جهة العمل، وفي القطاع الخاص يجب أن تكون المهنة فنية أو تخصصية غير عمالية، بحسب وزارة الداخلية (ديسمبر 2023)."
+    },
+    {
+      "q": "هل التأمين الصحي إلزامي للتابعين في قطر؟",
+      "a": "نعم، بالقانون 22/2021 التأمين الصحي شرط للإقامة، ولم تُنشر أسعار موحدة، فأدخل قسط شركتك في الحاسبة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "الشرق — الداخلية توضح شروط استقدام عائلات المقيمين (20/12/2023)",
+      "u": "https://al-sharq.com/article/20/12/2023/الداخلية-توضح-شروط-استقدام-عائلات-المقيمين-للإقامة-أو-الزيارة"
+    },
+    {
+      "t": "The Peninsula — تحديث لوائح الإقامة والزيارة (3/12/2023)",
+      "u": "https://thepeninsulaqatar.com/article/03/12/2023/qatar-updates-regulations-for-residency-visit-visas"
+    },
+    {
+      "t": "Qatar Living — رسوم الخدمات الحكومية للمقيمين 2026",
+      "u": "https://www.qatarliving.com/en/article/qatar-government-services-resident-fees"
+    },
+    {
+      "t": "Doha Guides — رخصة الإقامة في قطر (15/3/2025)",
+      "u": "https://www.dohaguides.com/qatar-residence-permit/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة إقامة أسرتك</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>مع الزوجة أو الزوج</option>
+          <option value="0">بلا</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="years">مدة الإقامة</label>
+        <select id="years" name="years">
+          <option value="1" selected>سنة واحدة</option>
+          <option value="2">سنتان</option>
+          <option value="3">3 سنوات</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="insurance">التأمين الصحي لكل فرد سنوياً</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (ريال، اختياري)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+      <div class="field">
+        <label for="housing">سكن من جهة العمل؟</label>
+        <select id="housing" name="housing">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>رسوم إقامة الأسرة في قطر</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">المبلغ (ريال)</th><th scope="col">متى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">تأشيرة دخول إقامة عائلية</th><td>200</td><td>أول مرة</td></tr>
+    <tr><th scope="row">رخصة الإقامة لفرد الأسرة</th><td>400 لكل سنة (أو 500 في بعض المصادر)</td><td>كل إصدار وتجديد، 1–3 سنوات، والثلاث بخصم 20%</td></tr>
+    <tr><th scope="row">البطاقة الشخصية</th><td>100</td><td>كل إصدار وتجديد</td></tr>
+    <tr><th scope="row">الفحص الطبي</th><td>100</td><td>عند الإصدار للبالغين</td></tr>
+    <tr><th scope="row">التأمين الصحي</th><td>سعر الشركة</td><td>شرط للإقامة</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> زوجة وطفلان، إقامة سنة: تأشيرات 600 ورخص 1,200 وبطاقات 300 وفحص 100 = <strong>2,200 ريال</strong> مع التأمين، ثم 1,500 سنوياً. ولو جُددت لثلاث سنوات: 3,180، أي 1,060 سنوياً.</p>
+</div>
+<p>يُشترط راتب 10,000 ريال، أو 6,000 مع سكن عائلي من جهة العمل، ومهنة فنية أو تخصصية في القطاع الخاص، وفي القطاع الحكومي يكفي السكن العائلي أو الراتب. وتأخير تجديد الإقامة أكثر من 90 يوماً يعرّض لغرامة 10 ريالات يومياً بحد 6,000. ولزيارة الأسرة رسوم مختلفة: 200 ريال لكل 30 يوماً مع تأمين 50 ريالاً شهرياً.</p>
+<p>ولمخالفات الإقامة انظر <a href="{{root}}qatar-overstay-fine/{{ix}}">حاسبة غرامة تجاوز الإقامة في قطر</a>.</p>
+</div>

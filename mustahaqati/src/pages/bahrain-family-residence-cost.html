@@ -1,0 +1,108 @@
+---json
+{
+  "title": "حاسبة رسوم إقامة الأسرة في البحرين 2026 — تصريح التابع 90 ديناراً لسنتين",
+  "h1": "حاسبة تكلفة إقامة الأسرة في البحرين",
+  "description": "احسب رسوم إقامة الزوجة والأبناء في البحرين: تصريح إقامة التابع 90 ديناراً لسنتين مع رسم إداري 5، والبطاقة الذكية 10، والتأمين الصحي الخاص الإلزامي لطلبات المرافقين الجديدة منذ 1 سبتمبر 2026، وشرط الراتب 400 دينار صافياً (1,000 للوالدين والأبناء فوق 24).",
+  "short": "تصريح 90 ديناراً لسنتين ورسم 5 وبطاقة 10، وشرط 400 دينار، وتأمين إلزامي من سبتمبر 2026",
+  "lead": "أدخل عدد أفراد أسرتك وقسط التأمين، وتظهر الرسوم لدورة السنتين والكلفة السنوية.",
+  "country": "bh",
+  "category": "fees",
+  "tool": true,
+  "script": "gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "bahrain-net-salary",
+    "bahrain-end-of-service",
+    "bahrain-leave",
+    "ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "كم رسوم إقامة الزوجة في البحرين؟",
+      "a": "تصريح إقامة التابع 90 ديناراً لسنتين، إصداراً أو تجديداً، مع رسم إداري 5 دنانير لهيئة تنظيم سوق العمل، والبطاقة الذكية 10 دنانير لغير البحريني، ويضاف التأمين الصحي الخاص للطلبات الجديدة منذ 1 سبتمبر 2026."
+    },
+    {
+      "q": "ما الراتب المطلوب لكفالة الأسرة في البحرين؟",
+      "a": "400 دينار صافياً بحسب سجل التأمين الاجتماعي (كان 250 حتى 2021)، و1,000 دينار لكفالة الوالدين والأبناء فوق 24 سنة."
+    },
+    {
+      "q": "هل التأمين الصحي إلزامي للتابعين في البحرين؟",
+      "a": "نعم لطلبات المرافقين الجديدة منذ 1 سبتمبر 2026، ببوليصة خاصة تغطي على الأقل مدة تصريح العامل، ولم يُنشر سعر موحد، ويُتوقع تطبيقه على التجديد لاحقاً."
+    }
+  ],
+  "sources": [
+    {
+      "t": "البوابة الوطنية البحرين — تصريح الالتحاق (زوج، زوجة، أبناء)",
+      "u": "https://www.bahrain.bh/wps/portal/en/BNP/ServicesCatalogue/GSX-UI-PServiceDetails?psID=1170"
+    },
+    {
+      "t": "البوابة الوطنية البحرين — تجديد البطاقة الذكية",
+      "u": "https://www.bahrain.bh/wps/portal/en/BNP/ServicesCatalogue/GSX-UI-PServiceDetails?psID=2400"
+    },
+    {
+      "t": "Gulf News — رفع الراتب المطلوب لكفالة الأسرة (8/3/2021)",
+      "u": "https://gulfnews.com/world/gulf/bahrain/bahrain-raises-minimum-salary-for-sponsoring-family-members-1.77689001"
+    },
+    {
+      "t": "EY — تأمين طبي خاص إلزامي لطلبات المرافقين (8/9/2026)",
+      "u": "https://taxnews.ey.com/news/2026-1904-bahrain-introduces-mandatory-private-medical-insurance-for-dependent-visa-applications"
+    },
+    {
+      "t": "KPMG — تنبيه التأمين الإلزامي للمرافقين (21/10/2026)",
+      "u": "https://kpmg.com/xx/en/our-insights/gms-flash-alert/2026/flash-alert-2026-263.html"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة إقامة أسرتك</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>مع الزوجة أو الزوج</option>
+          <option value="0">بلا</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="insurance">التأمين الصحي لكل فرد سنوياً</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (دينار، اختياري)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>رسوم إقامة الأسرة في البحرين</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">المبلغ (دينار)</th><th scope="col">متى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">تصريح إقامة التابع</th><td>90</td><td>لسنتين، إصداراً أو تجديداً</td></tr>
+    <tr><th scope="row">رسم إداري (هيئة تنظيم سوق العمل)</th><td>5</td><td>لكل طلب</td></tr>
+    <tr><th scope="row">البطاقة الذكية</th><td>10</td><td>عند الإصدار</td></tr>
+    <tr><th scope="row">تأمين صحي خاص</th><td>سعر الشركة</td><td>إلزامي للطلبات الجديدة منذ 1 سبتمبر 2026</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> زوجة وطفلان: تصاريح 3 × 95 = 285 وبطاقات 30 = <strong>315 ديناراً</strong> لسنتين مع التأمين، ثم نحو 142.5 ديناراً سنوياً للتجديد.</p>
+</div>
+<p>يُقدَّم طلب التابع عبر حساب صاحب العمل، ويُشترط راتب 400 دينار صافياً، و1,000 للوالدين والأبناء فوق 24 عبر شؤون الجنسية والجوازات والإقامة. ويغطي التأمين الإلزامي مدة تصريح العامل على الأقل.</p>
+<p>ولراتبك الصافي بعد التأمينات استخدم <a href="{{root}}bahrain-net-salary/{{ix}}">حاسبة الراتب الصافي في البحرين</a>.</p>
+</div>

@@ -1,0 +1,107 @@
+---json
+{
+  "lang": "en",
+  "path": "en/bahrain-family-residence-cost-calculator",
+  "alternate": "bahrain-family-residence-cost",
+  "title": "Bahrain Family Residence Cost Calculator 2026 — BHD 90 Dependent Permit for Two Years",
+  "h1": "Bahrain Family Residence Cost Calculator",
+  "description": "Work out residence fees for your wife and children in Bahrain: a dependent residence permit of BHD 90 for two years plus a BHD 5 admin fee, a BHD 10 smart card, mandatory private health insurance for new dependent applications since 1 September 2026, and the salary rule of BHD 400 net (1,000 for parents and children over 24).",
+  "short": "Permit BHD 90 for two years, BHD 5 fee and BHD 10 card, a BHD 400 salary rule, and insurance from September 2026",
+  "lead": "Enter your family members and insurance premium to see the fees for the two-year cycle and the yearly cost.",
+  "country": "bh",
+  "category": "fees",
+  "tool": true,
+  "script": "en-gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-bahrain-net-salary",
+    "en-bahrain-end-of-service",
+    "en-bahrain-leave",
+    "en-ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "How much is a wife's residence permit in Bahrain?",
+      "a": "A dependent residence permit costs BHD 90 for two years, for issue or renewal, plus a BHD 5 LMRA admin fee and a BHD 10 smart card for non-Bahrainis; private health insurance is added for new dependent applications since 1 September 2026."
+    },
+    {
+      "q": "What salary do you need to sponsor your family in Bahrain?",
+      "a": "BHD 400 net according to the social insurance record (it was 250 until 2021), and BHD 1,000 to sponsor parents and children over 24."
+    },
+    {
+      "q": "Is health insurance mandatory for dependents in Bahrain?",
+      "a": "Yes, for new dependent applications since 1 September 2026, through a private policy covering at least the worker's permit period; no standard price is published, and it is expected to extend to renewals later."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Bahrain National Portal — dependents' residence permit (spouse, children)",
+      "u": "https://www.bahrain.bh/wps/portal/en/BNP/ServicesCatalogue/GSX-UI-PServiceDetails?psID=1170"
+    },
+    {
+      "t": "Bahrain National Portal — smart card renewal",
+      "u": "https://www.bahrain.bh/wps/portal/en/BNP/ServicesCatalogue/GSX-UI-PServiceDetails?psID=2400"
+    },
+    {
+      "t": "Gulf News — Bahrain raises minimum salary for sponsoring family (8 Mar 2021)",
+      "u": "https://gulfnews.com/world/gulf/bahrain/bahrain-raises-minimum-salary-for-sponsoring-family-members-1.77689001"
+    },
+    {
+      "t": "EY — mandatory private medical insurance for dependent visa applications (8 Sep 2026)",
+      "u": "https://taxnews.ey.com/news/2026-1904-bahrain-introduces-mandatory-private-medical-insurance-for-dependent-visa-applications"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your family residence cost</h2>
+  <form id="calc" data-country="bh" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>Including a spouse</option>
+          <option value="0">No spouse</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="insurance">Health insurance per person a year</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="salary">Your monthly salary (BHD, optional)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Family residence fees in Bahrain</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Amount (BHD)</th><th scope="col">When</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Dependent residence permit</th><td>90</td><td>For two years, issue or renewal</td></tr>
+    <tr><th scope="row">Admin fee (LMRA)</th><td>5</td><td>Each application</td></tr>
+    <tr><th scope="row">Smart card</th><td>10</td><td>At issue</td></tr>
+    <tr><th scope="row">Private health insurance</th><td>Insurer's price</td><td>Mandatory for new applications since 1 Sep 2026</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a wife and two children: permits 3 × 95 = 285 and cards 30 = <strong>BHD 315</strong> for two years plus insurance, then about BHD 142.5 a year for renewal.</p>
+</div>
+<p>Dependent applications go through the employer's account, with a net salary of BHD 400 required, or 1,000 for parents and children over 24 through the Nationality, Passports and Residence Affairs. The mandatory insurance must cover at least the worker's permit period.</p>
+<p>For your net pay after contributions use the <a href="{{root}}en/bahrain-net-salary-calculator/{{ix}}">Bahrain net salary calculator</a>.</p>
+</div>

@@ -1,0 +1,119 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-family-visa-cost-calculator",
+  "alternate": "oman-family-visa-cost",
+  "title": "Oman Family Visa Cost Calculator 2026 — OMR 30 Visa and a 5–15 Resident Card",
+  "h1": "Oman Family Visa Cost Calculator",
+  "description": "Work out residence fees for your wife, children and parents in Oman: a family joining visa of OMR 30 and 30 per renewal, a resident card of OMR 5 for one year, 10 for two and 15 for three for adults and children over 10, a OMR 30 medical test, and the OMR 150 salary rule since February 2023.",
+  "short": "Visa OMR 30 and renewal 30, resident card 5–15, medical 30, and an OMR 150 salary rule",
+  "lead": "Enter your family members and residence term to see the fees at issue and the yearly cost after that.",
+  "country": "om",
+  "category": "fees",
+  "tool": true,
+  "script": "en-gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-oman-net-salary",
+    "en-oman-end-of-service",
+    "en-oman-leave",
+    "en-ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "How much is a family joining visa in Oman?",
+      "a": "OMR 30 for the visa and 30 for each renewal, and the resident card costs OMR 5 for one year, 10 for two and 15 for three since Decision 78/2025, required for adults and children over 10."
+    },
+    {
+      "q": "What salary do you need to bring your family to Oman?",
+      "a": "OMR 150 a month since February 2023, down from 350; an old English police page still says 600."
+    },
+    {
+      "q": "Is health insurance mandatory for dependents in Oman?",
+      "a": "We found no health insurance requirement for dependents as of November 2026, so the calculator does not add it."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Oman Government portal — renew joining relatives visa (5 Aug 2025)",
+      "u": "https://gov.om/en/w/renew-joining-relatives-visa"
+    },
+    {
+      "t": "Oman Government portal — get family visa (28 Dec 2025)",
+      "u": "https://gov.om/en/w/get-family-visa"
+    },
+    {
+      "t": "Gulf News — 1–3 year expat resident cards under Decision 78/2025 (11 Aug 2025)",
+      "u": "https://gulfnews.com/world/gulf/oman/oman-introduces-flexible-1-3-year-expat-residence-cards-extends-omani-id-validity-to-10-years-1.500228935"
+    },
+    {
+      "t": "Times of Oman — minimum salary to bring families slashed (15 Feb 2023)",
+      "u": "https://timesofoman.com/article/127017-minimum-salary-needed-to-bring-expat-families-slashed"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your family residence cost</h2>
+  <form id="calc" data-country="om" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>Including a spouse</option>
+          <option value="0">No spouse</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="over10">Of whom over 10</label>
+        <input type="number" id="over10" name="over10" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">Number of parents</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">Residence term</label>
+        <select id="years" name="years">
+          <option value="2" selected>2 years</option>
+          <option value="1">1 year</option>
+          <option value="3">3 years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">Your monthly salary (OMR, optional)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Family residence fees in Oman</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Amount (OMR)</th><th scope="col">For and when</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Family joining visa</th><td>30</td><td>Wife and children under 21, first time</td></tr>
+    <tr><th scope="row">Visa renewal</th><td>30</td><td>Each renewal</td></tr>
+    <tr><th scope="row">Family visa for parents</th><td>30</td><td>At the authority's discretion</td></tr>
+    <tr><th scope="row">Resident card</th><td>5 for one year, 10 for two, 15 for three</td><td>Adults and children over 10</td></tr>
+    <tr><th scope="row">Medical test</th><td>30</td><td>Adults, each issue and renewal</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a wife and two children over 10, two-year cycle: visas 90, cards 30 and medical 30 = <strong>OMR 150</strong>, then OMR 75 a year. If the children are under 10, it is OMR 20 less.</p>
+</div>
+<p>A salary of at least OMR 150 has been required since February 2023. Resident card fees were cut in 2025 to 5, 10 and 15 from 6 and 11. For your net pay after contributions use the <a href="{{root}}en/oman-net-salary-calculator/{{ix}}">Oman net salary calculator</a>.</p>
+</div>

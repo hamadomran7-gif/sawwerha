@@ -1,0 +1,123 @@
+---json
+{
+  "lang": "en",
+  "path": "en/qatar-family-residence-cost-calculator",
+  "alternate": "qatar-family-residence-cost",
+  "title": "Qatar Family Residence Cost Calculator 2026 — Residence Permit, ID and Salary Rule",
+  "h1": "Qatar Family Residence Cost Calculator",
+  "description": "Work out residence fees for your wife and children in Qatar: an entry visa of QAR 200, a residence permit of QAR 400 a year with 20% off for three years, a QAR 100 ID card and a QAR 100 medical test, with mandatory health insurance and the salary rule of QAR 10,000, or 6,000 with family housing.",
+  "short": "Visa 200, permit 400 a year and ID 100, and the QAR 10,000 (or 6,000 with housing) salary rule",
+  "lead": "Enter your family members and residence term to see the fees at issue and the yearly cost after that.",
+  "country": "qa",
+  "category": "fees",
+  "tool": true,
+  "script": "en-gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-qatar-overstay-fine",
+    "en-qatar-net-salary",
+    "en-qatar-end-of-service",
+    "en-ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "How much is a wife's residence permit in Qatar?",
+      "a": "A family member's residence permit costs QAR 400 a year according to most sources (some say 500), the ID card QAR 100, the first-time residence entry visa 200 and the medical test 100. Renewing for three years gets a 20% discount."
+    },
+    {
+      "q": "What salary do you need to bring your family to Qatar?",
+      "a": "QAR 10,000, or QAR 6,000 with family housing from the employer; in the private sector the job must be technical or specialised rather than labour, according to the Interior Ministry (December 2023)."
+    },
+    {
+      "q": "Is health insurance mandatory for dependents in Qatar?",
+      "a": "Yes. Under Law 22/2021 health insurance is a condition of residence, and no standard prices are published, so enter your insurer's premium in the calculator."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Al Sharq — Interior Ministry explains conditions for residents' families (20 Dec 2023, Arabic)",
+      "u": "https://al-sharq.com/article/20/12/2023/الداخلية-توضح-شروط-استقدام-عائلات-المقيمين-للإقامة-أو-الزيارة"
+    },
+    {
+      "t": "The Peninsula — Qatar updates regulations for residency and visit visas (3 Dec 2023)",
+      "u": "https://thepeninsulaqatar.com/article/03/12/2023/qatar-updates-regulations-for-residency-visit-visas"
+    },
+    {
+      "t": "Qatar Living — government service fees for residents 2026",
+      "u": "https://www.qatarliving.com/en/article/qatar-government-services-resident-fees"
+    },
+    {
+      "t": "Doha Guides — Qatar residence permit (15 Mar 2025)",
+      "u": "https://www.dohaguides.com/qatar-residence-permit/"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your family residence cost</h2>
+  <form id="calc" data-country="qa" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>Including a spouse</option>
+          <option value="0">No spouse</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="years">Residence term</label>
+        <select id="years" name="years">
+          <option value="1" selected>1 year</option>
+          <option value="2">2 years</option>
+          <option value="3">3 years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="insurance">Health insurance per person a year</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="salary">Your monthly salary (QAR, optional)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+      <div class="field">
+        <label for="housing">Housing from your employer?</label>
+        <select id="housing" name="housing">
+          <option value="no" selected>No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Family residence fees in Qatar</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Amount (QAR)</th><th scope="col">When</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Family residence entry visa</th><td>200</td><td>First time</td></tr>
+    <tr><th scope="row">Family member's residence permit</th><td>400 a year (500 in some sources)</td><td>Each issue and renewal, 1–3 years, 20% off for three</td></tr>
+    <tr><th scope="row">Qatar ID card</th><td>100</td><td>Each issue and renewal</td></tr>
+    <tr><th scope="row">Medical test</th><td>100</td><td>At issue, for adults</td></tr>
+    <tr><th scope="row">Health insurance</th><td>Insurer's price</td><td>Condition of residence</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a wife and two children, one-year residence: visas 600, permits 1,200, IDs 300 and medical 100 = <strong>QAR 2,200</strong> plus insurance, then 1,500 a year. Renewed for three years: 3,180, or 1,060 a year.</p>
+</div>
+<p>A salary of QAR 10,000, or 6,000 with family housing from the employer, is required, with a technical or specialised job in the private sector; in government, family housing or the salary is enough. Renewing more than 90 days late risks a fine of QAR 10 a day up to 6,000. Family visits cost differently: QAR 200 per 30 days plus QAR 50 a month of insurance.</p>
+<p>For residence violations see the <a href="{{root}}en/qatar-overstay-fine-calculator/{{ix}}">Qatar overstay fine calculator</a>.</p>
+</div>

@@ -1,0 +1,132 @@
+---json
+{
+  "title": "حاسبة رسوم إقامة الزوجة والأبناء في الكويت 2026 — 20 ديناراً للإقامة و100 للضمان الصحي",
+  "h1": "حاسبة رسوم إقامة الأسرة في الكويت",
+  "description": "احسب رسوم إقامة الزوجة والأبناء والوالدين في الكويت بعد اللائحة التنفيذية لقانون الإقامة النافذة منذ 23 ديسمبر 2025: إقامة 20 ديناراً سنوياً للزوجة والأبناء (40 للشريك والمستثمر و100 لكفيل نفسه)، و300 للوالدين، وضمان صحي 100 دينار سنوياً لكل تابع، وشرط الراتب 800 دينار.",
+  "short": "إقامة 20 ديناراً سنوياً وضمان صحي 100 لكل تابع، و300 للوالدين، وشرط راتب 800",
+  "lead": "اختر صفة الكفيل وعدد أفراد أسرتك ومدة الإقامة، وتظهر الرسوم عند الإصدار والكلفة السنوية بعدها.",
+  "country": "kw",
+  "category": "fees",
+  "tool": true,
+  "script": "gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "kuwait-residency-fine",
+    "kuwait-net-salary",
+    "kuwait-end-of-service",
+    "ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "كم رسوم إقامة الزوجة في الكويت 2026؟",
+      "a": "منذ 23 ديسمبر 2025: 20 ديناراً عن كل سنة إقامة للزوجة والأبناء إذا كان الكفيل موظفاً حكومياً أو في القطاع الأهلي أو طالباً، و40 للشريك أو المستثمر أو مالك العقار، و100 لكفيل نفسه، ويضاف ضمان صحي 100 دينار سنوياً لكل تابع."
+    },
+    {
+      "q": "كم رسوم إقامة الوالدين في الكويت؟",
+      "a": "300 دينار عن كل سنة لكل والد، مع ضمان صحي 100 دينار سنوياً، بحسب اللائحة التنفيذية لقانون إقامة الأجانب النافذة منذ 23 ديسمبر 2025."
+    },
+    {
+      "q": "ما الراتب المطلوب لالتحاق الأسرة في الكويت؟",
+      "a": "800 دينار شهرياً منذ القرار الوزاري 56/2024، ثم المادة 22 من اللائحة، مع استثناء 9 فئات مهنية، ويجوز الاستثناء للمولودين في الكويت."
+    },
+    {
+      "q": "كم كانت الرسوم قبل ديسمبر 2025؟",
+      "a": "لزوجة وطفلين كانت نحو 145 ديناراً في السنة الأولى، وصارت نحو 420 ديناراً، و375 سنوياً بعدها، أساساً بسبب رفع الضمان الصحي إلى 100 دينار لكل تابع."
+    }
+  ],
+  "sources": [
+    {
+      "t": "الراي — قانون الإقامة الجديد: هيكلة كاملة للرسوم والشروط (23/11/2025)",
+      "u": "https://www.alraimedia.com/article/1747701/محليات/أخبار-محلية/قانون-الإقامة-الجديد-هيكلة-كاملة-للرسوم-والشروط"
+    },
+    {
+      "t": "Kuwait Times — نفاذ رسوم الإقامة والتأمين الجديدة (22/12/2025)",
+      "u": "https://kuwaittimes.com/article/37512/kuwait/other-news/higher-insurance-iqama-visa-fees-become-effective/amp"
+    },
+    {
+      "t": "Kuwait Times — رفع الضمان الصحي إلى 100 دينار (21/12/2025)",
+      "u": "https://kuwaittimes.com/article/37466/kuwait/other-news/health-insurance-hiked-to-kd-100/"
+    },
+    {
+      "t": "Gulf News — رسوم وشروط إقامة الأسر في الكويت (8/2/2026)",
+      "u": "https://gulfnews.com/world/gulf/kuwait/new-residency-fees-and-conditions-set-for-expat-families-in-kuwait-1.500435961"
+    },
+    {
+      "t": "بوابة الكويت الإلكترونية — تجديد البطاقة المدنية لغير الكويتيين (2026)",
+      "u": "https://e.gov.kw/sites/kgoenglish/Pages/Services/PACI/RenewCivilIDNK.aspx"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة إقامة أسرتك</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sponsor">صفة الكفيل</label>
+        <select id="sponsor" name="sponsor">
+          <option value="standard" selected>موظف حكومي أو أهلي أو طالب</option>
+          <option value="partner">شريك أو مستثمر أو مالك عقار</option>
+          <option value="self">كفيل نفسه</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>مع الزوجة أو الزوج</option>
+          <option value="0">بلا</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">عدد الوالدين</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">مدة الإقامة</label>
+        <select id="years" name="years">
+          <option value="1" selected>سنة واحدة</option>
+          <option value="2">سنتان</option>
+          <option value="3">3 سنوات</option>
+          <option value="4">4 سنوات</option>
+          <option value="5">5 سنوات</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (دينار، اختياري)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>رسوم إقامة الأسرة في الكويت منذ 23 ديسمبر 2025</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">المبلغ (دينار)</th><th scope="col">لمن</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">سمة دخول التحاق بعائل + ضمانها الصحي</th><td>10 + 5</td><td>الزوجة والأبناء والوالدان، مرة</td></tr>
+    <tr><th scope="row">الإقامة (كفيل حكومي أو أهلي أو طالب)</th><td>20 سنوياً</td><td>الزوجة والأبناء</td></tr>
+    <tr><th scope="row">الإقامة (شريك أو مستثمر أو مالك عقار)</th><td>40 سنوياً</td><td>الزوجة والأبناء</td></tr>
+    <tr><th scope="row">الإقامة (كفيل نفسه)</th><td>100 سنوياً</td><td>الزوجة والأبناء</td></tr>
+    <tr><th scope="row">إقامة الوالدين</th><td>300 سنوياً</td><td>كل والد</td></tr>
+    <tr><th scope="row">الضمان الصحي</th><td>100 سنوياً</td><td>كل تابع</td></tr>
+    <tr><th scope="row">البطاقة المدنية</th><td>5</td><td>كل فرد</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> كفيل في القطاع الأهلي، زوجة وطفلان، إقامة سنة: سمات 30 وضمانها 15، وإقامات 60، وضمان صحي 300، وبطاقات 15 = <strong>420 ديناراً</strong>، ثم 375 سنوياً. ولو كانت الإقامة لسنتين: 735 للتجديد، أي 367.5 سنوياً. والوالدان يضيفان 810 دنانير سنوياً.</p>
+</div>
+<p>يُشترط راتب 800 دينار على الأقل، مع استثناء 9 فئات مهنية. ورسم البطاقة المدنية قد يصل إلى 7 دنانير مع رسم البطاقة الذكية. ولم نجد تغييراً معلناً لعام 2027. وإن تأخرت الإقامة فاحسب الغرامة في <a href="{{root}}kuwait-residency-fine/{{ix}}">حاسبة غرامات الإقامة في الكويت</a>.</p>
+</div>

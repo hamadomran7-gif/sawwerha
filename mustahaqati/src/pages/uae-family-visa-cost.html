@@ -1,0 +1,153 @@
+---json
+{
+  "title": "حاسبة تكلفة إقامة الأسرة في الإمارات 2026 — رسوم كفالة الزوجة والأبناء في دبي وأبوظبي",
+  "h1": "حاسبة تكلفة إقامة الأسرة في الإمارات",
+  "description": "احسب رسوم كفالة الزوجة والأبناء والوالدين في الإمارات: إذن الدخول والإقامة والهوية الإماراتية والفحص الطبي في دبي (الإقامة 200 درهم حتى سنتين) وأبوظبي والإمارات الأخرى (100 درهم لكل سنة مع رسوم الطلب والخدمات الذكية)، مع التأمين الصحي وشرط الراتب 4,000 درهم أو 3,000 مع السكن.",
+  "short": "الدخول والإقامة والهوية والفحص في دبي وأبوظبي، وشرط 4,000 درهم أو 3,000 مع السكن",
+  "lead": "اختر إمارتك وعدد أفراد أسرتك ومدة الإقامة، وتظهر الرسوم الحكومية عند الإصدار والكلفة السنوية بعدها.",
+  "country": "ae",
+  "category": "fees",
+  "tool": true,
+  "script": "gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "uae-overstay-fine",
+    "uae-golden-visa",
+    "uae-net-salary",
+    "ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "كم تكلفة إقامة الزوجة في دبي؟",
+      "a": "الرسوم الحكومية الرسمية لزوجة لمدة سنتين نحو 1,060 درهماً: إذن دخول 210 (200 مع الضريبة)، وإقامة 240 (200 مع رسوم المعرفة والابتكار والتوصيل)، وهوية لسنتين 300، وفحص طبي 320، يضاف إليها التأمين الصحي (550–650 سنوياً للباقة الأساسية) ورسوم مراكز الخدمة. والأسعار المتداولة في المراكز أعلى."
+    },
+    {
+      "q": "ما الراتب المطلوب لكفالة الأسرة في الإمارات؟",
+      "a": "4,000 درهم شهرياً، أو 3,000 درهم مع سكن من جهة العمل، بحسب الهيئة الاتحادية للهوية والجنسية. ولكفالة الوالدين لا تنشر البوابة الرسمية رقماً، وتذكر المصادر الثانوية 10,000 أو 20,000 درهم."
+    },
+    {
+      "q": "كم رسوم الهوية الإماراتية للتابع؟",
+      "a": "100 درهم عن كل سنة من مدة الإقامة، و100 درهم رسوم خدمات ذكية، فهوية سنتين 300 درهم دون رسوم المركز."
+    },
+    {
+      "q": "هل يلزم ضمان مالي لكفالة الوالدين؟",
+      "a": "تطلب الهيئة الاتحادية ضماناً مسترداً قدره 5,000 درهم للفرد بحد 15,000، مع رسم إيداع 20 درهماً، وتذكر مصادر دبي ودائع مختلفة."
+    }
+  ],
+  "sources": [
+    {
+      "t": "البوابة الرسمية لحكومة الإمارات — إقامة أفراد الأسرة",
+      "u": "https://u.ae/information-and-services/visa-and-emirates-id/residence-visas/residence-visa-for-family-members"
+    },
+    {
+      "t": "الهيئة الاتحادية للهوية والجنسية — إصدار تصريح الإقامة (11/12/2024)",
+      "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e64"
+    },
+    {
+      "t": "الهيئة الاتحادية — إصدار بطاقة الهوية (11/12/2024)",
+      "u": "https://icp.gov.ae/en/services-details/?serviceid=64afe3c1035448005bd52e5a"
+    },
+    {
+      "t": "الإقامة وشؤون الأجانب بدبي — إصدار إقامة أفراد أسرة المقيم",
+      "u": "https://www.gdrfad.gov.ae/en/node/13961"
+    },
+    {
+      "t": "الإقامة وشؤون الأجانب بدبي — تأشيرة دخول للإقامة بلا عمل",
+      "u": "https://gdrfad.gov.ae/en/node/13899"
+    },
+    {
+      "t": "Gulf News — كيف تكفل زوجتك في الإمارات (5/8/2025)",
+      "u": "https://gulfnews.com/living-in-uae/visa-immigration/how-to-sponsor-your-wife-for-a-uae-residence-visa-1.500223090"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب تكلفة إقامة أسرتك</h2>
+  <form id="calc" data-country="ae" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="emirate">الإمارة</label>
+        <select id="emirate" name="emirate">
+          <option value="ae-dubai" selected>دبي</option>
+          <option value="ae-icp">أبوظبي والإمارات الأخرى</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="spouse">الزوج أو الزوجة</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>مع الزوجة أو الزوج</option>
+          <option value="0">بلا</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">عدد الأبناء</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">عدد الوالدين</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">مدة الإقامة</label>
+        <select id="years" name="years">
+          <option value="2" selected>سنتان</option>
+          <option value="1">سنة واحدة</option>
+          <option value="3">3 سنوات</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="inside">الأسرة داخل الدولة الآن؟</label>
+        <select id="inside" name="inside">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="insurance">التأمين الصحي لكل فرد سنوياً</label>
+        <input type="number" id="insurance" name="insurance" inputmode="decimal" min="0" step="1" value="600">
+      </div>
+      <div class="field">
+        <label for="salary">راتبك الشهري (درهم، اختياري)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+      <div class="field">
+        <label for="housing">سكن من جهة العمل؟</label>
+        <select id="housing" name="housing">
+          <option value="no" selected>لا</option>
+          <option value="yes">نعم</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">احسب</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>الرسوم الحكومية لكل فرد</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">البند</th><th scope="col">دبي</th><th scope="col">أبوظبي والإمارات الأخرى</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">إذن الدخول</th><td>200 + ضريبة 5%</td><td>300 (طلب + إصدار + خدمات)</td></tr>
+    <tr><th scope="row">الإقامة</th><td>200 حتى سنتين و+100 لكل سنة فوقهما، و40 رسوماً إضافية</td><td>100 طلب + 100 لكل سنة + 100 خدمات ذكية</td></tr>
+    <tr><th scope="row">الهوية الإماراتية</th><td colspan="2">100 لكل سنة + 100 خدمات ذكية</td></tr>
+    <tr><th scope="row">الفحص الطبي (18 سنة فأكثر)</th><td>320</td><td>250 في أبوظبي (عادي)</td></tr>
+    <tr><th scope="row">تعديل الوضع داخل الدولة</th><td>520</td><td>500</td></tr>
+    <tr><th scope="row">التأمين الصحي</th><td>الباقة الأساسية 550–650 سنوياً</td><td>غالباً على صاحب العمل في أبوظبي</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>مثال:</strong> زوجة وطفلان، إقامة سنتين، والأسرة خارج الدولة.<br>
+في دبي: دخول 630، وإقامة 720، وهويات 900، وفحص الزوجة 320 = <strong>2,570 درهماً</strong> رسوماً حكومية، ومع تأمين سنة (600 للفرد) 4,370. ثم نحو 2,770 سنوياً مع التأمين.<br>
+في أبوظبي: دخول 900، وإقامة 1,200، وهويات 900، وفحص 250 = <strong>3,250 درهماً</strong>، ثم نحو 1,175 سنوياً.</p>
+</div>
+<p>تطلب الكفالة راتباً لا يقل عن 4,000 درهم، أو 3,000 مع سكن من جهة العمل، وعقد سكن موثقاً. ولا تتجاوز مدة إقامة التابع مدة إقامة الكفيل. والأرقام أعلاه هي الرسوم الحكومية المنشورة، ولم نجد تغييراً فيها في 2025–2026؛ أما مراكز الخدمة (آمر وتسهيل) فتضيف 100–300 درهم لكل طلب، وتذكر الصحف أن الكلفة الفعلية في دبي قد تصل إلى نحو 7,000 درهم لأسرة من ثلاثة في السنة الأولى.</p>
+<p>وإن تأخرت في التجديد فاحسب الغرامة في <a href="{{root}}uae-overstay-fine/{{ix}}">حاسبة غرامة تجاوز الإقامة</a>.</p>
+</div>

@@ -3174,6 +3174,73 @@ export function omanNetSalary({ national = true, gross = 0, basic = 0, today } =
 }
 
 /* ------------------------------------------------------------------ */
+/* تكلفة إقامة الأسرة للوافد: الإمارات (اتحادي ودبي) وقطر والكويت والبحرين وعُمان */
+/* ------------------------------------------------------------------ */
+
+/** رسوم الإصدار في السنة الأولى، ورسوم التجديد لكل دورة، والكلفة السنوية بعدها، وشرط الراتب. */
+export function familyResidenceCost({ country = "ae-dubai", spouse = 1, children = 0, childrenOver10 = 0, parents = 0, years = 2, insurance, inside = false, sponsor = "standard", salary = 0, housing = false } = {}) {
+  const F = rules.gcc.familyResidence[country];
+  if (!F) return null;
+  const sp = Math.min(1, Math.max(0, Math.floor(Number(spouse) || 0)));
+  const ch = Math.max(0, Math.floor(Number(children) || 0));
+  const pa = Math.max(0, Math.floor(Number(parents) || 0));
+  const all = sp + ch + pa, adults = sp + pa;
+  let y = Math.max(1, Math.floor(Number(years) || 1));
+  if (F.maxYears) y = Math.min(F.maxYears, y);
+  if (country === "bh") y = F.cycleYears;
+  const prem = insurance === undefined || insurance === null || insurance === "" ? F.insurance : Math.max(0, Number(insurance) || 0);
+  const items = [];
+  const add = (id, unit, n, stage) => { if (n > 0 && unit > 0) items.push({ id, unit: r2(unit), n, total: r2(unit * n), stage }); };
+  if (country === "ae-icp") {
+    if (inside) add("inside", F.inside, all, "first");
+    add("entry", F.entry, all, "first");
+    add("residence", F.resApp + F.resYear * y + F.resSmart, all, "cycle");
+    add("eid", F.eidYear * y + F.eidSmart, all, "cycle");
+    add("medical", F.medical, adults, "cycle");
+    add("parentDeposit", F.parentDeposit + F.parentDepositFee, pa, "deposit");
+  } else if (country === "ae-dubai") {
+    if (inside) add("inside", F.inside, all, "first");
+    add("entry", F.entry * (1 + F.vat), all, "first");
+    add("residence", F.resUpTo2 + Math.max(0, y - 2) * F.resExtraYear + F.resExtras, all, "cycle");
+    add("eid", F.eidYear * y + F.eidSmart, all, "cycle");
+    add("medical", F.medical, adults, "cycle");
+  } else if (country === "qa") {
+    add("entry", F.entry, all, "first");
+    add("medical", F.medical, adults, "first");
+    add("permit", F.permitYear * y * (y >= 3 ? 1 - F.threeYearDiscount : 1), all, "cycle");
+    add("idCard", F.idCard, all, "cycle");
+  } else if (country === "kw") {
+    add("entry", F.entry + F.entryHealth, sp + ch + pa, "first");
+    add("residence", (F.resYear[sponsor] || F.resYear.standard) * y, sp + ch, "cycle");
+    add("parentResidence", F.parentYear * y, pa, "cycle");
+    add("health", F.healthYear * y, all, "cycle");
+    add("civilId", F.civilId, all, "cycle");
+  } else if (country === "bh") {
+    add("permit", F.permit + F.admin, sp + ch, "cycle");
+    add("smartCard", F.smartCard, sp + ch, "first");
+  } else if (country === "om") {
+    add("visa", F.visa, all, "first");
+    add("renewal", F.renewal, all, "renewal");
+    add("card", F.card[String(Math.min(3, y))], adults + Math.min(ch, Math.max(0, Math.floor(Number(childrenOver10) || 0))), "cycle");
+    add("medical", F.medical, adults, "cycle");
+  }
+  const ins = r2(prem * (country === "bh" ? sp + ch : all));
+  const firstCycle = r2(items.filter((i) => i.stage !== "renewal").reduce((a, i) => a + i.total, 0));
+  const deposit = r2(items.filter((i) => i.stage === "deposit").reduce((a, i) => a + i.total, 0));
+  const renewal = r2(items.filter((i) => i.stage === "cycle" || i.stage === "renewal").reduce((a, i) => a + i.total, 0));
+  const firstYear = r2(firstCycle - deposit + ins);
+  const annualAfter = r2(renewal / y + ins);
+  const s = Math.max(0, Number(salary) || 0);
+  let eligible = null, need = F.salaryMin;
+  if (s) {
+    if (country === "bh" && pa) need = F.salaryMinParents;
+    else if (housing && F.salaryMinHousing) need = F.salaryMinHousing;
+    eligible = s >= need;
+  }
+  return { country, currency: F.currency, years: y, persons: all, adults, items, insurance: ins, insurancePerPerson: prem, firstYear, deposit, renewalCycle: renewal, annualAfter, eligible, need };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */
 

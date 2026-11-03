@@ -286,5 +286,15 @@
  "kuwait-net-salary": "ac920a1992e1f95b",
  "oman-net-salary": "63ba053d11830021",
  "qatar-net-salary": "92ec88235bd1dbf9",
- "uae-net-salary": "51a16ddf6e66ec2f"
+ "uae-net-salary": "51a16ddf6e66ec2f",
+ "bahrain-family-residence-cost": "a0250dae19cf7c0f",
+ "en-bahrain-family-residence-cost": "86d82e5d57e890ab",
+ "en-kuwait-family-residence-fees": "89aadb5168bd5ea9",
+ "en-oman-family-visa-cost": "b99679a247eca2c7",
+ "en-qatar-family-residence-cost": "44216781f736a138",
+ "en-uae-family-visa-cost": "7ac233e4ec06895d",
+ "kuwait-family-residence-fees": "8414e6c382ca5549",
+ "oman-family-visa-cost": "f91803ae9152c713",
+ "qatar-family-residence-cost": "01e65f2370f904b8",
+ "uae-family-visa-cost": "6f255b2f248cee14"
 }

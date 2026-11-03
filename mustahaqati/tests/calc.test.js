@@ -16,6 +16,7 @@ import {
   hijriEventCountdown,
   ramadanHours,
   gccUnemployment,
+  familyResidenceCost,
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
@@ -1560,4 +1561,32 @@ test("الراتب الصافي واشتراكات التأمينات — أمث
   assert.equal(omanNetSalary({ gross: 14000, today: "2026-07-01" }).employer, 570);
   assert.equal(omanNetSalary({ gross: 1400, today: "2026-11-03" }).net, 1288);
   assert.equal(omanNetSalary({ national: false, gross: 1400, basic: 1000, today: "2026-11-03" }).employer, 28);
+});
+
+test("GCC family residence cost (batch25 worked examples)", () => {
+  const d = familyResidenceCost({ country: "ae-dubai", spouse: 1, children: 2, years: 2, insurance: 600 });
+  assert.equal(d.firstYear, 4370);
+  assert.equal(d.renewalCycle, 1940);
+  assert.equal(d.annualAfter, 2770);
+  const icp = familyResidenceCost({ country: "ae-icp", spouse: 1, children: 2, years: 2, insurance: 0 });
+  assert.equal(icp.firstYear, 3250);
+  assert.equal(icp.annualAfter, 1175);
+  const q = familyResidenceCost({ country: "qa", spouse: 1, children: 2, years: 1 });
+  assert.equal(q.firstYear, 2200);
+  assert.equal(q.annualAfter, 1500);
+  assert.equal(familyResidenceCost({ country: "qa", spouse: 1, children: 2, years: 3 }).renewalCycle, 3180);
+  const k = familyResidenceCost({ country: "kw", spouse: 1, children: 2, years: 1, sponsor: "standard" });
+  assert.equal(k.firstYear, 420);
+  assert.equal(k.annualAfter, 375);
+  assert.equal(familyResidenceCost({ country: "kw", spouse: 1, children: 2, years: 2 }).renewalCycle, 735);
+  const b = familyResidenceCost({ country: "bh", spouse: 1, children: 2 });
+  assert.equal(b.firstYear, 315);
+  assert.equal(b.annualAfter, 142.5);
+  const o = familyResidenceCost({ country: "om", spouse: 1, children: 2, childrenOver10: 2, years: 2 });
+  assert.equal(o.firstYear, 150);
+  assert.equal(o.annualAfter, 75);
+  assert.equal(familyResidenceCost({ country: "om", spouse: 1, children: 2, childrenOver10: 0, years: 2 }).firstYear, 130);
+  assert.equal(familyResidenceCost({ country: "ae-dubai", spouse: 1, children: 0, salary: 3500 }).eligible, false);
+  assert.equal(familyResidenceCost({ country: "ae-dubai", spouse: 1, children: 0, salary: 3500, housing: true }).eligible, true);
+  assert.equal(familyResidenceCost({ country: "qa", spouse: 1, salary: 8000, housing: true }).eligible, true);
 });

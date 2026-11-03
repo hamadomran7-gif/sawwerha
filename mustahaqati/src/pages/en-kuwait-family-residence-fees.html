@@ -1,0 +1,135 @@
+---json
+{
+  "lang": "en",
+  "path": "en/kuwait-family-residence-fees-calculator",
+  "alternate": "kuwait-family-residence-fees",
+  "title": "Kuwait Family Residence Fees Calculator 2026 — KWD 20 Residence and KWD 100 Health Insurance",
+  "h1": "Kuwait Family Residence Fees Calculator",
+  "description": "Work out residence fees for your wife, children and parents in Kuwait under the residence law regulations in force since 23 December 2025: KWD 20 a year for a wife and children (40 for partners and investors, 100 for self-sponsored), 300 for parents, KWD 100 a year of health insurance per dependent, and the KWD 800 salary rule.",
+  "short": "KWD 20 a year residence and KWD 100 health insurance per dependent, 300 for parents, and an 800 salary rule",
+  "lead": "Choose your sponsor category, family members and residence term to see the fees at issue and the yearly cost after that.",
+  "country": "kw",
+  "category": "fees",
+  "tool": true,
+  "script": "en-gcc-family-residence.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-kuwait-residency-fine",
+    "en-kuwait-net-salary",
+    "en-kuwait-end-of-service",
+    "en-ksa-dependents-fee"
+  ],
+  "faq": [
+    {
+      "q": "How much is a wife's residence fee in Kuwait in 2026?",
+      "a": "Since 23 December 2025: KWD 20 for each year of residence for a wife and children when the sponsor is a government or private-sector employee or a student, 40 for a partner, investor or property owner, and 100 for the self-sponsored, plus KWD 100 a year of health insurance per dependent."
+    },
+    {
+      "q": "How much is the residence fee for parents in Kuwait?",
+      "a": "KWD 300 for each year per parent, plus KWD 100 a year of health insurance, under the residence law's executive regulations in force since 23 December 2025."
+    },
+    {
+      "q": "What salary do you need to sponsor your family in Kuwait?",
+      "a": "KWD 800 a month since Ministerial Decision 56/2024 and then Article 22 of the regulations, with 9 professions exempt; exceptions may be made for those born in Kuwait."
+    },
+    {
+      "q": "What were the fees before December 2025?",
+      "a": "For a wife and two children about KWD 145 in the first year; now about KWD 420, then 375 a year, mainly because health insurance rose to KWD 100 per dependent."
+    }
+  ],
+  "sources": [
+    {
+      "t": "Al Rai — the new residence law: full restructuring of fees and conditions (23 Nov 2025, Arabic)",
+      "u": "https://www.alraimedia.com/article/1747701/محليات/أخبار-محلية/قانون-الإقامة-الجديد-هيكلة-كاملة-للرسوم-والشروط"
+    },
+    {
+      "t": "Kuwait Times — higher insurance, iqama and visa fees become effective (22 Dec 2025)",
+      "u": "https://kuwaittimes.com/article/37512/kuwait/other-news/higher-insurance-iqama-visa-fees-become-effective/amp"
+    },
+    {
+      "t": "Kuwait Times — health insurance hiked to KD 100 (21 Dec 2025)",
+      "u": "https://kuwaittimes.com/article/37466/kuwait/other-news/health-insurance-hiked-to-kd-100/"
+    },
+    {
+      "t": "Gulf News — new residency fees and conditions for expat families in Kuwait (8 Feb 2026)",
+      "u": "https://gulfnews.com/world/gulf/kuwait/new-residency-fees-and-conditions-set-for-expat-families-in-kuwait-1.500435961"
+    },
+    {
+      "t": "Kuwait Government Online — renew civil ID for non-Kuwaitis (2026)",
+      "u": "https://e.gov.kw/sites/kgoenglish/Pages/Services/PACI/RenewCivilIDNK.aspx"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Work out your family residence cost</h2>
+  <form id="calc" data-country="kw" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="sponsor">Sponsor category</label>
+        <select id="sponsor" name="sponsor">
+          <option value="standard" selected>Government or private employee, or student</option>
+          <option value="partner">Partner, investor or property owner</option>
+          <option value="self">Self-sponsored</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="spouse">Spouse</label>
+        <select id="spouse" name="spouse">
+          <option value="1" selected>Including a spouse</option>
+          <option value="0">No spouse</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="children">Number of children</label>
+        <input type="number" id="children" name="children" inputmode="decimal" min="0" step="1" value="2">
+      </div>
+      <div class="field">
+        <label for="parents">Number of parents</label>
+        <input type="number" id="parents" name="parents" inputmode="decimal" min="0" step="1" value="0">
+      </div>
+      <div class="field">
+        <label for="years">Residence term</label>
+        <select id="years" name="years">
+          <option value="1" selected>1 year</option>
+          <option value="2">2 years</option>
+          <option value="3">3 years</option>
+          <option value="4">4 years</option>
+          <option value="5">5 years</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="salary">Your monthly salary (KWD, optional)</label>
+        <input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="1" value="">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>Kuwait family residence fees since 23 December 2025</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Item</th><th scope="col">Amount (KWD)</th><th scope="col">For</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Family joining entry visa + its health fee</th><td>10 + 5</td><td>Wife, children and parents, once</td></tr>
+    <tr><th scope="row">Residence (government or private employee, or student)</th><td>20 a year</td><td>Wife and children</td></tr>
+    <tr><th scope="row">Residence (partner, investor or property owner)</th><td>40 a year</td><td>Wife and children</td></tr>
+    <tr><th scope="row">Residence (self-sponsored)</th><td>100 a year</td><td>Wife and children</td></tr>
+    <tr><th scope="row">Parents' residence</th><td>300 a year</td><td>Each parent</td></tr>
+    <tr><th scope="row">Health insurance</th><td>100 a year</td><td>Each dependent</td></tr>
+    <tr><th scope="row">Civil ID</th><td>5</td><td>Each person</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="example">
+<p><strong>Example:</strong> a private-sector sponsor, wife and two children, one-year residence: visas 30 plus their health fee 15, residence 60, health insurance 300 and civil IDs 15 = <strong>KWD 420</strong>, then 375 a year. With a two-year residence the renewal is 735, or 367.5 a year. Parents add KWD 810 a year.</p>
+</div>
+<p>A salary of at least KWD 800 is required, with 9 professions exempt. The civil ID fee may reach KWD 7 with the smart card fee. We found no change announced for 2027. If a residence lapses, work out the fine with the <a href="{{root}}en/kuwait-overstay-fine-calculator/{{ix}}">Kuwait overstay fine calculator</a>.</p>
+</div>
