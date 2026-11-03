@@ -32,6 +32,8 @@ import {
   omanOldAge,
   qatarPension,
   gccPensionCompare,
+  abuDhabiPension,
+  adPeriod,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -1029,4 +1031,53 @@ test("مقارنة معاشات الخليج — النسب عند 30 سنة", (
   assert.equal(r15.qa.eligible, false);
   assert.equal(r15["sa-legacy"].eligible, true);
   near(gccPensionCompare({ years: 35 }).find((r) => r.key === "ae-new").pct, 1, 1e-9);
+});
+
+test("أبوظبي — معاش صندوق أبوظبي بعد القانون 18/2023", () => {
+  assert.equal(adPeriod("2023-11-30"), 0);
+  assert.equal(adPeriod("2023-12-01"), 1);
+  assert.equal(adPeriod("2026-11-03"), 3);
+  assert.equal(adPeriod("2026-12-01"), 4);
+  // مثال 1: جديد، 30 سنة عند 55، متوسط 30,000 → 90%
+  const e1 = abuDhabiPension({ category: "new", birth: "1990-01-01", exit: "2045-01-01", years: 30, avgSalary: 30000 });
+  assert.equal(e1.track, "early");
+  near(e1.pct, 0.9, 1e-9);
+  assert.equal(e1.pension, 27000);
+  // مثال 2: جديد عند 60 بخدمة 18 سنة و4 أشهر
+  const e2 = abuDhabiPension({ category: "new", birth: "1980-01-01", exit: "2040-01-01", years: 18, months: 4, avgSalary: 25000 });
+  near(e2.pension, 14666.67, 0.01);
+  const e2b = abuDhabiPension({ category: "new", birth: "1980-01-01", exit: "2040-01-01", years: 18, months: 4, avgSalary: 15000 });
+  assert.equal(e2b.pension, 10200);
+  assert.ok(e2b.minApplied);
+  // مثال 3: حالي، مولود 15/5/1980، ترك 31/5/2026 بعد 25 سنة و3 أشهر، متوسط 41,666.67 → مسار 25 سنة، 80.5%
+  const e3 = abuDhabiPension({ category: "existing", birth: "1980-05-15", exit: "2026-05-31", years: 25, months: 3, avgSalary: 41666.67 });
+  assert.equal(e3.track, "route25");
+  near(e3.pct, 0.805, 1e-9);
+  near(e3.pension, 33541.67, 0.02);
+  // تنويع: مولود 1/7/1980 يكمل 25 سنة في 1/12/2026 → لا يستحق، ويستحق 1/1/2027
+  const e4 = abuDhabiPension({ category: "existing", birth: "1980-07-01", exit: "2026-12-01", years: 25, avgSalary: 40000 });
+  assert.equal(e4.eligible, false);
+  assert.equal(e4.next.date, "2027-01-01");
+  // مكافأة غير المستحق: جديد عند 40 بعد 12 سنة، متوسط 20,000 → 23.5 راتباً
+  const e5 = abuDhabiPension({ category: "new", birth: "1990-01-01", exit: "2030-01-01", years: 12, avgSalary: 20000 });
+  assert.equal(e5.eligible, false);
+  assert.equal(e5.gratuity, 470000);
+  // الأم الجديدة بخمسة أولاد: 23 سنة و52
+  assert.equal(abuDhabiPension({ category: "new", gender: "f", children: 5, birth: "1980-01-01", exit: "2032-06-01", years: 23, avgSalary: 20000 }).track, "mother");
+  // حق مكتسب: حالي أكمل 25 سنة قبل 1/12/2023
+  assert.equal(abuDhabiPension({ category: "existing", birth: "1975-01-01", exit: "2026-06-01", years: 28, avgSalary: 50000 }).track, "acquired");
+  // أكثر من 35 سنة: 3 رواتب عن كل سنة زائدة
+  assert.equal(abuDhabiPension({ category: "new", birth: "1998-01-01", exit: "2060-01-01", years: 37, avgSalary: 30000 }).excess, 180000);
+  // حالي تجاوز 25 سنة قبل 1/12/2023: لا نسبة عن الزائد قبل التعديل، و2% عن السنوات اللاحقة، ومنفعة مستقلة
+  const e6 = abuDhabiPension({ category: "existing", birth: "1960-01-01", exit: "2026-06-01", years: 37, avgSalary: 30000 });
+  assert.equal(e6.track, "acquired");
+  near(e6.counted, 27.5, 0.01);
+  near(e6.pct, 0.85, 0.001);
+  assert.equal(e6.excess, 0);
+  near(e6.preExcess, 3 * 30000 * 9.5, 1000);
+  // تاريخ الاستحقاق التالي بدقة اليوم: أم حالية تبلغ 51.5 في 1/7/2026
+  const e7 = abuDhabiPension({ category: "existing", gender: "f", children: 2, birth: "1975-01-01", exit: "2026-06-30", years: 12, avgSalary: 25000 });
+  assert.equal(e7.eligible, false);
+  assert.equal(e7.next.date, "2026-07-01");
+  assert.equal(e7.next.track, "routeMotherAge");
 });

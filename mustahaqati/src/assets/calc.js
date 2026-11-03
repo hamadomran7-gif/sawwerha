@@ -1974,6 +1974,119 @@ export function gccPensionCompare({ years, salary = 0 }) {
     .sort((a, b) => (b.eligible - a.eligible) || b.pct - a.pct);
 }
 
+/** أبوظبي — رقم الفترة الانتقالية: 1 من 1/12/2023 إلى 30/11/2024، و2 من 1/12/2024، وهكذا (0 قبل 1/12/2023). */
+export function adPeriod(iso) {
+  const d = toUTC(iso);
+  if (d < toUTC(rules.ae.abuDhabiPension.newFrom)) return 0;
+  return d.getUTCFullYear() - 2023 + (d.getUTCMonth() === 11 ? 1 : 0);
+}
+
+/** أبوظبي — مسارات الاستحقاق في تاريخ معين. category: new | existing. يعيد أول مسار متحقق أو null. */
+export function adEligibility({ category = "new", gender = "m", children = 0, age, years, date, acquired = false }) {
+  const A = rules.ae.abuDhabiPension;
+  const mother = gender === "f" && Number(children) > 0;
+  if (category === "new") {
+    const N = A.new;
+    if (age >= N.age && years >= N.minYears) return { track: "age60", credited: years };
+    if (years >= N.earlyYears && age >= N.earlyAge) return { track: "early", credited: years };
+    if (gender === "f" && Number(children) >= 5) {
+      const row = N.mothers.slice().reverse().find(([k]) => Number(children) >= k);
+      if (row && years >= row[1] && age >= row[2]) return { track: "mother", credited: years, needYears: row[1], needAge: row[2] };
+    }
+    return null;
+  }
+  const E = A.existing;
+  if (acquired) return { track: "acquired", credited: Math.max(years, E.minCreditedYears) };
+  const n = adPeriod(date);
+  const yrs = Math.min(E.routeYearsFinal, E.routeYearsBase + E.step * n);
+  const age25 = Math.min(E.route25AgeFinal, E.route25AgeFirst + E.step * Math.max(0, n - 1));
+  if (years >= E.route25Years && age >= age25) return { track: "route25", credited: years, needAge: age25 };
+  if (age >= E.route60Age && years >= yrs) return { track: "route60", credited: Math.max(years, E.minCreditedYears), needYears: yrs };
+  if (gender === "f") {
+    const ageW = Math.min(E.routeAgeFinal, E.routeWomenAgeBase + E.step * n);
+    if (age >= ageW && years >= yrs) return { track: "routeWomen", credited: Math.max(years, E.minCreditedYears), needAge: ageW, needYears: yrs };
+  }
+  if (mother) {
+    const ageM = Math.min(E.routeAgeFinal, E.routeMotherAgeBase + E.step * n);
+    if (age >= ageM && years >= yrs) return { track: "routeMotherAge", credited: Math.max(years, E.minCreditedYears), needAge: ageM, needYears: yrs };
+    const yrsM = Math.min(E.routeMotherServiceFinal, E.routeMotherServiceBase + E.step * n);
+    if (years >= yrsM) return { track: "routeMotherService", credited: years, needYears: yrsM };
+  }
+  return null;
+}
+
+/**
+ * أبوظبي — معاش المواطن في صندوق أبوظبي للمعاشات بعد القانون 18/2023: 3.2% عن كل سنة حتى 25 ثم 2% حتى 100% عند 35،
+ * على متوسط آخر 72 شهراً، وحد أدنى 10,200 درهم، و3 رواتب عن كل سنة بعد 35، ولا خصم على المبكر.
+ * غير المستحق: مكافأة 1.5 / 2 / 3 رواتب عن كل سنة (المادة 45).
+ */
+export function abuDhabiPension({ category = "new", gender = "m", children = 0, birth, exit, years = 0, months = 0, avgSalary = 0 }) {
+  const A = rules.ae.abuDhabiPension;
+  const a = ageCalc({ birth, asOf: exit });
+  if (!a) return null;
+  const ageAt = (iso) => {
+    const x = ageCalc({ birth, asOf: iso });
+    return x ? x.years + x.months / 12 + x.days / 365 : 0;
+  };
+  const age = a.years + a.months / 12 + a.days / 365;
+  const Y = Math.max(0, Number(years) || 0) + Math.max(0, Number(months) || 0) / 12;
+  const C = category === "new" ? A.new : A.existing;
+  const S = Math.min(Math.max(0, Number(avgSalary) || 0), C.cap);
+  // الحق المكتسب للمشترك الحالي: استيفاء شرط قديم في 30/11/2023
+  let acquired = false, Y0 = null;
+  if (category !== "new") {
+    const E = A.existing;
+    const cut = "2023-11-30";
+    const after = toUTC(exit) > toUTC(cut) ? (toUTC(exit) - toUTC(cut)) / (365.25 * 86400000) : 0;
+    Y0 = Math.max(0, Y - after);
+    const age0 = toUTC(exit) > toUTC(cut) ? ageAt(cut) : age;
+    const mother = gender === "f" && Number(children) > 0;
+    acquired = Y0 >= E.oldAnyAgeYears || (mother && (Y0 >= E.oldMotherAnyAgeYears || (Y0 >= E.oldMotherAgeMinYears && age0 >= E.oldMotherAge))) ||
+      (gender !== "f" && age0 >= E.oldMenAge && Y0 >= E.oldAgeMinYears) || (gender === "f" && age0 >= E.oldWomenAge && Y0 >= E.oldAgeMinYears);
+  }
+  const elig = adEligibility({ category, gender, children, age, years: Y, date: exit, acquired });
+  const pctOf = (yrs, credited) => Math.min(A.maxPct, A.accrualFirst * Math.min(Math.max(yrs, credited || 0), A.firstYears) + A.accrualAfter * Math.max(0, Math.min(yrs, A.maxYears) - A.firstYears));
+  let pct = 0, gross = 0, pension = 0, minApplied = false, excess = 0, preExcess = 0, gratuity = 0, next = null;
+  // م4 ثانياً/2: السنوات الزائدة على 25 قبل 1/12/2023 لا تُحسب لها نسبة، وتُصرف عنها منفعة بالأحكام السابقة (3 رواتب للسنة، تقديراً)
+  const counted = Y0 !== null && Y0 > A.firstYears ? A.firstYears + (Y - Y0) : Y;
+  if (elig) {
+    pct = pctOf(counted, elig.credited);
+    gross = S * pct;
+    pension = gross;
+    if (pension < A.minPension) { pension = A.minPension; minApplied = true; }
+    if (counted > A.maxYears) excess = A.excessSalariesPerYear * S * (counted - A.maxYears);
+    if (counted < Y) preExcess = A.excessSalariesPerYear * S * (Y0 - A.firstYears);
+  } else {
+    if (Y >= 1) {
+      const g = A.gratuity;
+      gratuity = S * (g[0] * Math.min(Y, 5) + g[1] * Math.min(Math.max(Y - 5, 0), 5) + g[2] * Math.max(Y - 10, 0));
+    }
+    const at = (d, yrs) => adEligibility({ category, gender, children, age: ageAt(d), years: yrs, date: d, acquired: false });
+    for (let k = 1; k <= 480; k++) {
+      const d = shiftMonths(exit, k);
+      if (!at(d, Y + k / 12)) continue;
+      // أول يوم مستحق داخل هذا الشهر
+      const prev = shiftMonths(exit, k - 1);
+      let hit = { d, yrs: Y + k / 12 };
+      for (let j = 1; j <= 31; j++) {
+        const dj = addDaysUTC(prev, j).toISOString().slice(0, 10);
+        if (dj >= d) break;
+        const yrs = Y + (k - 1) / 12 + j / 365.25;
+        if (at(dj, yrs)) { hit = { d: dj, yrs }; break; }
+      }
+      const e = at(hit.d, hit.yrs);
+      next = { date: hit.d, track: e.track, need: e, years: hit.yrs, age: ageAt(hit.d) };
+      break;
+    }
+  }
+  return {
+    category, age, years: Y, yearsAtCut: Y0, S, capped: (Number(avgSalary) || 0) > C.cap, period: adPeriod(exit), acquired,
+    eligible: !!elig, track: elig ? elig.track : null, need: elig || null, credited: elig ? elig.credited : null,
+    counted, pct, gross: r2(gross), pension: r2(pension), minApplied, excess: r2(excess), preExcess: r2(preExcess), gratuity: r2(gratuity), next,
+    employee: r2(S * C.employee), employer: r2(S * C.employer), government: r2(S * (C.government || 0)),
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

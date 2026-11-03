@@ -259,6 +259,77 @@ export default {
         ]
       ],
       "noticeDays": 90
+    },
+    "abuDhabiPension": {
+      "law": "قانون أبوظبي 2/2000 بشأن معاشات ومكافآت التقاعد المدنية، معدلاً بالقانون 18/2023 (نافذ 1/12/2023)",
+      "newFrom": "2023-12-01",
+      "accrualFirst": 0.032,
+      "firstYears": 25,
+      "accrualAfter": 0.02,
+      "maxPct": 1,
+      "maxYears": 35,
+      "minPension": 10200,
+      "excessSalariesPerYear": 3,
+      "privateFloor": 6000,
+      "gratuity": [
+        1.5,
+        2,
+        3
+      ],
+      "new": {
+        "age": 60,
+        "minYears": 15,
+        "earlyAge": 55,
+        "earlyYears": 25,
+        "mothers": [
+          [
+            5,
+            23,
+            52
+          ],
+          [
+            6,
+            21,
+            49
+          ],
+          [
+            7,
+            17.5,
+            45
+          ]
+        ],
+        "employee": 0.11,
+        "employer": 0.15,
+        "government": 0,
+        "cap": 100000,
+        "capSenior": 150000
+      },
+      "existing": {
+        "employee": 0.05,
+        "employer": 0.15,
+        "government": 0.06,
+        "cap": 150000,
+        "oldAnyAgeYears": 25,
+        "oldMenAge": 60,
+        "oldWomenAge": 55,
+        "oldAgeMinYears": 10,
+        "oldMotherAnyAgeYears": 15,
+        "oldMotherAge": 50,
+        "oldMotherAgeMinYears": 10,
+        "step": 0.5,
+        "route25Years": 25,
+        "route25AgeFirst": 45,
+        "route25AgeFinal": 55,
+        "route60Age": 60,
+        "routeYearsBase": 10,
+        "routeYearsFinal": 15,
+        "routeWomenAgeBase": 55,
+        "routeMotherAgeBase": 50,
+        "routeAgeFinal": 60,
+        "routeMotherServiceBase": 15,
+        "routeMotherServiceFinal": 25,
+        "minCreditedYears": 15
+      }
     }
   },
   "sa": {
