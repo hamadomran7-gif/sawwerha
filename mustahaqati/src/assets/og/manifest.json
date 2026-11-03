@@ -34,7 +34,7 @@
  "kuwait": "4277e415f4a7edab",
  "oman-end-of-service": "09058d12ea606cab",
  "oman-leave": "7ad74804883c7f83",
- "oman": "ca8d93e5b8704639",
+ "oman": "02494f7b338d9c11",
  "privacy": "85f0f19751495419",
  "qatar-end-of-service": "aa7dfde8a77a0d6b",
  "qatar-leave": "b21f9d039c95968b",
@@ -144,5 +144,7 @@
  "en-ksa-nitaqat": "b58eda1c935752c8",
  "ksa-nitaqat": "c196e80d51c5daac",
  "bahrain-pension": "9171f95542975567",
- "en-bahrain-pension": "18f39f5efa16ef95"
+ "en-bahrain-pension": "18f39f5efa16ef95",
+ "en-oman-pension": "a0b829228f830120",
+ "oman-pension": "47a9cb89827ee202"
 }

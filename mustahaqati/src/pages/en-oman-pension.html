@@ -1,0 +1,121 @@
+---json
+{
+  "lang": "en",
+  "path": "en/oman-pension-calculator",
+  "alternate": "oman-pension",
+  "title": "Oman Pension Calculator 2026 — Social Protection Fund Pension and Early Retirement",
+  "h1": "Oman Pension Calculator (Social Protection Law)",
+  "description": "Estimate your pension from Oman's Social Protection Fund: 2% per year of service since 2024 on the average future value of your wages, plus 2% per year of earlier service on your revalued final salary, unreduced retirement at 60 for men and 55 for women, and early retirement reduced by 5% a year.",
+  "short": "2% a year on revalued wages, 60 for men and 55 for women, early pension reduced 5% a year",
+  "lead": "Enter your date of birth, retirement date, service before 2024 and your final salary then, and your average wage since 2024 to see your estimated pension, both parts of it and any early retirement reduction.",
+  "country": "om",
+  "category": "salary",
+  "tool": true,
+  "script": "en-oman-pension.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": ["en-oman-end-of-service", "en-oman-leave", "en-bahrain-pension", "en-uae-pension"],
+  "faq": [
+    {"q": "How is the pension calculated under Oman's Social Protection Law?", "a": "It has two parts (Article 73): 2% × the average future value of wages × service since 1 January 2024, plus 2% × the final salary under the previous system revalued to entitlement × earlier service. Wages are gross, including allowances, capped at OMR 3,000, and are revalued each year by average wage growth (3% for 2024 and 2025)."},
+    {"q": "When can an Omani retire without a reduction?", "a": "Men at old age (60) and women five years earlier (55), with no minimum service. Since June 2026 the pension is due on reaching the age together with the end of service; anyone who keeps working is paid from the date service ends."},
+    {"q": "What are the early retirement conditions and reductions?", "a": "Up to five years before the unreduced age (from 55 for men and 50 for women) with 20 years of actual service, or at any age with 30 years of actual service. The reduction is 5% for each of the first five years before the unreduced age and 1% for each year beyond that, under Article 78."},
+    {"q": "Is the retirement age in Oman rising?", "a": "Yes. Old age rises by one year every seven years from the law's entry into force, up to 65 (Article 6). The first rise to 61 is most likely on 1 January 2031, and the 30-year early retirement condition rises by the same amount."},
+    {"q": "If I stop working before retirement age, do I get my contributions back?", "a": "No. There is no lump sum or refund of contributions for anyone who does not receive a pension (Article 84), but your rights are not lost when service is interrupted, so the pension is paid when you reach the age, based on the period you contributed."},
+    {"q": "What is the pension cash guarantee?", "a": "An amount calculated on 1 January 2024 under the previous pension system and final salary for people with earlier service. It acts as a minimum pension under the conditions in Article 74, chiefly 20 years of actual service under the previous system. The calculator does not compute it, so enter it from your Fund statement if you have one."},
+    {"q": "What are the pension contribution rates in Oman?", "a": "For the old-age, disability and death branch: 7.5% from the insured person and 11% from the employer, on the gross wage, with a wage ceiling of OMR 3,000 a month (Articles 52 and 70)."}
+  ],
+  "sources": [
+    {"t": "Qanoon — Social Protection Law, Royal Decree 52/2023 (Arabic)", "u": "https://qanoon.om/p/2023/l2023052/"},
+    {"t": "Decree.om — English translation of the Social Protection Law", "u": "https://decree.om/2023/rd20230052/"},
+    {"t": "Qanoon — Fund decision R/1/2025 on 3% wage growth and pension increases (Arabic)", "u": "https://qanoon.om/p/2025/spf20259901/"},
+    {"t": "Qanoon — Fund decision R/12/2026 on entitlement with end of service (Arabic)", "u": "https://qanoon.om/p/2026/spf20269903/"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Estimate your pension</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="gender">Sex</label>
+        <select id="gender" name="gender">
+          <option value="m" selected>Man</option>
+          <option value="f">Woman</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="birth">Date of birth</label>
+        <input type="date" id="birth" name="birth" value="1970-01-01" required>
+      </div>
+      <div class="field">
+        <label for="retire">Retirement date (end of service)</label>
+        <input type="date" id="retire" name="retire" value="2030-01-01" required>
+      </div>
+      <div class="field">
+        <label for="priorYears">Years of service before 1 Jan 2024</label>
+        <input type="number" id="priorYears" name="priorYears" inputmode="decimal" min="0" max="45" step="0.5" value="20">
+        <span class="hint">Under the previous pension system (civil service or PASI). 0 if you started in 2024 or later.</span>
+      </div>
+      <div class="field">
+        <label for="finalSalary">Final salary under the previous system (OMR)</label>
+        <input type="number" id="finalSalary" name="finalSalary" inputmode="decimal" min="0" step="10" value="1200">
+        <span class="hint">Your last contributory salary before 2024.</span>
+      </div>
+      <div class="field">
+        <label for="avgWage">Average gross monthly wage since 2024 (OMR)</label>
+        <input type="number" id="avgWage" name="avgWage" inputmode="decimal" min="0" step="10" value="1300" required>
+        <span class="hint">Basic plus allowances, capped at OMR 3,000.</span>
+      </div>
+      <div class="field">
+        <label for="postYears">Years of service since 1 Jan 2024 (optional)</label>
+        <input type="number" id="postYears" name="postYears" inputmode="decimal" min="0" max="45" step="0.5" placeholder="Up to retirement">
+        <span class="hint">Leave empty to count continuous service up to the retirement date.</span>
+      </div>
+      <div class="field">
+        <label for="growth">Average wage growth from 2026 (%)</label>
+        <input type="number" id="growth" name="growth" inputmode="decimal" min="0" max="10" step="0.5" value="3">
+        <span class="hint">An assumption for revaluation; 2024 and 2025 are officially 3%.</span>
+      </div>
+      <div class="field">
+        <label for="guarantee">Pension cash guarantee, if any (OMR)</label>
+        <input type="number" id="guarantee" name="guarantee" inputmode="decimal" min="0" step="10" placeholder="From your Fund statement">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>When is the pension due under the Social Protection Law?</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Case</th><th scope="col">Men</th><th scope="col">Women</th><th scope="col">Reduction</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Unreduced (Article 75)</th><td>60, no minimum service</td><td>55, no minimum service</td><td>None</td></tr>
+    <tr><th scope="row">Early by age (Article 76)</th><td>From 55 with 20 years of actual service</td><td>From 50 with 20 years of actual service</td><td>5% per year before the unreduced age</td></tr>
+    <tr><th scope="row">Early by service (Article 76)</th><td colspan="2">30 years of actual service at any age</td><td>5% a year for the first five, then 1%</td></tr>
+    <tr><th scope="row">Leaving work before that</th><td colspan="2">No lump sum or refund; the pension is paid on reaching the age</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Hazardous or arduous work, military and security service and persons with disabilities have lower ages under special conditions in Article 75. Old age is 60 and rises by one year every seven years up to 65.</p>
+
+<h2>How the pension is calculated</h2>
+<ul>
+  <li><strong>Service since 2024:</strong> 2% × the average future value of your wages × the years of that service. Each year's wage is multiplied by wage growth for every following year up to entitlement.</li>
+  <li><strong>Earlier service:</strong> 2% × your final salary under the previous system, multiplied by wage growth from 2024 to entitlement, × the years of earlier service.</li>
+  <li><strong>Reduction:</strong> applies to both parts together, and the pension after it cannot fall below the cash guarantee, if any.</li>
+</ul>
+
+<div class="example">
+<p><strong>Example:</strong> a man born on 1 Jan 1970 with 20 years of service before 2024 on a final salary of OMR 1,200, a steady wage of OMR 1,300 since 2024, retiring on 1 Jan 2030 at 60.</p>
+<p>Revalued final salary: 1,200 × 1.03⁶ = 1,432.86, so the first part is 2% × 20 × 1,432.86 = 573.15.<br>
+The average future value of his wages since 2024 is about 1,443.53, so the second part is 2% × 6 × 1,443.53 = 173.22.<br>
+Estimated pension: <strong>OMR 746.37</strong> a month, or the cash guarantee if higher.</p>
+</div>
+<p>The result is an estimate: the detailed revaluation method in the regulations and wage growth after 2025 are not published, and the Social Protection Fund sets the official pension. Prefer Arabic? Use the <a href="{{root}}oman-pension/{{ix}}" hreflang="ar" lang="ar">Arabic version</a>.</p>
+</div>

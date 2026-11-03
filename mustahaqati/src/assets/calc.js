@@ -1820,6 +1820,78 @@ export function bahrainPension({ age, months, avgWage, year = new Date().getFull
   };
 }
 
+/** عُمان — سن كبار السن: 60 ويرتفع سنة كل 7 سنوات من نفاذ القانون (1/1/2024) حتى 65 (أول رفع 1/1/2031 استنتاجاً). */
+export function omanOldAge(iso) {
+  const O = rules.om.pension;
+  const y = Number(String(iso).slice(0, 4)) || 2024;
+  return Math.min(O.ageMax, O.oldAge + Math.max(0, Math.floor((y - Number(O.effective.slice(0, 4))) / O.ageStepEveryYears)));
+}
+
+/**
+ * عُمان — معاش كبار السن (المادة 73): 2% × متوسط القيمة المستقبلية للأجور × سنوات الخدمة منذ 1/1/2024
+ * + 2% × الراتب الأخير (12/2023) المعاد تقييمه حتى الاستحقاق × سنوات الخدمة السابقة.
+ * إعادة التقييم سنوية بمتوسط نمو الأجور (3% لعامي 2024 و2025، وما بعدهما افتراض growth).
+ * الخصم (المادة 78): 5% لكل سنة من السنوات الخمس الأولى قبل سن عدم الخصم، ثم 1%، بالتناسب الشهري تقديراً.
+ */
+export function omanPension({ gender = "m", birth, retire, priorYears = 0, finalSalary = 0, postYears = null, avgWage = 0, growth = null, guarantee = 0 }) {
+  const O = rules.om.pension;
+  const age = ageCalc({ birth, asOf: retire });
+  if (!age) return null;
+  const ageExact = age.years + age.months / 12 + age.days / 365;
+  const R = toUTC(retire).getUTCFullYear();
+  const gDefault = growth === null || growth === undefined || growth === "" ? O.growthDefault : Number(growth);
+  const g = (y) => (O.growth[String(y)] !== undefined ? O.growth[String(y)] : gDefault);
+  const factorFrom = (y) => {
+    let f = 1;
+    for (let t = y; t < R; t++) f *= 1 + g(t);
+    return f;
+  };
+  const sp = toUTC(retire) > toUTC(O.effective) ? ageCalc({ birth: O.effective, asOf: retire }) : null;
+  const span = sp ? sp.years + sp.months / 12 + sp.days / 365 : 0;
+  const post = postYears === null || postYears === undefined || postYears === "" ? span : Math.max(0, Math.min(Number(postYears) || 0, span));
+  const months = Math.round(post * 12);
+  let sumF = 0;
+  const startY = Number(O.effective.slice(0, 4));
+  for (let i = 0; i < months; i++) sumF += factorFrom(startY + Math.floor(i / 12));
+  const avgFactor = months ? sumF / months : 0;
+  const wage = Math.min(Math.max(0, Number(avgWage) || 0), O.wageCap);
+  const avgFV = wage * avgFactor;
+  const partA = O.accrual * avgFV * post;
+  const prior = Math.max(0, Number(priorYears) || 0);
+  const final = Math.max(0, Number(finalSalary) || 0);
+  const priorFactor = factorFrom(startY);
+  let revalued = final * priorFactor;
+  if (revalued > O.wageCap) revalued = Math.max(final, O.wageCap);
+  const partB = O.accrual * revalued * prior;
+  const gross = partA + partB;
+
+  const oldAge = omanOldAge(retire);
+  const noReductionAge = gender === "f" ? oldAge - O.womanGap : oldAge;
+  const service = prior + post;
+  const anyAgeYears = O.anyAgeServiceYears + (oldAge - O.oldAge);
+  let status = "full", yearsEarly = 0;
+  if (ageExact + 1e-9 < noReductionAge) {
+    const byAge = ageExact + 1e-9 >= noReductionAge - O.earlyMaxYears && service + 1e-9 >= O.earlyMinServiceYears;
+    const byService = service + 1e-9 >= anyAgeYears;
+    if (byAge || byService) {
+      status = "early";
+      yearsEarly = noReductionAge - ageExact;
+    } else status = "deferred";
+  }
+  const reduction = status === "early" ? Math.min(O.reductionFirstYears, yearsEarly) * O.reductionFirst + Math.max(0, yearsEarly - O.reductionFirstYears) * O.reductionAfter : 0;
+  let pension = status === "deferred" ? 0 : gross * (1 - reduction);
+  const g0 = Math.max(0, Number(guarantee) || 0);
+  const guaranteeApplied = status !== "deferred" && g0 > pension;
+  if (guaranteeApplied) pension = g0;
+  return {
+    age, ageExact, oldAge, noReductionAge, service, post, prior, anyAgeYears, status, yearsEarly, reduction,
+    wage, wageCapped: (Number(avgWage) || 0) > O.wageCap, avgFactor, avgFV: r2(avgFV), partA: r2(partA),
+    priorFactor, revalued: r2(revalued), partB: r2(partB), gross: r2(gross), pension: r2(pension), guaranteeApplied,
+    transitional: prior >= O.transitionalPriorYears,
+    employee: r2(wage * O.employeeRate), employer: r2(wage * O.employerRate),
+  };
+}
+
 /* ------------------------------------------------------------------ */
 /* السعودية — سلم رواتب الموظفين العام والوظائف التعليمية               */
 /* ------------------------------------------------------------------ */

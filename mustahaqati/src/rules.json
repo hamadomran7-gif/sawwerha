@@ -1772,6 +1772,31 @@
       "wageBasis": "total",
       "spfStart": "2026-07-19",
       "spfEmployerDays": 7
+    },
+    "pension": {
+      "law": "قانون الحماية الاجتماعية (المرسوم السلطاني 52/2023، نافذ 1/1/2024) المواد 1 و6 و52 و70 و72–78 و84، وقرار الصندوق ر/1/2025 ور/12/2026",
+      "effective": "2024-01-01",
+      "accrual": 0.02,
+      "wageCap": 3000,
+      "growth": {
+        "2024": 0.03,
+        "2025": 0.03
+      },
+      "growthDefault": 0.03,
+      "oldAge": 60,
+      "ageStepEveryYears": 7,
+      "ageMax": 65,
+      "womanGap": 5,
+      "earlyMaxYears": 5,
+      "earlyMinServiceYears": 20,
+      "anyAgeServiceYears": 30,
+      "reductionFirst": 0.05,
+      "reductionFirstYears": 5,
+      "reductionAfter": 0.01,
+      "employeeRate": 0.075,
+      "employerRate": 0.11,
+      "transitionalPriorYears": 20,
+      "seniorBenefit": 115
     }
   },
   "bh": {

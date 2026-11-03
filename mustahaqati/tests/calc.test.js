@@ -28,6 +28,8 @@ import {
   parseWageList,
   nitaqatSummary,
   bahrainPension,
+  omanPension,
+  omanOldAge,
 } from "../src/assets/calc.js";
 
 const near = (a, b, tol = 0.01) => assert.ok(Math.abs(a - b) <= tol, `${a} ≠ ${b}`);
@@ -951,3 +953,33 @@ test("البحرين — معاش القطاع الخاص والدفعة الو�
   assert.ok(bahrainPension({ age: 60, months: 6, avgWage: 500 }).refundOnly);
 });
 const r2t = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
+test("عُمان — معاش كبار السن بالجزأين والخصم", () => {
+  assert.equal(omanOldAge("2030-12-31"), 60);
+  assert.equal(omanOldAge("2031-01-01"), 61);
+  assert.equal(omanOldAge("2060-01-01"), 65);
+  // مثال البحث ع1: 20 سنة سابقة براتب 1,200، و6 سنوات بعد القانون بأجر 1,300، تقاعد 1/1/2030 بعمر 60
+  const a = omanPension({ gender: "m", birth: "1970-01-01", retire: "2030-01-01", priorYears: 20, finalSalary: 1200, avgWage: 1300 });
+  assert.equal(a.status, "full");
+  near(a.revalued, 1432.86);
+  near(a.partB, 573.15);
+  near(a.avgFV, 1443.53, 0.02);
+  near(a.partA, 173.22, 0.02);
+  near(a.pension, 746.37, 0.03);
+  // مثال ع2: امرأة بعمر 52 في 1/1/2028، 19 سنة سابقة براتب 900، و4 سنوات بأجر 950 → خصم 15%
+  const b = omanPension({ gender: "f", birth: "1976-01-01", retire: "2028-01-01", priorYears: 19, finalSalary: 900, avgWage: 950 });
+  assert.equal(b.status, "early");
+  near(b.reduction, 0.15, 1e-6);
+  near(b.gross, 466.8, 0.03);
+  near(b.pension, 396.78, 0.03);
+  // ع3: رجل بعمر 50 أكمل 30 سنة → خصم 30%
+  const c = omanPension({ gender: "m", birth: "1979-07-01", retire: "2029-07-01", priorYears: 24.5, finalSalary: 800, avgWage: 900 });
+  assert.equal(c.status, "early");
+  near(c.reduction, 0.3, 1e-6);
+  // ترك العمل بعمر 40 بعد 10 سنوات → مؤجل
+  const d = omanPension({ gender: "m", birth: "1994-01-01", retire: "2034-01-01", avgWage: 1000 });
+  assert.equal(d.status, "deferred");
+  assert.equal(d.pension, 0);
+  // الضمان النقدي حد أدنى
+  assert.equal(omanPension({ gender: "m", birth: "1970-01-01", retire: "2030-01-01", priorYears: 20, finalSalary: 1200, avgWage: 1300, guarantee: 900 }).pension, 900);
+});
