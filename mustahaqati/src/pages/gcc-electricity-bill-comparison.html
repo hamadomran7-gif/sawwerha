@@ -1,0 +1,116 @@
+---json
+{
+  "title": "مقارنة فاتورة الكهرباء والماء في الخليج 2026 — دبي وأبوظبي والشمالية والسعودية والبحرين والكويت",
+  "h1": "مقارنة فاتورة الكهرباء والماء بين دول الخليج",
+  "description": "أدخل استهلاكك الشهري من الكهرباء والماء وقارن الفاتورة عند ديوا وطاقة للتوزيع والاتحاد للماء والكهرباء والسعودية والبحرين والكويت بالعملة المحلية وبالدرهم، للوافد والمواطن، شاملة الضريبة والرسوم.",
+  "short": "نفس الاستهلاك عند ست جهات خليجية بالدرهم، للوافد والمواطن",
+  "lead": "أدخل استهلاك شهر واحد من فاتورتك واختر فئتك، فتظهر الفاتورة نفسها عند الجهات الست مرتبة من الأرخص.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "gcc-utility-compare.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "dewa-bill-calculator",
+    "abu-dhabi-electricity-bill",
+    "etihad-we-bill",
+    "ksa-electricity-bill",
+    "bahrain-electricity-bill",
+    "kuwait-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "أين أرخص فاتورة كهرباء في الخليج للوافد؟",
+      "a": "في الكويت: الكيلوواط بـ5 فلوس في السكن الاستثماري (نحو 6 فلوس إماراتية). فشقة تستهلك 1,500 ك.و.س و27 م³ تدفع نحو 19.4 ديناراً (231 درهماً)، مقابل نحو 836 درهماً في دبي."
+    },
+    {
+      "q": "لماذا فاتورة دبي أعلى من أبوظبي والشمالية؟",
+      "a": "لأن ديوا تضيف رسم وقود شهرياً على الكهرباء والمياه، وتُحصّل بلدية دبي الصرف الصحي بالغالون مع الفاتورة، إضافة إلى رسم السكن 5% من الإيجار (غير محسوب في المقارنة)."
+    },
+    {
+      "q": "هل تشمل المقارنة رسوم السكن والبلدية؟",
+      "a": "لا. استبعدنا الرسوم المرتبطة بالإيجار لأنها لا تتعلق بالاستهلاك: رسم السكن في دبي ورسوم البلدية في أبوظبي والبحرين. وتجدها في حاسبة كل جهة."
+    },
+    {
+      "q": "كم يدفع المواطن مقارنة بالوافد؟",
+      "a": "للاستهلاك نفسه (1,500 ك.و.س و27 م³): نحو 7 دنانير للمواطن البحريني و7.8 ديناراً للكويتي، و173 درهماً لمواطن أبوظبي، و212 في الشمالية، و247 في دبي."
+    }
+  ],
+  "sources": [
+    {
+      "t": "تعرفة ديوا (الشرائح ورسم الوقود)",
+      "u": "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff"
+    },
+    {
+      "t": "طاقة للتوزيع — Utility Tariff 2025",
+      "u": "https://www.addc.ae/en-US/business/Documents/2025%20Tariff%20(English).pdf"
+    },
+    {
+      "t": "الاتحاد للماء والكهرباء — صفحة التعرفة",
+      "u": "https://etihadwe.ae/en/About/Pages/Tariff.aspx"
+    },
+    {
+      "t": "البحرين — القرار 2/2025 بشأن تعرفة الاستهلاك",
+      "u": "https://www.lloc.gov.bh/Legislation/HTM/RMEW0225"
+    },
+    {
+      "t": "Arab Times — تعرفة الكويت (24/7/2025)",
+      "u": "https://www.arabtimesonline.com/news/this-simple-change-could-cut-your-kuwait-utility-bill-by-90"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">قارن فاتورتك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="kwh">استهلاك الكهرباء الشهري (ك.و.س)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500">
+      </div>
+      <div class="field">
+        <label for="m3">استهلاك المياه الشهري (م³)</label>
+        <input type="number" id="m3" name="m3" inputmode="decimal" min="0" step="0.1" value="27">
+      </div>
+      <div class="field">
+        <label for="who">الفئة</label>
+        <select id="who" name="who">
+          <option value="expat" selected>وافد</option>
+          <option value="national">مواطن الدولة</option>
+        </select>
+      </div>
+      <div class="field" data-home>
+        <label for="home">نوع المسكن (لأبوظبي)</label>
+        <select id="home" name="home">
+          <option value="flat" selected>شقة</option>
+          <option value="villa">فيلا</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">قارن</button>
+      <button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>سعر الكيلوواط الأول عند كل جهة</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">الجهة</th><th scope="col">الوافد</th><th scope="col">المواطن</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">دبي (ديوا)</th><td>23 فلساً + رسم وقود 6</td><td>7.5 فلس</td></tr>
+    <tr><th scope="row">أبوظبي والعين</th><td>26.8 فلس داخل الحزمة</td><td>6.7 فلس داخل الحزمة</td></tr>
+    <tr><th scope="row">الشمالية (الاتحاد)</th><td>23 فلساً + رسم إضافي 5</td><td>7.5 فلس</td></tr>
+    <tr><th scope="row">السعودية</th><td colspan="2">18 هللة حتى 6,000 ك.و.س (21 من 2027)</td></tr>
+    <tr><th scope="row">البحرين</th><td>32 فلساً بحرينياً</td><td>3 فلوس حتى 3,000</td></tr>
+    <tr><th scope="row">الكويت</th><td>5 فلوس (استثماري)</td><td>2 فلس (سكن خاص)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>الأسعار بعملة كل دولة وقبل الضريبة إلا البحرين (شاملة). والفرق الأكبر في المياه: الوافد في الكويت يدفع ديناري للألف غالون (نحو 440 فلساً للمتر)، وفي البحرين 775 فلساً للمتر مع صرف 20%، وفي الإمارات 7.70–10.41 درهم للمتر.</p>
+<p>لحساب فاتورتك بكل بنودها: <a href="{{root}}dewa-bill-calculator/{{ix}}">ديوا</a> · <a href="{{root}}abu-dhabi-electricity-bill/{{ix}}">أبوظبي</a> · <a href="{{root}}etihad-we-bill/{{ix}}">الاتحاد</a> · <a href="{{root}}ksa-electricity-bill/{{ix}}">السعودية</a> · <a href="{{root}}bahrain-electricity-bill/{{ix}}">البحرين</a> · <a href="{{root}}kuwait-electricity-bill/{{ix}}">الكويت</a>.</p>
+</div>

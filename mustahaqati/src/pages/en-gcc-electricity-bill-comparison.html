@@ -1,0 +1,119 @@
+---json
+{
+  "lang": "en",
+  "path": "en/gcc-electricity-bill-comparison",
+  "alternate": "gcc-electricity-bill-comparison",
+  "title": "GCC Electricity and Water Bill Comparison 2026 — Dubai, Abu Dhabi, Northern Emirates, Saudi Arabia, Bahrain and Kuwait",
+  "h1": "Electricity and Water Bills Compared Across the GCC",
+  "description": "Enter your monthly electricity and water use and compare the bill at DEWA, TAQA Distribution, Etihad WE, Saudi Arabia, Bahrain and Kuwait in local currency and AED, for expats and nationals, including VAT and charges.",
+  "short": "The same use at six GCC utilities in AED, for expats and nationals",
+  "lead": "Enter one month's use from your bill and pick who pays to see the same bill at all six utilities, cheapest first.",
+  "country": "gcc",
+  "category": "tools",
+  "tool": true,
+  "script": "en-gcc-utility-compare.js",
+  "published": "2026-11-03",
+  "updated": "2026-11-03",
+  "related": [
+    "en-dewa-bill-calculator",
+    "en-abu-dhabi-electricity-bill",
+    "en-etihad-we-bill",
+    "en-ksa-electricity-bill",
+    "en-bahrain-electricity-bill",
+    "en-kuwait-electricity-bill"
+  ],
+  "faq": [
+    {
+      "q": "Where are electricity bills cheapest for expats in the GCC?",
+      "a": "Kuwait: 5 fils per kWh in investment housing (about 6 UAE fils). A flat using 1,500 kWh and 27 m³ pays about KD 19.4 (AED 231), against about AED 836 in Dubai."
+    },
+    {
+      "q": "Why are Dubai bills higher than Abu Dhabi or the northern emirates?",
+      "a": "DEWA adds a monthly fuel surcharge to electricity and water, and Dubai Municipality bills sewerage per gallon on the DEWA bill, on top of the 5% housing fee on rent (left out of this comparison)."
+    },
+    {
+      "q": "Does the comparison include housing and municipality fees?",
+      "a": "No. Rent-based fees are left out because they don't depend on use: Dubai's housing fee and Abu Dhabi's and Bahrain's municipality fees. Each utility's own calculator includes them."
+    },
+    {
+      "q": "How much less do nationals pay?",
+      "a": "For the same use (1,500 kWh and 27 m³): about BD 7 for a Bahraini, KD 7.8 for a Kuwaiti, AED 173 for an Abu Dhabi national, 212 in the northern emirates and 247 in Dubai."
+    }
+  ],
+  "sources": [
+    {
+      "t": "تعرفة ديوا (الشرائح ورسم الوقود)",
+      "u": "https://www.dewa.gov.ae/en/consumer/billing/slab-tariff"
+    },
+    {
+      "t": "طاقة للتوزيع — Utility Tariff 2025",
+      "u": "https://www.addc.ae/en-US/business/Documents/2025%20Tariff%20(English).pdf"
+    },
+    {
+      "t": "الاتحاد للماء والكهرباء — صفحة التعرفة",
+      "u": "https://etihadwe.ae/en/About/Pages/Tariff.aspx"
+    },
+    {
+      "t": "البحرين — القرار 2/2025 بشأن تعرفة الاستهلاك",
+      "u": "https://www.lloc.gov.bh/Legislation/HTM/RMEW0225"
+    },
+    {
+      "t": "Arab Times — تعرفة الكويت (24/7/2025)",
+      "u": "https://www.arabtimesonline.com/news/this-simple-change-could-cut-your-kuwait-utility-bill-by-90"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Compare your bill</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="kwh">Electricity a month (kWh)</label>
+        <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500">
+      </div>
+      <div class="field">
+        <label for="m3">Water a month (m³)</label>
+        <input type="number" id="m3" name="m3" inputmode="decimal" min="0" step="0.1" value="27">
+      </div>
+      <div class="field">
+        <label for="who">Who pays</label>
+        <select id="who" name="who">
+          <option value="expat" selected>Expat</option>
+          <option value="national">Citizen of that country</option>
+        </select>
+      </div>
+      <div class="field" data-home>
+        <label for="home">Home type (for Abu Dhabi)</label>
+        <select id="home" name="home">
+          <option value="flat" selected>Flat</option>
+          <option value="villa">Villa</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Compare</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>First-slab electricity price at each utility</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">Utility</th><th scope="col">Expat</th><th scope="col">National</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Dubai (DEWA)</th><td>23 fils + 6 fuel surcharge</td><td>7.5 fils</td></tr>
+    <tr><th scope="row">Abu Dhabi and Al Ain</th><td>26.8 fils inside the band</td><td>6.7 fils inside the band</td></tr>
+    <tr><th scope="row">Northern emirates (Etihad WE)</th><td>23 fils + 5 surcharge</td><td>7.5 fils</td></tr>
+    <tr><th scope="row">Saudi Arabia</th><td colspan="2">18 halalas up to 6,000 kWh (21 from 2027)</td></tr>
+    <tr><th scope="row">Bahrain</th><td>32 Bahraini fils</td><td>3 fils up to 3,000</td></tr>
+    <tr><th scope="row">Kuwait</th><td>5 fils (investment housing)</td><td>2 fils (private housing)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Prices are in each country's currency and before VAT, except Bahrain (VAT included). Water makes the biggest difference: expats pay KD 2 per 1,000 gallons in Kuwait (about 440 fils per m³), 775 fils per m³ in Bahrain plus 20% wastewater, and AED 7.70–10.41 per m³ in the UAE.</p>
+<p>For a full bill with every item: <a href="{{root}}en/dewa-bill-calculator/{{ix}}">DEWA</a> · <a href="{{root}}en/abu-dhabi-electricity-water-bill/{{ix}}">Abu Dhabi</a> · <a href="{{root}}en/etihad-water-electricity-bill/{{ix}}">Etihad WE</a> · <a href="{{root}}en/saudi-electricity-bill-calculator/{{ix}}">Saudi Arabia</a> · <a href="{{root}}en/bahrain-ewa-bill-calculator/{{ix}}">Bahrain</a> · <a href="{{root}}en/kuwait-electricity-water-bill/{{ix}}">Kuwait</a>.</p>
+</div>

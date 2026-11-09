@@ -1049,6 +1049,34 @@ export function etihadWeBill({ category = "expat", kwh = 0, m3 = 0, other = 0 } 
   };
 }
 
+/**
+ * مقارنة فاتورة الكهرباء والمياه لنفس الاستهلاك عند سبع جهات خليجية (دبي، أبوظبي، الاتحاد، السعودية، البحرين، الكويت)،
+ * بالعملة المحلية وبالدرهم، دون الرسوم المرتبطة بالإيجار (رسم السكن في دبي والبلدية في أبوظبي والبحرين).
+ * who: expat | national ؛ home: flat | villa (يؤثر على حزمة أبوظبي فقط)
+ */
+export function gccUtilityCompare({ kwh = 0, m3 = 0, who = "expat", home = "flat", asOf = new Date() } = {}) {
+  const nat = who === "national";
+  const aedPer = rules.gcc.fx.aedPer;
+  const k = Math.max(0, Number(kwh) || 0), w = Math.max(0, Number(m3) || 0);
+  const dewa = uaeDewaBill({ category: nat ? "national" : "residential", kwh: k, m3: w, annualRent: 0, asOf });
+  const ad = abuDhabiUtilityBill({ category: nat ? "national" : "expat", home, kwh: k, m3: w, days: 30, annualRent: 0 });
+  const et = etihadWeBill({ category: nat ? "national" : "expat", kwh: k, m3: w });
+  const se = ksaElectricityBill({ kwh: k, sector: "residential", tariff: "old" });
+  const sw = ksaWaterBill({ m3: w, sector: "residential", tariff: "current" });
+  const bh = bahrainEwaBill({ category: nat ? "citizen" : "other", kwh: k, m3: w });
+  const kw = kuwaitUtilityBill({ category: nat ? "private" : "investment", kwh: k, water: w, waterUnit: "m3" });
+  const rows = [
+    { id: "dewa", cur: "AED", local: dewa.total, elec: dewa.electricity + dewa.fuelElec },
+    { id: "abudhabi", cur: "AED", local: ad.utilitiesTotal, elec: ad.electricity },
+    { id: "etihadwe", cur: "AED", local: et.total, elec: et.electricity + et.surcharge },
+    { id: "ksa", cur: "SAR", local: r2(se.total + (sw ? sw.total : 0)), elec: se.consumption },
+    { id: "bahrain", cur: "BHD", local: bh.total, elec: bh.electricity },
+    { id: "kuwait", cur: "KWD", local: kw.total, elec: kw.electricity },
+  ].map((x) => ({ ...x, aed: r2(x.local * aedPer[x.cur]), perKwhAed: k > 0 ? Math.round((x.elec * aedPer[x.cur] / k) * 1e4) / 1e4 : null }));
+  rows.sort((a, b) => a.aed - b.aed);
+  return { kwh: k, m3: w, who, home, rows, cheapest: rows[0], dearest: rows[rows.length - 1] };
+}
+
 /** أسعار الوقود الشهرية في الإمارات: كلفة تعبئة الخزان وكلفة الوقود الشهرية من المسافة والاستهلاك، ومقارنة بالشهر السابق. */
 export function uaeFuelCost({ fuel = "special95", tank = 60, km = 0, per100 = 8, month = null } = {}) {
   const F = rules.ae.fuel;
