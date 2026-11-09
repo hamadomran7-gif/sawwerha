@@ -84,6 +84,7 @@ import {
   loanInstallment,
   uaePersonalLoanCheck,
   ksaFinanceCheck,
+  kuwaitLoanCheck,
   uaeMortgageLtv,
   dubaiPurchaseCosts,
   iloe,
@@ -2368,4 +2369,21 @@ test("gccUtilityCompare: نفس الاستهلاك عند ست جهات", () => 
   assert.equal(r.cheapest.id, "kuwait");
   const n = gccUtilityCompare({ kwh: 6000, m3: 60, who: "national", home: "villa" });
   assert.equal(n.rows.find((x) => x.id === "etihadwe").local, 680.4);
+});
+
+test("قروض الكويت: الاستهلاكي 25 ضعف الراتب بسقف 25,000 والإسكاني 70,000", () => {
+  const a = kuwaitLoanCheck({ type: "consumer", principal: 20000, months: 60, netSalary: 1000, installment: 300, ratePct: 6 });
+  assert.equal(a.maxAmount, 25000);
+  assert.equal(a.amountOk, true);
+  assert.equal(a.maxInstallment, 400);
+  assert.equal(a.dbrOk, true);
+  assert.equal(a.maxRatePct, 6.5);
+  assert.equal(a.rateOk, true);
+  const b = kuwaitLoanCheck({ type: "consumer", principal: 20000, months: 61, netSalary: 600, installment: 300, retiree: true, ratePct: 7 });
+  assert.equal(b.maxAmount, 15000);
+  assert.equal(b.amountOk, false);
+  assert.equal(b.monthsOk, false);
+  assert.equal(b.dbrOk, false);
+  assert.equal(b.rateOk, false);
+  assert.equal(kuwaitLoanCheck({ type: "housing", principal: 70000, months: 180, netSalary: 1500, installment: 500 }).amountOk, true);
 });

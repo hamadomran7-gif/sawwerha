@@ -7689,6 +7689,19 @@ export default {
         "ultra98": 0.275,
         "diesel": 0.115
       }
+    },
+    "loan": {
+      "law": "تعليمات بنك الكويت المركزي للتمويل الاستهلاكي والإسكاني (نوفمبر 2018) وبيان سعر الخصم",
+      "consumerMultiple": 25,
+      "consumerMaxAmount": 25000,
+      "consumerMaxMonths": 60,
+      "housingMaxAmount": 70000,
+      "housingMaxMonths": 180,
+      "maxDeductionEmployee": 0.4,
+      "maxDeductionRetiree": 0.3,
+      "discountRatePct": 3.5,
+      "rateSpreadPct": 3,
+      "discountRateAsOf": "2026-09"
     }
   },
   "om": {

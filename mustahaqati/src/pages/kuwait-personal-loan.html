@@ -1,0 +1,54 @@
+---json
+{
+  "title": "حاسبة القرض الشخصي في الكويت 2026 — القسط وحدود بنك الكويت المركزي",
+  "h1": "حاسبة القرض الشخصي في الكويت",
+  "description": "احسب القسط الشهري وإجمالي الفوائد للقرض الاستهلاكي أو الإسكاني في الكويت، وتحقق من تعليمات بنك الكويت المركزي: 25 ضعف صافي الراتب بسقف 25,000 د.ك لمدة 5 سنوات، واستقطاع 40% للموظف و30% للمتقاعد.",
+  "short": "القسط والفوائد مع حدود المركزي الكويتي (25 ضعفاً وبسقف 25,000 د.ك و40% استقطاعاً)",
+  "lead": "أدخل المبلغ والفائدة والمدة وصافي راتبك لتعرف هل يوافق القرض تعليمات المركزي وكم يكلفك فعلاً.",
+  "country": "kw",
+  "category": "finance",
+  "tool": true,
+  "script": "kuwait-personal-loan.js",
+  "published": "2026-11-09",
+  "updated": "2026-11-09",
+  "related": ["uae-personal-loan", "ksa-personal-finance", "kuwait-electricity-bill", "kuwait-end-of-service"],
+  "faq": [
+    {"q": "ما الحد الأقصى للقرض الاستهلاكي في الكويت؟", "a": "25 ضعف صافي الراتب وبحد أقصى 25,000 دينار كويتي ولمدة لا تتجاوز 5 سنوات، بحسب تعليمات بنك الكويت المركزي للتمويل الاستهلاكي."},
+    {"q": "كم يبلغ حد التمويل الإسكاني؟", "a": "حتى 70,000 دينار كويتي ولمدة تصل إلى 15 سنة."},
+    {"q": "ما نسبة الاستقطاع المسموح بها؟", "a": "لا يزيد القسط على 40% من صافي راتب الموظف و30% من راتب المتقاعد."},
+    {"q": "ما سقف الفائدة؟", "a": "لا تتجاوز الفائدة سعر الخصم المعلن من المركزي زائد 3%. وسعر الخصم 3.5% حسب آخر قرار نعرفه (سبتمبر 2026)، فالسقف 6.5%؛ تحقق من أي قرار أحدث."},
+    {"q": "هل توجد رسوم سداد مبكر؟", "a": "لا ينص التعميم على سقف لرسوم المعالجة ولا السداد المبكر، وإنما تُسقط فائدة المدة المتبقية عند السداد المبكر. اسأل بنكك عن شروطه."}
+  ],
+  "sources": [
+    {"t": "بنك الكويت المركزي — تعليمات التمويل الاستهلاكي والإسكاني (2018)", "u": "https://www.cbk.gov.kw"}
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">احسب قسطك</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field"><label for="principal">مبلغ القرض (د.ك)</label><input type="number" id="principal" name="principal" inputmode="decimal" min="0" step="100" value="10000" required></div>
+      <div class="field"><label for="rate">نسبة الفائدة السنوية (%)</label><input type="number" id="rate" name="rate" inputmode="decimal" min="0" step="0.01" value="5.5" required></div>
+      <div class="field"><label for="months">المدة (أشهر)</label><input type="number" id="months" name="months" inputmode="decimal" min="1" max="360" step="1" value="60" required></div>
+      <div class="field"><label for="salary">صافي راتبك الشهري (د.ك)</label><input type="number" id="salary" name="salary" inputmode="decimal" min="0" step="10" value="1000"></div>
+      <div class="field"><label for="other">أقساط التزامات أخرى شهرياً (د.ك)</label><input type="number" id="other" name="other" inputmode="decimal" min="0" step="10" value="0"></div>
+      <fieldset class="field"><legend>نوع التمويل</legend><div class="choices"><label><input type="radio" name="type" value="consumer" checked><span>استهلاكي</span></label><label><input type="radio" name="type" value="housing"><span>إسكاني</span></label></div></fieldset>
+      <fieldset class="field"><legend>حالتك</legend><div class="choices"><label><input type="radio" name="who" value="employee" checked><span>موظف</span></label><label><input type="radio" name="who" value="retiree"><span>متقاعد</span></label></div></fieldset>
+    </div>
+    <div class="actions"><button class="btn" type="submit">احسب القسط</button><button class="btn secondary" type="button" data-copy="#result">نسخ النتيجة</button></div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>حدود بنك الكويت المركزي</h2>
+<ul>
+  <li><strong>الاستهلاكي:</strong> 25 ضعف صافي الراتب وبسقف 25,000 د.ك، حتى 5 سنوات.</li>
+  <li><strong>الإسكاني:</strong> حتى 70,000 د.ك ولمدة 15 سنة.</li>
+  <li><strong>الاستقطاع:</strong> 40% للموظف و30% للمتقاعد من صافي الراتب.</li>
+  <li><strong>الفائدة:</strong> سعر الخصم + 3% كحد أعلى.</li>
+</ul>
+<div class="example"><p><strong>مثال:</strong> قرض 10,000 د.ك بفائدة متناقصة 5.5% على 60 شهراً لصافي راتب 1,000 د.ك.</p><p>القسط ≈ 191 د.ك شهرياً (19.1% من الراتب)، وهو ضمن الحد. <strong>القرض مطابق للتعليمات.</strong></p></div>
+<p>الحدود هنا من تعليمات المركزي المنشورة، وللبنوك أن تضع شروطاً أضيق. الفائدة التي تدخلها تقديرية، فاسأل بنكك عن السعر الفعلي.</p>
+</div>

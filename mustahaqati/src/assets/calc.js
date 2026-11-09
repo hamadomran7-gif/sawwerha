@@ -342,6 +342,29 @@ export function uaePersonalLoanCheck({ principal, months, salary, installment, o
   };
 }
 
+export function kuwaitLoanCheck({ type = "consumer", principal, months, netSalary, installment, otherObligations = 0, retiree = false, ratePct = null }) {
+  const L = rules.kw.loan;
+  const sal = Number(netSalary) || 0;
+  const housing = type === "housing";
+  const maxAmount = housing ? L.housingMaxAmount : Math.min(sal * L.consumerMultiple, L.consumerMaxAmount);
+  const maxMonths = housing ? L.housingMaxMonths : L.consumerMaxMonths;
+  const limit = retiree ? L.maxDeductionRetiree : L.maxDeductionEmployee;
+  const total = (Number(installment) || 0) + (Number(otherObligations) || 0);
+  const maxRatePct = L.discountRatePct + L.rateSpreadPct;
+  return {
+    maxAmount: Math.round(maxAmount * 1000) / 1000,
+    maxMonths,
+    limitPct: limit * 100,
+    maxInstallment: Math.round(sal * limit * 1000) / 1000,
+    ratio: sal > 0 ? Math.round((total / sal) * 10000) / 100 : null,
+    amountOk: (Number(principal) || 0) <= maxAmount,
+    monthsOk: (Number(months) || 0) <= maxMonths,
+    dbrOk: total <= sal * limit,
+    maxRatePct,
+    rateOk: ratePct === null || ratePct === undefined ? null : Number(ratePct) <= maxRatePct,
+  };
+}
+
 export function ksaFinanceCheck({ installment, salary, otherObligations = 0, retiree = false }) {
   const f = rules.sa.finance;
   const sal = Number(salary) || 0;
