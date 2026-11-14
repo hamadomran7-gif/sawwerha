@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(node build.js --check)",
+      "Bash(npm test)",
+      "Bash(python3 sitegen/build.py)"
+    ],
+    "deny": [
+      "Read(**/secrets/**)",
+      "Read(**/.env)",
+      "Read(**/config.json)",
+      "Bash(git push --force:*)"
+    ]
+  }
+}
