@@ -15,7 +15,7 @@ PAGES = ROOT / "sitegen" / "pages"
 WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
-UPDATED = "2026-11-02"
+UPDATED = "2026-11-14"
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
 
 MARK = ('<span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
@@ -38,6 +38,13 @@ SERVICE_LINKS = [
     ("/amazon-product-photos/", "صور منتجات أمازون", "ar"),
     ("/white-background-product-photos/", "صور بخلفية بيضاء", "ar"),
     ("/perfume-product-photos/", "تصوير العطور والعود", "ar"),
+    ("/beauty-product-photos/", "تصوير منتجات التجميل", "ar"),
+    ("/jewelry-product-photos/", "تصوير المجوهرات", "ar"),
+    ("/abaya-fashion-product-photos/", "تصوير العبايات والأزياء", "ar"),
+    ("/home-decor-product-photos/", "تصوير منتجات المنزل", "ar"),
+    ("/food-product-photos/", "تصوير الحلويات والأغذية", "ar"),
+    ("/kids-product-photos/", "تصوير منتجات الأطفال", "ar"),
+    ("/phone-product-photography/", "دليل التصوير بالجوال", "ar"),
     ("/tools/marketplace-image-checker/", "فحص صور نون وأمازون (مجاناً)", "ar"),
     ("/en/", "AI product photos UAE", "en"),
 ]
