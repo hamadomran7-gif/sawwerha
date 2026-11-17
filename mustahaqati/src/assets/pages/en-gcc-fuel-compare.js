@@ -8,7 +8,7 @@ const money = (n) => moneyEn(n, "AED");
 const N = { ae: "UAE", sa: "Saudi Arabia", qa: "Qatar", om: "Oman", kw: "Kuwait", bh: "Bahrain" };
 const G = { 91: "91 petrol", 95: "95 petrol", 98: "98 petrol", diesel: "diesel" };
 const mf = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
-const when = (x) => (x.country === "om" ? "cap since Oct 2021" : x.country === "sa" ? "since Jan 2026" : x.asOf && /^\d{4}-\d{2}$/.test(x.asOf) ? mf.format(new Date(`${x.asOf}-01T00:00:00Z`)) : x.asOf === "2026-Q3" ? "Q3 2026" : "");
+const when = (x) => (x.country === "om" ? "cap since Oct 2021" : x.country === "sa" && x.key !== "g98" ? "since Jan 2026" : x.asOf && /^\d{4}-\d{2}$/.test(x.asOf) ? mf.format(new Date(`${x.asOf}-01T00:00:00Z`)) : x.asOf === "2026-Q3" ? "Q3 2026" : "");
 const loc = (x) => `${x.cur} ${x.local.toFixed(x.cur === "OMR" || x.cur === "KWD" || x.cur === "BHD" ? 3 : 2)}`;
 
 bind(form, result, (v) => {

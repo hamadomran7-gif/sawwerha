@@ -2352,8 +2352,16 @@ test("gccFuelCompare: الكويت الأرخص والإمارات الأغلى 
   assert.equal(qa.tankLocal, 126);
   const kw = r.rows.find((x) => x.country === "kw");
   assert.equal(kw.aed, 1.252);
-  assert.equal(r.rows.find((x) => x.country === "bh").asOf, "2026-09");
-  assert.equal(gccFuelCompare({ grade: "98" }).rows.length, 3);
+  const bh = r.rows.find((x) => x.country === "bh");
+  assert.equal(bh.asOf, "2026-11");
+  assert.equal(bh.local, 0.277);
+  assert.equal(bh.tankAed, 162.33);
+  const g98 = gccFuelCompare({ grade: "98" });
+  assert.equal(g98.rows.length, 4);
+  const sa98 = g98.rows.find((x) => x.country === "sa");
+  assert.equal(sa98.local, 5.09);
+  assert.equal(sa98.aed, 4.985);
+  assert.equal(sa98.asOf, "2026-11");
   assert.equal(gccFuelCompare({ grade: "diesel" }).cheapest.country, "kw");
 });
 

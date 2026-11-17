@@ -831,7 +831,7 @@ const TABLES = {
       const d = F.decimals || 2;
       const k = (g) => calc.GCC_FUEL_GRADES[c][g];
       const v = (g) => (k(g) && P[k(g)] !== undefined ? (aedMode ? fxd(P[k(g)] * calc.rules.gcc.fx.aedPer[cur], 2) : fxd(P[k(g)], d)) : "—");
-      const label = c === "sa" ? (en ? "since Jan 2026" : "منذ يناير 2026") : c === "om" ? (en ? "cap since Oct 2021" : "سقف منذ أكتوبر 2021") : asOf(c, F);
+      const label = c === "sa" ? (en ? "since Jan 2026; 98: Nov 2026" : "منذ يناير 2026، و98 لنوفمبر 2026") : c === "om" ? (en ? "cap since Oct 2021" : "سقف منذ أكتوبر 2021") : asOf(c, F);
       return [`<strong>${N[c][en ? 1 : 0]}</strong>`, v("91"), v("95"), v("98"), v("diesel"), aedMode ? label : `${CUR[cur][en ? 1 : 0]} · ${label}`];
     });
     const head = en ? ["Country", "91", "95", "98", "Diesel", aedMode ? "Price date" : "Currency · date"] : ["الدولة", "91", "95", "98", "ديزل", aedMode ? "تاريخ السعر" : "العملة · التاريخ"];

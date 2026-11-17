@@ -1158,7 +1158,7 @@ export function gccFuelCost({ country = "qa", fuel = null, tank = 60, km = 0, pe
 /** أنواع الوقود المتقابلة بين دول الخليج: 91 و95 و98 والديزل. */
 export const GCC_FUEL_GRADES = {
   ae: { 91: "eplus91", 95: "special95", 98: "super98", diesel: "diesel" },
-  sa: { 91: "g91", 95: "g95", diesel: "diesel" },
+  sa: { 91: "g91", 95: "g95", 98: "g98", diesel: "diesel" },
   qa: { 91: "premium91", 95: "super95", diesel: "diesel" },
   om: { 91: "m91", 95: "m95", diesel: "diesel" },
   kw: { 91: "g91", 95: "g95", 98: "ultra98", diesel: "diesel" },
@@ -1179,7 +1179,7 @@ export function gccFuelCompare({ grade = "95", tank = 60 } = {}) {
     if (local === undefined) continue;
     const cur = rules[c].currency;
     const aed = local * fx.aedPer[cur];
-    rows.push({ country: c, key, local, cur, asOf: F.current || F.period || F.since || null, aed: r3(aed), usd: r3(aed / fx.usdAed), tankLocal: r3(local * t), tankAed: r2(aed * t), tankUsd: r2((aed * t) / fx.usdAed) });
+    rows.push({ country: c, key, local, cur, asOf: (F.g98 && key === "g98" && F.g98.month) || F.current || F.period || F.since || null, aed: r3(aed), usd: r3(aed / fx.usdAed), tankLocal: r3(local * t), tankAed: r2(aed * t), tankUsd: r2((aed * t) / fx.usdAed) });
   }
   rows.sort((a, b) => a.aed - b.aed);
   const max = rows.length ? rows[rows.length - 1].tankAed : 0;
