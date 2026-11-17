@@ -1598,6 +1598,25 @@ export function ksaExpatFees({ dependents = 0, months = 12, adultIqamas = 0, inc
 }
 
 /**
+ * رسوم تجديد إقامة العمال الوافدين على صاحب العمل لفترة 3 أو 6 أو 9 أو 12 شهراً، بجدول دليل وزارة الموارد البشرية
+ * لتجزئة المقابل المالي (24/11/2021): المقابل 800 ريال شهرياً «للعمالة الزائدة عن العمالة السعودية» (high)، و700
+ * «للعمالة مقابل العمالة السعودية» (low)، ورسم رخصة العمل 100 للسنة (25 لكل 3 أشهر) على كل عامل ومنهم المعفى (exempt).
+ * iqamaPerWorker: رسم هوية مقيم للمدة كما يُدخله المستخدم من أبشر أو مقيم، لأن الدليل لا يذكره.
+ */
+export function ksaIqamaRenewal({ high = 0, low = 0, exempt = 0, months = 12, iqamaPerWorker = 0 } = {}) {
+  const F = rules.sa.expatFees;
+  const m = F.periods.includes(Number(months)) ? Number(months) : 12;
+  const n = (x) => Math.max(0, Math.floor(Number(x) || 0));
+  const h = n(high), l = n(low), e = n(exempt);
+  const workers = h + l + e;
+  const levyHigh = h * F.levyHigh * m;
+  const levyLow = l * F.levyLow * m;
+  const permit = r2((workers * F.workPermitAnnual * m) / 12);
+  const iqama = r2(workers * Math.max(0, Number(iqamaPerWorker) || 0));
+  return { months: m, workers, levyHigh, levyLow, permit, iqama, total: r2(levyHigh + levyLow + permit + iqama) };
+}
+
+/**
  * رسوم نقل الخدمات (نقل الكفالة): رسم النقل بحسب ترتيبه (2,000 ثم 4,000 ثم 6,000 حداً أعلى) على صاحب العمل الجديد،
  * وتجديد المقابل المالي ورخصة العمل والإقامة لفترات 3 أشهر من تاريخ النقل، ومتأخرات العامل المتغيب أو المنشأة غير القائمة.
  * domestic: حد 4 نقلات، وعبر «مساند» تكلفة نقل متفق عليها وتكلفة تشغيلية 100، ومقابل 9,600 سنوياً لكل منزلي فوق الحد.

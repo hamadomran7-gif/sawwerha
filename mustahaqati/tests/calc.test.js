@@ -2395,3 +2395,24 @@ test("قروض الكويت: الاستهلاكي 25 ضعف الراتب بسق�
   assert.equal(b.rateOk, false);
   assert.equal(kuwaitLoanCheck({ type: "housing", principal: 70000, months: 180, netSalary: 1500, installment: 500 }).amountOk, true);
 });
+
+import { ksaIqamaRenewal } from "../src/assets/calc.js";
+
+test("ksaIqamaRenewal: جدول دليل الوزارة لتجزئة المقابل المالي (24/11/2021)", () => {
+  // المقابل 2,400/4,800/7,200/9,600 لـ800، و2,100/4,200/6,300/8,400 لـ700، والرخصة 25/50/75/100
+  assert.equal(ksaIqamaRenewal({ high: 1, months: 3 }).total, 2425);
+  assert.equal(ksaIqamaRenewal({ high: 1, months: 12 }).total, 9700);
+  const nine = ksaIqamaRenewal({ low: 1, months: 9 });
+  assert.equal(nine.levyLow, 6300);
+  assert.equal(nine.permit, 75);
+  const mix = ksaIqamaRenewal({ high: 2, low: 3, months: 6 });
+  assert.equal(mix.levyHigh, 9600);
+  assert.equal(mix.levyLow, 12600);
+  assert.equal(mix.permit, 250);
+  assert.equal(mix.total, 22450);
+  assert.equal(ksaIqamaRenewal({ low: 2, months: 6 }).total, 8500);
+  assert.equal(ksaIqamaRenewal({ exempt: 2, months: 3 }).total, 50);
+  assert.equal(ksaIqamaRenewal({ high: 1, months: 3, iqamaPerWorker: 125 }).total, 2550);
+  assert.equal(ksaIqamaRenewal({ high: 1, months: 5 }).months, 12);
+  assert.equal(ksaIqamaRenewal({}).workers, 0);
+});
