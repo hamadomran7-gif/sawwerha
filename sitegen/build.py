@@ -15,7 +15,7 @@ PAGES = ROOT / "sitegen" / "pages"
 WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
-UPDATED = "2026-11-14"
+UPDATED = "2026-11-17"
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
 
 MARK = ('<span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
