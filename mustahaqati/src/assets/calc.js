@@ -2331,8 +2331,8 @@ export function dubaiRentIncrease({ rent, average }) {
 /* ------------------------------------------------------------------ */
 
 /**
- * فاتورة الكهرباء الشهرية: شريحتان (حتى 6,000 ك.و.س وما فوقها) + رسوم ثابتة بحسب سعة القاطع للسكني (تُحتسب بعدد أيام الفاتورة) + ضريبة 15%.
- * tariff: new (من 2027) | old (الحالية: 18 و30 هللة للسكني). fixedOverride: رسوم ثابتة يدخلها المستخدم (لغير السكني أو للتعرفة الحالية).
+ * فاتورة الكهرباء الشهرية: شريحتان (حتى 6,000 ك.و.س وما فوقها) + رسوم ثابتة بحسب سعة القاطع لكل قطاع (تُحتسب بعدد أيام الفاتورة) + ضريبة 15%.
+ * tariff: new (من 2027) | old (الحالية: 18 و30 هللة للسكني). fixedOverride: رسوم ثابتة يدخلها المستخدم فتحل محل الجدول (أو للتعرفة الحالية).
  */
 export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, days = 30, tariff = "new", fixedOverride = null }) {
   const E = rules.sa.electricity;
@@ -2344,10 +2344,12 @@ export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, day
   const d = Math.max(1, Number(days) || E.daysPerMonth);
   let fixedMonthly = 0;
   if (fixedOverride !== null && fixedOverride !== undefined && fixedOverride !== "") fixedMonthly = Math.max(0, Number(fixedOverride) || 0);
-  else if (sector === "residential" && tariff === "new") {
+  else if (tariff === "new") {
+    // شريحة سعة القاطع بحدود residentialFixed نفسها لكل القطاعات، والمبلغ من جدول القطاع (sectorFixed لغير السكني)
     const a = Math.max(0, Number(amps) || 0);
-    const band = E.residentialFixed.find(([lo, hi]) => a >= lo && a < hi) || E.residentialFixed[0];
-    fixedMonthly = band[2];
+    const i = Math.max(0, E.residentialFixed.findIndex(([lo, hi]) => a >= lo && a < hi));
+    if (sector === "residential") fixedMonthly = E.residentialFixed[i][2];
+    else if (E.sectorFixed && E.sectorFixed[sector]) fixedMonthly = E.sectorFixed[sector][i];
   }
   const fixed = (fixedMonthly * d) / E.daysPerMonth;
   const subtotal = consumption + fixed;

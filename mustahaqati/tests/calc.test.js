@@ -947,6 +947,22 @@ test("فاتورة الكهرباء السعودية بتعرفة 2027", () => {
   near(old.fixed, 0);
   near(ksaElectricityBill({ kwh: 7000, sector: "commercial", fixedOverride: 0 }).consumption, 1850);
   near(ksaElectricityBill({ kwh: 1000, sector: "government" }).consumption, 350);
+  // الرسوم الثابتة لغير السكني بحسب سعة القاطع من جدول الشركة السعودية للطاقة (البند 23)
+  const c = ksaElectricityBill({ kwh: 1000, sector: "commercial", amps: 150 });
+  near(c.fixedMonthly, 500);
+  near(c.subtotal, 750);
+  near(c.total, 862.5);
+  near(ksaElectricityBill({ kwh: 1000, sector: "commercial", amps: 60 }).fixed, 350);
+  near(ksaElectricityBill({ kwh: 1000, sector: "industrial", amps: 250 }).fixed, 700);
+  near(ksaElectricityBill({ kwh: 1000, sector: "government", amps: 300 }).fixed, 900);
+  near(ksaElectricityBill({ kwh: 1000, sector: "agricultural", amps: 60 }).fixed, 140);
+  near(ksaElectricityBill({ kwh: 1000, sector: "commercial", amps: 150, days: 15 }).fixed, 250);
+  const ch = ksaElectricityBill({ kwh: 7000, sector: "charity", amps: 150 });
+  near(ch.consumption, 1230);
+  near(ch.fixed, 160);
+  near(ch.total, 1598.5);
+  near(ksaElectricityBill({ kwh: 1000, sector: "commercial", amps: 150, fixedOverride: 420 }).fixed, 420);
+  near(ksaElectricityBill({ kwh: 1000, sector: "commercial", amps: 150, tariff: "old" }).fixed, 0);
 });
 
 import { ksaGovSalary } from "../src/assets/calc.js";

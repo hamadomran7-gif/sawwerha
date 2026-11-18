@@ -20,7 +20,7 @@
     {"q": "What are the new fixed fees?", "a": "A monthly fee for homes by breaker capacity: SAR 70 for 20 to under 100 amps, SAR 80 for 100 to under 200, SAR 90 for 200 to under 300, and SAR 100 for 300 amps and above. It replaces the meter reading, maintenance and billing fee, and is charged by the number of days in the billing period."},
     {"q": "Do the announced prices include VAT?", "a": "No. Prices and fixed fees are before VAT; 15% VAT is added to the bill."},
     {"q": "How do I find my breaker capacity?", "a": "On your monthly bill or in the Saudi Energy Company app. Ordinary homes are usually in the first band (under 100 amps)."},
-    {"q": "What about other sectors?", "a": "Commercial, private health and private education: 25 halalas up to 6,000 kWh and 35 above. Agricultural: 19 and 23 halalas. Industrial: 23 halalas. Government: 35 halalas. Charities: 17 halalas up to 6,000 kWh and 21 above. Monthly fixed fees by breaker capacity (20 to under 100 amps, 100 to under 200, 200 to under 300, 300 and above): SAR 350, 500, 700 and 900 for commercial, private health and education, and industrial; SAR 140, 160, 180 and 200 for agricultural and charities, before VAT, per the Saudi Energy Company tariff table."},
+    {"q": "What about other sectors?", "a": "Commercial, private health and private education: 25 halalas up to 6,000 kWh and 35 above. Agricultural: 19 and 23 halalas. Industrial: 23 halalas. Government: 35 halalas. Charities: 17 halalas up to 6,000 kWh and 21 above. Monthly fixed fees by breaker capacity (20 to under 100 amps, 100 to under 200, 200 to under 300, 300 and above): SAR 350, 500, 700 and 900 for commercial, private health and education, industrial, and government; SAR 140, 160, 180 and 200 for agricultural and charities, before VAT, per the Saudi Energy Company tariff table. The calculator works them out from the account type and breaker capacity."},
     {"q": "What is the SAR 500 monthly support?", "a": "A royal directive provides SAR 500 a month to limit the impact of the electricity and water tariff changes, for eligible civil and military state employees, retirees, families of deceased subscribers and retirees, and social security families, subject to eligibility rules."},
     {"q": "How is consumption before 1 January 2027 billed?", "a": "Consumption before the start date is billed at the old tariff and consumption after it at the new one, so a bill spanning the date combines both."}
   ],
@@ -43,6 +43,7 @@
           <option value="residential">Residential</option>
           <option value="commercial">Commercial (incl. private health and education)</option>
           <option value="agricultural">Agricultural</option>
+          <option value="charity">Charity</option>
           <option value="industrial">Industrial</option>
           <option value="government">Government</option>
         </select>
@@ -52,7 +53,7 @@
         <input type="number" id="kwh" name="kwh" inputmode="decimal" min="0" step="10" value="1500" required>
         <span class="hint">From your bill: the difference between the two readings.</span>
       </div>
-      <div class="field" data-res>
+      <div class="field">
         <label for="amps">Breaker capacity</label>
         <select id="amps" name="amps">
           <option value="60">20 to under 100 amps (SAR 70)</option>
@@ -60,6 +61,7 @@
           <option value="250">200 to under 300 amps (SAR 90)</option>
           <option value="300">300 amps and above (SAR 100)</option>
         </select>
+        <span class="hint">On your bill or in the Saudi Energy Company app; the monthly fixed fee for your account type is in brackets.</span>
       </div>
       <div class="field">
         <label for="days">Days in the billing period</label>
@@ -73,7 +75,7 @@
       <div class="field" data-other hidden>
         <label for="fixedOther">Your account's monthly fixed fee (optional)</label>
         <input type="number" id="fixedOther" name="fixedOther" inputmode="decimal" min="0" step="1" value="">
-        <span class="hint">Depends on capacity and type of activity.</span>
+        <span class="hint">Worked out from your breaker capacity using the company's table; enter it if your bill shows a different fee.</span>
       </div>
     </div>
     <div class="actions">
@@ -93,6 +95,7 @@
     <tr><th scope="row">Residential</th><td>21 halalas (was 18)</td><td>33 halalas (was 30)</td></tr>
     <tr><th scope="row">Commercial, private health and education</th><td>25 halalas</td><td>35 halalas</td></tr>
     <tr><th scope="row">Agricultural</th><td>19 halalas</td><td>23 halalas</td></tr>
+    <tr><th scope="row">Charities</th><td>17 halalas</td><td>21 halalas</td></tr>
     <tr><th scope="row">Industrial</th><td colspan="2">23 halalas</td></tr>
     <tr><th scope="row">Government</th><td colspan="2">35 halalas</td></tr>
   </tbody>
@@ -113,7 +116,7 @@
 <h2>Non-residential fixed fees</h2>
 <div class="table-scroll">
 <table class="data">
-  <thead><tr><th scope="col">Breaker capacity</th><th scope="col">Commercial, private health and education, and industrial</th><th scope="col">Agricultural and charities</th></tr></thead>
+  <thead><tr><th scope="col">Breaker capacity</th><th scope="col">Commercial, private health and education, industrial, and government</th><th scope="col">Agricultural and charities</th></tr></thead>
   <tbody>
     <tr><th scope="row">20 to under 100 amps</th><td>SAR 350</td><td>SAR 140</td></tr>
     <tr><th scope="row">100 to under 200 amps</th><td>SAR 500</td><td>SAR 160</td></tr>
