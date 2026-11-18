@@ -25,6 +25,7 @@
 - الوكيل: `for f in agent/tests/test_*.py; do python3 "$f" agent || exit 1; done`
 - صفحات صوّرها: `python3 sitegen/build.py`
 - امتثالي: `cd emtithali && npm test`
+- تعمل الخمسة آلياً على كل دفع إلى main (`.github/workflows/checks.yml`). بعد كل دفع: `gh run list -R hamadomran7-gif/sawwerha -L 1`، ولا نشر قبل نجاحها.
 
 ## النشر
 من لوحة Cloudflare في متصفح Claude على جهاز حمد، بالأدوات في `tools/dash-helpers.js` وبقيمة commit محددة (التفاصيل في docs/03). لا نشر قبل نجاح الفحوص ورفع الـ commit.
