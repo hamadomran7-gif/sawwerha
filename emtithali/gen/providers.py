@@ -233,7 +233,12 @@ HEAD_COMMON = """<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#0f1a38">
 <meta property="og:locale" content="ar_AE">
 <meta property="og:site_name" content="امتثالي">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://emtithali.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="امتثالي: قارن مزوّدي الفوترة الإلكترونية المعتمدين في الإمارات">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://emtithali.com/og-image.png">
 <link rel="preload" href="/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/site.css">"""
 
