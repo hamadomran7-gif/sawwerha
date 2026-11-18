@@ -46,12 +46,12 @@
       "ltv": {
         "expat": {
           "firstUnder5m": 0.8,
-          "firstOver5m": 0.65,
+          "firstOver5m": 0.7,
           "second": 0.6
         },
         "national": {
-          "firstUnder5m": 0.8,
-          "firstOver5m": 0.7,
+          "firstUnder5m": 0.85,
+          "firstOver5m": 0.75,
           "second": 0.65
         },
         "offplan": 0.5

@@ -263,8 +263,9 @@ test("قواعد المصرف المركزي الإماراتي وساما", () 
 
 test("نسب التمويل العقاري", () => {
   assert.equal(uaeMortgageLtv({ price: 1500000, buyerType: "expat" }), 0.8);
-  assert.equal(uaeMortgageLtv({ price: 6000000, buyerType: "expat" }), 0.65);
-  assert.equal(uaeMortgageLtv({ price: 6000000, buyerType: "national" }), 0.7);
+  assert.equal(uaeMortgageLtv({ price: 6000000, buyerType: "expat" }), 0.7);
+  assert.equal(uaeMortgageLtv({ price: 6000000, buyerType: "national" }), 0.75);
+  assert.equal(uaeMortgageLtv({ price: 1500000, buyerType: "national" }), 0.85);
   assert.equal(uaeMortgageLtv({ price: 1000000, buyerType: "expat", purpose: "second" }), 0.6);
   assert.equal(uaeMortgageLtv({ price: 1000000, offplan: true }), 0.5);
 });
