@@ -23,8 +23,8 @@ async function submit(request, env, url) {
   const text = await request.text();
   if (text.length > MAX_BODY) return json({ success: false, message: "Request too large" }, 413);
   let body;
-  try { body = JSON.parse(text); } catch (e) { return json({ success: false, message: "Invalid JSON" }, 400); }
-  if (!body || typeof body !== "object" || Array.isArray(body)) return json({ success: false, message: "Invalid JSON" }, 400);
+  try { body = JSON.parse(text); } catch (e) { return json({ success: false, message: "Bad JSON" }, 400); }
+  if (!body || typeof body !== "object" || Array.isArray(body)) return json({ success: false, message: "Bad JSON" }, 400);
   const rec = {};
   for (const f of FIELDS) {
     const v = body[f];

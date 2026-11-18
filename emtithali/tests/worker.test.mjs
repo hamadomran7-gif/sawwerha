@@ -38,6 +38,7 @@ test("حقل إلزامي ناقص أو JSON معطوب: 400 دون حفظ", asy
   assert.equal((await r1.json()).success, false);
   const r2 = await worker.fetch(post("x"), { LEADS: store, ASSETS: assets });
   assert.equal(r2.status, 400);
+  assert.equal(await r2.text(), '{"success":false,"message":"Bad JSON"}');
   const r3 = await worker.fetch(post({ ...lead, name: 5 }), { LEADS: store, ASSETS: assets });
   assert.equal(r3.status, 400);
   const r4 = await worker.fetch(post("x".repeat(20001)), { LEADS: store, ASSETS: assets });
