@@ -43,7 +43,7 @@ bind(form, result, (v) => {
     );
     if (!hasOld) html += note("The comparison leaves out the meter fee on your current bill because its schedule is not published in detail; enter it from your bill for an exact comparison.", "info");
   } else {
-    html += note("Fixed fees for non-residential accounts have not been published in detail and depend on capacity and activity; enter yours if you know it.", "info");
+    html += note("Non-residential fixed fees by breaker capacity are in the \"Non-residential fixed fees\" table below (for example SAR 500 for commercial at 100 to under 200 amps); enter your fee in the field to include it.", "info");
   }
   html += note(`Eligible citizens receive SAR ${numEn(E.supportMonthly)} a month in support under the eligibility rules: civil and military state employees, retirees, families of deceased subscribers and retirees, and social security families.`, "ok");
   html += note("The new tariff applies to consumption from 1 January 2027; earlier consumption is billed at the current tariff. Your official bill is the reference.", "info");
