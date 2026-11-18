@@ -73,6 +73,26 @@ export async function setMeta(db, key, value) {
   await db.prepare("INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").bind(key, String(value)).run();
 }
 
+/**
+ * ملخّص واحد يحدد ما تحتاجه المهمة الدورية، فيكون تشغيلها الخامل استعلاماً واحداً بدل سبعة.
+ * السبب: حد CPU في خطة Workers المجانية 10 مللي ثانية، وقيس التشغيل الدوري بسبعة استعلامات 4–11 مللي ثانية (18 نوفمبر).
+ */
+export async function cronSummary(db) {
+  return db
+    .prepare(
+      `SELECT
+        (SELECT COUNT(*) FROM orders WHERE status = 'awaiting_payment') AS awaiting,
+        (SELECT COUNT(*) FROM orders WHERE status = 'awaiting_payment' AND payment_id IS NOT NULL) AS awaiting_api,
+        (SELECT COUNT(*) FROM orders WHERE status = 'awaiting_payment' AND created_at < datetime('now', '-7 days')) AS stale,
+        (SELECT COUNT(*) FROM orders WHERE status = 'processing' AND updated_at < datetime('now', '-3 hours')) AS stuck,
+        (SELECT COUNT(*) FROM orders WHERE status IN ('queued','processing')) AS queue,
+        (SELECT COUNT(*) FROM customers WHERE state = 'offer') AS offers,
+        (SELECT value FROM meta WHERE key = 'agent_last_seen') AS agent_last_seen,
+        (SELECT value FROM meta WHERE key = 'offline_alert_sent') AS offline_alert_sent`
+    )
+    .first();
+}
+
 /** يلتقط أقدم طلب في الطابور ويعلّمه قيد المعالجة (ذرّياً قدر الإمكان). */
 export async function claimNextJob(db) {
   const o = await db.prepare("SELECT * FROM orders WHERE status = 'queued' ORDER BY CASE kind WHEN 'package' THEN 0 ELSE 1 END, created_at LIMIT 1").first();

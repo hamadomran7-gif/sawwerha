@@ -440,13 +440,24 @@ async function followUps(env) {
 }
 
 async function cron(env) {
-  // 0أ) المتابعات (العيّنة بلا شراء، والدفع المعلّق)
+  // استعلام ملخّص واحد يحدد ما يلزم؛ التشغيل الخامل (لا طلبات ولا متابعات) لا يحتاج غيره.
+  // السبب: حد CPU في خطة Workers المجانية 10 مللي ثانية بعد انتهاء Workers Paid في 2 ديسمبر 2026.
+  let s;
   try {
-    await followUps(env);
+    s = await db.cronSummary(env.DB);
   } catch (e) {
-    console.error("follow-ups failed", e);
+    console.error("cron summary failed", e);
+    return;
   }
-  // 0) التقرير الأسبوعي
+  // 0أ) المتابعات (العيّنة بلا شراء، والدفع المعلّق)
+  if (s.offers > 0 || s.awaiting > 0) {
+    try {
+      await followUps(env);
+    } catch (e) {
+      console.error("follow-ups failed", e);
+    }
+  }
+  // 0) التقرير الأسبوعي (لا استعلام خارج ساعته)
   try {
     await weeklyReport(env);
   } catch (e) {
@@ -458,26 +469,30 @@ async function cron(env) {
   } catch (e) {
     console.error("instagram tick failed", e);
   }
-  // 1) المدفوعات المعلّقة
-  const pending = await env.DB.prepare("SELECT * FROM orders WHERE status = 'awaiting_payment' AND payment_id IS NOT NULL ORDER BY id DESC LIMIT 50").all();
-  for (const o of pending.results || []) {
-    if (await isPaid(env, o.payment_id)) await markPaid(env, o);
+  // 1) المدفوعات المعلّقة (عبر واجهة زينة فقط)
+  if (s.awaiting_api > 0) {
+    const pending = await env.DB.prepare("SELECT * FROM orders WHERE status = 'awaiting_payment' AND payment_id IS NOT NULL ORDER BY id DESC LIMIT 50").all();
+    for (const o of pending.results || []) {
+      if (await isPaid(env, o.payment_id)) await markPaid(env, o);
+    }
   }
   // 2) إلغاء طلبات لم تُدفع خلال 7 أيام
-  await env.DB.prepare("UPDATE orders SET status = 'cancelled', updated_at = datetime('now') WHERE status = 'awaiting_payment' AND created_at < datetime('now', '-7 days')").run();
+  if (s.stale > 0) {
+    await env.DB.prepare("UPDATE orders SET status = 'cancelled', updated_at = datetime('now') WHERE status = 'awaiting_payment' AND created_at < datetime('now', '-7 days')").run();
+  }
   // 3) طلبات علقت في المعالجة أكثر من 3 ساعات تعود للطابور
-  await env.DB.prepare("UPDATE orders SET status = 'queued', updated_at = datetime('now') WHERE status = 'processing' AND updated_at < datetime('now', '-3 hours')").run();
-  // 4) تنبيه المالك إذا الجهاز متوقف والطابور ممتلئ
-  const last = await db.getMeta(env.DB, "agent_last_seen");
-  const queue = await env.DB.prepare("SELECT COUNT(*) n FROM orders WHERE status IN ('queued','processing')").first();
+  if (s.stuck > 0) {
+    await env.DB.prepare("UPDATE orders SET status = 'queued', updated_at = datetime('now') WHERE status = 'processing' AND updated_at < datetime('now', '-3 hours')").run();
+  }
+  // 4) تنبيه المالك إذا الجهاز متوقف والطابور ممتلئ (الكتابة عند تغيّر الحالة فقط)
+  const last = s.agent_last_seen;
   const offline = !last || Date.now() - Date.parse(last) > 2 * 3600 * 1000;
-  if (offline && queue.n > 0) {
-    const flagged = await db.getMeta(env.DB, "offline_alert_sent");
-    if (flagged !== "1") {
-      await notifyOwner(env, `جهاز الإنتاج متوقف منذ أكثر من ساعتين وفي الطابور ${queue.n} طلب. شغّل الجهاز وتطبيق الوكيل.`);
+  if (offline && s.queue > 0) {
+    if (s.offline_alert_sent !== "1") {
+      await notifyOwner(env, `جهاز الإنتاج متوقف منذ أكثر من ساعتين وفي الطابور ${s.queue} طلب. شغّل الجهاز وتطبيق الوكيل.`);
       await db.setMeta(env.DB, "offline_alert_sent", "1");
     }
-  } else if (!offline) {
+  } else if (!offline && s.offline_alert_sent === "1") {
     await db.setMeta(env.DB, "offline_alert_sent", "0");
   }
 }
