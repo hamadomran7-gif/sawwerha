@@ -194,7 +194,7 @@ def main():
     sm += "</urlset>\n"
     (WEB / "sitemap.xml").write_text(sm, encoding="utf-8")
     (WEB / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
-    (WEB / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /ads/\nSitemap: {DOMAIN}/sitemap.xml\n", encoding="utf-8")
+    (WEB / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /ads/\nDisallow: /s/\nSitemap: {DOMAIN}/sitemap.xml\n", encoding="utf-8")
     print(f"sitemap: {len(urls)} urls")
 
 

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /ads/
+Disallow: /s/
 Sitemap: https://sawwerha.app/sitemap.xml

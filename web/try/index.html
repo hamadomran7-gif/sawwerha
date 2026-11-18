@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جرّب صوّرها مجاناً: ارفع صورة منتجك — صوّرها</title>
+<meta name="description" content="ارفع صورة منتجك من جوالك واستلم 3 صور مجاناً على صفحة خاصة بك: صورة بخلفية بيضاء ومشهدان تسويقيان. بلا تسجيل ولا رقم هاتف.">
+<link rel="canonical" href="https://sawwerha.app/try/">
+<meta property="og:url" content="https://sawwerha.app/try/">
+<meta property="og:title" content="جرّب صوّرها مجاناً: ارفع صورة منتجك">
+<meta property="og:description" content="3 صور مجانية لمنتجك على صفحة خاصة بك، بلا تسجيل ولا رقم هاتف.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://sawwerha.app/samples/scene-1.jpg">
+<meta name="theme-color" content="#2b2140">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:grid;gap:14px;max-width:560px;min-width:0}
+  .drop{position:relative;display:grid;place-items:center;gap:10px;min-height:180px;border:2px dashed var(--line);border-radius:14px;padding:16px;text-align:center;cursor:pointer;background:var(--surface-2)}
+  .drop:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+  .drop input{position:absolute;inset-inline-start:0;top:0;width:1px;height:1px;opacity:0}
+  .drop .big{font-family:var(--font-display);font-weight:800;font-size:1.15rem}
+  .drop img{max-height:240px;width:auto;border-radius:10px}
+  .field{display:grid;gap:6px;font-weight:700}
+  .field select{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+  .check input{margin-top:.45em;width:18px;height:18px;flex:none}
+  .btn{font:inherit;font-weight:700;font-size:1.1rem;border:0;border-radius:999px;padding:14px 22px;background:var(--primary);color:var(--primary-ink);cursor:pointer;box-shadow:var(--shadow)}
+  .btn[disabled]{opacity:.6;cursor:progress}
+  .msg{margin:0;min-height:1.5em;font-weight:500}
+  .msg.err{color:#b3261e}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .msg.err{color:#ffb4ab}}
+  .hp{position:absolute;inset-inline-start:0;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;opacity:0}
+  .tips{margin:0;padding-inline-start:1.2em;color:var(--muted)}
+  .prev{font-size:.95rem}
+</style>
+</head>
+<body data-lang="ar">
+<header class="wrap top">
+  <a class="brand" href="/"><span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg></span><span>صوّرها</span></a>
+</header>
+
+<main class="wrap">
+  <section aria-labelledby="h1" style="padding-block:20px 8px">
+    <h1 id="h1">جرّبها مجاناً: ارفع صورة منتجك</h1>
+    <p class="lead" style="max-width:46ch">صورة واحدة واضحة بجوالك، وتصلك 3 صور على صفحة خاصة بك: صورة بخلفية بيضاء ومشهدان تسويقيان، بعلامة مائية صغيرة. بلا تسجيل ولا رقم هاتف.</p>
+    <p class="prev" id="prev" hidden><a id="prevLink" href="/s/">افتح طلبك السابق</a></p>
+  </section>
+
+  <form id="f" class="card" style="position:relative" novalidate>
+    <label class="drop" for="file">
+      <input id="file" name="file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif">
+      <img id="preview" alt="معاينة صورة المنتج" hidden>
+      <span class="big" id="dropText">اختر صورة المنتج أو التقطها الآن</span>
+      <span class="muted" style="font-size:.9rem">JPG أو PNG أو WebP، حتى 10 ميغابايت</span>
+    </label>
+    <label class="field">نوع المنتج
+      <select id="cat" name="category">
+        <option value="perfume">عطور وبخور</option>
+        <option value="fashion">عبايات وأزياء</option>
+        <option value="jewelry">مجوهرات وإكسسوارات</option>
+        <option value="home">شموع وديكور</option>
+        <option value="food">حلويات وأغذية</option>
+        <option value="beauty">عناية بالبشرة وتجميل</option>
+        <option value="kids">منتجات أطفال</option>
+        <option value="other">أخرى</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="consent"> <span>أملك حق استخدام هذه الصورة، وأوافق على <a href="/terms">الشروط</a> و<a href="/privacy">سياسة الخصوصية</a>.</span></label>
+    <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn" id="go" type="submit">أرسل الصورة</button>
+    <p id="msg" class="msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <section aria-labelledby="tips">
+    <h2 id="tips" style="font-size:1.2rem">لنتيجة أفضل</h2>
+    <ul class="tips">
+      <li>صوّر المنتج كاملاً في ضوء النهار، بلا يد ولا منتجات أخرى بجانبه.</li>
+      <li>منتج واحد في كل صورة، والكتابة على العبوة واضحة.</li>
+      <li>العيّنة مرتان يومياً لكل اتصال، وتصل عادةً خلال 2–6 ساعات. تُحذف الصور تلقائياً بعد 90 يوماً.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="wrap">
+  <nav aria-label="السياسات"><a href="/">الرئيسية</a><a href="/terms">الشروط والاسترداد</a><a href="/privacy">الخصوصية</a><a href="mailto:support@sawwerha.app">support@sawwerha.app</a></nav>
+  <p>صوّرها — خدمة إماراتية من أم القيوين.</p>
+</footer>
+
+<script>
+(() => {
+  const API = "https://api.sawwerha.app";
+  const $ = (id) => document.getElementById(id);
+  const MSG = {
+    ip_cap: "وصلت إلى حد العيّنات المجانية اليوم من هذا الاتصال. جرّب غداً.",
+    daily_cap: "اكتمل عدد العيّنات المجانية لهذا اليوم. جرّب غداً.",
+    busy: "الطابور ممتلئ الآن. جرّب بعد ساعة.",
+    size: "الصورة كبيرة جداً. اختر صورة أصغر من 10 ميغابايت.",
+    type: "أرسل صورة بصيغة JPG أو PNG أو WebP.",
+    empty: "الملف فارغ أو تالف. اختر صورة أخرى.",
+    consent: "وافق على الشروط وسياسة الخصوصية أولاً.",
+    closed: "الرفع متوقف مؤقتاً. جرّب لاحقاً.",
+    paused: "الخدمة متوقفة مؤقتاً للصيانة. جرّب لاحقاً.",
+    network: "تعذّر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.",
+    default: "تعذّر إرسال الصورة. حاول مرة أخرى."
+  };
+  const say = (t, err) => { $("msg").textContent = t || ""; $("msg").className = "msg" + (err ? " err" : ""); };
+  let blob = null;
+
+  try {
+    const last = localStorage.getItem("sawwerha_last");
+    if (last && /^[0-9a-f-]{36}$/.test(last)) { $("prevLink").href = "/s/#" + last; $("prev").hidden = false; }
+  } catch (e) {}
+
+  // تصغير الصورة في المتصفح إلى 2560 بكسل JPEG مع احترام اتجاه الكاميرا، فيقل الحجم ووقت الرفع
+  async function prepare(file) {
+    const MAX = 2560;
+    let bmp = null;
+    try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); } catch (e) {}
+    if (!bmp) return /^image\/(jpeg|png|webp)$/.test(file.type) && file.size <= 10 * 1024 * 1024 ? file : null;
+    const s = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(bmp.width * s));
+    c.height = Math.max(1, Math.round(bmp.height * s));
+    const g = c.getContext("2d");
+    g.fillStyle = "#fff";
+    g.fillRect(0, 0, c.width, c.height);
+    g.drawImage(bmp, 0, 0, c.width, c.height);
+    if (bmp.close) bmp.close();
+    return await new Promise((res) => c.toBlob(res, "image/jpeg", 0.9));
+  }
+
+  $("file").addEventListener("change", async () => {
+    const f = $("file").files[0];
+    blob = null;
+    if (!f) return;
+    say("نجهّز الصورة…");
+    try { blob = await prepare(f); } catch (e) { blob = null; }
+    if (!blob) { say("تعذّر قراءة الصورة. صوّرها بصيغة JPG وحاول مرة أخرى.", true); return; }
+    if (blob.size > 10 * 1024 * 1024) { blob = null; say(MSG.size, true); return; }
+    $("preview").src = URL.createObjectURL(blob);
+    $("preview").hidden = false;
+    $("dropText").textContent = "غيّر الصورة";
+    say("");
+  });
+
+  $("consent").addEventListener("change", () => { if ($("consent").checked && $("msg").classList.contains("err")) say(""); });
+
+  $("f").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if ($("website").value) return;
+    if (!blob) { say("اختر صورة المنتج أولاً.", true); return; }
+    if (!$("consent").checked) { say(MSG.consent, true); return; }
+    $("go").disabled = true;
+    say("نرفع الصورة…");
+    try {
+      const q = new URLSearchParams({ category: $("cat").value, consent: "1" });
+      const r = await fetch(API + "/web/samples?" + q, { method: "POST", headers: { "Content-Type": blob.type || "image/jpeg" }, body: blob });
+      const d = await r.json().catch(() => ({}));
+      if (r.status === 201 && d.token) {
+        try { localStorage.setItem("sawwerha_last", d.token); } catch (err) {}
+        location.href = "/s/#" + d.token;
+        return;
+      }
+      say(MSG[d.error] || MSG.default, true);
+    } catch (err) {
+      say(MSG.network, true);
+    }
+    $("go").disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

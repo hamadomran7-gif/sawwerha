@@ -5,6 +5,7 @@ import * as wa from "./wa.js";
 import * as db from "./db.js";
 import { createPaymentLink, isPaid } from "./payments.js";
 import { putMedia, getMedia } from "./media.js";
+import { handleWeb, isWebPhone } from "./web.js";
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json; charset=utf-8" } });
 const unauthorized = () => json({ error: "unauthorized" }, 401);
@@ -215,6 +216,12 @@ function formatReport(r) {
 
 async function markPaid(env, order) {
   if (order.status !== "awaiting_payment") return;
+  if (isWebPhone(order.phone)) {
+    // طلب من الموقع: صورة المنتج مرفوعة مسبقاً، فيدخل الطابور مباشرة وتظهر نتائجه في الصفحة الخاصة
+    const inputs = JSON.parse(order.inputs || "[]");
+    await db.updateOrder(env.DB, order.id, { status: inputs.length ? "queued" : "awaiting_photos" });
+    return;
+  }
   await db.updateOrder(env.DB, order.id, { status: "awaiting_photos" });
   const customer = await db.getCustomer(env.DB, order.phone);
   const { actions, state } = paidActions({ order, customer });
@@ -339,8 +346,8 @@ async function handleAgent(request, env, url) {
     const outputs = Array.isArray(body.outputs) && body.outputs.length ? body.outputs : JSON.parse(o.outputs || "[]");
     if (!outputs.length) return json({ error: "no outputs" }, 400);
     await db.updateOrder(env.DB, id, { outputs: JSON.stringify(outputs), status: "done", error: null });
-    if (isTestPhone(o.phone)) {
-      // طلب اختبار داخلي: لا تسليم عبر واتساب
+    if (isTestPhone(o.phone) || isWebPhone(o.phone)) {
+      // طلب اختبار داخلي أو طلب من الموقع: لا تسليم عبر واتساب (طلب الموقع يظهر في صفحته الخاصة)
       await db.updateOrder(env.DB, id, { status: "delivered", delivered_at: new Date().toISOString() });
       return json({ ok: true, test: true });
     }
@@ -513,6 +520,7 @@ export default {
       }
       if (request.method === "POST") return handleWebhook(request, env, ctx);
     }
+    if (url.pathname.startsWith("/web/")) return handleWeb(request, env, url);
     if (url.pathname.startsWith("/api/")) return handleAgent(request, env, url);
     if (url.pathname === "/health") return json({ ok: true, brand: env.BRAND });
     return new Response("Sawwerha bot", { status: 200 });

@@ -122,7 +122,7 @@
     const fd = new FormData();
     fd.append("metadata", new Blob([JSON.stringify(md)], { type: "application/json" }));
     const base = `https://raw.githubusercontent.com/${REPO}/${rev}/bot/src/`;
-    for (const f of ["index.js", "flow.js", "wa.js", "payments.js", "media.js", "db.js", "social.js"]) {
+    for (const f of ["index.js", "flow.js", "wa.js", "payments.js", "media.js", "db.js", "social.js", "web.js"]) {
       const r = await fetch(base + f, { cache: "no-store" });
       if (!r.ok) throw new Error(f + " " + r.status);
       fd.append(f, new Blob([await r.text()], { type: "application/javascript+module" }), f);

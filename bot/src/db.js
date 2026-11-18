@@ -93,6 +93,51 @@ export async function cronSummary(db) {
     .first();
 }
 
+/* ------------------------------------------------------------------ */
+/* قناة الموقع (حدود الرفع وطلبات الرمز)                                */
+/* ------------------------------------------------------------------ */
+
+/** قراءة واحدة لكل ما يقرر قبول رفع من الموقع، بلا كتابة (فالرفض لا يكلّف صفوفاً مكتوبة). */
+export async function webLimits(db, dayKey, ipKey) {
+  return db
+    .prepare(
+      `SELECT
+        (SELECT value FROM meta WHERE key = ?) AS day_n,
+        (SELECT value FROM meta WHERE key = ?) AS ip_n,
+        (SELECT COUNT(*) FROM orders WHERE status IN ('queued','processing')) AS queue,
+        (SELECT value FROM meta WHERE key = 'paused') AS paused`
+    )
+    .bind(dayKey, ipKey)
+    .first();
+}
+
+/** يزيد عدّادي اليوم والعنوان بعد قبول الرفع، ويحذف عدّادات الأيام السابقة عند أول رفع في اليوم. */
+export async function webCount(db, dayKey, ipKey, firstOfDay = false) {
+  const inc = "INSERT INTO meta (key, value) VALUES (?, '1') ON CONFLICT(key) DO UPDATE SET value = CAST(meta.value AS INTEGER) + 1";
+  await db.prepare(inc).bind(dayKey).run();
+  await db.prepare(inc).bind(ipKey).run();
+  if (firstOfDay) {
+    const day = dayKey.slice("web_day_".length);
+    await db.prepare("DELETE FROM meta WHERE (key GLOB 'web_ip_*' AND key < ?) OR (key GLOB 'web_day_*' AND key < ?)").bind(`web_ip_${day}`, dayKey).run();
+  }
+}
+
+/** كل طلبات المعرّف (رمز الموقع web:… أو رقم)، الأقدم أولاً. */
+export async function ordersByPhone(db, phone) {
+  const r = await db.prepare("SELECT * FROM orders WHERE phone = ? ORDER BY id").bind(phone).all();
+  return r.results || [];
+}
+
+/** عدد الطلبات التي تسبق طلباً في الطابور (الباقات أولاً ثم الأقدم، كما في claimNextJob). */
+export async function queueAhead(db, order) {
+  const before = order.kind === "package" ? "kind = 'package' AND id < ?" : "(kind = 'package' OR id < ?)";
+  const r = await db
+    .prepare(`SELECT COUNT(*) n FROM orders WHERE id != ? AND (status = 'processing' OR (status = 'queued' AND ${before}))`)
+    .bind(order.id, order.id)
+    .first();
+  return r ? r.n : 0;
+}
+
 /** يلتقط أقدم طلب في الطابور ويعلّمه قيد المعالجة (ذرّياً قدر الإمكان). */
 export async function claimNextJob(db) {
   const o = await db.prepare("SELECT * FROM orders WHERE status = 'queued' ORDER BY CASE kind WHEN 'package' THEN 0 ELSE 1 END, created_at LIMIT 1").first();

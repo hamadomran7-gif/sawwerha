@@ -47,3 +47,6 @@ WA_API_VERSION = "v21.0"
 # IG_USER_ID         اختياري: معرّف حساب إنستغرام الاحترافي (للنشر الآلي للريلز)
 # IG_TOKEN           اختياري: رمز وصول طويل الأمد بصلاحية instagram_content_publish
 # (متغيرات اختيارية: IG_POST_HOUR=20 بتوقيت الخليج، IG_GRAPH_VERSION=v23.0، WA_PUBLIC_NUMBER=971507241548)
+# قناة الموقع ‎/web/*‎ (اختيارية، القيم الافتراضية في src/web.js): WEB_UPLOADS=off لإغلاق الرفع،
+# WEB_DAILY_CAP=30 عيّنة يومياً، WEB_IP_DAILY_CAP=2 لكل IP، WEB_QUEUE_CAP=20، WEB_MAX_MB=10، WEB_ORIGINS لأصول إضافية.
+# MEDIA_TTL_DAYS=90: مدة بقاء الصور في KV قبل حذفها تلقائياً (سياسة الخصوصية وسقف 1 GB المجاني).

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>طلبك — صوّرها</title>
+<meta name="theme-color" content="#2b2140">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-block:14px;min-width:0}
+  .chip{display:inline-block;font-size:.85rem;font-weight:700;padding:2px 12px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+  .chip.ok{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 20px;background:var(--primary);color:var(--primary-ink);text-decoration:none;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+  .btn.wa{background:var(--wa);color:var(--wa-ink)}
+  .btn[disabled]{opacity:.6;cursor:progress}
+  .gallery a{display:block}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .plans .plan h3{margin:0}
+  .small{font-size:.9rem}
+  .err{color:#b3261e}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#ffb4ab}}
+</style>
+</head>
+<body data-lang="ar">
+<header class="wrap top">
+  <a class="brand" href="/"><span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg></span><span>صوّرها</span></a>
+</header>
+
+<main class="wrap">
+  <div id="app" aria-live="polite"><p class="muted">نحمّل طلبك…</p></div>
+</main>
+
+<footer class="wrap">
+  <nav aria-label="السياسات"><a href="/">الرئيسية</a><a href="/try/">رفع صورة جديدة</a><a href="/terms">الشروط والاسترداد</a><a href="/privacy">الخصوصية</a><a href="mailto:support@sawwerha.app">support@sawwerha.app</a></nav>
+</footer>
+
+<script>
+(() => {
+  const API = "https://api.sawwerha.app";
+  const app = document.getElementById("app");
+  const token = (location.hash || "").slice(1).toLowerCase();
+  const VALID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  const NAMES = { SINGLE: "حزمة هذا المنتج", LAUNCH: "حزمة إطلاق 5 منتجات", SUB_LITE: "اشتراك خفيف شهري", SUB_CONTENT: "اشتراك محتوى شهري" };
+  const DESC = {
+    SINGLE: "6 صور بدقة كاملة بلا علامة مائية من الصورة التي رفعتها: صورتان بخلفية بيضاء (لأمازون ولنون) و4 مشاهد تسويقية.",
+    LAUNCH: "25 صورة لخمسة منتجات، 5 لكل منتج.",
+    SUB_LITE: "15 صورة شهرياً، بلا تجديد تلقائي.",
+    SUB_CONTENT: "30 صورة شهرياً مع تعليقات للمنشورات، بلا تجديد تلقائي."
+  };
+  let state = null, timer = null, started = Date.now();
+
+  const el = (tag, attrs, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v; else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k));
+    return n;
+  };
+  const wa = (contact, text) => `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(text)}`;
+  const pageUrl = () => location.origin + "/s/#" + token;
+
+  function notFound(msg) {
+    app.replaceChildren(el("div", { class: "card" },
+      el("h1", { style: "font-size:1.5rem" }, "لم نجد هذا الطلب"),
+      el("p", {}, msg || "تأكد أنك فتحت الرابط كاملاً كما وصلك، أو ارفع صورة جديدة."),
+      el("a", { class: "btn", href: "/try/" }, "ارفع صورة منتجك")));
+  }
+
+  function shareRow() {
+    const copy = el("button", { class: "btn ghost", type: "button", onclick: async () => {
+      try { await navigator.clipboard.writeText(pageUrl()); copy.textContent = "نُسخ الرابط ✓"; } catch (e) { prompt("انسخ رابط طلبك:", pageUrl()); }
+    } }, "انسخ رابط الطلب");
+    return el("div", { class: "row" }, copy,
+      el("a", { class: "btn wa", href: "https://wa.me/?text=" + encodeURIComponent("رابط طلبي في صوّرها: " + pageUrl()), target: "_blank", rel: "noopener" }, "أرسل الرابط لنفسك على واتساب"));
+  }
+
+  function gallery(images, label) {
+    return el("div", { class: "gallery", style: "margin-top:12px" }, images.map((src, i) =>
+      el("figure", {}, el("a", { href: src, target: "_blank", rel: "noopener" }, el("img", { src, alt: `${label} ${i + 1}`, loading: "lazy", decoding: "async" })),
+        el("figcaption", {}, el("a", { href: src, target: "_blank", rel: "noopener" }, "افتح الصورة بالحجم الكامل")))));
+  }
+
+  function waiting(o, what) {
+    if (o.status === "queued") {
+      const ahead = o.ahead || 0;
+      return el("p", {}, `${what} في الطابور${ahead ? `، وقبله ${ahead} ${ahead === 1 ? "طلب" : "طلبات"}` : "، وهو التالي"}. تصل عادةً خلال 2–6 ساعات، وهذه الصفحة تتحدّث وحدها.`);
+    }
+    return el("p", {}, `نصوّر منتجك الآن 🎬 ${what === "العيّنة" ? "تستغرق العيّنة دقائق" : "تستغرق الحزمة أقل من ساعة عادةً"}، وهذه الصفحة تتحدّث وحدها.`);
+  }
+
+  function packageBlock(d) {
+    const p = d.package, info = d.packages, contact = d.contact;
+    if (!p || p.status === "cancelled" || p.status === "failed") {
+      const cards = Object.keys(NAMES).map((code) => {
+        const pk = info[code];
+        const action = pk.web
+          ? el("button", { class: "btn", type: "button", onclick: (ev) => order(code, ev.currentTarget) }, `اطلبها بـ${pk.price} درهماً`)
+          : el("a", { class: "btn ghost", href: wa(contact, `أريد ${NAMES[code]} (${pk.price} درهماً). رمز عيّنتي ${d.sample.code}`), target: "_blank", rel: "noopener" }, "اطلبها على واتساب");
+        return el("div", { class: "plan" + (pk.web ? " featured" : "") },
+          pk.web ? el("span", { class: "tag" }, "الأنسب الآن") : null,
+          el("h3", {}, NAMES[code]),
+          el("div", { class: "price" }, String(pk.price), el("small", {}, code.startsWith("SUB") ? " درهم/شهر" : " درهم")),
+          el("p", { class: "muted small", style: "margin:0" }, DESC[code]), action);
+      });
+      return el("section", { class: "card", "aria-labelledby": "pk" },
+        el("h2", { id: "pk", style: "font-size:1.3rem" }, "أعجبتك؟ اطلب الصور كاملة"),
+        p && p.status === "cancelled" ? el("p", { class: "muted small" }, `انتهت مهلة دفع الطلب ${p.code}؛ يمكنك طلبه من جديد.`) : null,
+        el("div", { class: "plans" }, cards),
+        el("p", { class: "muted small", style: "margin-top:10px" }, "الدفع مقدماً عبر رابط آمن، واسترداد كامل إن لم تُسلَّم الصور خلال 48 ساعة من الدفع. التفاصيل في ", el("a", { href: "/terms" }, "الشروط"), "."));
+    }
+    const box = el("section", { class: "card", "aria-labelledby": "pk" }, el("h2", { id: "pk", style: "font-size:1.3rem" }, `${NAMES[p.package] || "الحزمة"}: الطلب ${p.code}`));
+    if (p.status === "awaiting_payment") {
+      const link = info[p.package] && info[p.package].pay_link;
+      box.append(el("p", {}, `بانتظار الدفع: ${p.price} درهماً.`));
+      if (link) {
+        box.append(el("div", { class: "row" },
+          el("a", { class: "btn", href: link, target: "_blank", rel: "noopener" }, `ادفع ${p.price} درهماً عبر Ziina`),
+          el("a", { class: "btn wa", href: wa(contact, `دفعت للطلب ${p.code}`), target: "_blank", rel: "noopener" }, "دفعت؟ أرسل الرمز")),
+          el("p", { class: "muted small", style: "margin-top:10px" }, `بعد الدفع أرسل الرمز ${p.code} على واتساب ${contact.whatsapp} أو إلى ${contact.email} لنبدأ فوراً، وتظهر صورك الست هنا خلال 24 ساعة.`));
+      } else {
+        box.append(el("div", { class: "row" }, el("a", { class: "btn wa", href: wa(contact, `أريد ${NAMES[p.package]} للطلب ${p.code}`), target: "_blank", rel: "noopener" }, "أرسل الرمز ليصلك رابط الدفع")),
+          el("p", { class: "muted small", style: "margin-top:10px" }, `أرسل الرمز ${p.code} على واتساب ${contact.whatsapp} أو إلى ${contact.email} ويصلك رابط الدفع، ثم تظهر صورك هنا خلال 24 ساعة من الدفع.`));
+      }
+    } else if (p.status === "delivered" || p.status === "done") {
+      box.append(el("p", {}, "صور حزمتك جاهزة ✅ بدقة كاملة وبلا علامة مائية. تعديل مجاني واحد خلال 7 أيام: راسلنا بالرمز وما تريد تغييره."), gallery(p.images, "صورة الحزمة"));
+    } else {
+      box.append(waiting(p, "طلبك"));
+    }
+    return box;
+  }
+
+  async function order(code, btn) {
+    btn.disabled = true;
+    try {
+      const r = await fetch(`${API}/web/samples/${token}/order`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) });
+      if (r.ok) { await load(); return; }
+      const d = await r.json().catch(() => ({}));
+      if (d.error === "contact" && state) { location.href = wa(state.contact, `أريد ${NAMES[code]}. رمز عيّنتي ${state.sample.code}`); return; }
+      alert("تعذّر إنشاء الطلب. حاول مرة أخرى.");
+    } catch (e) {
+      alert("تعذّر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.");
+    }
+    btn.disabled = false;
+  }
+
+  function render(d) {
+    state = d;
+    const s = d.sample;
+    const top = el("section", { class: "card" },
+      el("div", { class: "row", style: "align-items:center;margin-top:0" }, el("h1", { style: "font-size:1.5rem;margin:0" }, `طلبك ${s.code}`),
+        el("span", { class: "chip" + (s.status === "delivered" ? " ok" : "") }, s.status === "delivered" ? "جاهزة" : s.status === "failed" ? "تعذّرت" : s.status === "queued" ? "في الطابور" : "قيد التصوير")));
+    if (s.status === "delivered") {
+      top.append(el("p", { style: "margin-top:10px" }, "صورك المجانية جاهزة ✅ عليها علامة مائية صغيرة، وصور الباقات بدقة كاملة بلا علامة."), gallery(s.images, "صورة العيّنة"));
+    } else if (s.status === "failed") {
+      top.append(el("p", { class: "err", style: "margin-top:10px" }, "تعذّرت معالجة هذه الصورة. جرّب صورة أوضح للمنتج كاملاً في ضوء النهار."),
+        el("div", { class: "row" }, el("a", { class: "btn", href: "/try/" }, "ارفع صورة أخرى"), el("a", { class: "btn wa", href: wa(d.contact, `تعذّرت عيّنتي ${s.code}`), target: "_blank", rel: "noopener" }, "راسلنا")));
+    } else {
+      top.append(waiting(s, "العيّنة"), el("p", { class: "muted small" }, "احفظ هذا الرابط: هو مفتاحك الوحيد لطلبك، فلا نطلب رقماً ولا بريداً."), shareRow());
+    }
+    const parts = [top];
+    if (s.status === "delivered") parts.push(packageBlock(d));
+    app.replaceChildren(...parts);
+    schedule(d);
+  }
+
+  function schedule(d) {
+    clearTimeout(timer);
+    const active = (o) => o && ["queued", "processing", "done"].includes(o.status);
+    if ((active(d.sample) || active(d.package)) && Date.now() - started < 12 * 3600 * 1000) timer = setTimeout(load, document.hidden ? 60000 : 20000);
+  }
+
+  async function load() {
+    try {
+      const r = await fetch(`${API}/web/samples/${token}`, { cache: "no-store" });
+      if (r.status === 404) { notFound(); return; }
+      if (!r.ok) throw new Error(String(r.status));
+      render(await r.json());
+    } catch (e) {
+      if (!state) app.replaceChildren(el("p", { class: "err" }, "تعذّر تحميل الطلب الآن. سنحاول مجدداً تلقائياً."));
+      clearTimeout(timer);
+      timer = setTimeout(load, 30000);
+    }
+  }
+
+  if (!VALID.test(token)) {
+    let last = null;
+    try { last = localStorage.getItem("sawwerha_last"); } catch (e) {}
+    if (last && VALID.test(last)) { location.replace("/s/#" + last); location.reload(); }
+    else notFound("لا يوجد رمز طلب في هذا الرابط.");
+    return;
+  }
+  try { localStorage.setItem("sawwerha_last", token); } catch (e) {}
+  window.addEventListener("hashchange", () => location.reload());
+  load();
+})();
+</script>
+</body>
+</html>
