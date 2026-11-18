@@ -8,6 +8,7 @@
 - `bot/`: بوت واتساب على Cloudflare Worker مع D1.
 - `agent/`: وكيل الإنتاج على جهاز حمد (C:\Sawwerha، RTX 4090، ComfyUI). يتحدّث ذاتياً من `agent/manifest.json`.
 - `ads/`: نصوص الإعلانات وخطة المحتوى المجاني.
+- `emtithali/`: موقع «امتثالي» (emtithali.com)، ملفات ثابتة في `site/` مع دالة نموذج الطلب `site/_worker.js`. ينشر إلى Pages ‏dalilalfawtara في حساب Cloudflare الآخر (التفاصيل في docs/03).
 - `docs/03-الحالة-والروابط.md`: المرجع الوحيد للحالة والروابط وطريقة النشر. حدّثه بعد كل تغيير مهم.
 
 ## طريقة العمل
@@ -23,6 +24,7 @@
 - البوت: `cd bot && npm test`
 - الوكيل: `for f in agent/tests/test_*.py; do python3 "$f" agent || exit 1; done`
 - صفحات صوّرها: `python3 sitegen/build.py`
+- امتثالي: `cd emtithali && npm test`
 
 ## النشر
 من لوحة Cloudflare في متصفح Claude على جهاز حمد، بالأدوات في `tools/dash-helpers.js` وبقيمة commit محددة (التفاصيل في docs/03). لا نشر قبل نجاح الفحوص ورفع الـ commit.

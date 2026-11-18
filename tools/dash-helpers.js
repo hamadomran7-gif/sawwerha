@@ -130,5 +130,125 @@
     const j = await __cf(`/accounts/${__A}/workers/scripts/sawwerha-bot`, { method: "PUT", body: fd });
     return { success: j.success, errors: j.errors, etag: j.result && j.result.etag, bindings: bindings.map((b) => b.type + ":" + b.name) };
   };
+  // امتثالي: مشروع Pages ‏dalilalfawtara في حساب Cloudflare غير حساب مستحقاتي وصوّرها؛ يُعرف الحساب من نطاق المشروع (opts.domain).
+  // رفع مباشر بطريقة Wrangler: مفتاح كل أصل = blake3(base64(المحتوى) + الامتداد) أول 32 حرفاً،
+  // و_worker.js و_routes.json و_headers و_redirects تُرسل ملفات خاصة في طلب النشر لا أصولاً.
+  window.__blake3Hex = function (bytes) {
+    const IV = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+    const PERM = [2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8];
+    const CHUNK_START = 1, CHUNK_END = 2, PARENT = 4, ROOT = 8;
+    const rotr = (x, n) => ((x >>> n) | (x << (32 - n))) >>> 0;
+    function compress(cv, m, counter, blockLen, flags) {
+      const s = new Uint32Array(16);
+      for (let i = 0; i < 8; i++) s[i] = cv[i];
+      s[8] = IV[0]; s[9] = IV[1]; s[10] = IV[2]; s[11] = IV[3];
+      s[12] = counter >>> 0; s[13] = Math.floor(counter / 4294967296) >>> 0; s[14] = blockLen; s[15] = flags;
+      let w = Uint32Array.from(m);
+      const g = (a, b, c, d, x, y) => {
+        s[a] = s[a] + s[b] + x; s[d] = rotr(s[d] ^ s[a], 16);
+        s[c] = s[c] + s[d]; s[b] = rotr(s[b] ^ s[c], 12);
+        s[a] = s[a] + s[b] + y; s[d] = rotr(s[d] ^ s[a], 8);
+        s[c] = s[c] + s[d]; s[b] = rotr(s[b] ^ s[c], 7);
+      };
+      for (let r = 0; r < 7; r++) {
+        g(0, 4, 8, 12, w[0], w[1]); g(1, 5, 9, 13, w[2], w[3]); g(2, 6, 10, 14, w[4], w[5]); g(3, 7, 11, 15, w[6], w[7]);
+        g(0, 5, 10, 15, w[8], w[9]); g(1, 6, 11, 12, w[10], w[11]); g(2, 7, 8, 13, w[12], w[13]); g(3, 4, 9, 14, w[14], w[15]);
+        if (r < 6) { const p = new Uint32Array(16); for (let i = 0; i < 16; i++) p[i] = w[PERM[i]]; w = p; }
+      }
+      for (let i = 0; i < 8; i++) { s[i] ^= s[i + 8]; s[i + 8] ^= cv[i]; }
+      return s;
+    }
+    function words(off, len) {
+      const w = new Uint32Array(16);
+      for (let i = 0; i < len; i++) w[i >> 2] |= bytes[off + i] << ((i & 3) * 8);
+      return w;
+    }
+    function chunkOutput(start, end, counter) {
+      let cv = Uint32Array.from(IV);
+      const nBlocks = Math.max(1, Math.ceil((end - start) / 64));
+      for (let b = 0; b < nBlocks - 1; b++) cv = compress(cv, words(start + b * 64, 64), counter, 64, b === 0 ? CHUNK_START : 0).slice(0, 8);
+      const off = start + (nBlocks - 1) * 64;
+      return { cv, block: words(off, end - off), counter, blockLen: end - off, flags: (nBlocks === 1 ? CHUNK_START : 0) | CHUNK_END };
+    }
+    const outCV = (o) => compress(o.cv, o.block, o.counter, o.blockLen, o.flags).slice(0, 8);
+    const parent = (l, r) => { const block = new Uint32Array(16); block.set(l, 0); block.set(r, 8); return { cv: Uint32Array.from(IV), block, counter: 0, blockLen: 64, flags: PARENT }; };
+    const n = bytes.length, nChunks = Math.max(1, Math.ceil(n / 1024)), stack = [];
+    for (let c = 0; c < nChunks - 1; c++) {
+      let cv = outCV(chunkOutput(c * 1024, c * 1024 + 1024, c));
+      let total = c + 1;
+      while ((total & 1) === 0) { cv = outCV(parent(stack.pop(), cv)); total >>= 1; }
+      stack.push(cv);
+    }
+    let out = chunkOutput((nChunks - 1) * 1024, n, nChunks - 1);
+    while (stack.length) out = parent(stack.pop(), outCV(out));
+    const s = compress(out.cv, out.block, 0, out.blockLen, out.flags | ROOT);
+    let hex = "";
+    for (let i = 0; i < 8; i++) for (let k = 0; k < 4; k++) hex += ((s[i] >>> (8 * k)) & 255).toString(16).padStart(2, "0");
+    return hex;
+  };
+  const PAGES_SPECIAL = ["_worker.js", "_routes.json", "_headers", "_redirects"];
+  const PTYPE = (p) => (p.endsWith(".woff2") ? "font/woff2" : TYPE(p));
+  window.__pagesKey = async (blob, path) => {
+    const b64 = await __b64(blob);
+    const ext = path.includes(".") ? path.split(".").pop() : "";
+    return { key: __blake3Hex(new TextEncoder().encode(b64 + ext)).slice(0, 32), b64 };
+  };
+  // يجد الحساب الذي فيه مشروع Pages بهذا الاسم وهذا النطاق، فلا يُكتب معرّف الحساب في المستودع العام
+  window.__pagesAccount = async (project, domain) => {
+    const acc = await __cf("/accounts?per_page=50");
+    for (const a of acc.result || []) {
+      const p = await __cf(`/accounts/${a.id}/pages/projects/${project}`);
+      if (p.success && p.result && (p.result.domains || []).includes(domain)) return a.id;
+    }
+    return null;
+  };
+  // await __deployPages('dalilalfawtara', 'emtithali/site', '<commit>', { domain: 'emtithali.com', branch: 'main' })
+  // branch 'main' = الإنتاج؛ أي فرع آخر (مثل claude-preview) = نسخة معاينة على dalilalfawtara-9ru.pages.dev
+  window.__deployPages = async (project, dir, rev, opts = {}) => {
+    const A = opts.account || (opts.domain ? await __pagesAccount(project, opts.domain) : null);
+    if (!A) return { step: "account", msg: "لم يُعثر على حساب فيه المشروع والنطاق" };
+    const tree = await (await fetch(`https://api.github.com/repos/${REPO}/git/trees/${rev}?recursive=1`, { cache: "no-store" })).json();
+    if (!tree.tree) throw new Error("tree: " + tree.message);
+    const pre = dir + "/";
+    const list = tree.tree.filter((t) => t.type === "blob" && t.path.startsWith(pre)).map((t) => t.path.slice(pre.length));
+    const base = `https://raw.githubusercontent.com/${REPO}/${rev}/${pre}`;
+    const get = async (p) => {
+      for (let i = 0; i < 3; i++) { try { const r = await fetch(base + p, { cache: "no-store" }); if (r.ok) return await r.blob(); } catch (e) { /* retry */ } }
+      throw new Error("fetch: " + p);
+    };
+    const special = {}, assets = [];
+    for (const p of list) { const blob = await get(p); if (PAGES_SPECIAL.includes(p)) special[p] = blob; else assets.push({ path: "/" + p, blob }); }
+    const manifest = {}, payload = {};
+    for (const f of assets) { const { key, b64 } = await __pagesKey(f.blob, f.path); manifest[f.path] = key; payload[key] = { b64, type: PTYPE(f.path) }; }
+    const tok = await __cf(`/accounts/${A}/pages/projects/${project}/upload-token`);
+    if (!tok.success) return { step: "token", errors: tok.errors };
+    const jwt = tok.result.jwt;
+    const api = async (p, body) => {
+      const r = await fetch("/api/v4" + p, { method: "POST", credentials: "include", headers: { "x-atok": window.bootstrap.atok, Authorization: "Bearer " + jwt, "content-type": "application/json" }, body: JSON.stringify(body) });
+      const t = await r.text();
+      try { return JSON.parse(t); } catch (e) { return { success: false, status: r.status, text: t.slice(0, 300) }; }
+    };
+    const hashes = Object.keys(payload);
+    const miss = await api("/pages/assets/check-missing", { hashes });
+    if (!miss.success) return { step: "check-missing", errors: miss.errors || miss.text };
+    const missing = miss.result || [];
+    for (let i = 0; i < missing.length; i += 50) {
+      const batch = missing.slice(i, i + 50).map((h) => ({ key: h, value: payload[h].b64, metadata: { contentType: payload[h].type }, base64: true }));
+      const up = await api("/pages/assets/upload", batch);
+      if (!up.success) return { step: "upload", errors: up.errors || up.text };
+    }
+    const ups = await api("/pages/assets/upsert-hashes", { hashes });
+    if (!ups.success) return { step: "upsert-hashes", errors: ups.errors || ups.text };
+    const fd = new FormData();
+    fd.append("manifest", JSON.stringify(manifest));
+    if (opts.branch) fd.append("branch", opts.branch);
+    fd.append("commit_hash", rev);
+    fd.append("commit_message", opts.message || rev);
+    fd.append("commit_dirty", "false");
+    for (const [name, blob] of Object.entries(special)) fd.append(name, new File([blob], name));
+    const dep = await __cf(`/accounts/${A}/pages/projects/${project}/deployments`, { method: "POST", body: fd });
+    return { account: A.slice(0, 6) + "…", success: dep.success, errors: dep.errors, id: dep.result && dep.result.id, url: dep.result && dep.result.url, env: dep.result && dep.result.environment, aliases: dep.result && dep.result.aliases, files: assets.length, uploaded: missing.length, special: Object.keys(special), manifest };
+  };
+
   return "dash helpers ready";
 })();

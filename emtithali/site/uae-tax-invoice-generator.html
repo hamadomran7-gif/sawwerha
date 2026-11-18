@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free UAE Tax Invoice and Quotation Generator | Emtithali</title>
+<meta name="description" content="Create a UAE tax invoice or quotation with 5% VAT in English, Arabic or both, and download it as a PDF. Free, and it runs in your browser without storing your data.">
+<link rel="canonical" href="https://emtithali.com/uae-tax-invoice-generator">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1a38">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_AE">
+<meta property="og:site_name" content="امتثالي">
+<meta property="og:title" content="Free UAE Tax Invoice and Quotation Generator">
+<meta property="og:description" content="Create a UAE tax invoice or quotation with 5% VAT in English, Arabic or both, and download it as a PDF. Free, and it runs in your browser without storing your data.">
+<meta property="og:url" content="https://emtithali.com/uae-tax-invoice-generator">
+<meta name="twitter:card" content="summary">
+<link rel="alternate" hreflang="ar" href="https://emtithali.com/invoice-generator">
+<link rel="alternate" hreflang="en" href="https://emtithali.com/uae-tax-invoice-generator">
+<link rel="alternate" hreflang="x-default" href="https://emtithali.com/invoice-generator">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What must a UAE tax invoice include?","acceptedAnswer":{"@type":"Answer","text":"The words Tax Invoice; the supplier's name, address and TRN; the recipient's name, address and TRN where registered; an invoice number; the issue date and the date of supply if different; each line with its unit price, quantity, VAT rate and amount in AED; any discount; the total; and the VAT amount in AED."}},{"@type":"Question","name":"When is a simplified tax invoice enough?","acceptedAnswer":{"@type":"Answer","text":"Where the recipient is not VAT-registered, or is registered and the consideration does not exceed AED 10,000, except under the reverse charge, according to Article 59 of the VAT Executive Regulation."}},{"@type":"Question","name":"Will a PDF invoice still be accepted after e-invoicing starts?","acceptedAnswer":{"@type":"Answer","text":"Not for transactions in scope. From 1 July 2027, businesses with revenue below AED 50 million issue invoices to businesses and government entities through an Accredited Service Provider, and a PDF file is not an electronic invoice."}},{"@type":"Question","name":"Does the generator keep my invoice data?","acceptedAnswer":{"@type":"Answer","text":"No. It runs in your browser, nothing you type is stored or sent anywhere, and the PDF is created on your device."}}]}</script>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preload" href="/alexandria-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<p class="ribbon">Pre-launch trial version.</p>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/invoice-generator"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5"/><path d="M6.5 12.5l3.6 3.7L17.5 8"/></svg>Emtithali<small>Independent, non-government</small></a>
+    <nav class="nav" aria-label="Site">
+      <a href="/#compare">Providers</a>
+      <a href="/#calc">Deadlines</a>
+      <a href="/invoice-generator" hreflang="ar" lang="ar">العربية</a>
+    </nav>
+    <a class="btn sm" href="/#compare">Compare providers</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="crumb"><a href="/">Emtithali</a> / Free tools</p>
+    <h1 id="page-title">Free UAE Tax Invoice and Quotation Generator</h1>
+    <p class="lead">Enter the supplier, the customer and the lines; the generator works out 5% VAT and the total in AED and prepares a tax invoice or quotation in English, Arabic or both, ready to download as a PDF. It runs in your browser and stores or sends nothing.</p>
+    <p class="note">Last reviewed: 16 November 2026. Guidance only, not tax advice.</p>
+    <p class="note"><a href="/invoice-generator" hreflang="ar" lang="ar">النسخة العربية</a></p>
+  </section>
+  <section aria-labelledby="ig-title">
+    <p class="banner">From 1 July 2027, businesses with revenue below AED 50 million must issue invoices for their transactions with businesses and government entities through an Accredited Service Provider; a PDF invoice will no longer be enough. <a href="/#compare">Compare accredited providers (Arabic)</a></p>
+    <h2 id="ig-title">Create your document</h2>
+    <form class="panel" id="ig-form" novalidate>
+      <fieldset>
+        <legend>Document</legend>
+        <div class="seg">
+          <input type="radio" name="ig-type" id="ig-t-inv" value="invoice" checked><label for="ig-t-inv">Tax invoice</label>
+          <input type="radio" name="ig-type" id="ig-t-quote" value="quote"><label for="ig-t-quote">Quotation</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Document language</legend>
+        <div class="seg">
+          <input type="radio" name="ig-lang" id="ig-l-ar" value="ar"><label for="ig-l-ar">العربية</label>
+          <input type="radio" name="ig-lang" id="ig-l-en" value="en" checked><label for="ig-l-en">English</label>
+          <input type="radio" name="ig-lang" id="ig-l-bi" value="bi"><label for="ig-l-bi">Arabic and English</label>
+        </div>
+      </fieldset>
+      <div class="grid2">
+        <div class="field"><label for="ig-no">Invoice or quotation number</label><input class="input" id="ig-no" type="text" placeholder="2026-001" autocomplete="off"></div>
+        <div class="field"><label for="ig-date">Issue date</label><input class="input" id="ig-date" type="date"></div>
+        <div class="field"><label for="ig-supply">Date of supply <span>(if different)</span></label><input class="input" id="ig-supply" type="date"></div>
+      </div>
+      <div class="grid2">
+        <fieldset>
+          <legend>Supplier (your business)</legend>
+          <div class="field"><label for="ig-s-name">Name</label><input class="input" id="ig-s-name" type="text" autocomplete="off"></div>
+          <div class="field"><label for="ig-s-addr">Address</label><input class="input" id="ig-s-addr" type="text" autocomplete="off"></div>
+          <div class="field"><label for="ig-s-trn">Tax Registration Number (TRN)</label><input class="input" id="ig-s-trn" type="text" inputmode="numeric" autocomplete="off"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Customer</legend>
+          <div class="field"><label for="ig-b-name">Name</label><input class="input" id="ig-b-name" type="text" autocomplete="off"></div>
+          <div class="field"><label for="ig-b-addr">Address</label><input class="input" id="ig-b-addr" type="text" autocomplete="off"></div>
+          <div class="field"><label for="ig-b-trn">Tax Registration Number (TRN) <span>(if registered)</span></label><input class="input" id="ig-b-trn" type="text" inputmode="numeric" autocomplete="off"></div>
+        </fieldset>
+      </div>
+      <fieldset>
+        <legend>Lines</legend>
+        <div class="items" id="ig-items">
+        <div class="item">
+          <label class="field wide"><span>Description</span><input class="input" data-k="desc" type="text"></label>
+          <label class="field"><span>Quantity</span><input class="input" data-k="qty" type="number" min="0" step="any" inputmode="decimal" value="1"></label>
+          <label class="field"><span>Unit price (AED)</span><input class="input" data-k="price" type="number" min="0" step="any" inputmode="decimal"></label>
+          <label class="field"><span>Discount (AED)</span><input class="input" data-k="disc" type="number" min="0" step="any" inputmode="decimal" value="0"></label>
+          <label class="field"><span>VAT</span><select class="input" data-k="rate"><option value="5">5%</option><option value="0">0%</option></select></label>
+          <button type="button" class="btn ghost sm" data-del>Remove</button>
+        </div>
+        </div>
+        <div class="cta-row"><button type="button" class="btn ghost sm" id="ig-add">Add a line</button></div>
+      </fieldset>
+      <div class="field"><label for="ig-notes">Notes <span>(optional: payment terms or bank details)</span></label><textarea class="input" id="ig-notes" rows="3"></textarea></div>
+      <div class="check"><input id="ig-credit" type="checkbox" checked><label for="ig-credit">Add a small line at the bottom: prepared at emtithali.com</label></div>
+    </form>
+    <div class="receipt" aria-live="polite">
+      <div class="table-wrap">
+        <table aria-label="Totals">
+          <tbody>
+          <tr><td>Subtotal</td><td class="num" id="ig-gross">0.00</td></tr>
+          <tr><td>Discount</td><td class="num" id="ig-disc">0.00</td></tr>
+          <tr><td>Taxable amount</td><td class="num" id="ig-net">0.00</td></tr>
+          <tr><td>VAT</td><td class="num" id="ig-vat">0.00</td></tr>
+          </tbody>
+          <tfoot><tr><th>Total due (AED)</th><td class="num" id="ig-total">0.00</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="err" id="ig-err" role="alert"></div>
+    <div class="cta-row">
+      <button class="btn" type="button" id="ig-pdf">Download PDF</button>
+      <button class="btn ghost" type="button" id="ig-print">Print</button>
+    </div>
+    <p class="fine-print">The generator runs in your browser: nothing you type is stored or sent anywhere, so it is gone when you close the page.</p>
+    <h3>Preview</h3>
+    <div class="preview" id="ig-preview"></div>
+  </section>
+  <section aria-labelledby="s-fields">
+    <h2 id="s-fields">What a UAE tax invoice must show</h2>
+    <p>Article 59 of the VAT Executive Regulation lists these particulars, and the generator puts all of them on a tax invoice:</p>
+    <ul class="checks">
+      <li>The words “Tax Invoice”.</li>
+      <li>The supplier’s name, address and Tax Registration Number.</li>
+      <li>The recipient’s name and address, and its TRN where it is registered.</li>
+      <li>A sequential or unique invoice number that identifies the invoice and its order.</li>
+      <li>The date of issue, and the date of supply if it is different.</li>
+      <li>A description of the goods or services and, for each line, the unit price, quantity, VAT rate and amount payable in AED.</li>
+      <li>Any discount, the gross amount payable in AED, and the VAT amount in AED.</li>
+    </ul>
+    <p class="note">The generator charges VAT at the 5% standard rate or at zero, in AED only. It does not cover reverse-charge supplies, which need a specific statement on the invoice. The issuer remains responsible for the details.</p>
+  </section>
+
+  <section aria-labelledby="s-simple">
+    <h2 id="s-simple">When is a simplified tax invoice enough?</h2>
+    <p>The same Article allows a simplified tax invoice where the recipient is not registered, or is registered and the consideration does not exceed AED 10,000, except under the reverse charge. The full invoice from this generator carries every particular of the simplified one.</p>
+  </section>
+
+  <section aria-labelledby="s-2027">
+    <h2 id="s-2027">Once e-invoicing starts</h2>
+    <p>The document you download is a PDF, not an electronic invoice under the UAE e-invoicing system. For transactions in scope, invoices go through an Accredited Service Provider from your mandatory date. The generator stays useful for quotations and for transactions out of scope, such as sales to individuals.</p>
+  </section>
+  <section aria-labelledby="s-faq">
+    <h2 id="s-faq">Frequently asked questions</h2>
+    <div class="qa">
+      <div>
+        <h3>What must a UAE tax invoice include?</h3>
+        <p>The words Tax Invoice; the supplier&#x27;s name, address and TRN; the recipient&#x27;s name, address and TRN where registered; an invoice number; the issue date and the date of supply if different; each line with its unit price, quantity, VAT rate and amount in AED; any discount; the total; and the VAT amount in AED.</p>
+      </div>
+      <div>
+        <h3>When is a simplified tax invoice enough?</h3>
+        <p>Where the recipient is not VAT-registered, or is registered and the consideration does not exceed AED 10,000, except under the reverse charge, according to Article 59 of the VAT Executive Regulation.</p>
+      </div>
+      <div>
+        <h3>Will a PDF invoice still be accepted after e-invoicing starts?</h3>
+        <p>Not for transactions in scope. From 1 July 2027, businesses with revenue below AED 50 million issue invoices to businesses and government entities through an Accredited Service Provider, and a PDF file is not an electronic invoice.</p>
+      </div>
+      <div>
+        <h3>Does the generator keep my invoice data?</h3>
+        <p>No. It runs in your browser, nothing you type is stored or sent anywhere, and the PDF is created on your device.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="cta-title">
+    <h2 id="cta-title">Compare accredited providers</h2>
+    <p>Examples from the Ministry of Finance list with their published prices, and one form to request quotes from up to three accredited providers (the site is in Arabic). Free for you.</p>
+    <div class="cta-row">
+      <a class="btn" href="/#compare">Compare accredited providers</a>
+    </div>
+  </section>
+
+  <section aria-labelledby="more-title">
+    <h2 id="more-title">Read also</h2>
+    <ul class="more">
+      <li><a href="/e-invoicing-readiness-checker"><b>E-invoicing readiness checker</b><span>Five questions: your phase, deadlines and next steps</span></a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p class="note">Emtithali is an independent, non-government platform. It is not part of the Ministry of Finance or the Federal Tax Authority, and it is not an Accredited Service Provider. This is guidance, not tax advice: always check the official source.</p>
+    <p class="note">Some providers may pay us a commission if you sign with them; you pay nothing extra. <a href="/#privacy">Privacy (Arabic)</a></p>
+    <h2>Sources</h2>
+    <ul class="links">
+      <li><a href="https://tax.gov.ae/Datafolder/Files/Legislation/Executive-Regulation-of-Federal-Decree-Law-No-08-of-2017-Publish-18-09-2025.pdf" rel="noopener">Article 59 (Tax Invoices) of the VAT Executive Regulation and its amendments, Federal Tax Authority</a></li>
+      <li><a href="https://mof.gov.ae/en/public-finance/tax/vat/" rel="noopener">Value Added Tax: the 5% standard rate, Ministry of Finance</a></li>
+      <li><a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoicing-Guidelines_En.pdf" rel="noopener">UAE Electronic Invoicing Guidelines, version 2.0 of 26 October 2026, Ministry of Finance</a></li>
+      <li><a href="https://mof.gov.ae/wp-content/uploads/2025/09/Ministerial-Decision-No.-244-of-2025-on-the-Implementation-of-the-Electronic-Invoicing-System.pdf" rel="noopener">Ministerial Decision 244 of 2025 on the Implementation of the Electronic Invoicing System, Ministry of Finance</a></li>
+      <li><a href="https://mof.gov.ae/ar/about-ministry/mof-initiatives/einvoicing/pre-approved-einvoicing-service-providers/" rel="noopener">List of pre-approved e-invoicing service providers, Ministry of Finance (Arabic)</a></li>
+    </ul>
+  </footer>
+</main>
+<script src="/invoice.js" defer></script>
+</body>
+</html>
