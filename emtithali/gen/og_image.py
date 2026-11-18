@@ -3,8 +3,9 @@
 """
 امتثالي (emtithali.com): صورة المعاينة عند مشاركة الروابط (og:image وtwitter:image)، 1200×630.
 تُرسم من خطّي الموقع (Alexandria) وألوانه في site.css، فلا ملف تصميم خارجي ولا شعار طرف آخر.
-    python3 emtithali/gen/og_image.py              يكتب emtithali/site/og-image.png
-    python3 emtithali/gen/og_image.py <مسار>        يكتب إلى المسار المعطى
+    python3 emtithali/gen/og_image.py              يكتب emtithali/site/og-image.png (صفحات الإمارات)
+    python3 emtithali/gen/og_image.py --sa         يكتب emtithali/site/og-image-sa.png (صفحات السعودية)
+    python3 emtithali/gen/og_image.py [--sa] <مسار> يكتب إلى المسار المعطى
 يحتاج Pillow بدعم raqm (لتشكيل الحروف العربية). النص عام بلا تواريخ ولا أرقام، فلا يحتاج تحديثاً عند تغيّر المواعيد.
 """
 import os
@@ -14,7 +15,14 @@ from PIL import Image, ImageDraw, ImageFont, features
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, '..', 'site')
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(SITE, 'og-image.png')
+SA = '--sa' in sys.argv
+ARGS = [a for a in sys.argv[1:] if a != '--sa']
+OUT = ARGS[0] if ARGS else os.path.join(SITE, 'og-image-sa.png' if SA else 'og-image.png')
+# النص لكل نسخة. خط الحروف العربية لا يضم علامات الترقيم اللاتينية (: و« »)، فلا تُكتب فيه.
+TEXT = {
+    False: ('قارن مزوّدي الفوترة الإلكترونية', 'المعتمدين في الإمارات', 'منصة مستقلة، الأسعار والمواعيد وأدوات مجانية', 'UAE e-invoicing, compared'),
+    True: ('مقارنة برامج الفوترة الإلكترونية', 'في السعودية', 'الأسعار المعلنة وموجات الربط مع منصة فاتورة', 'Saudi e-invoicing, compared'),
+}[SA]
 W, H = 1200, 630
 
 # من site.css (الوضع الفاتح): --band و--on-band و--on-band-muted و--mark و--accent
@@ -60,16 +68,16 @@ for px, py in (pts[0], pts[-1]):
 ar((x0 - 28, y0 + 70), 'امتثالي', AR(66, 800), ON_BAND)
 
 # العنوان: سطران، وتحت السطر الثاني خط بلون التمييز
-ar((R, 330), 'قارن مزوّدي الفوترة الإلكترونية', AR(60, 700), '#ffffff')
-ar((R, 418), 'المعتمدين في الإمارات', AR(60, 700), '#ffffff')
-w2 = d.textlength('المعتمدين في الإمارات', font=AR(60, 700), direction='rtl', language='ar')
+ar((R, 330), TEXT[0], AR(60, 700), '#ffffff')
+ar((R, 418), TEXT[1], AR(60, 700), '#ffffff')
+w2 = d.textlength(TEXT[1], font=AR(60, 700), direction='rtl', language='ar')
 d.rectangle((R - w2, 436, R, 444), fill=MARK)
 
-ar((R, 500), 'منصة مستقلة، الأسعار والمواعيد وأدوات مجانية', AR(32, 400), MUTED)
+ar((R, 500), TEXT[2], AR(32, 400), MUTED)
 
 # النطاق بالحروف اللاتينية أعلى اليسار، مقابل العلامة (خط الحروف العربية لا يضم علامات الترقيم اللاتينية)
 d.text((100, 146), 'emtithali.com', font=LA(34, 600), fill=ON_BAND, anchor='ls')
-d.text((100, 186), 'UAE e-invoicing, compared', font=LA(24, 400), fill=MUTED, anchor='ls')
+d.text((100, 186), TEXT[3], font=LA(24, 400), fill=MUTED, anchor='ls')
 
 pal = im.quantize(colors=48, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
 pal.save(OUT, optimize=True)
