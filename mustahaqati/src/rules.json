@@ -1,6 +1,6 @@
 {
   "_about": "كل الأرقام القانونية في الموقع تأتي من هذا الملف فقط. عند أي تعديل قانوني: عدّل الرقم هنا، حدّث lastReview، ثم أعد البناء.",
-  "lastReview": "2026-11-02",
+  "lastReview": "2026-11-18",
   "ae": {
     "currency": "AED",
     "gratuity": {
@@ -14,6 +14,22 @@
       "daysPerMonth": 30,
       "paymentDeadlineDays": 14,
       "source": "https://mohre.gov.ae"
+    },
+    "difcDews": {
+      "law": "قانون العمل في مركز دبي المالي العالمي، قانون المركز رقم 2 لسنة 2019 (النسخة الموحدة رقم 5، يوليو 2025)، المادتان 65 و66 والجدول 2",
+      "rateFirstFiveYears": 5.83,
+      "rateAfterFiveYears": 8.33,
+      "firstPeriodYears": 5,
+      "minBasicShareOfMonthlyWage": 0.5,
+      "schemeStartDate": "2020-02-01",
+      "paymentDueDayNextMonth": 21,
+      "nationalTopUpMinMonthly": 1000,
+      "maxFinePerBreachUsd": 2000,
+      "legacyGratuityDaysFirstFiveYears": 21,
+      "legacyGratuityDaysAfterFiveYears": 30,
+      "legacyGratuityCapYearsOfWage": 2,
+      "legacyDaysPerYear": 365,
+      "source": "https://assets.difc.com/v1/media/edge/images/dubaiintern0078-difcexperie96c5-production-3253/media/project/difcexperiences/difc/difcwebsite/documents/laws--regulations/employment-law.pdf"
     },
     "overtime": {
       "law": "المرسوم بقانون اتحادي 33/2021 المواد 17–21 وقرار مجلس الوزراء 1/2022",

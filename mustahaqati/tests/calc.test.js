@@ -73,6 +73,7 @@ import {
   uaeNafisJobLoss,
   kuwaitLabourSupport,
   uaeGratuity,
+  difcDews,
   ksaEndOfService,
   gosiContribution,
   gosiNewEntrantPensionRate,
@@ -2432,4 +2433,32 @@ test("ksaIqamaRenewal: جدول دليل الوزارة لتجزئة المقا�
   assert.equal(ksaIqamaRenewal({ high: 1, months: 3, iqamaPerWorker: 125 }).total, 2550);
   assert.equal(ksaIqamaRenewal({ high: 1, months: 5 }).months, 12);
   assert.equal(ksaIqamaRenewal({}).workers, 0);
+});
+
+test("خطة DEWS في مركز دبي المالي العالمي: 5.83% ثم 8.33% من الراتب الأساسي (المادة 66(7))", () => {
+  // مثال البند: 25,000 درهم أساسي، 10 سنوات بلا خدمة قبل 1 فبراير 2020
+  const a = difcDews({ monthlyBasic: 25000, years: 10 });
+  assert.equal(a.monthlyFirst, 1457.5);
+  assert.equal(a.monthlyAfter, 2082.5);
+  assert.equal(a.monthsFirst, 60);
+  assert.equal(a.monthsAfter, 60);
+  assert.equal(a.total, 212400); // 60 × 1,457.50 + 60 × 2,082.50
+  assert.equal(a.rateNow, 8.33);
+  // أقل من 5 سنوات: النسبة الأولى وحدها
+  const b = difcDews({ monthlyBasic: 10000, years: 3 });
+  assert.equal(b.rateNow, 5.83);
+  assert.equal(b.total, 20988); // 36 × 583
+  // الأساسي لا يقل عن 50% من الأجر الشهري (66(8)(b)): أساسي 4,000 وأجر 12,000 → 6,000
+  const c = difcDews({ monthlyBasic: 4000, monthlyWage: 12000, years: 1 });
+  assert.equal(c.basic, 6000);
+  assert.equal(c.floorApplied, true);
+  assert.equal(c.monthlyFirst, 349.8);
+  // خدمة قبل تاريخ بدء الخطة تدخل في حد السنوات الخمس ولا مساهمات عنها
+  const d = difcDews({ monthlyBasic: 10000, years: 10, priorYears: 3 });
+  assert.equal(d.monthsFirst, 24);
+  assert.equal(d.monthsAfter, 60);
+  assert.equal(d.total, 24 * 583 + 60 * 833);
+  const e = difcDews({ monthlyBasic: 10000, years: 10, priorYears: 6 });
+  assert.equal(e.monthsFirst, 0);
+  assert.equal(e.monthsAfter, 48);
 });

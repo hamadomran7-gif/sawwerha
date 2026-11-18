@@ -1,0 +1,119 @@
+---json
+{
+  "lang": "en",
+  "path": "en/difc-dews-calculator",
+  "alternate": "uae-difc-dews",
+  "title": "DIFC DEWS Calculator: Employer Contributions of 5.83% then 8.33% Instead of Gratuity",
+  "h1": "DIFC DEWS Calculator",
+  "description": "Calculate the minimum monthly employer contribution to the DIFC Employee Workplace Savings plan: 5.83% of basic wage for the first five years of service, then 8.33%, under Article 66 of the DIFC Employment Law.",
+  "short": "5.83% of monthly basic wage for the first five years, then 8.33%, as a minimum",
+  "lead": "Enter your monthly basic wage and length of service to see your employer's minimum monthly and yearly contribution and the total over your service, based on Article 66 of the DIFC Employment Law.",
+  "country": "ae",
+  "category": "eos",
+  "tool": true,
+  "script": "en-difc-dews-calculator.js",
+  "published": "2026-11-18",
+  "updated": "2026-11-18",
+  "related": ["en-uae-gratuity", "en-uae-gratuity-table", "en-uae-pension", "en-uae-final-settlement"],
+  "faq": [
+    {
+      "q": "How much does a DIFC employer pay into DEWS?",
+      "a": "At least 5.83% of the employee's monthly basic wage for the first five years of service and 8.33% for each additional year, paid monthly into a qualifying scheme (Article 66(7) of the DIFC Employment Law). On a basic wage of AED 25,000 that is AED 1,457.50 a month, then AED 2,082.50."
+    },
+    {
+      "q": "When does the rate move from 5.83% to 8.33%?",
+      "a": "After five years of service, counted from the start of employment including any service before 1 February 2020. In the month of the fifth anniversary, 5.83% applies up to and including the anniversary day and 8.33% for the rest of the month (Article 66(8)(c))."
+    },
+    {
+      "q": "What happens to gratuity for service before 1 February 2020?",
+      "a": "It is still paid on termination to an employee with at least one year of continuous service: 21 days of basic wage for each of the first five years before the scheme start date and 30 days for each additional year, capped at two years' wage, using the wage at the termination date (Article 66(2) and (3)). The employer may transfer it to the plan; with the employee's prior written consent that ends the employer's obligation to pay it (Article 66(6))."
+    },
+    {
+      "q": "Does DEWS apply to UAE and GCC nationals?",
+      "a": "They are registered with the GPSSA and are not entitled to a gratuity (Article 65). If the employer's GPSSA contribution is below the contribution they would have received in the plan, they are entitled to a top-up of the difference into a qualifying scheme, provided the monthly top-up obligation is AED 1,000 or more (Article 65(3))."
+    }
+  ],
+  "sources": [
+    {
+      "t": "DIFC Employment Law, DIFC Law No. 2 of 2019, Consolidated Version No. 5 (July 2025)",
+      "u": "https://assets.difc.com/v1/media/edge/images/dubaiintern0078-difcexperie96c5-production-3253/media/project/difcexperiences/difc/difcwebsite/documents/laws--regulations/employment-law.pdf",
+      "d": "Articles 65 and 66, Schedules 1 and 2"
+    },
+    {
+      "t": "Employment Law page in the DIFC legal database",
+      "u": "https://www.difc.com/business/laws-and-regulations/legal-database/difc-laws/employment-law-difc-law-no-2-of-2019"
+    }
+  ]
+}
+---
+<section class="tool" aria-labelledby="tool-h">
+  <h2 id="tool-h">Calculate the employer contribution</h2>
+  <form id="calc" novalidate>
+    <div class="fields">
+      <div class="field">
+        <label for="basic">Monthly basic wage (AED)</label>
+        <input type="number" id="basic" name="basic" inputmode="decimal" min="0" step="1" value="25000" placeholder="e.g. 25000" required>
+        <span class="hint">Basic wage only, without allowances, as in your contract.</span>
+      </div>
+      <div class="field">
+        <label for="wage">Total monthly wage (optional)</label>
+        <input type="number" id="wage" name="wage" inputmode="decimal" min="0" step="1" value="" placeholder="e.g. 40000">
+        <span class="hint">Applies the rule that basic wage counts as at least half of the monthly wage.</span>
+      </div>
+      <div class="field">
+        <label for="years">Length of service (years)</label>
+        <input type="number" id="years" name="years" inputmode="decimal" min="0" step="0.5" value="10" required>
+        <span class="hint">For example 7.5 for seven and a half years.</span>
+      </div>
+      <div class="field">
+        <label for="prior">Of which before 1 February 2020 (optional)</label>
+        <input type="number" id="prior" name="prior" inputmode="decimal" min="0" step="0.5" value="0">
+        <span class="hint">No contributions for it, but it counts towards the first five years.</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Calculate</button>
+      <button class="btn secondary" type="button" data-copy="#result">Copy result</button>
+    </div>
+  </form>
+  <div id="result" class="result" aria-live="polite"></div>
+</section>
+
+<div class="article">
+<h2>How the DEWS contribution is calculated</h2>
+<p>Article 66(7) of the DIFC Employment Law requires the employer to pay, every month, into a qualifying scheme for each employee who is not exempted, at least the "Core Benefits":</p>
+<ol>
+  <li><strong>5.83%</strong> of the monthly basic wage for the first five years of the employee's service, including service before the scheme start date.</li>
+  <li><strong>8.33%</strong> of the monthly basic wage for each additional year of service.</li>
+</ol>
+<p>The monthly basic wage is the annual wage excluding allowances, divided by 12, and for this calculation it cannot be less than 50% of the monthly wage (Article 66(8)(b)). Each month's contribution must be paid by the 21st day of the following month, otherwise the employer is in breach (Article 66(17)).</p>
+
+<div class="example">
+<p><strong>Worked example:</strong> basic wage AED 25,000, ten years of service that started after 1 February 2020.</p>
+<p>First five years: 25,000 × 5.83% = AED 1,457.50 a month, × 60 months = AED 87,450.<br>
+Next five years: 25,000 × 8.33% = AED 2,082.50 a month, × 60 months = AED 124,950.<br>
+<strong>Total = AED 212,400</strong> as a minimum, before investment returns and plan fees.</p>
+</div>
+
+<h2>When the plan starts for you</h2>
+<ul>
+  <li><strong>Employed in the DIFC on 1 February 2020</strong>: from that date.</li>
+  <li><strong>Employed on or after 1 February 2020</strong>: from your start date.</li>
+  <li>Your employer must register you with a qualifying scheme within two months of that date, and contributions are due back to it (Article 66(11)).</li>
+</ul>
+
+<h2>Gratuity for service before 1 February 2020</h2>
+<p>An employee who is not registered with the GPSSA and has at least one year of continuous service is entitled on termination to a gratuity for service before the scheme start date (Article 66(1) and (2)):</p>
+<ul>
+  <li>21 days of basic wage for each of the first five years and 30 days for each additional year, capped at two years' wage.</li>
+  <li>The daily rate is the annual basic wage divided by 365, and the wages used are those at the termination date (Article 66(3)).</li>
+  <li>The employer may transfer this amount to the plan; with the employee's prior written consent, that ends the obligation to pay it on termination (Article 66(6)).</li>
+</ul>
+<p>This is the DIFC rule only. Employees outside the DIFC under the federal labour law can use the <a href="{{root}}en/uae-gratuity-calculator/{{ix}}">UAE gratuity calculator</a>.</p>
+
+<h2>UAE and GCC nationals</h2>
+<p>They are registered with the GPSSA and are not entitled to a gratuity (Article 65(1) and (2)). If the employer's GPSSA contribution is below the contribution they would have received in the plan, they are entitled to a top-up of the difference into a qualifying scheme, provided the monthly top-up obligation is AED 1,000 or more (Article 65(3)). The pension itself is covered in the <a href="{{root}}en/uae-pension-calculator/{{ix}}">UAE pension calculator for Emiratis</a>.</p>
+
+<h2>If the employer does not pay</h2>
+<p>Schedule 2 of the law sets a maximum fine of USD 2,000 for each contravention in respect of each employee for breaches of Article 66, including late contributions.</p>
+</div>

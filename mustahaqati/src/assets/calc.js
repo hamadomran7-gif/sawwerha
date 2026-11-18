@@ -103,6 +103,43 @@ export function uaeGratuity({ basicSalary, years }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* مركز دبي المالي العالمي — خطة DEWS (المادة 66(7) من قانون العمل في المركز) */
+/* ------------------------------------------------------------------ */
+// المساهمة الشهرية الدنيا = الراتب الأساسي الشهري × 5.83% في أول خمس سنوات من الخدمة (ومنها ما قبل
+// 1 فبراير 2020) و× 8.33% لكل سنة بعدها؛ والراتب الأساسي الشهري لا يقل عن 50% من الأجر الشهري (66(8)(b)).
+// years: مدة الخدمة الكلية بالسنوات؛ priorYears: ما قبل تاريخ بدء الخطة (لا مساهمات عنه، ويدخل في حد السنوات الخمس).
+export function difcDews({ monthlyBasic, monthlyWage = 0, years, priorYears = 0 }) {
+  const d = rules.ae.difcDews;
+  const basicIn = Math.max(0, Number(monthlyBasic) || 0);
+  const wage = Math.max(0, Number(monthlyWage) || 0);
+  const floor = wage * d.minBasicShareOfMonthlyWage;
+  const basic = Math.max(basicIn, floor);
+  const y = Math.max(0, Number(years) || 0);
+  const prior = Math.min(y, Math.max(0, Number(priorYears) || 0));
+  const first = d.firstPeriodYears;
+  const yearsFirst = Math.max(0, Math.min(y, first) - Math.min(prior, first));
+  const yearsAfter = Math.max(0, y - Math.max(prior, first));
+  const monthlyFirst = (basic * d.rateFirstFiveYears) / 100;
+  const monthlyAfter = (basic * d.rateAfterFiveYears) / 100;
+  const totalFirst = yearsFirst * 12 * monthlyFirst;
+  const totalAfter = yearsAfter * 12 * monthlyAfter;
+  return {
+    basic: r2(basic),
+    floorApplied: floor > basicIn,
+    rateNow: y < first ? d.rateFirstFiveYears : d.rateAfterFiveYears,
+    monthlyFirst: r2(monthlyFirst),
+    monthlyAfter: r2(monthlyAfter),
+    annualFirst: r2(monthlyFirst * 12),
+    annualAfter: r2(monthlyAfter * 12),
+    monthsFirst: r2(yearsFirst * 12),
+    monthsAfter: r2(yearsAfter * 12),
+    totalFirst: r2(totalFirst),
+    totalAfter: r2(totalAfter),
+    total: r2(totalFirst + totalAfter),
+  };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — مكافأة نهاية الخدمة                                      */
 /* ------------------------------------------------------------------ */
 
