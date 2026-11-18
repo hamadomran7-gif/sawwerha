@@ -103,6 +103,43 @@ export function uaeGratuity({ basicSalary, years }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* مركز دبي المالي العالمي — خطة DEWS (المادة 66(7) من قانون العمل في المركز) */
+/* ------------------------------------------------------------------ */
+// المساهمة الشهرية الدنيا = الراتب الأساسي الشهري × 5.83% في أول خمس سنوات من الخدمة (ومنها ما قبل
+// 1 فبراير 2020) و× 8.33% لكل سنة بعدها؛ والراتب الأساسي الشهري لا يقل عن 50% من الأجر الشهري (66(8)(b)).
+// years: مدة الخدمة الكلية بالسنوات؛ priorYears: ما قبل تاريخ بدء الخطة (لا مساهمات عنه، ويدخل في حد السنوات الخمس).
+export function difcDews({ monthlyBasic, monthlyWage = 0, years, priorYears = 0 }) {
+  const d = rules.ae.difcDews;
+  const basicIn = Math.max(0, Number(monthlyBasic) || 0);
+  const wage = Math.max(0, Number(monthlyWage) || 0);
+  const floor = wage * d.minBasicShareOfMonthlyWage;
+  const basic = Math.max(basicIn, floor);
+  const y = Math.max(0, Number(years) || 0);
+  const prior = Math.min(y, Math.max(0, Number(priorYears) || 0));
+  const first = d.firstPeriodYears;
+  const yearsFirst = Math.max(0, Math.min(y, first) - Math.min(prior, first));
+  const yearsAfter = Math.max(0, y - Math.max(prior, first));
+  const monthlyFirst = (basic * d.rateFirstFiveYears) / 100;
+  const monthlyAfter = (basic * d.rateAfterFiveYears) / 100;
+  const totalFirst = yearsFirst * 12 * monthlyFirst;
+  const totalAfter = yearsAfter * 12 * monthlyAfter;
+  return {
+    basic: r2(basic),
+    floorApplied: floor > basicIn,
+    rateNow: y < first ? d.rateFirstFiveYears : d.rateAfterFiveYears,
+    monthlyFirst: r2(monthlyFirst),
+    monthlyAfter: r2(monthlyAfter),
+    annualFirst: r2(monthlyFirst * 12),
+    annualAfter: r2(monthlyAfter * 12),
+    monthsFirst: r2(yearsFirst * 12),
+    monthsAfter: r2(yearsAfter * 12),
+    totalFirst: r2(totalFirst),
+    totalAfter: r2(totalAfter),
+    total: r2(totalFirst + totalAfter),
+  };
+}
+
+/* ------------------------------------------------------------------ */
 /* السعودية — مكافأة نهاية الخدمة                                      */
 /* ------------------------------------------------------------------ */
 
@@ -1158,7 +1195,7 @@ export function gccFuelCost({ country = "qa", fuel = null, tank = 60, km = 0, pe
 /** أنواع الوقود المتقابلة بين دول الخليج: 91 و95 و98 والديزل. */
 export const GCC_FUEL_GRADES = {
   ae: { 91: "eplus91", 95: "special95", 98: "super98", diesel: "diesel" },
-  sa: { 91: "g91", 95: "g95", diesel: "diesel" },
+  sa: { 91: "g91", 95: "g95", 98: "g98", diesel: "diesel" },
   qa: { 91: "premium91", 95: "super95", diesel: "diesel" },
   om: { 91: "m91", 95: "m95", diesel: "diesel" },
   kw: { 91: "g91", 95: "g95", 98: "ultra98", diesel: "diesel" },
@@ -1179,7 +1216,7 @@ export function gccFuelCompare({ grade = "95", tank = 60 } = {}) {
     if (local === undefined) continue;
     const cur = rules[c].currency;
     const aed = local * fx.aedPer[cur];
-    rows.push({ country: c, key, local, cur, asOf: F.current || F.period || F.since || null, aed: r3(aed), usd: r3(aed / fx.usdAed), tankLocal: r3(local * t), tankAed: r2(aed * t), tankUsd: r2((aed * t) / fx.usdAed) });
+    rows.push({ country: c, key, local, cur, asOf: (F.g98 && key === "g98" && F.g98.month) || F.current || F.period || F.since || null, aed: r3(aed), usd: r3(aed / fx.usdAed), tankLocal: r3(local * t), tankAed: r2(aed * t), tankUsd: r2((aed * t) / fx.usdAed) });
   }
   rows.sort((a, b) => a.aed - b.aed);
   const max = rows.length ? rows[rows.length - 1].tankAed : 0;
@@ -1595,6 +1632,25 @@ export function ksaExpatFees({ dependents = 0, months = 12, adultIqamas = 0, inc
     worker = { levy, permit, iqama, total: r2(levy + permit + iqama) };
   }
   return { months: m, dependentsFee, adultIqama: r2(adultIqama), family: r2(dependentsFee + adultIqama), worker, annualDependents: n(dependents) * F.dependentMonthly * 12 };
+}
+
+/**
+ * رسوم تجديد إقامة العمال الوافدين على صاحب العمل لفترة 3 أو 6 أو 9 أو 12 شهراً، بجدول دليل وزارة الموارد البشرية
+ * لتجزئة المقابل المالي (24/11/2021): المقابل 800 ريال شهرياً «للعمالة الزائدة عن العمالة السعودية» (high)، و700
+ * «للعمالة مقابل العمالة السعودية» (low)، ورسم رخصة العمل 100 للسنة (25 لكل 3 أشهر) على كل عامل ومنهم المعفى (exempt).
+ * iqamaPerWorker: رسم هوية مقيم للمدة كما يُدخله المستخدم من أبشر أو مقيم، لأن الدليل لا يذكره.
+ */
+export function ksaIqamaRenewal({ high = 0, low = 0, exempt = 0, months = 12, iqamaPerWorker = 0 } = {}) {
+  const F = rules.sa.expatFees;
+  const m = F.periods.includes(Number(months)) ? Number(months) : 12;
+  const n = (x) => Math.max(0, Math.floor(Number(x) || 0));
+  const h = n(high), l = n(low), e = n(exempt);
+  const workers = h + l + e;
+  const levyHigh = h * F.levyHigh * m;
+  const levyLow = l * F.levyLow * m;
+  const permit = r2((workers * F.workPermitAnnual * m) / 12);
+  const iqama = r2(workers * Math.max(0, Number(iqamaPerWorker) || 0));
+  return { months: m, workers, levyHigh, levyLow, permit, iqama, total: r2(levyHigh + levyLow + permit + iqama) };
 }
 
 /**
@@ -2312,8 +2368,8 @@ export function dubaiRentIncrease({ rent, average }) {
 /* ------------------------------------------------------------------ */
 
 /**
- * فاتورة الكهرباء الشهرية: شريحتان (حتى 6,000 ك.و.س وما فوقها) + رسوم ثابتة بحسب سعة القاطع للسكني (تُحتسب بعدد أيام الفاتورة) + ضريبة 15%.
- * tariff: new (من 2027) | old (الحالية: 18 و30 هللة للسكني). fixedOverride: رسوم ثابتة يدخلها المستخدم (لغير السكني أو للتعرفة الحالية).
+ * فاتورة الكهرباء الشهرية: شريحتان (حتى 6,000 ك.و.س وما فوقها) + رسوم ثابتة بحسب سعة القاطع لكل قطاع (تُحتسب بعدد أيام الفاتورة) + ضريبة 15%.
+ * tariff: new (من 2027) | old (الحالية: 18 و30 هللة للسكني). fixedOverride: رسوم ثابتة يدخلها المستخدم فتحل محل الجدول (أو للتعرفة الحالية).
  */
 export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, days = 30, tariff = "new", fixedOverride = null }) {
   const E = rules.sa.electricity;
@@ -2325,10 +2381,12 @@ export function ksaElectricityBill({ kwh, sector = "residential", amps = 60, day
   const d = Math.max(1, Number(days) || E.daysPerMonth);
   let fixedMonthly = 0;
   if (fixedOverride !== null && fixedOverride !== undefined && fixedOverride !== "") fixedMonthly = Math.max(0, Number(fixedOverride) || 0);
-  else if (sector === "residential" && tariff === "new") {
+  else if (tariff === "new") {
+    // شريحة سعة القاطع بحدود residentialFixed نفسها لكل القطاعات، والمبلغ من جدول القطاع (sectorFixed لغير السكني)
     const a = Math.max(0, Number(amps) || 0);
-    const band = E.residentialFixed.find(([lo, hi]) => a >= lo && a < hi) || E.residentialFixed[0];
-    fixedMonthly = band[2];
+    const i = Math.max(0, E.residentialFixed.findIndex(([lo, hi]) => a >= lo && a < hi));
+    if (sector === "residential") fixedMonthly = E.residentialFixed[i][2];
+    else if (E.sectorFixed && E.sectorFixed[sector]) fixedMonthly = E.sectorFixed[sector][i];
   }
   const fixed = (fixedMonthly * d) / E.daysPerMonth;
   const subtotal = consumption + fixed;

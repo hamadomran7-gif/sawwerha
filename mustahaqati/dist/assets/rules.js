@@ -1,7 +1,7 @@
 // ملف مولّد آلياً من src/rules.json — لا تعدّله يدوياً
 export default {
   "_about": "كل الأرقام القانونية في الموقع تأتي من هذا الملف فقط. عند أي تعديل قانوني: عدّل الرقم هنا، حدّث lastReview، ثم أعد البناء.",
-  "lastReview": "2026-11-02",
+  "lastReview": "2026-11-18",
   "ae": {
     "currency": "AED",
     "gratuity": {
@@ -15,6 +15,22 @@ export default {
       "daysPerMonth": 30,
       "paymentDeadlineDays": 14,
       "source": "https://mohre.gov.ae"
+    },
+    "difcDews": {
+      "law": "قانون العمل في مركز دبي المالي العالمي، قانون المركز رقم 2 لسنة 2019 (النسخة الموحدة رقم 5، يوليو 2025)، المادتان 65 و66 والجدول 2",
+      "rateFirstFiveYears": 5.83,
+      "rateAfterFiveYears": 8.33,
+      "firstPeriodYears": 5,
+      "minBasicShareOfMonthlyWage": 0.5,
+      "schemeStartDate": "2020-02-01",
+      "paymentDueDayNextMonth": 21,
+      "nationalTopUpMinMonthly": 1000,
+      "maxFinePerBreachUsd": 2000,
+      "legacyGratuityDaysFirstFiveYears": 21,
+      "legacyGratuityDaysAfterFiveYears": 30,
+      "legacyGratuityCapYearsOfWage": 2,
+      "legacyDaysPerYear": 365,
+      "source": "https://assets.difc.com/v1/media/edge/images/dubaiintern0078-difcexperie96c5-production-3253/media/project/difcexperiences/difc/difcwebsite/documents/laws--regulations/employment-law.pdf"
     },
     "overtime": {
       "law": "المرسوم بقانون اتحادي 33/2021 المواد 17–21 وقرار مجلس الوزراء 1/2022",
@@ -47,12 +63,12 @@ export default {
       "ltv": {
         "expat": {
           "firstUnder5m": 0.8,
-          "firstOver5m": 0.65,
+          "firstOver5m": 0.7,
           "second": 0.6
         },
         "national": {
-          "firstUnder5m": 0.8,
-          "firstOver5m": 0.7,
+          "firstUnder5m": 0.85,
+          "firstOver5m": 0.75,
           "second": 0.65
         },
         "offplan": 0.5
@@ -1767,7 +1783,7 @@ export default {
       "maxAge": 60
     },
     "expatFees": {
-      "law": "قرارات مجلس الوزراء 353 و197 (المقابل المالي)، و325 (التجديد الربع سنوي)، وقرار تعديل رسوم التأشيرات 1438هـ؛ نظام العمل م40",
+      "law": "قرارات مجلس الوزراء 353 و197 (المقابل المالي)، و325 (التجديد الربع سنوي)، وقرار تعديل رسوم التأشيرات 1438هـ؛ نظام العمل م40؛ ومبالغ المقابل (800 و700 شهرياً) ورسم رخصة العمل (25 لكل 3 أشهر) لكل فترة من دليل وزارة الموارد البشرية لتجزئة المقابل المالي في رخص العمل (24/11/2021)",
       "dependentMonthly": 400,
       "dependentSince": "2020-07-01",
       "levyHigh": 800,
@@ -1934,7 +1950,7 @@ export default {
       "pensionAtAge": 55
     },
     "electricity": {
-      "law": "إعلان الشركة السعودية للطاقة بتعديل تعرفة الخدمة الكهربائية (25 أكتوبر 2026)، نافذ من 1 يناير 2027؛ والتعرفة السابقة نافذة منذ يناير 2018",
+      "law": "إعلان الشركة السعودية للطاقة بتعديل تعرفة الخدمة الكهربائية (25 أكتوبر 2026)، نافذ من 1 يناير 2027؛ والتعرفة السابقة نافذة منذ يناير 2018؛ والرسوم الثابتة لكل قطاع بحسب سعة القاطع، وتعرفة الجمعيات الخيرية، من جدول «تعريفة الخدمة الكهربائية المعدلة» في موقع الشركة (اطُّلع عليه في 18 نوفمبر 2026)",
       "effective": "2027-01-01",
       "vat": 0.15,
       "tierKwh": 6000,
@@ -1960,6 +1976,12 @@ export default {
           "new": [
             0.19,
             0.23
+          ]
+        },
+        "charity": {
+          "new": [
+            0.17,
+            0.21
           ]
         },
         "industrial": {
@@ -1997,6 +2019,38 @@ export default {
           100
         ]
       ],
+      "sectorFixed": {
+        "commercial": [
+          350,
+          500,
+          700,
+          900
+        ],
+        "industrial": [
+          350,
+          500,
+          700,
+          900
+        ],
+        "government": [
+          350,
+          500,
+          700,
+          900
+        ],
+        "agricultural": [
+          140,
+          160,
+          180,
+          200
+        ],
+        "charity": [
+          140,
+          160,
+          180,
+          200
+        ]
+      },
       "supportMonthly": 500
     },
     "waterBill": {
@@ -4802,22 +4856,21 @@ export default {
       "until": "2032-12-31"
     },
     "fuel": {
-      "law": "أسعار أرامكو السعودية لمنتجات الوقود للمستهلك (المراجعة السنوية في 1 يناير 2026)، ثابتة منذ ذلك التاريخ للبنزين 91 و95 والديزل",
-      "lastReview": "2026-11-03",
+      "law": "أسعار أرامكو السعودية لمنتجات الوقود للمستهلك (المراجعة السنوية في 1 يناير 2026)، ثابتة منذ ذلك التاريخ للبنزين 91 و95 والديزل؛ وبنزين 98 والكيروسين بأسعار نوفمبر 2026 من صفحة أرامكو",
+      "lastReview": "2026-11-17",
       "since": "2026-01-01",
       "keys": [
         "g91",
         "g95",
         "diesel",
-        "kerosene",
-        "lpg"
+        "kerosene"
       ],
       "prices": {
         "g91": 2.18,
         "g95": 2.33,
         "diesel": 1.79,
-        "kerosene": 1.59,
-        "lpg": 1.09
+        "kerosene": 1.75,
+        "g98": 5.09
       },
       "prev": {
         "diesel": 1.66
@@ -4825,7 +4878,8 @@ export default {
       "g98": {
         "launched": "2026-01",
         "launchPrice": 2.88,
-        "monthly": true
+        "monthly": true,
+        "month": "2026-11"
       }
     }
   },
@@ -5492,7 +5546,7 @@ export default {
                 "nameEn": "Spring break",
                 "type": "break",
                 "start": "2027-04-05",
-                "end": "2027-04-11",
+                "end": "2027-04-09",
                 "returnDate": "2027-04-12",
                 "audience": "students",
                 "source": "AE-6;AE-9"
@@ -6025,7 +6079,7 @@ export default {
       }
     },
     "fx": {
-      "law": "أسعار الصرف إلى الدرهم عبر الدولار: الريال السعودي 3.75 والريال القطري 3.64 والريال العُماني 0.3845 والدينار البحريني 0.376 لكل دولار (أسعار ربط ثابتة)، والدرهم 3.6725، والدينار الكويتي (سلة عملات) بمتوسط بنك الكويت المركزي لأكتوبر 2026: 0.30810 لكل دولار",
+      "law": "أسعار الصرف إلى الدرهم عبر الدولار: الريال السعودي 3.75 والريال القطري 3.64 والريال العُماني 0.3845 والدينار البحريني 0.376 لكل دولار (أسعار ربط ثابتة)، والدرهم 3.6725، والدينار الكويتي (سلة عملات) بمتوسط أكتوبر 2026 كما نشرته مدونة AllRatesToday: 0.30810 لكل دولار",
       "asOf": "2026-10",
       "usdAed": 3.6725,
       "aedPer": {
@@ -9548,8 +9602,8 @@ export default {
     },
     "fuel": {
       "law": "لجنة تحديد ومراقبة أسعار الوقود — تسعير شهري منذ 30 ديسمبر 2025 يسري عادة من الثاني من الشهر؛ الوقود خاضع للنسبة الصفرية من ضريبة القيمة المضافة",
-      "lastReview": "2026-11-03",
-      "current": "2026-09",
+      "lastReview": "2026-11-17",
+      "current": "2026-11",
       "decimals": 3,
       "keys": [
         "jayyid91",
@@ -9569,6 +9623,12 @@ export default {
           "mumtaz95": 0.247,
           "super98": 0.38,
           "diesel": 0.229
+        },
+        "2026-11": {
+          "jayyid91": 0.235,
+          "mumtaz95": 0.277,
+          "super98": 0.41,
+          "diesel": 0.26
         }
       }
     }

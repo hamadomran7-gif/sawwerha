@@ -7,7 +7,7 @@ const N = { ae: "الإمارات", sa: "السعودية", qa: "قطر", om: "�
 const CUR = { AED: "درهم", SAR: "ريال", QAR: "ريال قطري", OMR: "ريال عُماني", KWD: "دينار كويتي", BHD: "دينار بحريني" };
 const G = { 91: "بنزين 91", 95: "بنزين 95", 98: "بنزين 98", diesel: "الديزل" };
 const mf = new Intl.DateTimeFormat("ar-u-nu-latn", { month: "long", year: "numeric", timeZone: "UTC" });
-const when = (x) => (x.country === "om" ? "سقف أكتوبر 2021" : x.country === "sa" ? "منذ يناير 2026" : x.asOf && /^\d{4}-\d{2}$/.test(x.asOf) ? mf.format(new Date(`${x.asOf}-01T00:00:00Z`)) : x.asOf === "2026-Q3" ? "الربع الثالث 2026" : "");
+const when = (x) => (x.country === "om" ? "سقف أكتوبر 2021" : x.country === "sa" && x.key !== "g98" ? "منذ يناير 2026" : x.asOf && /^\d{4}-\d{2}$/.test(x.asOf) ? mf.format(new Date(`${x.asOf}-01T00:00:00Z`)) : x.asOf === "2026-Q3" ? "الربع الثالث 2026" : "");
 const loc = (x) => `${x.local.toFixed(x.cur === "OMR" || x.cur === "KWD" || x.cur === "BHD" ? 3 : 2)} ${CUR[x.cur]}`;
 
 bind(form, result, (v) => {
