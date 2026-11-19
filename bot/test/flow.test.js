@@ -20,6 +20,14 @@ test("أول رسالة نصية: ترحيب وطلب صورة", () => {
   assert.match(texts(r), /أرسل صورة واحدة/);
 });
 
+test("الترحيب: العيّنة المجانية بعلامة مائية ولا تُوصف بأنها جاهزة لنون أو أمازون (البند 32)", () => {
+  const ar = texts(handleInbound({ customer: cust(), order: null, msg: { type: "text", text: "مرحبا" }, env }));
+  const en = texts(handleInbound({ customer: cust({ lang: "en" }), order: null, msg: { type: "text", text: "hello there" }, env }));
+  assert.match(ar, /علامة مائية/);
+  assert.match(en, /watermark/i);
+  for (const s of [ar, en]) assert.doesNotMatch(s, /جاهزة\s+(?:لنون|لأمازون)|ready for noon|noon\/Amazon/i);
+});
+
 test("صورة من عميل جديد: إنشاء عيّنة وطلب الفئة", () => {
   const r = handleInbound({ customer: cust({ state: "awaiting_photo", last_seen: "x" }), order: null, msg: { type: "image", mediaId: "m1" }, env });
   assert.equal(r.state, "awaiting_category");

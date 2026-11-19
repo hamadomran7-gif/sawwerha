@@ -38,8 +38,8 @@ export function detectLang(text, fallback = "ar") {
 
 const T = {
   welcome: {
-    ar: (b) => `أهلاً بك في ${b} 👋\nأرسل صورة واحدة واضحة لمنتجك (بأي خلفية)، وخلال ساعات تستلم 3 صور احترافية مجاناً: صورة بخلفية بيضاء جاهزة لنون وأمازون، وصورتين بمشهد تسويقي لإنستغرام.\n\nالخدمة آلية بالكامل وتعمل على مدار الساعة.`,
-    en: (b) => `Welcome to ${b} 👋\nSend one clear photo of your product (any background). Within hours you'll receive 3 free professional images: a white-background shot ready for noon/Amazon and two lifestyle scenes for Instagram.\n\nThis service is fully automated and runs 24/7.`,
+    ar: (b) => `أهلاً بك في ${b} 👋\nأرسل صورة واحدة واضحة لمنتجك (بأي خلفية)، وخلال ساعات تستلم 3 صور احترافية مجاناً: صورة بخلفية بيضاء، وصورتين بمشهد تسويقي لإنستغرام. العيّنة معاينة بعلامة مائية صغيرة، فلا تُرفع على نون؛ وصور الباقات المدفوعة بدونها وجاهزة للرفع.\n\nالخدمة آلية بالكامل وتعمل على مدار الساعة.`,
+    en: (b) => `Welcome to ${b} 👋\nSend one clear photo of your product (any background). Within hours you'll receive 3 free professional images: a white-background shot and two lifestyle scenes for Instagram. The free sample is a preview with a small watermark, so it cannot be uploaded to noon; paid package images come without it, ready to upload.\n\nThis service is fully automated and runs 24/7.`,
   },
   askCategory: {
     ar: "استلمنا الصورة ✅ اختر نوع المنتج ليناسب المشهد:",
