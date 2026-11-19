@@ -15,8 +15,19 @@ PAGES = ROOT / "sitegen" / "pages"
 WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
-UPDATED = "2026-11-17"
+UPDATED = "2026-11-19"
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
+
+# العيّنة المجانية معاينة بعلامة مائية (البند 29): كل زر عيّنة مجانية في صفحة مولّدة تجاوره {{sample_note}}،
+# ولا تقترن «جاهزة لنون/لأمازون/للرفع» في البطل أو الوصف إلا بجملة عن الباقات المدفوعة. يفحصها check_sample_claims.
+SAMPLE_NOTE = {
+    "ar": "العيّنة معاينة بعلامة مائية صغيرة، فلا تُرفع على نون؛ وصور الباقات المدفوعة بدونها وجاهزة للرفع.",
+    "en": "The free sample is a preview with a small watermark, so it cannot be uploaded to noon; paid package images come without it, ready to upload.",
+}
+READY = re.compile(r"جاهز(?:ة|ان|تان)?\s+(?:لنون|لأمازون|للرفع)|ready (?:for noon|for amazon|to upload)", re.I)
+PAID = re.compile(r"الباقات|المدفوعة|paid|package", re.I)
+FREE_CTA = re.compile(r"مجاناً|free", re.I)
+WATERMARK = re.compile(r"علامة مائية|\{\{sample_note\}\}|watermark", re.I)
 
 MARK = ('<span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
         'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>'
@@ -69,6 +80,21 @@ def read_pages():
         meta = json.loads(m.group(1))
         meta.setdefault("slug", f.stem)
         out.append((meta, m.group(2)))
+    return out
+
+
+def check_sample_claims(meta, body):
+    """مخالفات العيّنة المجانية في صفحة واحدة (قائمة فارغة إن سلمت). تُفحص قبل استبدال القوالب."""
+    out = []
+    hero = re.search(r'<section class="hero".*?</section>', body, re.S)
+    for text in [meta.get("description", "")] + ([hero.group(0)] if hero else []):
+        for sent in re.split(r"[.!?؟؛]", re.sub(r"<[^>]+>", " ", text)):
+            if READY.search(sent) and not PAID.search(sent):
+                out.append(f"«جاهزة» خارج سياق الباقات المدفوعة: {' '.join(sent.split())[:90]}")
+    for m in re.finditer(r'<a class="cta"[^>]*>(.*?)</a>', body, re.S):
+        label = " ".join(re.sub(r"<[^>]+>|\{\{\w+\}\}", " ", m.group(1)).split())
+        if FREE_CTA.search(label) and not WATERMARK.search(body[max(0, m.start() - 400): m.end() + 400]):
+            out.append(f"زر «{label}» بلا جملة العلامة المائية بجواره")
     return out
 
 
@@ -125,7 +151,7 @@ def render(meta, body):
     ui = UI[lang]
     url = f"{DOMAIN}/{meta['slug']}/"
     wa = wa_href(meta["wa_msg"])
-    body = body.replace("{{wa}}", esc(wa)).replace("{{wa_icon}}", WA_ICON)
+    body = body.replace("{{wa}}", esc(wa)).replace("{{wa_icon}}", WA_ICON).replace("{{sample_note}}", esc(SAMPLE_NOTE[lang]))
     links = []
     for href, label, l in SERVICE_LINKS:
         attrs = ' lang="en"' if l != lang else ""
@@ -181,6 +207,9 @@ def render(meta, body):
 
 def main():
     pages = read_pages()
+    bad = [f"{meta['slug']}: {p}" for meta, body in pages for p in check_sample_claims(meta, body)]
+    if bad:
+        raise SystemExit("ادعاءات العيّنة المجانية (البند 29):\n" + "\n".join(bad))
     urls = [(DOMAIN + "/", "1.0")]
     for meta, body in pages:
         out = WEB / meta["slug"] / "index.html"
