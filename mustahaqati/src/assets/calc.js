@@ -3987,7 +3987,7 @@ export function schoolEvents({ country = "sa", variant } = {}) {
     const drop = new Set([...(V.removeIds || []), ...(V.events || []).map((e) => e.id)]);
     ev = ev.filter((e) => !drop.has(e.id)).concat(V.events || []);
     const P = V.inherit && (C.variants || []).find((v) => v.id === V.inherit);
-    if (P) ev = ev.concat((P.events || []).filter((e) => (V.inheritTypes || []).includes(e.type)));
+    if (P) ev = ev.concat((P.events || []).filter((e) => (V.inheritTypes || []).includes(e.type) && !drop.has(e.id)));
   }
   const H = rules[String(country).toLowerCase()] && rules[String(country).toLowerCase()].holidays;
   if (H) {

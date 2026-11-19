@@ -631,6 +631,9 @@
 - **AE-7** `[ثانوي: Gulf News، 2026-08-03]` «Sharjah announces private school calendar for 2026-2027 academic year». https://gulfnews.com/uae/education/sharjah-announces-private-school-calendar-for-2026-2027-academic-year-1.500629313
 - **AE-8** `[ثانوي: The National، 2026-08-12]` العطل العامة لنهاية 2026 و2027. https://www.thenationalnews.com/news/uae/2026/08/12/uae-residents-to-ring-in-2027-with-three-day-weekend-as-holiday-dates-revealed/
 - **AE-9** `[ثانوي: Gulf News، 2026-10-18]` «Mid-term break is over: when is the next UAE school holiday?». https://gulfnews.com/uae/education/mid-term-break-is-over-when-is-the-next-uae-school-holiday-1.500714774
+- **AE-10** `[رسمي]` بوابة حكومة الإمارات u.ae، العطلات الرسمية: «اليوم الوطني: 2-3 ديسمبر (يومان)» و«تعطل الدوائر الحكومية والخاصة يومي 2 و 3 ديسمبر» (العربية، حُدّثت 2 يوليو 2026)، و«National Day - 2 and 3 December (2 days)… applicable to both, public and private sectors» (الإنجليزية، حُدّثت 29 أكتوبر 2026). قُرئتا 19 نوفمبر 2026. https://u.ae/ar/information-and-services/public-holidays-and-religious-affairs/public-holidays و https://u.ae/en/information-and-services/public-holidays-and-religious-affairs/public-holidays
+- **AE-11** `[رسمي]` هيئة المعرفة والتنمية البشرية: صفحة التقويم الأكاديمي لمدارس دبي الخاصة لا تذكر اليوم الوطني ولا عطلة في ديسمبر 2026 غير الشتوية من 14 ديسمبر (قُرئت 19 نوفمبر 2026). https://web.khda.gov.ae/en/Resources/academic-calendar-dubai-private-schools
+- 2026-11-19 (البند 31): مدارس دبي والشارقة الخاصة تعرض عيد الاتحاد 2–3 ديسمبر (AE-10) بحدث خاص يحل محل الموروث، لأن الجمعة 4 ديسمبر في تقويم الوزارة وحده (AE-1: «02 - 04 December 2026 National Day Holiday»، للمدارس الحكومية والخاصة التي تطبّق منهاج الوزارة)، ولا يذكرها تقويم هيئة المعرفة (AE-11) ولا تقويم الشارقة (AE-7).
 
 **الكويت**
 - **KW-1** `[رسمي]` وزارة التربية: الرزنامة، العام 2027/2026، جُلبت 2026-11-03. https://www.moe.edu.kw/pages/calendar

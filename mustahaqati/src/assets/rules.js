@@ -5530,6 +5530,17 @@ export default {
                 "source": "AE-5"
               },
               {
+                "id": "ae-national-day",
+                "nameAr": "عطلة عيد الاتحاد (العطلة الرسمية)",
+                "nameEn": "Eid Al Etihad (official holiday)",
+                "type": "holiday",
+                "start": "2026-12-02",
+                "end": "2026-12-03",
+                "audience": "all",
+                "note": "العطلة الرسمية 2-3 ديسمبر؛ الجمعة 4 ديسمبر في تقويم الوزارة وحده ولا يذكرها تقويم هيئة المعرفة، فيحدّدها تعميم المدرسة",
+                "source": "AE-10;AE-11"
+              },
+              {
                 "id": "dxb-winter",
                 "nameAr": "العطلة الشتوية",
                 "nameEn": "Winter break",
@@ -5581,6 +5592,17 @@ export default {
                 "end": "2026-08-31",
                 "audience": "students",
                 "source": "AE-7"
+              },
+              {
+                "id": "ae-national-day",
+                "nameAr": "عطلة عيد الاتحاد (العطلة الرسمية)",
+                "nameEn": "Eid Al Etihad (official holiday)",
+                "type": "holiday",
+                "start": "2026-12-02",
+                "end": "2026-12-03",
+                "audience": "all",
+                "note": "العطلة الرسمية 2-3 ديسمبر؛ الجمعة 4 ديسمبر في تقويم الوزارة وحده ولا يذكرها تقويم الشارقة المنشور، فيحدّدها تعميم المدرسة",
+                "source": "AE-10;AE-7"
               },
               {
                 "id": "shj-winter",
