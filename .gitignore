@@ -5,3 +5,5 @@ agent.log
 __pycache__/
 node_modules/
 .wrangler/
+# نسخ git المعزولة التي تنشئها أداة Agent (isolation: worktree)؛ لا تُرفع أبداً
+.claude/worktrees/
