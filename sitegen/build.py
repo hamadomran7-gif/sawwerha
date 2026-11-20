@@ -15,14 +15,14 @@ PAGES = ROOT / "sitegen" / "pages"
 WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
-UPDATED = "2026-11-19"
+UPDATED = "2026-11-20"
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
 
 # العيّنة المجانية معاينة بعلامة مائية (البند 29): كل زر عيّنة مجانية في صفحة مولّدة تجاوره {{sample_note}}،
 # ولا تقترن «جاهزة لنون/لأمازون/للرفع» في البطل أو الوصف إلا بجملة عن الباقات المدفوعة. يفحصها check_sample_claims.
 SAMPLE_NOTE = {
-    "ar": "العيّنة معاينة بعلامة مائية صغيرة، فلا تُرفع على نون؛ وصور الباقات المدفوعة بدونها وجاهزة للرفع.",
-    "en": "The free sample is a preview with a small watermark, so it cannot be uploaded to noon; paid package images come without it, ready to upload.",
+    "ar": "العيّنة معاينة بعلامة مائية صغيرة، فلا تُرفع على نون ولا أمازون؛ وصور الباقات المدفوعة بدونها وجاهزة للرفع.",
+    "en": "The free sample is a preview with a small watermark, so it cannot be uploaded to noon or Amazon; paid package images come without it, ready to upload.",
 }
 READY = re.compile(r"جاهز(?:ة|ان|تان)?\s+(?:لنون|لأمازون|للرفع)|ready (?:for noon|for amazon|to upload)", re.I)
 PAID = re.compile(r"الباقات|المدفوعة|paid|package", re.I)
