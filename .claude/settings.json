@@ -16,5 +16,19 @@
       "Read(**/config.json)",
       "Bash(git push --force:*)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__Claude_Docs__read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/tools/hooks/dash-read-guard.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }

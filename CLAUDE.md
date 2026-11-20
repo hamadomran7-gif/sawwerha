@@ -33,6 +33,7 @@
 ## الأمان والحدود
 - المستودع عام: لا أسرار ولا مفاتيح فيه أبداً. الأسرار في `C:\Sawwerha\secrets` وفي أسرار Cloudflare.
 - لا دفع ولا اشتراك مدفوع ولا توقيع ولا التزام باسم حمد.
+- حارس اللوحة (`tools/hooks/dash-read-guard.js`): يرفض قراءة اللوحة أو جدول السجل m0denaqvxev.15733 كاملين؛ البديل view بـparentId أو search بـtext أو sinceRev. search بنص `__dash_guard_canary__` يُرفض حين يعمل، وإن لم يُرفض فطبّق القاعدة 20 (ب) بنفسك.
 
 ## مكتبة Claude
 دروس صنّاع المحتوى في `Documents\Claude-Library` على جهاز حمد. بعد تطبيق أي درس سجّل معرّفه بسطر `APPLIED.push("id");` في `applied.js`، أو استخدم `/apply-lesson`.
