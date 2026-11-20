@@ -138,6 +138,7 @@ BRAND = {54: "Aiverix", 37: "Fatorly"}
 
 # تاريخ فحص حلقة العمل المستمر لكل مزوّد بلا سعر علني (17 أو 18 نوفمبر 2026)
 D17, D18 = "17 نوفمبر 2026", "18 نوفمبر 2026"
+D168 = "https://mof.gov.ae/wp-content/uploads/2026/10/Ministerial-Decision-No-168-of-2026-on-Eligibility-criteria-and-Accreditation-Procedure-AR-FINAL.pdf"  # البند 40: رابط القرار 168 في فهرس الدليل
 # InvoiceQ (42): صفحة الباقات https://ae.invoiceq.com/packages/ قُرئت 20 نوفمبر 2026 (البند 39): باقتان «Custom Pricing» بلا سعر منشور
 D20 = "20 نوفمبر 2026"
 NONE_20 = {42}
@@ -190,7 +191,7 @@ def site_html(n, site):
     return f'<a href="https://{esc(site)}" rel="nofollow noopener" dir="ltr">{esc(site)}</a>'
 
 def price_short(n):
-    if n in PUBLIC: return esc(PUBLIC[n][0])
+    if n in PUBLIC: return f'{esc(PUBLIC[n][0])} (<a href="{esc(PUBLIC[n][2])}" rel="nofollow noopener">المصدر</a>)'
     if n in COMPARE_PRICED: return 'أمثلة في <a href="/#compare">المفاضلة</a>'
     if n in KSA_ONLY: return "أسعار منشورة للسعودية وماليزيا لا للإمارات"
     if n in RESTRICTED: return "لا نذكر سعراً"
@@ -455,7 +456,7 @@ def index_page():
     <p class="lead">تضم قائمة وزارة المالية لمزوّدي خدمات الفوترة الإلكترونية المعتمدين (ASPs) 88 مزوّداً، كما اطّلعنا عليها في {AS_OF}. هنا كل مزوّد باسمه الرسمي ورقم اعتماده وموقعه المسجّل، وما ينشره عن السعر، مع صفحة لكل منهم.</p>
     <ul class="facts">
       <li><strong>88</strong> مزوّداً معتمداً</li>
-      <li>القائمة وفقاً للمادة (13) من <strong>القرار الوزاري 168 لسنة 2026</strong></li>
+      <li>القائمة وفقاً للمادة (13) من <a href="{D168}" rel="noopener"><strong>القرار الوزاري 168 لسنة 2026</strong></a></li>
       <li>اطّلعنا على القائمة في <strong>{AS_OF}</strong></li>
     </ul>
     <p class="note">المصدر: <a href="{MOF_LIST}" rel="noopener">قائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين، وزارة المالية</a>، وتقول الوزارة إنها تُحدَّث دورياً بالمعتمدين الجدد وإن ترتيبها أبجدي. آخر مراجعة: {AS_OF}. لا نقل لأسماء الموظفين ولا لبريدهم ولا لهواتفهم.</p>
