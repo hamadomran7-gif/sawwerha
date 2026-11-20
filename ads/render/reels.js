@@ -346,9 +346,9 @@
       brand(ctx);
       const a1 = 1 - prog(t, 2.4, 2.7);
       if (a1 > 0) {
-        text(ctx, "صورة واحدة في استوديو", W / 2, 640, { size: 78, alpha: a1 * prog(t, 0.1, 0.45) });
-        text(ctx, "من 150 إلى 350 درهماً", W / 2, 860, { size: 86, color: C.accentSoft, alpha: a1 * prog(t, 0.4, 0.75), maxW: 1040 });
-        text(ctx, "للصورة الواحدة", W / 2, 1030, { size: 48, weight: 500, family: "IBM Plex Sans Arabic", alpha: a1 * prog(t, 0.6, 0.9) });
+        text(ctx, "صور منتجك لا تحتاج", W / 2, 640, { size: 78, alpha: a1 * prog(t, 0.1, 0.45) });
+        text(ctx, "استوديو وموعداً وشحناً", W / 2, 860, { size: 86, color: C.accentSoft, alpha: a1 * prog(t, 0.4, 0.75), maxW: 1040 });
+        text(ctx, "صورة من جوالك تكفي", W / 2, 1030, { size: 48, weight: 500, family: "IBM Plex Sans Arabic", alpha: a1 * prog(t, 0.6, 0.9) });
         const sp = ease(prog(t, 1.4, 2.0));
         if (sp > 0) {
           ctx.save();
@@ -419,14 +419,14 @@
         }
       } else crossfade(ctx, I.scene1, I.scene2, prog(t, 6.0, 6.4), z(5.6, 6.4), z(6.0, 7.0), "للإعلانات");
       headline(ctx, t, [{ text: "تبيع على نون أو أمازون؟", from: 0.15, to: 3.1 }]);
-      const checks = ["✓ خلفية بيضاء نقية", "✓ المنتج 85% من الإطار", "✓ مقاس 2000×2000"];
+      const checks = ["✓ خلفية بيضاء نقية", "✓ 85% لأمازون · 80% لنون", "✓ مقاس 2000×2000"];
       checks.forEach((c, i) => {
         const a = prog(t, 3.2 + i * 0.45, 3.5 + i * 0.45) * (1 - prog(t, 5.4, 5.6));
         text(ctx, c, W / 2, 335 + i * 80, { size: 54, weight: 700, alpha: a, dy: (1 - a) * 14 });
       });
       headline(ctx, t, [{ text: "ومشاهد جاهزة لإعلاناتك", from: 5.6, to: 7.0 }]);
       disclosure(ctx, prog(t, 3.0, 3.4));
-      endCard(ctx, t, 6.9, { sub: "صورة رئيسية مطابقة لشروط المنصّتين\nمن صورة جوالك، خلال ساعات" });
+      endCard(ctx, t, 6.9, { sub: "صورة رئيسية بخلفية بيضاء نقية\nمن صورة جوالك، خلال ساعات" });
     } };
   }
 
@@ -486,7 +486,7 @@
       if (t < 2.8) {
         single(ctx, I.before, z(0, 2.8), "مرفوضة", { bg: C.strike, color: "#fff" });
       } else if (t < 3.9) slider(ctx, I.before, I.white, ease(prog(t, 2.8, 3.9)), z(0, 2.8), 1);
-      else if (t < 6.2) single(ctx, I.white, 1, "جاهزة لنون");
+      else if (t < 6.2) single(ctx, I.white, 1, "بيضاء لنون");
       else crossfade(ctx, I.white, I.scene1, prog(t, 6.2, 6.7), 1, z(6.2, 7.5), "لإنستغرام");
       headline(ctx, t, [
         { text: "صورتك على نون مرفوضة؟", from: 0.0, to: 1.5, size: 84 },
@@ -503,7 +503,7 @@
         { text: "✓ JPEG بمقاس 2000×2000", from: 4.9, to: 6.2 },
       ]);
       disclosure(ctx, prog(t, 3.0, 3.4));
-      endCard(ctx, t, 7.4, { sub: "صورة رئيسية مطابقة لشروط نون\nمن صورة جوالك، خلال ساعات" });
+      endCard(ctx, t, 7.4, { sub: "صورة رئيسية بخلفية بيضاء نقية\nمن صورة جوالك، خلال ساعات" });
     } };
   }
 
@@ -624,7 +624,7 @@
         text(ctx, title, x + 220, 610, { size: 60, alpha: a, color: dim ? C.white : C.accentSoft });
         items.forEach((it, i) => text(ctx, it, x + 220, 760 + i * 150, { size: 42, weight: 700, family: "IBM Plex Sans Arabic", alpha: a * prog(t, from + 0.3 + i * 0.25, from + 0.6 + i * 0.25), maxW: 380 }));
       };
-      col("الاستوديو", ["موعد وشحن للمنتج", "أيام للتعديل", "150–350 درهماً\nللصورة"], 560, 0.6, true);
+      col("الاستوديو", ["موعد مسبق", "شحن المنتج إليه", "سعر لكل صورة"], 560, 0.6, true);
       col("صوّرها", ["صورة من جوالك", "النتيجة خلال ساعات", "149 درهماً\nلـ 6 صور"], 80, 1.5, false);
       if (t >= 3.5) {
         headline(ctx, t, [{ text: "والنتيجة من صورة جوال:", from: 3.6, to: 6.7, y: 380, size: 70 }]);
@@ -690,9 +690,9 @@
       g.addColorStop(1, C.primary2);
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
-      text(ctx, "صورة رئيسية مطابقة لنون وأمازون", w / 2, 120, { size: 60 });
+      text(ctx, "صورة رئيسية بخلفية بيضاء لنون وأمازون", w / 2, 120, { size: 60 });
       cardFrame(ctx, (x, y, ww, hh) => photo(ctx, I.white, x, y, ww, hh, 1), { x: 240, y: 210, w: 600, h: 600, r: 32 });
-      ["✓ خلفية بيضاء نقية", "✓ المنتج 85% من الإطار", "✓ مقاس 2000×2000", "✓ من صورة جوالك خلال ساعات"].forEach((c, i) => {
+      ["✓ خلفية بيضاء نقية", "✓ 85% لأمازون · 80% لنون", "✓ مقاس 2000×2000", "✓ من صورة جوالك خلال ساعات"].forEach((c, i) => {
         text(ctx, c, w / 2, 885 + i * 66, { size: 44, weight: 700, color: i === 3 ? C.accentSoft : C.white });
       });
       rrect(ctx, 140, 1170, 800, 110, 55);

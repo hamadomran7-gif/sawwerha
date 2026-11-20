@@ -74,3 +74,12 @@ test("خطأ في المعالجة: يتجاوز المقطع ويبلّغ ال�
     globalThis.fetch = realFetch;
   }
 });
+
+test("نصوص المنشورات: لا سعر لاستوديوهات غيرنا ولا «مطابقة لشروط»، والعيّنة المجانية معاينة بعلامة مائية", () => {
+  assert.equal(REELS.length, 8);
+  for (const r of REELS) {
+    assert.doesNotMatch(r.caption, /150|350|مطابقة لشروط|أرخص|الأكثر طلباً/, r.file);
+    if (/مجاني/.test(r.caption)) assert.match(r.caption, /علامة مائية/, r.file);
+    assert.ok(r.caption.length <= 2200, r.file); // حد وصف إنستغرام
+  }
+});
