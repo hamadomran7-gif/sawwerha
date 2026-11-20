@@ -138,10 +138,13 @@ BRAND = {54: "Aiverix", 37: "Fatorly"}
 
 # تاريخ فحص حلقة العمل المستمر لكل مزوّد بلا سعر علني (17 أو 18 نوفمبر 2026)
 D17, D18 = "17 نوفمبر 2026", "18 نوفمبر 2026"
+# InvoiceQ (42): صفحة الباقات https://ae.invoiceq.com/packages/ قُرئت 20 نوفمبر 2026 (البند 39): باقتان «Custom Pricing» بلا سعر منشور
+D20 = "20 نوفمبر 2026"
+NONE_20 = {42}
 NONE_17 = {13, 37, 73, 20, 28, 80, 16, 48, 74, 10, 50, 61, 38, 52}
 NONE_18 = {1, 9, 11, 17, 18, 22, 26, 29, 31, 34, 36, 39, 40, 41, 45, 55, 56, 57, 59, 62, 63, 65, 66, 67, 68, 69, 72, 75, 81, 82, 83, 85, 86, 87,
            4, 58, 14, 24, 25, 30, 53, 70, 6, 64, 2, 79, 8, 21, 27, 33, 35, 43, 44, 47, 51, 77}
-UNREAD = {42: D17, 3: D18, 7: D18, 19: D18, 46: D18, 49: D18, 78: D18, 23: D18}
+UNREAD = {3: D18, 7: D18, 19: D18, 46: D18, 49: D18, 78: D18, 23: D18}
 COMPARE_PRICED = {71, 84, 88}          # أمثلة أسعارهم في #compare بالرئيسية (منقولة 10 نوفمبر 2026)
 ON_COMPARE = {71, 84, 88, 20, 37, 28, 42}
 KSA_ONLY = {15}
@@ -210,7 +213,7 @@ def price_block(n):
         return '    <p>لا نذكر سعراً لهذا المزوّد. اطلب السعر منه مباشرة، أو اطلب عروضاً من عدة مزوّدين معتمدين بالنموذج أدناه.</p>'
     if n in UNREAD:
         return (f'    <p>لم نتمكن من قراءة موقعه آلياً عند فحصنا في {UNREAD[n]}، فلا نذكر عنه سعراً. راجع موقعه مباشرة.</p>')
-    d = D17 if n in NONE_17 else D18
+    d = D17 if n in NONE_17 else (D20 if n in NONE_20 else D18)
     extra = ' وتجد وصفه في <a href="/#compare">المفاضلة بالصفحة الرئيسية</a>.' if n in ON_COMPARE else ''
     return f'    <p>لا يعرض المزوّد سعراً علنياً (اطّلعنا على موقعه في {d}). يُطلب السعر منه أو عبر نموذج عروض الأسعار.{extra}</p>'
 
@@ -226,7 +229,7 @@ def price_faq(n, name):
         return "لا نذكر سعراً لهذا المزوّد؛ يُطلب منه مباشرة."
     if n in UNREAD:
         return f"لم نتمكن من قراءة موقعه آلياً عند فحصنا في {UNREAD[n]}، فيُطلب السعر منه مباشرة."
-    d = D17 if n in NONE_17 else D18
+    d = D17 if n in NONE_17 else (D20 if n in NONE_20 else D18)
     return f"لا يعرض المزوّد سعراً علنياً (اطّلعنا على موقعه في {d})، فيُطلب السعر منه أو عبر نموذج عروض الأسعار."
 
 HEAD_COMMON = """<link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -523,7 +526,7 @@ def main():
     out = sys.argv[1] if len(sys.argv) > 1 else "out"
     assert len(ROWS) == 88 and [r[0] for r in ROWS] == list(range(1, 89))
     assert len({r[4] for r in ROWS}) == 88 and len({r[2] for r in ROWS}) == 88
-    cover = NONE_17 | NONE_18 | set(UNREAD) | COMPARE_PRICED | KSA_ONLY | RESTRICTED | set(PUBLIC)
+    cover = NONE_17 | NONE_18 | NONE_20 | set(UNREAD) | COMPARE_PRICED | KSA_ONLY | RESTRICTED | set(PUBLIC)
     assert cover == set(range(1, 89)), sorted(set(range(1, 89)) - cover)
     files = {"providers.html": index_page()}
     for i in range(len(ROWS)):
