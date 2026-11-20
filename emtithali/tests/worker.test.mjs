@@ -3,7 +3,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import worker from "../site/_worker.js";
 
-const kv = () => { const m = new Map(); return { m, put: async (k, v) => { m.set(k, v); } }; };
+// m: المفتاح ← القيمة، وo: المفتاح ← الخيار الثالث لـput (فيه metadata)
+const kv = () => { const m = new Map(), o = new Map(); return { m, o, put: async (k, v, opts) => { m.set(k, v); o.set(k, opts); } }; };
 const assets = { fetch: async (req) => new Response("asset:" + new URL(req.url).pathname, { status: 200 }) };
 const lead = {
   name: "اختبار", company: "شركة اختبار", phone: "0500000000", invoices_per_month: "لا أعرف",
@@ -74,4 +75,50 @@ test("ما عدا ‎/api/submit‎ يمر إلى الأصول الثابتة", 
   assert.equal(await r.text(), "asset:/api/other");
   const r2 = await worker.fetch(new Request("https://emtithali.com/scope"), { LEADS: kv(), ASSETS: assets });
   assert.equal(await r2.text(), "asset:/scope");
+});
+
+test("metadata ‏{src, inv} فقط مع الطلب، بلا بيانات شخصية، والقيمة بالشكل القديم نفسه", async () => {
+  const store = kv();
+  const sent = { ...lead, source: "?src=free-zones", email: "a@example.com" };
+  const r = await worker.fetch(post(sent), { LEADS: store, ASSETS: assets });
+  assert.deepStrictEqual(await r.json(), { success: true });
+  assert.equal(store.m.size, 1);
+  const [k, v] = [...store.m][0];
+  const opts = store.o.get(k);
+  assert.deepStrictEqual(Object.keys(opts), ["metadata"]); // لا خيار آخر، كـexpirationTtl الذي يمحو الطلبات
+  assert.deepStrictEqual(opts.metadata, { src: "?src=free-zones", inv: lead.invoices_per_month });
+  for (const f of ["name", "company", "phone", "email"]) assert.equal(f in opts.metadata, false);
+  for (const s of [sent.name, sent.company, sent.phone, sent.email]) assert.equal(JSON.stringify(opts.metadata).includes(s), false);
+  assert.equal(v, JSON.stringify({ ...sent, received_at: JSON.parse(v).received_at, site: "emtithali.com" }));
+});
+
+test("source من 300 محرف تحكم: metadata دون حد KV ‏(1024 بايت)", async () => {
+  const store = kv();
+  // trim لا يزيل \u0001، وJSON.stringify يكتب كلاً منها 6 بايت: 300 منها 1800 بايت لولا الحدّ
+  const r = await worker.fetch(post({ ...lead, source: "\u0001".repeat(300), invoices_per_month: "\u0001".repeat(100) }), { LEADS: store, ASSETS: assets });
+  assert.deepStrictEqual(await r.json(), { success: true });
+  const [k, v] = [...store.m][0];
+  const { source } = JSON.parse(v);
+  assert.equal(source, "\u0001".repeat(300)); // القيمة كما هي
+  assert.ok(Buffer.byteLength(JSON.stringify({ src: source })) > 1024); // المدخل يتجاوز الحد فعلاً لولا القص
+  const { metadata } = store.o.get(k);
+  assert.deepStrictEqual(metadata, { src: "\u0001".repeat(100), inv: "\u0001".repeat(30) });
+  assert.ok(Buffer.byteLength(JSON.stringify(metadata)) <= 1024);
+});
+
+test("إن رمى put مع metadata خطأً: يُحفظ الطلب بلا metadata ويرد بالنجاح", async () => {
+  const store = kv(), tries = [];
+  const put = store.put;
+  store.put = async (k, v, opts) => { tries.push([k, opts]); if (opts?.metadata) throw new Error("KV PUT failed: 413 metadata too large"); return put(k, v, opts); };
+  // بلا source ولا عدد فواتير: src = "direct" ولا inv
+  const { source, invoices_per_month, ...bare } = lead;
+  const r = await worker.fetch(post(bare), { LEADS: store, ASSETS: assets });
+  assert.equal(r.status, 200);
+  assert.deepStrictEqual(await r.json(), { success: true });
+  assert.equal(store.m.size, 1);
+  const [k, v] = [...store.m][0];
+  // المحاولة الأولى بـmetadata رُفضت، والثانية بالمفتاح نفسه بلا خيارات
+  assert.deepStrictEqual(tries, [[k, { metadata: { src: "direct" } }], [k, undefined]]);
+  assert.equal(store.o.get(k), undefined);
+  assert.equal(v, JSON.stringify({ ...bare, received_at: JSON.parse(v).received_at, site: "emtithali.com" }));
 });

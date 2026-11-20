@@ -3,6 +3,7 @@
 // غير متاح؛ والسلوك مطابق لما يرسله النموذج ويقرؤه (index.html: sendLead) ولشكل السجل المحفوظ في KV.
 // _routes.json يجعل العامل يعمل على /api/* وحدها، وكل ما عداها أصول ثابتة.
 // لا أسرار هنا: الربط LEADS (KV «dalil-leads») من إعدادات مشروع Pages.
+// يُحفظ مع كل طلب metadata ‏{src, inv} للعدّ من قائمة المفاتيح دون قراءة القيم (فيها بيانات شخصية).
 
 const HEADERS = { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" };
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: HEADERS });
@@ -40,7 +41,14 @@ async function submit(request, env, url) {
   // فحص بلا كتابة: يتحقق ويرد بالنجاح دون حفظ (للتحقق بعد النشر)
   if (request.headers.get("x-dry-run") === "1") return json({ success: true, dry_run: true });
   if (!env.LEADS) return json({ success: false, message: "Storage unavailable" }, 503);
-  await env.LEADS.put(`lead:${stamp(now)}-${rand8()}`, JSON.stringify(rec));
+  const key = `lead:${stamp(now)}-${rand8()}`;
+  const value = JSON.stringify(rec);
+  // metadata للعدّ فقط، ولا يدخلها حقل شخصي أبداً. KV يرفض metadata أكبر من 1024 بايت بعد JSON.stringify،
+  // وأسوأ محرف يصير 6 بايت (\u00XX)، فـ100 + 30 محرفاً تبقى دون الحد.
+  const metadata = { src: (rec.source || "direct").slice(0, 100) };
+  if (rec.invoices_per_month) metadata.inv = rec.invoices_per_month.slice(0, 30);
+  // المفتاح نفسه في المحاولتين فلا يتكرر الطلب، ولا يضيع طلب بسبب metadata
+  try { await env.LEADS.put(key, value, { metadata }); } catch (e) { await env.LEADS.put(key, value); }
   return json({ success: true });
 }
 
