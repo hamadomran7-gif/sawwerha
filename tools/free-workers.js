@@ -24,6 +24,7 @@
 //   __fw.retryFailed({ max_tokens: 8000 })                    // إعادة ما فشل أو لم يُرجع JSON
 //   const pages = await __fw.pagesFromRepo('<commit>', 'emtithali/site')
 //   __fw.proofread(pages); __fw.status(); __fw.report()        // تدقيق لغوي: صفحة (أو جزء منها) لكل عامل
+//   await __fw.prepublish('<المنشور>', '<الجديد>'); __fw.report({ minAgree: 2 })   // فحص ما قبل النشر (المصنع)
 (() => {
   const REPO = "hamadomran7-gif/sawwerha";
   const DEFAULT_MODEL = "@cf/openai/gpt-oss-120b";
@@ -103,7 +104,9 @@
     if (!opts.allowPaid) c = c.filter((a) => a.plan === "free");
     if (!c.length) throw new Error("لا حساب مناسب؛ الحساب المدفوع يحتاج allowPaid: true");
     for (const a of c) a.usedToday = await used(a.id);
-    c.sort((x, y) => (y.cap - y.usedToday) - (x.cap - x.usedToday));
+    // الحساب المجاني أولاً ما دام فيه متسع، ثم الأكثر متسعاً
+    const room = (a) => a.cap - a.usedToday;
+    c.sort((x, y) => ((y.plan === "free" && room(y) >= 300) - (x.plan === "free" && room(x) >= 300)) || room(y) - room(x));
     return c[0];
   };
 
@@ -300,7 +303,8 @@
 
   // المطابقة تتجاهل التشكيل والتطويل والمسافات؛ الاقتباس الذي لا يوجد في الصفحة يُسقط آلياً (اختلاق)
   const norm = (s) => String(s || "").replace(/[ً-ْٰـ]/g, "").replace(/\s+/g, " ").trim();
-  fw.report = () => {
+  // report({ minAgree: 2 }) يعيد ما اتفق عليه عاملان فأكثر فقط
+  fw.report = (opts = {}) => {
     const pages = fw._pages || new Map();
     const issues = [], dropped = [], failed = [];
     for (const r of fw.results) {
@@ -324,6 +328,27 @@
     issues.sort((x, y) => y.agree - x.agree);
     issues.forEach((x) => delete x.q);
     const neurons = Math.round(fw.results.reduce((s, r) => s + (r.neurons || 0), 0));
-    return { checked: fw.results.filter((r) => r.ok).length, failed, issues, dropped: dropped.length, neurons };
+    const kept = issues.filter((x) => x.agree >= (opts.minAgree || 1));
+    return { checked: fw.results.filter((r) => r.ok).length, failed, issues: kept, below: issues.length - kept.length, dropped: dropped.length, neurons };
+  };
+
+  // فحص ما قبل النشر: الصفحات العربية التي تغيّرت بين commit منشور وcommit جديد، بعاملين، ثم report({ minAgree: 2 })
+  //   await __fw.prepublish('<المنشور>', '<الجديد>')   // ثم __fw.status() حتى done، ثم __fw.report({ minAgree: 2 })
+  fw.prepublish = async (base, head, opts = {}) => {
+    const cmp = await (await fetch(`https://api.github.com/repos/${REPO}/compare/${base}...${head}`, { cache: "no-store" })).json();
+    if (!cmp.files) throw new Error("compare: " + (cmp.message || "no files"));
+    const dirs = opts.dirs || ["emtithali/site/", "web/", "mustahaqati/dist/"];
+    const names = cmp.files
+      .filter((f) => f.status !== "removed" && /\.html$/.test(f.filename) && dirs.some((d) => f.filename.startsWith(d)) && !/\/en\//.test(f.filename))
+      .map((f) => f.filename);
+    if (cmp.files.length >= 300) throw new Error("compare: أكثر من 300 ملف، فقسّم المدى");
+    const pages = [];
+    for (const n of names) {
+      const r = await fetch(`https://raw.githubusercontent.com/${REPO}/${head}/${n}`, { cache: "no-store" });
+      if (r.ok) pages.push({ id: "/" + n, text: fw.htmlText(await r.text()) });
+    }
+    if (!pages.length) return { pages: 0, msg: "لا صفحات عربية متغيّرة" };
+    fw.reset();
+    return { pages: pages.length, msg: fw.proofread(pages, Object.assign({ allowPaid: true }, opts)) };
   };
 })();
