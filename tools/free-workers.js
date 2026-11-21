@@ -51,6 +51,22 @@
   const today = () => new Date().toISOString().slice(0, 10);
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  // ما صرفته هذه الأداة اليوم لكل حساب. GraphQL يتأخر دقائق عن الاستهلاك، فالأساس هو الأكبر من الاثنين
+  // (21/11/2026: بعد دفعة 8,369 وحدة بقي GraphQL يعرض 1,080).
+  const SPENT_KEY = "__fw_spent";
+  const spentBook = () => {
+    let s = fw._spent;
+    if (!s) { try { s = JSON.parse(localStorage.getItem(SPENT_KEY) || "null"); } catch (e) { s = null; } }
+    if (!s || s.date !== today()) s = { date: today(), by: {} };
+    return (fw._spent = s);
+  };
+  const addSpent = (acc, n) => {
+    const s = spentBook();
+    s.by[acc] = (s.by[acc] || 0) + (n || 0);
+    try { localStorage.setItem(SPENT_KEY, JSON.stringify(s)); } catch (e) {}
+  };
+  const used = async (acc) => Math.round(Math.max(await fw.usedToday(acc), spentBook().by[acc] || 0));
+
   fw.usedToday = async (acc) => {
     const query = `{ viewer { accounts(filter:{accountTag:"${acc}"}) { aiInferenceAdaptiveGroups(limit:100, filter:{date_geq:"${today()}"}) { sum { totalNeurons } } } } }`;
     const j = await api("/graphql", { method: "POST", body: JSON.stringify({ query }) });
@@ -66,9 +82,9 @@
     for (const a of j.result || []) {
       const s = await api(`/accounts/${a.id}/subscriptions`);
       const paid = !s.success || (s.result || []).some((x) => x.rate_plan && /workers_paid/.test(String(x.rate_plan.id || "")));
-      let used = null;
-      try { used = Math.round(await fw.usedToday(a.id)); } catch (e) {}
-      out.push({ id: a.id, name: a.name, plan: paid ? "paid" : "free", usedToday: used, cap: paid ? PAID_CAP_MAX : FREE_CAP });
+      let u = null;
+      try { u = await used(a.id); } catch (e) {}
+      out.push({ id: a.id, name: a.name, plan: paid ? "paid" : "free", usedToday: u, cap: paid ? PAID_CAP_MAX : FREE_CAP });
     }
     fw._accounts = out;
     return out.map((a) => Object.assign({}, a, { id: a.id.slice(0, 4) + "…" + a.id.slice(-3) }));
@@ -79,7 +95,7 @@
     let c = fw._accounts.filter((a) => !opts.account || a.id === opts.account || a.id.startsWith(opts.account));
     if (!opts.allowPaid) c = c.filter((a) => a.plan === "free");
     if (!c.length) throw new Error("لا حساب مناسب؛ الحساب المدفوع يحتاج allowPaid: true");
-    for (const a of c) a.usedToday = Math.round(await fw.usedToday(a.id));
+    for (const a of c) a.usedToday = await used(a.id);
     c.sort((x, y) => (y.cap - y.usedToday) - (x.cap - x.usedToday));
     return c[0];
   };
@@ -133,6 +149,7 @@
     }
     const res = j.result || {};
     const u = res.usage || {};
+    addSpent(acc.id, u.neurons);
     const fin = res.choices && res.choices[0] && res.choices[0].finish_reason;
     const text = textOf(res);
     const err = j.success ? (text ? undefined : "empty:" + fin) : JSON.stringify(j.errors || j._status).slice(0, 300);
@@ -207,13 +224,21 @@
 
   fw.reset = () => { fw.results = []; fw.state = null; fw._pages = null; fw._jobs = null; return "ok"; };
 
-  // نص الصفحة المرئي: المحتوى الرئيس بلا تنقل ولا تذييل ولا شيفرة
+  // نص الصفحة المرئي: المحتوى الرئيس بلا تنقل ولا تذييل ولا شيفرة. مسافة بعد كل عنصر سطري، لأن البطاقات
+  // (<a><strong>العنوان</strong><span>الوصف</span></a>) تلتصق كلماتها في textContent فيعدّها العامل خطأ إملائياً
+  // (21/11/2026: نحو 140 من 184 بلاغاً في امتثالي كانت من هذا الالتصاق).
   fw.htmlText = (html) => {
     const d = new DOMParser().parseFromString(html, "text/html");
     d.querySelectorAll("script,style,noscript,svg,nav,footer,form,template,body > header").forEach((e) => e.remove());
     const root = d.querySelector("main") || d.body;
-    root.querySelectorAll("p,li,h1,h2,h3,h4,h5,td,th,tr,div,br,dt,dd,summary,figcaption,blockquote").forEach((e) => e.after("\n"));
-    return root.textContent.replace(/[ \t ]+/g, " ").replace(/\n\s*\n+/g, "\n").trim();
+    root.querySelectorAll("a,strong,b,em,i,span,small,label,button,code,abbr,time,mark,sup,sub,img").forEach((e) => e.after(" "));
+    root.querySelectorAll("p,li,h1,h2,h3,h4,h5,h6,td,th,tr,div,br,dt,dd,summary,figcaption,blockquote,section,article").forEach((e) => e.after("\n"));
+    return root.textContent
+      .replace(/[ \t ]+/g, " ")
+      .replace(/ +([،,.؛;:!؟?)\]»])/g, "$1")
+      .replace(/([(\[«]) +/g, "$1")
+      .replace(/ *\n\s*/g, "\n")
+      .trim();
   };
 
   fw.pagesFromRepo = async (rev, dir, filter = /\.html$/) => {
@@ -247,12 +272,17 @@
 
   const PROOF_SYS = 'أنت مدقق لغوي عربي صارم. اقرأ نص صفحة ويب واذكر الأخطاء المؤكدة فقط: خطأ إملائي، كلمة مكررة، خطأ تذكير وتأنيث أو إفراد وجمع، جملة ناقصة أو مبتورة، تناقض في رقم أو تاريخ داخل النص نفسه. لا تقترح تحسينات أسلوبية، ولا تعدّ المصطلحات الإنجليزية أو الرموز أو أسماء الجهات والأنظمة أخطاء. أعد JSON فقط بهذا الشكل: {"issues":[{"quote":"اقتباس حرفي قصير من النص","type":"spelling|repeat|agreement|incomplete|inconsistency","fix":"التصحيح"}]} وإن لم توجد أخطاء فأعد {"issues":[]}.';
 
+  // opts.models: عاملان مستقلان أو أكثر على كل جزء، ثم يرفع report() ما اتفقا عليه أولاً (agree)
   fw.proofread = (pages, opts = {}) => {
+    const models = opts.models || [opts.model || DEFAULT_MODEL];
     const jobs = [];
     for (const p of pages) {
       if (!p.text || p.text.length < 40) continue;
       const parts = fw.chunks(p.text, opts.chunk || 6000);
-      parts.forEach((c, i) => jobs.push({ id: parts.length > 1 ? p.id + "#" + (i + 1) : p.id, prompt: c }));
+      parts.forEach((c, i) => {
+        const id = parts.length > 1 ? p.id + "#" + (i + 1) : p.id;
+        for (const m of models) jobs.push({ id: models.length > 1 ? id + "@" + m.split("/").pop() : id, prompt: c, model: m });
+      });
     }
     fw._pages = new Map(pages.map((p) => [p.id, p.text]));
     return fw.start(jobs, Object.assign({ system: PROOF_SYS, json: true, expectOut: 900 }, opts));
@@ -265,16 +295,24 @@
     const issues = [], dropped = [], failed = [];
     for (const r of fw.results) {
       if (!r.ok) { failed.push(r.id + " " + r.err); continue; }
-      const page = norm(pages.get(String(r.id).split("#")[0]) || "");
+      const part = String(r.id).split("@")[0];
+      const page = norm(pages.get(part.split("#")[0]) || "");
       const list = r.json && Array.isArray(r.json.issues) ? r.json.issues : null;
       if (!list) { failed.push(r.id + " json"); continue; }
       for (const it of list) {
         const parts = String(it.quote || "").split(/\.\.\.|…/).map(norm).filter(Boolean);
         const found = parts.length > 0 && parts.every((q) => page.includes(q));
-        const row = { page: r.id, type: it.type, quote: it.quote, fix: it.fix, model: String(r.model).split("/").pop() };
+        const row = { page: part, type: it.type, quote: it.quote, fix: it.fix, model: String(r.model).split("/").pop(), q: parts.join(" ") };
         (found && norm(it.fix) !== norm(it.quote) ? issues : dropped).push(row);
       }
     }
+    // اتفاق العمّال: عدد النماذج المختلفة التي أشارت إلى اقتباس متداخل في الجزء نفسه
+    for (const a of issues) {
+      const ms = new Set(issues.filter((b) => b.page === a.page && (a.q.includes(b.q) || b.q.includes(a.q))).map((b) => b.model));
+      a.agree = ms.size;
+    }
+    issues.sort((x, y) => y.agree - x.agree);
+    issues.forEach((x) => delete x.q);
     const neurons = Math.round(fw.results.reduce((s, r) => s + (r.neurons || 0), 0));
     return { checked: fw.results.filter((r) => r.ok).length, failed, issues, dropped: dropped.length, neurons };
   };
