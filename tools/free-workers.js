@@ -9,8 +9,9 @@
 // - تتصفّر الحصة 00:00 UTC (04:00 بتوقيت الإمارات).
 //
 // اختبار المفاضلة (21/11/2026، نص عربي فيه ستة أخطاء مزروعة):
-//   gpt-oss-120b بجهد تفكير منخفض 6/6 بنحو 40 وحدة و8 ثوانٍ (الافتراضي)؛ gemma-4-26b 6/6 وتصحيحاته أدق، بنحو 68 وحدة و56 ثانية (رأي ثانٍ)؛
+//   gemma-4-26b بلا تفكير 6/6 بنحو 12 وحدة و8 ثوانٍ وتصحيحاته أدق؛ gpt-oss-120b بجهد تفكير منخفض 6/6 بنحو 40 وحدة و8 ثوانٍ؛
 //   mistral-small-3.1 وllama-4-scout ‏4/6؛ gpt-oss-20b ‏2/6؛ llama-3.3-70b ‏1/6؛ glm-4.7-flash وqwen3.8 استنفدا الحد في التفكير.
+//   التدقيق يشغّل الأولين معاً على كل جزء، ويُقدَّم ما اتفقا عليه: على صفحات حقيقية يكثر بلاغ العامل الواحد الخاطئ.
 //
 // الاستخدام بعد الحقن:
 //   (0, eval)(await (await fetch('https://raw.githubusercontent.com/hamadomran7-gif/sawwerha/<commit>/tools/free-workers.js', { cache: 'no-store' })).text())
@@ -36,7 +37,13 @@
     "@cf/meta/llama-3.3-70b-instruct-fp8-fast": [26668, 204805],
     "@cf/zai-org/glm-4.7-flash": [5500, 36400],
   };
-  const EXTRA = { "@cf/openai/gpt-oss-120b": { reasoning_effort: "low" }, "@cf/openai/gpt-oss-20b": { reasoning_effort: "low" } };
+  // gemma-4 بلا تفكير: 6/6 بنحو 12 وحدة و8 ثوانٍ؛ وبالتفكير استنفد 4,000 رمز على صفحات حقيقية فلم يُرجع شيئاً
+  const EXTRA = {
+    "@cf/openai/gpt-oss-120b": { reasoning_effort: "low" },
+    "@cf/openai/gpt-oss-20b": { reasoning_effort: "low" },
+    "@cf/google/gemma-4-26b-a4b-it": { chat_template_kwargs: { enable_thinking: false } },
+  };
+  const PROOF_MODELS = ["@cf/google/gemma-4-26b-a4b-it", "@cf/openai/gpt-oss-120b"];
   const FREE_LIMIT = 10000, FREE_CAP = 9700, PAID_CAP_MAX = 8500;
 
   const fw = (window.__fw = window.__fw || {});
@@ -231,6 +238,7 @@
     const d = new DOMParser().parseFromString(html, "text/html");
     d.querySelectorAll("script,style,noscript,svg,nav,footer,form,template,body > header").forEach((e) => e.remove());
     const root = d.querySelector("main") || d.body;
+    root.querySelectorAll("a > strong, a > b, a > span, a > small").forEach((e) => e.after("\n"));
     root.querySelectorAll("a,strong,b,em,i,span,small,label,button,code,abbr,time,mark,sup,sub,img").forEach((e) => e.after(" "));
     root.querySelectorAll("p,li,h1,h2,h3,h4,h5,h6,td,th,tr,div,br,dt,dd,summary,figcaption,blockquote,section,article").forEach((e) => e.after("\n"));
     return root.textContent
@@ -272,9 +280,10 @@
 
   const PROOF_SYS = 'أنت مدقق لغوي عربي صارم. اقرأ نص صفحة ويب واذكر الأخطاء المؤكدة فقط: خطأ إملائي، كلمة مكررة، خطأ تذكير وتأنيث أو إفراد وجمع، جملة ناقصة أو مبتورة، تناقض في رقم أو تاريخ داخل النص نفسه. لا تقترح تحسينات أسلوبية، ولا تعدّ المصطلحات الإنجليزية أو الرموز أو أسماء الجهات والأنظمة أخطاء. أعد JSON فقط بهذا الشكل: {"issues":[{"quote":"اقتباس حرفي قصير من النص","type":"spelling|repeat|agreement|incomplete|inconsistency","fix":"التصحيح"}]} وإن لم توجد أخطاء فأعد {"issues":[]}.';
 
-  // opts.models: عاملان مستقلان أو أكثر على كل جزء، ثم يرفع report() ما اتفقا عليه أولاً (agree)
+  // عاملان مستقلان على كل جزء افتراضياً (gemma-4 ثم gpt-oss-120b)، ثم يرفع report() ما اتفقا عليه أولاً (agree)؛
+  // opts.models لتغييرهما، أو opts.model لعامل واحد
   fw.proofread = (pages, opts = {}) => {
-    const models = opts.models || [opts.model || DEFAULT_MODEL];
+    const models = opts.models || (opts.model ? [opts.model] : PROOF_MODELS);
     const jobs = [];
     for (const p of pages) {
       if (!p.text || p.text.length < 40) continue;
