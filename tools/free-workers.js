@@ -143,8 +143,45 @@
     return (tin * ri + tout * ro) / 1e6;
   };
 
+  // تبديل النموذج آلياً بحسب الحاجة (أمر حمد 22/11/2026: «اعمل نظام تبديل النماذج على حسب احتياجك»):
+  // النموذج الذي توقفه Cloudflare (الخطأ 5028، كما أوقفت qwen3-30b في 20/11/2026) يُستبعد في هذا المتصفح ويُستبدل فوراً،
+  // والمخرج الفارغ أو غير الصالح يُعاد مرة واحدة بالنموذج البديل. ولا تبديل عند بلوغ الحصة.
+  const FALLBACK = {
+    "@cf/google/gemma-4-26b-a4b-it": "@cf/openai/gpt-oss-120b",
+    "@cf/openai/gpt-oss-120b": "@cf/google/gemma-4-26b-a4b-it",
+    "@cf/openai/gpt-oss-20b": "@cf/openai/gpt-oss-120b",
+    "@cf/meta/llama-3.3-70b-instruct-fp8-fast": "@cf/openai/gpt-oss-120b",
+    "@cf/mistralai/mistral-small-3.1-24b-instruct": "@cf/google/gemma-4-26b-a4b-it",
+    "@cf/meta/llama-4-scout-17b-16e-instruct": "@cf/google/gemma-4-26b-a4b-it",
+    "@cf/zai-org/glm-4.7-flash": "@cf/google/gemma-4-26b-a4b-it",
+  };
+  const DEAD_KEY = "__fw_dead";
+  const dead = () => {
+    if (!fw._dead) { try { fw._dead = new Set(JSON.parse(localStorage.getItem(DEAD_KEY) || "[]")); } catch (e) { fw._dead = new Set(); } }
+    return fw._dead;
+  };
+  const markDead = (m) => { dead().add(m); try { localStorage.setItem(DEAD_KEY, JSON.stringify([...dead()])); } catch (e) {} };
+  const alive = (m) => { let x = m; for (let i = 0; i < 4 && dead().has(x); i++) x = FALLBACK[x] || DEFAULT_MODEL; return x; };
+  fw.deadModels = () => [...dead()];
+
   const runOne = async (acc, job, opts) => {
-    const model = modelOf(job, opts);
+    const want = modelOf(job, opts);
+    let r = await callModel(acc, job, opts, alive(want));
+    if (r.deprecated) markDead(r.model);
+    const bad = !r.ok || (opts.json && !r.json);
+    const alt = bad && !r.limit && (FALLBACK[r.model] || (r.model !== DEFAULT_MODEL ? DEFAULT_MODEL : null));
+    if (alt && !dead().has(alt)) {
+      const r2 = await callModel(acc, job, opts, alt);
+      if (r2.deprecated) markDead(r2.model);
+      r2.neurons += r.neurons;
+      r2.switchedFrom = r.model.split("/").pop() + " (" + (r.err ? String(r.err).slice(0, 60) : "json") + ")";
+      r = r2;
+    }
+    if (r.model !== want && !r.switchedFrom) r.switchedFrom = want.split("/").pop() + " (موقوف)";
+    return r;
+  };
+
+  const callModel = async (acc, job, opts, model) => {
     const messages = [];
     const system = job.system || opts.system;
     if (system) messages.push({ role: "system", content: system });
@@ -163,7 +200,9 @@
     const fin = res.choices && res.choices[0] && res.choices[0].finish_reason;
     const text = textOf(res);
     const err = j.success ? (text ? undefined : "empty:" + fin) : JSON.stringify(j.errors || j._status).slice(0, 300);
-    return { id: job.id, model, ok: !!j.success && !!text, fin, text, json: opts.json ? fw.parseJSON(text) : undefined, neurons: u.neurons || 0, tin: u.prompt_tokens || 0, tout: u.completion_tokens || 0, ms: Date.now() - t0, err };
+    const deprecated = !j.success && (j._status === 410 || /5028|deprecated/i.test(err || ""));
+    const limit = !j.success && /4006|allocation|daily|exceeded|quota/i.test(err || "");
+    return { id: job.id, model, ok: !!j.success && !!text, fin, text, json: opts.json ? fw.parseJSON(text) : undefined, neurons: u.neurons || 0, tin: u.prompt_tokens || 0, tout: u.completion_tokens || 0, ms: Date.now() - t0, err, deprecated, limit };
   };
 
   fw.ask = async (prompt, opts = {}) => {
