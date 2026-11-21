@@ -24,7 +24,7 @@
 //   __fw.retryFailed({ max_tokens: 8000 })                    // إعادة ما فشل أو لم يُرجع JSON
 //   const pages = await __fw.pagesFromRepo('<commit>', 'emtithali/site')
 //   __fw.proofread(pages); __fw.status(); __fw.report()        // تدقيق لغوي: صفحة (أو جزء منها) لكل عامل
-//   await __fw.prepublish('<المنشور>', '<الجديد>'); __fw.report({ minAgree: 2 })   // فحص ما قبل النشر (المصنع)
+//   await __fw.prepublish('<المنشور>', '<الجديد>'); __fw.report()   // فحص ما قبل النشر (المصنع): بلاغات تُقرأ مع فرق الصفحة، لا بوابة
 (() => {
   const REPO = "hamadomran7-gif/sawwerha";
   const DEFAULT_MODEL = "@cf/openai/gpt-oss-120b";
@@ -284,21 +284,27 @@
   // التاريخ في التعليمات: بدونه عدّ gemma-4 كل تاريخ في 2026 «مستقبلياً» خطأً (21/11/2026: 25 من 31 بلاغاً له)
   const proofSys = () => 'أنت مدقق لغوي عربي صارم. تاريخ اليوم ' + today() + '، فالتواريخ والقرارات المذكورة بسنواتها ليست أخطاء لأنها حديثة أو مقبلة. اقرأ نص صفحة ويب واذكر الأخطاء المؤكدة فقط: خطأ إملائي، كلمة مكررة، خطأ تذكير وتأنيث أو إفراد وجمع، جملة ناقصة أو مبتورة، تناقض في رقم أو تاريخ داخل النص نفسه. لا تقترح تحسينات أسلوبية، ولا تعدّ المصطلحات الإنجليزية أو الرموز أو أسماء الجهات والأنظمة أخطاء، ولا تعدّ تكرار عنوان في زر أو بطاقة تكراراً، ولا العناوين القصيرة جملاً ناقصة. أعد JSON فقط بهذا الشكل: {"issues":[{"quote":"اقتباس حرفي قصير من النص","type":"spelling|repeat|agreement|incomplete|inconsistency","fix":"التصحيح"}]} وإن لم توجد أخطاء فأعد {"issues":[]}.';
 
-  // عاملان مستقلان على كل جزء افتراضياً (gemma-4 ثم gpt-oss-120b)، ثم يرفع report() ما اتفقا عليه أولاً (agree)؛
-  // opts.models لتغييرهما، أو opts.model لعامل واحد
+  // تمريرة ثانية لاتساق الأرقام والتواريخ: في اختبار العشرة فات التدقيقَ اللغوي تناقضاتُ الأرقام والتواريخ الأربعة كلها
+  // باتفاق العاملين، وهذه التمريرة التقطت منها ثلاثاً (22/11/2026)
+  const consSys = () => 'أنت مدقق اتساق أرقام وتواريخ في صفحة ويب عربية. تاريخ اليوم ' + today() + '. استخرج في ذهنك كل رقم ومبلغ وتاريخ ومدة ورقم قرار، ثم قارن كل واحد بما يقابله في النص نفسه: العنوان والفقرة الأولى مقابل الجدول، والمثال المحسوب مقابل القاعدة المذكورة (احسبه)، والتاريخ مقابل المدة المذكورة معه، ورقم القرار حيث يتكرر. اذكر فقط التناقضات المؤكدة داخل النص والحسابات التي لا تطابق القاعدة. أعد JSON فقط: {"issues":[{"quote":"اقتباس حرفي قصير من النص","type":"inconsistency","fix":"ما يجب أن يكون"}]} وإن لم يوجد فأعد {"issues":[]}.';
+
+  // عاملان مستقلان على كل جزء افتراضياً (gemma-4 ثم gpt-oss-120b)، بتمريرتين: لغوية واتساق أرقام وتواريخ (opts.consistency=false لإلغاء الثانية)؛
+  // ثم يرفع report() ما اتفقا عليه أولاً (agree). العمّال كاشف لا بوابة: Claude يراجع فرق كل صفحة قبل النشر مع بلاغاتهم
   fw.proofread = (pages, opts = {}) => {
     const models = opts.models || (opts.model ? [opts.model] : PROOF_MODELS);
+    const passes = [["", proofSys(), 900]].concat(opts.consistency === false ? [] : [["cons-", consSys(), 600]]);
     const jobs = [];
     for (const p of pages) {
       if (!p.text || p.text.length < 40) continue;
       const parts = fw.chunks(p.text, opts.chunk || 6000);
       parts.forEach((c, i) => {
         const id = parts.length > 1 ? p.id + "#" + (i + 1) : p.id;
-        for (const m of models) jobs.push({ id: models.length > 1 ? id + "@" + m.split("/").pop() : id, prompt: c, model: m });
+        for (const [tag, system] of passes)
+          for (const m of models) jobs.push({ id: id + "@" + tag + m.split("/").pop(), prompt: c, model: m, system });
       });
     }
     fw._pages = new Map(pages.map((p) => [p.id, p.text]));
-    return fw.start(jobs, Object.assign({ system: proofSys(), json: true, expectOut: 900 }, opts));
+    return fw.start(jobs, Object.assign({ json: true, expectOut: 900 }, opts));
   };
 
   // المطابقة تتجاهل التشكيل والتطويل والمسافات؛ الاقتباس الذي لا يوجد في الصفحة يُسقط آلياً (اختلاق)
@@ -351,8 +357,9 @@
     return { total: b.keys.length, per, union: union.length, agreed: agreed.length, missedByAgreement: b.keys.filter((k) => !agreed.includes(k.n)).map((k) => k.n + ":" + k.type), noise, gate: agreed.length >= 8, neurons: rep.neurons, failed: rep.failed };
   };
 
-  // فحص ما قبل النشر: الصفحات العربية التي تغيّرت بين commit منشور وcommit جديد، بعاملين، ثم report({ minAgree: 2 })
-  //   await __fw.prepublish('<المنشور>', '<الجديد>')   // ثم __fw.status() حتى done، ثم __fw.report({ minAgree: 2 })
+  // فحص ما قبل النشر: الصفحات العربية التي تغيّرت بين commit منشور وcommit جديد، بعاملين وتمريرتين، ثم report()؛
+  // ويراجع Claude فرق كل صفحة معها قبل النشر، لأن اتفاق العاملين التقط 4 من 10 في اختبار bench (22/11/2026)
+  //   await __fw.prepublish('<المنشور>', '<الجديد>')   // ثم __fw.status() حتى done، ثم __fw.report()
   fw.prepublish = async (base, head, opts = {}) => {
     const cmp = await (await fetch(`https://api.github.com/repos/${REPO}/compare/${base}...${head}`, { cache: "no-store" })).json();
     if (!cmp.files) throw new Error("compare: " + (cmp.message || "no files"));
