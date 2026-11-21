@@ -332,6 +332,25 @@
     return { checked: fw.results.filter((r) => r.ok).length, failed, issues: kept, below: issues.length - kept.length, dropped: dropped.length, neurons };
   };
 
+  // اختبار الالتقاط: tools/free-workers-bench.json (صفحة الغرامات بعشرة أخطاء مزروعة، منها أربعة تناقضات أرقام وتواريخ).
+  // شرط حكم Fable 5.2 (22/11/2026): لا يُعتمد اتفاق العاملين بوابةً إلا إذا التقط 8 من 10 فأكثر.
+  //   await __fw.bench('<commit>')
+  fw.bench = async (rev, opts = {}) => {
+    if (fw.state && !fw.state.done) return "دفعة قيد التشغيل";
+    const b = await (await fetch(`https://raw.githubusercontent.com/${REPO}/${rev}/tools/free-workers-bench.json`, { cache: "no-store" })).json();
+    fw.reset();
+    fw.proofread([{ id: "/bench.html", text: b.page }], Object.assign({ allowPaid: true }, opts));
+    for (let i = 0; i < 40 && !(fw.state && fw.state.done); i++) await sleep(2000);
+    const rep = fw.report();
+    const hit = (list) => b.keys.filter((k) => list.some((x) => norm(x.quote).includes(norm(k.key)))).map((k) => k.n);
+    const models = [...new Set(rep.issues.map((x) => x.model))];
+    const per = Object.fromEntries(models.map((m) => [m, hit(rep.issues.filter((x) => x.model === m)).length]));
+    const agreed = hit(rep.issues.filter((x) => x.agree >= 2));
+    const union = hit(rep.issues);
+    const noise = rep.issues.filter((x) => !b.keys.some((k) => norm(x.quote).includes(norm(k.key)))).length;
+    return { total: b.keys.length, per, union: union.length, agreed: agreed.length, missedByAgreement: b.keys.filter((k) => !agreed.includes(k.n)).map((k) => k.n + ":" + k.type), noise, gate: agreed.length >= 8, neurons: rep.neurons, failed: rep.failed };
+  };
+
   // فحص ما قبل النشر: الصفحات العربية التي تغيّرت بين commit منشور وcommit جديد، بعاملين، ثم report({ minAgree: 2 })
   //   await __fw.prepublish('<المنشور>', '<الجديد>')   // ثم __fw.status() حتى done، ثم __fw.report({ minAgree: 2 })
   fw.prepublish = async (base, head, opts = {}) => {
