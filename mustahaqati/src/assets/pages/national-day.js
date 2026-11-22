@@ -3,12 +3,14 @@ import { bind, table, big, note, arDate, daysAr, weeksAr } from "../app.js";
 
 const form = document.getElementById("calc");
 const result = document.getElementById("result");
-const { country: CC, id: HID, md: MD, since: SINCE, name: NAME } = form.dataset;
+const { country: CC, id: HID, md: MD, since: SINCE, name: NAME, target: TARGET, tz: TZ, law: LAW } = form.dataset;
 const wd = new Intl.DateTimeFormat("ar-u-nu-latn", { weekday: "long", timeZone: "UTC" });
 const D = (iso) => new Date(`${iso}T00:00:00Z`);
 const full = (iso) => `${wd.format(D(iso))} ${arDate(iso)}`;
 const cnt = (n) => (n === 1 ? "يوم واحد" : n === 2 ? "يومان" : n <= 10 ? `${n} أيام` : `${n} يوماً`);
-const localToday = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const tzToday = (tz) => { try { return new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()); } catch { return ""; } };
+const localToday = () => { if (TZ) { const t = tzToday(TZ); if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return t; } const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const ORD = ["الأول", "الثاني", "الثالث", "الرابع", "الخامس"];
 let timer = null;
 function startTicker() {
   clearInterval(timer);
@@ -25,10 +27,40 @@ function startTicker() {
   timer = setInterval(tick, 1000);
 }
 
+// وضع العطلة (data-target="holiday"): يعدّ حتى بداية العطلة الرسمية المعلنة لا يوم المناسبة، ويُظهرها جاريةً في أيامها،
+// ثم ينتقل إلى عطلة السنة التالية. data-md قائمة أيام المناسبة بالقانون (مثل "11-20,11-21")، وdata-law سندها.
+function holidayMode(v) {
+  const today = v.from || localToday();
+  const h = upcomingHolidays({ country: CC, from: today }).find((x) => x.id === HID);
+  if (!h) return big(`عطلة ${NAME}`, "تُعلن بقرار رسمي");
+  const year = h.start.slice(0, 4);
+  const range = h.start === h.end ? full(h.start) : `${full(h.start)} – ${full(h.end)}`;
+  const occ = MD.split(",").map((md) => `${year}-${md.trim()}`);
+  const occTxt = occ.map((iso, i) => (i < occ.length - 1 ? `${wd.format(D(iso))} ${Number(iso.slice(8))}` : full(iso))).join(" و");
+  let html;
+  if (h.ongoing) {
+    const n = Math.round((D(today) - D(h.start)) / 86400000);
+    html = big(`عطلة ${NAME} ${year}`, "جارية الآن", `اليوم ${ORD[n] || n + 1} من ${h.days === 2 ? "يومين" : cnt(h.days)}: ${range}`);
+  } else {
+    const days = Math.round((D(h.start) - D(today)) / 86400000);
+    html = big(`باقي على عطلة ${NAME} ${year}`, daysAr(days), range);
+    if (today === localToday() && days > 0) html += `<p class="ticker" data-to="${h.start}" aria-hidden="true"></p>`;
+  }
+  const rows = [[`عطلة القطاع الخاص ${year}`, `${range} (${cnt(h.days)})`, { strong: true }]];
+  rows.push([LAW ? `${NAME} (${LAW})` : NAME, occTxt]);
+  if (occ[0] !== h.start) rows.push(["ملاحظة", "العطلة الرسمية لا توافق يوم المناسبة نفسه هذا العام"]);
+  if (!h.official) rows.push(["ملاحظة", "موعد متوقع بحسب القانون، ويُعلن الموعد الفعلي في بداية العام"]);
+  html += table(rows, "الموعد");
+  html += note("من يعمل يوم العطلة الرسمية يستحق أجراً إضافياً أو يوماً بديلاً بحسب قانون العمل في بلده.", "info");
+  setTimeout(startTicker, 0);
+  return html;
+}
+
 bind(
   form,
   result,
   (v) => {
+    if (TARGET === "holiday") return holidayMode(v);
     const today = v.from || localToday();
     const y0 = Number(today.slice(0, 4));
     let date = `${y0}-${MD}`;
