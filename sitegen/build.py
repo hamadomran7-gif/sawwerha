@@ -15,7 +15,7 @@ PAGES = ROOT / "sitegen" / "pages"
 WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
-UPDATED = "2026-11-21"
+UPDATED = "2026-11-22"
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
 
 # العيّنة المجانية معاينة بعلامة مائية (البند 29): كل زر عيّنة مجانية في صفحة مولّدة تجاوره {{sample_note}}،
@@ -32,6 +32,7 @@ WATERMARK = re.compile(r"علامة مائية|\{\{sample_note\}\}|watermark", r
 MARK = ('<span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
         'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>'
         '<circle cx="12" cy="12.5" r="3.5"/></svg></span>')
+UP_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>'
 WA_ICON = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>')
 
 UI = {
@@ -48,6 +49,7 @@ SERVICE_LINKS = [
     ("/noon-product-photos/", "صور منتجات نون", "ar"),
     ("/amazon-product-photos/", "صور منتجات أمازون", "ar"),
     ("/white-background-product-photos/", "صور بخلفية بيضاء", "ar"),
+    ("/try/", "جرّبها مجاناً: ارفع صورة منتجك", "ar"),
     ("/perfume-product-photos/", "تصوير العطور والعود", "ar"),
     ("/beauty-product-photos/", "تصوير منتجات التجميل", "ar"),
     ("/jewelry-product-photos/", "تصوير المجوهرات", "ar"),
@@ -151,6 +153,9 @@ def render(meta, body):
     ui = UI[lang]
     url = f"{DOMAIN}/{meta['slug']}/"
     wa = wa_href(meta["wa_msg"])
+    if lang == "ar":
+        # منذ الاختبار الطرفي لقناة الموقع (22 نوفمبر): زر الطلب الأول في الصفحات العربية يفتح /try/ (رفع الصورة)، ويبقى زر واتساب الثاني بديلاً
+        body = body.replace(' href="{{wa}}" target="_blank" rel="noopener">{{wa_icon}}', ' href="/try/">' + UP_ICON, 1)
     body = body.replace("{{wa}}", esc(wa)).replace("{{wa_icon}}", WA_ICON).replace("{{sample_note}}", esc(SAMPLE_NOTE[lang]))
     links = []
     for href, label, l in SERVICE_LINKS:
@@ -159,6 +164,8 @@ def render(meta, body):
             attrs += ' aria-current="page"'
         links.append(f'<a href="{href}"{attrs}>{esc(label)}</a>')
     services = "".join(links)
+    sticky = (f'<a class="cta" href="/try/">{UP_ICON}<span>ارفع صورة منتجك مجاناً</span></a>' if lang == "ar"
+              else f'<a class="cta" href="{esc(wa)}" target="_blank" rel="noopener">{WA_ICON}<span>{ui["sticky"]}</span></a>')
     alt_label, alt_href = ui["alt"]
     return f"""<!doctype html>
 <html lang="{lang}" dir="{ui['dir']}">
@@ -199,7 +206,7 @@ def render(meta, body):
   <p class="src">{'Last updated' if lang == 'en' else 'آخر تحديث'}: <time datetime="{UPDATED}">{UPDATED}</time></p>
 </footer>
 
-<div class="sticky"><a class="cta" href="{esc(wa)}" target="_blank" rel="noopener">{WA_ICON}<span>{ui['sticky']}</span></a></div>
+<div class="sticky">{sticky}</div>
 </body>
 </html>
 """
@@ -217,7 +224,7 @@ def main():
         out.write_text(render(meta, body), encoding="utf-8")
         urls.append((f"{DOMAIN}/{meta['slug']}/", "0.8"))
         print("wrote", out.relative_to(ROOT))
-    urls += [(DOMAIN + "/terms", "0.3"), (DOMAIN + "/privacy", "0.3")]
+    urls += [(DOMAIN + "/try/", "0.9"), (DOMAIN + "/terms", "0.3"), (DOMAIN + "/privacy", "0.3")]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sm += "".join(f"  <url><loc>{u}</loc><lastmod>{UPDATED}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
     sm += "</urlset>\n"
