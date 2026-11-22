@@ -243,6 +243,16 @@ test("المهمة الدورية تعيد الطلبات العالقة وتن�
   assert.ok(sent.slice(before).some((m) => m.to === env.OWNER_PHONE && /متوقف/.test(m.text?.body || "")));
 });
 
+test("/health يعرض حالة وكيل الإنتاج وعدد الطلبات المنتظرة للمراقبة", async () => {
+  const health = async () => (await worker.fetch(new Request("https://bot.test/health"), env, ctx())).json();
+  const off = await health(); // آخر نبض 2020 من الاختبار السابق
+  assert.equal(off.ok, true);
+  assert.equal(off.agent, "offline");
+  assert.equal(typeof off.queue, "number");
+  await agent("/api/heartbeat", { method: "POST" });
+  assert.equal((await health()).agent, "online");
+});
+
 test("واجهة الوكيل محمية", async () => {
   const r = await worker.fetch(new Request("https://bot.test/api/jobs/next"), env, ctx());
   assert.equal(r.status, 401);

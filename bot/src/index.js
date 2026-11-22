@@ -504,6 +504,19 @@ async function cron(env) {
   }
 }
 
+/**
+ * حالة الإنتاج للمراقبة من خارج الجهاز (مهمة سحابية تقرأ /health): الوكيل offline إن لم ينبض ساعة
+ * (ينبض كل 20 ثانية خارج المهام)، وعدد الطلبات المنتظرة. حالة وعدد فقط: بلا وقت ولا بيانات عملاء.
+ */
+async function productionStatus(env) {
+  const r = await env.DB.prepare(
+    `SELECT (SELECT value FROM meta WHERE key = 'agent_last_seen') AS last,
+      (SELECT COUNT(*) FROM orders WHERE status IN ('queued','processing')) AS queue`
+  ).first();
+  const online = !!r?.last && Date.now() - Date.parse(r.last) < 3600 * 1000;
+  return { agent: online ? "online" : "offline", queue: r?.queue || 0 };
+}
+
 /* ------------------------------------------------------------------ */
 /* الموجّه                                                               */
 /* ------------------------------------------------------------------ */
@@ -522,7 +535,7 @@ export default {
     }
     if (url.pathname.startsWith("/web/")) return handleWeb(request, env, url);
     if (url.pathname.startsWith("/api/")) return handleAgent(request, env, url);
-    if (url.pathname === "/health") return json({ ok: true, brand: env.BRAND });
+    if (url.pathname === "/health") return json({ ok: true, brand: env.BRAND, ...(await productionStatus(env)) });
     return new Response("Sawwerha bot", { status: 200 });
   },
   async scheduled(event, env, ctx) {
