@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الفاتورة الإلكترونية بعملة غير الدرهم في الإمارات: أين تُكتب الضريبة بالدرهم وماذا عن سعر الصرف؟ | امتثالي</title>
+<meta name="description" content="فاتورتك بالدولار أو اليورو؟ قيمة الضريبة تُكتب بالدرهم مع سعر الصرف المطبق، وهو سعر المصرف المركزي بتاريخ التوريد. وحقول PINT-AE للعملة وسعر الصرف والمبالغ بالدرهم، ومتى يلزم كلٌّ منها.">
+<link rel="canonical" href="https://emtithali.com/foreign-currency">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1a38">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ar_AE">
+<meta property="og:site_name" content="امتثالي">
+<meta property="og:title" content="الفاتورة الإلكترونية بعملة غير الدرهم في الإمارات: أين تُكتب الضريبة بالدرهم وماذا عن سعر الصرف؟">
+<meta property="og:description" content="فاتورتك بالدولار أو اليورو؟ قيمة الضريبة تُكتب بالدرهم مع سعر الصرف المطبق، وهو سعر المصرف المركزي بتاريخ التوريد. وحقول PINT-AE للعملة وسعر الصرف والمبالغ بالدرهم، ومتى يلزم كلٌّ منها.">
+<meta property="og:url" content="https://emtithali.com/foreign-currency">
+<meta property="og:image" content="https://emtithali.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="امتثالي: قارن مزوّدي الفوترة الإلكترونية المعتمدين في الإمارات">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://emtithali.com/og-image.png">
+<link rel="preload" href="/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<style>bdi{white-space:nowrap}.p{unicode-bidi:isolate;overflow-wrap:anywhere;font-size:.92em}</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"امتثالي","item":"https://emtithali.com/"},
+{"@type":"ListItem","position":2,"name":"الدليل","item":"https://emtithali.com/#guides"},
+{"@type":"ListItem","position":3,"name":"الفاتورة بعملة غير الدرهم","item":"https://emtithali.com/foreign-currency"}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"هل يجوز أن تكون الفاتورة الإلكترونية بالدولار أو اليورو في الإمارات؟","acceptedAnswer":{"@type":"Answer","text":"نعم. عملة الفاتورة حقل إلزامي (IBT-005) يُكتب برمزه من قائمة ISO 4217، وتوجب مواصفة PINT-AE سعر الصرف متى كانت العملة غير الدرهم (IBR-159-AE). لكن الفاتورة الضريبية تبيّن قيمة الضريبة بالدرهم وسعر الصرف المطبق، بحسب المادة 59 (1) (ك) من اللائحة التنفيذية لقانون ضريبة القيمة المضافة."}},
+{"@type":"Question","name":"ما سعر الصرف الذي يُستعمل في الفاتورة الضريبية؟","acceptedAnswer":{"@type":"Answer","text":"سعر الصرف المعتمد لدى المصرف المركزي في الدولة بتاريخ التوريد، بنص المادة 69 من المرسوم بقانون اتحادي رقم 8 لسنة 2017. وينشر المصرف المركزي أسعار الصرف مقابل الدرهم لالتزامات ضريبة القيمة المضافة لأكثر من 70 عملة، ويقول إنها تُحدَّث يومياً."}},
+{"@type":"Question","name":"أين تُكتب الضريبة بالدرهم في الفاتورة الإلكترونية؟","acceptedAnswer":{"@type":"Answer","text":"إجمالي الضريبة بالدرهم في IBT-111، وإجمالي الفاتورة مع الضريبة بالدرهم في BTAE-20، ويلزمان حين تكون عملة الفاتورة غير الدرهم وعملة احتساب الضريبة AED (IBR-175-AE). وفي كل سطر فيه معلومات ضريبة السطر يُكتب مبلغه بالدرهم (BTAE-10) وضريبته بالدرهم (BTAE-08) بحسب IBR-104-AE."}},
+{"@type":"Question","name":"هل في قائمة الحقول الإلزامية لوزارة المالية حقل لسعر الصرف؟","acceptedAnswer":{"@type":"Answer","text":"لا. في القسم 4.1 من الإصدار 1.1 (28 أكتوبر 2026) ثلاثة حقول تخص العملة من 51 حقلاً: رمز عملة الفاتورة (4)، وضريبة السطر بالدرهم (48)، ومبلغ السطر بالدرهم (49). أما سعر الصرف فتوجبه مواصفة PINT-AE في القاعدة IBR-159-AE حين تختلف عملة الفاتورة عن الدرهم."}}
+]}
+</script>
+<meta name="google-site-verification" content="fyD6TpguzHdZdrTBret4iJY0QTGLJTJINWPAkpEWC54">
+</head>
+<body>
+<div class="ribbon" data-nosnippet>نسخة تجريبية قبل الإطلاق.</div>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5"/><path d="M6.5 12.5l3.6 3.7L17.5 8"/></svg>امتثالي<small>منصة مستقلة، غير حكومية</small></a>
+    <nav class="nav" aria-label="أقسام الموقع">
+      <a href="/#compare">المزوّدون</a>
+      <a href="/#calc">الموعد والغرامة</a>
+      <a href="/#method">المنهجية</a>
+      <a href="/#guides">الدليل</a>
+      <a href="/#faq">الأسئلة</a>
+    </nav>
+    <a class="btn sm" href="/?src=foreign-currency#quote">اطلب عروض الأسعار</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="crumb"><a href="/">امتثالي</a> / <a href="/#guides">الدليل</a></p>
+    <h1 id="page-title">الفاتورة الإلكترونية بعملة غير الدرهم في الإمارات: أين تُكتب الضريبة بالدرهم وماذا عن سعر الصرف؟</h1>
+    <p class="lead">تقبل مواصفة الفاتورة الإلكترونية في الإمارات (PINT-AE) فاتورةً بالدولار أو اليورو أو غيرهما، لكن الضريبة تبقى بالدرهم: تشترط اللائحة التنفيذية لقانون ضريبة القيمة المضافة أن تبيّن الفاتورة الضريبية قيمة الضريبة بالدرهم وسعر الصرف المطبق، ويحدّد القانون سعر الصرف المعتمد لدى المصرف المركزي بتاريخ التوريد. وفي الملف الإلكتروني يلزم سعر الصرف متى كانت عملة الفاتورة غير الدرهم، ويُكتب مبلغ كل سطر وضريبته بالدرهم.</p>
+    <ul class="facts">
+      <li>سعر الصرف <strong>إلزامي</strong> إن لم تكن الفاتورة بالدرهم</li>
+      <li><strong>6</strong> منازل عشرية على الأكثر لسعر الصرف</li>
+      <li>سعر <strong>المصرف المركزي</strong> بتاريخ التوريد</li>
+    </ul>
+    <p class="note">المصادر: <a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/" rel="noopener">مواصفة PINT-AE للفاتورة الضريبية، الإصدار 1.0.4</a> و<a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">قواعدها الإماراتية</a>، و<a href="https://uaelegislation.gov.ae/ar/legislations/1227" rel="noopener">المرسوم بقانون اتحادي رقم 8 لسنة 2017</a> (المادة 69)، و<a href="https://uaelegislation.gov.ae/ar/legislations/1226" rel="noopener">اللائحة التنفيذية</a> (المادتان 59 و60)، و<a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoice-Mandatory-Field-Requirements.pdf" rel="noopener">الحقول الإلزامية، الإصدار 1.1</a>. آخر مراجعة: 22 نوفمبر 2026. معلومات إرشادية، وليست استشارة ضريبية.</p>
+  </section>
+
+  <section aria-labelledby="s-fields">
+    <h2 id="s-fields">سبعة حقول للعملة، ومتى يلزم كلٌّ منها</h2>
+    <p>هذه حقول مواصفة PINT-AE (الإصدار 1.0.4 على docs.peppol.eu) التي تخص العملة، بأرقامها وقواعد التحقق المرتبطة بها. ورقم كل حقل يفتح صفحته في المواصفة:</p>
+    <div class="panel"><div class="table-wrap"><table style="min-width:640px">
+      <thead><tr><th>الحقل</th><th>مكانه في الملف</th><th>متى يلزم</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cbc-DocumentCurrencyCode/" rel="noopener"><bdi dir="ltr">IBT-005</bdi></a><br><span lang="en" dir="ltr">Invoice currency code</span></td><td><span class="p" dir="ltr">cbc:DocumentCurrencyCode</span></td><td>دائماً (1..1)، برمز من ثلاثة أحرف من قائمة ISO 4217 (<bdi dir="ltr">IBR-005</bdi> و<bdi dir="ltr">IBR-CL-04</bdi>). وتصفه المواصفة بأنه العملة التي تُذكر بها كل مبالغ الفاتورة، عدا إجمالي الضريبة بعملة المحاسبة.</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cac-TaxExchangeRate/cbc-CalculationRate/" rel="noopener"><bdi dir="ltr">BTAE-04</bdi></a><br><span lang="en" dir="ltr">Currency Exchange Rate</span></td><td><span class="p" dir="ltr">cac:TaxExchangeRate/cbc:CalculationRate</span>، ومعه <span class="p" dir="ltr">cbc:SourceCurrencyCode</span> و<span class="p" dir="ltr">cbc:TargetCurrencyCode</span></td><td>إلزامي إذا كانت عملة الفاتورة غير <bdi dir="ltr">AED</bdi> (<bdi dir="ltr">IBR-159-AE</bdi>)، بستة منازل عشرية على الأكثر (<bdi dir="ltr">IBR-002-AE</bdi>). وإذا كانت عملة احتساب الضريبة <bdi dir="ltr">AED</bdi> فالعملة المصدر عملة الفاتورة، والهدف عملة احتساب الضريبة (<bdi dir="ltr">IBR-153-AE</bdi>).</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cbc-TaxCurrencyCode/" rel="noopener"><bdi dir="ltr">IBT-006</bdi></a><br><span lang="en" dir="ltr">Tax accounting currency</span></td><td><span class="p" dir="ltr">cbc:TaxCurrencyCode</span></td><td>اختياري (0..1)؛ وإن كُتب فقيمته <bdi dir="ltr">AED</bdi> (<bdi dir="ltr">IBR-140-AE</bdi>)، ولا يساوي عملة الفاتورة (<bdi dir="ltr">IBR-077</bdi>).</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cac-TaxTotal-2/cbc-TaxAmount/" rel="noopener"><bdi dir="ltr">IBT-111</bdi></a><br><span lang="en" dir="ltr">Invoice total VAT amount in tax accounting currency</span></td><td><span class="p" dir="ltr">cac:TaxTotal</span> الثاني (المجموعة <bdi dir="ltr">IBG-37</bdi>)، ثم <span class="p" dir="ltr">cbc:TaxAmount</span></td><td>إلزامي إذا كانت عملة الفاتورة غير <bdi dir="ltr">AED</bdi> وعملة احتساب الضريبة <bdi dir="ltr">AED</bdi> (<bdi dir="ltr">IBR-175-AE</bdi>)، وكلما كُتبت عملة احتساب الضريبة (<bdi dir="ltr">IBR-053</bdi>)، وبإشارة إجمالي الضريبة نفسها (<bdi dir="ltr">IBR-084</bdi>).</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cac-AdditionalDocumentReference-3/cbc-DocumentDescription/" rel="noopener"><bdi dir="ltr">BTAE-20</bdi></a><br><span lang="en" dir="ltr">Invoice (or CreditNote) total amount with VAT in AED</span></td><td><span class="p" dir="ltr">cac:AdditionalDocumentReference</span> برمز <span class="p" dir="ltr">aedtotal-incl-vat</span>، ثم <span class="p" dir="ltr">cbc:DocumentDescription</span></td><td>في الحالة نفسها (<bdi dir="ltr">IBR-175-AE</bdi>)، رقماً بالدرهم بمنزلتين عشريتين على الأكثر وبنقطة فاصلة.</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cac-InvoiceLine/cac-ItemPriceExtension/cbc-Amount/" rel="noopener"><bdi dir="ltr">BTAE-10</bdi></a><br><span lang="en" dir="ltr">Invoice line amount in AED</span></td><td><span class="p" dir="ltr">cac:InvoiceLine/cac:ItemPriceExtension/cbc:Amount</span></td><td>في كل سطر فيه معلومات ضريبة السطر (<bdi dir="ltr">IBR-104-AE</bdi>)، وتنص <bdi dir="ltr">IBR-194-AE</bdi> على وجوب تقديمه.</td></tr>
+        <tr><td><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/cac-InvoiceLine/cac-ItemPriceExtension/cac-TaxTotal/cbc-TaxAmount/" rel="noopener"><bdi dir="ltr">BTAE-08</bdi></a><br><span lang="en" dir="ltr">VAT Line amount in AED</span></td><td><span class="p" dir="ltr">cac:InvoiceLine/cac:ItemPriceExtension/cac:TaxTotal/cbc:TaxAmount</span></td><td>مع <bdi dir="ltr">BTAE-10</bdi> (<bdi dir="ltr">IBR-104-AE</bdi>)؛ وقيمته صفر في الاحتساب العكسي (<bdi dir="ltr">IBR-162-AE</bdi>) والنسبة الصفرية (<bdi dir="ltr">IBR-165-AE</bdi>)، ولا يُكتب للتوريد المعفى (<bdi dir="ltr">IBR-163-AE</bdi>).</td></tr>
+      </tbody>
+    </table></div></div>
+    <p class="note">القواعد المنتهية بـ<bdi dir="ltr">-AE</bdi> قواعد تحقق إماراتية في <a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">قائمة قواعد المواصفة</a>، والبقية قواعد PINT المشتركة كما تعرضها صفحات الحقول نفسها. ولا تقصر <bdi dir="ltr">IBR-104-AE</bdi> حقلَي السطر بالدرهم على الفاتورة بعملة أجنبية.</p>
+  </section>
+
+  <section aria-labelledby="s-law">
+    <h2 id="s-law">ماذا يقول القانون واللائحة؟</h2>
+    <p>المادة 69 من المرسوم بقانون اتحادي رقم 8 لسنة 2017 في شأن ضريبة القيمة المضافة، وعنوانها «العملة المستخدمة في الفاتورة الضريبية»:</p>
+    <div class="panel">
+      <p>«إذا كان التوريد بعملة غير الدرهم الإماراتي ولغايات الفاتورة الضريبية، يتم تحويل المبلغ المنصوص عليه في الفاتورة الضريبية إلى الدرهم الإماراتي على أساس سعر الصرف المعتمد لدى المصرف المركزي في الدولة بتاريخ التوريد.»</p>
+    </div>
+    <p>ومن البيانات التي توجبها المادة 59 (1) من اللائحة التنفيذية (قرار مجلس الوزراء رقم 52 لسنة 2017) في الفاتورة الضريبية:</p>
+    <ul class="bul">
+      <li>(و) «تاريخ التوريد إذا كان مختلفاً عن تاريخ إصدار الفاتورة الضريبية».</li>
+      <li>(ح) «سعر كل وحدة من سلعة أو خدمة والكمية أو الحجم الذي يتم توريده ونسبة الضريبة والمبلغ المستحق دفعه بالدرهم».</li>
+      <li>(ي) «المبلغ الإجمالي المستحق دفعه بالدرهم».</li>
+      <li>(ك) «قيمة الضريبة المفروضة بموجب أحكام المرسوم بقانون بالدرهم، وسعر الصرف المطبق في حال تم تحويل العملة من عملة غير الدرهم الإماراتي».</li>
+    </ul>
+    <p>وفي الفاتورة الضريبية المبسَّطة توجب المادة 59 (2) (هـ) «إجمالي المقابل ومبلغ الضريبة المفروضة بالدرهم».</p>
+    <p class="note">النصان كما تعرضهما منصة التشريعات الإماراتية: القانون «وفقاً لآخر تحديث في 01 أكتوبر 2025»، واللائحة «وفقاً لآخر تحديث في 01 سبتمبر 2026»، وحالة كليهما «ساري». المصدران: <a href="https://uaelegislation.gov.ae/ar/legislations/1227" rel="noopener">المرسوم بقانون اتحادي رقم 8 لسنة 2017</a> و<a href="https://uaelegislation.gov.ae/ar/legislations/1226" rel="noopener">قرار مجلس الوزراء رقم 52 لسنة 2017 في شأن اللائحة التنفيذية</a>.</p>
+  </section>
+
+  <section aria-labelledby="s-rate">
+    <h2 id="s-rate">من أين يؤخذ سعر الصرف، وبأي تاريخ؟</h2>
+    <p>بنص المادة 69: سعر الصرف المعتمد لدى المصرف المركزي في الدولة، بتاريخ التوريد لا بتاريخ إصدار الفاتورة إن اختلفا. وإن اختلفا فتاريخ التوريد نفسه من بيانات الفاتورة الضريبية (المادة 59 (1) (و)).</p>
+    <p>وينشر مصرف الإمارات العربية المتحدة المركزي صفحة «أسعار الصرف مقابل الدرهم لالتزامات ضريبة القيمة المضافة»، ويقول فيها إنه يوفّر أسعار أكثر من 70 عملة تُحدَّث يومياً، وفيها خانة لاختيار التاريخ: <a href="https://centralbank.ae/en/forex-eibor/exchange-rates/" rel="noopener">Exchange Rates، المصرف المركزي</a> (بالإنجليزية).</p>
+    <p>وفي الملف الإلكتروني يُكتب السعر في <bdi dir="ltr">BTAE-04</bdi>، وتصفه المواصفة بأنه سعر الصرف بين عملة المستند وعملة الضريبة، بستة منازل عشرية على الأكثر (<bdi dir="ltr">IBR-002-AE</bdi>).</p>
+  </section>
+
+  <section aria-labelledby="s-mof">
+    <h2 id="s-mof">ماذا تقول وثائق وزارة المالية؟</h2>
+    <p>في «الحقول الإلزامية للفاتورة الإلكترونية» (الإصدار 1.1، 28 أكتوبر 2026)، القسم 4.1 للفاتورة الضريبية الإلكترونية، ثلاثة حقول تخص العملة من 51 حقلاً:</p>
+    <div class="panel"><div class="table-wrap"><table style="min-width:520px">
+      <thead><tr><th class="num">الرقم</th><th>الحقل</th><th>وصف الوثيقة (ترجمتنا)</th><th class="num">الصفحة</th></tr></thead>
+      <tbody>
+        <tr><td class="num">4</td><td lang="en" dir="ltr">Invoice currency Code</td><td>العملة التي تُذكر بها كل مبالغ الفاتورة، عدا إجمالي الضريبة بعملة المحاسبة.</td><td class="num">7</td></tr>
+        <tr><td class="num">48</td><td lang="en" dir="ltr">VAT line amount in AED</td><td>مبلغ ضريبة القيمة المضافة لكل بند بالدرهم.</td><td class="num">11</td></tr>
+        <tr><td class="num">49</td><td lang="en" dir="ltr">Invoice line amount in AED</td><td>إجمالي المبلغ المستحق لكل بند بالدرهم.</td><td class="num">11</td></tr>
+      </tbody>
+    </table></div></div>
+    <p>ولا حقل في القائمة لسعر الصرف ولا لعملة احتساب الضريبة (قرأنا حقولها الواحد والخمسين في الصفحات 7 إلى 11)، مع أن المواصفة توجب سعر الصرف حين تختلف العملة (<bdi dir="ltr">IBR-159-AE</bdi>). فلا تكتفِ بالقائمة في فاتورة بعملة أجنبية، وراجع الحقول السبعة أعلاه مع مزوّدك. والحقول كلها في صفحة <a href="/mandatory-fields">الحقول الإلزامية</a>.</p>
+    <p>أما إرشادات نظام الفوترة الإلكترونية (الإصدار 2.0، 26 أكتوبر 2026، 58 صفحة) فليس في فهرسها (ص 2) قسم عن العملة الأجنبية أو سعر الصرف، ولم نقرأ نصها كله بحثاً عن ذكر عابر لهما.</p>
+    <p class="note">المصدران: <a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoice-Mandatory-Field-Requirements.pdf" rel="noopener">الحقول الإلزامية للفاتورة الإلكترونية، الإصدار 1.1، وزارة المالية (بالإنجليزية)</a> و<a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoicing-Guidelines_En.pdf" rel="noopener">إرشادات نظام الفوترة الإلكترونية، الإصدار 2.0، وزارة المالية (بالإنجليزية)</a>.</p>
+  </section>
+
+  <section aria-labelledby="s-cn">
+    <h2 id="s-cn">الإشعار الدائن لفاتورة بعملة أجنبية</h2>
+    <p>مواصفة الإشعار الدائن في PINT-AE فيها العناصر نفسها: عملة المستند (<bdi dir="ltr">IBT-005</bdi>)، وعملة احتساب الضريبة (<bdi dir="ltr">IBT-006</bdi>)، وسعر الصرف (<bdi dir="ltr">BTAE-04</bdi>)، وإجمالي الضريبة بعملة الاحتساب (<bdi dir="ltr">IBT-111</bdi>)، و<bdi dir="ltr">BTAE-20</bdi> «إجمالي الفاتورة (أو الإشعار الدائن) مع الضريبة بالدرهم»، ومبلغ السطر وضريبته بالدرهم (<bdi dir="ltr">BTAE-10</bdi> و<bdi dir="ltr">BTAE-08</bdi>)؛ والقواعد الإماراتية <bdi dir="ltr">IBR-002-AE</bdi> و<bdi dir="ltr">IBR-104-AE</bdi> و<bdi dir="ltr">IBR-140-AE</bdi> و<bdi dir="ltr">IBR-153-AE</bdi> و<bdi dir="ltr">IBR-159-AE</bdi> و<bdi dir="ltr">IBR-175-AE</bdi> بنصها نفسه.</p>
+    <p>وتوجب المادة 60 (1) (هـ) من اللائحة التنفيذية أن يبيّن الإشعار الدائن الضريبي «قيمة التوريد الموضحة على الفاتورة الضريبية والقيمة الصحيحة للتوريد والفارق بين هذين المبلغين والضريبة المفروضة فيما يتعلق بالفارق بالدرهم».</p>
+    <p>سؤال مفتوح: لم نجد في النصوص التي قرأناها هنا حكماً في سعر الصرف الذي يُحوَّل به الإشعار الدائن لفاتورة بعملة أجنبية (سعر تاريخ التوريد الأصلي أو غيره)، فاسأل مستشارك الضريبي قبل اعتماد طريقة في برنامجك. وأسباب الإشعار الدائن ورموزه في صفحة <a href="/credit-notes">الإشعار الدائن الإلكتروني</a>.</p>
+    <p class="note">المصدر: <a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-creditnote/syntax/" rel="noopener">مواصفة PINT-AE للإشعار الدائن</a> و<a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-creditnote/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">قواعدها الإماراتية</a> (بالإنجليزية)، و<a href="https://uaelegislation.gov.ae/ar/legislations/1226" rel="noopener">اللائحة التنفيذية</a> (المادة 60).</p>
+  </section>
+
+  <section aria-labelledby="s-ask">
+    <h2 id="s-ask">ماذا تسأل مزوّدك؟</h2>
+    <ul class="bul">
+      <li>هل يصدر برنامجك فاتورة بعملة غير الدرهم (<bdi dir="ltr">IBT-005</bdi>) ويكتب فيها سعر الصرف (<bdi dir="ltr">BTAE-04</bdi>) تلقائياً؟</li>
+      <li>من أين يأخذ سعر الصرف: من أسعار المصرف المركزي بتاريخ التوريد، أم يُدخل يدوياً؟ وهل يقرّبه إلى 6 منازل عشرية على الأكثر؟</li>
+      <li>هل يحسب مبلغ كل سطر وضريبته بالدرهم (<bdi dir="ltr">BTAE-10</bdi> و<bdi dir="ltr">BTAE-08</bdi>)، وإجمالي الضريبة بالدرهم (<bdi dir="ltr">IBT-111</bdi>)، وإجمالي الفاتورة مع الضريبة بالدرهم (<bdi dir="ltr">BTAE-20</bdi>)؟</li>
+      <li>إن اختلف تاريخ التوريد عن تاريخ الفاتورة، فبأي التاريخين يأخذ السعر؟</li>
+      <li>في الإشعار الدائن لفاتورة بالدولار: أي سعر صرف يستعمل، وهل يبيّن الفارق وضريبته بالدرهم؟</li>
+      <li>هل يجتاز ملف تجريبي بعملة أجنبية قاعدتَي التحقق <bdi dir="ltr">IBR-159-AE</bdi> و<bdi dir="ltr">IBR-175-AE</bdi> قبل أن توقّع معه؟</li>
+    </ul>
+  </section>
+
+  <section class="panel" aria-labelledby="cta-title">
+    <h2 id="cta-title">قارن عروض المزوّدين قبل موعدك</h2>
+    <p>أدخل بيانات منشأتك مرة واحدة، ونحيل طلبك إلى ما يصل إلى ثلاثة مزوّدين معتمدين يقدّم كلٌّ منهم عرضه لك. الخدمة مجانية لك.</p>
+    <div class="cta-row">
+      <a class="btn" href="/?src=foreign-currency#quote">اطلب عروض الأسعار</a>
+      <a class="btn ghost" href="/readiness-check">افحص جاهزيتك للفوترة الإلكترونية</a>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="s-faq">
+    <h2 id="s-faq">أسئلة شائعة</h2>
+    <div class="qa">
+      <div>
+        <h3>هل يجوز أن تكون الفاتورة الإلكترونية بالدولار أو اليورو في الإمارات؟</h3>
+        <p>نعم. عملة الفاتورة حقل إلزامي (IBT-005) يُكتب برمزه من قائمة ISO 4217، وتوجب مواصفة PINT-AE سعر الصرف متى كانت العملة غير الدرهم (IBR-159-AE). لكن الفاتورة الضريبية تبيّن قيمة الضريبة بالدرهم وسعر الصرف المطبق، بحسب المادة 59 (1) (ك) من اللائحة التنفيذية لقانون ضريبة القيمة المضافة.</p>
+      </div>
+      <div>
+        <h3>ما سعر الصرف الذي يُستعمل في الفاتورة الضريبية؟</h3>
+        <p>سعر الصرف المعتمد لدى المصرف المركزي في الدولة بتاريخ التوريد، بنص المادة 69 من المرسوم بقانون اتحادي رقم 8 لسنة 2017. وينشر المصرف المركزي أسعار الصرف مقابل الدرهم لالتزامات ضريبة القيمة المضافة لأكثر من 70 عملة، ويقول إنها تُحدَّث يومياً.</p>
+      </div>
+      <div>
+        <h3>أين تُكتب الضريبة بالدرهم في الفاتورة الإلكترونية؟</h3>
+        <p>إجمالي الضريبة بالدرهم في IBT-111، وإجمالي الفاتورة مع الضريبة بالدرهم في BTAE-20، ويلزمان حين تكون عملة الفاتورة غير الدرهم وعملة احتساب الضريبة AED (IBR-175-AE). وفي كل سطر فيه معلومات ضريبة السطر يُكتب مبلغه بالدرهم (BTAE-10) وضريبته بالدرهم (BTAE-08) بحسب IBR-104-AE.</p>
+      </div>
+      <div>
+        <h3>هل في قائمة الحقول الإلزامية لوزارة المالية حقل لسعر الصرف؟</h3>
+        <p>لا. في القسم 4.1 من الإصدار 1.1 (28 أكتوبر 2026) ثلاثة حقول تخص العملة من 51 حقلاً: رمز عملة الفاتورة (4)، وضريبة السطر بالدرهم (48)، ومبلغ السطر بالدرهم (49). أما سعر الصرف فتوجبه مواصفة PINT-AE في القاعدة IBR-159-AE حين تختلف عملة الفاتورة عن الدرهم.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="more-title">
+    <h2 id="more-title">اقرأ أيضاً</h2>
+    <ul class="more">
+      <li><a href="/exports"><b>فواتير التصدير</b><span>متى تكتب 0235:9900000099 للعميل خارج الإمارات</span></a></li>
+      <li><a href="/mandatory-fields"><b>الحقول الإلزامية</b><span>51 حقلاً للفاتورة الضريبية و49 للتجارية</span></a></li>
+      <li><a href="/invoice-types"><b>أنواع الفواتير الإلكترونية</b><span>الفئات الست والحالات الثماني والفئات الضريبية، وأيها لنشاطك</span></a></li>
+      <li><a href="/credit-notes"><b>الإشعار الدائن الإلكتروني</b><span>أسبابه الستة ورمزا 381 و81 وربطه بالفاتورة الأصلية</span></a></li>
+      <li><a href="/peppol-id"><b>معرّف Peppol</b><span>صيغته 0235 + TIN، ومن يُنشئه، وماذا تكتب لعميل بلا معرّف</span></a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p class="note">امتثالي منصة مستقلة غير حكومية. لا تتبع وزارة المالية ولا الهيئة الاتحادية للضرائب، وليست مزوّد خدمة معتمداً. المعلومات هنا إرشادية وليست استشارة ضريبية، فتحقق دائماً من المصدر الرسمي.</p>
+    <p class="note">بعض المزوّدين قد يدفع لنا عمولة إذا تعاقدت معه، ولا تدفع أنت شيئاً زائداً. <a href="/#privacy">الخصوصية</a></p>
+    <h2>المصادر</h2>
+    <ul class="links">
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/syntax/" rel="noopener">مواصفة PINT-AE للفاتورة الضريبية، الإصدار 1.0.4: الحقول</a> و<a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">القواعد الإماراتية</a>، docs.peppol.eu (بالإنجليزية)</li>
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-creditnote/syntax/" rel="noopener">مواصفة PINT-AE للإشعار الدائن: الحقول</a> و<a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-creditnote/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">القواعد الإماراتية</a>، docs.peppol.eu (بالإنجليزية)</li>
+      <li><a href="https://uaelegislation.gov.ae/ar/legislations/1227" rel="noopener">المرسوم بقانون اتحادي رقم 8 لسنة 2017 في شأن ضريبة القيمة المضافة</a>، منصة التشريعات الإماراتية (المادة 69)</li>
+      <li><a href="https://uaelegislation.gov.ae/ar/legislations/1226" rel="noopener">قرار مجلس الوزراء رقم 52 لسنة 2017 في شأن اللائحة التنفيذية للمرسوم بقانون</a>، منصة التشريعات الإماراتية (المادتان 59 و60)</li>
+      <li><a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoice-Mandatory-Field-Requirements.pdf" rel="noopener">الحقول الإلزامية للفاتورة الإلكترونية، الإصدار 1.1، 28 أكتوبر 2026، وزارة المالية (بالإنجليزية)</a></li>
+      <li><a href="https://mof.gov.ae/wp-content/uploads/2026/10/UAE-Electronic-Invoicing-Guidelines_En.pdf" rel="noopener">إرشادات نظام الفوترة الإلكترونية، الإصدار 2.0، 26 أكتوبر 2026، وزارة المالية (بالإنجليزية)</a></li>
+      <li><a href="https://centralbank.ae/en/forex-eibor/exchange-rates/" rel="noopener">أسعار الصرف مقابل الدرهم لالتزامات ضريبة القيمة المضافة، مصرف الإمارات العربية المتحدة المركزي (بالإنجليزية)</a></li>
+    </ul>
+  </footer>
+</main>
+</body>
+</html>
