@@ -460,6 +460,7 @@ def index_page():
       <li>اطّلعنا على القائمة في <strong>{AS_OF}</strong></li>
     </ul>
     <p class="note">المصدر: <a href="{MOF_LIST}" rel="noopener">قائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين، وزارة المالية</a>، وتقول الوزارة إنها تُحدَّث دورياً بالمعتمدين الجدد وإن ترتيبها أبجدي. آخر مراجعة: {AS_OF}. لا نقل لأسماء الموظفين ولا لبريدهم ولا لهواتفهم.</p>
+    <p class="note">القائمة بالإنجليزية: <a href="/uae-accredited-service-providers" hreflang="en" lang="en" dir="ltr">UAE eInvoicing Accredited Service Providers (ASPs)</a></p>
   </section>
 
   <section aria-labelledby="s-all">
