@@ -5,7 +5,8 @@
 // الاستخدام بعد الحقن:
 //   await __deployStatic('mustahaqati', 'mustahaqati/dist', '<commit>', { html_handling: 'auto-trailing-slash', not_found_handling: '404-page' })
 //   await __deploySawwerha('<commit>')        // يحتفظ بالوسائط (samples/ads) من آخر نشر محفوظ في الذاكرة window.__siteFiles
-//   await __deployBot('<commit>')             // ينشر sawwerha-bot ويحدّث AGENT_REV فيتحدث الوكيل على الجهاز تلقائياً
+//   await __deployBot('<commit>')             // ينشر sawwerha-bot ويحدّث AGENT_REV فيتحدث الوكيل على الجهاز تلقائياً، ومتغيرات [vars] من bot/wrangler.toml
+//   await __deployBot('<commit>', { dryRun: true }) // يعرض المتغيرات التي ستتغيّر دون نشر
 //   await __sql('SELECT ...')                 // استعلام D1
 (() => {
   const REPO = "hamadomran7-gif/sawwerha";
@@ -107,16 +108,35 @@
     return { repoFiles: files.length, media: media.length, res };
   };
 
-  // بوت صوّرها: الوحدات من bot/src مع الإبقاء على الأسرار، وتحديث AGENT_REV
-  window.__deployBot = async (rev) => {
+  // بوت صوّرها: الوحدات من bot/src مع الإبقاء على الأسرار، وتحديث AGENT_REV،
+  // والمتغيرات النصية في قسم [vars] من bot/wrangler.toml بالـcommit نفسه (المستودع مصدرها، وما ليس فيه يبقى كما في اللوحة).
+  window.__deployBot = async (rev, opts = {}) => {
     const st = (await __cf(`/accounts/${__A}/workers/scripts/sawwerha-bot/settings`)).result;
-    const bindings = [];
+    const tr = await fetch(`https://raw.githubusercontent.com/${REPO}/${rev}/bot/wrangler.toml`, { cache: "no-store" });
+    if (!tr.ok) throw new Error("wrangler.toml " + tr.status);
+    const vars = new Map();
+    let inVars = false;
+    for (const line of (await tr.text()).split(/\r?\n/)) {
+      const s = line.trim();
+      if (/^\[.*\]$/.test(s)) { inVars = s === "[vars]"; continue; }
+      const m = inVars && s.match(/^([A-Z0-9_]+)\s*=\s*"([^"]*)"$/);
+      if (m) vars.set(m[1], m[2]);
+    }
+    const bindings = [], changed = [];
     for (const b of st.bindings) {
       if (b.type === "secret_text") continue;
-      if (b.type === "plain_text" && b.name === "AGENT_REV") { bindings.push({ type: "plain_text", name: "AGENT_REV", text: rev }); continue; }
+      if (b.type === "plain_text" && b.name === "AGENT_REV") continue;
+      if (b.type === "plain_text" && vars.has(b.name)) {
+        if (b.text !== vars.get(b.name)) changed.push(b.name);
+        bindings.push({ type: "plain_text", name: b.name, text: vars.get(b.name) });
+        vars.delete(b.name);
+        continue;
+      }
       bindings.push({ ...b });
     }
-    if (!bindings.some((b) => b.name === "AGENT_REV")) bindings.push({ type: "plain_text", name: "AGENT_REV", text: rev });
+    for (const [name, text] of vars) { bindings.push({ type: "plain_text", name, text }); changed.push(name); }
+    bindings.push({ type: "plain_text", name: "AGENT_REV", text: rev });
+    if (opts.dryRun) return { dryRun: true, changed, bindings: bindings.map((b) => b.type + ":" + b.name) };
     const md = { main_module: "index.js", compatibility_date: st.compatibility_date || "2026-06-01", compatibility_flags: st.compatibility_flags || [], bindings, keep_bindings: ["secret_text"] };
     if (st.observability) md.observability = st.observability;
     const fd = new FormData();
@@ -128,7 +148,7 @@
       fd.append(f, new Blob([await r.text()], { type: "application/javascript+module" }), f);
     }
     const j = await __cf(`/accounts/${__A}/workers/scripts/sawwerha-bot`, { method: "PUT", body: fd });
-    return { success: j.success, errors: j.errors, etag: j.result && j.result.etag, bindings: bindings.map((b) => b.type + ":" + b.name) };
+    return { success: j.success, errors: j.errors, etag: j.result && j.result.etag, changed, bindings: bindings.map((b) => b.type + ":" + b.name) };
   };
   // امتثالي: مشروع Pages ‏dalilalfawtara في حساب Cloudflare غير حساب مستحقاتي وصوّرها؛ يُعرف الحساب من نطاق المشروع (opts.domain).
   // رفع مباشر بطريقة Wrangler: مفتاح كل أصل = blake3(base64(المحتوى) + الامتداد) أول 32 حرفاً،

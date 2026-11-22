@@ -26,7 +26,7 @@ PRICE_LAUNCH = "499"
 PRICE_SUB_LITE = "499"
 PRICE_SUB_CONTENT = "899"
 # روابط دفع ثابتة من زينة (بديل عند غياب مفتاح API) — اختياري
-ZIINA_LINK_SINGLE = ""
+ZIINA_LINK_SINGLE = "https://pay.ziina.com/sawwerha/8-diHKri7?source=app"
 ZIINA_LINK_LAUNCH = ""
 ZIINA_LINK_SUB_LITE = ""
 ZIINA_LINK_SUB_CONTENT = ""
