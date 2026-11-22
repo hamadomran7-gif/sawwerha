@@ -251,6 +251,13 @@ test("/health يعرض حالة وكيل الإنتاج وعدد الطلبات 
   assert.equal(typeof off.queue, "number");
   await agent("/api/heartbeat", { method: "POST" });
   assert.equal((await health()).agent, "online");
+  // طلب ينتظر ساعتين يظهر في wait_min ولو كان الوكيل ينبض
+  const ins = await env.DB.prepare("INSERT INTO orders (phone, kind, status, updated_at) VALUES ('w','sample','queued', datetime('now','-2 hours'))").run();
+  const waiting = await health();
+  assert.ok(waiting.queue >= 1);
+  assert.ok(waiting.wait_min >= 119 && waiting.wait_min <= 121, String(waiting.wait_min));
+  await env.DB.prepare("UPDATE orders SET status = 'cancelled' WHERE id = ?").bind(ins.meta.last_row_id).run();
+  assert.equal(JSON.stringify(Object.keys(waiting).sort()), JSON.stringify(["agent", "brand", "ok", "queue", "wait_min"]));
 });
 
 test("واجهة الوكيل محمية", async () => {

@@ -506,15 +506,17 @@ async function cron(env) {
 
 /**
  * حالة الإنتاج للمراقبة من خارج الجهاز (مهمة سحابية تقرأ /health): الوكيل offline إن لم ينبض ساعة
- * (ينبض كل 20 ثانية خارج المهام)، وعدد الطلبات المنتظرة. حالة وعدد فقط: بلا وقت ولا بيانات عملاء.
+ * (ينبض كل 20 ثانية خارج المهام)، وعدد الطلبات المنتظرة، ودقائق انتظار أقدمها منذ آخر تغيّر لحالته
+ * (فيُكشف أيضاً طلب عالق والوكيل ينبض، كتوقف ComfyUI). حالة وأعداد فقط: بلا وقت ولا بيانات عملاء.
  */
 async function productionStatus(env) {
   const r = await env.DB.prepare(
-    `SELECT (SELECT value FROM meta WHERE key = 'agent_last_seen') AS last,
-      (SELECT COUNT(*) FROM orders WHERE status IN ('queued','processing')) AS queue`
+    `SELECT (SELECT value FROM meta WHERE key = 'agent_last_seen') AS last, COUNT(*) AS queue,
+      CAST((julianday('now') - julianday(MIN(updated_at))) * 1440 AS INTEGER) AS wait
+     FROM orders WHERE status IN ('queued','processing')`
   ).first();
   const online = !!r?.last && Date.now() - Date.parse(r.last) < 3600 * 1000;
-  return { agent: online ? "online" : "offline", queue: r?.queue || 0 };
+  return { agent: online ? "online" : "offline", queue: r?.queue || 0, wait_min: r?.queue ? Math.max(0, r.wait || 0) : 0 };
 }
 
 /* ------------------------------------------------------------------ */
