@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مشاريع داماك في دبي | وسيط عقاري مواطن</title>
+<meta name="description" content="وسيط عقاري مواطن يقارن لك بين مجتمعات داماك وخطط الدفع، ويرتّب زيارة الوحدة النموذجية. في المشاريع الجديدة العمولة على المطوّر لا عليك.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--sand:#f6f1e7;--paper:#fffdf8;--ink:#1d2a2a;--muted:#5b6866;--teal:#0f4c4a;--teal-2:#16655f;--copper:#b8733a;--line:#e4dccb;--ok:#1f7a4d;--err:#a33b2b}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--sand);color:var(--ink);font-family:"IBM Plex Sans Arabic","Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;line-height:1.75;font-size:17px}
+  a{color:var(--teal)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{font-weight:700;font-size:18px;letter-spacing:0}
+  .brand small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+  .btn{display:inline-block;border:0;border-radius:12px;padding:14px 22px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;text-align:center}
+  .btn-main{background:var(--teal);color:#fff}
+  .btn-main:hover{background:var(--teal-2)}
+  .btn-ghost{background:transparent;color:var(--teal);border:1.5px solid var(--teal);padding:10px 16px;font-size:15px}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center;padding:28px 0 44px}
+  .hero h1{font-size:40px;line-height:1.35;margin:0 0 14px}
+  .hero p{color:var(--muted);margin:0 0 24px;font-size:18px}
+  .tag{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--teal);margin-bottom:14px}
+  .art{aspect-ratio:4/5;border-radius:28px;background:
+      radial-gradient(120% 80% at 80% 10%,#e9d7b9 0 30%,transparent 31%),
+      linear-gradient(160deg,var(--teal) 0 55%,var(--teal-2) 55% 70%,var(--copper) 70% 100%);
+      position:relative;overflow:hidden}
+  .art::after{content:"";position:absolute;inset:auto 12% 10% 12%;height:38%;border-radius:18px 18px 0 0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 18px,transparent 18px 30px)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 48px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .card h3{margin:0 0 6px;font-size:18px}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+  h2{font-size:28px;margin:0 0 18px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:52px;counter-reset:s}
+  .step{padding:18px 20px;border-right:3px solid var(--copper);background:var(--paper);border-radius:12px}
+  .step::before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--copper);color:#fff;font-weight:700;margin-bottom:8px}
+  .step p{margin:0;font-size:15px;color:var(--muted)}
+  .step b{display:block;color:var(--ink);font-size:16px}
+  .form-box{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px;margin-bottom:48px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+  input,select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:none;border-color:var(--teal)}
+  .full{grid-column:1/-1}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);font-weight:400}
+  .consent input{width:20px;height:20px;margin-top:4px;flex:none}
+  .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .msg{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;font-size:15px}
+  .msg.err{display:block;background:#fbebeb;color:var(--err)}
+  .done{display:none;text-align:center;padding:10px 0}
+  .done h3{font-size:24px;margin:6px 0}
+  .done p{color:var(--muted)}
+  .legal{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding:22px 0 36px}
+  .legal h2{font-size:18px;margin-bottom:8px;color:var(--ink)}
+  .ids{display:grid;grid-template-columns:repeat(4,auto);gap:6px 22px;justify-content:start;margin:10px 0}
+  .ids span b{color:var(--ink)}
+  .pending{color:var(--copper)}
+  @media (max-width:760px){
+    body{font-size:16px}
+    .hero{grid-template-columns:1fr;padding-top:8px}
+    .hero h1{font-size:30px}
+    .art{display:none}
+    .cards,.steps,.grid{grid-template-columns:1fr}
+    .ids{grid-template-columns:1fr}
+    .form-box{padding:20px}
+  }
+</style>
+</head>
+<!-- القيم الست يملؤها العامل _worker.js عند كل طلب من متغيرات مشروع Pages (WASIT_*)، ولا تُكتب في المستودع -->
+<body data-name="" data-whatsapp="" data-brn="" data-office="" data-orn="" data-permit="">
+<div class="wrap">
+  <header>
+    <div class="brand"><span id="brandName">وسيطك العقاري</span><small>وسيط عقاري مواطن · دبي</small></div>
+    <a class="btn btn-ghost" href="#start">أرسل طلبك</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="tag">مشاريع داماك في دبي</span>
+      <h1>بيتك أو استثمارك في مجتمعات داماك، باختيار مدروس وخطة دفع تناسبك</h1>
+      <p>أقارن لك بين المجتمعات والوحدات المتاحة، وأرتّب لك زيارة الوحدة النموذجية. وفي المشاريع الجديدة العمولة على المطوّر لا عليك.</p>
+      <a class="btn btn-main" href="#start">أرسل طلبك في دقيقة</a>
+    </div>
+    <div class="art" aria-hidden="true"></div>
+  </section>
+
+  <section class="cards" aria-label="ما تحصل عليه">
+    <div class="card"><h3>مقارنة واضحة</h3><p>الشقق والتاون هاوس والفلل في مجتمعات داماك، حسب ميزانيتك وغرضك.</p></div>
+    <div class="card"><h3>خطة دفع تناسبك</h3><p>نشرح لك خطط الدفع التي يعلنها المطوّر لكل مشروع، قبل أي التزام.</p></div>
+    <div class="card"><h3>مرافقة حتى العقد</h3><p>زيارة الوحدة النموذجية، ثم الحجز والتسجيل عبر مكتب وساطة مرخّص.</p></div>
+  </section>
+
+  <h2>كيف تسير الخطوات</h2>
+  <section class="steps">
+    <div class="step"><b>ترسل طلبك</b><p>دقيقة واحدة: الغرض والميزانية والموعد.</p></div>
+    <div class="step"><b>نرسل لك الخيارات</b><p>عبر واتساب: ما يناسب ميزانيتك من المتاح الآن.</p></div>
+    <div class="step"><b>زيارة ثم حجز</b><p>تزور الوحدة النموذجية، ثم تحجز إن اقتنعت.</p></div>
+  </section>
+
+  <section class="form-box" id="start">
+    <div id="formArea">
+      <h2>أرسل طلبك</h2>
+      <form id="lead" novalidate>
+        <div class="grid">
+          <div><label for="name">الاسم</label><input id="name" name="name" autocomplete="name" required maxlength="80"></div>
+          <div><label for="phone">رقم الواتساب</label><input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="9715XXXXXXXX" required maxlength="20" dir="ltr"></div>
+          <div><label for="purpose">الغرض</label>
+            <select id="purpose" name="purpose" required><option value="">اختر</option><option>سكن</option><option>استثمار</option><option>الاثنان</option></select></div>
+          <div><label for="type">نوع الوحدة</label>
+            <select id="type" name="type" required><option value="">اختر</option><option>شقة</option><option>تاون هاوس</option><option>فيلا</option><option>لم أقرر</option></select></div>
+          <div><label for="budget">الميزانية (درهم)</label>
+            <select id="budget" name="budget" required><option value="">اختر</option><option>أقل من 1.5 مليون</option><option>1.5 إلى 2.5 مليون</option><option>2.5 إلى 4 ملايين</option><option>أكثر من 4 ملايين</option></select></div>
+          <div><label for="timing">متى تشتري</label>
+            <select id="timing" name="timing" required><option value="">اختر</option><option>خلال شهر</option><option>خلال 3 أشهر</option><option>خلال سنة</option><option>أستكشف فقط</option></select></div>
+          <div class="full"><label for="pay">طريقة الدفع</label>
+            <select id="pay" name="pay" required><option value="">اختر</option><option>خطة دفع المطوّر</option><option>نقداً</option><option>تمويل بنكي</option><option>لم أقرر</option></select></div>
+          <div class="hp" aria-hidden="true"><label for="website">اتركه فارغاً</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+          <label class="consent full"><input type="checkbox" id="consent" name="consent" required>
+            <span>أوافق على أن يتواصل معي الوسيط ومكتبه عبر واتساب والهاتف بشأن طلبي، وعلى مشاركة بياناتي مع داماك لتسجيل اهتمامي. (<a href="#privacy">الخصوصية</a>)</span></label>
+          <div class="full"><button class="btn btn-main" type="submit" id="send" style="width:100%">أرسل طلبي</button></div>
+        </div>
+        <div class="msg" id="msg" role="alert"></div>
+      </form>
+    </div>
+    <div class="done" id="done" role="status">
+      <h3 id="doneTitle">وصل طلبك</h3>
+      <p id="doneText">سنرسل لك الخيارات المناسبة عبر واتساب.</p>
+      <a class="btn btn-main" id="waBtn" href="#" style="display:none">أكمل على واتساب الآن</a>
+    </div>
+  </section>
+
+  <footer class="legal" id="privacy">
+    <h2>الخصوصية والترخيص</h2>
+    <p>نجمع ما تكتبه في النموذج فقط، لنتواصل معك بشأن طلبك ونسجّل اهتمامك لدى داماك عبر مكتب الوساطة. لا نبيع بياناتك ولا نرسل لك غير ما طلبت، ونحذفها عند طلبك عبر واتساب أو بعد 12 شهراً من آخر تواصل.</p>
+    <div class="ids">
+      <span>الوسيط: <b id="brokerName"></b></span>
+      <span>رقم بطاقة الوسيط (BRN): <b id="brn"></b></span>
+      <span>المكتب: <b id="office"></b> (ORN: <b id="orn"></b>)</span>
+      <span>تصريح الإعلان (تراخيصي): <b id="permit"></b></span>
+    </div>
+    <p>هذه صفحة وسيط عقاري، وليست موقع داماك الرسمي ولا تمثّلها. الأسعار والتوافر وخطط الدفع بحسب ما يعلنه المطوّر وقت الحجز.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cfg = document.body.dataset;
+  var PENDING = 'يُضاف بعد صدوره';
+  [['brokerName','name','يُضاف عند النشر'],['brn','brn'],['office','office'],['orn','orn'],['permit','permit']].forEach(function(p){
+    var el = document.getElementById(p[0]); var v = (cfg[p[1]] || '').trim();
+    el.textContent = v || p[2] || PENDING; if(!v) el.className = 'pending';
+  });
+  var broker = (cfg.name || '').trim();
+  if (broker) {
+    document.getElementById('brandName').textContent = broker;
+    document.title = 'مشاريع داماك في دبي | ' + broker + '، وسيط عقاري مواطن';
+  }
+
+  var form = document.getElementById('lead'), msg = document.getElementById('msg'), btn = document.getElementById('send');
+  function fail(t){ msg.textContent = t; msg.className = 'msg err'; }
+  function val(id){ return (document.getElementById(id).value || '').trim(); }
+  // الأرقام العربية الهندية (٠–٩ و۰–۹) تُحوَّل إلى 0–9 كما يفعل العامل، فلا يُرفض رقم كُتب بلوحة عربية
+  function ascii(s){ return s.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, function(c){ return String(c.charCodeAt(0) & 15); }); }
+  function again(){ btn.disabled = false; btn.textContent = 'أرسل طلبي'; }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault(); msg.className = 'msg';
+    if (val('website')) return; // فخ الرسائل الآلية
+    var phone = ascii(val('phone')).replace(/[\s\-+()]/g, '');
+    if (!val('name')) return fail('اكتب اسمك.');
+    if (!/^\d{9,15}$/.test(phone)) return fail('اكتب رقم واتساب صحيحاً بالأرقام، مثل 9715XXXXXXXX.');
+    var need = ['purpose','type','budget','timing','pay'];
+    for (var i = 0; i < need.length; i++) if (!val(need[i])) return fail('أكمل كل الخيارات من فضلك.');
+    if (!document.getElementById('consent').checked) return fail('الموافقة على التواصل مطلوبة لنرسل لك الخيارات.');
+
+    var lead = { name: val('name'), phone: phone, purpose: val('purpose'), type: val('type'), budget: val('budget'),
+      timing: val('timing'), pay: val('pay'), consent: true,
+      source: (window.location.search || '').slice(0, 300) || 'direct', page: location.pathname, at: new Date().toISOString() };
+
+    btn.disabled = true; btn.textContent = 'جارٍ الإرسال…';
+    fetch('/api/lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(lead) })
+      .then(function(r){ return r.status; }, function(){ return 0; })
+      .then(function(status){
+        // 400: رفض العامل البيانات، فيبقى النموذج لتصحيحها ولا يُعرض «وصل طلبك»
+        if (status === 400) { again(); return fail('لم يُقبل الطلب. راجع البيانات وحاول مرة أخرى.'); }
+        showDone(lead, status >= 200 && status < 300);
+      });
+  });
+
+  function showDone(lead, saved){
+    var wa = (cfg.whatsapp || '').replace(/\D/g, '');
+    // لم يُحفظ الطلب ولا واتساب يحمله: لا يُقال «وصل طلبك»
+    if (!saved && !wa) { again(); return fail('تعذّر إرسال الطلب الآن. حاول بعد قليل.'); }
+    document.getElementById('formArea').style.display = 'none';
+    document.getElementById('done').style.display = 'block';
+    if (!saved) document.getElementById('doneTitle').textContent = 'أكمل طلبك على واتساب';
+    if (wa) {
+      var text = 'السلام عليكم، أرسلت طلبي من الموقع:\n' +
+        'الاسم: ' + lead.name + '\nالغرض: ' + lead.purpose + '\nالنوع: ' + lead.type +
+        '\nالميزانية: ' + lead.budget + '\nالموعد: ' + lead.timing + '\nالدفع: ' + lead.pay;
+      var a = document.getElementById('waBtn');
+      a.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(text);
+      a.style.display = 'inline-block';
+      document.getElementById('doneText').textContent = saved ? 'اضغط الزر لتصلك الخيارات الآن على واتساب.' : 'تعذّر حفظ الطلب في الموقع، فاضغط الزر لترسله على واتساب مباشرة.';
+    } else {
+      document.getElementById('doneText').textContent = 'سيتواصل معك فريقنا عبر واتساب في أقرب وقت.';
+    }
+  }
+})();
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@
 - `agent/`: وكيل الإنتاج على جهاز حمد (C:\Sawwerha، RTX 4090، ComfyUI). يتحدّث ذاتياً من `agent/manifest.json`.
 - `ads/`: نصوص الإعلانات وخطة المحتوى المجاني.
 - `emtithali/`: موقع «امتثالي» (emtithali.com)، ملفات ثابتة في `site/` مع دالة نموذج الطلب `site/_worker.js`. ينشر إلى Pages ‏dalilalfawtara في حساب Cloudflare الآخر (التفاصيل في docs/03).
+- `wasit/`: صفحة هبوط «الوساطة العقارية» (البند 69)، مبنية غير منشورة: `site/index.html` مع العامل `site/_worker.js` (POST ‎/api/lead‎ إلى KV ‏WASIT_LEADS، وGET ‎/api/stats‎ عدّ بلا بيانات شخصية، وحقن متغيرات WASIT_* في سمات body). لا اسم ولا رقم لحمد في المستودع، والنشر معلّق بشروط في docs/03.
 - `tools/free-workers.js`: العمّال المجانيون (نماذج Workers AI) لتدقيق الصفحات والمسودات بسقف يمنع أي تكلفة؛ Claude يتحقق من مخرجاتهم (docs/03).
 - `docs/03-الحالة-والروابط.md`: المرجع الوحيد للحالة والروابط وطريقة النشر. حدّثه بعد كل تغيير مهم.
 
@@ -26,7 +27,8 @@
 - الوكيل: `for f in agent/tests/test_*.py; do python3 "$f" agent || exit 1; done`
 - صفحات صوّرها: `python3 sitegen/build.py`
 - امتثالي: `cd emtithali && npm test`
-- تعمل الخمسة آلياً على كل دفع إلى main (`.github/workflows/checks.yml`). بعد كل دفع: `gh run list -R hamadomran7-gif/sawwerha -L 1`، ولا نشر قبل نجاحها.
+- الوساطة: `cd wasit && npm test`
+- تعمل الستة آلياً على كل دفع إلى main (`.github/workflows/checks.yml`). بعد كل دفع: `gh run list -R hamadomran7-gif/sawwerha -L 1`، ولا نشر قبل نجاحها.
 
 ## النشر
 من لوحة Cloudflare في متصفح Claude على جهاز حمد، بالأدوات في `tools/dash-helpers.js` وبقيمة commit محددة (التفاصيل في docs/03). لا نشر قبل نجاح الفحوص ورفع الـ commit.
