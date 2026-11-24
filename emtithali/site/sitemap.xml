@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url><loc>https://emtithali.com/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://emtithali.com/deadlines</loc><lastmod>2026-11-20</lastmod></url>
+  <url><loc>https://emtithali.com/deadlines</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/penalties</loc><lastmod>2026-11-20</lastmod></url>
   <url><loc>https://emtithali.com/scope</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/appoint-asp</loc><lastmod>2026-11-23</lastmod></url>
@@ -29,6 +29,7 @@
   <url><loc>https://emtithali.com/proforma-invoice</loc><lastmod>2026-11-22</lastmod></url>
   <url><loc>https://emtithali.com/receive-e-invoices</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/reverse-charge</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://emtithali.com/government-suppliers</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/logistics</loc><lastmod>2026-11-23</lastmod></url>
   <url><loc>https://emtithali.com/healthcare</loc><lastmod>2026-11-23</lastmod></url>
   <url><loc>https://emtithali.com/peppol-id</loc><lastmod>2026-11-19</lastmod></url>
@@ -124,7 +125,7 @@
   <url><loc>https://emtithali.com/credit-notes</loc><lastmod>2026-11-21</lastmod></url>
   <url><loc>https://emtithali.com/invoice-types</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/e-invoice-retention</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>https://emtithali.com/contractors</loc><lastmod>2026-11-18</lastmod></url>
+  <url><loc>https://emtithali.com/contractors</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://emtithali.com/sa</loc><lastmod>2026-11-21</lastmod></url>
   <url><loc>https://emtithali.com/sa/readiness-check</loc><lastmod>2026-11-18</lastmod></url>
   <url><loc>https://emtithali.com/sa/fatoora-waves</loc><lastmod>2026-11-21</lastmod></url>
