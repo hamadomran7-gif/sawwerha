@@ -7,8 +7,15 @@
 يكتب: uae-accredited-service-providers.html → https://emtithali.com/uae-accredited-service-providers
 
 المصدر (وكيل البناء، 22 نوفمبر 2026 نحو 16:20 بتوقيت دبي، تبويبه في المتصفح المدمج على الجهاز):
-- صفحة وزارة المالية بالإنجليزية MOF_EN أدناه: جدول واحد، 88 صفاً، وتذييلها «Last updated on 21/11/2026 at 19:10»،
-  ونصها: القائمة بموجب المادة 13 من القرار الوزاري 168 لسنة 2026، وتُحدَّث دورياً، وترتيبها أبجدي.
+- صفحة وزارة المالية بالإنجليزية MOF_EN أدناه: جدول واحد، 88 صفاً، ونصها: القائمة بموجب المادة 13 من القرار الوزاري
+  168 لسنة 2026، وتُحدَّث دورياً، وترتيبها أبجدي.
+  (24 نوفمبر 2026، وكيل البناء، البند 70: أُعيدت قراءتها في تبويبه بالمتصفح المدمج: 88 صفاً، ومقطع البصمة يعطي 5,337 بايتاً
+  وEN_SHA256 نفسها، فلم يتغيّر شيء في الأعمدة الأربعة، وREAD_ON صار 24 November 2026.)
+- تذييل «Last updated on …» في صفحات mof.gov.ae ختم عام لموقع الوزارة كله لا تاريخ القائمة (البند 70): كان «21/11/2026 at 19:10»
+  عند كتابة البند 57، و«23/11/2026 at 15:10» يوم 24 نوفمبر في صفحة القائمة وفي الرئيسية العربية (وسم تعديلها 2026-10-13)،
+  ووسم article:modified_time لصفحة القائمة نفسها 2026-11-19T11:43:05+00:00. فلا يُنقل التذييل إلى الصفحة تاريخاً للقائمة
+  ولا لصفحة الوزارة؛ الصفحة تذكر تاريخ قراءتنا READ_ON وحده، وتغيّر القائمة يُعرف بالبصمة (EN_SHA256 هنا، وبصمة الأعمدة
+  الأربعة للقائمة العربية في رأس providers.py) لا بالتذييل.
 - mof-asp-en.tsv بجانب هذا الملف = الأعمدة الأربعة الأولى (# والاسم ورقم الاعتماد والموقع) كما يخرجها مقطع البصمة
   في رأس providers.py حرفياً على الصفحة الإنجليزية: 5,337 بايتاً، SHA-256 = EN_SHA256. لا تُنقل أعمدة الاسم والبريد والهاتف.
   الفرق عن ROWS (المبنية من الصفحة العربية) أربعة صفوف: 14 و70 شرطة مائلة في آخر الموقع، و17 «Solution»، و31 «LLC».
@@ -18,8 +25,8 @@
 - حقول النموذج ونص الموافقة والملاحظة التجريبية من site/index.html ‏(#lead-form، و CONFIG.staging = true)،
   والإفصاح من «كيف نكسب؟» في الرئيسية ومن تذييل /providers.
 
-التحديث: الصق ناتج مقطع البصمة من الصفحة الإنجليزية في mof-asp-en.tsv، وحدّث EN_SHA256 وEN_UPDATED وREAD_ON،
-ثم شغّل هذا الملف. لا نشر إن لم تطابق الأرقام والترتيب ROWS في providers.py (يتوقف بخطأ).
+التحديث: الصق ناتج مقطع البصمة من الصفحة الإنجليزية في mof-asp-en.tsv، وحدّث EN_SHA256 وREAD_ON (تاريخ قراءتنا)،
+ثم شغّل هذا الملف. لا يُكتب تاريخ تذييل mof.gov.ae في أي موضع. لا نشر إن لم تطابق الأرقام والترتيب ROWS في providers.py (يتوقف بخطأ).
 """
 import hashlib, html, json, os, sys
 
@@ -33,8 +40,7 @@ URL = SITE + PATH
 MOF_EN = "https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/"
 D244_EN = "https://mof.gov.ae/wp-content/uploads/2025/09/Ministerial-Decision-No.-244-of-2025-on-the-Implementation-of-the-Electronic-Invoicing-System.pdf"
 EN_SHA256 = "60a00023be5c39eb7a5776f94715827cb6f80aa6529ddbfb8603cb01e34cfd74"
-EN_UPDATED = "21/11/2026 at 19:10"
-READ_ON = "22 November 2026"
+READ_ON = "24 November 2026"  # تاريخ قراءتنا للقائمة (البند 70)؛ لا تاريخ تذييل mof.gov.ae
 NOLINK_ON = "18 November 2026"  # تاريخ فحص الروابط الستة في providers.py
 SRC = "asp-en"
 
@@ -152,7 +158,7 @@ def page():
     <ul class="facts">
       <li><strong>88</strong> accredited providers</li>
       <li>Listed under Article 13 of <a href="{D168}" rel="noopener"><strong>Ministerial Decision 168 of 2026</strong></a></li>
-      <li>Ministry’s page last updated <strong>{EN_UPDATED}</strong></li>
+      <li>We read the Ministry’s list on <strong>{READ_ON}</strong></li>
     </ul>
     <p class="note">Source: <a href="{MOF_EN}" rel="noopener">eInvoicing Accredited Service Providers (ASPs), Ministry of Finance</a>. The Ministry says the list is updated periodically to include newly accredited providers, and that it is in alphabetical order. We do not copy the contact persons, emails or phone numbers it shows. Last reviewed: {READ_ON}. Guidance only, not tax advice.</p>
     <p class="note"><a href="/providers" lang="ar">دليل المزوّدين المعتمدين بالعربية</a></p>
@@ -222,7 +228,7 @@ def page():
     <p class="note">Some providers may pay us a commission if you sign with them; you pay nothing extra. <a href="/#privacy">Privacy (Arabic)</a></p>
     <h2>Sources</h2>
     <ul class="links">
-      <li><a href="{MOF_EN}" rel="noopener">eInvoicing Accredited Service Providers (ASPs), Ministry of Finance</a> (read on {READ_ON}; last updated {EN_UPDATED})</li>
+      <li><a href="{MOF_EN}" rel="noopener">eInvoicing Accredited Service Providers (ASPs), Ministry of Finance</a> (read on {READ_ON})</li>
       <li><a href="{D168}" rel="noopener">Ministerial Decision 168 of 2026 on the eligibility criteria and accreditation procedure for service providers, Ministry of Finance (Arabic)</a></li>
       <li><a href="{D244_EN}" rel="noopener">Ministerial Decision 244 of 2025 on the Implementation of the Electronic Invoicing System, Ministry of Finance</a></li>
     </ul>
