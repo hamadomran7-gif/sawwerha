@@ -10,6 +10,8 @@ import json
 import logging
 import os
 import random
+import shlex
+import shutil
 import subprocess
 import sys
 import threading
@@ -24,7 +26,8 @@ from comfy import ComfyClient
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent  # C:\\Sawwerha
-AGENT_VERSION = "2026.11.02-8"
+IS_WINDOWS = os.name == "nt"
+AGENT_VERSION = "2026.11.25-9"
 DEFAULT_REPO = "hamadomran7-gif/sawwerha"
 LIGHTNING_LORA = "Qwen-Image-Edit-Lightning-8steps-V1.0-bf16.safetensors"
 LIGHTNING_URL = "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/" + LIGHTNING_LORA
@@ -135,8 +138,8 @@ def self_update(cfg: dict) -> bool:
 # ------------------------------------------------------------ مراقبة ComfyUI
 PS_KILL_LOOP = ("Get-CimInstance Win32_Process -Filter \"Name='cmd.exe'\" | Where-Object { $_.CommandLine -like '*run_comfy.bat*' } "
                 "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue; $_.ProcessId }")
-# مقيّد بـ python.exe: بدونه يطابق النمطُ سطرَ أوامر PowerShell نفسه فيوقف نفسه قبل ComfyUI.
-PS_KILL_COMFY = ("Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object { $_.CommandLine -like '*ComfyUI\\main.py*' } "
+# مقيّد باسم المفسّر (python.exe أو نسخته ComfyUI.exe لتقاسم الكرت): بدونه يطابق النمطُ سطرَ أوامر PowerShell نفسه فيوقف نفسه قبل ComfyUI.
+PS_KILL_COMFY = ("Get-CimInstance Win32_Process -Filter \"Name='python.exe' OR Name='ComfyUI.exe'\" | Where-Object { $_.CommandLine -like '*ComfyUI\\main.py*' } "
                  "| ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue; $_.ProcessId }")
 PS_COUNT_LOOP = ("(Get-CimInstance Win32_Process -Filter \"Name='cmd.exe'\" | Where-Object { $_.CommandLine -like '*run_comfy.bat*' } "
                  "| Measure-Object).Count")
@@ -226,6 +229,184 @@ def restart_comfy(cfg: dict = None, ps=None, starter=None) -> bool:
     except Exception as e:  # noqa: BLE001
         log.warning("ComfyUI watchdog failed: %s", e)
         return False
+
+
+# ------------------------------------------------------------ تقاسم الكرت مع Salad
+# القرار 13 في «لوحة الوكيل» (نتيجة مراجعته 25 نوفمبر 2026): Salad يعمل ما دام لا طلب لصوّرها، ويتوقف أثناء
+# الإنتاج ثم يعود، ووكيل الإنتاج يبقى يعمل. ومن توثيق Salad (support.salad.com، قُرئ 25 نوفمبر 2026): لا يأخذ
+# Salad وظيفة إن وجد ذاكرة الكرت مشغولة، ويوقف وظائف الكرت حين يرى برنامجاً من «قائمة العمليات الكثيفة» باسم
+# ملفه (فيها ComfyUI.exe، لا python.exe)، ويستأنف حين يُغلق. فحين يعمل Salad على الجهاز: يُغلق ComfyUI بعد مهلة
+# خمول، ويُشغَّل عند وصول طلب بنسخة من مفسّره باسم ComfyUI.exe فيوقف Salad وظيفته ويحرّر الذاكرة قبل التوليد.
+# gpu_share في config.json: "auto" (الافتراضي: حين يعمل Salad) أو "on" أو "off" (السلوك السابق كما هو).
+PS_COUNT_SALAD = ("(Get-CimInstance Win32_Process | Where-Object { $_.Name -like 'Salad*' -or $_.ExecutablePath -like '*\\Salad\\*' } "
+                  "| Measure-Object).Count")
+NAMED_COMFY = "ComfyUI.exe"
+SHARE_OFF = ("off", "false", "0", "no")
+SHARE_ON = ("on", "true", "1", "yes")
+
+
+def comfy_command(text: str):
+    """من نص run_comfy.bat: (مجلد التشغيل، أمر main.py قائمةً)، أو (None, None) إن لم يوجد."""
+    cwd = None
+    for line in text.splitlines():
+        body = line.strip()
+        head = body.lower()
+        if not body or head.startswith(("rem ", "::", "echo ", "@echo")):
+            continue
+        if head.startswith("cd "):
+            rest = body[3:].strip()
+            if rest.lower().startswith("/d "):
+                rest = rest[3:].strip()
+            cwd = rest.strip('"')
+        elif "main.py" in body:
+            return cwd, [p.strip('"') for p in shlex.split(body, posix=False)]
+    return None, None
+
+
+def _native(p: str) -> str:
+    return p if os.sep == "\\" else p.replace("\\", "/")
+
+
+def named_comfy_exe(cwd: str, exe: str, name: str = NAMED_COMFY) -> Path:
+    """نسخة من مفسّر ComfyUI (python.exe) باسم يعرفه Salad، في مجلده نفسه فيجد مكتباته وملف ._pth."""
+    src = Path(_native(exe))
+    if not src.is_absolute():
+        src = Path(_native(cwd)) / src
+    if src.name.lower() == name.lower():
+        return src
+    dst = src.with_name(name)
+    if not dst.exists() or dst.stat().st_size != src.stat().st_size:
+        shutil.copy2(src, dst)
+    return dst
+
+
+def spawn_minimized(args: list, cwd: str) -> None:
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    si.wShowWindow = 7  # SW_SHOWMINNOACTIVE
+    subprocess.Popen(args, cwd=cwd, creationflags=subprocess.CREATE_NEW_CONSOLE, startupinfo=si, close_fds=True)
+
+
+def start_comfy_named(cfg: dict, spawner=None) -> bool:
+    """يشغّل ComfyUI مرة واحدة (بلا حلقة run_comfy.bat) بالخيارات نفسها وباسم ComfyUI.exe."""
+    bat = comfy_bat(cfg)
+    if not bat.exists():
+        return False
+    cwd, cmd = comfy_command(bat.read_bytes().decode("latin-1"))
+    if not cwd or not cmd:
+        return False
+    exe = named_comfy_exe(cwd, cmd[0], cfg.get("share_comfy_name", NAMED_COMFY))
+    (spawner or spawn_minimized)([str(exe), *cmd[1:]], _native(cwd))
+    return True
+
+
+class GpuShare:
+    """parked = ComfyUI مغلق عمداً ليأخذ Salad الكرت؛ يُعاد عند أول طلب، أو بحلقته المعتادة إن توقف Salad."""
+
+    def __init__(self, cfg: dict, comfy, ps=None, starter=None, named=None, clock=None, sleep=None):
+        self.cfg = cfg
+        self.comfy = comfy
+        self.mode = str(cfg.get("gpu_share", "auto")).strip().lower()
+        self.idle_s = 60 * float(cfg.get("share_idle_minutes", 10))
+        self.check_s = float(cfg.get("share_check_seconds", 60))
+        self.start_s = float(cfg.get("share_start_wait_seconds", 300))
+        self.vram_s = float(cfg.get("share_vram_wait_seconds", 180))
+        self.min_free = float(cfg.get("share_min_free_gb", 16)) * (1 << 30)
+        self.ps = ps or _ps
+        self.starter = starter or start_comfy
+        self.named = named or start_comfy_named
+        self.clock = clock or time.time
+        self.sleep = sleep or time.sleep
+        self.parked = False
+        self.salad = False
+        self.checked = None
+        self.last_work = self.clock()
+
+    def active(self) -> bool:
+        if self.mode in SHARE_OFF:
+            return False
+        if self.mode in SHARE_ON:
+            return True
+        now = self.clock()
+        if self.checked is None or now - self.checked >= self.check_s:
+            self.checked = now
+            try:
+                running = int((self.ps(PS_COUNT_SALAD) or "0").strip() or "0") > 0
+            except Exception as e:  # noqa: BLE001
+                log.warning("gpu share: Salad check failed: %s", e)
+                running = self.salad
+            if running != self.salad:
+                log.warning("gpu share: Salad %s", "is running — ComfyUI closes when idle" if running else "is not running — ComfyUI stays loaded")
+            self.salad = running
+        return self.salad
+
+    def touch(self) -> None:
+        self.last_work = self.clock()
+
+    def adopt(self) -> None:
+        """عند بدء الوكيل: ComfyUI مغلق وSalad يعمل يعني أنه مركون، فلا يعيده المراقب بعد 10 دقائق."""
+        if not self.parked and self.active() and not self.comfy.alive():
+            self.parked = True
+            log.warning("gpu share: Salad is running and ComfyUI is closed — starting parked")
+
+    def maybe_park(self) -> bool:
+        if self.parked or not self.active() or self.clock() - self.last_work < self.idle_s:
+            return False
+        if self.comfy.busy():
+            self.touch()
+            return False
+        loops = self.ps(PS_KILL_LOOP)
+        procs = self.ps(PS_KILL_COMFY)
+        self.parked = True
+        log.warning("gpu share: no job for %.0f min — ComfyUI closed so Salad can use the GPU (loop=%s comfy=%s)",
+                    (self.clock() - self.last_work) / 60, loops or "-", procs or "-")
+        return True
+
+    def _wait(self, cond, seconds: float) -> bool:
+        deadline = self.clock() + seconds
+        while True:
+            if cond():
+                return True
+            if self.clock() >= deadline:
+                return False
+            self.sleep(5)
+
+    def unpark(self, reason: str, named: bool = True) -> bool:
+        t0 = self.clock()
+        ok = False
+        if named:
+            try:
+                ok = bool(self.named(self.cfg))
+            except Exception as e:  # noqa: BLE001
+                log.warning("gpu share: %s start failed: %s", NAMED_COMFY, e)
+            if ok and not self._wait(self.comfy.alive, self.start_s):
+                self.ps(PS_KILL_COMFY)
+                ok = False
+        if not ok:
+            bat = comfy_bat(self.cfg)
+            if bat.exists():
+                self.starter(bat)
+                ok = self._wait(self.comfy.alive, self.start_s)
+        self.parked = False
+        if ok and named and not self._wait(lambda: (self.comfy.vram_free() or 0) >= self.min_free, self.vram_s):
+            log.warning("gpu share: GPU memory still in use after %.0fs — producing anyway", self.vram_s)
+        self.touch()
+        log.warning("gpu share: ComfyUI %s for %s after %.0fs", "up" if ok else "NOT up", reason, self.clock() - t0)
+        return ok
+
+    def resume_if_inactive(self) -> None:
+        if self.parked and not self.active():
+            self.unpark("Salad stopped", named=False)
+
+    def safe(self, op: str, *a):
+        """خطأ في التقاسم لا يوقف الإنتاج: يُسجَّل ويعود الوكيل إلى سلوكه السابق حتى إعادة تشغيله."""
+        try:
+            return getattr(self, op)(*a)
+        except Exception as e:  # noqa: BLE001
+            log.warning("gpu share: %s failed (%s) — sharing off until the agent restarts", op, e)
+            self.mode = "off"
+            self.parked = False
+            return False
 
 
 # ------------------------------------------------------------ Lightning LoRA
@@ -379,6 +560,10 @@ def main():
             log.warning("launcher check failed: %s", e)
     if comfy is not None and cfg.get("lightning", False) and comfy.alive():
         lightning_name(cfg, comfy)  # يبدأ تنزيل Lightning مبكراً إن لم يكن موجوداً
+    share = None
+    if comfy is not None and not args.once and IS_WINDOWS and str(cfg.get("gpu_share", "auto")).strip().lower() not in SHARE_OFF:
+        share = GpuShare(cfg, comfy)
+        share.safe("adopt")
 
     while True:
         try:
@@ -397,7 +582,10 @@ def main():
                     return
                 time.sleep(poll)
                 continue
-            if comfy is not None and not comfy.alive():
+            if share is not None:
+                share.safe("resume_if_inactive")
+            parked = share is not None and share.parked
+            if comfy is not None and not parked and not comfy.alive():
                 down_since = down_since or time.time()
                 down_min = (time.time() - down_since) / 60
                 log.warning("ComfyUI not reachable at %s for %.0f min — waiting", cfg.get("comfy_url"), down_min)
@@ -410,12 +598,16 @@ def main():
             down_since = None
             job = worker.next_job()
             if not job:
+                if share is not None:
+                    share.safe("maybe_park")
                 if args.once:
                     log.info("no jobs")
                     return
                 time.sleep(poll)
                 continue
             log.info("job #%s kind=%s category=%s inputs=%s", job["id"], job["kind"], job["category"], len(job["inputs"]))
+            if share is not None and share.parked:
+                share.safe("unpark", f"job #{job['id']}")
             started = time.time()
             try:
                 keys = produce(job, cfg, worker, comfy)
@@ -424,6 +616,8 @@ def main():
             except Exception as e:  # noqa: BLE001
                 log.exception("job #%s failed", job["id"])
                 worker.fail(job["id"], str(e))
+            if share is not None:
+                share.touch()
             if args.once:
                 return
         except KeyboardInterrupt:

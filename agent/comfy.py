@@ -21,6 +21,17 @@ class ComfyClient:
         except requests.RequestException:
             return False
 
+    def vram_free(self):
+        """ذاكرة الكرت الحرة بالبايت للجهاز كله كما يقرؤها ComfyUI (تنقص بما يحجزه Salad وغيره)، أو None."""
+        try:
+            r = requests.get(f"{self.base}/system_stats", timeout=5)
+            r.raise_for_status()
+            devs = r.json().get("devices") or []
+            vals = [int(d["vram_free"]) for d in devs if d.get("type", "cuda") == "cuda" and "vram_free" in d]
+        except (requests.RequestException, ValueError, TypeError, KeyError, AttributeError):
+            return None
+        return min(vals) if vals else None
+
     def queue(self) -> dict:
         r = requests.get(f"{self.base}/queue", timeout=30)
         r.raise_for_status()

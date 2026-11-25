@@ -10,5 +10,7 @@
   "edit_mode": "edit",
   "watermark_samples": true,
   "watermark_text": "صوّرها · Sawwerha",
-  "max_job_minutes": 60
+  "max_job_minutes": 60,
+  "gpu_share": "auto",
+  "share_idle_minutes": 10
 }
