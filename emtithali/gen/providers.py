@@ -40,6 +40,9 @@
 - بصمة الأعمدة الأربعة بالمقطع أعلاه: 5,331 بايت، SHA-256 = 524a6f89…0691. والفرق الوحيد عن ROWS السابقة الصف 17:
   «Cygnet Digital IT Solution L.L.C» وكان «Cygnet Digital IT Solutions L.L.C»، ورقم الاعتماد 101139 والموقع كما هما؛ فحُدّث ROWS[17]
   فطابقت ROWS البصمة بايتاً ببايت. وتواريخ القائمة في الفهرس وفي صفحة الصف 17 صارت LIST_AS_OF، وبقيت الأسعار والروابط بتواريخ فحصها.
+
+البند 77 (مصنع الوكلاء، 25 نوفمبر 2026): أسعار Casim Studio للصف 10 من ورقة أرسلها المزوّد وأذن بعرضها كما هي (SHEET أدناه)،
+فتغيّر ناتج providers/casim.html وproviders.html وحدهما (الصفحات الـ87 الأخرى مطابقة بايتاً لما قبله)، وlastmod الاثنتين 2026-11-25.
 """
 import hashlib, html, json, os, sys
 
@@ -155,7 +158,7 @@ D168 = "https://mof.gov.ae/wp-content/uploads/2026/10/Ministerial-Decision-No-16
 # InvoiceQ (42): صفحة الباقات https://ae.invoiceq.com/packages/ قُرئت 20 نوفمبر 2026 (البند 39): باقتان «Custom Pricing» بلا سعر منشور
 D20 = "20 نوفمبر 2026"
 NONE_20 = {42}
-NONE_17 = {13, 37, 73, 20, 28, 80, 16, 48, 74, 10, 50, 61, 38, 52}
+NONE_17 = {13, 37, 73, 20, 28, 80, 16, 48, 74, 50, 61, 38, 52}  # 10 (Casim) انتقل إلى SHEET في البند 77
 NONE_18 = {1, 9, 11, 17, 18, 22, 26, 29, 31, 34, 36, 39, 40, 41, 45, 55, 56, 57, 59, 62, 63, 65, 66, 67, 68, 69, 72, 75, 81, 82, 83, 85, 86, 87,
            4, 58, 14, 24, 25, 30, 53, 70, 6, 64, 2, 79, 8, 21, 27, 33, 35, 43, 44, 47, 51, 77}
 UNREAD = {3: D18, 7: D18, 19: D18, 46: D18, 49: D18, 78: D18, 23: D18}
@@ -190,6 +193,77 @@ PUBLIC = {
      "https://www.tronstride.com/pricing/"),
 }
 
+# البند 77 (مصنع الوكلاء، 25 نوفمبر 2026): أسعار من ورقة أرسلها المزوّد إلينا وأذن كتابةً بعرضها كما هي. ليست أسعاراً علنية (موقعه
+# لا يعرضها)، فلا يدخل صاحبها قسم «أسعار منشورة علناً» ويبقى عدّه أربعة. Casim (10): الورقة «Casim - eInvoicing Pricing Studio.pdf»
+# المرجع CAS-PRC-STU-V1.3 (3 صفحات) في رسالته 25 نوفمبر 2026 12:04 دبي، والإذن في رسالته 11:10 دبي («you may show our standard
+# Casim Studio prices … taken from our current pricing sheet without changes»)، وموقعه casim.ae بلا أسعار عند فحصنا 25 نوفمبر 2026؛
+# والنص الحرفي في مستند المشروع claude/build-queue/verified-casim-studio-pricing-2026-11-25.md. لا يوصف «شريكاً» ولا يُعرض شعاره.
+# وخصم السنة الأولى 10% لا يُعرض: هو لعملاء الإحالة باتفاقية لم توقَّع ولم نبدأ الإحالة؛ يُضاف بعد التوقيع على الاشتراك لا التأسيس.
+D25 = "25 نوفمبر 2026"
+CASIM_REF = "CAS-PRC-STU-V1.3"
+# (الباقة، المستندات في السنة، الاشتراك السنوي، التأسيس لمرة واحدة لكيان واحد) بالدرهم دون ضريبة القيمة المضافة، من الورقة
+CASIM_PLANS = [
+    ("Studio Free", None, 0, 1000),
+    ("Studio 250", 250, 850, 1000),
+    ("Studio 500", 500, 1450, 1000),
+    ("Studio 1,000", 1000, 2250, 1000),
+    ("Studio 1,500", 1500, 2900, 1500),
+    ("Studio 2,500", 2500, 3600, 1500),
+    ("Studio 5,000", 5000, 5200, 1500),
+    ("Studio 10,000", 10000, 8200, 1500),
+]
+REVIEWED = {10: D25}  # «آخر مراجعة» لصفحة تغيّر فيها غير بيانات القائمة (تاريخ القائمة يبقى ao)
+
+def fmt(x): return f"{x:,}"
+
+def casim_short():
+    paid = min(s for _, d, s, _ in CASIM_PLANS if s)
+    setup = min(t for *_, t in CASIM_PLANS)
+    return (f'لا سعر علني في موقعه؛ ورقة أسعار أرسلها إلينا وأذن بعرضها ({D25}): <bdi>Studio Free</bdi> بلا اشتراك، '
+            f'وباقات من {fmt(paid)} درهماً سنوياً، وتأسيس من {fmt(setup)} درهم، دون ضريبة القيمة المضافة '
+            f'(<a href="/providers/casim#s-price">التفاصيل</a>)')
+
+def casim_block():
+    trs = []
+    for p, d, s, t in CASIM_PLANS:
+        dc = '<td>100 مجاناً لكل كيان</td>' if d is None else f'<td class="num">{fmt(d)}</td>'
+        sc = '<td>بلا اشتراك</td>' if s == 0 else f'<td class="num">{fmt(s)}</td>'
+        trs.append(f'        <tr><td><bdi>{p}</bdi></td>{dc}{sc}<td class="num">{fmt(s + t)}</td></tr>')
+    return f"""    <p>لا يعرض المزوّد سعراً علنياً في موقعه (اطّلعنا عليه في {D25})، لكنه أرسل إلينا ورقة أسعار خدمة <bdi>Casim Studio</bdi> وأذن كتابةً بعرضها كما هي (المرجع <bdi>{CASIM_REF}</bdi>، وصلتنا في {D25}). والأسعار أدناه منها، بالدرهم دون ضريبة القيمة المضافة، وقد تتغيّر.</p>
+    <p>وتصف الورقة <bdi>Casim Studio</bdi> بأنها بوابة لإصدار الفواتير الإلكترونية يدوياً أو رفعها دفعةً واحدة، فيها لوحات وتقارير وأرشيف، ترسل الفواتير وتستلمها عبر شبكة Peppol وتبلّغ بها الهيئة الاتحادية للضرائب، بلا ربط بنظامك ولا مشروع تنفيذ، ومعها دعم في ساعات العمل.</p>
+    <div class="panel"><div class="table-wrap"><table>
+      <thead><tr><th>الباقة</th><th>المستندات في السنة</th><th>الاشتراك السنوي</th><th>أول سنة مع التأسيس</th></tr></thead>
+      <tbody>
+{chr(10).join(trs)}
+      </tbody>
+    </table></div></div>
+    <ul class="bul">
+      <li>المستند: كل فاتورة أو إشعار دائن أو مدين يُرسل أو يُستلم.</li>
+      <li><bdi>Studio Free</bdi> بلا رسوم سنوية: لكل كيان 100 مستند مجاناً في السنة، تُحتسب ضمن حصة الباقة في الباقات الأخرى؛ فإن لم تتجاوزها فرسوم التأسيس كل ما تدفعه، وبعد استنفادها تنتقل إلى <bdi>Studio 250</bdi> بالتناسب.</li>
+      <li><bdi>Studio 250</bdi> و500 و1,000 لكيان واحد، و<bdi>Studio 1,500</bdi> فما فوق حتى ثلاثة كيانات؛ وكل كيان إضافي بـ600 درهم في السنة ومعه حصته المجانية.</li>
+      <li>رسوم التأسيس لمرة واحدة: 1,000 درهم لكيان واحد على <bdi>Studio Free</bdi> أو 250 أو 500 أو 1,000، و1,500 درهم لكيانين أو ثلاثة أو على <bdi>Studio 1,500</bdi> فما فوق، وتغطي حتى ثلاثة كيانات.</li>
+      <li>الفوترة سنوية مقدّماً، والانتقال إلى باقة أعلى وإضافة كيان خلال السنة بالتناسب.</li>
+      <li>لا تتوقف الخدمة عند بلوغ الحصة: في <bdi>Studio Free</bdi> و250 و500 و1,000 تنتقل إلى الباقة التالية من يومها بالتناسب، ومن <bdi>Studio 1,500</bdi> فما فوق تُحسب المستندات الإضافية كتلاً من 100 مستند بسعر باقتك (70 درهماً للكتلة في 1,500، و65 في 2,500، و60 في 5,000، و40 في 10,000)، تُعدّ كل ربع سنة وتُفوتر بعده.</li>
+      <li>فوق 10,000 مستند في السنة: 0.40 درهم للمستند حتى 100,000 مستند، وما فوقها بالتواصل مع المزوّد.</li>
+      <li>لا تشمل <bdi>Studio</bdi> ربطاً بنظامك؛ وللربط بنفسك (<bdi>Casim API</bdi>) أو للتكامل الذي يبنيه المزوّد ويديره (<bdi>Casim Enterprise</bdi>) ورقتا أسعار أخريان لم تصلنا، فلا نذكر أسعارهما.</li>
+    </ul>
+    <p class="note">المصدر: ورقة أسعار <bdi>Casim Studio</bdi> (المرجع <bdi>{CASIM_REF}</bdi>) كما وصلتنا من المزوّد في {D25}، لا موقعه. الأرقام كما في الورقة، وعمود «أول سنة مع التأسيس» حسابنا منها: الاشتراك السنوي مضافاً إليه رسوم التأسيس (1,000 درهم حتى <bdi>Studio 1,000</bdi>، و1,500 من <bdi>Studio 1,500</bdi> فما فوق)، دون كيانات أو مستندات إضافية. والقرار الوزاري رقم 168 لسنة 2026 يُلزم المزوّد بتقديم 100 خدمة مجانية في السنة لكل مستخدم نهائي (<a href="/accredited-service-provider">ما مزوّد الخدمة المعتمد؟</a>). اطلب السعر في عرض مكتوب قبل التعاقد.</p>"""
+
+def casim_faq():
+    paid = "، و".join(f"{p} بـ{fmt(s)}" for p, d, s, _ in CASIM_PLANS if s)
+    return (f"لا يعرض المزوّد سعراً علنياً في موقعه (اطّلعنا عليه في {D25}). وبحسب ورقة أسعار Casim Studio التي أرسلها إلينا وأذن بعرضها كما هي "
+            f"(المرجع {CASIM_REF}، وصلتنا في {D25}): Studio Free بلا اشتراك سنوي ومعها 100 مستند مجاناً في السنة لكل كيان، "
+            f"والاشتراك السنوي بالدرهم: {paid}؛ ورسوم التأسيس لمرة واحدة 1,000 درهم لكيان واحد حتى Studio 1,000، "
+            f"و1,500 درهم لكيانين أو ثلاثة أو من Studio 1,500 فما فوق؛ والأسعار دون ضريبة القيمة المضافة، وقد تتغيّر.")
+
+SHEET = {
+ 10: {"short": casim_short, "block": casim_block, "faq": casim_faq,
+      "h2": "أسعار Casim Studio من ورقة المزوّد",
+      "desc": "وأسعار Casim Studio من ورقة أرسلها إلينا وأذن بعرضها",
+      "source": (f'<li>ورقة أسعار <bdi>Casim Studio</bdi>، المرجع <bdi>{CASIM_REF}</bdi> (ثلاث صفحات)، أرسلها المزوّد إلينا بالبريد ووصلتنا في {D25} '
+                 f'مع إذن كتابي بعرض أسعارها كما هي؛ لا رابط عاماً لها.</li>')},
+}
+
 def esc(s): return html.escape(s, quote=True)
 
 def ltr(s): return f'<span dir="ltr">{esc(s)}</span>'
@@ -204,6 +278,7 @@ def site_html(n, site):
     return f'<a href="https://{esc(site)}" rel="nofollow noopener" dir="ltr">{esc(site)}</a>'
 
 def price_short(n):
+    if n in SHEET: return SHEET[n]["short"]()
     if n in PUBLIC: return f'{esc(PUBLIC[n][0])} (<a href="{esc(PUBLIC[n][2])}" rel="nofollow noopener">المصدر</a>)'
     if n in COMPARE_PRICED: return 'أمثلة في <a href="/#compare">المفاضلة</a>'
     if n in KSA_ONLY: return "أسعار منشورة للسعودية وماليزيا لا للإمارات"
@@ -212,6 +287,7 @@ def price_short(n):
     return "لا سعر علني"
 
 def price_block(n):
+    if n in SHEET: return SHEET[n]["block"]()
     if n in PUBLIC:
         _, paras, src = PUBLIC[n]
         lis = "\n".join(f"      <li>{esc(p)}</li>" for p in paras)
@@ -232,6 +308,7 @@ def price_block(n):
     return f'    <p>لا يعرض المزوّد سعراً علنياً (اطّلعنا على موقعه في {d}). يُطلب السعر منه أو عبر نموذج عروض الأسعار.{extra}</p>'
 
 def price_faq(n, name):
+    if n in SHEET: return SHEET[n]["faq"]()
     if n in PUBLIC:
         _, paras, src = PUBLIC[n]
         return f"بحسب صفحة الأسعار في موقعه كما اطّلعنا عليها في {AS_OF}: " + " ".join(paras)
@@ -285,14 +362,15 @@ def cta(src):
     </div>
   </section>"""
 
-def footer(ao=AS_OF):
+def footer(ao=AS_OF, extra=""):
+    extra = f"\n      {extra}" if extra else ""
     return f"""  <footer>
     <p class="note">امتثالي منصة مستقلة غير حكومية. لا تتبع وزارة المالية ولا الهيئة الاتحادية للضرائب، وليست مزوّد خدمة معتمداً. المعلومات هنا إرشادية وليست استشارة ضريبية، فتحقق دائماً من المصدر الرسمي.</p>
     <p class="note">بعض المزوّدين قد يدفع لنا عمولة إذا تعاقدت معه، ولا تدفع أنت شيئاً زائداً، ولا أثر لذلك في إدراج أي مزوّد في هذا الدليل ولا في ترتيبه. <a href="/#privacy">الخصوصية</a></p>
     <h2>المصادر</h2>
     <ul class="links">
       <li><a href="{MOF_LIST}" rel="noopener">قائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين (ASPs)، وزارة المالية</a> (اطّلعنا عليها في {ao})</li>
-      <li><a href="{MOF_EINV}" rel="noopener">صفحة الفوترة الإلكترونية والقرارات، وزارة المالية</a></li>
+      <li><a href="{MOF_EINV}" rel="noopener">صفحة الفوترة الإلكترونية والقرارات، وزارة المالية</a></li>{extra}
     </ul>
   </footer>"""
 
@@ -306,8 +384,9 @@ def provider_page(i):
     src = f"provider-{slug}"
     ao = LIST_AS_OF if n in RECHECKED else AS_OF  # تاريخ القائمة لهذا الصف
     title = f"{dn}: مزوّد فوترة إلكترونية معتمد في الإمارات، رقم الاعتماد {acc}"
+    sh = SHEET.get(n, {})
     desc = (f"{dn} مدرج في قائمة وزارة المالية لمزوّدي خدمات الفوترة الإلكترونية المعتمدين برقم الاعتماد {acc}، "
-            f"كما اطّلعنا عليها في {ao}. موقعه المسجّل، وما ينشره عن السعر، وكيف تتحقق بنفسك.")
+            f"كما اطّلعنا عليها في {ao}. موقعه المسجّل، {sh.get('desc', 'وما ينشره عن السعر')}، وكيف تتحقق بنفسك.")
     q1 = f"هل {dn} مزوّد خدمات فوترة إلكترونية معتمد في الإمارات؟"
     a1 = (f"نعم بحسب قائمة وزارة المالية لمزوّدي خدمات الفوترة الإلكترونية المعتمدين (ASPs) كما اطّلعنا عليها في {ao}: "
           f"«{name}» برقم الاعتماد {acc}. القائمة تُحدَّث دورياً، فتحقق منها قبل التعاقد.")
@@ -355,7 +434,7 @@ def provider_page(i):
     <p class="crumb"><a href="/">امتثالي</a> / <a href="/providers">دليل المزوّدين المعتمدين</a></p>
     <h1 id="page-title"><span dir="ltr">{esc(dn)}</span>: مزوّد خدمات فوترة إلكترونية معتمد، رقم الاعتماد {acc}</h1>
     <p class="lead">«<span dir="ltr">{esc(name)}</span>» مدرج في قائمة وزارة المالية لمزوّدي خدمات الفوترة الإلكترونية المعتمدين (ASPs) برقم الاعتماد {acc}، وترتيبه {n} من 88 في القائمة المرتبة أبجدياً، كما اطّلعنا عليها في {ao}.</p>
-    <p class="note">المصدر: <a href="{MOF_LIST}" rel="noopener">قائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين، وزارة المالية</a>. آخر مراجعة: {ao}. معلومات إرشادية، وليست توصية بمزوّد ولا استشارة ضريبية.</p>
+    <p class="note">المصدر: <a href="{MOF_LIST}" rel="noopener">قائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين، وزارة المالية</a>. آخر مراجعة: {REVIEWED.get(n, ao)}. معلومات إرشادية، وليست توصية بمزوّد ولا استشارة ضريبية.</p>
   </section>
 
   <section aria-labelledby="s-list">
@@ -372,7 +451,7 @@ def provider_page(i):
   </section>
 
   <section aria-labelledby="s-price">
-    <h2 id="s-price">ما ينشره عن السعر</h2>
+    <h2 id="s-price">{sh.get('h2', 'ما ينشره عن السعر')}</h2>
 {price_block(n)}
   </section>
 
@@ -408,7 +487,7 @@ def provider_page(i):
     </ul>
   </section>
 
-{footer(ao)}
+{footer(ao, sh.get('source', ''))}
 </main>
 </body>
 </html>
@@ -480,7 +559,7 @@ def index_page():
 
   <section aria-labelledby="s-all">
     <h2 id="s-all">القائمة كاملة</h2>
-    <p>بترتيب القائمة الرسمية. اسم المزوّد يفتح صفحته في الدليل، وعمود السعر مما وجدناه على موقعه عند فحصنا في 17 و18 نوفمبر 2026.</p>
+    <p>بترتيب القائمة الرسمية. اسم المزوّد يفتح صفحته في الدليل، وعمود السعر مما وجدناه على موقعه عند فحصنا في 17 و18 نوفمبر 2026، إلا ما ذكرنا أنه من ورقة أسعار أرسلها المزوّد إلينا.</p>
     <div class="panel"><div class="table-wrap"><table style="min-width:760px">
       <thead><tr><th class="num">#</th><th>المزوّد (الاسم كما في القائمة)</th><th class="num">رقم الاعتماد</th><th>الموقع المسجّل</th><th>السعر العلني</th></tr></thead>
       <tbody>
@@ -543,7 +622,8 @@ def main():
     out = sys.argv[1] if len(sys.argv) > 1 else "out"
     assert len(ROWS) == 88 and [r[0] for r in ROWS] == list(range(1, 89))
     assert len({r[4] for r in ROWS}) == 88 and len({r[2] for r in ROWS}) == 88
-    cover = NONE_17 | NONE_18 | NONE_20 | set(UNREAD) | COMPARE_PRICED | KSA_ONLY | RESTRICTED | set(PUBLIC)
+    cover = NONE_17 | NONE_18 | NONE_20 | set(UNREAD) | COMPARE_PRICED | KSA_ONLY | RESTRICTED | set(PUBLIC) | set(SHEET)
+    assert not (set(SHEET) & (NONE_17 | NONE_18 | NONE_20 | set(UNREAD) | COMPARE_PRICED | KSA_ONLY | RESTRICTED | set(PUBLIC)))
     assert cover == set(range(1, 89)), sorted(set(range(1, 89)) - cover)
     files = {"providers.html": index_page()}
     for i in range(len(ROWS)):
