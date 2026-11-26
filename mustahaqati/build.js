@@ -479,10 +479,13 @@ const TABLES = {
       rows
     );
   },
-  /** العطل الرسمية لدولة: الاسم، الأيام، ما تبقى من 2026، و2027 (رسمي أو متوقع) */
+  /** العطل الرسمية لدولة: الاسم، الأيام، ما تبقى من 2026، و2027 (رسمي أو متوقع).
+   *  from=YYYY-MM-DD يُسقط الأيام السابقة له، فيبقى الجدول الثابت صحيحاً بعد انتهاء عطلة دون بناء جديد. */
   holidays(a) {
     const en = a.lang === "en";
     const H = rules[a.country].holidays;
+    const from = /^\d{4}-\d{2}-\d{2}$/.test(a.from || "") ? a.from : "";
+    const upto = (list) => (from && list ? list.filter((iso) => iso >= from) : list);
     const fmt = new Intl.DateTimeFormat(en ? "en-GB" : "ar-u-nu-latn", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
     const D = (iso) => fmt.format(new Date(`${iso}T00:00:00Z`));
     const runs = (list) => calc.dateRuns(list || []).map((r) => (r.days === 1 ? D(r.start) : `${D(r.start)} – ${D(r.end)}`));
@@ -496,7 +499,7 @@ const TABLES = {
       const n = it.daysMax ? `${it.days}–${it.daysMax}` : String(it.days);
       return en ? `${n} ${it.days === 1 && !it.daysMax ? "day" : "days"}` : it.daysMax ? `${n} أيام` : it.days === 1 ? "يوم" : it.days === 2 ? "يومان" : `${it.days} أيام`;
     };
-    const rows = H.items.map((it) => [en ? it.en : it.ar, daysLabel(it), cell(it.d2026, null, it.official2026), cell(it.d2027, it.alt2027, it.official2027)]);
+    const rows = H.items.map((it) => [en ? it.en : it.ar, daysLabel(it), cell(upto(it.d2026), null, it.official2026), cell(upto(it.d2027), upto(it.alt2027), it.official2027)]);
     return tableWrap(a.caption || "", en ? ["Holiday", "Days", "Rest of 2026", "2027"] : ["العطلة", "الأيام", "ما تبقى من 2026", "2027"], rows);
   },
   /** التقويم الهجري لسنة كاملة بتقويم أم القرى: أول كل شهر بالميلادي وعدد أيامه */
