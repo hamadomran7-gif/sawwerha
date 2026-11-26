@@ -31,7 +31,29 @@
     var kind = root.localName === "Invoice" && root.namespaceURI === NS.ubl ? "invoice"
       : root.localName === "CreditNote" && root.namespaceURI === NS.cn ? "creditnote" : null;
     if (!kind) return { error: "not_ubl", root: root.localName, ns: root.namespaceURI || "" };
+    toXdm(root);
     return { doc: doc, kind: kind };
+  }
+
+  // يقرّب شجرة DOM من نموذج XDM الذي تُقيَّم عليه القواعد الرسمية (XPath 2.0)، في نسخة المتصفح وحدها لا في ملف المستخدم
+  // (تصحيحان من المدقق المستقل، 26 نوفمبر 2026):
+  // (1) قسم CDATA في XDM نص عادي يندمج مع النص المجاور، وفي DOM عقدة مستقلة فتعدّ text() عقدتين ويأخذ string-length أولاهما؛
+  // (2) الإشارة + قبل العدد صيغة صحيحة لـxsd:decimal يقبلها XPath 2.0، وnumber() في XPath 1.0 يجعلها NaN فتظهر مخالفة كاذبة،
+  //     فتُحذف من نص عناصر cbc العددية وحدها (المبالغ والكميات والنسب والمعاملات والأسعار والقياسات)، ولا تُمس المعرّفات والرموز.
+  var NUMERIC = /(Amount|Quantity|Percent|Numeric|Rate|Measure)$/;
+  function toXdm(root) {
+    (function plain(node) {
+      for (var c = node.firstChild; c; c = c.nextSibling) {
+        if (c.nodeType === 4) { var t = node.ownerDocument.createTextNode(c.data); node.replaceChild(t, c); c = t; }
+        else if (c.nodeType === 1) plain(c);
+      }
+    })(root);
+    root.normalize();
+    var els = root.getElementsByTagNameNS(NS.cbc, "*");
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i], f = e.firstChild;
+      if (NUMERIC.test(e.localName) && f && f === e.lastChild && f.nodeType === 3 && /^\s*\+(\d|\.\d)/.test(f.data)) f.data = f.data.replace("+", "");
+    }
   }
 
   function compile(doc, expr) {

@@ -51,7 +51,7 @@
          "msg": "The buyer legal registration identifier (IBT-047) MUST be provided when the scheme identifier (IBT-049-1) is '0235' and buyer electronic address (IBT-049) is not '1XXXXXXXXX' or '9XXXXXXXXX'",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-149-ae/",
          "checked": false,
-         "why": "matches، exists"
+         "why": "matches"
         },
         {
          "id": "IBR-179-AE",
@@ -89,7 +89,7 @@
          "msg": "The value in Buyer legal registration identifier type [BTAE-16] should either be 'Commercial/Trade license' or 'Emirates ID' or 'Passport' or 'Cabinet decision' when Buyer legal registration identifier (IBT-047) is provided and scheme identifier (IBT-049-1) is '0235' and buyer electronic address (IBT-049) is not '1XXXXXXXXX'.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-183-ae/",
          "checked": false,
-         "why": "matches"
+         "why": "مقارنة بتسلسل قيم، matches"
         }
        ],
        "ctxOk": true
@@ -173,7 +173,7 @@
          "msg": "Either Seller tax registration identifier (IBT-032) or Seller VAT identifier (IBT-031) MUST be provided",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-177-ae/",
          "checked": false,
-         "why": "matches، exists"
+         "why": "matches"
         },
         {
          "id": "IBR-178-AE",
@@ -201,7 +201,7 @@
          "msg": "The value in Seller legal registration identifier type [BTAE-15] scheme identifier [IBT-030-1] should either be 'Commercial/Trade license' or 'Emirates ID' or 'Passport' or 'Cabinet decision' when the value in Seller legal registration identifier (IBT-030) is provided and scheme identifier (IBT-034-1) is '0235' and the Seller country code (IBT-055) is AE.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-173-ae/",
          "checked": false,
-         "why": "صيغة XPath 2.0"
+         "why": "مقارنة بتسلسل قيم"
         },
         {
          "id": "IBR-181-AE",
@@ -227,7 +227,7 @@
          "msg": "Item net price (ibt-146) MUST equal (Gross price (ibt-148) - Price discount (ibt-147)) when gross price is provided.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-004/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -276,7 +276,7 @@
          "msg": "When Country code (IBT-040, IBT-055, IBT-069, IBT-080) is AE, then country subdivision (IBT-039, IBT-054, IBT-068, IBT-079) must be one of (AUH, DXB, SHJ, UAQ, FUJ, AJM, RAK).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-128-ae/",
          "checked": false,
-         "why": "صيغة XPath 2.0"
+         "why": "مقارنة بتسلسل قيم"
         }
        ],
        "ctxOk": true
@@ -459,7 +459,7 @@
          "msg": "Line VAT Information (IBG - 30) MUST be there and can occur maximum once except in case when invoice type code is 'Out of scope of VAT' or 'Credit note related to goods or services'.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-123-ae/",
          "checked": false,
-         "why": "صيغة XPath 2.0"
+         "why": "خطوة بين قوسين"
         },
         {
          "id": "IBR-194-AE",
@@ -644,7 +644,7 @@
          "msg": "When Invoice type code (IBT-003) is 'Out of scope of VAT' or 'Credit note related to goods or services', then the Document level allowance VAT category code (IBT-095), Document level charge VAT category code (IBT-102), Invoiced item VAT category code (IBT-151) MUST be either 'Exempt from VAT' and/or 'Not subject to VAT' and/or 'Zero rated'.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-122-ae/",
          "checked": false,
-         "why": "متغيّر، some/every، in"
+         "why": "متغيّر، some/every، مقارنة بتسلسل قيم"
         },
         {
          "id": "IBR-124-AE",
@@ -663,7 +663,7 @@
          "msg": "Payment due date [IBT-009] MUST be present when the amount due for payment (IBT-115) greater than 0, except when invoice type code (IBT-003) is 'Credit note' or 'Credit note related to goods or services' or Invoice transaction-type code (BTAE-002) is X1XXXXXX (Deemed supply) .",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-127-ae/",
          "checked": false,
-         "why": "matches، exists"
+         "why": "matches"
         },
         {
          "id": "IBR-116-AE",
@@ -768,7 +768,7 @@
          "msg": "When the Invoiced item VAT category code (ibt-151), Document level allowance VAT category code (ibt-095), Document level charge VAT category code (ibt-102) is Standard rated then Invoiced item VAT rate (ibt-152), Document level allowance VAT rate (ibt-096), Document level charge VAT rate (ibt-103) must be 5.00.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-190-ae/",
          "checked": false,
-         "why": "متغيّر، some/every، satisfies، xs:decimal"
+         "why": "متغيّر، some/every، castable as، xs:decimal"
         },
         {
          "id": "IBR-191-AE",
@@ -778,7 +778,7 @@
          "msg": "Payment means type code (ibt-081) must be provided except when the invoice type code (ibt-003) is 'Credit note' or \"Credit note related to goods or services\", or Invoice transaction-type code (BTAE-002) is X1XXXXXX (Deemed supply).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-191-ae/",
          "checked": false,
-         "why": "matches، exists"
+         "why": "matches"
         },
         {
          "id": "IBR-154-AE",
@@ -929,7 +929,7 @@
          "msg": "Each VAT breakdown (ibg-23) MUST have a VAT category rate (ibt-119), except if the Invoice is not subject to VAT or Exempt from Tax.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-048/",
          "checked": false,
-         "why": "exists، upper-case"
+         "why": "مقارنة بتسلسل قيم"
         },
         {
          "id": "IBR-119-AE",
@@ -939,7 +939,7 @@
          "msg": "Each VAT breakdown (IBG-23) shall have a VAT category rate (IBT-119), except if the Invoice is not subject to VAT or Exempt from Tax.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-119-ae/",
          "checked": false,
-         "why": "صيغة XPath 2.0"
+         "why": "مقارنة بتسلسل قيم"
         }
        ],
        "ctxOk": true
@@ -956,7 +956,7 @@
          "msg": "In an Invoice line (ibg-25) where the Invoiced item VAT category code (ibt-151) is \"Standard rated\" the Invoiced item VAT rate (ibt-152) MUST be greater than zero.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-05/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -973,7 +973,7 @@
          "msg": "In a Document level allowance (ibg-20) where the Document level allowance VAT category code (ibt-95) is \"Standard rated\" the Document level allowance VAT rate (ibt-96) MUST be greater than zero.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-06/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -990,7 +990,7 @@
          "msg": "In a Document level charge (ibg-21) where the Document level charge VAT category code (ibt-102) is \"Standard rated\" the Document level charge VAT rate (ibt-103) MUST be greater than zero.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-07/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1007,7 +1007,7 @@
          "msg": "For each different value of VAT category rate (ibt-119) where the VAT category code (ibt-118) is \"Standard rated\", the VAT category taxable amount (ibt-116) in a VAT breakdown (ibg-23) MUST equal the sum of Invoice line net amounts (ibt-131) plus the sum of document level charge amounts (ibt-99) minus the sum of document level allowance amounts (ibt-92) where the VAT category code (ibt-151, ibt-102, ibt-95) is \"Standard rated\" and the VAT rate (ibt-152, ibt-103, ibt-96) equals the VAT category rate (ibt-119).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-08/",
          "checked": false,
-         "why": "متغيّر، some/every، xs:decimal، satisfies، exists، u:slack"
+         "why": "متغيّر، some/every، castable as، xs:decimal، u:slack"
         },
         {
          "id": "ALIGNED-IBRP-S-09",
@@ -1017,7 +1017,7 @@
          "msg": "The VAT category tax amount (ibt-117) in a VAT breakdown (ibg-23) where VAT category code (ibt-118) is \"Standard rated\" MUST equal the VAT category taxable amount (ibt-116) multiplied by the VAT category rate (ibt-119).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-09/",
          "checked": false,
-         "why": "u:slack، abs، xs:decimal"
+         "why": "castable as، u:slack، abs، xs:decimal"
         },
         {
          "id": "ALIGNED-IBRP-S-10",
@@ -1043,7 +1043,7 @@
          "msg": "In a VAT Breakdown (IBG-23) where the VAT category code (IBT-118) is 'Standard rate additional VAT', for each different value of VAT category rate (IBT-119) the VAT category taxable amount (IBT-116) shall equal the sum of Invoice line net amounts (IBT-131) where the VAT category code (IBT-151) is 'Standard rate additional VAT' and the VAT rate (IBT-152) equals the VAT category rate (IBT-119).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-102-ae/",
          "checked": false,
-         "why": "متغيّر، some/every، xs:decimal، satisfies، exists، u:slack"
+         "why": "متغيّر، some/every، castable as، xs:decimal، u:slack"
         },
         {
          "id": "IBR-108-AE",
@@ -1069,7 +1069,7 @@
          "msg": "In a VAT breakdown (ibg-23) where the VAT category code (ibt-118) is \"Exempt from VAT\" the VAT category taxable amount (ibt-116) MUST equal the sum of Invoice line net amounts (ibt-131) minus the sum of Document level allowance amounts (ibt-92) plus the sum of Document level charge amounts (ibt-99) where the VAT category codes (ibt-151, ibt-95, ibt-102) are \"Exempt from VAT\".",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-08/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "xs:decimal"
         },
         {
          "id": "ALIGNED-IBRP-E-09",
@@ -1130,7 +1130,7 @@
          "msg": "In a Document level allowance (ibg-20) where the Document level allowance VAT category code (ibt-95) is \"Exempt from VAT\", the Document level allowance VAT rate (ibt-96) MUST be 0 (zero).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-06/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1147,7 +1147,7 @@
          "msg": "In a Document level charge (ibg-21) where the Document level charge VAT category code (ibt-102) is \"Exempt from VAT\", the Document level charge VAT rate (ibt-103) MUST be 0 (zero).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-07/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1164,7 +1164,7 @@
          "msg": "In an Invoice line (ibg-25) where the Invoiced item VAT category code (ibt-151) is \"Zero rated\" the Invoiced item VAT rate (ibt-152) MUST be 0 (zero).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-05/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         },
         {
          "id": "IBR-165-AE",
@@ -1190,7 +1190,7 @@
          "msg": "In a Document level allowance (ibg-20) where the Document level allowance VAT category code (ibt-95) is \"Zero rated\" the Document level allowance VAT rate (ibt-96) MUST be 0 (zero).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-06/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1207,7 +1207,7 @@
          "msg": "In a Document level charge (ibg-21) where the Document level charge VAT category code (ibt-102) is \"Zero rated\" the Document level charge VAT rate (ibt-103) MUST be 0 (zero).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-07/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1224,7 +1224,7 @@
          "msg": "In a VAT breakdown (ibg-23) where VAT category code (ibt-118) is \"Zero rated\" the VAT category taxable amount (ibt-116) MUST equal the sum of Invoice line net amount (ibt-131) minus the sum of Document level allowance amounts (ibt-92) plus the sum of Document level charge amounts (ibt-99) where the VAT category codes (ibt-151, ibt-95, ibt-102) are \"Zero rated\".",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-08/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "xs:decimal"
         },
         {
          "id": "ALIGNED-IBRP-Z-09",
@@ -1308,7 +1308,7 @@
          "msg": "In a VAT breakdown (ibg-23) where the VAT category code (ibt-118) is \" Not subject to VAT\" the VAT category taxable amount (ibt-116) MUST equal the sum of Invoice line net amounts (ibt-131) minus the sum of Document level allowance amounts (ibt-92) plus the sum of Document level charge amounts (ibt-99) where the VAT category codes (ibt-151, ibt-95, ibt-102) are \"Not subject to VAT\".",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-o-08/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "xs:decimal"
         },
         {
          "id": "ALIGNED-IBRP-O-09",
@@ -1387,7 +1387,7 @@
          "msg": "In a Document level allowance (ibg-20) where the Document level allowance VAT category code (ibt-95) is \"Reverse charge\" the Document level allowance VAT rate (ibt-96) MUST be zero.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-06/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1404,7 +1404,7 @@
          "msg": "In a Document level charge (ibg-21) where the Document level charge VAT category code (ibt-102) is \"Reverse charge\" the Document level charge VAT rate (ibt-103) MUST be zero.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-07/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "castable as، xs:decimal"
         }
        ],
        "ctxOk": true
@@ -1421,7 +1421,7 @@
          "msg": "In a VAT Breakdown (IBG-23) where the VAT category code (IBT-118) is 'Reverse Charge', for each different value of VAT category rate (IBT-119) the VAT category taxable amount (IBT-116) shall equal the sum of Invoice line net amounts (IBT-131) plus the sum of Document level charge amounts (IBT-99) minus the sum of Document level allowance amounts (IBT-92) where the VAT category code (IBT-151, IBT-102, IBT-095) is 'Reverse Charge' and the VAT rate (IBT-152, IBT-103, IBT-096) equals the VAT category rate (IBT-119).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-08-ae/",
          "checked": false,
-         "why": "exists، xs:decimal"
+         "why": "xs:decimal"
         },
         {
          "id": "ALIGNED-IBRP-AE-09-AE",
@@ -2104,7 +2104,7 @@
          "msg": "Sum of Invoice line net amount (ibt-106) = Σ Invoice line net amount (ibt-131).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-10/",
          "checked": false,
-         "why": "xs:decimal"
+         "why": "خطوة بين قوسين، xs:decimal"
         },
         {
          "id": "IBR-CO-11",
@@ -2260,7 +2260,7 @@
          "msg": "If the Tax accounting currency code (ibt-006) is present, then the Invoice total Tax amount in accounting currency (ibt-111) MUST be provided.",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-053/",
          "checked": false,
-         "why": "متغيّر، some/every، exists"
+         "why": "متغيّر، some/every"
         },
         {
          "id": "IBR-066",
@@ -2693,7 +2693,7 @@
          "msg": "If both Invoice line period start date (ibt-134) and Invoice line period end date (ibt-135) are given then the Invoice line period end date (ibt-135) MUST be later or equal to the Invoice line period start date (ibt-134).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-030/",
          "checked": false,
-         "why": "exists، xs:date"
+         "why": "xs:date"
         },
         {
          "id": "IBR-CO-20",
@@ -2719,7 +2719,7 @@
          "msg": "If both Invoicing period start date (ibt-073) and Invoicing period end date (ibt-074) are given then the Invoicing period end date (ibt-074) MUST be later or equal to the Invoicing period start date (ibt-073).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-029/",
          "checked": false,
-         "why": "exists، xs:date"
+         "why": "xs:date"
         },
         {
          "id": "IBR-CO-19",
@@ -3197,7 +3197,7 @@
          "msg": "A date MUST be formatted YYYY-MM-DD in (ibt-002), (ibt-007), (ibt-009), (ibt-026), (ibt-072), (ibt-073), (ibt-074), (ibt-134), (ibt-135).",
          "url": "https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-073/",
          "checked": false,
-         "why": "صيغة XPath 2.0"
+         "why": "castable as"
         }
        ],
        "ctxOk": true

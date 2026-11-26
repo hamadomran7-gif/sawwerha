@@ -34,6 +34,18 @@ const extra = process.argv[2];
   if (nw.error !== "not_well_formed") { fail++; console.log("FAIL not well-formed", nw); } else console.log("ok not well-formed");
   const nu = await check('<Invoice xmlns="urn:example"/>');
   if (nu.error !== "not_ubl") { fail++; console.log("FAIL not ubl", nu); } else console.log("ok not ubl");
+  // تصحيحا المدقق المستقل (26 نوفمبر): قسم CDATA يندمج مع النص المجاور كما في XDM، و+ قبل المبلغ صيغة xsd:decimal صحيحة؛
+  // ويبقى الخطأ الحقيقي داخل CDATA مخالفة.
+  const v0 = fs.readFileSync(path.join(fx, "pint-ae-valid.xml"), "utf8");
+  const CID = "<cbc:CustomizationID>urn:peppol:pint:billing-1@ae-1</cbc:CustomizationID>", PRICE = '<cbc:PriceAmount currencyID="AED">4.9</cbc:PriceAmount>';
+  if (!v0.includes(CID) || !v0.includes(PRICE)) { fail++; console.log("FAIL fixture markers missing"); }
+  const ids = (r) => (r.violations || []).map((v) => v.id).join(" ") + (r.error || "");
+  const cd = await check(v0.replace(CID, "<cbc:CustomizationID><![CDATA[urn:peppol:pint:]]>billing-1@ae-1</cbc:CustomizationID>"));
+  const cdBad = await check(v0.replace(CID, "<cbc:CustomizationID><![CDATA[urn:peppol:pint:]]>billing-2@ae-1</cbc:CustomizationID>"));
+  const pl = await check(v0.replace(PRICE, '<cbc:PriceAmount currencyID="AED">+4.9</cbc:PriceAmount>'));
+  const neg = await check(v0.replace(PRICE, '<cbc:PriceAmount currencyID="AED">-4.9</cbc:PriceAmount>'));
+  if (ids(cd) || ids(pl)) { fail++; console.log("FAIL cdata/plus:", ids(cd), "|", ids(pl)); } else console.log("ok CDATA merged and leading + accepted: 0 violations");
+  if (!/ALIGNED-IBRP-001-AE/.test(ids(cdBad)) || !/IBR-027/.test(ids(neg))) { fail++; console.log("FAIL real errors hidden:", ids(cdBad), "|", ids(neg)); } else console.log("ok real errors still caught:", ids(cdBad), "|", ids(neg));
   if (extra) {
     const files = [];
     (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith(".xml")) files.push(p); } })(extra);

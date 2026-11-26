@@ -8,13 +8,19 @@ const { chromium } = require("playwright");
 const file = process.argv[2];
 const data = JSON.parse(fs.readFileSync(file, "utf8"));
 const XP1 = new Set(["last", "position", "count", "id", "local-name", "namespace-uri", "name", "string", "concat", "starts-with", "contains", "substring-before", "substring-after", "substring", "string-length", "normalize-space", "translate", "boolean", "not", "true", "false", "lang", "number", "sum", "floor", "ceiling", "round", "text", "node", "comment", "processing-instruction"]);
+// يُحسب السبب من التعبير المستعمل (xt أو cx) لا من النص الرسمي، فلا يُذكر ما حوّلته التحويلات الثلاثة (exists وupper-case
+// وtrue()/false()) سبباً؛ وكلمات XPath 2.0 المحجوزة قبل قوس (in وsatisfies وreturn …) ليست دوال (تصحيح المدقق المستقل، 26 نوفمبر).
+const KEYWORDS = new Set(["and", "or", "div", "mod", "in", "satisfies", "return", "then", "else", "as", "of", "to", "is", "eq", "ne", "lt", "le", "gt", "ge", "union", "intersect", "except", "instance", "treat", "cast", "castable", "for", "some", "every", "if"]);
 function why(expr) {
-  const f = [...expr.matchAll(/([A-Za-z_][\w.-]*(?::[A-Za-z_][\w.-]*)?)\s*\(/g)].map((m) => m[1]).filter((n) => !XP1.has(n) && !["and", "or", "div", "mod"].includes(n));
+  const f = [...expr.matchAll(/([A-Za-z_][\w.-]*(?::[A-Za-z_][\w.-]*)?)\s*\(/g)].map((m) => m[1]).filter((n) => !XP1.has(n) && !KEYWORDS.has(n));
   const parts = [];
   if (/\$[A-Za-z_]/.test(expr)) parts.push("متغيّر");
   if (/\bif\s*\(/.test(expr)) parts.push("if");
   if (/\b(some|every)\s+\$/.test(expr)) parts.push("some/every");
-  for (const n of f) if (!parts.includes(n) && n !== "if") parts.push(n);
+  if (/\bcastable\s+as\b/.test(expr)) parts.push("castable as");
+  if (/(^|[^\w:.-])\(\s*('[^']*'|"[^"]*")\s*(,\s*('[^']*'|"[^"]*")\s*)+\)/.test(expr)) parts.push("مقارنة بتسلسل قيم");
+  if (/\/\s*\(/.test(expr)) parts.push("خطوة بين قوسين");
+  for (const n of f) if (!parts.includes(n)) parts.push(n);
   return parts.length ? parts.join("، ") : "صيغة XPath 2.0";
 }
 // مقارنة ترتيب (< أو <= أو > أو >=) بين قيمتين غير عدديتين: XPath 1.0 يحوّل الطرفين إلى رقمين، وXPath 2.0 يقارن
@@ -78,9 +84,9 @@ function lastNames(ctx) {
       r.asserts.forEach((a, ai) => {
         total++;
         delete a.why;
-        if (!res.c) { a.checked = false; a.why = "السياق: " + why(r.context); }
+        if (!res.c) { a.checked = false; a.why = "السياق: " + why(r.cx); }
         else if (shadowed) { a.checked = false; a.why = "السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم"; }
-        else if (!res.a[ai]) { a.checked = false; a.why = why(a.test); }
+        else if (!res.a[ai]) { a.checked = false; a.why = why(a.xt); }
         else if (unsafeRelational(a.xt)) { a.checked = false; a.why = "مقارنة ترتيب بين قيمتين نصيتين"; }
         else { a.checked = true; checked++; }
       });
