@@ -279,7 +279,7 @@ textarea.input{min-height:84px;resize:vertical}
       <a class="btn" href="#quote">اطلب عروض الأسعار</a>
       <a class="btn ghost" href="#calc">احسب موعدك وغرامة التأخير</a>
     </div>
-    <p class="note">أداتان مجانيتان: <a href="/readiness-check">مدقق جاهزية الفوترة الإلكترونية</a> و<a href="/invoice-generator">مولّد الفاتورة الضريبية</a>.</p>
+    <p class="note">ثلاث أدوات مجانية: <a href="/readiness-check">مدقق جاهزية الفوترة الإلكترونية</a> و<a href="/invoice-generator">مولّد الفاتورة الضريبية</a> و<a href="/pint-ae-validator">مدقق ملف الفاتورة PINT AE</a>.</p>
   </section>
 
   <section id="quote" aria-labelledby="quote-title">
@@ -572,10 +572,11 @@ textarea.input{min-height:84px;resize:vertical}
 
   <section id="guides" aria-labelledby="guides-title">
     <h2 id="guides-title">الدليل</h2>
-    <p class="sub" id="tools">أداتان مجانيتان تعملان في متصفحك:</p>
+    <p class="sub" id="tools">ثلاث أدوات مجانية تعمل في متصفحك:</p>
     <ul class="more">
       <li><a href="/readiness-check"><b>مدقق جاهزية الفوترة الإلكترونية</b><span>خمسة أسئلة تحدد مرحلتك وموعدك وخطواتك</span></a></li>
       <li><a href="/invoice-generator"><b>مولّد الفاتورة الضريبية</b><span>فاتورة أو عرض سعر PDF بالعربية والإنجليزية</span></a></li>
+      <li><a href="/pint-ae-validator"><b>مدقق PINT AE لملف الفاتورة</b><span>افحص ملف XML بقواعد PINT AE الرسمية دون رفعه</span></a></li>
     </ul>
     <p class="sub">إجابات قصيرة بمصادرها، نراجعها كلما صدر قرار جديد.</p>
     <ul class="more">
@@ -642,6 +643,7 @@ textarea.input{min-height:84px;resize:vertical}
 
     <h2 id="privacy">الخصوصية</h2>
     <p class="note">نجمع ما تكتبه في نموذج الطلب فقط: اسمك، واسم الشركة، ورقم الجوال، والبريد إن كتبته، وعدد الفواتير، والبرنامج الحالي، ومعها رابط الإعلان الذي جئت منه. نستخدمها لغرض واحد: إرسال طلبك إلى ما يصل إلى ثلاثة مزوّدي خدمة معتمدين. <span id="store-line">تُحفظ الطلبات في حسابنا لدى Cloudflare، وهي الشركة التي تستضيف الموقع.</span> لا نبيع بياناتك، ونحذفها خلال 12 شهراً أو فور طلبك.</p>
+    <p class="note" id="privacy-validator">وفي <a href="/pint-ae-validator">مدقق PINT AE</a> يُفحص ملفك في متصفحك ولا يصلنا هو ولا محتواه ولا اسمه؛ ونحفظ عن كل فحص يكتمل وقته ونتيجته (ناجح أو مخالف) وعدد المخالفات فقط. ومن يطلب المدقق كواجهة API نحفظ اسم شركته وبريده وعدد فواتيره الشهري لنراسله بشأنها وحدها، ولا نرسلها إلى أي مزوّد، ونحذفها كذلك خلال 12 شهراً أو فور طلبه.</p>
     <p class="note" id="ads-line" hidden>نستخدم وسم Google Ads لنعرف عدد الطلبات التي جاءت من الإعلانات.</p>
     <p class="note">لطلب حذف بياناتك أو تصحيحها: <span id="contact-slot"><a href="mailto:info@emtithali.com">info@emtithali.com</a></span>.</p>
 

@@ -2,7 +2,9 @@
 //   node emtithali/tests/browser/pint-validator.e2e.cjs [مجلد أمثلة إضافي]
 // (1) مثالا الاختبار في tests/fixtures: الصحيح بلا مخالفة، والمعدَّل بمخالفاته المتوقعة بالضبط.
 // (2) إن مُرِّر مجلد (مثل res/ بعد فك resources.zip الرسمي) يُفحص كل XML فيه ويُطبع ما وُجد.
-// (3) لا طلب شبكة أثناء الفحص: يُسجَّل كل طلب بعد تحميل القواعد ويجب أن يكون صفراً.
+// (3) لا طلب شبكة أثناء الفحص بالمحرك وحده: يُسجَّل كل طلب بعد تحميل القواعد ويجب أن يكون صفراً.
+// (4) الصفحة نفسها على أصل وهمي تخدمه page.route من site/: بعد كل فحص طلب واحد إلى ‎/api/pint-check‎ جسمه {ok, n} حرفياً،
+//     ولا طلب يحمل شيئاً من الملف؛ ونموذج «أريد المدقق كواجهة API» يرسل إلى ‎/api/submit‎ الحقول السبعة المتوقعة وحدها.
 const fs = require("node:fs");
 const path = require("node:path");
 const { chromium } = require("playwright");
@@ -42,6 +44,63 @@ const extra = process.argv[2];
     }
   }
   if (requests.length) { fail++; console.log("FAIL network requests during validation:", requests); } else console.log("ok no network requests");
+
+  // (4) الصفحة كاملة
+  const ORIGIN = "https://emtithali.test";
+  const sent = [];
+  const page2 = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  const errors = [];
+  page2.on("pageerror", (e) => errors.push(String(e)));
+  await page2.route(ORIGIN + "/**", async (route) => {
+    const req = route.request(), u = new URL(req.url());
+    if (u.pathname.startsWith("/api/")) {
+      sent.push({ path: u.pathname, method: req.method(), body: req.postData() || "" });
+      if (u.pathname === "/api/pint-check") return route.fulfill({ status: 204, body: "" });
+      return route.fulfill({ status: 200, contentType: "application/json", body: '{"success":true}' });
+    }
+    const f = path.join(site, u.pathname === "/" ? "index.html" : u.pathname.replace(/^\//, ""));
+    const file = fs.existsSync(f) ? f : f + ".html";
+    if (!fs.existsSync(file)) return route.fulfill({ status: 404, body: "" });
+    const type = file.endsWith(".html") ? "text/html" : file.endsWith(".js") ? "text/javascript" : file.endsWith(".json") ? "application/json" : file.endsWith(".css") ? "text/css" : "application/octet-stream";
+    return route.fulfill({ status: 200, contentType: type, body: fs.readFileSync(file) });
+  });
+  await page2.goto(ORIGIN + "/pint-ae-validator");
+  await page2.waitForFunction(() => !document.getElementById("vrun").disabled);
+  const validXml = fs.readFileSync(path.join(fx, "pint-ae-valid.xml"), "utf8");
+  const invalidXml = fs.readFileSync(path.join(fx, "pint-ae-invalid.xml"), "utf8");
+  for (const xml of [validXml, invalidXml, "<Invoice><x></Invoice>"]) {
+    await page2.fill("#vtext", xml);
+    await page2.click("#vrun");
+    await page2.waitForTimeout(400);
+  }
+  const events = sent.filter((x) => x.path === "/api/pint-check");
+  const want = [JSON.stringify({ ok: true, n: 0 }), JSON.stringify({ ok: false, n: expected.length })];
+  if (JSON.stringify(events.map((e) => e.body)) !== JSON.stringify(want) || events.some((e) => e.method !== "POST")) { fail++; console.log("FAIL check events", events, "want", want); }
+  else console.log("ok check events:", events.map((e) => e.body).join(" "));
+  // لا طلب يحمل شيئاً من الملفين: قيم مميِّزة منهما
+  const marks = [...new Set([...validXml.matchAll(/<cbc:(?:ID|EndpointID|CompanyID)[^>]*>([^<]{4,})</g)].map((m) => m[1]))];
+  const leaked = sent.filter((x) => marks.some((m) => x.body.includes(m)) || /Invoice|xmlns|urn:/.test(x.body));
+  if (!marks.length || leaked.length) { fail++; console.log("FAIL leaked file content", marks.length, leaked); } else console.log("ok no file content in", sent.length, "requests (" + marks.length + " marks)");
+  // نموذج «أريد المدقق كواجهة API»
+  await page2.click("#api-open");
+  await page2.click("#api-submit");
+  const errShown = await page2.evaluate(() => ["company", "email", "volume", "consent"].map((k) => document.getElementById("err-api-" + k).textContent).filter(Boolean).length);
+  if (errShown !== 4 || sent.some((x) => x.path === "/api/submit")) { fail++; console.log("FAIL empty api form", errShown); } else console.log("ok empty api form: 4 errors, nothing sent");
+  await page2.fill("#api-company", "شركة اختبار");
+  await page2.fill("#api-email", "api@example.com");
+  await page2.selectOption("#api-volume", "50-500");
+  await page2.check("#api-consent");
+  await page2.click("#api-submit");
+  await page2.waitForSelector("#api-done", { state: "visible" });
+  const subs = sent.filter((x) => x.path === "/api/submit");
+  const sub = subs.length === 1 ? JSON.parse(subs[0].body) : {};
+  const keys = Object.keys(sub).join(",");
+  const okSub = subs.length === 1 && keys === "company,email,invoices_per_month,consent,source,sent_at,kind"
+    && sub.kind === "validator-api" && sub.source === "?src=validator-api" && sub.invoices_per_month === "من 50 إلى 500" && /بلا إحالة/.test(sub.consent);
+  if (!okSub) { fail++; console.log("FAIL api submit", subs); } else console.log("ok api submit:", keys);
+  const wide = await page2.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  if (wide > 0) { fail++; console.log("FAIL horizontal overflow at 375px:", wide); } else console.log("ok no horizontal overflow at 375px");
+  if (errors.length) { fail++; console.log("FAIL page errors", errors); } else console.log("ok no page errors");
   await browser.close();
   process.exit(fail ? 1 : 0);
 })();

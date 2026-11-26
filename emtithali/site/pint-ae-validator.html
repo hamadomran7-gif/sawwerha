@@ -43,8 +43,9 @@ textarea.input{width:100%;min-height:160px;font-family:ui-monospace,Menlo,Consol
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"هل يُرفع ملف الفاتورة إلى خادم؟","acceptedAnswer":{"@type":"Answer","text":"لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. الطلب الوحيد الذي تجريه الصفحة أثناء الاستعمال هو تحميل ملف القواعد pint-ae-rules.json من موقعنا."}},
+{"@type":"Question","name":"هل يُرفع ملف الفاتورة إلى خادم؟","acceptedAnswer":{"@type":"Answer","text":"لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. تحمّل الصفحة ملف القواعد pint-ae-rules.json من موقعنا، وبعد كل فحص يكتمل ترسل إلينا حدثاً صغيراً فيه نتيجته (ناجح أو مخالف) وعدد المخالفات فقط، لنعرف كم مرة استُعمل المدقق."}},
 {"@type":"Question","name":"هل نجاح الفحص يعني أن الفاتورة مقبولة؟","acceptedAnswer":{"@type":"Answer","text":"لا. هذا فحص أولي غير رسمي لا يحل محل مزوّد خدمة الفوترة الإلكترونية المعتمد ولا وزارة المالية. يفحص ما يقبله محرك XPath 1.0 في المتصفح من قواعد PINT AE الرسمية، ولا يفحص بنية الملف بمخطط UBL (XSD)، والقواعد التي لا يفحصها مذكورة في الصفحة."}},
+{"@type":"Question","name":"هل للمدقق واجهة API؟","acceptedAnswer":{"@type":"Answer","text":"ليس بعد. إن أردت فحص فواتيرك آلياً من نظامك فاترك اسم شركتك وبريدك وعدد فواتيرك الشهري في قسم «تريد المدقق كواجهة API؟»، فنراسلك بشأنها وحدها إن أطلقناها، ولا نرسل بياناتك إلى أي مزوّد."}},
 {"@type":"Question","name":"من أين جاءت القواعد ورسائلها؟","acceptedAnswer":{"@type":"Answer","text":"من ملفي Schematron الرسميين في حزمة الموارد لمواصفة PINT AE Billing 1.0.4 على docs.peppol.eu: القواعد الخاصة بالإمارات (132 قاعدة) والقواعد المشتركة في PINT (170 قاعدة). تُعرض رسالة كل قاعدة بنصها الإنجليزي كما في المصدر، مع رابط صفحتها."}}
 ]}
 </script>
@@ -192,22 +193,86 @@ textarea.input{width:100%;min-height:160px;font-family:ui-monospace,Menlo,Consol
     </details>
   </section>
 
+  <section aria-labelledby="s-api">
+    <h2 id="s-api">تريد المدقق كواجهة API؟</h2>
+    <p>إن أردت فحص فواتيرك آلياً من نظامك قبل إرسالها إلى مزوّدك، فاترك لنا اسم شركتك وبريدك وعدد فواتيرك الشهري. الواجهة غير متاحة بعد: نحفظ طلبك ونراسلك بشأنها وحدها إن أطلقناها، ولا نرسل بياناتك إلى أي مزوّد.</p>
+    <div class="cta-row"><button class="btn ghost" type="button" id="api-open" aria-expanded="false" aria-controls="api-box">أريد المدقق كواجهة API</button></div>
+    <div class="panel" id="api-box" hidden>
+      <form id="api-form" novalidate>
+        <div class="grid2">
+          <div class="field">
+            <label for="api-company">اسم الشركة</label>
+            <input class="input" id="api-company" name="company" type="text" autocomplete="organization" required aria-describedby="err-api-company">
+            <p class="err" id="err-api-company"></p>
+          </div>
+          <div class="field">
+            <label for="api-email">البريد الإلكتروني</label>
+            <input class="input ltr" id="api-email" name="email" type="email" autocomplete="email" required aria-describedby="err-api-email">
+            <p class="err" id="err-api-email"></p>
+          </div>
+          <div class="field">
+            <label for="api-volume">كم فاتورة تصدر شهرياً؟</label>
+            <select class="input" id="api-volume" name="volume" required aria-describedby="err-api-volume">
+              <option value="">اختر</option>
+              <option value="lt50">أقل من 50 فاتورة</option>
+              <option value="50-500">من 50 إلى 500</option>
+              <option value="500-5000">من 500 إلى 5,000</option>
+              <option value="gt5000">أكثر من 5,000</option>
+              <option value="unknown">لا أعرف</option>
+            </select>
+            <p class="err" id="err-api-volume"></p>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="api-website">اترك هذا الحقل فارغاً</label>
+          <input id="api-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="check">
+          <input id="api-consent" name="consent" type="checkbox" required aria-describedby="err-api-consent">
+          <label for="api-consent">أوافق على أن يحفظ امتثالي اسم شركتي وبريدي وعدد فواتيري ليراسلني بشأن واجهة API للمدقق وحدها، ولا تُرسَل إلى أي مزوّد.</label>
+        </div>
+        <p class="err" id="err-api-consent"></p>
+        <div class="cta-row"><button class="btn" type="submit" id="api-submit">أرسل الطلب</button></div>
+        <p class="err" id="err-api-form" role="alert"></p>
+        <p class="fine-print">لا نبيع بياناتك، ولك أن تطلب حذفها في أي وقت. <a href="/#privacy">تفاصيل الخصوصية</a></p>
+      </form>
+      <div class="done" id="api-done" role="status" tabindex="-1" hidden>
+        <h3>وصل طلبك</h3>
+        <p>حفظنا طلبك. نراسلك على بريدك إن أطلقنا واجهة API للمدقق، ولا نرسل بياناتك إلى أي مزوّد.</p>
+      </div>
+    </div>
+  </section>
+
   <section aria-labelledby="s-faq">
     <h2 id="s-faq">أسئلة شائعة</h2>
     <div class="qa">
       <div>
         <h3>هل يُرفع ملف الفاتورة إلى خادم؟</h3>
-        <p>لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. الطلب الوحيد الذي تجريه الصفحة أثناء الاستعمال هو تحميل ملف القواعد pint-ae-rules.json من موقعنا.</p>
+        <p>لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. تحمّل الصفحة ملف القواعد pint-ae-rules.json من موقعنا، وبعد كل فحص يكتمل ترسل إلينا حدثاً صغيراً فيه نتيجته (ناجح أو مخالف) وعدد المخالفات فقط، لنعرف كم مرة استُعمل المدقق.</p>
       </div>
       <div>
         <h3>هل نجاح الفحص يعني أن الفاتورة مقبولة؟</h3>
         <p>لا. هذا فحص أولي غير رسمي لا يحل محل مزوّد خدمة الفوترة الإلكترونية المعتمد ولا وزارة المالية. يفحص ما يقبله محرك XPath 1.0 في المتصفح من قواعد PINT AE الرسمية، ولا يفحص بنية الملف بمخطط UBL (XSD)، والقواعد التي لا يفحصها مذكورة في الصفحة.</p>
       </div>
       <div>
+        <h3>هل للمدقق واجهة API؟</h3>
+        <p>ليس بعد. إن أردت فحص فواتيرك آلياً من نظامك فاترك اسم شركتك وبريدك وعدد فواتيرك الشهري في قسم «تريد المدقق كواجهة API؟»، فنراسلك بشأنها وحدها إن أطلقناها، ولا نرسل بياناتك إلى أي مزوّد.</p>
+      </div>
+      <div>
         <h3>من أين جاءت القواعد ورسائلها؟</h3>
         <p>من ملفي Schematron الرسميين في حزمة الموارد لمواصفة PINT AE Billing 1.0.4 على docs.peppol.eu: القواعد الخاصة بالإمارات (132 قاعدة) والقواعد المشتركة في PINT (170 قاعدة). تُعرض رسالة كل قاعدة بنصها الإنجليزي كما في المصدر، مع رابط صفحتها.</p>
       </div>
     </div>
+  </section>
+
+  <section aria-labelledby="more-title">
+    <h2 id="more-title">اقرأ أيضاً</h2>
+    <ul class="more">
+      <li><a href="/mandatory-fields"><b>الحقول الإلزامية</b><span>الحقول حقلاً حقلاً، وأين يُكتب TRN وأين TIN</span></a></li>
+      <li><a href="/invoice-types"><b>أنواع الفواتير الإلكترونية</b><span>الفئات الست والحالات الثماني، ورمزا 380 و480</span></a></li>
+      <li><a href="/peppol-id"><b>معرّف Peppol</b><span>صيغته 0235 + TIN، ومن يُنشئه، وماذا تكتب لعميل بلا معرّف</span></a></li>
+      <li><a href="/choose-provider"><b>كيف أختار المزوّد؟</b><span>بنود وثيقة وزارة المالية، وما تسأل عنه قبل التوقيع</span></a></li>
+    </ul>
   </section>
 
   <footer>
@@ -248,12 +313,23 @@ textarea.input{width:100%;min-height:160px;font-family:ui-monospace,Menlo,Consol
     rd.onload = function () { text.value = String(rd.result || ""); status.textContent = "قُرئ الملف في متصفحك. اضغط «افحص الملف»."; };
     rd.readAsText(f);
   });
+  // عدّاد الاستعمال (البند 84): بعد كل فحص اكتمل حدث فيه النتيجة وعدد المخالفات فقط، بلا شيء من الملف ولا اسمه.
+  // لا ينتظره الفحص ولا يؤثر فيه فشله، وعشرون حدثاً على الأكثر في الزيارة الواحدة.
+  var sentChecks = 0;
+  function sendCheck(n) {
+    if (sentChecks >= 20 || !/^https?:$/.test(location.protocol)) return;
+    sentChecks++;
+    try {
+      fetch("/api/pint-check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ok: n === 0, n: n }), keepalive: true, credentials: "omit" }).catch(function () {});
+    } catch (e) { /* لا شيء */ }
+  }
   form.addEventListener("submit", function (ev) {
     ev.preventDefault();
     if (!rules) return;
     var r = V.validate(text.value, rules);
     list.textContent = ""; note.textContent = ""; box.hidden = false;
     if (r.error) { sum.textContent = ERR[r.error] || r.error; if (r.detail) note.textContent = r.detail.slice(0, 300); return; }
+    sendCheck(r.violations.length);
     var kind = r.kind === "creditnote" ? "الإشعار الدائن" : "الفاتورة";
     sum.textContent = r.violations.length
       ? kind + ": " + rulesN(r.violations.length) + " مخالفة من " + rulesN(r.evaluated) + " فُحصت."
@@ -267,6 +343,49 @@ textarea.input{width:100%;min-height:160px;font-family:ui-monospace,Menlo,Consol
       list.appendChild(li);
     });
     note.textContent = "لم تُفحص " + rulesN(r.skipped) + " (القائمة أدناه)" + (r.failedToRun.length ? "، وتعذّر تشغيل " + r.failedToRun.length + " في متصفحك: " + r.failedToRun.join("، ") : "") + ". والنتيجة فحص أولي غير رسمي.";
+  });
+
+  // «أريد المدقق كواجهة API»: طلب بالنموذج القائم ‎/api/submit‎ بالنوع validator-api ومصدره ‎?src=validator-api‎،
+  // فيه اسم الشركة والبريد وعدد الفواتير الشهري والموافقة فقط، ولا يُحال إلى أي مزوّد.
+  function $(id) { return document.getElementById(id); }
+  function optText(id) { var s = $(id); return s.selectedIndex > 0 ? s.options[s.selectedIndex].text : ""; }
+  var apiOpen = $("api-open"), apiBox = $("api-box"), apiForm = $("api-form"), apiBtn = $("api-submit");
+  apiOpen.addEventListener("click", function () {
+    apiBox.hidden = false; apiOpen.setAttribute("aria-expanded", "true"); apiOpen.hidden = true; $("api-company").focus();
+  });
+  apiForm.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var d = { company: $("api-company").value.trim(), email: $("api-email").value.trim(), volume: $("api-volume").value, consent: $("api-consent").checked };
+    var errs = {};
+    if (!d.company) errs.company = "اكتب اسم الشركة.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) errs.email = d.email ? "تحقق من صيغة البريد الإلكتروني." : "اكتب بريدك الإلكتروني.";
+    if (!d.volume) errs.volume = "اختر عدد الفواتير التقريبي.";
+    if (!d.consent) errs.consent = "نحتاج موافقتك حتى نحفظ طلبك.";
+    var first = null;
+    ["company", "email", "volume", "consent"].forEach(function (k) {
+      var input = $("api-" + k), msg = errs[k] || "";
+      $("err-api-" + k).textContent = msg;
+      if (msg) { input.setAttribute("aria-invalid", "true"); if (!first) first = input; } else input.removeAttribute("aria-invalid");
+    });
+    $("err-api-form").textContent = "";
+    if (first) { first.focus(); return; }
+    function done() { apiForm.hidden = true; var box = $("api-done"); box.hidden = false; box.focus(); }
+    if ($("api-website").value) { done(); return; } // حقل مخفي ملأه برنامج آلي: لا يُرسل شيء
+    apiBtn.disabled = true; apiBtn.textContent = "جارٍ الإرسال…";
+    fetch("/api/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        company: d.company, email: d.email, invoices_per_month: optText("api-volume"),
+        consent: "نعم: التواصل بشأن واجهة API لمدقق PINT AE فقط، بلا إحالة إلى أي مزوّد",
+        source: "?src=validator-api", sent_at: new Date().toISOString(), kind: "validator-api"
+      })
+    }).then(function (res) {
+      return res.json().then(function (j) { if (!res.ok || !j || !j.success) throw new Error("send failed"); });
+    }).then(done).catch(function () {
+      apiBtn.disabled = false; apiBtn.textContent = "أرسل الطلب";
+      $("err-api-form").textContent = "تعذّر إرسال الطلب. تحقق من اتصالك بالإنترنت ثم حاول مرة أخرى.";
+    });
   });
 })();
 </script>

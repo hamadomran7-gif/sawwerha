@@ -54,3 +54,18 @@ test("مثالا الاختبار: الصحيح نسخة المثال الرسم
   for (const id of expected) assert.ok(asserts.find((a) => a.id === id && a.checked), id);
   assert.equal(crypto.createHash("sha256").update(valid).digest("hex").length, 64);
 });
+
+test("الصفحة لا تطلب إلا ملف القواعد وحدث العدّاد وطلب API، وجسم الحدث {ok, n} وحده (البند 84)", () => {
+  const html = read("pint-ae-validator.html");
+  const inline = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).join("\n");
+  const urls = [...inline.matchAll(/fetch\("([^"]+)"/g)].map((m) => m[1]).sort();
+  assert.deepEqual(urls, ["/api/pint-check", "/api/submit", "/pint-ae-rules.json"]);
+  for (const w of ["XMLHttpRequest", "sendBeacon", "WebSocket", "localStorage", "document.cookie"]) assert.ok(!inline.includes(w), w);
+  assert.ok(inline.includes("body: JSON.stringify({ ok: n === 0, n: n })"));
+  assert.ok(inline.includes('kind: "validator-api"') && inline.includes('source: "?src=validator-api"'));
+  // أسئلة FAQ في JSON-LD هي المرئية نفسها
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">\s*(\{"@context":"https:\/\/schema.org","@type":"FAQPage"[\s\S]*?)<\/script>/)[1]);
+  const faq = html.slice(html.indexOf('aria-labelledby="s-faq"'), html.indexOf("</section>", html.indexOf('aria-labelledby="s-faq"')));
+  const seen = [...faq.matchAll(/<h3>([^<]+)<\/h3>\s*<p>([^<]+)<\/p>/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(ld.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), seen);
+});

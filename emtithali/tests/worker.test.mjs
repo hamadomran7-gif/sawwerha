@@ -122,3 +122,101 @@ test("إن رمى put مع metadata خطأً: يُحفظ الطلب بلا metad
   assert.equal(store.o.get(k), undefined);
   assert.equal(v, JSON.stringify({ ...bare, received_at: JSON.parse(v).received_at, site: "emtithali.com" }));
 });
+
+// ---- البند 84: طلب «أريد المدقق كواجهة API» وعدّاد فحوص المدقق ----
+const apiReq = {
+  company: "شركة اختبار", email: "api@example.com", invoices_per_month: "من 50 إلى 500",
+  consent: "نعم: التواصل بشأن واجهة API لمدقق PINT AE فقط، بلا إحالة إلى أي مزوّد", source: "?src=validator-api",
+  sent_at: "2026-11-26T15:00:00.000Z", kind: "validator-api",
+};
+
+test("طلب validator-api يُحفظ بلا اسم ولا جوال، وmetadata ‏{src, inv} نفسها، والسجل بالحقل kind", async () => {
+  const store = kv();
+  const r = await worker.fetch(post(apiReq), { LEADS: store, ASSETS: assets });
+  assert.equal(r.status, 200);
+  assert.deepStrictEqual(await r.json(), { success: true });
+  assert.equal(store.m.size, 1);
+  const [k, v] = [...store.m][0];
+  assert.match(k, /^lead:\d{14}-[0-9a-f]{8}$/);
+  const rec = JSON.parse(v);
+  assert.deepEqual(Object.keys(rec), ["company", "invoices_per_month", "consent", "source", "sent_at", "email", "kind", "received_at", "site"]);
+  assert.equal(rec.kind, "validator-api");
+  assert.deepStrictEqual(store.o.get(k).metadata, { src: "?src=validator-api", inv: apiReq.invoices_per_month });
+  assert.equal(JSON.stringify(store.o.get(k).metadata).includes(apiReq.email), false);
+});
+
+test("validator-api بلا بريد أو ببريد معطوب أو بلا موافقة أو بلا شركة، ونوع غير معروف: 400 دون حفظ", async () => {
+  const store = kv();
+  for (const bad of [
+    { ...apiReq, email: "" }, { ...apiReq, email: "not-an-email" }, { ...apiReq, consent: " " },
+    { ...apiReq, company: "" }, { ...apiReq, kind: "other" }, { ...lead, kind: "provider" },
+  ]) {
+    const r = await worker.fetch(post(bad), { LEADS: store, ASSETS: assets });
+    assert.equal(r.status, 400, JSON.stringify(bad));
+    assert.equal((await r.json()).success, false);
+  }
+  assert.equal(store.m.size, 0);
+  // وطلب العروض العادي بلا kind ما زال يشترط الاسم والجوال
+  const r2 = await worker.fetch(post({ company: "شركة", email: "a@example.com", consent: "نعم" }), { LEADS: store, ASSETS: assets });
+  assert.equal(r2.status, 400);
+  assert.equal(store.m.size, 0);
+});
+
+const check = (body, headers = {}, method = "POST") => new Request("https://emtithali.com/api/pint-check", {
+  method, headers: { "content-type": "application/json", ...headers },
+  body: method === "GET" ? undefined : typeof body === "string" ? body : JSON.stringify(body),
+});
+
+test("‎/api/pint-check‎: الحدث الصالح 204 ويُحفظ في CHECKS وحده بقيمة فارغة وmetadata ‏{ok, n}", async () => {
+  const leads = kv(), checks = kv();
+  for (const ev of [{ ok: true, n: 0 }, { ok: false, n: 6 }]) {
+    const r = await worker.fetch(check(ev), { LEADS: leads, CHECKS: checks, ASSETS: assets });
+    assert.equal(r.status, 204);
+    assert.equal(r.headers.get("cache-control"), "no-store");
+    assert.equal(await r.text(), "");
+  }
+  assert.equal(leads.m.size, 0);
+  assert.equal(checks.m.size, 2);
+  const entries = [...checks.m];
+  for (const [k, v] of entries) { assert.match(k, /^check:\d{14}-[0-9a-f]{8}$/); assert.equal(v, ""); assert.deepStrictEqual(Object.keys(checks.o.get(k)), ["metadata"]); }
+  assert.deepStrictEqual(entries.map(([k]) => checks.o.get(k).metadata), [{ ok: 1, n: 0 }, { ok: 0, n: 6 }]);
+});
+
+test("‎/api/pint-check‎: أي حقل زائد أو نوع خاطئ أو نتيجة متناقضة أو جسم كبير يُرفض دون حفظ، وGET ‏405", async () => {
+  const checks = kv();
+  for (const bad of [
+    { ok: true, n: 0, name: "x" }, { ok: true, n: 0, xml: "<Invoice/>" }, { ok: "true", n: 0 }, { ok: true, n: "0" },
+    { ok: true, n: 1 }, { ok: false, n: 0 }, { ok: false, n: -1 }, { ok: false, n: 1.5 }, { ok: false, n: 1001 }, { ok: true }, [true, 0], "x",
+  ]) {
+    const r = await worker.fetch(check(bad), { CHECKS: checks, ASSETS: assets });
+    assert.equal(r.status, 400, JSON.stringify(bad));
+  }
+  const big = await worker.fetch(check(" ".repeat(65)), { CHECKS: checks, ASSETS: assets });
+  assert.equal(big.status, 413);
+  const get = await worker.fetch(check(null, {}, "GET"), { CHECKS: checks, ASSETS: assets });
+  assert.equal(get.status, 405);
+  assert.equal(checks.m.size, 0);
+});
+
+test("‎/api/pint-check‎ بلا ربط CHECKS أو بـx-dry-run: 204 دون أي كتابة، ولا يمس LEADS أبداً", async () => {
+  const leads = kv(), checks = kv();
+  const r1 = await worker.fetch(check({ ok: true, n: 0 }), { LEADS: leads, ASSETS: assets });
+  assert.equal(r1.status, 204);
+  const r2 = await worker.fetch(check({ ok: false, n: 2 }, { "x-dry-run": "1" }), { LEADS: leads, CHECKS: checks, ASSETS: assets });
+  assert.equal(r2.status, 204);
+  assert.equal(leads.m.size + checks.m.size, 0);
+});
+
+test("‎/api/pint-check‎: خطأ الكتابة لا يصل إلى الزائر، وحد 30 كتابة في الساعة لكل نسخة عامل", async () => {
+  const fresh = (await import("../site/_worker.js?cap")).default; // نسخة مستقلة من الوحدة بعدّاد صفري
+  const throwing = { put: async () => { throw new Error("KV PUT failed: 429"); } };
+  const r = await fresh.fetch(check({ ok: true, n: 0 }), { CHECKS: throwing, ASSETS: assets });
+  assert.equal(r.status, 204);
+  const checks = kv();
+  for (let i = 0; i < 40; i++) {
+    const x = await fresh.fetch(check({ ok: i % 2 === 0, n: i % 2 === 0 ? 0 : 3 }), { CHECKS: checks, ASSETS: assets });
+    assert.equal(x.status, 204);
+  }
+  // المحاولة المرمية الأولى تُحتسب، فيبقى 29 في الساعة نفسها (إلا إن عبر الاختبار رأس الساعة)
+  assert.ok(checks.m.size === 29 || checks.m.size === 30, String(checks.m.size));
+});
