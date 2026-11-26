@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مدقق PINT AE المجاني: افحص ملف الفاتورة الإلكترونية XML في متصفحك | امتثالي</title>
+<meta name="description" content="افحص فاتورتك الإلكترونية أو إشعارك الدائن (UBL XML) بقواعد PINT AE الرسمية في متصفحك دون رفع الملف: رقم كل قاعدة مخالفة ورسالتها كما في مواصفة OpenPeppol، وقائمة بما لا يفحصه. فحص أولي غير رسمي.">
+<link rel="canonical" href="https://emtithali.com/pint-ae-validator">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0f1a38">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AE">
+<meta property="og:site_name" content="امتثالي">
+<meta property="og:title" content="مدقق PINT AE المجاني: افحص ملف الفاتورة الإلكترونية XML في متصفحك">
+<meta property="og:description" content="افحص فاتورتك الإلكترونية أو إشعارك الدائن (UBL XML) بقواعد PINT AE الرسمية في متصفحك دون رفع الملف: رقم كل قاعدة مخالفة ورسالتها كما في مواصفة OpenPeppol، وقائمة بما لا يفحصه. فحص أولي غير رسمي.">
+<meta property="og:url" content="https://emtithali.com/pint-ae-validator">
+<meta property="og:image" content="https://emtithali.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="امتثالي: قارن مزوّدي الفوترة الإلكترونية المعتمدين في الإمارات">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://emtithali.com/og-image.png">
+<link rel="preload" href="/alexandria-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<style>
+bdi{white-space:nowrap}
+.drop{display:block;border:2px dashed #c9d2e6;border-radius:12px;padding:18px;text-align:center;cursor:pointer}
+.drop input{display:block;margin:10px auto 0}
+textarea.input{width:100%;min-height:160px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;direction:ltr;text-align:left}
+.res-list{list-style:none;padding:0;margin:0}
+.res-list li{border:1px solid #e3e8f2;border-radius:10px;padding:10px 12px;margin:8px 0}
+.res-list code{font-weight:700}
+.res-list .m{direction:ltr;text-align:left;display:block;margin-top:6px}
+.unchecked{columns:2 240px;font-size:14px}
+.unchecked li{break-inside:avoid;margin-bottom:4px}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"امتثالي","item":"https://emtithali.com/"},
+{"@type":"ListItem","position":2,"name":"الأدوات","item":"https://emtithali.com/#guides"},
+{"@type":"ListItem","position":3,"name":"مدقق PINT AE","item":"https://emtithali.com/pint-ae-validator"}
+]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"هل يُرفع ملف الفاتورة إلى خادم؟","acceptedAnswer":{"@type":"Answer","text":"لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. الطلب الوحيد الذي تجريه الصفحة أثناء الاستعمال هو تحميل ملف القواعد pint-ae-rules.json من موقعنا."}},
+{"@type":"Question","name":"هل نجاح الفحص يعني أن الفاتورة مقبولة؟","acceptedAnswer":{"@type":"Answer","text":"لا. هذا فحص أولي غير رسمي لا يحل محل مزوّد خدمة الفوترة الإلكترونية المعتمد ولا وزارة المالية. يفحص ما يقبله محرك XPath 1.0 في المتصفح من قواعد PINT AE الرسمية، ولا يفحص بنية الملف بمخطط UBL (XSD)، والقواعد التي لا يفحصها مذكورة في الصفحة."}},
+{"@type":"Question","name":"من أين جاءت القواعد ورسائلها؟","acceptedAnswer":{"@type":"Answer","text":"من ملفي Schematron الرسميين في حزمة الموارد لمواصفة PINT AE Billing 1.0.4 على docs.peppol.eu: القواعد الخاصة بالإمارات (132 قاعدة) والقواعد المشتركة في PINT (170 قاعدة). تُعرض رسالة كل قاعدة بنصها الإنجليزي كما في المصدر، مع رابط صفحتها."}}
+]}
+</script>
+<meta name="google-site-verification" content="fyD6TpguzHdZdrTBret4iJY0QTGLJTJINWPAkpEWC54">
+</head>
+<body>
+<div class="ribbon" data-nosnippet>نسخة تجريبية قبل الإطلاق.</div>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5"/><path d="M6.5 12.5l3.6 3.7L17.5 8"/></svg>امتثالي<small>منصة مستقلة، غير حكومية</small></a>
+    <nav class="nav" aria-label="أقسام الموقع">
+      <a href="/#compare">المزوّدون</a>
+      <a href="/#calc">الموعد والغرامة</a>
+      <a href="/#method">المنهجية</a>
+      <a href="/#guides">الدليل</a>
+      <a href="/#faq">الأسئلة</a>
+    </nav>
+    <a class="btn sm" href="/?src=pint-ae-validator#quote">اطلب عروض الأسعار</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="crumb"><a href="/">امتثالي</a> / <a href="/#guides">الأدوات</a></p>
+    <h1 id="page-title">مدقق PINT AE المجاني: افحص ملف الفاتورة الإلكترونية XML في متصفحك</h1>
+    <p class="lead">اختر ملف فاتورة أو إشعار دائن بصيغة UBL XML، أو الصق نصه، فيُفحص في متصفحك بقواعد مواصفة PINT AE الرسمية، ويظهر لكل مخالفة رقم القاعدة ورسالتها كما في المصدر. لا يُرفع الملف ولا يُرسَل محتواه إلى أي خادم.</p>
+    <p class="note warn">فحص أولي غير رسمي: لا يحل محل مزوّد خدمة الفوترة الإلكترونية المعتمد ولا وزارة المالية، ولا يفحص بنية الملف بمخطط UBL (XSD)، ولا يفحص كل القواعد؛ وما لا يفحصه مذكور أدناه. القواعد من <a href="https://docs.peppol.eu/poac/ae/pint-ae/" rel="noopener">PINT AE Billing 1.0.4</a> (OpenPeppol)، قُرئت في <span id="read-date">26 نوفمبر 2026</span>.</p>
+  </section>
+
+  <section aria-labelledby="s-tool">
+    <h2 id="s-tool">افحص الملف</h2>
+    <div class="panel">
+      <form id="vform" novalidate>
+        <label class="drop" for="vfile">اختر ملف XML من جهازك
+          <input id="vfile" type="file" accept=".xml,application/xml,text/xml">
+        </label>
+        <p class="note">أو الصق نص الملف هنا:</p>
+        <textarea id="vtext" class="input" spellcheck="false" aria-label="نص ملف الفاتورة XML" placeholder="&lt;Invoice xmlns=&quot;urn:oasis:names:specification:ubl:schema:xsd:Invoice-2&quot; …"></textarea>
+        <div class="cta-row"><button class="btn" type="submit" id="vrun" disabled>افحص الملف</button></div>
+        <p class="note" id="vstatus" role="status" aria-live="polite">جارٍ تحميل القواعد…</p>
+      </form>
+    </div>
+    <div id="vresult" hidden>
+      <h3 id="vsum"></h3>
+      <ul class="res-list" id="vlist"></ul>
+      <p class="note" id="vnote"></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-what">
+    <h2 id="s-what">ما الذي يفحصه المدقق؟</h2>
+    <p>القواعد قاعدتان رسميتان من حزمة الموارد لمواصفة PINT AE: «AE specific PINT rules» الخاصة بالفواتير الإماراتية (132 قاعدة)، و«Shared PINT rules» المشتركة بين كل فواتير PINT (170 قاعدة). وكل قاعدة تعبير XPath في ملف Schematron، ويقيّم المدقق منها ما يقبله محرك XPath 1.0 المدمج في المتصفح: <strong><span id="n-checked">218</span> قاعدة من 302</strong>، منها قيم ثابتة وصيغ ووجود الحقول وعددها وقوائم الرموز وعلاقات حسابية.</p>
+    <p>ولثلاثة أنماط من التعبيرات صيغة مكافئة في XPath 1.0 تُستعمل بدلها: exists() على مسار، والمقارنة بـtrue() أو false()، وupper-case(cbc:ID) عند مقارنته بـ'VAT'. ويبقى نص القاعدة الرسمي هو المعروض، والصيغة المستعملة محفوظة بجانبه في ملف القواعد.</p>
+    <p>ولا يفحص المدقق القواعد التي تحتاج XPath 2.0 (مثل matches() وxs:decimal() والدوال الخاصة u:)، ولا مقارنة ترتيب بين قيمتين نصيتين (كالتاريخين في IBR-141-AE)، ولا قاعدة قد تسبقها في نمطها قاعدة لا تُقيَّم. وهذه قائمتها (<span id="n-unchecked">84</span> قاعدة):</p>
+    <details>
+      <summary>القواعد التي لا يفحصها هذا الإصدار وسبب كلٍّ منها</summary>
+      <ul class="unchecked ltr" id="unchecked-list">
+<!--UNCHECKED:START-->
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-010-ae/" rel="noopener"><code>IBR-010-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-149-ae/" rel="noopener"><code>IBR-149-AE</code></a> <span dir="rtl">(matches، exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-135-ae/" rel="noopener"><code>IBR-135-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-183-ae/" rel="noopener"><code>IBR-183-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-012-ae/" rel="noopener"><code>IBR-012-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-177-ae/" rel="noopener"><code>IBR-177-AE</code></a> <span dir="rtl">(matches، exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-173-ae/" rel="noopener"><code>IBR-173-AE</code></a> <span dir="rtl">(صيغة XPath 2.0)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-004/" rel="noopener"><code>ALIGNED-IBRP-004</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-128-ae/" rel="noopener"><code>IBR-128-AE</code></a> <span dir="rtl">(صيغة XPath 2.0)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-002-ae/" rel="noopener"><code>IBR-002-AE</code></a> <span dir="rtl">(matches، codepoints-to-string)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-123-ae/" rel="noopener"><code>IBR-123-AE</code></a> <span dir="rtl">(صيغة XPath 2.0)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-002-ae/" rel="noopener"><code>ALIGNED-IBRP-002-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-007-ae/" rel="noopener"><code>IBR-007-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-137-ae/" rel="noopener"><code>IBR-137-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-138-ae/" rel="noopener"><code>IBR-138-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-141-ae/" rel="noopener"><code>IBR-141-AE</code></a> <span dir="rtl">(مقارنة ترتيب بين قيمتين نصيتين)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-142-ae/" rel="noopener"><code>IBR-142-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-122-ae/" rel="noopener"><code>IBR-122-AE</code></a> <span dir="rtl">(متغيّر، some/every، in)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-127-ae/" rel="noopener"><code>IBR-127-AE</code></a> <span dir="rtl">(matches، exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-116-ae/" rel="noopener"><code>IBR-116-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-151-ae/" rel="noopener"><code>IBR-151-AE</code></a> <span dir="rtl">(exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-152-ae/" rel="noopener"><code>IBR-152-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-157-ae/" rel="noopener"><code>IBR-157-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-176-ae/" rel="noopener"><code>IBR-176-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-190-ae/" rel="noopener"><code>IBR-190-AE</code></a> <span dir="rtl">(متغيّر، some/every، satisfies، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-191-ae/" rel="noopener"><code>IBR-191-AE</code></a> <span dir="rtl">(matches، exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-154-ae/" rel="noopener"><code>IBR-154-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-048/" rel="noopener"><code>ALIGNED-IBRP-048</code></a> <span dir="rtl">(exists، upper-case)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-119-ae/" rel="noopener"><code>IBR-119-AE</code></a> <span dir="rtl">(صيغة XPath 2.0)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-05/" rel="noopener"><code>ALIGNED-IBRP-S-05</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-06/" rel="noopener"><code>ALIGNED-IBRP-S-06</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-07/" rel="noopener"><code>ALIGNED-IBRP-S-07</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-08/" rel="noopener"><code>ALIGNED-IBRP-S-08</code></a> <span dir="rtl">(متغيّر، some/every، xs:decimal، satisfies، exists، u:slack)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-s-09/" rel="noopener"><code>ALIGNED-IBRP-S-09</code></a> <span dir="rtl">(u:slack، abs، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-102-ae/" rel="noopener"><code>IBR-102-AE</code></a> <span dir="rtl">(متغيّر، some/every، xs:decimal، satisfies، exists، u:slack)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-08/" rel="noopener"><code>ALIGNED-IBRP-E-08</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-09/" rel="noopener"><code>ALIGNED-IBRP-E-09</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-06/" rel="noopener"><code>ALIGNED-IBRP-E-06</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-e-07/" rel="noopener"><code>ALIGNED-IBRP-E-07</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-05/" rel="noopener"><code>ALIGNED-IBRP-Z-05</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-06/" rel="noopener"><code>ALIGNED-IBRP-Z-06</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-07/" rel="noopener"><code>ALIGNED-IBRP-Z-07</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-08/" rel="noopener"><code>ALIGNED-IBRP-Z-08</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-z-09/" rel="noopener"><code>ALIGNED-IBRP-Z-09</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-o-08/" rel="noopener"><code>ALIGNED-IBRP-O-08</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-o-09/" rel="noopener"><code>ALIGNED-IBRP-O-09</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-06/" rel="noopener"><code>ALIGNED-IBRP-AE-06</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-07/" rel="noopener"><code>ALIGNED-IBRP-AE-07</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-08-ae/" rel="noopener"><code>ALIGNED-IBRP-AE-08-AE</code></a> <span dir="rtl">(exists، xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/aligned-ibrp-ae-09-ae/" rel="noopener"><code>ALIGNED-IBRP-AE-09-AE</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-132-ae/" rel="noopener"><code>IBR-132-AE</code></a> <span dir="rtl">(ends-with، matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-148-ae/" rel="noopener"><code>IBR-148-AE</code></a> <span dir="rtl">(matches)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-068/" rel="noopener"><code>IBR-068</code></a> <span dir="rtl">(matches، u:gln)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-069/" rel="noopener"><code>IBR-069</code></a> <span dir="rtl">(matches، u:mod11)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-113/" rel="noopener"><code>IBR-113</code></a> <span dir="rtl">(matches، u:mod97-0208)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-114/" rel="noopener"><code>IBR-114</code></a> <span dir="rtl">(u:checkCodiceIPA)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-115/" rel="noopener"><code>IBR-115</code></a> <span dir="rtl">(u:checkCF)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-116/" rel="noopener"><code>IBR-116</code></a> <span dir="rtl">(u:checkPIVAseIT)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-120/" rel="noopener"><code>IBR-120</code></a> <span dir="rtl">(matches، u:abn)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-10/" rel="noopener"><code>IBR-CO-10</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-11/" rel="noopener"><code>IBR-CO-11</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-12/" rel="noopener"><code>IBR-CO-12</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-13/" rel="noopener"><code>IBR-CO-13</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-16/" rel="noopener"><code>IBR-CO-16</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-053/" rel="noopener"><code>IBR-053</code></a> <span dir="rtl">(متغيّر، some/every، exists)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-15/" rel="noopener"><code>IBR-CO-15</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-087/" rel="noopener"><code>IBR-087</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-085/" rel="noopener"><code>IBR-085</code></a> <span dir="rtl">(xs:date)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-086/" rel="noopener"><code>IBR-086</code></a> <span dir="rtl">(xs:date)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-030/" rel="noopener"><code>IBR-030</code></a> <span dir="rtl">(exists، xs:date)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-029/" rel="noopener"><code>IBR-029</code></a> <span dir="rtl">(exists، xs:date)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-105/" rel="noopener"><code>IBR-105</code></a> <span dir="rtl">(upper-case)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-co-14/" rel="noopener"><code>IBR-CO-14</code></a> <span dir="rtl">(xs:decimal)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-073/" rel="noopener"><code>IBR-073</code></a> <span dir="rtl">(صيغة XPath 2.0)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-119/" rel="noopener"><code>IBR-119</code></a> <span dir="rtl">(السياق: ends-with)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-074/" rel="noopener"><code>IBR-074</code></a> <span dir="rtl">(السياق: ends-with)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-075/" rel="noopener"><code>IBR-075</code></a> <span dir="rtl">(السياق: ends-with)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-077/" rel="noopener"><code>IBR-077</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-079/" rel="noopener"><code>IBR-079</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-088/" rel="noopener"><code>IBR-088</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-092/" rel="noopener"><code>IBR-092</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-sr-62/" rel="noopener"><code>IBR-SR-62</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-093/" rel="noopener"><code>IBR-093</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+        <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/ibr-108/" rel="noopener"><code>IBR-108</code></a> <span dir="rtl">(السياق: قاعدة سابقة في النمط نفسه لا تُقيَّم)</span></li>
+<!--UNCHECKED:END-->
+      </ul>
+    </details>
+  </section>
+
+  <section aria-labelledby="s-faq">
+    <h2 id="s-faq">أسئلة شائعة</h2>
+    <div class="qa">
+      <div>
+        <h3>هل يُرفع ملف الفاتورة إلى خادم؟</h3>
+        <p>لا. يُقرأ الملف ويُفحص في متصفحك وحده، ولا يُرسَل محتواه ولا اسمه إلى أي خادم. الطلب الوحيد الذي تجريه الصفحة أثناء الاستعمال هو تحميل ملف القواعد pint-ae-rules.json من موقعنا.</p>
+      </div>
+      <div>
+        <h3>هل نجاح الفحص يعني أن الفاتورة مقبولة؟</h3>
+        <p>لا. هذا فحص أولي غير رسمي لا يحل محل مزوّد خدمة الفوترة الإلكترونية المعتمد ولا وزارة المالية. يفحص ما يقبله محرك XPath 1.0 في المتصفح من قواعد PINT AE الرسمية، ولا يفحص بنية الملف بمخطط UBL (XSD)، والقواعد التي لا يفحصها مذكورة في الصفحة.</p>
+      </div>
+      <div>
+        <h3>من أين جاءت القواعد ورسائلها؟</h3>
+        <p>من ملفي Schematron الرسميين في حزمة الموارد لمواصفة PINT AE Billing 1.0.4 على docs.peppol.eu: القواعد الخاصة بالإمارات (132 قاعدة) والقواعد المشتركة في PINT (170 قاعدة). تُعرض رسالة كل قاعدة بنصها الإنجليزي كما في المصدر، مع رابط صفحتها.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="note">امتثالي منصة مستقلة غير حكومية. لا تتبع وزارة المالية ولا الهيئة الاتحادية للضرائب، وليست مزوّد خدمة معتمداً. المعلومات هنا إرشادية وليست استشارة ضريبية.</p>
+    <p class="note"><a href="/#privacy">الخصوصية</a></p>
+    <h2>المصادر</h2>
+    <ul class="links">
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/PINT-jurisdiction-aligned-rules/" rel="noopener">AE specific PINT rules: القواعد الخاصة بالإمارات، PINT AE Billing 1.0.4، قُرئت في 26 نوفمبر 2026 (بالإنجليزية)</a></li>
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/trn-invoice/rule/PINT-UBL-validation-preprocessed/" rel="noopener">Shared PINT rules: القواعد المشتركة، PINT AE Billing 1.0.4، قُرئت في 26 نوفمبر 2026 (بالإنجليزية)</a></li>
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/resources.zip" rel="noopener">حزمة الموارد resources.zip (ملفا Schematron وأمثلة الفواتير وقوائم الرموز)، OpenPeppol، جُلبت في 26 نوفمبر 2026</a></li>
+      <li><a href="https://docs.peppol.eu/poac/ae/pint-ae/" rel="noopener">PINT AE Billing 1.0.4، OpenPeppol (بالإنجليزية)</a></li>
+    </ul>
+  </footer>
+</main>
+<script src="/pint-ae-validator.js"></script>
+<script>
+(function () {
+  "use strict";
+  var V = window.PintAeValidator, rules = null;
+  var form = document.getElementById("vform"), file = document.getElementById("vfile"), text = document.getElementById("vtext");
+  var run = document.getElementById("vrun"), status = document.getElementById("vstatus");
+  var box = document.getElementById("vresult"), sum = document.getElementById("vsum"), list = document.getElementById("vlist"), note = document.getElementById("vnote");
+  var ERR = {
+    empty: "الملف فارغ.",
+    too_large: "الملف أكبر من 5 ميغابايت.",
+    not_well_formed: "الملف ليس XML سليم البنية، فلا تُفحص قواعده.",
+    not_ubl: "جذر الملف ليس Invoice أو CreditNote بمساحة أسماء UBL 2.1، فلا تُفحص قواعد PINT AE عليه."
+  };
+  function rulesN(n) { return n === 1 ? "قاعدة واحدة" : n === 2 ? "قاعدتان" : n + (n % 100 >= 3 && n % 100 <= 10 ? " قواعد" : " قاعدة"); }
+  function el(tag, attrs, txt) { var e = document.createElement(tag); for (var k in attrs || {}) e.setAttribute(k, attrs[k]); if (txt != null) e.textContent = txt; return e; }
+  fetch("/pint-ae-rules.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (j) {
+    rules = j; run.disabled = false; status.textContent = "القواعد جاهزة: تُفحص " + rulesN(j.source.checked) + " من " + j.source.total + ".";
+  }).catch(function () { status.textContent = "تعذّر تحميل ملف القواعد. أعد تحميل الصفحة."; });
+  file.addEventListener("change", function () {
+    var f = file.files && file.files[0]; if (!f) return;
+    if (f.size > V.MAX_BYTES) { status.textContent = ERR.too_large; return; }
+    var rd = new FileReader();
+    rd.onload = function () { text.value = String(rd.result || ""); status.textContent = "قُرئ الملف في متصفحك. اضغط «افحص الملف»."; };
+    rd.readAsText(f);
+  });
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!rules) return;
+    var r = V.validate(text.value, rules);
+    list.textContent = ""; note.textContent = ""; box.hidden = false;
+    if (r.error) { sum.textContent = ERR[r.error] || r.error; if (r.detail) note.textContent = r.detail.slice(0, 300); return; }
+    var kind = r.kind === "creditnote" ? "الإشعار الدائن" : "الفاتورة";
+    sum.textContent = r.violations.length
+      ? kind + ": " + rulesN(r.violations.length) + " مخالفة من " + rulesN(r.evaluated) + " فُحصت."
+      : kind + ": لا مخالفة في " + rulesN(r.evaluated) + " فُحصت.";
+    r.violations.forEach(function (v) {
+      var li = el("li");
+      var a = el("a", { href: v.url, rel: "noopener" }); a.appendChild(el("code", { dir: "ltr" }, v.id));
+      li.appendChild(a);
+      li.appendChild(document.createTextNode(" · " + (v.set === "ae" ? "خاصة بالإمارات" : "مشتركة") + (v.count > 1 ? " · في " + v.count + " مواضع" : "")));
+      li.appendChild(el("span", { "class": "m", dir: "ltr", lang: "en" }, v.msg));
+      list.appendChild(li);
+    });
+    note.textContent = "لم تُفحص " + rulesN(r.skipped) + " (القائمة أدناه)" + (r.failedToRun.length ? "، وتعذّر تشغيل " + r.failedToRun.length + " في متصفحك: " + r.failedToRun.join("، ") : "") + ". والنتيجة فحص أولي غير رسمي.";
+  });
+})();
+</script>
+</body>
+</html>
