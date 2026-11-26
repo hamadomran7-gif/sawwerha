@@ -177,6 +177,11 @@ def page():
     </table></div></div>
   </section>
 
+  <section aria-labelledby="s-status">
+    <h2 id="s-status">Accreditation status and complaints</h2>
+    <p>The Ministry of Finance’s <a href="https://mof.gov.ae/ar/about-us/initiatives/einvoicing/" rel="noopener">e-invoicing page</a> (Arabic) says the status of accredited service providers has been updated to full accreditation, and it links a card for complaints about an accredited e-invoicing service provider to <a href="https://171.ae/" rel="noopener">Tawasul 171</a>, the government platform for messages, case tracking and the 171 hotline. We read both pages on 26 November 2026.</p>
+  </section>
+
   <section aria-labelledby="s-about">
     <h2 id="s-about">What Emtithali is</h2>
     <p>Emtithali is an independent, Arabic-language platform in a pre-launch trial. It is not part of the Ministry of Finance or the Federal Tax Authority, and it is not an Accredited Service Provider.</p>
