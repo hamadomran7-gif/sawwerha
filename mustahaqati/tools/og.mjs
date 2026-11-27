@@ -1,22 +1,22 @@
 // يولّد صور المعاينة (Open Graph) لكل صفحة: 1200×630 JPEG في src/assets/og/<slug>.jpg
-// الاستخدام: FONT_DIR=/path/to/google-fonts/ofl node tools/og.mjs [--force]
-// يعيد التوليد فقط للصفحات التي تغيّر عنوانها أو وصفها (manifest.json).
+// الاستخدام: FONT_DIR=/path/to/google-fonts/ofl node tools/og.mjs [--force] [--only=slug1,slug2] [--out=<مجلد>]
+// يعيد التوليد فقط للصفحات التي تغيّر نص صورتها (العنوان والسطر الثاني والشارة واللغة، tools/og-text.mjs)
+// أو لا صورة لها، وبصمتها في manifest.json لا تتأثر بمسار الخطوط ولا بالجهاز (البند 88).
+// --only يقصر الرسم على صفحات بعينها، و--out يرسم إلى مجلد آخر للمقارنة دون أن يمس src ولا manifest.json.
+// tests/og.test.js يفشل إن تغيّر نص صفحة بلا رسم صورتها، أو غابت صورة صفحة مفهرسة.
 import fs from "node:fs";
 import path from "node:path";
-import crypto from "node:crypto";
 import { createRequire } from "node:module";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { pathToFileURL } from "node:url";
+import { OUT, MANIFEST, ogPages, ogText, fingerprint, readManifest } from "./og-text.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
-const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const PAGES = path.join(ROOT, "src", "pages");
-const OUT = path.join(ROOT, "src", "assets", "og");
 const FONT_DIR = process.env.FONT_DIR;
 const FORCE = process.argv.includes("--force");
-const VERSION = "v2";
-const COUNTRY = { ae: "الإمارات", sa: "السعودية", qa: "قطر", kw: "الكويت", om: "عُمان", bh: "البحرين", gcc: "الخليج", all: "عام" };
-const COUNTRY_EN = { ae: "UAE", sa: "Saudi Arabia", qa: "Qatar", kw: "Kuwait", om: "Oman", bh: "Bahrain", gcc: "GCC", all: "General" };
+const arg = (name) => (process.argv.find((a) => a.startsWith(`--${name}=`)) || "").slice(name.length + 3);
+const ONLY = arg("only") ? new Set(arg("only").split(",").map((x) => x.trim()).filter(Boolean)) : null;
+const DEST = arg("out") ? path.resolve(arg("out")) : OUT;
 
 if (!FONT_DIR || !fs.existsSync(path.join(FONT_DIR, "ibmplexsansarabic"))) {
   console.error("FONT_DIR يجب أن يشير إلى مجلد ofl من google/fonts (فيه ibmplexsansarabic وnotokufiarabic)");
@@ -25,21 +25,8 @@ if (!FONT_DIR || !fs.existsSync(path.join(FONT_DIR, "ibmplexsansarabic"))) {
 const font = (p) => pathToFileURL(path.join(FONT_DIR, p)).href;
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-function readMeta(file) {
-  const raw = fs.readFileSync(path.join(PAGES, file), "utf8");
-  const m = raw.match(/^---json\s*\n([\s\S]*?)\n---\s*\n/);
-  if (!m) return null;
-  const meta = JSON.parse(m[1]);
-  meta.slug = meta.slug || file.replace(/\.html$/, "");
-  return meta;
-}
-
 function html(meta) {
-  const title = meta.h1 || meta.title;
-  const sub = meta.short || "";
-  const en = meta.lang === "en";
-  const C = en ? COUNTRY_EN : COUNTRY;
-  const chip = meta.hub ? C[meta.hub] : C[meta.country] || "";
+  const { title, sub, chip, en } = ogText(meta);
   const size = title.length > 60 ? 54 : title.length > 42 ? 62 : 72;
   return `<!doctype html><html lang="${en ? "en" : "ar"}" dir="${en ? "ltr" : "rtl"}"><head><meta charset="utf-8"><style>
 @font-face{font-family:Plex;font-weight:500;src:url("${font("ibmplexsansarabic/IBMPlexSansArabic-Medium.ttf")}")}
@@ -69,22 +56,23 @@ ${sub ? `<p class="sub">${esc(sub)}</p>` : ""}
 </div></body></html>`;
 }
 
-const manifestPath = path.join(OUT, "manifest.json");
-const manifest = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, "utf8")) : {};
+const manifest = readManifest();
+const known = new Set();
 const todo = [];
-for (const f of fs.readdirSync(PAGES).filter((x) => x.endsWith(".html"))) {
-  const meta = readMeta(f);
-  if (!meta || meta.noindex || meta.embedOf || meta.slug === "404") continue;
-  const page = html(meta);
-  const hash = crypto.createHash("sha1").update(VERSION + page).digest("hex").slice(0, 16);
-  const out = path.join(OUT, `${meta.slug}.jpg`);
-  if (!FORCE && manifest[meta.slug] === hash && fs.existsSync(out)) continue;
-  todo.push({ meta, page, hash, out });
+for (const meta of ogPages()) {
+  known.add(meta.slug);
+  if (ONLY && !ONLY.has(meta.slug)) continue;
+  const hash = fingerprint(meta);
+  const out = path.join(DEST, `${meta.slug}.jpg`);
+  if (!FORCE && !ONLY && DEST === OUT && manifest[meta.slug] === hash && fs.existsSync(out)) continue;
+  todo.push({ meta, page: html(meta), hash, out });
 }
+for (const slug of ONLY || []) if (!known.has(slug)) { console.error(`لا صفحة مفهرسة بالمعرّف ${slug}`); process.exit(1); }
 if (!todo.length) {
   console.log("صور المعاينة محدثة.");
   process.exit(0);
 }
+fs.mkdirSync(DEST, { recursive: true });
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 const tab = await ctx.newPage();
@@ -96,5 +84,5 @@ for (const t of todo) {
   console.log("✓", t.meta.slug);
 }
 await browser.close();
-fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 1) + "\n");
+if (DEST === OUT) fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1) + "\n");
 console.log(`تم توليد ${todo.length} صورة.`);
