@@ -167,6 +167,7 @@ def render(meta, body):
     sticky = (f'<a class="cta" href="/try/">{UP_ICON}<span>ارفع صورة منتجك مجاناً</span></a>' if lang == "ar"
               else f'<a class="cta" href="{esc(wa)}" target="_blank" rel="noopener">{WA_ICON}<span>{ui["sticky"]}</span></a>')
     alt_label, alt_href = ui["alt"]
+    updated = meta.get("updated", UPDATED)  # تاريخ صفحة بعينها حين تتغيّر وحدها (يُكتب في التذييل وlastmod)
     return f"""<!doctype html>
 <html lang="{lang}" dir="{ui['dir']}">
 <head>
@@ -179,7 +180,7 @@ def render(meta, body):
 <meta property="og:title" content="{esc(meta.get('og_title', meta['title']))}">
 <meta property="og:description" content="{esc(meta['description'])}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="{DOMAIN}/samples/scene-1.jpg">
+<meta property="og:image" content="{DOMAIN}{meta.get('og_image', '/samples/scene-1.jpg')}">
 <meta name="theme-color" content="#2b2140">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -203,7 +204,7 @@ def render(meta, body):
   <nav class="links" aria-label="{ui['services']}">{services}</nav>
   <nav class="links" aria-label="policies" style="margin-top:8px"><a href="/terms">{ui['terms']}</a><a href="/privacy">{ui['privacy']}</a><a href="mailto:support@sawwerha.app">support@sawwerha.app</a></nav>
   <p style="margin-top:10px">{esc(ui['legal'])}</p>
-  <p class="src">{'Last updated' if lang == 'en' else 'آخر تحديث'}: <time datetime="{UPDATED}">{UPDATED}</time></p>
+  <p class="src">{'Last updated' if lang == 'en' else 'آخر تحديث'}: <time datetime="{updated}">{updated}</time></p>
 </footer>
 
 <div class="sticky">{sticky}</div>
@@ -212,21 +213,32 @@ def render(meta, body):
 """
 
 
+def check_gallery_files(meta, body):
+    """صور المعرض (‎/gallery/…‎) وصورة المشاركة يجب أن تكون ملفات في web/ حتى لا تُنشر صفحة بصورة مكسورة."""
+    refs = set(re.findall(r'(?:src|href)="(/gallery/[^"]+)"', body))
+    if meta.get("og_image"):
+        refs.add(meta["og_image"])
+    return [f"صورة غير موجودة: {r}" for r in sorted(refs) if r.startswith("/gallery/") and not (WEB / r.lstrip("/")).is_file()]
+
+
 def main():
     pages = read_pages()
     bad = [f"{meta['slug']}: {p}" for meta, body in pages for p in check_sample_claims(meta, body)]
     if bad:
         raise SystemExit("ادعاءات العيّنة المجانية (البند 29):\n" + "\n".join(bad))
-    urls = [(DOMAIN + "/", "1.0")]
+    missing = [f"{meta['slug']}: {p}" for meta, body in pages for p in check_gallery_files(meta, body)]
+    if missing:
+        raise SystemExit("صور المعرض:\n" + "\n".join(missing))
+    urls = [(DOMAIN + "/", "1.0", UPDATED)]
     for meta, body in pages:
         out = WEB / meta["slug"] / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(render(meta, body), encoding="utf-8")
-        urls.append((f"{DOMAIN}/{meta['slug']}/", "0.8"))
+        urls.append((f"{DOMAIN}/{meta['slug']}/", "0.8", meta.get("updated", UPDATED)))
         print("wrote", out.relative_to(ROOT))
-    urls += [(DOMAIN + "/try/", "0.9"), (DOMAIN + "/terms", "0.3"), (DOMAIN + "/privacy", "0.3")]
+    urls += [(DOMAIN + "/try/", "0.9", UPDATED), (DOMAIN + "/terms", "0.3", UPDATED), (DOMAIN + "/privacy", "0.3", UPDATED)]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sm += "".join(f"  <url><loc>{u}</loc><lastmod>{UPDATED}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
+    sm += "".join(f"  <url><loc>{u}</loc><lastmod>{d}</lastmod><priority>{p}</priority></url>\n" for u, p, d in urls)
     sm += "</urlset>\n"
     (WEB / "sitemap.xml").write_text(sm, encoding="utf-8")
     (WEB / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
