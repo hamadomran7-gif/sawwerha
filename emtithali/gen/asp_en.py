@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-امتثالي — البند 57 في «طابور البناء»: صفحة إنجليزية بقائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين (88 مزوّداً).
+امتثالي — البند 57 في «طابور البناء»: صفحة إنجليزية بقائمة مزوّدي خدمات الفوترة الإلكترونية المعتمدين (90 مزوّداً منذ البند 92).
 بلا اعتماديات: python3 emtithali/gen/asp_en.py [مجلد_الإخراج]   (الافتراضي emtithali/site)
 
 يكتب: uae-accredited-service-providers.html → https://emtithali.com/uae-accredited-service-providers
@@ -20,6 +20,8 @@
   في رأس providers.py حرفياً على الصفحة الإنجليزية: 5,337 بايتاً، SHA-256 = EN_SHA256. لا تُنقل أعمدة الاسم والبريد والهاتف.
   الفرق عن ROWS (المبنية من الصفحة العربية) أربعة صفوف: 14 و70 شرطة مائلة في آخر الموقع، و17 «Solution»، و31 «LLC».
   (23 نوفمبر 2026: صار ROWS[17] «Solution» كالقائمة العربية، فبقي الفرق ثلاثة صفوف: 14 و70 و31.)
+  (27 نوفمبر 2026، وكيل البناء، البند 92: الصفحة الإنجليزية 90 صفاً بترتيب العربية نفسه (09:57:10Z)، ومقطع البصمة يعطي 5,444 بايتاً
+  وEN_SHA256 الجديدة؛ والجديد Abcore (الصف 1) وWeb Masters LLC (الصف 86)، والفرق عن ROWS الصفوف 15 و71 (الشرطة) و32 («LLC»).)
 - موعد من إيرادهم دون 50 مليون درهم: المادة 5 (1) (ب) من القرار الوزاري 244 لسنة 2025 (D244_EN)، قُرئت في التشغيل نفسه:
   التعيين حتى 31 مارس 2027 والتطبيق حتى 1 يوليو 2027. (القرار 66 لسنة 2026 يستبدل الفقرة (أ) وحدها.)
 - حقول النموذج ونص الموافقة والملاحظة التجريبية من site/index.html ‏(#lead-form، و CONFIG.staging = true)،
@@ -41,8 +43,8 @@ PATH = "/uae-accredited-service-providers"
 URL = SITE + PATH
 MOF_EN = "https://mof.gov.ae/en/about-us/initiatives/einvoicing/einvoicing-accredited-service-providers-asps/"
 D244_EN = "https://mof.gov.ae/wp-content/uploads/2025/09/Ministerial-Decision-No.-244-of-2025-on-the-Implementation-of-the-Electronic-Invoicing-System.pdf"
-EN_SHA256 = "60a00023be5c39eb7a5776f94715827cb6f80aa6529ddbfb8603cb01e34cfd74"
-READ_ON = "24 November 2026"  # تاريخ قراءتنا للقائمة (البند 70)؛ لا تاريخ تذييل mof.gov.ae
+EN_SHA256 = "f9272acbe92b39126778a579571d3b560a2dac4c73166922ceea03449df1a913"
+READ_ON = "27 November 2026"  # تاريخ قراءتنا للقائمة (البند 92، وقبله 24 نوفمبر للبند 70)؛ لا تاريخ تذييل mof.gov.ae
 NOLINK_ON = "18 November 2026"  # تاريخ فحص الروابط الستة في providers.py
 SRC = "asp-en"
 
@@ -57,7 +59,7 @@ def load_rows():
     if got != EN_SHA256:
         sys.exit(f"mof-asp-en.tsv: SHA-256 {got} لا يطابق EN_SHA256")
     rows = [line.split("\t") for line in raw.decode("utf-8").splitlines()]
-    assert len(rows) == 88 == len(ROWS), len(rows)
+    assert len(rows) == len(ROWS), len(rows)
     for (n, name, acc, site), r in zip(rows, ROWS):
         if int(n) != r[0] or acc != r[2]:
             sys.exit(f"الصف {n}: الرقم أو رقم الاعتماد لا يطابق ROWS ({r[0]}, {r[2]})")
@@ -87,12 +89,13 @@ CONSENT_EN = "I agree to send my details above to up to three accredited service
 
 def page():
     rows = load_rows()
-    title = "UAE eInvoicing Accredited Service Providers (ASPs): the 88 on the Ministry of Finance list"
-    desc = ("All 88 eInvoicing Accredited Service Providers on the UAE Ministry of Finance list, with their accreditation "
+    n_all = len(rows)
+    title = f"UAE eInvoicing Accredited Service Providers (ASPs): the {n_all} on the Ministry of Finance list"
+    desc = (f"All {n_all} eInvoicing Accredited Service Providers on the UAE Ministry of Finance list, with their accreditation "
             f"numbers and websites as the Ministry shows them. Read on {READ_ON}.")
     faqs = [
         ("How many eInvoicing Accredited Service Providers are there in the UAE?",
-         f"88 on the Ministry of Finance list, as we read it on {READ_ON}. The Ministry says it updates the list "
+         f"{n_all} on the Ministry of Finance list, as we read it on {READ_ON}. The Ministry says it updates the list "
          "periodically to include newly accredited providers."),
         ("When must a business with revenue below AED 50 million appoint an Accredited Service Provider?",
          "By 31 March 2027, and it must implement the Electronic Invoicing System by 1 July 2027, under Article 5(1)(b) "
@@ -156,9 +159,9 @@ def page():
   <section class="hero" aria-labelledby="page-title">
     <p class="crumb"><a href="/">Emtithali</a> / In English</p>
     <h1 id="page-title">{esc(title)}</h1>
-    <p class="lead">The Ministry of Finance list of eInvoicing Accredited Service Providers (ASPs) has 88 providers, as we read it on {READ_ON}. Below, each provider’s name, accreditation number and website are copied as the Ministry’s English page shows them, with a link to the provider’s page in our Arabic directory.</p>
+    <p class="lead">The Ministry of Finance list of eInvoicing Accredited Service Providers (ASPs) has {n_all} providers, as we read it on {READ_ON}. Below, each provider’s name, accreditation number and website are copied as the Ministry’s English page shows them, with a link to the provider’s page in our Arabic directory.</p>
     <ul class="facts">
-      <li><strong>88</strong> accredited providers</li>
+      <li><strong>{n_all}</strong> accredited providers</li>
       <li>Listed under Article 13 of <a href="{D168}" rel="noopener"><strong>Ministerial Decision 168 of 2026</strong></a></li>
       <li>We read the Ministry’s list on <strong>{READ_ON}</strong></li>
     </ul>
