@@ -16,7 +16,48 @@ WEB = ROOT / "web"
 DOMAIN = "https://sawwerha.app"
 WA = "971507241548"
 UPDATED = "2026-11-22"
+HOME_UPDATED = "2026-11-28"  # lastmod الرئيسية web/index.html (مكتوبة يدوياً): يُحدَّث مع كل تعديل لها
 INDEXNOW_KEY = "ec5ef46e66ec1963d22dd5b18c6f09e4"  # IndexNow (Bing/Yandex): يُنشر ملف <key>.txt في الجذر
+
+# لا رقم لشرط منصة بلا مصدر وتاريخ قراءة (البند 98). «85%» نسبة أمازون للصورة الرئيسية، و«هامش 10%» هامش نون.
+# كل صفحة في web/ (المولّدة والمكتوبة يدوياً) يظهر فيها أحدهما تحتاج فقرة <p> فيها رابط مصدره و«قرأنا … يوم <تاريخ>»
+# (أو «We read … on <date>»). يفحصها check_platform_sources على كل مخرج قبل الكتابة، ويضيف faq_html فقرة PLATFORM_SRC
+# تحت كل جواب فيه أحد الرقمين بلا تاريخ قراءة. والتاريخ يوم قراءة الصفحتين فعلاً، فلا يُغيَّر إلا بعد قراءتهما من جديد.
+PLATFORM_READ = {"ar": "28 نوفمبر 2026", "en": "28 November 2026"}
+NOON_URL = "https://supportagent.noon.partners/portal/en/kb/articles/image-requirements-and-rejection-reasons-for-the-seller-sku-12-3-2024"
+AMAZON_URL = "https://sellercentral.amazon.ae/help/hub/reference/external/G1881"
+NOON_QUOTE = "If the product is shot vertically then a 10% margin should be left on top and bottom, and if the product is shot horizontally then a 5% margin should be left on both sides."
+AMAZON_QUOTE = "Show the product as 85% of the image."
+PLATFORM_SRC = {
+    "ar": {
+        "amazon": (f'<a href="{AMAZON_URL}" rel="nofollow noopener" target="_blank">Amazon Seller Central (الإمارات) — Product image guide</a>، '
+                   f'وفيه للصورة الرئيسية: <bdi lang="en">«{AMAZON_QUOTE}»</bdi> (المنتج 85% من الصورة)'),
+        "noon": (f'<a href="{NOON_URL}" rel="nofollow noopener" target="_blank">noon Partners — Image requirements and rejection reasons for the seller SKU</a>، '
+                 f'وفيه: <bdi lang="en">«{NOON_QUOTE}»</bdi> (هامش 10% أعلى وأسفل إن صُوّر المنتج عمودياً، و5% على الجانبين إن صُوّر أفقياً)'),
+        "lead": "المصدر: ", "join": "؛ و",
+        "read": (f"قرأنا الصفحة يوم {PLATFORM_READ['ar']}، والمتطلبات قد تتغيّر.", f"قرأنا الصفحتين يوم {PLATFORM_READ['ar']}، والمتطلبات قد تتغيّر."),
+    },
+    "en": {
+        "amazon": f'<a href="{AMAZON_URL}" rel="nofollow noopener" target="_blank">Amazon Seller Central (UAE) — Product image guide</a> (main image: “{AMAZON_QUOTE}”)',
+        "noon": f'<a href="{NOON_URL}" rel="nofollow noopener" target="_blank">noon Partners — Image requirements and rejection reasons for the seller SKU</a> (“{NOON_QUOTE}”)',
+        "lead": "Source: ", "join": "; and ",
+        "read": (f"We read it on {PLATFORM_READ['en']}; requirements may change.", f"We read both pages on {PLATFORM_READ['en']}; requirements may change."),
+    },
+}
+PLATFORM_NUM = {  # بالأرقام العربية والهندية، وبعلامات الاتجاه بين الرقم والنسبة، ولا يُحتسب ترميز URL مثل ‎%D9%85‎
+    "amazon": re.compile(r"(?<![\d.%٠-٩])(?:85|٨٥)[\s\u200e\u200f\u061c]*(?:[%٪]|في ?الما?ئة|بالما?ئة|percent)", re.I),
+    "noon": re.compile(r"(?:هامش|هوامش)[\w\u064b-\u0652]*\s*(?:10|١٠)[\s\u200e\u200f\u061c]*[%٪]"
+                       r"|(?<![\d.%])(?:10|١٠)[\s\u200e\u200f\u061c]*[%٪]\s*(?:\w+\s+){0,3}margins?", re.I),
+}
+PLATFORM_LINK = {
+    "amazon": re.compile(r'href="https://sellercentral\.amazon\.[a-z.]+/help/hub/reference/external/G1881"'),
+    "noon": re.compile(r'href="https://(?:supportagent|helpcenter)\.noon\.partners/[^"]*image-requirements-and-rejection-reasons-for-the-seller-sku[^"]*"'),
+}
+MONTHS_AR = "يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر"
+MONTHS_EN = "January|February|March|April|May|June|July|August|September|October|November|December"
+READ_ON = re.compile(rf"قرأنا\w*(?:\s+\S+){{0,8}}?\s+يوم\s+\d{{1,2}}\s+(?:{MONTHS_AR})\s+20\d\d"
+                     rf"|\b[Ww]e read\b(?:\s+\S+){{0,8}}?\s+on\s+\d{{1,2}}\s+(?:{MONTHS_EN})\s+20\d\d")
+PLATFORM_BLOCK = re.compile(r'<p class="src" data-src="platforms">[\s\S]*?</p>')
 
 # العيّنة المجانية معاينة بعلامة مائية (البند 29): كل زر عيّنة مجانية في صفحة مولّدة تجاوره {{sample_note}}،
 # ولا تقترن «جاهزة لنون/لأمازون/للرفع» في البطل أو الوصف إلا بجملة عن الباقات المدفوعة. يفحصها check_sample_claims.
@@ -100,11 +141,46 @@ def check_sample_claims(meta, body):
     return out
 
 
+def platform_src(lang, text):
+    """فقرة مصدر شروط المنصات لجواب فيه «85%» أو «هامش 10%» بلا تاريخ قراءة (فارغة إن لم يلزم)."""
+    kinds = [k for k in ("amazon", "noon") if PLATFORM_NUM[k].search(text)]
+    if not kinds or READ_ON.search(text):
+        return ""
+    s = PLATFORM_SRC[lang]
+    return f'<p class="src" data-src="platforms">{s["lead"]}{s["join"].join(s[k] for k in kinds)}. {s["read"][len(kinds) > 1]}</p>'
+
+
 def faq_html(meta, ui):
     if not meta.get("faq"):
         return ""
-    items = "".join(f"<details><summary>{esc(q['q'])}</summary><p>{esc(q['a'])}</p></details>" for q in meta["faq"])
+    items = "".join(f"<details><summary>{esc(q['q'])}</summary><p>{esc(q['a'])}</p>{platform_src(meta['lang'], q['a'])}</details>"
+                    for q in meta["faq"])
     return f'<section class="faq" aria-labelledby="faq"><h2 id="faq">{ui["faq"]}</h2>{items}</section>'
+
+
+def check_platform_sources(page):
+    """«85%» أو «هامش 10%» في نص الصفحة أو وصفها أو نصوص صورها أو سكربتها (كنتائج أداة الفحص) بلا فقرة فيها رابط
+    المصدر و«قرأنا … يوم <تاريخ>». JSON-LD والأنماط والتعليقات خارج الفحص."""
+    code = " ".join(c for a, c in re.findall(r"<script\b([^>]*)>([\s\S]*?)</script>", page, flags=re.I) if "ld+json" not in a)
+    h = re.sub(r"<script\b[\s\S]*?</script>|<style\b[\s\S]*?</style>|<!--[\s\S]*?-->", " ", page, flags=re.I)
+    shown = html.unescape(re.sub(r"<[^>]+>", " ", h) + " " + " ".join(re.findall(r'\b(?:content|alt|title|aria-label)="([^"]*)"', h))) + " " + code
+    paras = [p for p in re.findall(r"<p\b[^>]*>[\s\S]*?</p>", h) if READ_ON.search(html.unescape(re.sub(r"<[^>]+>", " ", p)))]
+    out = []
+    for kind, num in PLATFORM_NUM.items():
+        m = num.search(shown)
+        if m and not any(PLATFORM_LINK[kind].search(p) for p in paras):
+            link = "دليل صور Amazon ‏G1881" if kind == "amazon" else "مقالة متطلبات الصور في noon Partners"
+            out.append(f"«{m.group(0)}» بلا فقرة فيها رابط {link} و«قرأنا … يوم <تاريخ>»")
+    return out
+
+
+def selftest_platform_sources(rendered):
+    """مقياس البند 98: فحص المصادر يُفشل نسخة اختبارية من صفحة فئة حُذفت منها فقرة المصدر، ويقبلها بالفقرة."""
+    meta, page = next(((m, p) for m, p in rendered if m["slug"] == "perfume-product-photos"), (None, None))
+    if page is None:
+        return
+    if check_platform_sources(page) or not PLATFORM_BLOCK.search(page) or not check_platform_sources(PLATFORM_BLOCK.sub("", page)):
+        raise SystemExit("فحص مصادر شروط المنصات (البند 98) لا يلتقط صفحة عطور بلا فقرة المصدر")
 
 
 def jsonld(meta, url, ui):
@@ -229,11 +305,18 @@ def main():
     missing = [f"{meta['slug']}: {p}" for meta, body in pages for p in check_gallery_files(meta, body)]
     if missing:
         raise SystemExit("صور المعرض:\n" + "\n".join(missing))
-    urls = [(DOMAIN + "/", "1.0", UPDATED)]
-    for meta, body in pages:
+    rendered = [(meta, render(meta, body)) for meta, body in pages]
+    outputs = {WEB / meta["slug"] / "index.html": page for meta, page in rendered}
+    others = {f: f.read_text(encoding="utf-8") for f in sorted(WEB.rglob("*.html")) if f not in outputs}
+    unsourced = [f"{f.relative_to(WEB)}: {p}" for f, page in [*outputs.items(), *others.items()] for p in check_platform_sources(page)]
+    if unsourced:
+        raise SystemExit("شروط المنصات بلا مصدر وتاريخ قراءة (البند 98):\n" + "\n".join(unsourced))
+    selftest_platform_sources(rendered)
+    urls = [(DOMAIN + "/", "1.0", HOME_UPDATED)]
+    for meta, page in rendered:
         out = WEB / meta["slug"] / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(render(meta, body), encoding="utf-8")
+        out.write_text(page, encoding="utf-8")
         urls.append((f"{DOMAIN}/{meta['slug']}/", "0.8", meta.get("updated", UPDATED)))
         print("wrote", out.relative_to(ROOT))
     urls += [(DOMAIN + "/try/", "0.9", UPDATED), (DOMAIN + "/terms", "0.3", UPDATED), (DOMAIN + "/privacy", "0.3", UPDATED)]

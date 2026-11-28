@@ -10,6 +10,7 @@
   "service_name": "أداة فحص صور المنتجات لنون وأمازون",
   "service_type": "أداة مجانية لفحص صور المنتجات",
   "wa_msg": "مرحباً، فحصت صورتي في الأداة وأريد صوري الثلاث المجانية",
+  "updated": "2026-11-28",
   "faq": [
     {"q": "هل تُرفع صورتي إلى أي خادم؟", "a": "لا. الفحص يتم بالكامل داخل متصفحك على جهازك، ولا تغادر الصورة جهازك ولا نحتفظ بأي نسخة منها."},
     {"q": "ما الذي لا تستطيع الأداة فحصه؟", "a": "تقيس الأداة الأمور القابلة للقياس: بياض الخلفية، ونسبة المنتج من الإطار، والمقاس، والصيغة، والحجم. أما ظهور العبوة، أو النصوص والشعارات فوق الصورة، أو وضوح المنتج، فتحتاج نظرة بشرية، وتجدها في قائمة المراجعة أسفل النتيجة."},
@@ -50,7 +51,7 @@
       <li><span><strong>المنتج المعروض للبيع فقط</strong>، بلا إكسسوارات غير مرفقة ولا ديكور.</span></li>
       <li><span><strong>صورة واضحة</strong> غير مهزوزة، والمنتج كاملاً داخل الإطار.</span></li>
     </ul>
-    <p class="src">مصادر الشروط: <a href="https://supportagent.noon.partners/portal/en/kb/articles/image-requirements-and-rejection-reasons-for-the-seller-sku-12-3-2024" rel="nofollow noopener" target="_blank">noon Partners</a> · <a href="https://sellercentral.amazon.com/help/hub/reference/external/G1881" rel="nofollow noopener" target="_blank">Amazon Seller Central</a>. القياس تقريبي؛ القرار النهائي لمراجعة المنصة. وإن رُفضت صورتك في نون فعلاً: <a href="/noon-image-rejection-reasons/">أسباب الرفض التسعة وكيف تصلح كل واحد</a>.</p>
+    <p class="src">مصادر الشروط: <a href="https://supportagent.noon.partners/portal/en/kb/articles/image-requirements-and-rejection-reasons-for-the-seller-sku-12-3-2024" rel="nofollow noopener" target="_blank">noon Partners</a> · <a href="https://sellercentral.amazon.com/help/hub/reference/external/G1881" rel="nofollow noopener" target="_blank">Amazon Seller Central</a>، وقرأناهما يوم 28 نوفمبر 2026. القياس تقريبي؛ القرار النهائي لمراجعة المنصة. وإن رُفضت صورتك في نون فعلاً: <a href="/noon-image-rejection-reasons/">أسباب الرفض التسعة وكيف تصلح كل واحد</a>.</p>
   </section>
 
   <section class="final">
@@ -103,17 +104,17 @@
       var noon=document.getElementById('noon'), amz=document.getElementById('amazon'); noon.innerHTML=''; amz.innerHTML='';
       noon.appendChild(li(bgNear?true:false,'خلفية بيضاء', 'حواف الصورة بيضاء بنسبة '+nearPct.toFixed(0)+'% (نون تطلب أبيض نقياً لكل الفئات عدا الأزياء)'));
       if(!bgNear){ noon.appendChild(li(false,'نسبة المنتج من الإطار','تعذّر قياسها لأن الخلفية ليست بيضاء')); }
-      else noon.appendChild(li(fill>=70 && fill<=85?true:fill>85?'warn':false,'نسبة المنتج من الإطار '+fill.toFixed(0)+'%', fill>85?'نون توصي بهامش 10% أعلى وأسفل في اللقطات الطولية (المنتج نحو 70–80%)':fill<70?'المنتج صغير في الإطار؛ قرّبه ليغطي 70–80%':'ضمن التوصية'));
+      else noon.appendChild(li(fill>=70 && fill<=85?true:'warn','نسبة المنتج من الإطار '+fill.toFixed(0)+'%', fill>85?'نون: هامش 10% أعلى وأسفل إن صُوّر المنتج عمودياً، و5% على الجانبين إن صُوّر أفقياً':fill<70?'المنتج صغير في الإطار؛ ونون لا تحدد نسبة تغطية للصورة الأساسية (شرط 70–80% في مقالتها لبقية الصور)':'ضمن التوصية'));
       noon.appendChild(li(W>=660?true:false,'العرض '+fmt(W)+' بكسل','الحد الأدنى 660 بكسل'));
       noon.appendChild(li(ratio>=0.5?true:false,'نسبة العرض إلى الارتفاع '+ratio.toFixed(2),'يجب ألا تقل عن 0.5'));
       noon.appendChild(li(isJpeg?true:false,'الصيغة '+(isJpeg?'JPEG':'ليست JPEG'),'نون تقبل JPEG فقط'));
       noon.appendChild(li(mb<=10?true:false,'الحجم '+mb.toFixed(2)+' ميغابايت','الحد الأقصى 10 ميغابايت'));
       amz.appendChild(li(bgPure?true:bgNear?'warn':false,'خلفية بيضاء نقية RGB 255','حواف بيضاء نقية بنسبة '+purePct.toFixed(0)+'%'+(bgPure?'':' — أمازون تطلب 255،255،255 تماماً')));
       if(!bgNear){ amz.appendChild(li(false,'نسبة المنتج من الإطار','تعذّر قياسها لأن الخلفية ليست بيضاء')); }
-      else amz.appendChild(li(fill>=85?true:fill>=75?'warn':false,'المنتج يملأ '+fill.toFixed(0)+'% من الإطار','أمازون تطلب 85% أو أكثر'));
+      else amz.appendChild(li(fill>=85?true:fill>=75?'warn':false,'المنتج يملأ '+fill.toFixed(0)+'% من الإطار','أمازون: المنتج 85% من الصورة'));
       amz.appendChild(li(Math.max(W,H)>=1000?true:Math.max(W,H)>=500?'warn':false,'أطول ضلع '+fmt(Math.max(W,H))+' بكسل','1000 بكسل أو أكثر ليعمل التكبير (الحد الأدنى 500)'));
       amz.appendChild(li(/jpe?g|png|tiff|gif/i.test(f.type)?true:false,'الصيغة '+(f.type||'?'),'JPEG مفضّلة، وتُقبل PNG وTIFF وGIF'));
-      amz.appendChild(li(mb<=10?true:'warn','الحجم '+mb.toFixed(2)+' ميغابايت','يُفضّل أقل من 10 ميغابايت'));
+      amz.appendChild(li(true,'الحجم '+mb.toFixed(2)+' ميغابايت','دليل صور أمازون لا يذكر حداً لحجم الملف'));
       out.hidden=false; URL.revokeObjectURL(url);
     };
     img.src=url;
